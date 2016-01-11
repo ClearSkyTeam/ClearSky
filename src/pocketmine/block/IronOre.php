@@ -7,6 +7,7 @@ use pocketmine\item\Tool;
 class IronOre extends Solid{
 
 	protected $id = self::IRON_ORE;
+	public $smeltingExp = 0.7;
 
 	public function __construct(){
 

@@ -9,6 +9,7 @@ class CoalOre extends Solid{
 	protected $id = self::COAL_ORE;
 	protected $exp_min = 0;
 	protected $exp_max = 2;
+	public $smeltingExp = 0.1;
 
 	public function __construct(){
 

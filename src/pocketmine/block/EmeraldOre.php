@@ -9,6 +9,7 @@ class EmeraldOre extends Solid{
 	protected $id = self::EMERALD_ORE;
 	protected $exp_min = 3;
 	protected $exp_max = 7;
+	public $smeltingExp = 1;
 
 	public function __construct(){
 

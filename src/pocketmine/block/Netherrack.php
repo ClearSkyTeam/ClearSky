@@ -7,6 +7,7 @@ use pocketmine\item\Tool;
 class Netherrack extends Solid{
 
 	protected $id = self::NETHERRACK;
+	public $smeltingExp = 0.1;
 
 	public function __construct(){
 

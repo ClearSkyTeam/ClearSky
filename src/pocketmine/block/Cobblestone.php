@@ -7,6 +7,7 @@ use pocketmine\item\Tool;
 class Cobblestone extends Solid{
 
 	protected $id = self::COBBLESTONE;
+	public $smeltingExp = 0.1;
 
 	public function __construct(){
 

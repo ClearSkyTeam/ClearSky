@@ -8,6 +8,7 @@ class Fish extends Food{
 	const SALMON = 1;
 	const CLOWNFISH = 2;
 	const PUFFERFISH = 3;
+	public $smeltingExp = 0.35; // TODO: Add xp only normal+salmon
 
 
 	public function __construct($meta = 0, $count = 1){

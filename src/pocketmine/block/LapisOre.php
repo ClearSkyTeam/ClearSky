@@ -9,6 +9,7 @@ class LapisOre extends Solid{
 	protected $id = self::LAPIS_ORE;
 	protected $exp_min = 2;
 	protected $exp_max = 5;
+	public $smeltingExp = 0.2;
 
 	public function __construct(){
 

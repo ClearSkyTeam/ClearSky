@@ -9,6 +9,7 @@ class DiamondOre extends Solid{
 	protected $id = self::DIAMOND_ORE;
 	protected $exp_min = 3;
 	protected $exp_max = 7;
+	public $smeltingExp = 1;
 
 	public function __construct(){
 

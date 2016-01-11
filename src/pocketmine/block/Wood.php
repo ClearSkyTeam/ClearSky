@@ -14,6 +14,7 @@ class Wood extends Solid{
 	//const DARK_OAK = 5;
 
 	protected $id = self::WOOD;
+	public $smeltingExp = 0.15;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
