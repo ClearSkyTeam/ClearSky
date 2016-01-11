@@ -54,3 +54,4 @@ Temporary Items
 bin/php/php.ini
 pocketmine.yml
 *.phar
+.project
