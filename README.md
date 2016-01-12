@@ -3,7 +3,7 @@ A Ultra Fast Minecraft:PE server with Clean feels and Stable Features . It's Des
  - We may take code from other GPL licenced project , but most of them will be nearly full rewrite for ClearSky
 
 ##Where the phar is?
- - Before you launch SkyClear please remove pocketmine.yml once for update.
+ - Before you launch ClearSky please remove pocketmine.yml once for update.
  - You can get a tested phar here [ClearSkyTeam/ClearSky-Release](https://github.com/ClearSkyTeam/ClearSky-Release)
 
 ##Where is the latest build?
