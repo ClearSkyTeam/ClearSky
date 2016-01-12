@@ -119,7 +119,7 @@ class IronTrapdoor extends Transparent implements Redstone{
 	}
 	
 	public function onRedstoneUpdate($type,$power){
-		if($this->isActivitedByRedstone() and $this->meta < 4){
+		if($this->isPowered() and $this->meta < 4){
 			$this->meta = $this->meta+4;
 			$this->getLevel()->setBlock($this, $this);
 			$this->getLevel()->addSound(new DoorSound($this));
