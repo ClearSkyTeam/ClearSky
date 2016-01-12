@@ -16,6 +16,8 @@ experience:
  enable: true
  player-drop: true
  mob-drop: true
+ break-drop: true
+ smelt-drop: true
  
 redstone:
  enable: true
