@@ -10,7 +10,6 @@ settings:
 
 hunger:
  enable: true
- step: 1
 
 experience:
  enable: true
@@ -49,7 +48,7 @@ memory:
 
 
 network:
- batch-threshold: 64
+ batch-threshold: 128
  compression-level: 2
  async-compression: true
  upnp-forwarding: false
@@ -75,14 +74,14 @@ chunk-sending:
  cache-chunks: true
 
 chunk-ticking:
- per-tick: 4
+ per-tick: 2
  tick-radius: 1
  light-updates: false
  clear-tick-list: true
 
 chunk-generation:
  queue-size: 2
- population-queue-size: 2
+ population-queue-size: 1
 
 ticks-per:
  animal-spawns: 400

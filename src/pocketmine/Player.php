@@ -1668,11 +1668,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			}else{
 				$this->foodUsageTime += 150;
 			}
-			// elseif(!($this->getFood() >= 20 && $this->getServer()->getDifficulty() === 0)){}
 			if($this->foodUsageTime >= 100000){
 				$this->foodUsageTime -= 100000;
 				if($this->getServer()->getDifficulty() !== 0 && !($this->getServer()->getDifficulty() === 1 && $this->getFood() <= 1)){
-					$this->subtractFood($this->getServer()->getProperty("hunger.step", 1));
+					$this->subtractFood(1);
 				}
 			}
 			if($this->foodTick >= 80){
@@ -1684,7 +1683,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->heal(1, $ev);
 					if($this->getServer()->getDifficulty() !== 0){
 						if($this->foodDepletion >= 2){
-							$this->subtractFood($this->getServer()->getProperty("hunger.step", 1));
+							$this->subtractFood(1);
 							$this->foodDepletion = 0;
 						}else{
 							$this->foodDepletion++;
