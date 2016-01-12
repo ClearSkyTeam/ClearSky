@@ -248,6 +248,9 @@ class Server{
 	private $filePath;
 	private $dataPath;
 	private $pluginPath;
+	
+	/** Additional **/
+	private $shutdownreason;
 
 	private $uniquePlayers = [];
 
@@ -1994,7 +1997,10 @@ class Server{
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 		TimingsHandler::reload();
 	}
-
+	
+	public function setshutdownreason($reason){
+		$this->shutdownreason = $reason;
+	}
 	/**
 	 * Shutdowns the server correctly
 	 */
@@ -2033,7 +2039,12 @@ class Server{
 			$this->pluginManager->disablePlugins();
 
 			foreach($this->players as $player){
-				$player->close($player->getLeaveMessage(), $this->getProperty("settings.shutdown-message", "Server closed"));
+				$reason = $this->shutdownreason;
+				if(trim($reason) !== ""){
+					$player->close($player->getLeaveMessage(), $reason);
+				}else{
+					$player->close($player->getLeaveMessage(), $this->getProperty("settings.shutdown-message", "Server closed"));
+				}
 			}
 
 			$this->getLogger()->debug("Unloading all levels");
