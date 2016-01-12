@@ -2991,8 +2991,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 										$achievements[] = "acquireIron";
 										break;
 								}
-								if($this->getServer()->getConfigString("exp-drop.furnace", true)){
-									$this->addExperience($inv->getResult()->getSmeltingExp());// smelting experience
+								if($this->server->getProperty("experience.enable", true)
+								and $this->server->getProperty("experience.smelt-drop", true)){
+									$this->spawnExperience($inv->getResult()->getExperience());
 								}
 							}
 						}
@@ -3399,13 +3400,16 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			if($this->inventory !== null){
 				$this->inventory->clearAll();
 			}
-			
+		}
+		
+		if($this->server->getProperty("experience.enable", true)
+		and $this->server->getProperty("experience.player-drop", true)){
 			$DropExp = $this->getExperience();
 			$vector = new Vector3(ceil($this->x),ceil($this->y),ceil($this->z));
 			$this->getLevel()->spawnExperienceOrb($vector,$DropExp);
 			$this->setExperience(0);
 		}
-
+		
 		if($ev->getDeathMessage() != ""){
 			$this->server->broadcast($ev->getDeathMessage(), Server::BROADCAST_CHANNEL_USERS);
 		}
