@@ -52,6 +52,5 @@ Temporary Items
 *.ico
 *.md
 bin/php/php.ini
-pocketmine.yml
 *.phar
 .project
