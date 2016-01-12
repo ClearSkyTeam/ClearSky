@@ -1648,7 +1648,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$this->timings->stopTiming();
 
-		if($this->isSurvival() || $this->isAdventure()){
+		if($this->getServer()->getProperty("hunger.enable", true) and ($this->isSurvival() || $this->isAdventure())){
 			if($this->starvationTick >= 20){
 				if(!($this->getFood() <= 1 && $this->getServer()->getDifficulty() === 1)){
 					$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_CUSTOM, 1);
@@ -1667,7 +1667,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			// elseif(!($this->getFood() >= 20 && $this->getServer()->getDifficulty() === 0)){}
 			if($this->foodUsageTime >= 100000){
 				$this->foodUsageTime -= 100000;
-				if($this->getServer()->getDifficulty() !== 0 && !($this->getServer()->getDifficulty() === 1 && $this->getFood() <= 1)) $this->subtractFood(1);
+				if($this->getServer()->getDifficulty() !== 0 && !($this->getServer()->getDifficulty() === 1 && $this->getFood() <= 1)){
+					$this->subtractFood($this->getServer()->getProperty("hunger.step", 1));
+				}
 			}
 			if($this->foodTick >= 80){
 				if($this->getServer()->getDifficulty() === 0 && $this->getFood() < 20){
@@ -1678,7 +1680,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->heal(1, $ev);
 					if($this->getServer()->getDifficulty() !== 0){
 						if($this->foodDepletion >= 2){
-							$this->subtractFood(1);
+							$this->subtractFood($this->getServer()->getProperty("hunger.step", 1));
 							$this->foodDepletion = 0;
 						}else{
 							$this->foodDepletion++;
