@@ -2452,30 +2452,54 @@ class Level implements ChunkManager, Metadatable{
 		}
 	}
 
-	public function spawnExperienceOrb(Vector3 $pos, $exp = 2){
-		if($exp == 0){
-			return;
+	public function spawnExperienceOrb(Vector3 $pos, $exp = 1){
+		$ExpPerBall = mt_rand(1,5);
+		while($exp  >= $ExpPerBall){
+				$nbt = new Compound("", [
+				"Pos" => new Enum("Pos", [
+					new Double("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
+					new Double("", $pos->getY()),
+					new Double("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
+				]),
+				"Motion" => new Enum("Motion", [
+					new Double("", 0),
+					new Double("", 0),
+					new Double("", 0)
+				]),
+				"Rotation" => new Enum("Rotation", [
+					new Float("", 0),
+					new Float("", 0)
+				]),
+				"Experience" => new Long("Experience", $exp),
+			]);
+			$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
+			$expOrb = new ExperienceOrb($chunk, $nbt);
+			$expOrb->spawnToAll();
+			$exp -= $ExpPerBall;
+			$ExpPerBall = mt_rand(1,5);
 		}
-		$nbt = new Compound("", [
-			"Pos" => new Enum("Pos", [
-				new Double("", $pos->getX()),
-				new Double("", $pos->getY()),
-				new Double("", $pos->getZ())
-			]),
-			"Motion" => new Enum("Motion", [
-				new Double("", 0),
-				new Double("", 0),
-				new Double("", 0)
-			]),
-			"Rotation" => new Enum("Rotation", [
-				new Float("", 0),
-				new Float("", 0)
-			]),
-			"Experience" => new Long("Experience", $exp),
-		]);
-		$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
-		$expOrb = new ExperienceOrb($chunk, $nbt);
-		$expOrb->spawnToAll();
+		if($exp > 0){
+			$nbt = new Compound("", [
+				"Pos" => new Enum("Pos", [
+					new Double("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
+					new Double("", $pos->getY()),
+					new Double("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
+				]),
+				"Motion" => new Enum("Motion", [
+					new Double("", 0),
+					new Double("", 0),
+					new Double("", 0)
+				]),
+				"Rotation" => new Enum("Rotation", [
+					new Float("", 0),
+					new Float("", 0)
+				]),
+				"Experience" => new Long("Experience", $exp),
+			]);
+			$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
+			$expOrb = new ExperienceOrb($chunk, $nbt);
+			$expOrb->spawnToAll();
+		}
 	}
 	/**
 	 * Gets the highest block Y value at a specific $x and $z

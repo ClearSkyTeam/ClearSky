@@ -3395,10 +3395,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			
 			$DropExp = $this->getExperience();
 			$vector = new Vector3(ceil($this->x),ceil($this->y),ceil($this->z));
-			while ($DropExp >= 20){
-				$this->getLevel()->spawnExperienceOrb($vector,20);
-				$DropExp = $DropExp - 20;
-			}
 			$this->getLevel()->spawnExperienceOrb($vector,$DropExp);
 			$this->setExperience(0);
 		}

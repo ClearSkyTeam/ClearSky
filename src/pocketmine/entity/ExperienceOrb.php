@@ -11,6 +11,8 @@ class ExperienceOrb extends Entity{
 	public $length = 0.1;
 	public $height = 0.1;
 
+	protected $followrange = 5;
+	protected $pickuprange = 1.2;
 	protected $gravity = 0.01;
 	protected $drag = 0;
 	
@@ -61,12 +63,12 @@ class ExperienceOrb extends Entity{
 			$this->motionY -= $this->gravity;
 		}
 		
-		$Target = $this->FetchNearbyPlayer(4);
+		$Target = $this->FetchNearbyPlayer($this->followrange);
 		if ($Target !== null){
-			$moveSpeed = 0.7;
+			$moveSpeed = 0.5;
 			$motX = ($Target->getX() - $this->x) / 8;
-			$motY = ($Target->getY() + $Target->getEyeHeight() - $this->y) / 8;
-			$motZ = ($Target->getZ() - $this->z) / 8;
+			$motY = ($Target->getY()/* + $Target->getEyeHeight() */- $this->y) / 8;
+			$motZ = ($Target->getZ() - $this->z) / 8 /* * (1 / $Target->getZ())*/;
 			$motSqrt = sqrt($motX * $motX + $motY * $motY + $motZ * $motZ);
 			$motC = 1 - $motSqrt;
 		
@@ -77,13 +79,13 @@ class ExperienceOrb extends Entity{
 				$this->motionZ = $motZ / $motSqrt * $motC * $moveSpeed;
 			}
 			
-			if($Target->distance($this) <= 1.8){
+			if($Target->distance($this) <= $this->pickuprange){
+				$this->timings->stopTiming();
+				$this->close();
 				if($this->getExperience() > 0){
-					$this->timings->stopTiming();
-					$this->close();
 					$Target->addExperience($this->getExperience());
-					return true;
 				}
+				return true;
 			}
 		}
 		
