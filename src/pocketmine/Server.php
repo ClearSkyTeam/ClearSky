@@ -1516,6 +1516,15 @@ class Server{
 			"rcon.password" => substr(base64_encode(@Utils::getRandomBytes(20, false)), 3, 10),
 			"auto-save" => true,
 		]);
+		
+		if(extension_loaded("xdebug")){
+			if(!$this->getProperty("debug.allow-xdebug", false)){
+				$this->logger->critical("Please REMOVE xdebug in production server");
+				return;
+			}else{
+				$this->logger->warning("xdebug Enabled !ONLY FOR DEVELOPMENT USE!");
+			}
+		}
 
 		$this->forceLanguage = $this->getProperty("settings.force-language", false);
 		$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));

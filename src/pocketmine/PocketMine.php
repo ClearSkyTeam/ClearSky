@@ -77,12 +77,6 @@ namespace pocketmine {
 		exit(1);
 	}
 	
-	if(extension_loaded('xdebug')){
-		echo "[WARNING] Find xDebug extension." . PHP_EOL;
-		echo "[WARNING] This shouldn't use in a production server." . PHP_EOL;
-		echo "[WARNING] Please unload it in php.ini." . PHP_EOL;
-	}
-	
 	if(!class_exists("ClassLoader", false)){
 		require_once(\pocketmine\PATH . "src/spl/ThreadedFactory.php");
 		require_once(\pocketmine\PATH . "src/spl/ClassLoader.php");
