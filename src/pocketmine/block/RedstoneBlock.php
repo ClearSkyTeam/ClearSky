@@ -13,13 +13,17 @@ class RedstoneBlock extends Solid implements Redstone,RedstoneSource{
 	public function __construct(){
 
 	}
-
+	
+	public function isRedstoneSource(){
+		return true;
+	}
+	
 	public function getHardness(){
 		return 5;
 	}
 	
 	public function getPower(){
-		return 16;
+		return Block::REDSTONESOURCEPOWER;
 	}
 	
 	public function isCharged($hash){

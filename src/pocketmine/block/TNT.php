@@ -13,7 +13,7 @@ use pocketmine\level\Level;
 use pocketmine\utils\Random;
 use pocketmine\item\FlintSteel;
 
-class TNT extends Solid implements RedstoneConsumer{
+class TNT extends Solid implements Redstone, RedstoneConsumer{
 
 	protected $id = self::TNT;
 

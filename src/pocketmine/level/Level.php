@@ -367,8 +367,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->updateQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
 		$this->time = (int) $this->provider->getTime();
 
-		//$this->weatherEnabled = (bool) $this->getServer()->getProperty("level-settings.enable-weather");
-		$this->weatherEnabled = false;
+		$this->weatherEnabled = (bool) $this->getServer()->getProperty("weather.enable");
 		if($this->weatherEnabled === true) {
 			$this->raining = $this->provider->isRaining();
 			$this->rainTime = $this->provider->getRainTime();
