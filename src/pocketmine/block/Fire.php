@@ -53,18 +53,13 @@ class Fire extends Flowable{
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			for($s = 0; $s <= 5; ++$s){
-				$side = $this->getSide($s);
-				if($side->getId() == self::AIR or $side instanceof Liquid){
-					$this->getLevel()->setBlock($this, new Air(), true, true);
-					break;
-				}
+			if($this->getSide(0)->getId() == self::AIR){
+				$this->getLevel()->setBlock($this, new Air(), true, true);
 			}
 			return Level::BLOCK_UPDATE_NORMAL;
 		}elseif($type === Level::BLOCK_UPDATE_RANDOM){
 			if($this->getSide(0)->getId() !== self::NETHERRACK){
 				$this->getLevel()->setBlock($this, new Air(), true, true);
-
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
