@@ -1703,11 +1703,11 @@ class Level implements ChunkManager, Metadatable{
 
 			$drops = $ev->getDrops();
 			
-			if($player->isSurvival()){
+			if($this->server->getProperty("experience.enable", true)
+				and $this->server->getProperty("experience.break-drop", true)
+				and $player->isSurvival()){
 				$exp = $target->getExperience();
-				if($exp > 0){
-					$this->spawnExperienceOrb($vector->add(0, 1, 0), $exp);
-				}
+				$this->spawnExperienceOrb($vector->add(0, 1, 0), $exp);
 			}
 
 		}elseif($item !== null and !$target->isBreakable($item)){
@@ -1716,13 +1716,6 @@ class Level implements ChunkManager, Metadatable{
 			$drops = $target->getDrops($item); //Fixes tile entities being deleted before getting drops
 			foreach($drops as $k => $i){
 				$drops[$k] = Item::get($i[0], $i[1], $i[2]);
-			}
-		}
-
-		$above = $this->getBlock(new Vector3($target->x, $target->y + 1, $target->z));
-		if($above !== null){
-			if($above->getId() === Item::FIRE){
-				$this->setBlock($above, new Air(), true);
 			}
 		}
 
@@ -1852,10 +1845,6 @@ class Level implements ChunkManager, Metadatable{
 		if($item->canBePlaced()){
 			$hand = $item->getBlock();
 			$hand->position($block);
-		}elseif($block->getId() === Item::FIRE){
-			$this->setBlock($block, new Air(), true);
-
-			return false;
 		}else{
 			return false;
 		}

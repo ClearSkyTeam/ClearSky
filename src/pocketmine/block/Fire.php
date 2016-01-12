@@ -30,10 +30,6 @@ class Fire extends Flowable{
 		return 15;
 	}
 
-	public function isBreakable(Item $item){
-		return false;
-	}
-
 	public function canBeReplaced(){
 		return true;
 	}
@@ -59,12 +55,11 @@ class Fire extends Flowable{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			for($s = 0; $s <= 5; ++$s){
 				$side = $this->getSide($s);
-				if($side->getId() !== self::AIR and !($side instanceof Liquid)){
-					return false;
+				if($side->getId() == self::AIR or $side instanceof Liquid){
+					$this->getLevel()->setBlock($this, new Air(), true, true);
+					break;
 				}
 			}
-			$this->getLevel()->setBlock($this, new Air(), true, true);
-
 			return Level::BLOCK_UPDATE_NORMAL;
 		}elseif($type === Level::BLOCK_UPDATE_RANDOM){
 			if($this->getSide(0)->getId() !== self::NETHERRACK){
