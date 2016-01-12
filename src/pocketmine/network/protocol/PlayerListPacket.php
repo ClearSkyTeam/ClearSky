@@ -4,7 +4,6 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-use pocketmine\player\PlayerListEntry;
 
 class PlayerListPacket extends DataPacket{
 	const NETWORK_ID = Info::PLAYER_LIST_PACKET;
@@ -30,16 +29,16 @@ class PlayerListPacket extends DataPacket{
 		$this->reset();
 		$this->putByte($this->type);
 		$this->putInt(count($this->entries));
-		foreach($this->entries as $entry){
+		foreach($this->entries as $d){
 			if($this->type === self::TYPE_ADD){
-				$this->putUUID($entry->uuid);
-				$this->putLong($entry->entityId);
-				$this->putString($entry->name);
-				$this->putString($entry->skinName);
+				$this->putUUID($d[0]);
+				$this->putLong($d[1]);
+				$this->putString($d[2]);
+				$this->putString($d[3]);
 //				$this->putByte($entry->transparency ? 1 : 0);
-				$this->putString($entry->skinData);
+				$this->putString($d[4]);
 			}else{
-				$this->putUUID($entry->uuid);
+				$this->putUUID($d[0]);
 			}
 		}
 	}

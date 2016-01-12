@@ -101,7 +101,6 @@ use pocketmine\network\SourceInterface;
 use pocketmine\network\upnp\UPnP;
 use pocketmine\permission\BanList;
 use pocketmine\permission\DefaultPermissions;
-use pocketmine\player\PlayerListEntry;
 use pocketmine\plugin\PharPluginLoader;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginLoadOrder;
@@ -786,7 +785,6 @@ class Server{
 			new Enum("Inventory", []),
 			new Compound("Achievements", []),
 			new Int("playerGameType", $this->getGamemode()),
-			new Int("food", 20),
 			new Enum("Motion", [
 				new Double(0, 0.0),
 				new Double(1, 0.0),
@@ -2281,9 +2279,7 @@ class Server{
 
 			$pk = new PlayerListPacket();
 			$pk->type = PlayerListPacket::TYPE_REMOVE;
-			$entry = new PlayerListEntry;
-			$entry->uuid = $player->getUniqueId();
-			$pk->entries[] = $entry;
+			$pk->entries[] = [$player->getUniqueId()];
 			Server::broadcastPacket($this->playerList, $pk);
 		}
 	}
@@ -2291,23 +2287,14 @@ class Server{
 	public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinName, $skinData, array $players = null, $skinTransparency = false){
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
-		$entry = new PlayerListEntry;
-		$entry->uuid = $uuid;
-		$entry->entityId = $entityId;
-		$entry->name = $name;
-		$entry->skinName = $skinName;
-		$entry->skinData = $skinData;
-		$entry->transparency = $skinTransparency;
-		$pk->entries[] = $entry;
+		$pk->entries[] = [$uuid, $entityId, $name, $skinName, $skinData, $skinTransparency];
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
 	}
 
 	public function removePlayerListData(UUID $uuid, array $players = null){
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_REMOVE;
-		$entry = new PlayerListEntry;
-		$entry->uuid = $uuid;
-		$pk->entries[] = $entry;
+		$pk->entries[] = [$uuid];
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
 	}
 
@@ -2315,14 +2302,7 @@ class Server{
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		foreach($this->playerList as $player){
-			$entry = new PlayerListEntry;
-			$entry->uuid = $player->getUniqueId();
-			$entry->entityId = $player->getId();
-			$entry->name = $player->getDisplayName();
-			$entry->skinName = $player->getSkinName();
-			$entry->skinData = $player->getSkinData();
-			$entry->transparency = $player->isSkinTransparent();
-			$pk->entries[] = $entry;
+			$pk->entries[] = [$player->getUniqueId(), $player->getId(), $player->getDisplayName(), $player->getSkinName(), $player->getSkinData(), $player->isSkinTransparent()];
 		}
 
 		$p->dataPacket($pk);
@@ -2562,7 +2542,7 @@ class Server{
 				$level->clearCache();
 			}
 
-			if($this->getTicksPerSecondAverage() < 15){
+			if($this->getTicksPerSecondAverage() < 12){
 				$this->logger->warning($this->getLanguage()->translateString("pocketmine.server.tickOverload"));
 			}
 		}

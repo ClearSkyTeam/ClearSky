@@ -851,7 +851,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk->status = PlayStatusPacket::PLAYER_SPAWN;
 		$this->dataPacket($pk);
 
-		$this->server->getPluginManager()->callEvent($ev = new PlayerJoinEvent($this, new TranslationContainer(TextFormat::YELLOW . "%multiplayer.player.joined", [$this->getDisplayName()])));
+		$this->server->getPluginManager()->callEvent($ev = new PlayerJoinEvent($this,
+			new TranslationContainer(TextFormat::YELLOW . "%multiplayer.player.joined", [
+				$this->getDisplayName()
+			])
+		));
 		if(strlen(trim($ev->getJoinMessage())) > 0){
 			$this->server->broadcastMessage($ev->getJoinMessage());
 		}
@@ -2007,8 +2011,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->displayName = $this->username;
 				$this->setNameTag($this->username);
 				$this->iusername = strtolower($this->username);
-				$this->protocol = $packet->protocol1;
-				if(count($this->server->getOnlinePlayers()) > $this->server->getMaxPlayers() and $this->kick("disconnectionScreen.serverFull", false)){
+
+				if(count($this->server->getOnlinePlayers()) >= $this->server->getMaxPlayers() and $this->kick("disconnectionScreen.serverFull", false)){
 					break;
 				}
 				if($packet->protocol1 !== ProtocolInfo::CURRENT_PROTOCOL){
@@ -2038,7 +2042,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				for($i = 0;$i < $len and $valid;++$i){
 					$c = ord($packet->username{$i});
-					if(($c >= ord("a") and $c <= ord("z")) or ($c >= ord("A") and $c <= ord("Z")) or ($c >= ord("0") and $c <= ord("9")) or $c === ord("_")){
+					if(($c >= ord("a") and $c <= ord("z")) or
+						($c >= ord("A") and $c <= ord("Z")) or
+						($c >= ord("0") and $c <= ord("9")) or $c === ord("_")
+					){
 						continue;
 					}
 					$valid = false;
@@ -2567,7 +2574,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->craftingType = 0;
 				$target = $this->level->getEntity($packet->target);
 				$cancelled = false;
-				if($target instanceof Player and $this->server->getConfigBoolean("pvp", true) === false
+				if(
+					$target instanceof Player and
+					$this->server->getConfigBoolean("pvp", true) === false
 				){
 					$cancelled = true;
 				}
@@ -2746,10 +2755,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							}else{
 								$this->server->getPluginManager()->callEvent($ev = new PlayerChatEvent($this, $ev->getMessage()));
 								if(!$ev->isCancelled()){
-									$this->server->broadcastMessage($this->getServer()->getLanguage()->translateString($ev->getFormat(), [
-										$ev->getPlayer()->getDisplayName(),
-										$ev->getMessage()
-									]), $ev->getRecipients());
+									$this->server->broadcastMessage($this->getServer()->getLanguage()->translateString($ev->getFormat(), [$ev->getPlayer()->getDisplayName(), $ev->getMessage()]), $ev->getRecipients());
 								}
 							}
 						}
@@ -3017,10 +3023,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$t->spawnTo($this);
 					}else{
 						$ev = new SignChangeEvent($t->getBlock(), $this, [
-							TextFormat::clean($nbt["Text1"], $this->removeFormat),
-							TextFormat::clean($nbt["Text2"], $this->removeFormat),
-							TextFormat::clean($nbt["Text3"], $this->removeFormat),
-							TextFormat::clean($nbt["Text4"], $this->removeFormat)
+							TextFormat::clean($nbt["Text1"], $this->removeFormat), TextFormat::clean($nbt["Text2"], $this->removeFormat), TextFormat::clean($nbt["Text3"], $this->removeFormat), TextFormat::clean($nbt["Text4"], $this->removeFormat)
 						]);
 						if(!isset($t->namedtag->Creator) or $t->namedtag["Creator"] !== $this->getRawUniqueId()){
 							$ev->setCancelled();
@@ -3275,7 +3278,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$message = "death.attack.generic";
 
-		$params = [$this->getDisplayName()];
+		$params = [
+			$this->getDisplayName()
+		];
 
 		$cause = $this->getLastDamageCause();
 
@@ -3479,7 +3484,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			return;
 		}
 
-		if($this->isCreative() and $source->getCause() !== EntityDamageEvent::CAUSE_SUICIDE and $source->getCause() !== EntityDamageEvent::CAUSE_VOID){
+        if($this->isCreative()
+            and $source->getCause() !== EntityDamageEvent::CAUSE_MAGIC
+            and $source->getCause() !== EntityDamageEvent::CAUSE_SUICIDE
+            and $source->getCause() !== EntityDamageEvent::CAUSE_VOID
+        ){
 			$source->setCancelled();
 		}elseif($this->allowFlight and $source->getCause() === EntityDamageEvent::CAUSE_FALL){
 			$source->setCancelled();
@@ -3588,7 +3597,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	public function teleport(Vector3 $pos, $yaw = null, $pitch = null){
 		if(!$this->isOnline()){
-			return;
+			return false;
 		}
 
 		$oldPos = $this->getPosition();
@@ -3612,9 +3621,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->resetFallDistance();
 			$this->nextChunkOrderRun = 0;
 			$this->newPosition = null;
-
 			$this->getLevel()->sendWeather($this);
+			return true;
 		}
+		return false;
 	}
 
 	/**
