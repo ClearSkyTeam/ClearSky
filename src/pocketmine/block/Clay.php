@@ -7,7 +7,7 @@ use pocketmine\item\Tool;
 class Clay extends Solid{
 
 	protected $id = self::CLAY_BLOCK;
-	public $smeltingExp = 0.35;
+	public $exp_smelt = 0.35;
 
 	public function __construct(){
 

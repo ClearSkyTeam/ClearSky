@@ -15,7 +15,7 @@ use pocketmine\Server;
 class Cactus extends Transparent{
 
 	protected $id = self::CACTUS;
-	public $smeltingExp = 0.2;
+	public $exp_smelt = 0.2;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;

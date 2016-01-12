@@ -11,7 +11,7 @@ class StoneBricks extends Solid{
 	const CHISELED = 3;
 
 	protected $id = self::STONE_BRICKS;
-	public $smeltingExp = 0.1;
+	public $exp_smelt = 0.1;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;

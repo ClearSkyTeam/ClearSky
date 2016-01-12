@@ -805,16 +805,18 @@ class Level implements ChunkManager, Metadatable{
 		$this->timings->doTickPending->stopTiming();
 		
 		//Do Redstone updates
-		$this->timings->doTickPending->startTiming();
-		while($this->updateRedstoneQueue->count() > 0 and $this->updateRedstoneQueue->current()["priority"] <= $currentTick){
-			$block = $this->getBlock($this->updateRedstoneQueue->extract()["data"]);
-			$hash = Level::blockHash($block->x, $block->y, $block->z);
-			$type = $this->updateRedstoneQueueIndex[$hash]['type'];
-			$power = $this->updateRedstoneQueueIndex[$hash]['power'];
-			unset($this->updateRedstoneQueueIndex[$hash]);
-			$block->onRedstoneUpdate($type,$power);
+		if($this->server->getProperty("redstone.enable", true)){
+			$this->timings->doTickPending->startTiming();
+			while($this->updateRedstoneQueue->count() > 0 and $this->updateRedstoneQueue->current()["priority"] <= $currentTick){
+				$block = $this->getBlock($this->updateRedstoneQueue->extract()["data"]);
+				$hash = Level::blockHash($block->x, $block->y, $block->z);
+				$type = $this->updateRedstoneQueueIndex[$hash]['type'];
+				$power = $this->updateRedstoneQueueIndex[$hash]['power'];
+				unset($this->updateRedstoneQueueIndex[$hash]);
+				$block->onRedstoneUpdate($type,$power);
+			}
+			$this->timings->doTickPending->stopTiming();
 		}
-		$this->timings->doTickPending->stopTiming();
 		
 		$this->timings->entityTick->startTiming();
 		//Update entities that need update
@@ -1193,13 +1195,16 @@ class Level implements ChunkManager, Metadatable{
 	 * @param int     $delay
 	 */
 	public function setRedstoneUpdate(Vector3 $pos, $delay, $type , $power){
-		if(isset($this->updateRedstoneQueueIndex[$index = Level::blockHash($pos->x, $pos->y, $pos->z)]) and $this->updateRedstoneQueueIndex[$index]['delay'] <= $delay){
-			return;
+		if($this->server->getProperty("redstone.enable", true)){
+			if(isset($this->updateRedstoneQueueIndex[$index = Level::blockHash($pos->x, $pos->y, $pos->z)]) and $this->updateRedstoneQueueIndex[$index]['delay'] <= $delay){
+				return;
+			}
+			$this->updateRedstoneQueueIndex[$index]['delay'] = $delay;
+			$this->updateRedstoneQueueIndex[$index]['type'] = $type;
+			$this->updateRedstoneQueueIndex[$index]['power'] = $power;
+			$this->updateRedstoneQueue->insert(new Vector3((int) $pos->x, (int) $pos->y, (int) $pos->z), (int) $delay + $this->server->getTick());
 		}
-		$this->updateRedstoneQueueIndex[$index]['delay'] = $delay;
-		$this->updateRedstoneQueueIndex[$index]['type'] = $type;
-		$this->updateRedstoneQueueIndex[$index]['power'] = $power;
-		$this->updateRedstoneQueue->insert(new Vector3((int) $pos->x, (int) $pos->y, (int) $pos->z), (int) $delay + $this->server->getTick());
+		return;
 	}
 	/**
 	 * @param AxisAlignedBB $bb

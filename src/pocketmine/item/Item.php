@@ -500,7 +500,7 @@ class Item{
 	public $count;
 	protected $durability = 0;
 	protected $name;
-	public $smeltingExp = 0;
+	protected $exp_smelt = 0;
 
 	public function canBeActivated(){
 		return false;
@@ -1683,8 +1683,8 @@ class Item{
 		return null;
 	}
 	
-	public function getSmeltingExp(){
-		return $this->smeltingExp;
+	public function getExperience(){
+		return $this->exp_smelt;
 	}
 
 	/**

@@ -363,7 +363,7 @@ class Block extends Position implements Metadatable{
 	protected $meta = 0;
 	protected $exp_min = 0;
 	protected $exp_max = 0;
-	public $smeltingExp = 0;
+	protected $exp_smelt = 0;
 
 	/** @var AxisAlignedBB */
 	public $boundingBox = null;
@@ -1033,12 +1033,24 @@ class Block extends Position implements Metadatable{
 	final public function getId(){
 		return $this->id;
 	}
-
-	public function getExperience(){
-		if($this->exp_max == 0){
-			return 0;
-		}else{
-			return mt_rand($this->exp_min, $this->exp_max);
+	
+	/*
+		$type 
+			0 Break
+			1 Smelt
+	*/
+	
+	public function getExperience($type = 0){
+		switch($type){
+			case 0:
+				if($this->exp_max == 0){
+					return 0;
+				}else{
+					return mt_rand($this->exp_min, $this->exp_max);
+				}
+				break;
+			case 1:
+				return $this->$exp_smelt;
 		}
 	}
 	

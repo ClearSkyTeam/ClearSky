@@ -71,7 +71,7 @@ class FurnaceInventory extends ContainerInventory{
 		$this->getHolder()->scheduleUpdate();
 	}
 	
-	public function getSmeltingExp(){
-		return $this->getFuel()->getSmeltingExp();
+	public function getExperience(){
+		return $this->getFuel()->getExperience(1);
 	}
 }

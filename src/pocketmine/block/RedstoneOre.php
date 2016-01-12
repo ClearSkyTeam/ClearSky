@@ -10,7 +10,7 @@ class RedstoneOre extends Solid{
 	protected $id = self::REDSTONE_ORE;
 	protected $exp_min = 1;
 	protected $exp_max = 5;
-	public $smeltingExp = 0.7;
+	public $exp_smelt = 0.7;
 
 	public function __construct(){
 

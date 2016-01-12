@@ -9,7 +9,7 @@ class DiamondOre extends Solid{
 	protected $id = self::DIAMOND_ORE;
 	protected $exp_min = 3;
 	protected $exp_max = 7;
-	public $smeltingExp = 1;
+	public $exp_smelt = 1;
 
 	public function __construct(){
 
@@ -17,10 +17,6 @@ class DiamondOre extends Solid{
 
 	public function getHardness(){
 		return 3;
-	}
-	
-	public function getExperience(){
-		return mt_rand(3, 7);
 	}
 	
 	public function getName(){
