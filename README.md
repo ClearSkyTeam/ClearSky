@@ -12,8 +12,8 @@ Build it by yourself.
 ClearSky is designed for Production Servers , We won't release a phar before test it .
 
 ##[CRITICAL]: Please REMOVE xdebug in production server
-You can commit out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug
-Also , you can enable it in pocketmine.yml
+ - You can commit out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug
+ - Also , there is a switch under debug in pocketmine.yml for Force enable xdebug
 
 ##Advanced Settings
 You can find many useful settings in pocketmine.yml
