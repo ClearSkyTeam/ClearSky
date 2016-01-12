@@ -10,7 +10,7 @@ settings:
 
 hunger:
  enable: true
- step: 10
+ step: 1
 
 experience:
  enable: true
