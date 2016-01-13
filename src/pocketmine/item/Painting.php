@@ -66,6 +66,7 @@ class Painting extends Item{
 				"yaw" => $faces[$face] * 90,
 				"Motive" => $motive[0],
 			];
+			
 			$nbt = new Compound("", [
 				"Motive" => new String("Motive", $data["Motive"]),
 				"Pos" => new Enum("Pos", [
@@ -83,8 +84,10 @@ class Painting extends Item{
 					new Float("", 0)
 				]),
 			]);
+			
 			$painting = new PaintingEntity($player->getLevel()->getChunk($block->getX() >> 4, $block->getZ() >> 4), $nbt);
 			$painting->spawnToAll();
+			
 			if($player->isSurvival()){
 				$item = $player->getInventory()->getItemInHand();
 				$count = $item->getCount();
@@ -92,15 +95,10 @@ class Painting extends Item{
 					$player->getInventory()->setItemInHand(Item::get(Item::AIR));
 					return;
 				}
+
 				$item->setCount($count);
 				$player->getInventory()->setItemInHand($item);
 			}
-			//TODO
-			//$e = $server->api->entity->add($level, ENTITY_OBJECT, OBJECT_PAINTING, $data);
-			//$e->spawnToAll();
-			/*if(($player->gamemode & 0x01) === 0x00){
-				$player->removeItem(Item::get($this->getId(), $this->getDamage(), 1));
-			}*/
 
 			return true;
 		}
