@@ -6,13 +6,9 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\ItemDespawnEvent;
 use pocketmine\event\entity\ItemSpawnEvent;
 use pocketmine\item\Item as ItemItem;
-
 use pocketmine\nbt\NBT;
-
-
 use pocketmine\nbt\tag\Short;
 use pocketmine\nbt\tag\String;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\AddItemEntityPacket;
 use pocketmine\Player;
 
@@ -207,14 +203,8 @@ class Item extends Entity{
 	}
 
 	public function spawnTo(Player $player){
-		$pk = new AddItemEntityPacket();
+		$pk = $this->addEntityDataPacket($player);
 		$pk->eid = $this->getId();
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = $this->motionX;
-		$pk->speedY = $this->motionY;
-		$pk->speedZ = $this->motionZ;
 		$pk->item = $this->getItem();
 		$player->dataPacket($pk);
 

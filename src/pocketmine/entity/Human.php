@@ -11,7 +11,6 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Short;
 use pocketmine\nbt\tag\String;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\RemovePlayerPacket;
 use pocketmine\Player;
@@ -202,20 +201,10 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			
 			$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->getName(), $this->skinName, $this->skin, [$player]);
 
-			$pk = new AddPlayerPacket();
+			$pk = $this->addEntityDataPacket($player);
 			$pk->uuid = $this->getUniqueId();
 			$pk->username = $this->getName();
-			$pk->eid = $this->getId();
-			$pk->x = $this->x;
-			$pk->y = $this->y;
-			$pk->z = $this->z;
-			$pk->speedX = $this->motionX;
-			$pk->speedY = $this->motionY;
-			$pk->speedZ = $this->motionZ;
-			$pk->yaw = $this->yaw;
-			$pk->pitch = $this->pitch;
 			$pk->item = $this->getInventory()->getItemInHand();
-			$pk->metadata = $this->dataProperties;
 			$player->dataPacket($pk);
 
 			$this->inventory->sendArmorContents($player);

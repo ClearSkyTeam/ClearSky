@@ -1,9 +1,7 @@
 <?php
 namespace pocketmine\entity;
 
-
 use pocketmine\item\Item as drp;
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
 class Slime extends Living{

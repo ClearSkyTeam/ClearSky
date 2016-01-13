@@ -1,6 +1,4 @@
 <?php
 namespace pocketmine\entity;
 
-class InstantEffect extends Effect{
-
-}
+class InstantEffect extends Effect{}

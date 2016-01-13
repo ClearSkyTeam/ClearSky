@@ -3,7 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\Player;
 
-class Enderman extends Monster{ //implements InventoryHolder{
+class Enderman extends Monster{
 	const NETWORK_ID = 38;
 
 	public $height = 2.875;

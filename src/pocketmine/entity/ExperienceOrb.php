@@ -1,7 +1,6 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
 class ExperienceOrb extends Entity{
@@ -110,19 +109,11 @@ class ExperienceOrb extends Entity{
 	}
 
 	public function spawnTo(Player $player){
+		$pk = $this->addEntityDataPacket($player);
 		$this->setDataProperty(self::DATA_NO_AI, self::DATA_TYPE_BYTE, 1);
-		$pk = new AddEntityPacket();
-		$pk->type = ExperienceOrb::NETWORK_ID;
-		$pk->eid = $this->getId();
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = $this->motionX;
-		$pk->speedY = $this->motionY;
-		$pk->speedZ = $this->motionZ;
-		$pk->metadata = $this->dataProperties;
+		$pk->type = self::NETWORK_ID;
+		
 		$player->dataPacket($pk);
-
 		parent::spawnTo($player);
 	}
 }

@@ -1,7 +1,6 @@
 <?php
 namespace pocketmine\entity;
 
-
 use pocketmine\Player;
 
 class ChargedCreeper extends Creeper{
@@ -13,7 +12,7 @@ class ChargedCreeper extends Creeper{
 
     public function spawnTo(Player $player){
         $pk = $this->addEntityDataPacket($player);
-        $pk->type = Creeper::NETWORK_ID;
+        $pk->type = self::NETWORK_ID;
 
         $player->dataPacket($pk);
         parent::spawnTo($player);

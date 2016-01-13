@@ -1,15 +1,7 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\item\Item as Dr;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
-use pocketmine\network\Network;
-use pocketmine\network\protocol\MovePlayerPacket;
-use pocketmine\math\AxisAlignedBB;
-use pocketmine\math\Vector3;
-
 
 class Bat extends Animal{
 	const NETWORK_ID = 19;
@@ -32,9 +24,9 @@ class Bat extends Animal{
 		return "Bat";
 	}
 
-	 public function spawnTo(Player $player){
+	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
-		$pk->type = Bat::NETWORK_ID;
+		$pk->type = self::NETWORK_ID;
 
 		$player->dataPacket($pk);
 		parent::spawnTo($player);

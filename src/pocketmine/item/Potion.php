@@ -131,7 +131,7 @@ class Potion extends Food{
 				return "Potion of Healing II";
 			case self::NIGHT_VISION:
 			case self::NIGHT_VISION_T:
-				return "Potion os Night Vision";
+				return "Potion of Night Vision";
 			default:
 				return "Potion";
 		}

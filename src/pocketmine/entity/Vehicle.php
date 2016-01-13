@@ -1,7 +1,4 @@
 <?php
 namespace pocketmine\entity;
 
-
-abstract class Vehicle extends Entity implements Rideable{
-
-}
+abstract class Vehicle extends Entity implements Rideable{}

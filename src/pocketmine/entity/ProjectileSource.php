@@ -1,7 +1,4 @@
 <?php
 namespace pocketmine\entity;
 
-
-interface ProjectileSource{
-
-}
+interface ProjectileSource{}

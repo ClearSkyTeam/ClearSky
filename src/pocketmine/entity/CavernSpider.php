@@ -25,7 +25,7 @@ class CavernSpider extends Monster{
 
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
-		$pk->type = CavernSpider::NETWORK_ID;
+		$pk->type = self::NETWORK_ID;
 
 		$player->dataPacket($pk);
 		parent::spawnTo($player);

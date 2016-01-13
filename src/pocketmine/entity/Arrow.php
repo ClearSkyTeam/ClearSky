@@ -4,8 +4,6 @@ namespace pocketmine\entity;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\particle\CriticalParticle;
 use pocketmine\nbt\tag\Compound;
-use pocketmine\network\Network;
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
 class Arrow extends Projectile{
@@ -56,18 +54,10 @@ class Arrow extends Projectile{
 	}
 
 	public function spawnTo(Player $player){
-		$pk = new AddEntityPacket();
-		$pk->type = Arrow::NETWORK_ID;
-		$pk->eid = $this->getId();
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = $this->motionX;
-		$pk->speedY = $this->motionY;
-		$pk->speedZ = $this->motionZ;
-		$pk->metadata = $this->dataProperties;
+		$pk = $this->addEntityDataPacket($player);
+		$pk->type = self::NETWORK_ID;
+		
 		$player->dataPacket($pk);
-
 		parent::spawnTo($player);
 	}
 }
