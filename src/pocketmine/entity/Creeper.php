@@ -3,7 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityExplodeEvent;
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\nbt\tag\Int;
 use pocketmine\Player;
 
@@ -50,13 +50,13 @@ class Creeper extends Monster implements Explosive{
         $drops = [];
         if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof Player){
             $drops = [
-                drp::get(drp::GUNPOWDER, 0, mt_rand(0, 2))
+                ItemItem::get(ItemItem::GUNPOWDER, 0, mt_rand(0, 2))
             ];
         }
 
         if($this->lastDamageCause instanceof EntityExplodeEvent and $this->lastDamageCause->getEntity() instanceof ChargedCreeper){
             $drops = [
-                drp::get(drp::SKULL, 4, 1)
+                ItemItem::get(ItemItem::SKULL, 4, 1)
             ];
         }
 

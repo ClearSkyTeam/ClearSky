@@ -2,6 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
+use pocketmine\item\Item as ItemItem;
 
 class Enderman extends Monster{
 	const NETWORK_ID = 38;
@@ -29,5 +30,11 @@ class Enderman extends Monster{
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
 	}
+
+	/*public function getDrops(){
+		return [
+			ItemItem::get(ItemItem::ENDERPEARL, 0, mt_rand(0, 1))
+		];
+	}*/
 
 }

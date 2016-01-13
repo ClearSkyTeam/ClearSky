@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 
 class MagmaCube extends Living{
@@ -33,7 +33,7 @@ class MagmaCube extends Living{
 
 	public function getDrops(){
 		return [
-			drp::get(drp::MAGMA_CREAM, 0, mt_rand(0, 2))
+			ItemItem::get(ItemItem::MAGMA_CREAM, 0, mt_rand(0, 2))
 		];
 	}
 }

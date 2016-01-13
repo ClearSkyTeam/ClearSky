@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 
 class Blaze extends Monster{
 	const NETWORK_ID = 43;
@@ -33,7 +33,7 @@ class Blaze extends Monster{
 	
 	public function getDrops(){
 		return [
-			drp::get(drp::BLAZE_ROD, 0, mt_rand(0, 1))
+			ItemItem::get(ItemItem::BLAZE_ROD, 0, mt_rand(0, 1))
 		];
 	}
 }

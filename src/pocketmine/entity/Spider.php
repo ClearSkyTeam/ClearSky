@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 
 class Spider extends Monster{
@@ -33,8 +33,8 @@ class Spider extends Monster{
 
     public function getDrops(){
         return[
-            drp::get(drp::STRING, 0, mt_rand(0, 2)),
-            drp::get(drp::SPIDER_EYE, 0, mt_rand(0, 1))
+            ItemItem::get(ItemItem::STRING, 0, mt_rand(0, 2)),
+            ItemItem::get(ItemItem::SPIDER_EYE, 0, mt_rand(0, 1))
         ];
     }
 }
