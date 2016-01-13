@@ -1,13 +1,14 @@
 <?php
 namespace pocketmine\entity;
 
+use pocketmine\entity\Effect;
+use pocketmine\item\Potion;
 use pocketmine\level\format\FullChunk;
+use pocketmine\level\particle\ItemBreakParticle;
+use pocketmine\level\particle\SpellParticle;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
-use pocketmine\item\Potion;
-use pocketmine\entity\Effect;
-use pocketmine\level\particle\GenericParticle;
 
 class ThrownPotion extends Projectile{
 	const NETWORK_ID = 86;
@@ -28,7 +29,7 @@ class ThrownPotion extends Projectile{
 			$this->data = $this->namedtag["Data"];
 		}
 		
-		$this->setDataProperty(FallingSand::DATA_BLOCK_INFO, self::DATA_TYPE_INT, $this->getData());
+		$this->setDataProperty(Entity::DATA_POTION_COLOR, Entity::DATA_TYPE_INT, (($color[0 & 0xff]) << 16) | (($color[1] & 0xff) << 8 | (($color[2] & 0xff));
 	}
 
 	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
@@ -44,7 +45,9 @@ class ThrownPotion extends Projectile{
 	}
 	
 	public function kill(){
-		$this->getLevel()->addParticle(new GenericParticle($this, 25, 5));
+		$color = Potion::getColor($this->data);
+		$this->getLevel()->addParticle(new SpellParticle($this, $color[0], $color[1], $color[2]));
+                $this->getLevel()->addParticle(new ItemBreakParticle($this, Item::get(Item::GLASS_BOTTLE)));
 		$players = $this->getViewers();
 		foreach($players as $p) {
 			if($p->distance($this) <= 6){

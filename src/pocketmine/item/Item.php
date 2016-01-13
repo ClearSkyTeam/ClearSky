@@ -1577,7 +1577,8 @@ class Item{
 				"Name" => new String("Name", $name)
 			]);
 		}
-
+		
+                $this->setNamedTag($tag);
 		return $this;
 	}
 
