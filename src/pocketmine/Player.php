@@ -1181,6 +1181,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @return bool
 	 */
 	public function setGamemode($gm){
+                $oldgm = $this->gamemode;
 		if($gm < 0 or $gm > 3 or $this->gamemode === $gm){
 			return false;
 		}
@@ -1199,6 +1200,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}else{
 			$this->spawnToAll();
 		}
+
+                if($oldgm === Player::CREATIVE or $oldgm === Player::SPECTATOR){
+                        $this->getInventory()->clearAll();
+                }
 
 		$this->namedtag->playerGameType = new Int("playerGameType", $this->gamemode);
 
@@ -1229,10 +1234,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$pk->slots[] = clone $item;
 			}
 			$this->dataPacket($pk);
-		}
-
-		if($this->isCreative() || $this->isSpectator()){
-			$this->inventory->clearAll();
 		}
 
 		$this->inventory->sendContents($this);
