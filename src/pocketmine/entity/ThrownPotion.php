@@ -9,6 +9,7 @@ use pocketmine\level\particle\SpellParticle;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
+use pocketmine\item\Item as ItemItem;
 
 class ThrownPotion extends Projectile{
 	const NETWORK_ID = 86;
@@ -29,7 +30,7 @@ class ThrownPotion extends Projectile{
 			$this->data = $this->namedtag["Data"];
 		}
 		
-	//	$this->setDataProperty(Entity::DATA_POTION_COLOR, Entity::DATA_TYPE_INT, (($color[0 & 0xff]) << 16) | (($color[1] & 0xff) << 8 | (($color[2] & 0xff));
+		$this->setDataProperty(Entity::DATA_POTION_COLOR, Entity::DATA_TYPE_INT, (($color[0 & 0xff]) << 16) | (($color[1] & 0xff) << 8 | (($color[2] & 0xff))));
 	}
 
 	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
@@ -45,8 +46,8 @@ class ThrownPotion extends Projectile{
 	}
 	
 	public function kill(){
-		$color = Potion::getColor($this->data);
-	//	$this->getLevel()->addParticle(new SpellParticle($this, $color[0], $color[1], $color[2]));
+		$color = [0,0,0];
+		$this->getLevel()->addParticle(new SpellParticle($this, $color[0], $color[1], $color[2]));
                 $this->getLevel()->addParticle(new ItemBreakParticle($this, Item::get(Item::GLASS_BOTTLE)));
 		$players = $this->getViewers();
 		foreach($players as $p) {

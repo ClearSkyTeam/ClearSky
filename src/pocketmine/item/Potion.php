@@ -197,4 +197,8 @@ class Potion extends Food{
 		}
 		return $effect;
 	}
+	
+	public function getColor($metaorso){
+		return [0,0,0];
+	}
 }
