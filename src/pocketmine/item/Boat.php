@@ -29,7 +29,7 @@ class Boat extends Item{
 		return 1;
 	}
 	
-	/*public function canBeActivated(){
+	public function canBeActivated(){
 		return true;
 	}
 
@@ -67,5 +67,5 @@ class Boat extends Item{
 		}
 		
 		return true;
-	}*/
+	}
 }
