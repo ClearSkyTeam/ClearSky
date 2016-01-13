@@ -29,7 +29,7 @@ class ThrownPotion extends Projectile{
 			$this->data = $this->namedtag["Data"];
 		}
 		
-		$this->setDataProperty(Entity::DATA_POTION_COLOR, Entity::DATA_TYPE_INT, (($color[0 & 0xff]) << 16) | (($color[1] & 0xff) << 8 | (($color[2] & 0xff));
+		$this->setDataProperty(Entity::DATA_POTION_COLOR, Entity::DATA_TYPE_INT, (($color[0 & 0xff]) << 16) | (($color[1] & 0xff) << 8 | ($color[2] & 0xff)));
 	}
 
 	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
