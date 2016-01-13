@@ -1,15 +1,17 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\entity\Effect;
-use pocketmine\item\Potion;
+
 use pocketmine\level\format\FullChunk;
-use pocketmine\level\particle\ItemBreakParticle;
 use pocketmine\level\particle\SpellParticle;
 use pocketmine\nbt\tag\Compound;
+use pocketmine\network\Network;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
-use pocketmine\item\Item as ItemItem;
+use pocketmine\item\Potion;
+use pocketmine\entity\Effect;
+use pocketmine\level\particle\Particle;
+use pocketmine\level\particle\GenericParticle;
 
 class ThrownPotion extends Projectile{
 	const NETWORK_ID = 86;
@@ -30,7 +32,9 @@ class ThrownPotion extends Projectile{
 			$this->data = $this->namedtag["Data"];
 		}
 		
-		$this->setDataProperty(Entity::DATA_POTION_COLOR, Entity::DATA_TYPE_INT, (($color[0 & 0xff]) << 16) | (($color[1] & 0xff) << 8 | (($color[2] & 0xff))));
+		$color = Potion::getColor($this->getData());
+		$this->setDataProperty(self::DATA_POTION_COLOR, self::DATA_TYPE_INT, (($color[0] & 0xff) << 16) | (($color[1] & 0xff) << 8) | ($color[2] & 0xff));
+		$this->setDataProperty(self::DATA_POTION_AMBIENT, Entity::DATA_TYPE_BYTE, 0);
 	}
 
 	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
@@ -46,9 +50,8 @@ class ThrownPotion extends Projectile{
 	}
 	
 	public function kill(){
-		$color = [0,0,0];
+		$color = Potion::getColor($this->getData());
 		$this->getLevel()->addParticle(new SpellParticle($this, $color[0], $color[1], $color[2]));
-                $this->getLevel()->addParticle(new ItemBreakParticle($this, Item::get(Item::GLASS_BOTTLE)));
 		$players = $this->getViewers();
 		foreach($players as $p) {
 			if($p->distance($this) <= 6){
@@ -162,6 +165,7 @@ class ThrownPotion extends Projectile{
 
 		$hasUpdate = parent::onUpdate($currentTick);
 
+		$this->age++;
 		if($this->age > 1200 or $this->isCollided){
 			$this->kill();
 			$this->close();
