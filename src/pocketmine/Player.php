@@ -1231,7 +1231,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->dataPacket($pk);
 		}
 
-		if($this->isSurvival() || $this->isAdventure()){
+		if($this->isCreative() || $this->isSpectator()){
 			$this->inventory->clearAll();
 		}
 
