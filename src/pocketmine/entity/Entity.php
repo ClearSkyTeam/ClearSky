@@ -187,9 +187,11 @@ abstract class Entity extends Location implements Metadatable{
 	protected $timings;
 	protected $isPlayer = false;
 	
-	protected $linkedEntity = \Null;
+	protected $linkedEntity = null;
 	/** 0 no linked 1 linked other 2 be linked */
-	protected $linkedType = \Null;
+	protected $linkedType = null;
+	
+	protected $linkedHook = null;
 
 	protected $riding = null;
 	public function __construct(FullChunk $chunk, Compound $nbt){
@@ -330,6 +332,31 @@ abstract class Entity extends Location implements Metadatable{
 			default:
 				return false;
 		}
+	}
+	
+	public function linkHook(Entity $entity = null, $linked = false){
+		if (!$entity->isAlive()) {
+			return false;
+		}
+		$this->linkedHook = $entity;
+		$this->linkedType = $linked?1:0;
+		$pk = new SetEntityLinkPacket();
+		$pk->from = $entity->getId();
+		$pk->to = $this->getId();
+		$pk->type = $this->linkedType;
+		$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+		if ($this instanceof Player) {
+			$pk = new SetEntityLinkPacket();
+			$pk->from = $entity->getId();
+			$pk->to = 0;
+			$pk->type = $this->linkedType;
+			$this->dataPacket($pk);
+		}
+		return true;
+	}
+	
+	public function getLinkedHook(){
+		return $this->linkedHook;
 	}
 
 	public function getLinkedEntity()

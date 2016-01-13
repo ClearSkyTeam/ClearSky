@@ -223,6 +223,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	protected $explevel = 0;
 	protected $expcurrent = 0;
 	
+	/** Fishing **/
+	protected $isFishing = false;
+	
 	public function getAttribute(){
 		return $this->attribute;
 	}
@@ -2311,6 +2314,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 					if($item->getId() === Item::FISHING_ROD){
 						$rod = $this->inventory->getItemInHand();
+						if($this->isFishing){
+							$hook = $this->getLinkedHook();
+							$damageRod = $hook->reelLine();
+						}
 						$nbt = new Compound("", [
 							"Pos" => new Enum("Pos", [
 								new Double("", $this->x),
@@ -2335,6 +2342,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						if($f < 0.1 or $diff < 5){
 							$ev->setCancelled();
 						}
+						if($this->isFishing){
+							$ev->setCancelled();
+						}
 						$this->server->getPluginManager()->callEvent($ev);
 						if($ev->isCancelled()){
 							$ev->getProjectile()->kill();
@@ -2342,7 +2352,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}
 						else{
 							$ev->getProjectile()->setMotion($ev->getProjectile()->getMotion()->multiply($ev->getForce()));
-							/*if($this->isSurvival()){
+							if($this->isSurvival() && $damageRod){
 								$rod->setDamage($rod->getDamage() + 1);
 								if($rod->getDamage() >= 65){
 									$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 0));
@@ -2350,7 +2360,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 								else{
 									$this->inventory->setItemInHand($rod);
 								}
-							}*/ // move to catching fish
+							}
 							if($ev->getProjectile() instanceof Projectile){
 								$this->server->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($ev->getProjectile()));
 								if($projectileEv->isCancelled()){
@@ -2358,11 +2368,14 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 								}
 								else{
 									$ev->getProjectile()->spawnToAll();
+									$this->isFishing = true;
+									$this->linkHook($ev->getProjectile(), true);
 									$this->level->addSound(new LaunchSound($this), $this->getViewers());
 								}
 							}
 							else{
 								$ev->getProjectile()->spawnToAll();
+								$this->isFishing = true;
 							}
 						}
 					}
