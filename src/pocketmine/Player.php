@@ -2992,7 +2992,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 								}
 								if($this->server->getProperty("experience.enable", true)
 								and $this->server->getProperty("experience.smelt-drop", true)){
-									$this->addExperience($inv->getResult()->getExperience());
+									$this->addExperience($inv->getResult()->count * $inv->getResult()->getExperience());
 								}
 							}
 						}
