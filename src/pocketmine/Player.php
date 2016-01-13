@@ -2352,8 +2352,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}
 						else{
 							$ev->getProjectile()->setMotion($ev->getProjectile()->getMotion()->multiply($ev->getForce()));
-							if($this->isSurvival() && $damageRod){
-								$rod->setDamage($rod->getDamage() + 1);
+							if($this->isSurvival()){
+								if($damageRod) $rod->setDamage($rod->getDamage() + 1);
 								if($rod->getDamage() >= 65){
 									$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 0));
 								}
