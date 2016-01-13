@@ -2239,6 +2239,31 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}
 					}
 
+					if($item->getId() === Item::EGG){
+						$dir = $this->getDirectionVector();
+ 						$frontPos = $this->add($this->getDirectionVector()->multiply(1.1));
+ 						$nbt = new Compound("", ["Pos" => new Enum("Pos", [new Double("", $frontPos->x),new Double("", $frontPos->y + $this->getEyeHeight()),new Double("", $frontPos->z)]),
+ 							"Motion" => new Enum("Motion", [new Double("", $dir->x),new Double("", $dir->y),new Double("", $dir->z)]),"Rotation" => new Enum("Rotation", [new Float("", 0),new Float("", 0)])]);
+ 						$egg = Entity::createEntity("Egg", $this->chunk, $nbt);
+						$f = 1.5;
+						$egg->setMotion($egg->getMotion()->multiply($f));
+						if($this->isSurvival()){
+							$item->setCount($item->getCount() - 1);
+							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
+						}
+						if($egg instanceof Projectile){
+							$this->server->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($egg));
+							if($projectileEv->isCancelled()){
+								$egg->kill();
+							}else{
+								$egg->spawnToAll();
+								$this->level->addSound(new LaunchSound($this), $this->getViewers());
+							}
+						}else{
+							$egg->spawnToAll();
+						}
+					}
+					
 					if($item->getId() == Item::EXP_BOTTLE){
 						$nbt = new Compound("", [
 							"Pos" => new Enum("Pos", [
