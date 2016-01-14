@@ -52,7 +52,7 @@ class ExperienceOrb extends Entity{
 		$hasUpdate = $this->entityBaseTick($tickDiff);
 		
 		$this->age++;
-		if($this->age > 600){
+		if($this->age > 7000){
 			$this->timings->stopTiming();
 			$this->close();
 			return true;
