@@ -2,8 +2,8 @@
 namespace pocketmine\item;
 
 class SplashPotion extends Launchable{
-	
 	protected $entityname = "ThrownPotion";
+	protected $f = 1.1;
 	
 	public function __construct($meta = 0, $count = 1){
 		parent::__construct(self::SPLASH_POTION, $meta, $count, $this->getNameByMeta($meta));

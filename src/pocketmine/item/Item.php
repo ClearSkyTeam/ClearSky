@@ -502,6 +502,7 @@ class Item{
 	protected $name;
 	protected $exp_smelt = 0;
 	protected $entityname = null;
+	protected $f = 1.0;
 
 	public function canBeActivated(){
 		return false;
