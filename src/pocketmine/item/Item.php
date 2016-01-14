@@ -1578,7 +1578,7 @@ class Item{
 			]);
 		}
 		
-                $this->setNamedTag($tag);
+		$this->setNamedTag($tag);
 		return $this;
 	}
 
