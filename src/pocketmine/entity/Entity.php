@@ -334,7 +334,7 @@ abstract class Entity extends Location implements Metadatable{
 		if (!$entity->isAlive()) {
 			return false;
 		}
-		$this->linkedHook = $entity;
+		$this->linkedHook = $entity;/*
 		$this->linkedType = $linked?1:0;
 		$pk = new SetEntityLinkPacket();
 		$pk->from = $entity->getId();
@@ -347,7 +347,7 @@ abstract class Entity extends Location implements Metadatable{
 			$pk->to = 0;
 			$pk->type = $this->linkedType;
 			$this->dataPacket($pk);
-		}
+		}*/
 		return true;
 	}
 	
