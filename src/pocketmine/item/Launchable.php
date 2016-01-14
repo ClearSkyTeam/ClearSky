@@ -15,7 +15,7 @@ abstract class Launchable extends Item{
  		$frontPos = $player->add($dir->multiply(1.1));
  		$nbt = new Compound("", ["Pos" => new Enum("Pos", [new Double("", $frontPos->x),new Double("", $frontPos->y + $player->getEyeHeight()),new Double("", $frontPos->z)]),
  							"Motion" => new Enum("Motion", [new Double("", $dir->x),new Double("", $dir->y),new Double("", $dir->z)]),"Rotation" => new Enum("Rotation", [new Float("", 0),new Float("", 0)])]);
-		$f = 1.1;
+		$f = $this->f;
 		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt);
 		$launched->setMotion($launched->getMotion()->multiply($f));
 		if($launched instanceof Projectile){

@@ -3,6 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\Player;
 use pocketmine\item\Item as ItemItem;
+use pocketmine\network\protocol\AddPaintingPacket;
 
 class Painting extends Hanging{
 	const NETWORK_ID = 83;
@@ -18,7 +19,11 @@ class Painting extends Hanging{
 	}
 	
 	public function spawnTo(Player $player){
-		$pk = $this->addEntityDataPacket($player);
+ -		$pk = new AddPaintingPacket();
+		$pk->eid = $this->getId();
+		$pk->x = $this->x;
+		$pk->y = $this->y;
+		$pk->z = $this->z;
 		$pk->direction = $this->getDirection();
 		$pk->title = $this->motive;
 		$player->dataPacket($pk);

@@ -55,6 +55,9 @@ class SplashPotion extends Launchable{
 				return "Splash Potion of Healing";
 			case Potion::HEALING_TWO:
 				return "Splash Potion of Healing II";
+  			case Potion::NIGHT_VISION:
+  			case Potion::NIGHT_VISION_T:
+				return "Potion of Night Vision";
 			default:
 				return "Splash Potion";
 		}

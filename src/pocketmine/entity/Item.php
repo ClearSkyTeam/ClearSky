@@ -203,8 +203,14 @@ class Item extends Entity{
 	}
 
 	public function spawnTo(Player $player){
-		$pk = $this->addEntityDataPacket($player);
+		$pk = new AddItemEntityPacket();
 		$pk->eid = $this->getId();
+		$pk->x = $this->x;
+		$pk->y = $this->y;
+		$pk->z = $this->z;
+		$pk->speedX = $this->motionX;
+		$pk->speedY = $this->motionY;
+		$pk->speedZ = $this->motionZ;
 		$pk->item = $this->getItem();
 		$player->dataPacket($pk);
 

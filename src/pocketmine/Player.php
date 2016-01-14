@@ -2296,7 +2296,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				break;
 			case ProtocolInfo::PLAYER_ACTION_PACKET:
-				//$this->eatFoodInHand();
 				if($this->spawned === false or $this->blocked === true or (!$this->isAlive() and $packet->action !== PlayerActionPacket::ACTION_RESPAWN and $packet->action !== PlayerActionPacket::ACTION_DIMENSION_CHANGE)){
 					break;
 				}
