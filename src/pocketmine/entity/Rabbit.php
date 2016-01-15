@@ -3,7 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\item\Item as ItemItem;
-use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\Int;
 use pocketmine\Player;
 
 class Rabbit extends Animal{
@@ -44,7 +44,7 @@ class Rabbit extends Animal{
     }
 
     public function setType($type){
-        $this->namedtag->Profession = new IntTag("Type", $type);
+        $this->namedtag->Profession = new Int("Type", $type);
     }
 
     public function getType(){

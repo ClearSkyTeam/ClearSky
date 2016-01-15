@@ -11,13 +11,13 @@ use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
 use pocketmine\math\Vector3;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\String;
 use pocketmine\Player;
 use pocketmine\tile\Tile;
 use pocketmine\math\AxisAlignedBB;
-use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\Byte;
 use pocketmine\tile\Skull;
 
 class SkullBlock extends Transparent{
@@ -52,17 +52,17 @@ class SkullBlock extends Transparent{
 		if($face !== 0 && $fy > 0.5 && $target->getId() !== self::SKULL_BLOCK && !$down instanceof SkullBlock){
 			$this->getLevel()->setBlock($block, Block::get(Block::SKULL_BLOCK, 0), true, true);
 			if($face === 1){
-				$rot = new ByteTag("Rot", floor(($player->yaw * 16 / 360) + 0.5) & 0x0F);
+				$rot = new Byte("Rot", floor(($player->yaw * 16 / 360) + 0.5) & 0x0F);
 			}
 			else{
-				$rot = new ByteTag("Rot", 0);
+				$rot = new Byte("Rot", 0);
 			}
-			$nbt = new CompoundTag("", [
-				new StringTag("id", Tile::SKULL),
-				new IntTag("x", $block->x),
-				new IntTag("y", $block->y),
-				new IntTag("z", $block->z),
-				new ByteTag("SkullType", $item->getDamage()),
+			$nbt = new Compound("", [
+				new String("id", Tile::SKULL),
+				new Int("x", $block->x),
+				new Int("y", $block->y),
+				new Int("z", $block->z),
+				new Byte("SkullType", $item->getDamage()),
 				$rot
 			]);
 

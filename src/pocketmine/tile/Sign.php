@@ -2,24 +2,24 @@
 namespace pocketmine\tile;
 
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\String;
 
 class Sign extends Spawnable{
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt){
+	public function __construct(FullChunk $chunk, Compound $nbt){
 		if(!isset($nbt->Text1)){
-			$nbt->Text1 = new StringTag("Text1", "");
+			$nbt->Text1 = new String("Text1", "");
 		}
 		if(!isset($nbt->Text2)){
-			$nbt->Text2 = new StringTag("Text2", "");
+			$nbt->Text2 = new String("Text2", "");
 		}
 		if(!isset($nbt->Text3)){
-			$nbt->Text3 = new StringTag("Text3", "");
+			$nbt->Text3 = new String("Text3", "");
 		}
 		if(!isset($nbt->Text4)){
-			$nbt->Text4 = new StringTag("Text4", "");
+			$nbt->Text4 = new String("Text4", "");
 		}
 
 		parent::__construct($chunk, $nbt);
@@ -31,10 +31,10 @@ class Sign extends Spawnable{
 	}
 
 	public function setText($line1 = "", $line2 = "", $line3 = "", $line4 = ""){
-		$this->namedtag->Text1 = new StringTag("Text1", $line1);
-		$this->namedtag->Text2 = new StringTag("Text2", $line2);
-		$this->namedtag->Text3 = new StringTag("Text3", $line3);
-		$this->namedtag->Text4 = new StringTag("Text4", $line4);
+		$this->namedtag->Text1 = new String("Text1", $line1);
+		$this->namedtag->Text2 = new String("Text2", $line2);
+		$this->namedtag->Text3 = new String("Text3", $line3);
+		$this->namedtag->Text4 = new String("Text4", $line4);
 		$this->spawnToAll();
 
 		if($this->chunk){
@@ -55,15 +55,15 @@ class Sign extends Spawnable{
 	}
 
 	public function getSpawnCompound(){
-		return new CompoundTag("", [
-			new StringTag("id", Tile::SIGN),
+		return new Compound("", [
+			new String("id", Tile::SIGN),
 			$this->namedtag->Text1,
 			$this->namedtag->Text2,
 			$this->namedtag->Text3,
 			$this->namedtag->Text4,
-			new IntTag("x", (int) $this->x),
-			new IntTag("y", (int) $this->y),
-			new IntTag("z", (int) $this->z)
+			new Int("x", (int) $this->x),
+			new Int("y", (int) $this->y),
+			new Int("z", (int) $this->z)
 		]);
 	}
 

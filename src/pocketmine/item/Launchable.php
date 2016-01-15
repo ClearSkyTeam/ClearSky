@@ -1,11 +1,11 @@
 <?php
 namespace pocketmine\item;
 
-use pocketmine\nbt\tag\EnumTag;
-use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\Enum;
+use pocketmine\nbt\tag\Double;
+use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\Compound;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
 
@@ -13,11 +13,11 @@ abstract class Launchable extends Item{
 	public function launch(Player $player){
 		$dir = $player->getDirectionVector();
  		$frontPos = $player->add($dir->multiply(1.1));
- 		$nbt = new CompoundTag("", [
-							"Pos" => new EnumTag("Pos", [new DoubleTag("", $frontPos->x),new DoubleTag("", $frontPos->y + $player->getEyeHeight()),new DoubleTag("", $frontPos->z)]),
- 							"Motion" => new EnumTag("Motion", [new DoubleTag("", $dir->x),new DoubleTag("", $dir->y),new DoubleTag("", $dir->z)]),
-							"Rotation" => new EnumTag("Rotation", [new FloatTag("", 0),new FloatTag("", 0)]),
-							"Data" => new ByteTag("Data", $this->getDamage()),
+ 		$nbt = new Compound("", [
+							"Pos" => new Enum("Pos", [new Double("", $frontPos->x),new Double("", $frontPos->y + $player->getEyeHeight()),new Double("", $frontPos->z)]),
+ 							"Motion" => new Enum("Motion", [new Double("", $dir->x),new Double("", $dir->y),new Double("", $dir->z)]),
+							"Rotation" => new Enum("Rotation", [new Float("", 0),new Float("", 0)]),
+							"Data" => new Byte("Data", $this->getDamage()),
 							]);
 		$f = $this->f;
 		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt);

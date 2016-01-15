@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\Compound;
 use pocketmine\Player;
 use pocketmine\level\particle\SplashParticle;
 use pocketmine\item\Item as ItemItem;
@@ -31,7 +31,7 @@ class FishingHook extends Projectile{
 		// $this->setDataProperty(FallingSand::DATA_BLOCK_INFO, self::DATA_TYPE_INT, $this->getData());
 	}
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
+	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 	

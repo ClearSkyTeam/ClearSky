@@ -13,7 +13,7 @@ class EndStone extends Solid{
 	}
 
 	public function getName(){
-		return "EndTag Stone";
+		return "End Stone";
 	}
 
 	public function getToolType(){
