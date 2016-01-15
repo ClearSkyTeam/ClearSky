@@ -477,7 +477,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::SIGN_POST] = SignPost::class;
 			self::$list[self::OAK_DOOR_BLOCK] = OakDoor::class;
 			self::$list[self::LADDER] = Ladder::class;
-			self::$list[self::RAIL] = Rail::class;
+			self::$list[self::RAIL] = RailBlock::class;
 
 			self::$list[self::COBBLESTONE_STAIRS] = CobblestoneStairs::class;
 			self::$list[self::WALL_SIGN] = WallSign::class;
