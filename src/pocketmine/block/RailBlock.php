@@ -22,7 +22,7 @@ class RailBlock extends Flowable{
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $block->getSide(Vector3::SIDE_DOWN);
 		if($down->isTransparent() === false){
-			$this->calculateDirection($block);
+			$this->calculateDirection($this);
 			return true;
 		}
 		return false;
@@ -44,6 +44,7 @@ class RailBlock extends Flowable{
 	
 	public function calculateDirection(Block $block){
 		$up = $block->getSide(Vector3::SIDE_UP);
+		$down = $block->getSide(Vector3::SIDE_DOWN);
 		if($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && ($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock || $up->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock || $down->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock)){
 			return $this->setDirection(self::SIDE_SOUTH_EAST);
 		}elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && ($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock || $up->getSide(Vector3::SIDE_EAST) instanceof RailBlock || $down->getSide(Vector3::SIDE_EAST) instanceof RailBlock)){
