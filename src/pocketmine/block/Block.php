@@ -18,7 +18,7 @@ use pocketmine\metadata\Metadatable;
 use pocketmine\metadata\MetadataValue;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 
 
 class Block extends Position implements Metadatable{

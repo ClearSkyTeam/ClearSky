@@ -21,7 +21,7 @@ class DoublePlant extends Flowable{
 		static $names = [
 			0 => "Sunflower",
 			1 => "Lilac",
-			2 => "Double Tallgrass",
+			2 => "DoubleTag Tallgrass",
 			3 => "Large Fern",
 			4 => "Rose Bush",
 			5 => "Peony"
