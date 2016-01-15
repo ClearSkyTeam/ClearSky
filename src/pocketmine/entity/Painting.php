@@ -19,7 +19,7 @@ class Painting extends Hanging{
 	}
 	
 	public function spawnTo(Player $player){
- -		$pk = new AddPaintingPacket();
+		$pk = new AddPaintingPacket();
 		$pk->eid = $this->getId();
 		$pk->x = $this->x;
 		$pk->y = $this->y;
