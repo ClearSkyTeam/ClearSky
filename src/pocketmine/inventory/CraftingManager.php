@@ -108,11 +108,11 @@ class CraftingManager{
 			"S"
 		))->setIngredient("C", Item::get(Item::COAL, 1, 1))->setIngredient("S", Item::get(Item::STICK, 0, 1)));
 
-                $this->registerRecipe((new ShapedRecipe(Item::get(Item::REDSTONE_TORCH, 0, 1),
+        $this->registerRecipe((new ShapedRecipe(Item::get(Item::REDSTONE_TORCH, 0, 1),
 			"   ",
 			" R ",
 			" S "
-                ))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 1))->setIngredient("S", Item::get(Item::STICK,0,1)));
+        ))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 1))->setIngredient("S", Item::get(Item::STICK,0,1)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::STONE_PRESSURE_PLATE, 0, 1),
 		    "SS "
@@ -137,7 +137,7 @@ class CraftingManager{
 		))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 4))->setIngredient("G", Item::get(Item::GLOWSTONE_DUST, 0, 1)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::SUGAR, 0, 1),
-			"S"
+			"S "
 		))->setIngredient("S", Item::get(Item::SUGARCANE, 0, 1)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::BED, 0, 1),
@@ -276,8 +276,8 @@ class CraftingManager{
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::DARK_OAK, 6)));		
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::WOODEN_STAIRS, 0, 4),
-			"  P",
-			" PP",
+			"P  ",
+			"PP ",
 			"PPP"
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::OAK, 6)));
 		
@@ -286,8 +286,8 @@ class CraftingManager{
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::OAK, 3)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::SPRUCE_WOOD_STAIRS, 0, 4),
-			"  P",
-			" PP",
+			"P  ",
+			"PP ",
 			"PPP"
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::SPRUCE, 6)));
 
@@ -296,8 +296,8 @@ class CraftingManager{
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::SPRUCE, 3)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::BIRCH_WOOD_STAIRS, 0, 4),
-			"  P",
-			" PP",
+			"P  ",
+			"PP ",
 			"PPP"
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::BIRCH, 6)));
 
@@ -316,8 +316,8 @@ class CraftingManager{
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::JUNGLE, 3)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::ACACIA_WOOD_STAIRS, 0, 4),
-			"  P",
-			" PP",
+			"P  ",
+			"PP ",
 			"PPP"
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::ACACIA, 6)));
 
@@ -326,8 +326,8 @@ class CraftingManager{
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::ACACIA, 3)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::DARK_OAK_WOOD_STAIRS, 0, 4),
-			"  P",
-			" PP",
+			"P  ",
+			"PP ",
 			"PPP"
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANK, Planks::DARK_OAK, 6)));
 
@@ -337,19 +337,19 @@ class CraftingManager{
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::BUCKET, 0, 1),
 			"I I",
-			" I"
+			" I "
 		))->setIngredient("I", Item::get(Item::IRON_INGOT, 0, 3)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::CLOCK, 0, 1),
-			" G",
-			"GR",
-			" G"
+			" G ",
+			"GRG",
+			" G "
 		))->setIngredient("G", Item::get(Item::GOLD_INGOT, 0, 4))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 1)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::COMPASS, 0, 1),
 			" I ",
 			"IRI",
-			" I"
+			" I "
 		))->setIngredient("I", Item::get(Item::IRON_INGOT, 0, 4))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 1)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::TNT, 0, 1),
@@ -360,7 +360,7 @@ class CraftingManager{
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::BOWL, 0, 4),
 			"P P",
-			" P"
+			" P "
 		))->setIngredient("P", Item::get(Item::WOODEN_PLANKS, null, 3)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::MINECART, 0, 1),
@@ -386,21 +386,19 @@ class CraftingManager{
 		))->setIngredient("S", Item::get(Item::STICK, 0, 8))->setIngredient("W", Item::get(Item::WOOL, null, 1)));
 
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::PAPER, 0, 3),
-			"SS",
-			"S"
+			"SSS"
 		))->setIngredient("S", Item::get(Item::SUGARCANE, 0, 3)));
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::SIGN, 0, 3),
 			"PPP",
 			"PPP",
-			" S"
+			" S "
 		))->setIngredient("S", Item::get(Item::STICK, 0, 1))->setIngredient("P", Item::get(Item::WOODEN_PLANKS, null, 6))); //TODO: check if it gives one sign or three
 
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::IRON_BARS, 0, 16),
 			"III",
-			"III",
 			"III"
-		))->setIngredient("I", Item::get(Item::IRON_INGOT, 0, 9)));
+		))->setIngredient("I", Item::get(Item::IRON_INGOT, 0, 6)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::BREWING_STAND, 0, 1),
 			" B",
@@ -414,11 +412,11 @@ class CraftingManager{
 		))->setIngredient("D", Item::get(Item::DYE, 4, 9)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::DYE, 4, 9),
-	        "L"	
+	        "L "	
 		))->setIngredient("L", Item::get(Item::LAPIS_BLOCK, 0, 1)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::GOLD_INGOT, 0, 9),
-			"G"
+			"G "
 		))->setIngredient("G", Item::get(Item::GOLD_BLOCK, 0, 1)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::GOLD_BLOCK, 0, 1),
@@ -434,7 +432,7 @@ class CraftingManager{
 		))->setIngredient("I", Item::get(Item::IRON_INGOT, 0, 9)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::IRON_INGOT, 0, 9),
-			"I"
+			"I "
 		))->setIngredient("I", Item::get(Item::IRON_BLOCK, 0, 1)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::DIAMOND_BLOCK, 0, 1),
@@ -444,7 +442,7 @@ class CraftingManager{
 		))->setIngredient("D", Item::get(Item::DIAMOND, 0, 9)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::DIAMOND, 0, 9),
-			"D"
+			"D "
 		))->setIngredient("D", Item::get(Item::DIAMOND_BLOCK, 0, 1)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::EMERALD_BLOCK, 0, 1),
@@ -454,7 +452,7 @@ class CraftingManager{
 		))->setIngredient("E", Item::get(Item::EMERALD, 0, 9)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::EMERALD, 0, 9),
-			"E"
+			"E "
 		))->setIngredient("E", Item::get(Item::EMERALD_BLOCK, 0, 1)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::REDSTONE_BLOCK, 0, 1),
@@ -464,7 +462,7 @@ class CraftingManager{
 		))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 9)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::REDSTONE_DUST, 0, 9),
-			"R"
+			"R "
 		))->setIngredient("R", Item::get(Item::REDSTONE_BLOCK, 0, 1)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::COAL_BLOCK, 0, 1),
@@ -474,7 +472,7 @@ class CraftingManager{
 		))->setIngredient("C", Item::get(Item::COAL, 0, 9)));
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::COAL, 0, 9),
-			"C"
+			"C "
 		))->setIngredient("C", Item::get(Item::COAL_BLOCK, 0, 1)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::GOLD_INGOT, 0, 1),
@@ -484,20 +482,20 @@ class CraftingManager{
 		))->setIngredient("G", Item::get(Item::GOLD_NUGGET, 0, 9)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::GOLD_NUGGET, 0, 9),
-			"G"
+			"G "
 		))->setIngredient("G", Item::get(Item::GOLD_INGOT, 0, 1)));
 		
 		/* Stone Stuff */
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::COBBLESTONE_STAIRS, 0, 4),
-			"  S",
-			" SS",
+			"S  ",
+			"SS ",
 			"SSS"
 		))->setIngredient("S", Item::get(Item::COBBLESTONE, 0, 6)));
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::SANDSTONE_STAIRS, 0, 4),
-			"  S",
-			" SS",
+			"S  ",
+			"SS ",
 			"SSS"
 		))->setIngredient("S", Item::get(Item::SANDSTONE, 0, 6)));
 	}
