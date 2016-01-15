@@ -15,63 +15,87 @@ abstract class RailBlock extends Flowable{
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $block->getSide(Vector3::SIDE_DOWN);
-		$class = "";
 		if($down->isTransparent() === false){
-			$up = $block->getSide(Vector3::SIDE_UP);
-			if($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-				return $this->setDirection(self::SIDE_SOUTH_EAST);
-			}
-			elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-				return $this->setDirection(self::SIDE_NORTH_EAST);
-			}
-			elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-				return $this->setDirection(self::SIDE_SOUTH_WEST);
-			}
-			elseif($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-				return $this->setDirection(self::SIDE_NORTH_WEST);
-			}
-			elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-				if($up->getSide(Vector3::SIDE_EAST) instanceof RailBlock){
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-					return $this->setDirection(Vector3::SIDE_EAST, true);
-				}
-				elseif($up->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-					return $this->setDirection(Vector3::SIDE_WEST, true);
-				}
-				else{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-					return $this->setDirection(Vector3::SIDE_EAST);
-				}
-			}
-			elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-				if($up->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-					return $this->setDirection(Vector3::SIDE_SOUTH, true);
-				}
-				elseif($up->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-					return $this->setDirection(Vector3::SIDE_NORTH, true);
-				}
-				else{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-					return $this->setDirection(Vector3::SIDE_SOUTH);
-				}
-			}
-			else{
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
-				return $this->setDirection(Vector3::SIDE_NORTH);
+			$this->calculateDirection($block);
+			return true;
+		}
+		return false;
+	}
+	
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_SCHEDULED){
+			$this->calculateDirection($this);
+				return Level::BLOCK_UPDATE_NORMAL;
+		}elseif($type === Level::BLOCK_UPDATE_NORMAL){
+			$down = $this->getSide(0);
+			if($down->isTransparent()){
+				$this->getLevel()->useBreakOn($this);
+				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
 		return false;
 	}
-
+	
+	public function calculateDirection(Block $block){
+		$up = $block->getSide(Vector3::SIDE_UP);
+		if($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && ($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock || $up->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock || $down->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock)){
+			return $this->setDirection(self::SIDE_SOUTH_EAST);
+		}elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && ($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock || $up->getSide(Vector3::SIDE_EAST) instanceof RailBlock || $down->getSide(Vector3::SIDE_EAST) instanceof RailBlock)){
+			return $this->setDirection(self::SIDE_SOUTH_EAST);
+		}elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && ($block->getSide(Vector3::SIDE_WEST) instanceof RailBlock || $up->getSide(Vector3::SIDE_WEST) instanceof RailBlock || $down->getSide(Vector3::SIDE_WEST) instanceof RailBlock)){
+			return $this->setDirection(self::SIDE_SOUTH_WEST);
+		}elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && ($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock || $up->getSide(Vector3::SIDE_NORTH) instanceof RailBlock || $down->getSide(Vector3::SIDE_NORTH) instanceof RailBlock)){
+			return $this->setDirection(self::SIDE_NORTH_EAST);
+		}elseif($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock && ($block->getSide(Vector3::SIDE_WEST) instanceof RailBlock || $up->getSide(Vector3::SIDE_WEST) instanceof RailBlock || $down->getSide(Vector3::SIDE_WEST) instanceof RailBlock)){
+			return $this->setDirection(self::SIDE_NORTH_WEST);
+		}elseif($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock && ($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock || $up->getSide(Vector3::SIDE_EAST) instanceof RailBlock || $down->getSide(Vector3::SIDE_EAST) instanceof RailBlock)){
+			return $this->setDirection(self::SIDE_NORTH_EAST);
+		}elseif($block->getSide(Vector3::SIDE_WEST) instanceof RailBlock && ($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock || $up->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock || $down->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock)){
+			return $this->setDirection(self::SIDE_SOUTH_WEST);
+		}elseif($block->getSide(Vector3::SIDE_WEST) instanceof RailBlock && ($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock || $up->getSide(Vector3::SIDE_NORTH) instanceof RailBlock || $down->getSide(Vector3::SIDE_NORTH) instanceof RailBlock)){
+			return $this->setDirection(Vector3::SIDE_NORTH_WEST);
+		}//slopes
+		elseif($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock && $up->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_SOUTH, true);
+		}elseif($block->getSide(Vector3::SIDE_WEST) instanceof RailBlock && $up->getSide(Vector3::SIDE_EAST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_EAST, true);
+		}elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $up->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_NORTH, true);
+		}elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $up->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_WEST, true);
+		}//line 2 attached
+		elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_NORTH);
+		}elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_WEST);
+		}// 1 attached
+		elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_SOUTH);
+		}elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_EAST);
+		}elseif($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_NORTH);
+		}elseif($block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_WEST);
+		}else{
+			$this->setDirection(Vector3::SIDE_SOUTH);
+		}
+		for($i = Vector3::SIDE_NORTH; $i < Vector3::SIDE_EAST; $i++){
+			$pos = $block->getSide($i);
+			if($pos instanceof RailBlock){
+				$this->getLevel()->scheduleUpdate($pos, 0);
+			}
+			$pos = $block->getSide(Vector3::SIDE_DOWN)->getSide($i);
+			if($pos instanceof RailBlock){
+				$this->getLevel()->scheduleUpdate($pos, 0);
+			}
+			$pos = $block->getSide(Vector3::SIDE_UP)->getSide($i);
+			if($pos instanceof RailBlock){
+				$this->getLevel()->scheduleUpdate($pos, 0);
+			}
+		}
+	}
+	
 	public function getDirection(){
 		switch($this->meta){
 			case 0:
@@ -137,63 +161,52 @@ abstract class RailBlock extends Flowable{
 
 	public function setDirection($face, $isOnSlope = false){
 		$class = "";
-		echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 		switch($face){
 			case Vector3::SIDE_EAST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = $isOnSlope?2:1;
 				}
 				break;
 			case Vector3::SIDE_WEST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = $isOnSlope?3:1;
 				}
 				break;
 			case Vector3::SIDE_NORTH:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = $isOnSlope?4:0;
 				}
 				break;
 			case Vector3::SIDE_SOUTH:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = $isOnSlope?5:0;
 				}
 				break;
 			case self::SIDE_NORTH_WEST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 6;
 				}
 				break;
 			case self::SIDE_NORTH_EAST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 7;
 				}
 				break;
 			case self::SIDE_SOUTH_EAST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 8;
 				}
 				break;
 			case self::SIDE_SOUTH_WEST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 9;
 				}
 				break;
 			default:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 0;
 				}
 		}
-		echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 		return $this->getLevel()->setBlock($this, Block::get($this->id, $meta));
 	}
 
@@ -213,16 +226,5 @@ abstract class RailBlock extends Flowable{
 
 	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
-	}
-
-	public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide(0)->isTransparent() === true){
-				$this->getLevel()->useBreakOn($this);
-				
-				return Level::BLOCK_UPDATE_NORMAL;
-			}
-		}
-		return false;
 	}
 }
