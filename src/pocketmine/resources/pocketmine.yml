@@ -24,6 +24,9 @@ redstone:
 weather:
  enable: true
  
+log:
+ enable: true
+ 
 memory:
  global-limit: 0
  main-limit: 0

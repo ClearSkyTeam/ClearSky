@@ -1528,7 +1528,13 @@ class Server{
 				$this->logger->warning("xdebug Enabled !ONLY FOR DEVELOPMENT USE!");
 			}
 		}
-
+		if(!$this->getProperty("log.enable", true)){
+			$this->logger->info("Disable MainLogger to file");
+			$this->logger->Disable();
+		}else{
+			$this->logger->info("Enable MainLogger to file");
+			$this->logger->Enable();
+		}
 		$this->forceLanguage = $this->getProperty("settings.force-language", false);
 		$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
 		$this->logger->info($this->getLanguage()->translateString("language.selected", [$this->getLanguage()->getName(), $this->getLanguage()->getLang()]));
