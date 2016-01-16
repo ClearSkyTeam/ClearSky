@@ -25,7 +25,7 @@ class SnowGolem extends Animal{
 
     public function spawnTo(Player $player){
         $pk = $this->addEntityDataPacket($player);
-        $pk->type = self::NETWORK_ID;
+        $pk->type = SnowGolem::NETWORK_ID;
 
         $player->dataPacket($pk);
         parent::spawnTo($player);
