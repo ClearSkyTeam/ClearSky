@@ -1,14 +1,11 @@
 <?php
 namespace pocketmine\entity;
 
-
 use pocketmine\event\entity\EntityDamageEvent;
 
 use pocketmine\event\entity\ExplosionPrimeEvent;
 use pocketmine\level\Explosion;
 use pocketmine\nbt\tag\Byte;
-use pocketmine\network\Network;
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
 class PrimedTNT extends Entity implements Explosive{
@@ -20,7 +17,6 @@ class PrimedTNT extends Entity implements Explosive{
 
 	protected $gravity = 0.04;
 	protected $drag = 0.02;
-
 	protected $fuse;
 
 	public $canCollide = false;
@@ -97,7 +93,6 @@ class PrimedTNT extends Entity implements Explosive{
 
 		}
 
-
 		return $hasUpdate or $this->fuse >= 0 or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
 	}
 
@@ -114,16 +109,8 @@ class PrimedTNT extends Entity implements Explosive{
 	}
 
 	public function spawnTo(Player $player){
-		$pk = new AddEntityPacket();
+		$pk = $this->addEntityDataPacket($player);
 		$pk->type = PrimedTNT::NETWORK_ID;
-		$pk->eid = $this->getId();
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = $this->motionX;
-		$pk->speedY = $this->motionY;
-		$pk->speedZ = $this->motionZ;
-		$pk->metadata = $this->dataProperties;
 		$player->dataPacket($pk);
 
 		parent::spawnTo($player);

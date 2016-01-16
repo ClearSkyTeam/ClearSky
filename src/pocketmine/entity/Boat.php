@@ -1,7 +1,6 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\network\protocol\EntityEventPacket;
@@ -11,20 +10,10 @@ class Boat extends Entity{
 	const NETWORK_ID = 90;
 
 	public function spawnTo(Player $player){
-		$pk = new AddEntityPacket();
-		$pk->eid = $this->getId();
-		$pk->type = Boat::NETWORK_ID;
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = 0;
-		$pk->speedY = 0;
-		$pk->speedZ = 0;
-		$pk->yaw = 0;
-		$pk->pitch = 0;
-		$pk->metadata = $this->dataProperties;
+		$pk = $this->addEntityDataPacket($player);
+		$pk->type = self::NETWORK_ID;
+		
 		$player->dataPacket($pk);
-
 		parent::spawnTo($player);
 	}
 

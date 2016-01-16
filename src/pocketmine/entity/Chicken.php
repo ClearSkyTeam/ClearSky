@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 
 class Chicken extends Animal{
@@ -26,19 +26,19 @@ class Chicken extends Animal{
 
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
-		$pk->type = Chicken::NETWORK_ID;
+		$pk->type = self::NETWORK_ID;
 
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
 	}
 	
 	public function getDrops(){
-		$drops = [drp::get(drp::FEATHER, 0, mt_rand(0, 2))];
+		$drops = [ItemItem::get(ItemItem::FEATHER, 0, mt_rand(0, 2))];
 
 		if($this->getLastDamageCause() === EntityDamageEvent::CAUSE_FIRE){
-			$drops[] = drp::get(drp::COOKED_CHICKEN, 0, mt_rand(1, 2));
+			$drops[] = ItemItem::get(ItemItem::COOKED_CHICKEN, 0, mt_rand(1, 2));
 		}else{
-			$drops[] = drp::get(drp::RAW_CHICKEN, 0, mt_rand(1, 2));
+			$drops[] = ItemItem::get(ItemItem::RAW_CHICKEN, 0, mt_rand(1, 2));
 		}
 		return $drops;
 	}

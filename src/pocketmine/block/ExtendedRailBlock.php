@@ -23,35 +23,52 @@ abstract class ExtendedRailBlock extends RailBlock{
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $block->getSide(Vector3::SIDE_DOWN);
 		if($down->isTransparent() === false){
-			$this->getLevel()->setBlock($this, Block::get($this->id, 0));
-			$up = $block->getSide(Vector3::SIDE_UP);
-			if($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-				if($up->getSide(Vector3::SIDE_EAST) instanceof RailBlock){
-					$this->setDirection(Vector3::SIDE_EAST, true);
-				}
-				elseif($up->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-					$this->setDirection(Vector3::SIDE_WEST, true);
-				}
-				else{
-					$this->setDirection(Vector3::SIDE_EAST);
-				}
-			}
-			elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
-				if($up->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
-					$this->setDirection(Vector3::SIDE_SOUTH, true);
-				}
-				elseif($up->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
-					$this->setDirection(Vector3::SIDE_NORTH, true);
-				}
-				else{
-					$this->setDirection(Vector3::SIDE_SOUTH);
-				}
-			}
-			else{
-				$this->setDirection(Vector3::SIDE_NORTH);
-			}
+			$this->calculateDirection($block);
 			return true;
 		}
 		return false;
+	}
+	
+	public function calculateDirection(Block $block){
+		$up = $block->getSide(Vector3::SIDE_UP);//slopes
+		if($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock && $up->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_SOUTH, true);
+		}elseif($block->getSide(Vector3::SIDE_WEST) instanceof RailBlock && $up->getSide(Vector3::SIDE_EAST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_EAST, true);
+		}elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $up->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_NORTH, true);
+		}elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $up->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_WEST, true);
+		}//line 2 attached
+		elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_NORTH);
+		}elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_WEST);
+		}// 1 attached
+		elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_SOUTH);
+		}elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_EAST);
+		}elseif($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_NORTH);
+		}elseif($block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
+			$this->setDirection(Vector3::SIDE_WEST);
+		}else{
+			$this->setDirection(Vector3::SIDE_SOUTH);
+		}
+		for($i = Vector3::SIDE_NORTH; $i < Vector3::SIDE_EAST; $i++){
+			$pos = $block->getSide($i);
+			if($pos instanceof RailBlock){
+				$this->getLevel()->scheduleUpdate($pos, 0);
+			}
+			$pos = $block->getSide(Vector3::SIDE_DOWN)->getSide($i);
+			if($pos instanceof RailBlock){
+				$this->getLevel()->scheduleUpdate($pos, 0);
+			}
+			$pos = $block->getSide(Vector3::SIDE_UP)->getSide($i);
+			if($pos instanceof RailBlock){
+				$this->getLevel()->scheduleUpdate($pos, 0);
+			}
+		}
 	}
 }

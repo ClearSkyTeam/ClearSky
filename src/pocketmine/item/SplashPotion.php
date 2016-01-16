@@ -1,7 +1,9 @@
 <?php
 namespace pocketmine\item;
 
-class SplashPotion extends Item{
+class SplashPotion extends Launchable{
+	protected $entityname = "ThrownPotion";
+	protected $f = 1.1;
 	
 	public function __construct($meta = 0, $count = 1){
 		parent::__construct(self::SPLASH_POTION, $meta, $count, $this->getNameByMeta($meta));
@@ -53,6 +55,9 @@ class SplashPotion extends Item{
 				return "Splash Potion of Healing";
 			case Potion::HEALING_TWO:
 				return "Splash Potion of Healing II";
+  			case Potion::NIGHT_VISION:
+  			case Potion::NIGHT_VISION_T:
+				return "Potion of Night Vision";
 			default:
 				return "Splash Potion";
 		}

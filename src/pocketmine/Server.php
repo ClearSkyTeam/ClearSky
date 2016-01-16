@@ -18,6 +18,7 @@ use pocketmine\entity\Chicken;
 use pocketmine\entity\Cow;
 use pocketmine\entity\Creeper;
 use pocketmine\entity\Effect;
+use pocketmine\entity\Egg;
 use pocketmine\entity\Enderman;
 use pocketmine\entity\Entity;
 use pocketmine\entity\ExperienceOrb;
@@ -30,6 +31,7 @@ use pocketmine\entity\MagmaCube;
 use pocketmine\entity\Minecart;
 use pocketmine\entity\Mooshroom;
 use pocketmine\entity\Ozelot;
+use pocketmine\entity\Painting;
 use pocketmine\entity\Pig;
 use pocketmine\entity\PigZombie;
 use pocketmine\entity\PrimedTNT;
@@ -101,7 +103,6 @@ use pocketmine\network\SourceInterface;
 use pocketmine\network\upnp\UPnP;
 use pocketmine\permission\BanList;
 use pocketmine\permission\DefaultPermissions;
-use pocketmine\player\PlayerListEntry;
 use pocketmine\plugin\PharPluginLoader;
 use pocketmine\plugin\Plugin;
 use pocketmine\plugin\PluginLoadOrder;
@@ -248,6 +249,9 @@ class Server{
 	private $filePath;
 	private $dataPath;
 	private $pluginPath;
+	
+	/** Additional **/
+	private $shutdownreason;
 
 	private $uniquePlayers = [];
 
@@ -783,7 +787,6 @@ class Server{
 			new Enum("Inventory", []),
 			new Compound("Achievements", []),
 			new Int("playerGameType", $this->getGamemode()),
-			new Int("food", 20),
 			new Enum("Motion", [
 				new Double(0, 0.0),
 				new Double(1, 0.0),
@@ -1994,7 +1997,10 @@ class Server{
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 		TimingsHandler::reload();
 	}
-
+	
+	public function setshutdownreason($reason){
+		$this->shutdownreason = $reason;
+	}
 	/**
 	 * Shutdowns the server correctly
 	 */
@@ -2033,7 +2039,12 @@ class Server{
 			$this->pluginManager->disablePlugins();
 
 			foreach($this->players as $player){
-				$player->close($player->getLeaveMessage(), $this->getProperty("settings.shutdown-message", "Server closed"));
+				$reason = $this->shutdownreason;
+				if(trim($reason) !== ""){
+					$player->close($player->getLeaveMessage(), $reason);
+				}else{
+					$player->close($player->getLeaveMessage(), $this->getProperty("settings.shutdown-message", "Server closed"));
+				}
 			}
 
 			$this->getLogger()->debug("Unloading all levels");
@@ -2270,9 +2281,7 @@ class Server{
 
 			$pk = new PlayerListPacket();
 			$pk->type = PlayerListPacket::TYPE_REMOVE;
-			$entry = new PlayerListEntry;
-			$entry->uuid = $player->getUniqueId();
-			$pk->entries[] = $entry;
+			$pk->entries[] = [$player->getUniqueId()];
 			Server::broadcastPacket($this->playerList, $pk);
 		}
 	}
@@ -2280,23 +2289,14 @@ class Server{
 	public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinName, $skinData, array $players = null, $skinTransparency = false){
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
-		$entry = new PlayerListEntry;
-		$entry->uuid = $uuid;
-		$entry->entityId = $entityId;
-		$entry->name = $name;
-		$entry->skinName = $skinName;
-		$entry->skinData = $skinData;
-		$entry->transparency = $skinTransparency;
-		$pk->entries[] = $entry;
+		$pk->entries[] = [$uuid, $entityId, $name, $skinName, $skinData, $skinTransparency];
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
 	}
 
 	public function removePlayerListData(UUID $uuid, array $players = null){
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_REMOVE;
-		$entry = new PlayerListEntry;
-		$entry->uuid = $uuid;
-		$pk->entries[] = $entry;
+		$pk->entries[] = [$uuid];
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
 	}
 
@@ -2304,14 +2304,7 @@ class Server{
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		foreach($this->playerList as $player){
-			$entry = new PlayerListEntry;
-			$entry->uuid = $player->getUniqueId();
-			$entry->entityId = $player->getId();
-			$entry->name = $player->getDisplayName();
-			$entry->skinName = $player->getSkinName();
-			$entry->skinData = $player->getSkinData();
-			$entry->transparency = $player->isSkinTransparent();
-			$pk->entries[] = $entry;
+			$pk->entries[] = [$player->getUniqueId(), $player->getId(), $player->getDisplayName(), $player->getSkinName(), $player->getSkinData(), $player->isSkinTransparent()];
 		}
 
 		$p->dataPacket($pk);
@@ -2551,7 +2544,7 @@ class Server{
 				$level->clearCache();
 			}
 
-			if($this->getTicksPerSecondAverage() < 15){
+			if($this->getTicksPerSecondAverage() < 12){
 				$this->logger->warning($this->getLanguage()->translateString("pocketmine.server.tickOverload"));
 			}
 		}
@@ -2603,6 +2596,7 @@ class Server{
 		Entity::registerEntity(Cow::class);
 		Entity::registerEntity(Creeper::class);
 		Entity::registerEntity(DroppedItem::class);
+		Entity::registerEntity(Egg::class);
 		Entity::registerEntity(Enderman::class);
 		Entity::registerEntity(ExperienceOrb::class);
 		Entity::registerEntity(FallingSand::class);
@@ -2613,6 +2607,7 @@ class Server{
 		Entity::registerEntity(Minecart::class);
 		Entity::registerEntity(Mooshroom::class);
 		Entity::registerEntity(Ozelot::class);
+	        Entity::registerEntity(Painting::class);
 		Entity::registerEntity(Pig::class);
 		Entity::registerEntity(PigZombie::class);
 		Entity::registerEntity(PrimedTNT::class);

@@ -1,7 +1,6 @@
 <?php
 namespace pocketmine\entity;
 
-
 use pocketmine\block\Block;
 use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -12,7 +11,6 @@ use pocketmine\event\Timings;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\Short;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\EntityEventPacket;
 
 use pocketmine\Server;
@@ -154,9 +152,12 @@ abstract class Living extends Entity implements Damageable{
 		foreach($ev->getDrops() as $item){
 			$this->getLevel()->dropItem($this, $item);
 		}
-		$DropExp = $this->getExperience();
-		$vector = new Vector3(ceil($this->x),ceil($this->y),ceil($this->z));
-		$this->getLevel()->spawnExperienceOrb($vector,$DropExp);
+		if($this->server->getProperty("experience.enable", true)
+		and $this->server->getProperty("experience.mob-drop", true)){
+			$DropExp = $this->getExperience();
+			$vector = new Vector3(ceil($this->x),ceil($this->y),ceil($this->z));
+			$this->getLevel()->spawnExperienceOrb($vector,$DropExp);
+		}
 	}
 
 	public function entityBaseTick($tickDiff = 1){

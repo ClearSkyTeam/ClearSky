@@ -23,16 +23,7 @@ class StopCommand extends VanillaCommand{
 		}
 
 		Command::broadcastCommandMessage($sender, new TranslationContainer("commands.stop.start"));
-
-	        if(count($args) < 1){
-	            $reason = "Server Closed";
-	        }else{
-	            $reason = implode(" ", $args);
-	        }
-	        foreach($sender->getServer()->getOnlinePlayers() as $p){
-				$p->kick($reason, false);
-	        }
-		
+		$sender->getServer()->setshutdownreason(implode(" ", $args));
 		$sender->getServer()->shutdown();
 
 		return true;

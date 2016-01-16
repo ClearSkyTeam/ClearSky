@@ -19,6 +19,7 @@ class FishingHook extends Projectile{
 	
 	public $data = 0;
 	public $attractTimer = 0;
+	public $damageRod = false;
 	
 	public function initEntity(){
 		parent::initEntity();
@@ -27,7 +28,7 @@ class FishingHook extends Projectile{
 			$this->data = $this->namedtag["Data"];
 		}
 		
-		$this->setDataProperty(FallingSand::DATA_BLOCK_INFO, self::DATA_TYPE_INT, $this->getData());
+		// $this->setDataProperty(FallingSand::DATA_BLOCK_INFO, self::DATA_TYPE_INT, $this->getData());
 	}
 
 	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
@@ -86,17 +87,25 @@ class FishingHook extends Projectile{
 	}
 	
 	public function reelLine(){
+		$this->damageRod = false;
 		if($this->shootingEntity !== null && $this->shootingEntity instanceof Player && $this->attractTimer > 0 && $this->attractTimer < 2){
 			$this->shootingEntity->getInventory()->addItem(ItemItem::get(ItemItem::RAW_FISH, (mt_rand(0, 3))));
+			$this->shootingEntity->addExperience(mt_rand(1, 6));
+			$this->damageRod = true;
+		}
+		if($this->shootingEntity !== null && $this->shootingEntity instanceof Player){
+			$this->shootingEntity->linkHook($this, false);
 		}
 		$this->kill();
 		$this->close();
+		return $this->damageRod;
 	}
 
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
 		$pk->type = FishingHook::NETWORK_ID;
-
+		$pk->owner = $this->shootingEntity;
+		
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
 	}

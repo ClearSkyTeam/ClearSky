@@ -21,7 +21,7 @@ class RedstoneOre extends Solid{
 	}
 
 	public function getHardness(){
-		return 3;
+		return 15;
 	}
 
 	public function onUpdate($type){

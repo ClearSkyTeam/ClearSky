@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\nbt\tag\Int;
 use pocketmine\Player;
 
@@ -52,12 +52,12 @@ class Rabbit extends Animal{
     }
 
     public function getDrops(){
-        $drops = [drp::get(drp::RABBIT_HIDE, 0, mt_rand(0, 2))];
+        $drops = [ItemItem::get(ItemItem::RABBIT_HIDE, 0, mt_rand(0, 2))];
 
         if($this->getLastDamageCause() === EntityDamageEvent::CAUSE_FIRE){
-            $drops[] = drp::get(drp::COOKED_RABBIT, 0, mt_rand(1, 2));
+            $drops[] = ItemItem::get(ItemItem::COOKED_RABBIT, 0, mt_rand(1, 2));
         }else{
-            $drops[] = drp::get(drp::RAW_RABBIT, 0, mt_rand(1, 2));
+            $drops[] = ItemItem::get(ItemItem::RAW_RABBIT, 0, mt_rand(1, 2));
         }
 
         return $drops;

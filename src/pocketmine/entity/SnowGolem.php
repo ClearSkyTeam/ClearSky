@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 
 class SnowGolem extends Animal{
@@ -33,7 +33,7 @@ class SnowGolem extends Animal{
 
     public function getDrops(){
         return [
-            drp::get(drp::SNOWBALL, 0, mt_rand(0, 15)),
+            ItemItem::get(ItemItem::SNOWBALL, 0, mt_rand(0, 15)),
         ];
     }
 

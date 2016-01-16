@@ -34,7 +34,6 @@ use pocketmine\nbt\tag\Float;
 use pocketmine\nbt\tag\Int;
 use pocketmine\nbt\tag\Short;
 use pocketmine\nbt\tag\String;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\network\protocol\MobEffectPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
@@ -50,7 +49,6 @@ use pocketmine\event\entity\EntityDamageByEntityEvent;
 abstract class Entity extends Location implements Metadatable{
 
 	const NETWORK_ID = -1;
-
 
 	const DATA_TYPE_BYTE = 0;
 	const DATA_TYPE_SHORT = 1;
@@ -71,14 +69,12 @@ abstract class Entity extends Location implements Metadatable{
 	const DATA_POTION_AMBIENT = 8;
     const DATA_NO_AI = 15;
 
-
 	const DATA_FLAG_ONFIRE = 0;
 	const DATA_FLAG_SNEAKING = 1;
 	const DATA_FLAG_RIDING = 2;
 	const DATA_FLAG_SPRINTING = 3;
 	const DATA_FLAG_ACTION = 4;
 	const DATA_FLAG_INVISIBLE = 5;
-
 
 	public static $entityCount = 1;
 	/** @var Entity[] */
@@ -187,9 +183,11 @@ abstract class Entity extends Location implements Metadatable{
 	protected $timings;
 	protected $isPlayer = false;
 	
-	protected $linkedEntity = \Null;
+	protected $linkedEntity = null;
 	/** 0 no linked 1 linked other 2 be linked */
-	protected $linkedType = \Null;
+	protected $linkedType = null;
+	
+	protected $linkedHook = null;
 
 	protected $riding = null;
 	public function __construct(FullChunk $chunk, Compound $nbt){
@@ -330,6 +328,31 @@ abstract class Entity extends Location implements Metadatable{
 			default:
 				return false;
 		}
+	}
+	
+	public function linkHook(Entity $entity = null, $linked = false){
+		if (!$entity->isAlive()) {
+			return false;
+		}
+		$this->linkedHook = $entity;/*
+		$this->linkedType = $linked?1:0;
+		$pk = new SetEntityLinkPacket();
+		$pk->from = $entity->getId();
+		$pk->to = $this->getId();
+		$pk->type = $this->linkedType;
+		$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+		if ($this instanceof Player) {
+			$pk = new SetEntityLinkPacket();
+			$pk->from = $entity->getId();
+			$pk->to = 0;
+			$pk->type = $this->linkedType;
+			$this->dataPacket($pk);
+		}*/
+		return true;
+	}
+	
+	public function getLinkedHook(){
+		return $this->linkedHook;
 	}
 
 	public function getLinkedEntity()

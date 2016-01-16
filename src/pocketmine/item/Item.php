@@ -25,7 +25,7 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\NBT;
 
 class Item{
-
+	
 	private static $cachedParser = null;
 
 	/**
@@ -501,6 +501,8 @@ class Item{
 	protected $durability = 0;
 	protected $name;
 	protected $exp_smelt = 0;
+	protected $entityname = null;
+	protected $f = 1.0;
 
 	public function canBeActivated(){
 		return false;
@@ -1577,7 +1579,8 @@ class Item{
 				"Name" => new String("Name", $name)
 			]);
 		}
-
+		
+		$this->setNamedTag($tag);
 		return $this;
 	}
 
@@ -1643,7 +1646,11 @@ class Item{
 	final public function getName(){
 		return $this->hasCustomName() ? $this->getCustomName() : $this->name;
 	}
-
+	
+	final public function getEntityName(){
+		return $this->entityname == null ? $this->name : $this->entityname;
+	}
+	
 	final public function canBePlaced(){
 		return $this->block !== null and $this->block->canBePlaced();
 	}
