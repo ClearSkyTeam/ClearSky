@@ -10,9 +10,18 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
  - There is also a switch under debug in pocketmine.yml to force enable xdebug.
 
-## Advanced Settings
-You can find many useful new settings in pocketmine.yml.<br>
-For example: Redstone, weather, experience and hunger.
+## Advanced Features
+All features can be configed in pocketmine.yml.<br>
+ - About 20 times faster than offical PM repo.
+ - UltraFast Redstone Calculation with logical.
+ - Fullfeature Experience System , include block/player/entity/bottle/furnace hook.
+ - Fullfeature Food&Hunger System , include game-difficult hook.
+ - Fullfeature Weather System .
+ - Fast Chunk loading and sending
+ - Fast Logger , include a switch to turn log off totally
+ - Potions (Effective , Creative)
+ - Enchant (Command)
+ - Bug Fixs
 
 ## For Developers
 This is a clean, high quality code base. Developing/modifying this project is easy.<br>
@@ -32,9 +41,18 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
  - 你可以将bin目录下php.ini中 zend_extension=php_xdebug 一行注释掉或删除.
  - 如果你是需要调试功能，可以开启pocketmine.yml中debug区域下的allow-xdebug项.
 
-## 高级设置
-你可以在 pocketmine.yml 中设置更多的功能.<br>
-例如: 红石，天气，经验，饥饿，日志记录，以及调试.
+## 高级功能
+所有的功能都可以在 pocketmine.yml 中设置.<br>
+ - 较之PM官方项目，晴空有近20倍的性能提升.
+ - 高效且有逻辑的红石系统.
+ - 完整的经验系统 , 包括 挖掘/玩家/生物/附魔瓶/熔炉 事件.
+ - 完整的食物 和 饥饿系统 ， 可以根据游戏难度自动适配.
+ - 完整的天气系统 .
+ - 高速区块加载及传送 .
+ - 高速日志系统，你也可以完全关闭日志 .
+ - 药水(有效果，创造模式获取)
+ - 附魔(仅限指令)
+ - 修正诸多BUG
 
 ## 致开发者
 这是一个干净，高效的PocketMine-MP的重制，你可以在这里获得最佳的开发体验.<br>
