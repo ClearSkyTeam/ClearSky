@@ -6,15 +6,15 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
  - **Before you launch ClearSky please remove pocketmine.yml once to update.**
  - You can get a tested phar here: [ClearSkyTeam/ClearSky-Release](https://github.com/ClearSkyTeam/ClearSky-Release).
 
-##[CRITICAL]: Please REMOVE xdebug in production server
+## [CRITICAL]: Please REMOVE xdebug in production server
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
  - There is also a switch under debug in pocketmine.yml to force enable xdebug.
 
 ## Advanced Settings
 You can find many useful new settings in pocketmine.yml.<br>
-For example : Redstone, Weather, Experience, Hunger switch
+For example: Redstone, weather, experience and hunger.
 
-## For Developer
-This is a clean , high quality code base . And develop/modify this project is easy .<br>
-We are still working on code clean and rewrite to make sure having a best developing feel.<br>
-ClearSky is not just make a CLEAN feel for users , also for Developers!<br>
+## For Developers
+This is a clean, high quality code base. Developing/modifying this project is easy.<br>
+We are still working on a clean rewritten base to make sure ClearSky has the best developing feel.<br>
+ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
