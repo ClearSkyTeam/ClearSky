@@ -276,35 +276,35 @@ class Level implements ChunkManager, Metadatable{
 	const WEATHER_RAIN = 1;
 	const WEATHER_THUNDER = 2;
 	
-	//TODO Load COnfig From pocketmine.yml
 	private $weather = Level::WEATHER_CLEARSKY;
-	private $rainprob = 10;
-	private $raintime = [5,20];
-	private $rainfall = [1000,100000];
+	private $rainprob = 0;
+	private $raintime = [];
+	private $rainfall = [];
 	private $weatherexectick = 0;
 	
 	private function generateWeather(){
-		//Weather TODO : swtich
-		//Weather TODO : Plugin Event
-		if($this->getWeather() === Level::WEATHER_CLEARSKY){
-			$random = mt_rand(1,1000000);
-			if($random<=$this->rainprob){
-				$this->setWeatherExecTick(mt_rand($this->raintime[0],$this->raintime[1]));
-				$this->setWeather(Level::WEATHER_RAIN);
-			}
-			return;
-		}
-		
-		if($this->getWeather() === Level::WEATHER_RAIN){
-			if($this->weatherexectick <= 0){
-				$this->weatherexectick = 0;
-				$this->setWeather(Level::WEATHER_CLEARSKY);
+		if($this->getServer()->getProperty("weather.enable", true)){
+			//Weather TODO : Plugin Event
+			if($this->getWeather() === Level::WEATHER_CLEARSKY){
+				$random = mt_rand(1,1000000);
+				if($random<=$this->rainprob){
+					$this->setWeatherExecTick(mt_rand($this->raintime[0],$this->raintime[1]));
+					$this->setWeather(Level::WEATHER_RAIN);
+				}
 				return;
 			}
-			$this->weatherexectick--;
-			return;
+			
+			if($this->getWeather() === Level::WEATHER_RAIN){
+				if($this->weatherexectick <= 0){
+					$this->weatherexectick = 0;
+					$this->setWeather(Level::WEATHER_CLEARSKY);
+					return;
+				}
+				$this->weatherexectick--;
+				return;
+			}
+			//Weather TODO : Thunder
 		}
-		//Weather TODO : Thunder
 	}
 	
 	public function broadcastWeather($weather = Level::WEATHER_CLEARSKY,Player $player=null){
@@ -340,8 +340,11 @@ class Level implements ChunkManager, Metadatable{
 	}
 	
 	public function setWeather($weather = Level::WEATHER_CLEARSKY){
-		$this->weather = $weather;
-		$this->broadcastWeather($weather);
+		if(!$this->getWeather() == $weather){
+			$this->weather = $weather;
+			$this->broadcastWeather($weather);
+		}
+		return;
 	}
 	
 	public function getWeather(){
@@ -416,7 +419,14 @@ class Level implements ChunkManager, Metadatable{
 		$this->blockMetadata = new BlockMetadataStore($this);
 		$this->server = $server;
 		$this->autoSave = $server->getAutoSave();
-
+		
+		/** Weather Config Loader **/
+		$this->rainprob = $this->getServer()->getProperty("weather.rain.possibility", 10);
+		$this->raintime[] = $this->getServer()->getProperty("weather.rain.time.min", 30);
+		$this->raintime[] = $this->getServer()->getProperty("weather.rain.time.max", 120);
+		$this->rainfall[] = $this->getServer()->getProperty("weather.rain.rainfall.min", 1000);
+		$this->rainfall[] = $this->getServer()->getProperty("weather.rain.rainfall.max", 100000);
+		
 		/** @var LevelProvider $provider */
 
 		if(is_subclass_of($provider, LevelProvider::class, true)){

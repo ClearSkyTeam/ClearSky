@@ -24,6 +24,17 @@ redstone:
 weather:
  enable: true
  
+ rain:
+  possibility: 10
+ 
+  time:
+   min: 30
+   max: 120
+   
+  rainfall:
+   min: 1000
+   max: 100000
+ 
 log:
  enable: true
  
@@ -60,7 +71,7 @@ debug:
  level: 1
  allow-xdebug: false
  #Enables /status, /gc
- commands: false
+ commands: true
 
 level-settings:
  default-format: mcregion
