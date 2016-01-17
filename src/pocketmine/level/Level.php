@@ -270,16 +270,84 @@ class Level implements ChunkManager, Metadatable{
 	private $generator;
 	/** @var Generator */
 	private $generatorInstance;
-
-	/** @var Weather */
-	public $raining = false ;
-	public $rainTime = 0;
-	public $thundering = false;
-	public $thunderTime = 0;
-	private $randomWeather;
-	private $weatherExecute = false;
-	private $weatherEnabled;
-
+	
+	/** Weather **/
+	const WEATHER_CLEARSKY = 0;//Project Name , Have fun~
+	const WEATHER_RAIN = 1;
+	const WEATHER_THUNDER = 2;
+	
+	//TODO Load COnfig From pocketmine.yml
+	private $weather = Level::WEATHER_CLEARSKY;
+	private $rainprob = 10;
+	private $raintime = [5,20];
+	private $rainfall = [1000,100000];
+	private $weatherexectick = 0;
+	
+	private function generateWeather(){
+		//Weather TODO : swtich
+		//Weather TODO : Plugin Event
+		if($this->getWeather() === Level::WEATHER_CLEARSKY){
+			$random = mt_rand(1,1000000);
+			if($random<=$this->rainprob){
+				$this->setWeatherExecTick(mt_rand($this->raintime[0],$this->raintime[1]));
+				$this->setWeather(Level::WEATHER_RAIN);
+			}
+			return;
+		}
+		
+		if($this->getWeather() === Level::WEATHER_RAIN){
+			if($this->weatherexectick <= 0){
+				$this->weatherexectick = 0;
+				$this->setWeather(Level::WEATHER_CLEARSKY);
+				return;
+			}
+			$this->weatherexectick--;
+			return;
+		}
+		//Weather TODO : Thunder
+	}
+	
+	public function broadcastWeather($weather = Level::WEATHER_CLEARSKY,Player $player=null){
+		$pk = new LevelEventPacket();
+		switch($weather){
+			case Level::WEATHER_CLEARSKY :
+				$pk->evid = LevelEventPacket::EVENT_STOP_RAIN;
+				break;
+			case Level::WEATHER_RAIN :
+				$pk->evid = LevelEventPacket::EVENT_START_RAIN;
+				$pk->data = mt_rand($this->rainfall[0],$this->rainfall[1]);
+				break;
+		}
+		if($player === null){
+			Server::broadcastPacket($this->getPlayers(), $pk);
+		}else{
+			Server::broadcastPacket([$player], $pk);
+		}
+		return;
+	}
+	
+	public function getWeatherExecTick(){
+		return $this->weatherexectick;
+	}
+	
+	public function setWeatherExecTick($time = 0){
+		if($time < 0){
+			$time = 0;
+		}
+		$tick = $time * $this->server->getTicksPerSecond();
+		$this->weatherexectick = $tick;
+		return;
+	}
+	
+	public function setWeather($weather = Level::WEATHER_CLEARSKY){
+		$this->weather = $weather;
+		$this->broadcastWeather($weather);
+	}
+	
+	public function getWeather(){
+		return $this->weather;
+	}
+	
 	/**
 	 * Returns the chunk unique hash/key
 	 *
@@ -366,23 +434,6 @@ class Level implements ChunkManager, Metadatable{
 		$this->updateQueue = new ReversePriorityQueue();
 		$this->updateQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
 		$this->time = (int) $this->provider->getTime();
-
-		$this->weatherEnabled = $this->getServer()->getProperty("weather.enable",true);
-		if($this->weatherEnabled === true) {
-			$this->raining = $this->provider->isRaining();
-			$this->rainTime = $this->provider->getRainTime();
-			if ($this->rainTime <= 0) {
-				$this->setRainTime(mt_rand(4, 7) * 20 * 60);
-			}
-
-			$this->randomWeather = mt_rand(0, 150);
-
-			$this->thundering = $this->provider->isThundering();
-			$this->thunderTime = $this->provider->getThunderTime();
-			if ($this->thunderTime <= 0) {
-				$this->setThunderTime(mt_rand(4, 7) * 20 * 60);
-			}
-		}
 
 		foreach($this->getServer()->getProperty("disable-block-ticking", []) as $id){
 			$ticked = isset($this->randomTickBlocks[$id]);
@@ -719,75 +770,6 @@ class Level implements ChunkManager, Metadatable{
 			$this->sendTimeTicker = 0;
 		}
 
-		if ($this->weatherEnabled === true) {
-			$randomDayTime = mt_rand(self::TIME_DAY, self::TIME_SUNSET);
-			$randomNightTime = mt_rand(self::TIME_NIGHT, self::TIME_SUNRISE);
-
-			if ($this->weatherExecute === true && ($this->time >= $randomDayTime && $this->time <= ($randomDayTime + 100)) || ($this->time >= $randomNightTime && $this->time <= ($randomNightTime + 100))
-				&& ($this->isRaining() || $this->isThundering()) === false
-			) { //If is executed recalculate the chance of weather
-				$this->randomWeather = mt_rand(0, 150);
-				$this->weatherExecute = false;
-
-			} elseif ($this->weatherExecute === false && ($this->time >= $randomDayTime && $this->time <= ($randomDayTime + 100)) || ($this->time >= $randomNightTime && $this->time <= ($randomNightTime + 100))
-				&& ($this->isRaining() || $this->isThundering()) === false
-			) {
-				$this->randomWeather = mt_rand(0, 150);
-			}
-
-			$this->rainTime--;
-			if ($this->rainTime <= 0) {
-				$this->setRaining(!$this->raining);
-			} else {
-				if (($this->time >= $randomDayTime && $this->time <= ($randomDayTime + 100)) || ($this->time >= $randomNightTime && $this->time <= ($randomNightTime + 100))) {
-					switch ($this->randomWeather) {
-						case 20:
-						case 30:
-							$this->setRaining(true);
-							$this->weatherExecute = true;
-							break;
-						default:
-							$this->weatherExecute = false;
-					}
-				}
-			}
-
-			$this->thunderTime--;
-			if ($this->thunderTime <= 0) {
-				$this->setThundering(!$this->thundering);
-			} else {
-				if (($this->time >= $randomDayTime && $this->time <= ($randomDayTime + 100)) || ($this->time >= $randomNightTime && $this->time <= ($randomNightTime + 100))) {
-					switch ($this->randomWeather) {
-						case 5:
-						case 10:
-							$this->setThundering(true);
-							$this->setRaining(true);
-							$this->weatherExecute = true;
-							break;
-						default:
-							$this->weatherExecute = false;
-					}
-				}
-			}
-
-			if (($this->isThundering() && $this->isRaining()) === true){ //Random thunders
-				foreach ($this->getPlayers() as $p) {
-					$x = $p->getX() + rand(-100, 100);
-					$y = $p->getY() + rand(20, 50);
-					$z = $p->getZ() + rand(-100, 100);
-
-					$caseLightning = mt_rand(0, 500);
-
-					switch ((int)$caseLightning) {
-						case 15:
-						case 50:
-							$this->addLightning($x, $y, $z, $p);
-					}
-
-				}
-			}
-		}
-
 		if($this->getTime() >= self::TIME_FULL){ //Prevent to go out of 24000 ticks
 			$this->setTime(self::TIME_DAY);
 		}
@@ -900,7 +882,9 @@ class Level implements ChunkManager, Metadatable{
 		}
 
 		$this->chunkPackets = [];
-
+		
+		$this->generateWeather();
+		
 		$this->timings->doTick->stopTiming();
 	}
 
@@ -3163,137 +3147,5 @@ class Level implements ChunkManager, Metadatable{
 		}
 		$this->moveToSend[$index][$entityId] = [$entityId, $x, $y, $z, $yaw, $headYaw === null ? $yaw : $headYaw, $pitch];
 	}
-
-	//Weather API
-
-	public function isRaining(){
-		return $this->raining;
-	}
-
-	public function setRaining($raining){
-		$weather = new WeatherChangeEvent($this, $raining);
-		$this->getServer()->getPluginManager()->callEvent($weather);
-
-		$this->raining = (bool) $raining;
-
-		$pk = new LevelEventPacket();
-
-		if($raining === true){
-			$pk->evid = LevelEventPacket::EVENT_START_RAIN;
-			$pk->data = mt_rand(90000,110000);
-			$this->setRainTime(mt_rand(5, 10) * 20 * 60);
-		}else{
-			$pk->evid = LevelEventPacket::EVENT_STOP_RAIN;
-			$this->setRainTime(mt_rand(5, 10) * 20 * 60);
-		}
-
-        Server::broadcastPacket($this->getPlayers(), $pk);
-	}
-
-	public function getRainTime(){
-		return $this->rainTime;
-	}
-
-	public  function setRainTime($rainTime){
-		$this->rainTime = $rainTime;
-	}
-
-	public function addLightning($x, $y, $z, Player $p){
-		$pk = new AddEntityPacket();
-		$pk->type = 93;
-		$pk->eid = 93;
-		$pk->x = $x;
-		$pk->y = $y;
-		$pk->z = $z;
-		$pk->metadata = array(3,3,3,3);
-		$p->dataPacket($pk);
-	}
 	
-	/*public function addLightningPosition(Vector3 $pos, $autoRemoveTime = 3){ //TODO Add lightning class...
-		$nbt = new Compound("", [
-			"Pos" => new Enum("Pos", [
-				new Double("", $pos->getX()),
-				new Double("", $pos->getY()),
-				new Double("", $pos->getZ())
-			]),
-			"Motion" => new Enum("Motion", [
-				new Double("", 0),
-				new Double("", 0),
-				new Double("", 0)
-			]),
-			"Rotation" => new Enum("Rotation", [
-				new Float("", 0),
-				new Float("", 0)
-			]),
-		]);
-		$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
-		$lightning = new Lightning($chunk, $nbt);
-		$lightning->spawnToAll();
-		$this->server->getScheduler()->scheduleDelayedTask(new CallbackTask([$lightning, "close"]), $autoRemoveTime * 20);
-	}*/
-
-	public function setThundering($thundering){
-		if($thundering && !$this->isRaining()){
-			$this->setRaining(true);
-		}
-
-		$thunder = new ThunderChangeEvent($this, $thundering);
-		$this->getServer()->getPluginManager()->callEvent($thunder);
-
-		$this->thundering = (bool) $thundering;
-
-		$pk = new LevelEventPacket();
-
-		if($thundering === true){
-			$pk->evid = LevelEventPacket::EVENT_START_THUNDER;
-			$pk->data = mt_rand(90000,110000);
-			$this->setThunderTime(mt_rand(4, 7) * 20 * 60);
-
-		}else{
-			$pk->evid = LevelEventPacket::EVENT_STOP_THUNDER;
-			$this->setThunderTime(mt_rand(4, 7) * 20 * 60);
-		}
-
-        Server::broadcastPacket($this->getPlayers(), $pk);
-
-	}
-
-	public function isThundering(){
-		return (bool) ($this->isRaining() && $this->thundering);
-	}
-
-	public function getThunderTime(){
-		return $this->thunderTime;
-	}
-
-	public function setThunderTime($thunderTime){
-		$this->thunderTime = $thunderTime;
-	}
-
-	public function sendWeather(Player $player){
-		if($player === null){
-			$this->sendWeather($player);
-		}
-
-		$pk = new LevelEventPacket();
-
-		if($this->isRaining() === true){
-			$pk->evid = LevelEventPacket::EVENT_START_RAIN;
-			$pk->data = mt_rand(90000,110000);
-		}else{
-			$pk->evid = LevelEventPacket::EVENT_STOP_RAIN;
-		}
-
-		Server::broadcastPacket($this->getPlayers(), $pk);
-
-		if($this->isThundering() === true){
-			$pk->evid = LevelEventPacket::EVENT_START_THUNDER;
-			$pk->data = mt_rand(90000,110000);
-
-		}else{
-			$pk->evid = LevelEventPacket::EVENT_STOP_THUNDER;
-		}
-
-		Server::broadcastPacket($this->getPlayers(), $pk);
-	}
 }

@@ -8,7 +8,6 @@ use pocketmine\math\Vector3;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Int;
-use pocketmine\nbt\tag\Long;
 use pocketmine\nbt\tag\String;
 use pocketmine\utils\LevelException;
 
@@ -65,31 +64,10 @@ abstract class BaseLevelProvider implements LevelProvider{
 	}
 
 	public function setTime($value){
-		$this->levelData->Time = new Long("Time", $value);
-	}
 
-	public function isRaining(){
-		return $this->levelData["Raining"];
-	}
 
-	public function getRainTime(){
-		return $this->levelData["RainTime"];
-	}
 
-	public function setRainTime($value){
-		$this->levelData->RainTime = new Int("RainTime", (int) $value);
-	}
-
-	public function isThunering(){
-		return $this->levelData["Thundering"];
-	}
-
-	public function getThunderTime(){
-		return $this->levelData["ThunderTime"];
-	}
-
-	public function setThunderTime($value){
-		$this->levelData->ThunderTime = new Int("ThunderTime", (int) $value);
+		$this->levelData->Time = new Int("Time", (int) $value);
 	}
 
 	public function getSeed(){

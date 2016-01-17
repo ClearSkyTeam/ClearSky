@@ -892,7 +892,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->dataPacket($pk);
 		}
 
-		$this->getLevel()->sendWeather($this);
+		$this->getLevel()->broadcastWeather($this->getLevel()->getWeather(),$this);
 
 	}
 
@@ -3548,7 +3548,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->resetFallDistance();
 			$this->nextChunkOrderRun = 0;
 			$this->newPosition = null;
-			$this->getLevel()->sendWeather($this);
+			$this->getLevel()->broadcastWeather($this->getLevel()->getWeather(),$this);
 			return true;
 		}
 		return false;

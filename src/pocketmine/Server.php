@@ -2567,7 +2567,7 @@ class Server{
 		$tick = min(20, 1 / max(0.001, $now - $tickTime));
 		$use = min(1, ($now - $tickTime) / 0.05);
 
-		//TimingsHandler::tick($tick <= $this->profilingTickRate);
+		TimingsHandler::tick($tick <= $this->profilingTickRate);
 
 		if($this->maxTick > $tick){
 			$this->maxTick = $tick;
