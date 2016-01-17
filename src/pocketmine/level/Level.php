@@ -2445,8 +2445,11 @@ class Level implements ChunkManager, Metadatable{
 		}
 	}
 
-	public function spawnExperienceOrb(Vector3 $pos, $exp = 1){
-		$ExpPerBall = mt_rand(1,5);
+	public function spawnExperienceOrb(Vector3 $pos, $exp = 0){
+		if($exp > 50){
+			$exp = 50;
+		}
+		$ExpPerBall = mt_rand(5,10);
 		while($exp  >= $ExpPerBall){
 				$nbt = new Compound("", [
 				"Pos" => new Enum("Pos", [
@@ -2469,7 +2472,7 @@ class Level implements ChunkManager, Metadatable{
 			$expOrb = new ExperienceOrb($chunk, $nbt);
 			$expOrb->spawnToAll();
 			$exp -= $ExpPerBall;
-			$ExpPerBall = mt_rand(1,5);
+			$ExpPerBall = mt_rand(5,10);
 		}
 		if($exp > 0){
 			$nbt = new Compound("", [

@@ -240,7 +240,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 	
 	public function ExperienceLevelUpCalculater($oldlevel ,$newlevel = null){
-		if($newlevel == null){
+		if($newlevel === null){
 			$newlevel = $oldlevel+1;
 		}
 		$oldlevelSquared = $oldlevel ** 2;
@@ -272,7 +272,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$TotalExperience = $ev->getExperience();
 			while($TotalExperience >= $explevelup = $this->ExperienceLevelUpCalculater($this->getExperienceLevel())){
 				$this->setExperienceLevel($this->getExperienceLevel() + 1);
-				$TotalExperience = $TotalExperience - $explevelup;
+				$TotalExperience -= $explevelup;
 			}
 			$this->setCurrentExperience($TotalExperience);
 			$this->updateExperience();
@@ -287,7 +287,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$TotalExperience = $ev->getExperience() + $this->getCurrentExperience();
 			while($TotalExperience >= $explevelup = $this->ExperienceLevelUpCalculater($this->getExperienceLevel())){
 				$this->setExperienceLevel($this->getExperienceLevel() + 1);
-				$TotalExperience = $TotalExperience - $explevelup;
+				$TotalExperience -= $explevelup;
 			}
 			$this->setCurrentExperience($TotalExperience);
 			$this->updateExperience();
@@ -295,7 +295,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 		return false;
 	}
-
+	
 	public function getCurrentExperience(){
 		return $this->expcurrent;
 	}
@@ -613,7 +613,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->rawUUID = null;
 
 		$this->creationTime = microtime(true);
-		$this->expcurr = 0;
+		$this->expcurrent = 0;
 		$this->explevel = 0;
 
 		Entity::setHealth(20);
