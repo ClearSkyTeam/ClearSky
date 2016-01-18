@@ -63,6 +63,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 		}
 	}
 	
+	
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED){
 			if($this->meta == 1){
