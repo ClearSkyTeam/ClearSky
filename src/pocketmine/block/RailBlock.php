@@ -137,22 +137,22 @@ class RailBlock extends Flowable{
 				break;
 			case 6:
 				{
-					return self::SIDE_NORTH_EAST;
+					return self::SIDE_NORTH_WEST;
 				}
 				break;
 			case 7:
 				{
-					return self::SIDE_SOUTH_EAST;
+					return self::SIDE_NORTH_EAST;
 				}
 				break;
 			case 8:
 				{
-					return self::SIDE_SOUTH_WEST;
+					return self::SIDE_SOUTH_EAST;
 				}
 				break;
 			case 9:
 				{
-					return self::SIDE_NORTH_WEST;
+					return self::SIDE_SOUTH_WEST;
 				}
 				break;
 			default:
