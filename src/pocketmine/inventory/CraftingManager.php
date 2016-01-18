@@ -738,15 +738,13 @@ class CraftingManager{
 		$this->registerRecipe((new ShapelessRecipe(Item::get(Item::PUMPKIN_SEEDS, 0, 4)))->addIngredient(Item::get(Item::PUMPKIN, 0, 1)));
 		
 		
-		$this->registerRecipe((new ShapelessRecipe(Item::get(Item::PUMPKIN_PIE, 0, 1),
-			"  ",
+		$this->registerRecipe((new ShapedRecipe(Item::get(Item::PUMPKIN_PIE, 0, 1),
 			"PS",
 			" E"
-		))->setIngredient(Item::get("P", Item::PUMPKIN, 0, 1))->setIngredient("E", Item::get(Item::EGG, 0, 1))->setIngredient("S", Item::get(Item::SUGAR, 0, 1)));
+		))->setIngredient("P", Item::get(Item::PUMPKIN, 0, 1))->setIngredient("E", Item::get(Item::EGG, 0, 1))->setIngredient("S", Item::get(Item::SUGAR, 0, 1)));
 		
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::MUSHROOM_STEW, 0, 1),
-			"  ",
 			"RM",
 			" B"
 		))->setIngredient("B", Item::get(Item::BOWL, 0, 1))->setIngredient("M", Item::get(Item::BROWN_MUSHROOM, 0, 1))->setIngredient("R", Item::get(Item::RED_MUSHROOM, 0, 1)));
