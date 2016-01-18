@@ -189,22 +189,22 @@ class RailBlock extends Flowable{
 					$meta = $isOnSlope?5:0;
 				}
 				break;
-			case self::SIDE_NORTH_EAST:
+			case self::SIDE_NORTH_WEST:
 				{
 					$meta = 6;
 				}
 				break;
-			case self::SIDE_SOUTH_EAST:
+			case self::SIDE_NORTH_EAST:
 				{
 					$meta = 7;
 				}
 				break;
-			case self::SIDE_SOUTH_WEST:
+			case self::SIDE_SOUTH_EAST:
 				{
 					$meta = 8;
 				}
 				break;
-			case self::SIDE_NORTH_WEST:
+			case self::SIDE_SOUTH_WEST:
 				{
 					$meta = 9;
 				}
