@@ -19,11 +19,15 @@ class Painting extends Hanging{
 	}
 	
 	public function spawnTo(Player $player){
-        $pk = $this->addEntityDataPacket($player);
-        $pk->type = self::NETWORK_ID;
-
-        $player->dataPacket($pk);
-        parent::spawnTo($player);
+		$pk = new AddPaintingPacket();
+		$pk->eid = $this->getId();
+		$pk->x = $this->x;
+		$pk->y = $this->y;
+		$pk->z = $this->z;
+		$pk->direction = $this->getDirection();
+		$pk->title = $this->motive;
+		$player->dataPacket($pk);
+		parent::spawnTo($player);
 	}
 
 	public function kill(){
