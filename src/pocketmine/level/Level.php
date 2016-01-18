@@ -339,7 +339,10 @@ class Level implements ChunkManager, Metadatable{
 		return;
 	}
 	
-	public function setWeather($weather = Level::WEATHER_CLEARSKY){
+	public function setWeather($weather = Level::WEATHER_CLEARSKY,$time = null){
+		if($time !== null){
+			$this->setWeatherExecTick($time);
+		}
 		if(!$this->getWeather() == $weather){
 			$this->weather = $weather;
 			$this->broadcastWeather($weather);
