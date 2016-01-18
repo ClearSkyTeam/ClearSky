@@ -7,18 +7,12 @@ use pocketmine\Player;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
 
-class RailBlock extends Flowable{
-	protected $id = self::RAILBLOCK;
-	
+abstract class RailBlock extends Flowable{
 	const SIDE_NORTH_WEST = 6;
 	const SIDE_NORTH_EAST = 7;
 	const SIDE_SOUTH_EAST = 8;
 	const SIDE_SOUTH_WEST = 9;
-	
-	public function __construct($meta = 0){
-		$this->meta = $meta;
-	}
-	
+
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $block->getSide(Vector3::SIDE_DOWN);
 		if($down->isTransparent() === false){

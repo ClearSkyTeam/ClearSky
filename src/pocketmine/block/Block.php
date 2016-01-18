@@ -121,7 +121,7 @@ class Block extends Position implements Metadatable{
 	const OAK_DOOR_BLOCK = 64;
 	const WOOD_DOOR_BLOCK = 64;
 	const LADDER = 65;
-	const RAILBLOCK = 66;
+	const RAIL = 66;
 
 	const COBBLE_STAIRS = 67;
 	const COBBLESTONE_STAIRS = 67;
@@ -477,7 +477,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::SIGN_POST] = SignPost::class;
 			self::$list[self::OAK_DOOR_BLOCK] = OakDoor::class;
 			self::$list[self::LADDER] = Ladder::class;
-			self::$list[self::RAILBLOCK] = RailBlock::class;
+			self::$list[self::RAIL] = RailBlock::class;
 
 			self::$list[self::COBBLESTONE_STAIRS] = CobblestoneStairs::class;
 			self::$list[self::WALL_SIGN] = WallSign::class;
