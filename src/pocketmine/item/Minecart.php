@@ -10,8 +10,8 @@ use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Double;
 use pocketmine\nbt\tag\Float;
 use pocketmine\entity\Minecart as MinecartEntity;
-use pocketmine\block\RailBlock;
 use pocketmine\math\Vector3;
+use pocketmine\block\Rail;
 
 class Minecart extends Item{
 
@@ -29,7 +29,7 @@ class Minecart extends Item{
 
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		$realPos = $block->getSide(Vector3::SIDE_UP);
-		if(!$block instanceof RailBlock) return false;
+		if(!$block instanceof Rail) return false;
 		$cart = new MinecartEntity($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new Compound("", ["Pos" => new Enum("Pos", [new Double("", $realPos->getX()),new Double("", $realPos->getY()),new Double("", $realPos->getZ())]),
 				"Motion" => new Enum("Motion", [new Double("", 0),new Double("", 0),new Double("", 0)]),"Rotation" => new Enum("Rotation", [new Float("", 0),new Float("", 0)])]));
 		$cart->spawnToAll();
