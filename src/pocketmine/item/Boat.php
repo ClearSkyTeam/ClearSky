@@ -29,14 +29,14 @@ class Boat extends Item{
 		return 1;
 	}
 	
-	/*public function canBeActivated(){
+	public function canBeActivated(){
 		return true;
 	}
 
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		$realPos = $block->getSide($face);
 
-		$boat = new Boat($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new Compound("", [
+		$boat = new BoatEntity($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new Compound("", [
 			"Pos" => new Enum("Pos", [
 				new Double("", $realPos->getX()),
 				new Double("", $realPos->getY()),
@@ -67,5 +67,5 @@ class Boat extends Item{
 		}
 		
 		return true;
-	}*/
+	}
 }
