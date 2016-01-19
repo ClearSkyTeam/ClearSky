@@ -1119,8 +1119,12 @@ class Block extends Position implements Metadatable{
 		return;
 	}
 	
+	public function chkTarget($hash){
+		return null;
+	}
+	
 	public function isPowered(){
-		$hash = Level::blockHash($this->x,$this->y,$this->z);
+		$hash = $this->getHash();
 		if($this instanceof Transparent){
 			if($this->isPointCharged()){
 				return true;
@@ -1130,7 +1134,7 @@ class Block extends Position implements Metadatable{
 		}
 		for($side = 0; $side <= 5; $side++){
 			$near = $this->getSide($side);
-			if($near->isCharged($hash)){
+			if($near->isCharged($hash) or ($near instanceof RedstoneSwitch and $near->getPower()>0)){
 				return true;
 			}
 		}
