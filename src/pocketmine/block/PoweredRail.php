@@ -42,10 +42,7 @@ class PoweredRail extends ExtendedRailBlock implements RedstoneConsumer{
 	}
 
 	public function onRedstoneUpdate($type,$power){
-		if($this->isActivitedByRedstone() && !$this->isPowered()){
-			$this->togglePowered();
-		}
-		elseif(!$this->isActivitedByRedstone() && $this->isPowered()){
+		if(!$this->isPowered()){
 			$this->togglePowered();
 		}
 	}
