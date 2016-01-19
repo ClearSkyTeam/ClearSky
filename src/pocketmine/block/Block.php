@@ -1120,7 +1120,7 @@ class Block extends Position implements Metadatable{
 	}
 	
 	public function chkTarget($hash){
-		return null;
+		return false;
 	}
 	
 	public function isPowered(){
