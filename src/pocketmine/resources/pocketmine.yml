@@ -35,9 +35,10 @@ weather:
    min: 1000
    max: 100000
  
-log:
- enable: true
- 
+I/O:
+ title-usage: true
+ log-to-file: true
+
 memory:
  global-limit: 0
  main-limit: 0

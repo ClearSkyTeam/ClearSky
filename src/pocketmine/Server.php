@@ -1528,7 +1528,7 @@ class Server{
 				$this->logger->warning("xdebug Enabled !ONLY FOR DEVELOPMENT USE!");
 			}
 		}
-		if(!$this->getProperty("log.enable", true)){
+		if(!$this->getProperty("I/O.log-to-file", true)){
 			$this->logger->info("Disable MainLogger to file");
 			$this->logger->Disable();
 		}else{
@@ -2438,20 +2438,22 @@ class Server{
 		if(!Terminal::hasFormattingCodes()){
 			return;
 		}
+		
+		if($this->getProperty("I/O.title-usage", true)){
+			$d = Utils::getRealMemoryUsage();
 
-		$d = Utils::getRealMemoryUsage();
+			$u = Utils::getMemoryUsage(true);
+			$usage = round(($u[0] / 1024) / 1024, 2) . "/" . round(($d[0] / 1024) / 1024, 2) . "/" . round(($u[1] / 1024) / 1024, 2) . "/" . round(($u[2] / 1024) / 1024, 2) . " MB @ " . Utils::getThreadCount() . " threads";
 
-		$u = Utils::getMemoryUsage(true);
-		$usage = round(($u[0] / 1024) / 1024, 2) . "/" . round(($d[0] / 1024) / 1024, 2) . "/" . round(($u[1] / 1024) / 1024, 2) . "/" . round(($u[2] / 1024) / 1024, 2) . " MB @ " . Utils::getThreadCount() . " threads";
-
-		echo "\x1b]0;" . $this->getName() . " " .
-			$this->getPocketMineVersion() .
-			" | Online " . count($this->players) . "/" . $this->getMaxPlayers() .
-			" | Memory " . $usage .
-			" | U " . round($this->network->getUpload() / 1024, 2) .
-			" D " . round($this->network->getDownload() / 1024, 2) .
-			" kB/s | TPS " . $this->getTicksPerSecondAverage() .
-			" | Load " . $this->getTickUsageAverage() . "%\x07";
+			echo "\x1b]0;" . $this->getName() . " " .
+				$this->getPocketMineVersion() .
+				" | Online " . count($this->players) . "/" . $this->getMaxPlayers() .
+				" | Memory " . $usage .
+				" | U " . round($this->network->getUpload() / 1024, 2) .
+				" D " . round($this->network->getDownload() / 1024, 2) .
+				" kB/s | TPS " . $this->getTicksPerSecondAverage() .
+				" | Load " . $this->getTickUsageAverage() . "%\x07";
+		}
 
 		$this->network->resetStatistics();
 	}
