@@ -186,7 +186,7 @@ abstract class Entity extends Location implements Metadatable{
 	/** EntityLink **/
 	const LINK_EMPTY = 0;
 	const LINK_MASTER = 1;
-	const LINK_SALVE = 2;
+	const LINK_SLAVE = 2;
 	
 	protected $linkedTarget = null;
 	protected $islinked = false;

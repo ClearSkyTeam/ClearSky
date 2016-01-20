@@ -28,7 +28,7 @@ class Minecart extends Item{
 	}
 
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
-		$realPos = $block->getSide(Vector3::SIDE_UP);
+		/*$realPos = $block->getSide(Vector3::SIDE_UP);
 		if(!$block instanceof Rail) return false;
 		$cart = new MinecartEntity($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new Compound("", ["Pos" => new Enum("Pos", [new Double("", $realPos->getX()),new Double("", $realPos->getY()),new Double("", $realPos->getZ())]),
 				"Motion" => new Enum("Motion", [new Double("", 0),new Double("", 0),new Double("", 0)]),"Rotation" => new Enum("Rotation", [new Float("", 0),new Float("", 0)])]));
@@ -45,7 +45,7 @@ class Minecart extends Item{
 			$item->setCount($count);
 			$player->getInventory()->setItemInHand($item);
 		}
-		
+		*/
 		return true;
 	}
 }
