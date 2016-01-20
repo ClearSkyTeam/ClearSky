@@ -11,6 +11,7 @@ class Painting extends Hanging{
 	private $motive;
 	
 	public function initEntity(){
+		$this->setMaxHealth(1);
 		parent::initEntity();
 		
 		if(isset($this->namedtag->Motive)) {
@@ -39,6 +40,6 @@ class Painting extends Hanging{
 	}
 	
 	public function getDrops(){
-		return [ItemItem::get(ItemItem::PAINTING, 0, 1)];
+		return [ItemItem::PAINTING];
 	}
 }
