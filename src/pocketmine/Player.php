@@ -134,6 +134,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	const VIEW = Player::SPECTATOR;
 	const SURVIVAL_SLOTS = 36;
 	const CREATIVE_SLOTS = 112;
+	
+	const INTERACT_PACKET_IN = 1;
+	const INTERACT_PACKET_LEAVE = 3;
 
 	/** @var SourceInterface */
 	protected $interface;
@@ -2432,10 +2435,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				/** EntityLink **/
 				if($target->isVehicle()){
 					switch($packet->action){
-						case 1:
+						case Player::INTERACT_PACKET_IN:
 							$this->linkEntity($target);
 							break;
-						case 3:
+						case Player::INTERACT_PACKET_LEAVE:
 							$this->unlinkEntity($target);
 							break;
 					}
