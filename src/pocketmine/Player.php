@@ -2072,18 +2072,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->onPlayerPreLogin();
 				break;
 			case ProtocolInfo::MOVE_PLAYER_PACKET:
-				if($this->linkedEntity instanceof Entity){
-					$entity = $this->linkedEntity;
-					if($entity instanceof Boat){
-						$entity->setPosition($this->temporalVector->setComponents($packet->x, $packet->y - 0.5, $packet->z));
-					}
-					if($entity instanceof Minecart){
-						$entity->isFreeMoving = true;
-						$entity->motionX = -sin($packet->yaw / 180 * M_PI);
-						$entity->motionZ = cos($packet->yaw / 180 * M_PI);
-					}
-					//TODO: Add Minecart
+				/** EntityLink **/
+				if($this->getlinkType() === Entity::LINK_MASTER){
+					$this->getlinkedTarget()->followEntity($this);
 				}
+				
 				$newPos = new Vector3($packet->x, $packet->y - $this->getEyeHeight(), $packet->z);
 				$revert = false;
 				if(!$this->isAlive() or $this->spawned !== true){
@@ -2223,74 +2216,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
 						}
 					}
-
-					if($item->getId() === Item::FISHING_ROD){
-						$rod = $this->inventory->getItemInHand();
-						if($this->isFishing){
-							$hook = $this->getLinkedHook();
-							$damageRod = $hook->reelLine();
-						}
-						$nbt = new Compound("", [
-							"Pos" => new Enum("Pos", [
-								new Double("", $this->x),
-								new Double("", $this->y + $this->getEyeHeight()),
-								new Double("", $this->z)
-							]),
-							"Motion" => new Enum("Motion", [
-								new Double("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
-								new Double("", -sin($this->pitch / 180 * M_PI)),
-								new Double("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
-							]),
-							"Rotation" => new Enum("Rotation", [
-								new Float("", $this->yaw),
-								new Float("", $this->pitch)
-							]),
-							"Data" => new Byte("Data", $item->getDamage()),
-						]);
-						$diff = ($this->server->getTick() - $this->startAction);
-						$p = $diff / 20;
-						$f = min((($p ** 2) + $p * 2) / 3, 1) * 2;
-						$ev = new EntityLaunchFishingRodEvent($this, $rod, Entity::createEntity("FishingHook", $this->chunk, $nbt, $this, $f == 2?true:false), $f);
-						if($f < 0.1 or $diff < 5){
-							$ev->setCancelled();
-						}
-						if($this->isFishing){
-							$ev->setCancelled();
-						}
-						$this->server->getPluginManager()->callEvent($ev);
-						if($ev->isCancelled()){
-							$ev->getProjectile()->kill();
-							$this->inventory->sendContents($this);
-						}
-						else{
-							$ev->getProjectile()->setMotion($ev->getProjectile()->getMotion()->multiply($ev->getForce()));
-							if($this->isSurvival()){
-								if($damageRod) $rod->setDamage($rod->getDamage() + 1);
-								if($rod->getDamage() >= 65){
-									$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 0));
-								}
-								else{
-									$this->inventory->setItemInHand($rod);
-								}
-							}
-							if($ev->getProjectile() instanceof Projectile){
-								$this->server->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($ev->getProjectile()));
-								if($projectileEv->isCancelled()){
-									$ev->getProjectile()->kill();
-								}
-								else{
-									$ev->getProjectile()->spawnToAll();
-									$this->isFishing = true;
-									$this->linkHook($ev->getProjectile(), true);
-									$this->level->addSound(new LaunchSound($this), $this->getViewers());
-								}
-							}
-							else{
-								$ev->getProjectile()->spawnToAll();
-								$this->isFishing = true;
-							}
-						}
-					}
+					
 					$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, true);
 					$this->startAction = $this->server->getTick();
 				}
@@ -2503,21 +2429,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				){
 					$cancelled = true;
 				}
-				if($target instanceof Boat or $target instanceof Minecart){
-					if($packet->action === 1){
-						$this->linkEntity($target);
-						if($target instanceof Minecart) $target->isFreeMoving = true;
-					}elseif($packet->action === 2){
-						if($this->linkedEntity == $target){
-							$target->setLinked(0, $this);
-						}
-						if($target instanceof Minecart){
-							$target->isFreeMoving = false;
-						}
-						$target->close();
-					}elseif($packet->action === 3){
-						$this->setLinked(0, $target);
-						if($target instanceof Minecart) $target->isFreeMoving = false;
+				/** EntityLink **/
+				if($target->isVehicle()){
+					switch($packet->action){
+						case 1:
+							$this->linkEntity($target);
+							break;
+						case 3:
+							$this->unlinkEntity($target);
+							break;
 					}
 					return;
 				}
