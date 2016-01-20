@@ -33,17 +33,14 @@ class Boat extends Vehicle{
 	public function onUpdate($currentTick){
 		if($this->isAlive()){
 			$this->timings->startTiming();
-
 			$hasUpdate = false;
-			
-			//$block = $this->level->getBlock($this->temporalVector->setComponents(Math::floorFloat($this->x), Math::floorFloat($y = ($this->y + $this->getEyeHeight())), Math::floorFloat($this->z)));
-			//print_r($block);
 			
 			if($this->isInsideOfWater()){
 				$hasUpdate = true;
 				$this->move(0,0.1,0);
 				$this->updateMovement();
 			}
+			
 			$this->timings->stopTiming();
 
 			return $hasUpdate;
