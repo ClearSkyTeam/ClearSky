@@ -192,7 +192,7 @@ abstract class Entity extends Location implements Metadatable{
 	protected $islinked = false;
 	
 	public function linkEntity(Entity $entity = null){
-		if($entity !== null and $entity->getlinkType() == Entity::LINK_EMPTY){
+		if($entity !== null and $entity->getlinkType() == Entity::LINK_EMPTY and $entity->isAlive()){
 			$this->linkedTarget = $entity;
 			$this->islinked = true;
 			$entity->islinked = true;
