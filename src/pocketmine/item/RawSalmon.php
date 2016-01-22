@@ -1,8 +1,6 @@
 <?php
 namespace pocketmine\item;
 
-use pocketmine\entity\Effect;
-
 class Salmon extends Food{
 	public $exp_smelt = 0.35; 
 	
