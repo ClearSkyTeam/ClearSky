@@ -2918,7 +2918,7 @@ class Level implements ChunkManager, Metadatable{
 						$b = $chunk->getFullBlock($x, $y, $z);
 						$block = Block::get($b >> 4, $b & 0x0f);
 						if(!$this->isFullBlock($block)){
-							return new Position($spawn->x, $y === (int) $spawn->y ? $spawn->y : $y, $spawn->z, $this);
+							return new Position($spawn->x, $y === (int) $spawn->y ? $spawn->y + 0.2 : $y, $spawn->z, $this);
 						}
 					}else{
 						++$y;
@@ -2927,8 +2927,7 @@ class Level implements ChunkManager, Metadatable{
 
 				$v->y = $y;
 			}
-
-			return new Position($spawn->x, $v->y, $spawn->z, $this);
+			return new Position($spawn->x, $v->y + 0.2, $spawn->z, $this);
 		}
 
 		return false;
