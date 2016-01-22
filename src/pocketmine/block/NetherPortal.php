@@ -37,4 +37,8 @@ class NetherPortal extends Flowable{
         //}
         return true;
     }
+    
+   	public function canPassThrough(){
+		return true;
+	}
 }
