@@ -7,7 +7,7 @@ class EnchantedGoldenApple extends Food{
 	public $saturation = 4;
 	
 	public function __construct($meta = 0, $count = 1){
-		parent::__construct(self::GOLDEN_APPLE, $meta, $count, "Enchanted Golden Apple");
+		parent::__construct(self::ENCHANTED_GOLDEN_APPLE, $meta, $count, "Enchanted Golden Apple");
 	}
 	
 	public function getEffects(){
