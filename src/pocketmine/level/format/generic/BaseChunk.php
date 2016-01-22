@@ -58,12 +58,20 @@ abstract class BaseChunk extends BaseFullChunk implements Chunk{
 	}
 
 	public function getBlock($x, $y, $z, &$blockId, &$meta = null){
+		if($x<0 or $y<0 or $z<0){
+			echo "Unsafe chunk load request , abort\n";
+			return;
+		}
 		$full = $this->sections[$y >> 4]->getFullBlock($x, $y & 0x0f, $z);
 		$blockId = $full >> 4;
 		$meta = $full & 0x0f;
 	}
 
 	public function getFullBlock($x, $y, $z){
+		if($x<0 or $y<0 or $z<0){
+			echo "Unsafe chunk load request , abort\n";
+			return;
+		}
 		return $this->sections[$y >> 4]->getFullBlock($x, $y & 0x0f, $z);
 	}
 
@@ -79,6 +87,10 @@ abstract class BaseChunk extends BaseFullChunk implements Chunk{
 	}
 
 	public function getBlockId($x, $y, $z){
+		if($x<0 or $y<0 or $z<0){
+			echo "Unsafe chunk load request , abort\n";
+			return;
+		}
 		return $this->sections[$y >> 4]->getBlockId($x, $y & 0x0f, $z);
 	}
 
@@ -94,6 +106,10 @@ abstract class BaseChunk extends BaseFullChunk implements Chunk{
 	}
 
 	public function getBlockData($x, $y, $z){
+		if($x<0 or $y<0 or $z<0){
+			echo "Unsafe chunk load request , abort\n";
+			return;
+		}
 		return $this->sections[$y >> 4]->getBlockData($x, $y & 0x0f, $z);
 	}
 
@@ -109,6 +125,10 @@ abstract class BaseChunk extends BaseFullChunk implements Chunk{
 	}
 
 	public function getBlockSkyLight($x, $y, $z){
+		if($x<0 or $y<0 or $z<0){
+			echo "Unsafe chunk load request , abort\n";
+			return;
+		}
 		return $this->sections[$y >> 4]->getBlockSkyLight($x, $y & 0x0f, $z);
 	}
 
@@ -124,6 +144,10 @@ abstract class BaseChunk extends BaseFullChunk implements Chunk{
 	}
 
 	public function getBlockLight($x, $y, $z){
+		if($x<0 or $y<0 or $z<0){
+			echo "Unsafe chunk load request , abort\n";
+			return;
+		}
 		return $this->sections[$y >> 4]->getBlockLight($x, $y & 0x0f, $z);
 	}
 
