@@ -684,6 +684,10 @@ class Item{
 			self::$list[self::BEETROOT] = Beetroot::class;
 			self::$list[self::BEETROOT_SEEDS] = BeetrootSeeds::class;
 			self::$list[self::BEETROOT_SOUP] = BeetrootSoup::class;
+			self::$list[self::RAW_SALMON] = RawSalmon::class;
+			self::$list[self::CLOWNFISH] = Clownfish::class;
+			self::$list[self::PUFFERFISH] = Pufferfish::class;
+			self::$list[self::COOKED_SALMON] = CookedSalmon::class;
 			self::$list[self::ENCHANTED_GOLDEN_APPLE] = EnchantedGoldenApple::class;
 
 			for($i = 0; $i < 256; ++$i){
@@ -1120,13 +1124,13 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::EGG, 0));
 		Item::addCreativeItem(Item::get(Item::APPLE, 0));
 		Item::addCreativeItem(Item::get(Item::GOLDEN_APPLE, 0));
-		Item::addCreativeItem(Item::get(Item::ENCHANTED_GOLDEN_APPLE, 1)); // Enchanted golden apple
+		Item::addCreativeItem(Item::get(Item::ENCHANTED_GOLDEN_APPLE, 0)); // Enchanted golden apple
 		Item::addCreativeItem(Item::get(Item::RAW_FISH, 0)); 
-		Item::addCreativeItem(Item::get(Item::RAW_FISH, 1)); // Salmon
-		Item::addCreativeItem(Item::get(Item::RAW_FISH, 2)); // Clownfish
-		Item::addCreativeItem(Item::get(Item::RAW_FISH, 3)); // Pufferfish
+		Item::addCreativeItem(Item::get(Item::RAW_SALMON, 0)); // Salmon
+		Item::addCreativeItem(Item::get(Item::CLOWNFISH, 0)); // Clownfish
+		Item::addCreativeItem(Item::get(Item::PUFFERFISH, 0)); // Pufferfish
 		Item::addCreativeItem(Item::get(Item::COOKED_FISH, 0));
-		Item::addCreativeItem(Item::get(Item::COOKED_FISH, 1)); // Salmon
+		Item::addCreativeItem(Item::get(Item::COOKED_SALMON, 0)); // Salmon
 		Item::addCreativeItem(Item::get(Item::ROTTEN_FLESH, 0));
 		Item::addCreativeItem(Item::get(Item::MUSHROOM_STEW, 0));
 		Item::addCreativeItem(Item::get(Item::BREAD, 0));
