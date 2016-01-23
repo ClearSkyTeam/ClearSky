@@ -256,7 +256,7 @@ class Level implements ChunkManager, Metadatable{
 		Block::POTATO_BLOCK => Potato::class,
 		Block::LEAVES2 => Leaves2::class,
 		Block::BEETROOT_BLOCK => Beetroot::class,
-		Block::FIRE => Fire::class,
+		//Block::FIRE => Fire::class,
 	];
 
 	/** @var LevelTimings */
