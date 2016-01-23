@@ -14,7 +14,7 @@ class GoldenApple extends Food{
 		return [
 			[Effect::getEffect(Effect::ABSORPTION)->setDuration(120 * 20), 1],
 			[Effect::getEffect(Effect::REGENERATION)->setDuration(2 * 20)->setAmplifier(1), 1]
-		]
+		];
 	}
 }
 
