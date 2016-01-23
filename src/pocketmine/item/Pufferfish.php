@@ -9,6 +9,14 @@ class Pufferfish extends Food{
 		parent::__construct(self::PUFFERFISH, $meta, $count, "Pufferfish");
 	}
 
+	public function getEffects(){
+		return [
+			[Effect::getEffect(Effect::NAUSEA)->setDuration(15 * 20)->setAmplifier(1), 1],
+			[Effect::getEffect(Effect::HUNGER)->setDuration(15 * 20)->setAmplifier(2), 1],
+			[Effect::getEffect(Effect::POISON)->setDuration(60 * 20)->setAmplifier(3), 1]
+		];
+	}
+	
 	public function getSaturation(){
 		return 1;
 	}
