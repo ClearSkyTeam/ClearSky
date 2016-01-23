@@ -888,8 +888,6 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::DOUBLE_PLANT, 4)); // Rose bush
 		Item::addCreativeItem(Item::get(Item::DOUBLE_PLANT, 5)); // Peony
 		
-		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM, 0));
-		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM, 0));
 		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM_BLOCK, 7));
 		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM_BLOCK, 7));
 		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM_BLOCK, 0));
