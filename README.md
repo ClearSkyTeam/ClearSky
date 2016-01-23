@@ -14,15 +14,15 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 ## Advanced Features
 All features can be configed in pocketmine.yml.<br>
  - About 20 times faster than offical PM repo.
- - UltraFast Redstone Calculation with logical.
- - Fullfeature Experience System , include block/player/entity/bottle/furnace hook.
- - Fullfeature Food&Hunger System , include game-difficult hook.
- - Fullfeature Weather System .
+ - UltraFast Redstone Calculation with lots of logic.
+ - Fully working Experience System, include block/player/entity/bottle/furnace hook.
+ - Fully working Food & Hunger System, include game-difficulty hook.
+ - Fully working Weather System.
  - Fast Chunk loading and sending
- - Fast Logger , include a switch to turn log off totally
- - Potions (Effective , Creative)
- - Enchant (Command)
- - Bug Fixs
+ - Fast Logger, includes a switch to turn log on/off
+ - Potions (Working, Creative Only)
+ - Enchanting (Command)
+ - Bug Fixes
 
 ## For Developers
 This is a clean, high quality code base. Developing/modifying this project is easy.<br>
