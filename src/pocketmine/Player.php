@@ -1714,10 +1714,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 		$eatenItem = $this->inventory->getItemInHand();
 		if($eatenItem instanceof Food){
-			if($this->getRealFood() >= 20 && $eatenItem->getId() !== Item::GOLDEN_APPLE && $eatenItem->getId() !== Item::POTION && !($eatenItem->getId() === Item::BUCKET && $eatenItem->getDamage() === 1)){
+			if($this->getRealFood() >= 20 && $eatenItem->getId() !== Item::GOLDEN_APPLE && $eatItem->getId() !== Item::ENCHANTED_GOLDEN_APPLE && $eatenItem->getId() !== Item::POTION && !($eatenItem->getId() === Item::BUCKET && $eatenItem->getDamage() === 1)){
 				$this->server->getPluginManager()->callEvent($ev = new PlayerItemConsumeEvent($this, $eatenItem));
 				$ev->setCancelled();
-			}elseif($this->getRealFood() < 20 || ($eatenItem->getId() === Item::GOLDEN_APPLE || $eatenItem->getId() === Item::POTION || ($eatenItem->getId() === Item::BUCKET && $eatenItem->getDamage() === 1))){
+			}elseif($this->getRealFood() < 20 || ($eatenItem->getId() === Item::GOLDEN_APPLE || $eatItem->getId() === Item::ENCHANTED_GOLDEN_APPLE || $eatenItem->getId() === Item::POTION || ($eatenItem->getId() === Item::BUCKET && $eatenItem->getDamage() === 1))){
 				$this->server->getPluginManager()->callEvent($ev = new PlayerItemConsumeEvent($this, $eatenItem));
 				if($ev->isCancelled()){
 					$this->inventory->sendContents($this);
