@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine\item;
 
-class Salmon extends Food{
+class RawSalmon extends Food{
 	public $exp_smelt = 0.35; 
 	
 	
