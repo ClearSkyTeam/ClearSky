@@ -31,6 +31,10 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 			$this->inventory->setItem($i, $this->getItem($i));
 		}
 	}
+	
+	public function getServer(){
+		return $this->server;
+	}
 
 	public function getName(){
 		return $this->hasName() ? $this->namedtag->CustomName->getValue() : "Brewing Stand";
