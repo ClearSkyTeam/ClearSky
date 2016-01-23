@@ -7,8 +7,4 @@ class Vehicle extends Entity implements Rideable{
 		return true;
 	}
 	
-	public function followEntity(Entity $entity){
-		$this->setPosition($entity->temporalVector->setComponents($entity->x, $entity->y - 0.5, $entity->z));
-	}
-	
 }

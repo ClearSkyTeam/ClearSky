@@ -215,8 +215,13 @@ abstract class Entity extends Location implements Metadatable{
 	public function unlinkEntity(Entity $entity){
 		if($this->linkedTarget instanceof Entity){
 			$this->linkedTarget = null;
+			$entity->islinked = false;
 		}
-		$entity->islinked = false;
+		$pk = new SetEntityLinkPacket();
+		$pk->from = $entity->getId();
+		$pk->to = 0;
+		$pk->type = 0;
+		$this->dataPacket($pk);
 		$this->islinked = false;
 	}
 	
@@ -252,6 +257,9 @@ abstract class Entity extends Location implements Metadatable{
 		return false;
 	}
 	
+	public function followEntity(Entity $entity){
+		$this->setPosition($entity->temporalVector->setComponents($entity->x, $entity->y - 0.5, $entity->z));
+	}
 	
 	public function __construct(FullChunk $chunk, Compound $nbt){
 		if($chunk === null or $chunk->getProvider() === null){
