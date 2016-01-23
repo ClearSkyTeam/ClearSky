@@ -79,6 +79,9 @@ class Potion extends Food{
 			case self::NIGHT_VISION:
 			case self::NIGHT_VISION_T:
 				return (Effect::getEffect(Effect::NIGHT_VISION)->getColor());
+			case self::WEAKNESS:
+			case self::WEAKNESS_T:
+				return (Effect::getEffect(Effect::WEAKNESS)->getColor());
 			default:
 				return (Effect::getEffect(Effect::WATER_BREATHING)->getColor());
 		}
