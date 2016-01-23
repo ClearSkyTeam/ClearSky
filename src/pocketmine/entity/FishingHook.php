@@ -89,7 +89,10 @@ class FishingHook extends Projectile{
 	public function reelLine(){
 		$this->damageRod = false;
 		if($this->shootingEntity !== null && $this->shootingEntity instanceof Player && $this->attractTimer > 0 && $this->attractTimer < 2){
-			$this->shootingEntity->getInventory()->addItem(ItemItem::get(ItemItem::RAW_FISH, (mt_rand(0, 3))));
+			$fishs = array(ItemItem::RAW_FISH, ItemItem::RAW_SALMON, ItemItem::CLOWNFISH, ItemItem::PUFFERFISH);
+			$fish = array_rand($fishs, 1);
+			$fish = $fishs[$fish];
+			$this->shootingEntity->getInventory()->addItem(ItemItem::get($fish)));
 			$this->shootingEntity->addExperience(mt_rand(1, 6));
 			$this->damageRod = true;
 		}
