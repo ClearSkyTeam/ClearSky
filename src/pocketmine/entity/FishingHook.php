@@ -92,7 +92,7 @@ class FishingHook extends Projectile{
 			$fishs = array(ItemItem::RAW_FISH, ItemItem::RAW_SALMON, ItemItem::CLOWNFISH, ItemItem::PUFFERFISH);
 			$fish = array_rand($fishs, 1);
 			$fish = $fishs[$fish];
-			$this->shootingEntity->getInventory()->addItem(ItemItem::get($fish)));
+			$this->shootingEntity->getInventory()->addItem(ItemItem::get($fish));
 			$this->shootingEntity->addExperience(mt_rand(1, 6));
 			$this->damageRod = true;
 		}
