@@ -890,8 +890,8 @@ class Item{
 		
 		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM, 0));
 		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM, 0));
-		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM_BLOCK, 7));
-		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM_BLOCK, 7));
+		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM_BLOCK, 14));
+		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM_BLOCK, 14));
 		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM_BLOCK, 15));
 		Item::addCreativeItem(Item::get(Item::CACTUS, 0));
