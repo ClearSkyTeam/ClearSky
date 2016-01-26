@@ -1,16 +1,27 @@
 <?php
 
+/*
+ *
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
+ * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * @author PocketMine Team
+ * @link http://www.pocketmine.net/
+ *
+ *
+*/
+
 namespace raklib\protocol;
 
-use raklib\Binary;
-
-
-
-
-
-
-
-
+#include <rules/RakLibPacket.h>
 
 abstract class DataPacket extends Packet{
 
@@ -21,9 +32,9 @@ abstract class DataPacket extends Packet{
 
     public function encode(){
         parent::encode();
-        $this->buffer .= substr(pack("V", $this->seqNumber), 0, -1);
+        $this->putLTriad($this->seqNumber);
         foreach($this->packets as $packet){
-            $this->buffer .= $packet instanceof EncapsulatedPacket ? $packet->toBinary() : (string) $packet;
+            $this->put($packet instanceof EncapsulatedPacket ? $packet->toBinary() : (string) $packet);
         }
     }
 
@@ -38,7 +49,7 @@ abstract class DataPacket extends Packet{
 
     public function decode(){
         parent::decode();
-        $this->seqNumber = unpack("V", $this->get(3) . "\x00")[1];
+        $this->seqNumber = $this->getLTriad();
 
         while(!$this->feof()){
             $offset = 0;

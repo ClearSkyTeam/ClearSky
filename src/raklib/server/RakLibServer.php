@@ -1,4 +1,18 @@
 <?php
+
+/*
+ * RakLib network library
+ *
+ *
+ * This project is not affiliated with Jenkins Software LLC nor RakNet.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ */
+
 namespace raklib\server;
 
 
@@ -49,7 +63,7 @@ class RakLibServer extends \Thread{
 	    if(\Phar::running(true) !== ""){
 		    $this->mainPath = \Phar::running(true);
 	    }else{
-		    $this->mainPath = getcwd() . DIRECTORY_SEPARATOR;
+		    $this->mainPath = \getcwd() . DIRECTORY_SEPARATOR;
 	    }
 
         $this->start(PTHREADS_INHERIT_NONE);

@@ -1,4 +1,18 @@
 <?php
+
+/*
+ * RakLib network library
+ *
+ *
+ * This project is not affiliated with Jenkins Software LLC nor RakNet.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ */
+
 namespace raklib;
 
 
@@ -141,6 +155,6 @@ abstract class RakLib{
     const PACKET_EMERGENCY_SHUTDOWN = 0x7f;
 
     public static function bootstrap(\ClassLoader $loader){
-        $loader->addPath(dirname("<stdin>") . DIRECTORY_SEPARATOR . "..");
+        $loader->addPath(dirname(__FILE__) . DIRECTORY_SEPARATOR . "..");
     }
 }

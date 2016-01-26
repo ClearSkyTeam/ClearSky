@@ -1,4 +1,18 @@
 <?php
+
+/*
+ * RakLib network library
+ *
+ *
+ * This project is not affiliated with Jenkins Software LLC nor RakNet.
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ */
+
 namespace raklib\server;
 
 use raklib\Binary;
@@ -23,7 +37,7 @@ class ServerHandler{
     }
 
     public function sendRaw($address, $port, $payload){
-        $buffer = chr(RakLib::PACKET_RAW) . chr(strlen($address)) . $address . pack("n", $port) . $payload;
+        $buffer = chr(RakLib::PACKET_RAW) . chr(strlen($address)) . $address . Binary::writeShort($port) . $payload;
         $this->server->pushMainToThreadPacket($buffer);
     }
 
@@ -38,7 +52,7 @@ class ServerHandler{
     }
 
     public function blockAddress($address, $timeout){
-        $buffer = chr(RakLib::PACKET_BLOCK_ADDRESS) . chr(strlen($address)) . $address . pack("N", $timeout);
+        $buffer = chr(RakLib::PACKET_BLOCK_ADDRESS) . chr(strlen($address)) . $address . Binary::writeInt($timeout);
         $this->server->pushMainToThreadPacket($buffer);
     }
 
@@ -78,7 +92,7 @@ class ServerHandler{
                 $len = ord($packet{$offset++});
                 $address = substr($packet, $offset, $len);
                 $offset += $len;
-                $port = unpack("n", substr($packet, $offset, 2))[1];
+                $port = Binary::readShort(substr($packet, $offset, 2));
                 $offset += 2;
                 $payload = substr($packet, $offset);
                 $this->instance->handleRaw($address, $port, $payload);
@@ -95,7 +109,7 @@ class ServerHandler{
                 $len = ord($packet{$offset++});
                 $address = substr($packet, $offset, $len);
                 $offset += $len;
-                $port = unpack("n", substr($packet, $offset, 2))[1];
+                $port = Binary::readShort(substr($packet, $offset, 2));
                 $offset += 2;
                 $clientID = Binary::readLong(substr($packet, $offset, 8));
                 $this->instance->openSession($identifier, $address, $port, $clientID);
@@ -114,7 +128,7 @@ class ServerHandler{
                 $len = ord($packet{$offset++});
                 $identifier = substr($packet, $offset, $len);
                 $offset += $len;
-                $identifierACK = (PHP_INT_SIZE === 8 ? unpack("N", substr($packet, $offset, 4))[1] << 32 >> 32 : unpack("N", substr($packet, $offset, 4))[1]);
+                $identifierACK = Binary::readInt(substr($packet, $offset, 4));
                 $this->instance->notifyACK($identifier, $identifierACK);
             }
 
