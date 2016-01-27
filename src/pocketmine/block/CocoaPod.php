@@ -24,8 +24,8 @@ class CocoaPod extends Flowable{
 	}
 
 	public function getDrops(Item $item){
-		return [[Item::COCOA_BEANS,0,1]];
-		// TODO: drop 3 if fully grown
+		if($this->getSize() === 8) return [[Item::COCOA_BEANS,0,3]];
+		else return [[Item::COCOA_BEANS,0,1]];
 	}
 
 	public function onActivate(Item $item, Player $player = null){
