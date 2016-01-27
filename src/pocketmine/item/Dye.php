@@ -30,11 +30,14 @@ class Dye extends Item{
 	const WHITE = 15;
 
 	public function __construct($meta = 0, $count = 1){
-		parent::__construct(self::DYE, $meta, $count, "Dye");
-		if($meta === self::COCOA_BEANS) $this->block = Block::get(Block::COCOA);
+		if($meta === self::COCOA_BEANS){
+			$this->block = Block::get(Item::COCOA_POD);
+			$this->meta = 1;
+		}
+		parent::__construct(self::DYE, $meta, $count, $this->getNameByMeta($meta));
 	}
 
-	public function getName($meta){
+	public function getNameByMeta($meta){
 		switch($meta){
 			case self::INK_SACK:
 			case self::BLACK:

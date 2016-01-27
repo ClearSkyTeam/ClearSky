@@ -8,8 +8,9 @@ use pocketmine\level\Level;
 use pocketmine\math\Vector3 as Vector3;
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\item\Dye;
 
-class CocoaPod extends Flowable{
+class CocoaPod extends Crops{
 	protected $id = self::COCOA;
 	const SMALL = 0;
 	const MEDIUM = 4;
@@ -28,21 +29,28 @@ class CocoaPod extends Flowable{
 		else return [[Item::COCOA_BEANS,0,1]];
 	}
 
-	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F){
+/*	public function onActivate(Item $item, Player $player = null){
+		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){
 			if($this->getSize() <= 8){
 				$this->getLevel()->scheduleUpdate($this, 0);
 			}
-			
 			return true;
 		}
-		
 		return false;
-	}
+	}*/
 
-	public function onUpdate($type){
+	/*public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+		if($face !== 0 && $face !== 1 && $target->getId() === Block::WOOD && $target->getDamage() === Wood::JUNGLE){
+			$ret = $this->setFacingDirection($face);
+			$this->getLevel()->setBlock($block, $this, true);
+			return $ret;
+		}
+		return false;
+	}*/
+
+/*	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide($this->getAttachedFace())->getId() !== self::WOOD && $this->getSide($this->getAttachedFace())->getDamage() != Wood::JUNGLE){
+			if($this->getSide($this->getAttachedFace())->getId() !== self::WOOD && $this->getSide($this->getAttachedFace())->getDamage() !== Wood::JUNGLE){
 				$this->getLevel()->useBreakOn($this);
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
@@ -53,34 +61,30 @@ class CocoaPod extends Flowable{
 			}
 		}
 		elseif($type === Level::BLOCK_UPDATE_SCHEDULED){
-			if($this->getSide($this->getAttachedFace())->getId() !== self::WOOD && $this->getSide($this->getAttachedFace())->getDamage() != Wood::JUNGLE){
+			if($this->getSide($this->getAttachedFace())->getId() !== self::WOOD && $this->getSide($this->getAttachedFace())->getDamage() !== Wood::JUNGLE){
+				$block = clone $this;
 				$sz = $this->getSize();
 				if($sz >= 8) return false;
 				elseif($sz === 4) $sz = 8;
 				elseif($sz === 0) $sz = 4;
 				else $sz = 0;
-				Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($this, new CocoaPod($sz)));
+				$block->setSize($sz);
+				Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($this, $block));
+				
 				if(!$ev->isCancelled()){
-					$this->getLevel()->setBlock($this, new CocoaPod($sz), true);
-					return Level::BLOCK_UPDATE_NORMAL;
+					$this->getLevel()->setBlock($this, $ev->getNewState(), true, true);
 				}
+				
+				$item->count--;
 			}
 		}
-	}
-
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($face !== 0 && $face !== 1 && $target->getId() === self::WOOD && $target->getDamage() === Wood::JUNGLE){
-			$this->getLevel()->setBlock($block, Block::get(Block::COCOA, Vector3::getOppositeSide($target)));
-			return true;
-		}
-		return false;
 	}
 
 	/**
 	 * Get size of plant
 	 *
 	 * @return size
-	 */
+	 * /
 	public function getSize(){
 		switch($this->meta & 0x0C){
 			case 0:
@@ -96,7 +100,7 @@ class CocoaPod extends Flowable{
 	 * Set size of plant
 	 *
 	 * @param $sz size        	
-	 */
+	 * /
 	public function setSize($sz){
 		$dat = $this->meta & 0x03;
 		switch($sz){
@@ -147,5 +151,5 @@ class CocoaPod extends Flowable{
 				return Vector3::SIDE_EAST;
 		}
 		return null;
-	}
+	}*/
 }
