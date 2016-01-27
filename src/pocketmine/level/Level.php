@@ -281,30 +281,35 @@ class Level implements ChunkManager, Metadatable{
 	private $raintime = [];
 	private $rainfall = [];
 	private $weatherexectick = 0;
-	
+
 	private function generateWeather(){
 		if($this->getServer()->getProperty("weather.enable", true)){
-			//Weather TODO : Plugin Event
 			if($this->getWeather() === Level::WEATHER_CLEARSKY){
-				$random = mt_rand(1,1000000);
-				if($random<=$this->rainprob){
-					$this->setWeatherExecTick(mt_rand($this->raintime[0],$this->raintime[1]));
-					$this->setWeather(Level::WEATHER_RAIN);
+				$random = mt_rand(1, 1000000);
+				if($random <= $this->rainprob){
+					Server::getInstance()->getPluginManager()->callEvent($ev = new WeatherChangeEvent($this, Level::WEATHER_CLEARSKY));
+					if(!$ev->isCancelled()){
+						$this->setWeatherExecTick(mt_rand($this->raintime[0], $this->raintime[1]));
+						$this->setWeather(Level::WEATHER_RAIN);
+					}
 				}
 				return;
 			}
 			
 			if($this->getWeather() === Level::WEATHER_RAIN){
 				if($this->weatherexectick <= 0){
-					$this->weatherexectick = 0;
-					$this->setWeather(Level::WEATHER_CLEARSKY);
-					return;
+					Server::getInstance()->getPluginManager()->callEvent($ev = new WeatherChangeEvent($this, Level::WEATHER_RAIN));
+					if(!$ev->isCancelled()){
+						$this->weatherexectick = 0;
+						$this->setWeather(Level::WEATHER_CLEARSKY);
+						return;
+					}
 				}
 				$this->weatherexectick--;
 				return;
 			}
-			//Weather TODO : Thunder
 		}
+		// Weather TODO : Thunder
 	}
 	
 	public function broadcastWeather($weather = Level::WEATHER_CLEARSKY,Player $player=null){
