@@ -58,11 +58,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 		$work = false;
 		if($this->interface->handlePacket()){
 			$work = true;
-			$timestamp = time();
 			while($this->interface->handlePacket()){
-				if(time() - $timestamp >= 1){
-					break;
-				}
 			}
 		}
 
