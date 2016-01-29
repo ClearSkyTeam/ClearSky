@@ -10,7 +10,7 @@ use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\item\Dye;
 
-class CocoaPod extends Crops{
+class CocoaPod extends Block{
 	protected $id = self::COCOA;
 	const SMALL = 0;
 	const MEDIUM = 4;
@@ -18,6 +18,10 @@ class CocoaPod extends Crops{
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
+	}
+
+	public function canBeActivated(){
+		return true;
 	}
 
 	public function getName(){
@@ -29,62 +33,67 @@ class CocoaPod extends Crops{
 		else return [[Item::COCOA_BEANS,0,1]];
 	}
 
-/*	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){
-			if($this->getSize() <= 8){
-				$this->getLevel()->scheduleUpdate($this, 0);
-			}
-			return true;
-		}
-		return false;
-	}*/
-
-	/*public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($face !== 0 && $face !== 1 && $target->getId() === Block::WOOD && $target->getDamage() === Wood::JUNGLE){
-			$ret = $this->setFacingDirection($face);
-			$this->getLevel()->setBlock($block, $this, true);
-			return $ret;
-		}
-		return false;
-	}*/
-
-/*	public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide($this->getAttachedFace())->getId() !== self::WOOD && $this->getSide($this->getAttachedFace())->getDamage() !== Wood::JUNGLE){
-				$this->getLevel()->useBreakOn($this);
-				return Level::BLOCK_UPDATE_NORMAL;
-			}
-		}
-		elseif($type === Level::BLOCK_UPDATE_RANDOM){
-			if($this->getSize() <= 8){
-				$this->getLevel()->scheduleUpdate($this, 0);
-			}
-		}
-		elseif($type === Level::BLOCK_UPDATE_SCHEDULED){
-			if($this->getSide($this->getAttachedFace())->getId() !== self::WOOD && $this->getSide($this->getAttachedFace())->getDamage() !== Wood::JUNGLE){
-				$block = clone $this;
-				$sz = $this->getSize();
-				if($sz >= 8) return false;
-				elseif($sz === 4) $sz = 8;
-				elseif($sz === 0) $sz = 4;
-				else $sz = 0;
-				$block->setSize($sz);
-				Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($this, $block));
-				
-				if(!$ev->isCancelled()){
-					$this->getLevel()->setBlock($this, $ev->getNewState(), true, true);
-				}
-				
-				$item->count--;
-			}
-		}
-	}
-
+	/*
+	 * public function onActivate(Item $item, Player $player = null){
+	 * if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){
+	 * if($this->getSize() <= 8){
+	 * $this->getLevel()->scheduleUpdate($this, 0);
+	 * }
+	 * return true;
+	 * }
+	 * return false;
+	 * }
+	 */
+	
+	/*
+	 * public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	 * if($face !== 0 && $face !== 1 && $target->getId() === Block::WOOD && $target->getDamage() === Wood::JUNGLE){
+	 * $ret = $this->setFacingDirection($face);
+	 * $this->getLevel()->setBlock($block, $this, true);
+	 * return $ret;
+	 * }
+	 * return false;
+	 * }
+	 */
+	
+	/*
+	 * public function onUpdate($type){
+	 * if($type === Level::BLOCK_UPDATE_NORMAL){
+	 * if($this->getSide($this->getAttachedFace())->getId() !== self::WOOD && $this->getSide($this->getAttachedFace())->getDamage() !== Wood::JUNGLE){
+	 * $this->getLevel()->useBreakOn($this);
+	 * return Level::BLOCK_UPDATE_NORMAL;
+	 * }
+	 * }
+	 * elseif($type === Level::BLOCK_UPDATE_RANDOM){
+	 * if($this->getSize() <= 8){
+	 * $this->getLevel()->scheduleUpdate($this, 0);
+	 * }
+	 * }
+	 * elseif($type === Level::BLOCK_UPDATE_SCHEDULED){
+	 * if($this->getSide($this->getAttachedFace())->getId() !== self::WOOD && $this->getSide($this->getAttachedFace())->getDamage() !== Wood::JUNGLE){
+	 * $block = clone $this;
+	 * $sz = $this->getSize();
+	 * if($sz >= 8) return false;
+	 * elseif($sz === 4) $sz = 8;
+	 * elseif($sz === 0) $sz = 4;
+	 * else $sz = 0;
+	 * $block->setSize($sz);
+	 * Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($this, $block));
+	 *
+	 * if(!$ev->isCancelled()){
+	 * $this->getLevel()->setBlock($this, $ev->getNewState(), true, true);
+	 * }
+	 *
+	 * $item->count--;
+	 * }
+	 * }
+	 * }
+	 */
 	/**
 	 * Get size of plant
 	 *
 	 * @return size
-	 * /
+	 */
 	public function getSize(){
 		switch($this->meta & 0x0C){
 			case 0:
@@ -96,26 +105,27 @@ class CocoaPod extends Crops{
 		}
 	}
 
-	/**
+	/*
+	 * /**
 	 * Set size of plant
 	 *
-	 * @param $sz size        	
+	 * @param $sz size
 	 * /
-	public function setSize($sz){
-		$dat = $this->meta & 0x03;
-		switch($sz){
-			case CocoaPod::SMALL:
-				break;
-			case CocoaPod::MEDIUM:
-				$dat |= 0x04;
-				break;
-			case CocoaPod::LARGE:
-				$dat |= 0x08;
-				break;
-		}
-		$this->setDamage($dat);
-	}
-
+	 * public function setSize($sz){
+	 * $dat = $this->meta & 0x03;
+	 * switch($sz){
+	 * case CocoaPod::SMALL:
+	 * break;
+	 * case CocoaPod::MEDIUM:
+	 * $dat |= 0x04;
+	 * break;
+	 * case CocoaPod::LARGE:
+	 * $dat |= 0x08;
+	 * break;
+	 * }
+	 * $this->setDamage($dat);
+	 * }
+	 */
 	public function getAttachedFace(){
 		return Vector3::getOppositeSide($this->getFacing());
 	}
@@ -136,7 +146,7 @@ class CocoaPod extends Crops{
 				$dat |= 0x03;
 				break;
 		}
-		$this->setDamage($dat);
+		$this->meta = $dat;
 	}
 
 	public function getFacing(){
@@ -151,5 +161,5 @@ class CocoaPod extends Crops{
 				return Vector3::SIDE_EAST;
 		}
 		return null;
-	}*/
+	}
 }
