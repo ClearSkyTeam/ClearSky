@@ -14,7 +14,7 @@ class FishingRod extends Item{
 		return 1;
 	}
 
-	public function canBeActivated(){
+	/*public function canBeActivated(){
 		return true;
 	}
 	
@@ -24,5 +24,5 @@ class FishingRod extends Item{
 				if($entity->shootingEntity === $player) $entity->reelLine();
 			}
 		}
-	}
+	}*/
 }

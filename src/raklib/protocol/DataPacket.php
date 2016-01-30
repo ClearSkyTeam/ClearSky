@@ -1,16 +1,7 @@
 <?php
-
 namespace raklib\protocol;
 
-use raklib\Binary;
-
-
-
-
-
-
-
-
+#include <rules/RakLibPacket.h>
 
 abstract class DataPacket extends Packet{
 
@@ -21,9 +12,9 @@ abstract class DataPacket extends Packet{
 
     public function encode(){
         parent::encode();
-        $this->buffer .= substr(pack("V", $this->seqNumber), 0, -1);
+        $this->putLTriad($this->seqNumber);
         foreach($this->packets as $packet){
-            $this->buffer .= $packet instanceof EncapsulatedPacket ? $packet->toBinary() : (string) $packet;
+            $this->put($packet instanceof EncapsulatedPacket ? $packet->toBinary() : (string) $packet);
         }
     }
 
@@ -38,7 +29,7 @@ abstract class DataPacket extends Packet{
 
     public function decode(){
         parent::decode();
-        $this->seqNumber = unpack("V", $this->get(3) . "\x00")[1];
+        $this->seqNumber = $this->getLTriad();
 
         while(!$this->feof()){
             $offset = 0;

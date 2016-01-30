@@ -33,7 +33,7 @@ class QueryRegenerateEvent extends ServerEvent{
 
 	public function __construct(Server $server, $timeout = 5){
 		$this->timeout = $timeout;
-		$this->serverName = $server->getServerName();
+		$this->serverName = $server->getMotd();
 		$this->listPlugins = $server->getProperty("settings.query-plugins", true);
 		$this->plugins = $server->getPluginManager()->getPlugins();
 		$this->players = [];
@@ -196,7 +196,7 @@ class QueryRegenerateEvent extends ServerEvent{
 	}
 
 	public function getShortQuery(){
-		return $this->serverName . "\x00" . $this->gametype . "\x00" . $this->map . "\x00" . $this->numPlayers . "\x00" . $this->maxPlayers . "\x00" . pack("v", $this->port) . $this->ip . "\x00";
+		return $this->serverName . "\x00" . $this->gametype . "\x00" . $this->map . "\x00" . $this->numPlayers . "\x00" . $this->maxPlayers . "\x00" . Binary::writeLShort($this->port) . $this->ip . "\x00";
 	}
 
 }

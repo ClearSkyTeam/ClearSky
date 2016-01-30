@@ -193,7 +193,6 @@ class MemoryManager{
 
 		return $cycles;
 	}
-
 	/**
 	 * @param object $object
 	 *

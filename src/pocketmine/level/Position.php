@@ -25,6 +25,7 @@ class Position extends Vector3{
 	public static function fromObject(Vector3 $pos, Level $level = null){
 		return new Position($pos->x, $pos->y, $pos->z, $level);
 	}
+	
 	public function add($x, $y = 0, $z = 0){
 		if($x instanceof Vector3){
 			return new Position($this->x + $x->x, $this->y + $x->y, $this->z + $x->z, $this->level);
@@ -55,30 +56,6 @@ class Position extends Vector3{
 	}
 
 	/**
-	 * Marks the level reference as strong so it won't be collected
-	 * by the garbage collector.
-	 *
-	 * @deprecated
-	 *
-	 * @return bool
-	 */
-	public function setStrong(){
-		return false;
-	}
-
-	/**
-	 * Marks the level reference as weak so it won't have effect against
-	 * the garbage collector decision.
-	 *
-	 * @deprecated
-	 *
-	 * @return bool
-	 */
-	public function setWeak(){
-		return false;
-	}
-
-	/**
 	 * Returns a side Vector
 	 *
 	 * @param int $side
@@ -89,9 +66,7 @@ class Position extends Vector3{
 	 * @throws LevelException
 	 */
 	public function getSide($side, $step = 1){
-		if(!$this->isValid()){
-			throw new LevelException("Undefined Level reference");
-		}
+		assert($this->isValid());
 
 		return Position::fromObject(parent::getSide($side, $step), $this->level);
 	}

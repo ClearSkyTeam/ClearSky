@@ -12,7 +12,6 @@ class MainLogger extends \AttachableThreadedLogger{
 	protected $logStream;
 	protected $shutdown;
 	protected $logDebug;
-	private $logResource;
 	private $enabled;
 	/** @var MainLogger */
 	public static $logger = null;
@@ -32,7 +31,7 @@ class MainLogger extends \AttachableThreadedLogger{
 		touch($logFile);
 		$this->logFile = $logFile;
 		$this->logDebug = (bool) $logDebug;
-		$this->logStream = \ThreadedFactory::create();
+		$this->logStream = new \Threaded;
 		$this->start();
 	}
 
@@ -93,7 +92,7 @@ class MainLogger extends \AttachableThreadedLogger{
 		$this->logDebug = (bool) $logDebug;
 	}
 
-	public function logException(\Exception $e, $trace = null){
+	public function logException(\Throwable $e, $trace = null){
 		if($trace === null){
 			$trace = $e->getTrace();
 		}
@@ -209,7 +208,7 @@ class MainLogger extends \AttachableThreadedLogger{
 			$this->synchronized(function (){
 				while($this->logStream->count() > 0 and $this->enabled){
 					$chunk = $this->logStream->shift();
-					$this->logResource = file_put_contents($this->logFile, $chunk, FILE_APPEND);
+					file_put_contents($this->logFile, $chunk, FILE_APPEND);
 				}	
 				$this->wait(25000);
 			});
@@ -218,7 +217,7 @@ class MainLogger extends \AttachableThreadedLogger{
 		if($this->logStream->count() > 0){
 			while($this->logStream->count() > 0 and $this->enabled){
 				$chunk = $this->logStream->shift();
-				$this->logResource = file_put_contents($this->logFile, $chunk, FILE_APPEND);
+				file_put_contents($this->logFile, $chunk, FILE_APPEND);
 			}
 		}
 	}

@@ -69,8 +69,8 @@ network:
  upnp-forwarding: false
 
 debug:
- level: 1
- allow-xdebug: false
+ level: 2
+ allow-xdebug: true
  #Enables /status, /gc
  commands: true
 
