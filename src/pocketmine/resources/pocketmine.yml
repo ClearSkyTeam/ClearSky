@@ -64,13 +64,13 @@ memory:
 
 network:
  batch-threshold: 128
- compression-level: 2
+ compression-level: 4
  async-compression: true
  upnp-forwarding: false
 
 debug:
- level: 2
- allow-xdebug: true
+ level: 1
+ allow-xdebug: false
  #Enables /status, /gc
  commands: true
 
