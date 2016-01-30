@@ -117,7 +117,7 @@ class WoodenButton extends Flowable implements Redstone, RedstoneSource, Redston
 			$this->getLevel()->addSound(new ButtonClickSound($this));
 
 		}else{
-			$this->getLevel()->addSound(new ButtonReturnSound($this, 1000));
+			$this->getLevel()->addSound(new ButtonReturnSound($this));
 		}
 		$this->getLevel()->setBlock($this, $this, true , false);
 	}
