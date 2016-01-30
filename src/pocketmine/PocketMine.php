@@ -54,7 +54,7 @@ namespace pocketmine {
 
 	const VERSION = "2.1dev";
 	const API_VERSION = "1.20.1";
-	const CODENAME = "Blue";
+	const CODENAME = "Moonlight";
 	const MINECRAFT_VERSION = "v0.13.1 alpha";
 	const MINECRAFT_VERSION_NETWORK = "0.13.1";
 
