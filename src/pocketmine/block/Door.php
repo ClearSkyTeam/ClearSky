@@ -8,7 +8,6 @@ use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 
-
 abstract class Door extends Transparent{
 
 	public function canBeActivated(){
@@ -197,7 +196,7 @@ abstract class Door extends Transparent{
 
 		return false;
 	}
-	
+
 	public function toggleStatus(){
 		if(($this->getDamage() & 0x08) === 0x08){ //Top
 			$down = $this->getSide(0);
@@ -212,9 +211,10 @@ abstract class Door extends Transparent{
 			$this->meta ^= 0x04;
 			$this->getLevel()->setBlock($this, $this, true);
 			$this->getLevel()->addSound(new DoorSound($this));
+			return true;
 		}
 	}
-	
+
 	public function onRedstoneUpdate($type,$power){
 		if($this->getSide(0)->getId() === $this->getId()){
 			$this_meta = $this->getSide(0)->meta;
@@ -233,7 +233,7 @@ abstract class Door extends Transparent{
 		if($face === 1){
 			$blockUp = $this->getSide(1);
 			$blockDown = $this->getSide(0);
-			if($blockUp->canBeReplaced() === false or $blockDown->isTransparent() === true){
+			if($blockUp->canBeReplaced() === false or ($blockDown->isTransparent() === true && !($blockDown instanceof Slab && ($blockDown->meta & 0x08) === 0x08) || ($blockDown instanceof WoodSlab && ($blockDown->meta & 0x08) === 0x08) ||($blockDown instanceof Stair && ($blockDown->meta & 0x04) === 0x04))){
 				return false;
 			}
 			$direction = $player instanceof Player ? $player->getDirection() : 0;
@@ -276,7 +276,7 @@ abstract class Door extends Transparent{
 
 		return true;
 	}
-	
+
 	public function onActivate(Item $item, Player $player = null){
 		if(($this->getDamage() & 0x08) === 0x08){ //Top
 			$down = $this->getSide(0);
@@ -300,7 +300,7 @@ abstract class Door extends Transparent{
 			if($player instanceof Player){
 				unset($players[$player->getLoaderId()]);
 			}
-				$this->getLevel()->addSound(new DoorSound($this));
+			$this->getLevel()->addSound(new DoorSound($this));
 		}
 
 		return true;

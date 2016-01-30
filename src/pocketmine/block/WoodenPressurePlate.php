@@ -77,7 +77,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 		}
 		elseif($type === Level::BLOCK_UPDATE_NORMAL){
 			$down = $this->getSide(0);
-			if($down->isTransparent() === true && !$down instanceof Fence){
+			if($down->isTransparent() && !$down instanceof Fence && !($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
 				$this->getLevel()->useBreakOn($this);
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
@@ -94,7 +94,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $block->getSide(Vector3::SIDE_DOWN);
-		if($down->isTransparent() === false || $down instanceof Fence){
+		if(!$down->isTransparent() || $down instanceof Fence || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
 			$this->getLevel()->setBlock($block, $this, true, true);
 			return true;
 		}

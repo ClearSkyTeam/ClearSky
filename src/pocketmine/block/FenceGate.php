@@ -61,6 +61,8 @@ class FenceGate extends Transparent implements Redstone{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+		$down = $block->getSide(0);
+		if($down->getId() === self::AIR) return false;
 		$faces = [
 			0 => 3,
 			1 => 0,

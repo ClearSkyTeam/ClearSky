@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
@@ -228,38 +229,33 @@ abstract class Door2 extends Transparent{
 			$this->toggleStatus();
 		}
 	}
-	
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($face === 1){
-			$blockUp = $this->getSide(1);
-			$blockDown = $this->getSide(0);
-			if($blockUp->canBeReplaced() === false or $blockDown->isTransparent() === true){
-				return false;
-			}
-			$direction = $player instanceof Player ? $player->getDirection() : 0;
-			$face = [
-				0 => 3,
-				1 => 4,
-				2 => 2,
-				3 => 5,
-			];
-			$next = $this->getSide($face[(($direction + 2) % 4)]);
-			$next2 = $this->getSide($face[$direction]);
-			$metaUp = 0x08;
-			if($next->getId() === $this->getId() or ($next2->isTransparent() === false and $next->isTransparent() === true)){ //Door hinge
-				$metaUp |= 0x01;
-			}
-
-			$this->setDamage($player->getDirection() & 0x03);
-			$this->getLevel()->setBlock($block, $this, true, true); //Bottom
-			$this->getLevel()->setBlock($blockUp, $b = Block::get($this->getId(), $metaUp), true); //Top
-			$this->onRedstoneUpdate(null,null);
-			return true;
+	public 
+function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+	if($face === 1){
+		$blockUp = $this->getSide(1);
+		$blockDown = $this->getSide(0);
+		if($blockUp->canBeReplaced() === false or ($blockDown->isTransparent() === true && !($blockDown instanceof Slab && ($blockDown->meta & 0x08) === 0x08) || ($blockDown instanceof WoodSlab && ($blockDown->meta & 0x08) === 0x08) || ($blockDown instanceof Stair && ($blockDown->meta & 0x04) === 0x04))){
+			return false;
 		}
-
-		return false;
+		$direction = $player instanceof Player?$player->getDirection():0;
+		$face = [0 => 3,1 => 4,2 => 2,3 => 5];
+		$next = $this->getSide($face[(($direction + 2) % 4)]);
+		$next2 = $this->getSide($face[$direction]);
+		$metaUp = 0x08;
+		if($next->getId() === $this->getId() or ($next2->isTransparent() === false and $next->isTransparent() === true)){ // Door hinge
+			$metaUp |= 0x01;
+		}
+		
+		$this->setDamage($player->getDirection() & 0x03);
+		$this->getLevel()->setBlock($block, $this, true, true); // Bottom
+		$this->getLevel()->setBlock($blockUp, $b = Block::get($this->getId(), $metaUp), true); // Top
+		$this->onRedstoneUpdate(null, null);
+		return true;
 	}
+	
+	return false;
+}
 
 	public function onBreak(Item $item){
 		if(($this->getDamage() & 0x08) === 0x08){
