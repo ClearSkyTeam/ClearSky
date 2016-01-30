@@ -54,3 +54,7 @@ Temporary Items
 bin/php/php.ini
 *.phar
 .project
+.buildpath
+.vs/ClearSky/v14/.suo
+.settings/org.eclipse.wst.common.project.facet.core.xml
+.settings/org.eclipse.php.core.prefs
