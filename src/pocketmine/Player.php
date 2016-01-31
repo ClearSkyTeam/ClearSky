@@ -1834,6 +1834,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$nbt = $this->server->getOfflinePlayerData($this->username);
+		$alive = true;
 		if(!isset($nbt->NameTag)){
 			$nbt->NameTag = new String("NameTag", $this->username);
 		}else{
@@ -1848,7 +1849,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 		$this->setFood($nbt["Hunger"]);
 		$this->setMaxHealth($nbt["MaxHealth"]);
-		Entity::setHealth(($nbt["Health"] <= 0) ? 20 : $nbt["Health"]);
+		if($nbt["Health"] <= 0){
+			$alive = false;
+			Entity::setHealth(20);
+		}else{
+			Entity::setHealth($nbt["Health"]);
+		}
 		$this->expcurrent = ($nbt["ExpCurrent"] > 0) ? $nbt["ExpCurrent"] : 0;
 		$this->explevel = ($nbt["ExpLevel"] >= 0) ? $nbt["ExpLevel"] : 0;
 		$this->gamemode = $nbt["playerGameType"] & 0x03;
@@ -1859,7 +1865,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$this->allowFlight = $this->isCreative();
 
-		if(($level = $this->server->getLevelByName($nbt["Level"])) === null){
+		if(($level = $this->server->getLevelByName($nbt["Level"])) === null or !$alive){
 			$this->setLevel($this->server->getDefaultLevel());
 			$nbt["Level"] = $this->level->getName();
 			$nbt["Pos"][0] = $this->level->getSpawnLocation()->x;
