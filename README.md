@@ -4,7 +4,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 
 ## Where can I get a phar?
  - **Before you launch ClearSky please remove pocketmine.yml once to update.**
- - You can get a tested phar here: [ClearSkyTeam/ClearSky-Release](https://github.com/ClearSkyTeam/ClearSky-Release).
+ - You can get a auto-build here: [ClearSkyTeam/Jenkins](http://jenkins.clearskyteam.org/).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
