@@ -4,7 +4,8 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 
 ## Where can I get a phar?
  - **Before you launch ClearSky please remove pocketmine.yml once to update.**
- - You can get a tested phar here: [ClearSkyTeam/ClearSky-Release](https://github.com/ClearSkyTeam/ClearSky-Release).
+ - You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - You can get an optimized PHP enviroment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
@@ -35,7 +36,8 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
 ## 在哪里可以下载到打包好的phar?
  - **注意：在运行晴空之前，请删除pocketmine.yml以便于晴空优化您的配置**
- - 请在这里获得phar: [ClearSkyTeam/ClearSky-Release](https://github.com/ClearSkyTeam/ClearSky-Release).
+ - 你可以在这里获取一个自动打包的phar: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - 你可以在这里获取一个优化的PHP运行环境: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - 你可以在这里获得一个Multicraft配置文件样例: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
