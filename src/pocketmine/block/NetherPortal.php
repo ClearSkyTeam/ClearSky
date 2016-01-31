@@ -1,10 +1,11 @@
 <?php
+
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
-use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\entity\Entity;
+use pocketmine\event\entity\EntityEnterPortalEvent;
 
 class NetherPortal extends Flowable{
 	protected $id = self::NETHER_PORTAL;
@@ -21,24 +22,26 @@ class NetherPortal extends Flowable{
 		return "Nether Portal";
 	}
 
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$this->getLevel()->setBlock($block, $this, true, true);
-		return false;
-	}
-
 	public function getDrops(Item $item){
 		return;
 	}
-	
+
 	public function onEntityCollide(Entity $entity){
-        //Server::getInstance()->getPluginManager()->callEvent($ev = new EntityEnterPortalEvent($this, $entity));
-        //if(!$ev->isCancelled()) {
-            //TODO: Delayed teleport entity to nether world.
-        //}
-        return true;
-    }
-    
-   	public function canPassThrough(){
+		Server::getInstance()->getPluginManager()->callEvent($ev = new EntityEnterPortalEvent($entity, $this));
+		if(!$ev->isCancelled()){
+			return true;
+		}
+		return false;
+	}
+
+	public function canPassThrough(){
 		return true;
 	}
+	
+	/*
+	 * public function canBeReplaced(){
+	 * return true;
+	 * }
+	 */
+	// TODO: only source blocks of liquids
 }

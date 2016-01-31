@@ -1,10 +1,10 @@
 <?php
+
 /*
  * THIS IS COPIED FROM THE PLUGIN FlowerPot MADE BY @beito123!!
  * https://github.com/beito123/PocketMine-MP-Plugins/blob/master/test%2FFlowerPot%2Fsrc%2Fbeito%2FFlowerPot%2Fomake%2FSkull.php
- * 
+ *
  */
-
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
@@ -20,54 +20,46 @@ use pocketmine\tile\FlowerPot as FlowerPotTile;
 
 class FlowerPot extends Flowable{
 	protected $id = Block::FLOWER_POT_BLOCK;
+
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
+
 	public function canBeActivated(){
 		return true;
 	}
+
 	public function canBeFlowedInto(){
 		return true;
 	}
+
 	public function getHardness(){
 		return 0;
 	}
+
 	public function isSolid(){
 		return false;
 	}
+
 	public function getName(){
 		return "Flower Pot";
 	}
-	public function getBoundingBox(){//todo fix...
-		return new AxisAlignedBB(
-			$this->x - 0.6875,
-			$this->y - 0.375,
-			$this->z - 0.6875,
-			$this->x + 0.6875,
-			$this->y + 0.375,
-			$this->z + 0.6875
-		);
+
+	public function getBoundingBox(){
+		return new AxisAlignedBB($this->x - 0.6875, $this->y - 0.375, $this->z - 0.6875, $this->x + 0.6875, $this->y + 0.375, $this->z + 0.6875);
 	}
+
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($this->getSide(Vector3::SIDE_DOWN)->isTransparent() === false){
+		$down = $block->getSide(0);
+		if($down->isTransparent() === false || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
 			$this->getLevel()->setBlock($block, $this, true, true);
-			$nbt = new Compound("", [
-				new String("id", Tile::FLOWER_POT),
-				new Int("x", $block->x),
-				new Int("y", $block->y),
-				new Int("z", $block->z),
-				new Int("item", 0),
-				new Int("data", 0),
-			]);
+			$nbt = new Compound("", [new String("id", Tile::FLOWER_POT),new Int("x", $block->x),new Int("y", $block->y),new Int("z", $block->z),new Int("item", 0),new Int("data", 0)]);
 			$pot = Tile::createTile("FlowerPot", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			return true;
 		}
 		return false;
 	}
-	/*public function onBreak(Item $item){
-		$this->getLevel()->setBlock($this, new Air(), true, true, true);
-		return true;
-	}*/
+
 	public function onActivate(Item $item, Player $player = null){
 		$tile = $this->getLevel()->getTile($this);
 		if($tile instanceof FlowerPotTile){
@@ -90,12 +82,13 @@ class FlowerPot extends Flowable{
 							$item->count--;
 						}
 						return true;
-					break;
+						break;
 				}
 			}
 		}
 		return false;
 	}
+
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(Vector3::SIDE_DOWN)->getId() === Item::AIR){
@@ -105,11 +98,12 @@ class FlowerPot extends Flowable{
 		}
 		return false;
 	}
+
 	public function getDrops(Item $item){
-		$items = array([Item::FLOWER_POT, 0, 1]);
+		$items = array([Item::FLOWER_POT,0,1]);
 		if(($tile = $this->getLevel()->getTile($this)) instanceof FlowerPotTile){
 			if($tile->getFlowerPotItem() !== Item::AIR){
-				$items[] = array($tile->getFlowerPotItem(), $tile->getFlowerPotData(), 1);
+				$items[] = array($tile->getFlowerPotItem(),$tile->getFlowerPotData(),1);
 			}
 		}
 		return $items;

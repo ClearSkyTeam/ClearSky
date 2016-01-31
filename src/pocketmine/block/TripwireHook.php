@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
@@ -30,7 +31,7 @@ class TripwireHook extends Flowable{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($face !== 0 && $face !== 1){
+		if($face !== 0 && $face !== 1 && !$target->isTransparent()){
 			$ret = $this->setFacingDirection($face);
 			$this->getLevel()->setBlock($block, $this, true);
 			return $ret;
@@ -38,61 +39,60 @@ class TripwireHook extends Flowable{
 		
 		return false;
 	}
-	
-	public function getDrops(Item $item){
-		return [
-			[Item::TRIPWIRE_HOOK, 0, 1],
-		];
-	}
 
+	public function getDrops(Item $item){
+		return [[Item::TRIPWIRE_HOOK,0,1]];
+	}
 
 	/**
 	 * Test if tripwire is connected
 	 *
 	 * @return true if connected, false if not
 	 */
-	public function isConnected() {
+	public function isConnected(){
 		return ($this->getDamage() & 0x04) != 0;
 	}
-	
+
 	/**
 	 * Set tripwire connection state
 	 *
-	 * @param connected - true if connected, false if not
+	 * @param
+	 *        	connected - true if connected, false if not
 	 */
-	public function setConnected($connected) {
+	public function setConnected($connected){
 		$dat = $this->getDamage() & (0x08 | 0x03);
-		if ($connected) {
+		if($connected){
 			$dat |= 0x04;
 		}
 		$this->setDamage($dat);
 	}
-	
+
 	/**
 	 * Test if hook is currently activated
 	 *
 	 * @return true if activated, false if not
 	 */
-	public function isActivated() {
+	public function isActivated(){
 		return ($this->getDamage() & 0x08) != 0;
 	}
-	
+
 	/**
 	 * Set hook activated state
 	 *
-	 * @param act - true if activated, false if not
+	 * @param
+	 *        	act - true if activated, false if not
 	 */
-	public function setActivated($act) {
+	public function setActivated($act){
 		$dat = $this->getDamage() & (0x04 | 0x03);
-		if ($act) {
+		if($act){
 			$dat |= 0x08;
 		}
 		$this->setDamage($dat);
 	}
-	
-	public function setFacingDirection($face) {
+
+	public function setFacingDirection($face){
 		$dat = $this->getDamage() & 0x0C;
-		switch ($face) {
+		switch($face){
 			case Vector3::SIDE_WEST:
 				$dat |= 0x01;
 				break;
@@ -109,9 +109,9 @@ class TripwireHook extends Flowable{
 		}
 		$this->setDamage($dat);
 	}
-	
-	public function getAttachedFace() {
-		switch ($this->getDamage() & 0x03) {
+
+	public function getAttachedFace(){
+		switch($this->getDamage() & 0x03){
 			case 0:
 				return Vector3::SIDE_NORTH;
 			case 1:
@@ -123,12 +123,12 @@ class TripwireHook extends Flowable{
 		}
 		return null;
 	}
-	
-	public function isPowered() {
+
+	public function isPowered(){
 		return $this->isActivated();
 	}
-	
-	public function __toString() {
+
+	public function __toString(){
 		return $this->getName() . " facing " . $this->getFacing() . ($this->isActivated()?" Activated":"") . ($this->isConnected()?" Connected":"");
 	}
 }

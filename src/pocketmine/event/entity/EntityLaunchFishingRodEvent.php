@@ -40,7 +40,7 @@ class EntityLaunchFishingRodEvent extends EntityEvent implements Cancellable{
 	/**
 	 * @return Item
 	 */
-	public function getBow(){
+	public function getRod(){
 		return $this->rod;
 	}
 
