@@ -39,6 +39,7 @@ class DaylightDetectorInverted extends Transparent implements Redstone, Redstone
 		$this->id = self::DAYLIGHT_DETECTOR;
 		$this->getLevel()->setBlock($this, $this, true);
 		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_NORMAL, $this->getPower());
+		return true;
 	}
 
 	public function getDrops(Item $item){
