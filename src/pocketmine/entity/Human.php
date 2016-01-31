@@ -38,7 +38,6 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	protected $skin;
 	protected $skinName;
-	protected $skinTransparency = false;
 
 	public function getSkinData(){
 		return $this->skin;
@@ -46,10 +45,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function getSkinName(){
 		return $this->skinName;
-	}
 
-	public function isSkinTransparent(){
-		return $this->skinTransparency;
 	}
 
 	/**
@@ -71,10 +67,9 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	 * @param bool   $skinName
 	 * @param bool   $skinTransparency
 	 */
-	public function setSkin($str, $skinName, $skinTransparency = false){
+	public function setSkin($str, $skinName){
 		$this->skin = $str;
 		$this->skinName = $skinName;
-		$this->skinTransparency = $skinTransparency;
 	}
 
 	public function getInventory(){
@@ -179,9 +174,9 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		}
 
 		if(strlen($this->getSkinData()) > 0){
-			$this->namedtag->Skin = new CompoundTag("Skin", [
+			$this->namedtag->Skin = new Compound("Skin", [
 				"Data" => new StringTag("Data", $this->getSkinData()),
-				"Name" => new ByteTag("Name", $this->getSkinName())
+				"Name" => new StringTag("Name", $this->getSkinName())
 			]);
 		}
 	}
