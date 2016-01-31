@@ -786,10 +786,7 @@ class Level implements ChunkManager, Metadatable{
 		if (++$this->sendTimeTicker === 200) {
 			$this->sendTime();
 			$this->sendTimeTicker = 0;
-		}
 
-		if($this->getTime() >= self::TIME_FULL){ //Prevent to go out of 24000 ticks
-			$this->setTime(self::TIME_DAY);
 		}
 
 		$this->unloadChunks();
