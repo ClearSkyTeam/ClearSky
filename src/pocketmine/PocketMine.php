@@ -52,9 +52,9 @@ namespace pocketmine {
 	use pocketmine\utils\Utils;
 	use pocketmine\wizard\Installer;
 
-	const VERSION = "2.1dev";
+	const VERSION = "2.1dev-#CuttingEdge";
 	const API_VERSION = "1.20.1";
-	const CODENAME = "Moonlight";
+	const CODENAME = "Moonlight-#CuttingEdge";
 	const MINECRAFT_VERSION = "v0.13.1 alpha";
 	const MINECRAFT_VERSION_NETWORK = "0.13.1";
 
