@@ -30,7 +30,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 	}
 
 	public function chkTarget($hash){
-		if($hash == $this->getSide(0)->getHash()){
+		if($this->meta == 1 and $hash == $this->getSide(0)->getHash()){
 			return true;
 		}
 		return false;
