@@ -112,7 +112,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 	
 	public function isEntityCollided(){
 		foreach($this->getLevel()->getChunk($this->x >> 4, $this->z >> 4)->getEntities() as $entity){
-			if(isCollidedType($entity)){
+			if($this->isCollidedType($entity)){
 				$pos = $entity->getPosition();
 				if(abs($this->x - $pos->x) < 1.1 and abs($this->y - $pos->y) < 1.1 and abs($this->z - $pos->z) < 1.1){
 					return true;
