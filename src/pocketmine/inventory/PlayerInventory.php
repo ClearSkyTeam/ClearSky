@@ -291,7 +291,6 @@ class PlayerInventory extends BaseInventory{
 		$pk->eid = $this->getHolder()->getId();
 		$pk->slots = $armor;
 		$pk->encode();
-		$pk;
 		$pk->isEncoded = true;
 
 		foreach($target as $player){
@@ -366,12 +365,13 @@ class PlayerInventory extends BaseInventory{
 		$pk = new ContainerSetContentPacket();
 		$pk->slots = [];
 		$holder = $this->getHolder();
-		if($holder instanceof Player and $holder->isCreative()){
-			// mwvent - return because this packet causes problems - TODO: why?
-			return;
-			//TODO: Remove this workaround because of broken client
+		if($holder instanceof Player and $holder->isCreative()) {
+			$current = 0;
+			for($current; $current < $this->getSize(); ++$current){
+				$pk->slots[$current] = $this->getItem($current);
+			}
 			foreach(Item::getCreativeItems() as $i => $item){
-				$pk->slots[$i] = Item::getCreativeItem($i);
+				$pk->slots[$i+$current] = Item::getCreativeItem($i);
 			}
 		}else{
 			for($i = 0; $i < $this->getSize(); ++$i){ //Do not send armor by error here

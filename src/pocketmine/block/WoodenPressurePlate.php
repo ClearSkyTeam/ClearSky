@@ -30,7 +30,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 	}
 
 	public function chkTarget($hash){
-		if($hash == $this->getSide(0)->getHash()){
+		if($this->meta == 1 and $hash == $this->getSide(0)->getHash()){
 			return true;
 		}
 		return false;
@@ -105,12 +105,18 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 	public function getDrops(Item $item){
 		return [[$this->id,0,1]];
 	}
-
+	
+	public function isCollidedType(Entity $entity){
+		return true;
+	}
+	
 	public function isEntityCollided(){
 		foreach($this->getLevel()->getChunk($this->x >> 4, $this->z >> 4)->getEntities() as $entity){
-			$pos = $entity->getPosition();
-			if(abs($this->x - $pos->x) < 1.1 and abs($this->y - $pos->y) < 1.1 and abs($this->z - $pos->z) < 1.1){
-				return true;
+			if($this->isCollidedType($entity)){
+				$pos = $entity->getPosition();
+				if(abs($this->x - $pos->x) < 1.1 and abs($this->y - $pos->y) < 1.1 and abs($this->z - $pos->z) < 1.1){
+					return true;
+				}
 			}
 		}
 		return false;
