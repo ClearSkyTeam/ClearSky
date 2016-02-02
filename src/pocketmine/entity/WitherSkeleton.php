@@ -34,14 +34,14 @@ class WitherSkeleton extends Skeleton{
         $drops = [];
         if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof Player){
             $drops = [
-                ItemItem::get(ItemItem::COAL, 0, mt_rand(0, 1)),
-                ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))
+                [ItemItem::get(ItemItem::COAL, 0, mt_rand(0, 1))],
+                [ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))]
             ];
         }
 
         if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof ChargedCreeper){
             $drops = [
-                ItemItem::get(ItemItem::SKULL, 1, 1)
+                [ItemItem::get(ItemItem::SKULL, 1, 1)]
             ];
         }
 

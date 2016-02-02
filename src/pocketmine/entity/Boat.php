@@ -5,9 +5,15 @@ use pocketmine\Player;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\item\Item as ItemItem;
+use pocketmine\event\entity\EntityRegainHealthEvent;
 
 class Boat extends Vehicle{
 	const NETWORK_ID = 90;
+
+	public function initEntity(){
+		$this->setMaxHealth(4);
+		parent::initEntity();
+	}
 
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
@@ -23,7 +29,7 @@ class Boat extends Vehicle{
 		if(!$source->isCancelled()){
 			$pk = new EntityEventPacket();
 			$pk->eid = $this->id;
-			$pk->event = EntityEventPacket::HURT_ANIMATION;
+			$pk->event = $this->getHealth() <= 0?EntityEventPacket::DEATH_ANIMATION:EntityEventPacket::HURT_ANIMATION;
 			foreach($this->getLevel()->getPlayers() as $player){
 				$player->dataPacket($pk);
 			}
@@ -39,6 +45,10 @@ class Boat extends Vehicle{
 				$hasUpdate = true;
 				$this->move(0,0.1,0);
 				$this->updateMovement();
+			}
+			if($this->getHealth() < $this->getMaxHealth()){
+				$this->heal(0.1, $source = EntityRegainHealthEvent::CAUSE_MAGIC);
+				$hasUpdate = true;
 			}
 			
 			$this->timings->stopTiming();
@@ -57,7 +67,7 @@ class Boat extends Vehicle{
 
 	public function getDrops(){
 		return [
-			ItemItem::get(ItemItem::BOAT, 0, 1)
+			[ItemItem::get(ItemItem::BOAT, 0, 1)]
 		];
 	}
 
