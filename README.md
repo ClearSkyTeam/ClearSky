@@ -1,7 +1,7 @@
 # ClearSky-Blue[![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky)
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean feels and stable features. It was initially designed for production servers.
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
- - Our communicate group is online now. Join us here: [Telegram/ClearSky Team](https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA)
+ - Our communicate group is online now. Join us here: [Telegram/ClearSky](https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA)
 
 ## Where can I get a phar?
  - **Before you launch ClearSky please remove pocketmine.yml once to update.**
