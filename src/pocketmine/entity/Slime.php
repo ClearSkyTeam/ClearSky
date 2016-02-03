@@ -35,7 +35,7 @@ class Slime extends Living{
 
     public function getDrops(){
         return [
-            ItemItem::get(ItemItem::SLIMEBALL, 0, mt_rand(0, 2))
+            [ItemItem::get(ItemItem::SLIMEBALL, 0, mt_rand(0, 2))]
         ];
     }
 

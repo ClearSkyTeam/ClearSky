@@ -22,7 +22,7 @@ class IronGolem extends Animal{
 
     public function spawnTo(Player $player){
         $pk = $this->addEntityDataPacket($player);
-        $pk->type = IronGolem::NETWORK_ID;
+        $pk->type = self::NETWORK_ID;
 
         $player->dataPacket($pk);
         parent::spawnTo($player);
@@ -30,8 +30,8 @@ class IronGolem extends Animal{
 
     public function getDrops(){
         return [
-            ItemItem::get(ItemItem::IRON_INGOT, 0, mt_rand(3, 5)),
-            ItemItem::get(ItemItem::POPPY, 0, mt_rand(0, 2))
+            [ItemItem::get(ItemItem::IRON_INGOT, 0, mt_rand(3, 5))],
+            [ItemItem::get(ItemItem::POPPY, 0, mt_rand(0, 2))]
         ];
     }
 

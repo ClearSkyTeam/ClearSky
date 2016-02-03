@@ -15,7 +15,7 @@ class MagmaCube extends Living{
 	protected $exp_max = 1; //TODO: Size
 
 	public function initEntity(){
-		//$this->setMaxHealth(10); //TODO Size
+		$this->setMaxHealth(1); //TODO Size
 		parent::initEntity();
 	}
 
@@ -23,17 +23,19 @@ class MagmaCube extends Living{
 		return "Magma Cube";
 	}
 
-	 public function spawnTo(Player $player){
+	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
 		$pk->type = MagmaCube::NETWORK_ID;
 
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
 	}
+	
+	//TODO: Stop lava/fire damage
 
 	public function getDrops(){
 		return [
-			ItemItem::get(ItemItem::MAGMA_CREAM, 0, mt_rand(0, 2))
+			[ItemItem::get(ItemItem::MAGMA_CREAM, 0, mt_rand(0, 2))]
 		];
 	}
 }

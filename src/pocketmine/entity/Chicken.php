@@ -33,12 +33,12 @@ class Chicken extends Animal{
 	}
 	
 	public function getDrops(){
-		$drops = [ItemItem::get(ItemItem::FEATHER, 0, mt_rand(0, 2))];
+		$drops = [[ItemItem::get(ItemItem::FEATHER, 0, mt_rand(0, 2))]];
 
 		if($this->getLastDamageCause() === EntityDamageEvent::CAUSE_FIRE){
-			$drops[] = ItemItem::get(ItemItem::COOKED_CHICKEN, 0, mt_rand(1, 2));
+			$drops[] = [ItemItem::get(ItemItem::COOKED_CHICKEN, 0, mt_rand(1, 2))];
 		}else{
-			$drops[] = ItemItem::get(ItemItem::RAW_CHICKEN, 0, mt_rand(1, 2));
+			$drops[] = [ItemItem::get(ItemItem::RAW_CHICKEN, 0, mt_rand(1, 2))];
 		}
 		return $drops;
 	}

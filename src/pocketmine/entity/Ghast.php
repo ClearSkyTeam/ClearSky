@@ -38,8 +38,8 @@ class Ghast extends Monster{
 
 	public function getDrops(){
 		return [
-			ItemItem::get(ItemItem::GHAST_TEAR, 0, mt_rand(0, 1)),
-			ItemItem::get(ItemItem::GUNPOWDER, 0, mt_rand(0, 2))
+			[ItemItem::get(ItemItem::GHAST_TEAR, 0, mt_rand(0, 1))],
+			[ItemItem::get(ItemItem::GUNPOWDER, 0, mt_rand(0, 2))]
 		];
 	}
 
