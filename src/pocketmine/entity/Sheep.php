@@ -33,7 +33,7 @@ class Sheep extends Animal implements Colorable{
 
     public function getDrops(){
         return[
-            ItemItem::get(ItemItem::WOOL, 0, 1) //haven't found Network IDs for coloured sheeps (not wools) so can't check the color of the sheep.
+            [ItemItem::get(ItemItem::WOOL, 0, 1)] //haven't found Network IDs for coloured sheeps (not wools) so can't check the color of the sheep.
         ];
     }
 }

@@ -31,7 +31,6 @@ class Silverfish extends Monster{
     }
 
     public function getDrops(){
-        $drops = [];
-        return $drops;
+        return [];
     }
 }

@@ -156,4 +156,8 @@ class Rail extends Flowable{
 	public function canPassThrough(){
 		return true;
 	}
+
+	public function getDrops(Item $item){
+		return [[$this->id,0,1]];
+	}
 }
