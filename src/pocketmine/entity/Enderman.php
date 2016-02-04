@@ -33,7 +33,7 @@ class Enderman extends Monster{
 
 	/*public function getDrops(){
 		return [
-			[ItemItem::get(ItemItem::ENDERPEARL, 0, mt_rand(0, 1))]
+			ItemItem::get(ItemItem::ENDERPEARL, 0, mt_rand(0, 1))
 			// holding Block
 		];
 	}*/
