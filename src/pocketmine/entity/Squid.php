@@ -137,7 +137,7 @@ class Squid extends WaterAnimal implements Ageable{
 
 	public function getDrops(){
 		return [
-			[ItemItem::get(ItemItem::DYE, 0, mt_rand(1, 3))]
+			ItemItem::get(ItemItem::DYE, 0, mt_rand(1, 3))
 		];
 	}
 }
