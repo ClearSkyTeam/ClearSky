@@ -50,13 +50,13 @@ class Creeper extends Monster implements Explosive{
         $drops = [];
         if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof Player){
             $drops = [
-                [ItemItem::get(ItemItem::GUNPOWDER, 0, mt_rand(0, 2))]
+                ItemItem::get(ItemItem::GUNPOWDER, 0, mt_rand(0, 2))
             ];
         }
 
         if($this->lastDamageCause instanceof EntityExplodeEvent and $this->lastDamageCause->getEntity() instanceof ChargedCreeper){
             $drops = [
-                [ItemItem::get(ItemItem::SKULL, 4, 1)]
+                ItemItem::get(ItemItem::SKULL, 4, 1)
             ];
         }
 

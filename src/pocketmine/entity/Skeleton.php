@@ -48,18 +48,18 @@ class Skeleton extends Monster implements ProjectileSource{
 
     public function getDrops(){
         $drops = [
-            [ItemItem::get(ItemItem::ARROW, 0, mt_rand(0, 2))],
-            [ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))]
+            ItemItem::get(ItemItem::ARROW, 0, mt_rand(0, 2)),
+            ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))
         ];
 
         if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof Player){
             if(mt_rand(0, 199) < 5){
-                $drops[] = [ItemItem::get(ItemItem::BOW, 0, 1)];
+                $drops[] = ItemItem::get(ItemItem::BOW, 0, 1);
             }
         }
 
         if($this->lastDamageCause instanceof EntityExplodeEvent and $this->lastDamageCause->getEntity() instanceof ChargedCreeper){
-            [ItemItem::get(ItemItem::SKULL, 0, 1)];
+            $drops[] = ItemItem::get(ItemItem::SKULL, 0, 1);
         }
 
         return $drops;

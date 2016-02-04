@@ -40,6 +40,6 @@ class Painting extends Hanging{
 	}
 	
 	public function getDrops(){
-		return [[ItemItem::get(ItemItem::PAINTING, 0, 1)]];
+		return [ItemItem::get(ItemItem::PAINTING, 0, 1)];
 	}
 }
