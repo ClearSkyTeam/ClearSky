@@ -1,10 +1,6 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\event\entity\EntityRegainHealthEvent;
-use pocketmine\network\Network;
-use pocketmine\network\protocol\MobEffectPacket;
 use pocketmine\network\protocol\UpdateAttributePacket;
 use pocketmine\Player;
 use pocketmine\entity\AttributeManager;

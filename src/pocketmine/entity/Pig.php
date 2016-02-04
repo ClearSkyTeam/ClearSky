@@ -1,9 +1,8 @@
 <?php
 namespace pocketmine\entity;
 
-
 use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 
 class Pig extends Animal implements Rideable{
@@ -40,9 +39,9 @@ class Pig extends Animal implements Rideable{
     public function getDrops(){
         $drops = [];
         if($this->getLastDamageCause() === EntityDamageEvent::CAUSE_FIRE){
-            $drops[] = drp::get(drp::COOKED_PORKCHOP, 0, mt_rand(1, 3));
+            $drops[] = [ItemItem::get(ItemItem::COOKED_PORKCHOP, 0, mt_rand(1, 3))];
         }else{
-            $drops[] = drp::get(drp::RAW_PORKCHOP, 0, mt_rand(1, 3));
+            $drops[] = [ItemItem::get(ItemItem::RAW_PORKCHOP, 0, mt_rand(1, 3))];
         }
         return $drops;
     }

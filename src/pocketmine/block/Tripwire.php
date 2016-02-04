@@ -26,7 +26,7 @@ class Tripwire extends Flowable{
 	}
 
 	public function getHardness(){
-		return 0.1;
+		return 0;
 	}
 
 	public function canPassThrough(){

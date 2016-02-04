@@ -1,7 +1,6 @@
 <?php
 namespace pocketmine\inventory;
 
-
 use pocketmine\item\Item;
 use pocketmine\tile\Furnace;
 
@@ -72,6 +71,6 @@ class FurnaceInventory extends ContainerInventory{
 	}
 	
 	public function getExperience(){
-		return $this->getFuel()->getExperience(1);
+		return $this->getFuel()->getExperience();
 	}
 }

@@ -1,9 +1,7 @@
 <?php
 namespace pocketmine\entity;
 
-
-use pocketmine\item\Item as drp;
-use pocketmine\network\protocol\AddEntityPacket;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 
 class Slime extends Living{
@@ -37,7 +35,7 @@ class Slime extends Living{
 
     public function getDrops(){
         return [
-            drp::get(drp::SLIMEBALL, 0, mt_rand(0, 2))
+            [ItemItem::get(ItemItem::SLIMEBALL, 0, mt_rand(0, 2))]
         ];
     }
 

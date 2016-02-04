@@ -29,6 +29,9 @@ class Session{
     const STATE_CONNECTING_2 = 2;
     const STATE_CONNECTED = 3;
 
+	const MAX_SPLIT_SIZE = 128;
+	const MAX_SPLIT_COUNT = 4;
+
     public static $WINDOW_SIZE = 2048;
 
     private $messageIndex = 0;
@@ -39,7 +42,6 @@ class Session{
     private $address;
     private $port;
     private $state = self::STATE_UNCONNECTED;
-	private $preJoinQueue = [];
     private $mtuSize = 548; //Min size
     private $id = 0;
     private $splitID = 0;
@@ -49,6 +51,8 @@ class Session{
 
     private $lastUpdate;
     private $startTime;
+
+	private $isTemporal = true;
 
     /** @var DataPacket[] */
     private $packetToSend = [];
@@ -291,12 +295,15 @@ class Session{
     }
 	
 	private function handleSplit(EncapsulatedPacket $packet){
-		if($packet->splitCount >= 128){
+		if($packet->splitCount >= self::MAX_SPLIT_SIZE or $packet->splitIndex >= self::MAX_SPLIT_SIZE or $packet->splitIndex < 0){
 			return;
 		}
 
 
 		if(!isset($this->splitPackets[$packet->splitID])){
+			if(count($this->splitPackets) >= self::MAX_SPLIT_COUNT){
+				return;
+			}
 			$this->splitPackets[$packet->splitID] = [$packet->splitIndex => $packet];
 		}else{
 			$this->splitPackets[$packet->splitID][$packet->splitIndex] = $packet;
@@ -351,6 +358,14 @@ class Session{
 
 	}
 
+	public function getState(){
+		return $this->state;
+	}
+
+	public function isTemporal(){
+		return $this->isTemporal;
+	}
+
     private function handleEncapsulatedPacketRoute(EncapsulatedPacket $packet){
         if($this->sessionManager === null){
             return;
@@ -388,11 +403,8 @@ class Session{
 
 					if($dataPacket->port === $this->sessionManager->getPort() or !$this->sessionManager->portChecking){
 						$this->state = self::STATE_CONNECTED; //FINALLY!
+						$this->isTemporal = false;
 						$this->sessionManager->openSession($this);
-						foreach($this->preJoinQueue as $p){
-							$this->sessionManager->streamEncapsulated($this, $p);
-						}
-						$this->preJoinQueue = [];
 					}
 				}
 			}elseif($id === CLIENT_DISCONNECT_DataPacket::$ID){
@@ -416,7 +428,7 @@ class Session{
 
 			//TODO: stream channels
 		}else{
-			$this->preJoinQueue[] = $packet;
+			//$this->sessionManager->getLogger()->notice("Received packet before connection: " . bin2hex($packet->buffer));
 		}
 	}
 
@@ -482,13 +494,7 @@ class Session{
 
         }elseif($packet::$ID > 0x00 and $packet::$ID < 0x80){ //Not Data packet :)
             $packet->decode();
-            if($packet instanceof UNCONNECTED_PING){
-                $pk = new UNCONNECTED_PONG();
-                $pk->serverID = $this->sessionManager->getID();
-                $pk->pingID = $packet->pingID;
-                $pk->serverName = $this->sessionManager->getName();
-				$this->sendPacket($pk);
-            }elseif($packet instanceof OPEN_CONNECTION_REQUEST_1){
+            if($packet instanceof OPEN_CONNECTION_REQUEST_1){
                 $packet->protocol; //TODO: check protocol number and refuse connections
                 $pk = new OPEN_CONNECTION_REPLY_1();
                 $pk->mtuSize = $packet->mtuSize;

@@ -25,7 +25,7 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\NBT;
 
 class Item{
-
+	
 	private static $cachedParser = null;
 
 	/**
@@ -488,6 +488,11 @@ class Item{
 	const BEETROOT_SEEDS = 458;
 	const BEETROOT_SEED = 458;
 	const BEETROOT_SOUP = 459;
+	const RAW_SALMON = 460;
+	const CLOWNFISH = 461;
+	const PUFFERFISH = 462;
+	const COOKED_SALMON = 463;
+	const ENCHANTED_GOLDEN_APPLE = 466;
 
 
 	/** @var \SplFixedArray */
@@ -501,6 +506,8 @@ class Item{
 	protected $durability = 0;
 	protected $name;
 	protected $exp_smelt = 0;
+	protected $entityname = null;
+	protected $f = 1.0;
 
 	public function canBeActivated(){
 		return false;
@@ -677,6 +684,11 @@ class Item{
 			self::$list[self::BEETROOT] = Beetroot::class;
 			self::$list[self::BEETROOT_SEEDS] = BeetrootSeeds::class;
 			self::$list[self::BEETROOT_SOUP] = BeetrootSoup::class;
+			self::$list[self::RAW_SALMON] = RawSalmon::class;
+			self::$list[self::CLOWNFISH] = Clownfish::class;
+			self::$list[self::PUFFERFISH] = Pufferfish::class;
+			self::$list[self::COOKED_SALMON] = CookedSalmon::class;
+			self::$list[self::ENCHANTED_GOLDEN_APPLE] = EnchantedGoldenApple::class;
 
 			for($i = 0; $i < 256; ++$i){
 				if(Block::$list[$i] !== null){
@@ -878,9 +890,9 @@ class Item{
 		
 		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM, 0));
 		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM, 0));
+		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM_BLOCK, 14));
+		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM_BLOCK, 14));
 		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM_BLOCK, 0));
-		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM_BLOCK, 0));
-		Item::addCreativeItem(Item::get(Item::BROWN_MUSHROOM_BLOCK, 15));
 		Item::addCreativeItem(Item::get(Item::RED_MUSHROOM_BLOCK, 15));
 		Item::addCreativeItem(Item::get(Item::CACTUS, 0));
 		Item::addCreativeItem(Item::get(Item::MELON_BLOCK, 0));
@@ -1112,13 +1124,13 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::EGG, 0));
 		Item::addCreativeItem(Item::get(Item::APPLE, 0));
 		Item::addCreativeItem(Item::get(Item::GOLDEN_APPLE, 0));
-		Item::addCreativeItem(Item::get(Item::GOLDEN_APPLE, 1)); // Enchanted golden apple
+		Item::addCreativeItem(Item::get(Item::ENCHANTED_GOLDEN_APPLE, 0)); // Enchanted golden apple
 		Item::addCreativeItem(Item::get(Item::RAW_FISH, 0)); 
-		Item::addCreativeItem(Item::get(Item::RAW_FISH, 1)); // Salmon
-		Item::addCreativeItem(Item::get(Item::RAW_FISH, 2)); // Clownfish
-		Item::addCreativeItem(Item::get(Item::RAW_FISH, 3)); // Pufferfish
+		Item::addCreativeItem(Item::get(Item::RAW_SALMON, 0)); // Salmon
+		Item::addCreativeItem(Item::get(Item::CLOWNFISH, 0)); // Clownfish
+		Item::addCreativeItem(Item::get(Item::PUFFERFISH, 0)); // Pufferfish
 		Item::addCreativeItem(Item::get(Item::COOKED_FISH, 0));
-		Item::addCreativeItem(Item::get(Item::COOKED_FISH, 1)); // Salmon
+		Item::addCreativeItem(Item::get(Item::COOKED_SALMON, 0)); // Salmon
 		Item::addCreativeItem(Item::get(Item::ROTTEN_FLESH, 0));
 		Item::addCreativeItem(Item::get(Item::MUSHROOM_STEW, 0));
 		Item::addCreativeItem(Item::get(Item::BREAD, 0));
@@ -1578,7 +1590,7 @@ class Item{
 			]);
 		}
 		
-                $this->setNamedTag($tag);
+		$this->setNamedTag($tag);
 		return $this;
 	}
 
@@ -1644,9 +1656,16 @@ class Item{
 	final public function getName(){
 		return $this->hasCustomName() ? $this->getCustomName() : $this->name;
 	}
-
+	
+	final public function getEntityName(){
+		return $this->entityname == null ? $this->name : $this->entityname;
+	}
+	
 	final public function canBePlaced(){
 		return $this->block !== null and $this->block->canBePlaced();
+	}
+	final public function isPlaceable() {
+		$this->canBePlaced();
 	}
 
 	public function getBlock(){

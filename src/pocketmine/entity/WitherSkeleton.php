@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageByEntityEvent;
-use pocketmine\item\Item as drp;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 
 class WitherSkeleton extends Skeleton{
@@ -34,14 +34,14 @@ class WitherSkeleton extends Skeleton{
         $drops = [];
         if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof Player){
             $drops = [
-                drp::get(drp::COAL, 0, mt_rand(0, 1)),
-                drp::get(drp::BONE, 0, mt_rand(0, 2))
+                [ItemItem::get(ItemItem::COAL, 0, mt_rand(0, 1))],
+                [ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))]
             ];
         }
 
         if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof ChargedCreeper){
             $drops = [
-                drp::get(drp::SKULL, 1, 1)
+                [ItemItem::get(ItemItem::SKULL, 1, 1)]
             ];
         }
 

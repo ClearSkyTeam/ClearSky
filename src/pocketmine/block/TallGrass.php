@@ -65,12 +65,12 @@ class TallGrass extends Flowable{
 
 	public function getDrops(Item $item){
 		if($item->isShears()){
-			return [$this->id, $this->meta, 1];
-		}elseif(mt_rand(0, 15) === 0){
-			return [Item::WHEAT_SEEDS, 0, 1];
+			return [[$this->id,$this->meta,1]];
 		}
-
+		elseif(mt_rand(0, 15) === 0){
+			return [[Item::WHEAT_SEEDS,0,1]];
+		}
+		
 		return [];
 	}
-
 }

@@ -1,56 +1,46 @@
 <?php
+
 namespace pocketmine\inventory;
 
 use pocketmine\item\Item;
 use pocketmine\tile\BrewingStand;
 
 class BrewingInventory extends ContainerInventory{
+
 	public function __construct(BrewingStand $tile){
 		parent::__construct($tile, InventoryType::get(InventoryType::BREWING_STAND));
 	}
 
 	/**
+	 *
 	 * @return BrewingStand
 	 */
 	public function getHolder(){
 		return $this->holder;
 	}
 
-	/**
-	 * @return Item
-	 */
-	public function getResult(){
-		return $this->getItem(1);
+	public function setIngredient(Item $item){
+		$this->setItem(0, $item);
 	}
 
 	/**
+	 *
 	 * @return Item
 	 */
 	public function getIngredient(){
-		return $this->getItem(3);
-	}
-
-	/**
-	 * @param Item $item
-	 *
-	 * @return bool
-	 */
-	public function setResult(Item $item){
-		return $this->setItem(1, $item);
-	}
-
-	/**
-	 * @param Item $item
-	 *
-	 * @return bool
-	 */
-	public function setBrewing(Item $item){
-		return $this->setItem(0, $item);
+		return $this->getItem(0);
 	}
 
 	public function onSlotChange($index, $before){
 		parent::onSlotChange($index, $before);
-
 		$this->getHolder()->scheduleUpdate();
+	}
+
+	public function getResult(){
+		if($brew = $this->getHolder()->getServer()->getCraftingManager()->matchBrewingRecipe($this->getIngredient())){
+			$canbrew = ($brew instanceof BrewingRecipe);
+			if($canbrew) return $brew->getResult();
+		}
+		return Item::get(Item::AIR, 0, 1);
 	}
 }

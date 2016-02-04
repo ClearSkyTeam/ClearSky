@@ -11,7 +11,6 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Short;
 use pocketmine\nbt\tag\String;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\RemovePlayerPacket;
 use pocketmine\Player;
@@ -39,7 +38,6 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	protected $skin;
 	protected $skinName;
-	protected $skinTransparency = false;
 
 	public function getSkinData(){
 		return $this->skin;
@@ -47,10 +45,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function getSkinName(){
 		return $this->skinName;
-	}
 
-	public function isSkinTransparent(){
-		return $this->skinTransparency;
 	}
 
 	/**
@@ -72,10 +67,9 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	 * @param bool   $skinName
 	 * @param bool   $skinTransparency
 	 */
-	public function setSkin($str, $skinName, $skinTransparency = false){
+	public function setSkin($str, $skinName){
 		$this->skin = $str;
 		$this->skinName = $skinName;
-		$this->skinTransparency = $skinTransparency;
 	}
 
 	public function getInventory(){
@@ -182,7 +176,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		if(strlen($this->getSkinData()) > 0){
 			$this->namedtag->Skin = new Compound("Skin", [
 				"Data" => new String("Data", $this->getSkinData()),
-				"Name" => new Byte("Name", $this->getSkinName())
+				"Name" => new String("Name", $this->getSkinName())
 			]);
 		}
 	}
@@ -217,7 +211,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			$pk->item = $this->getInventory()->getItemInHand();
 			$pk->metadata = $this->dataProperties;
 			$player->dataPacket($pk);
-
+			
 			$this->inventory->sendArmorContents($player);
 
 			if(!($this instanceof Player)){

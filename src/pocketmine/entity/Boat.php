@@ -1,30 +1,25 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\item\Item as ItemItem;
+use pocketmine\event\entity\EntityRegainHealthEvent;
 
-class Boat extends Entity{
+class Boat extends Vehicle{
 	const NETWORK_ID = 90;
 
-	public function spawnTo(Player $player){
-		$pk = new AddEntityPacket();
-		$pk->eid = $this->getId();
-		$pk->type = Boat::NETWORK_ID;
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = 0;
-		$pk->speedY = 0;
-		$pk->speedZ = 0;
-		$pk->yaw = 0;
-		$pk->pitch = 0;
-		$pk->metadata = $this->dataProperties;
-		$player->dataPacket($pk);
+	public function initEntity(){
+		$this->setMaxHealth(4);
+		parent::initEntity();
+	}
 
+	public function spawnTo(Player $player){
+		$pk = $this->addEntityDataPacket($player);
+		$pk->type = self::NETWORK_ID;
+		
+		$player->dataPacket($pk);
 		parent::spawnTo($player);
 	}
 
@@ -34,13 +29,34 @@ class Boat extends Entity{
 		if(!$source->isCancelled()){
 			$pk = new EntityEventPacket();
 			$pk->eid = $this->id;
-			$pk->event = EntityEventPacket::HURT_ANIMATION;
+			$pk->event = $this->getHealth() <= 0?EntityEventPacket::DEATH_ANIMATION:EntityEventPacket::HURT_ANIMATION;
 			foreach($this->getLevel()->getPlayers() as $player){
 				$player->dataPacket($pk);
 			}
 		}
 	}
+	
+	public function onUpdate($currentTick){
+		if($this->isAlive()){
+			$this->timings->startTiming();
+			$hasUpdate = false;
+			
+			if($this->isInsideOfWater()){
+				$hasUpdate = true;
+				$this->move(0,0.1,0);
+				$this->updateMovement();
+			}
+			if($this->getHealth() < $this->getMaxHealth()){
+				$this->heal(0.1, $source = EntityRegainHealthEvent::CAUSE_MAGIC);
+				$hasUpdate = true;
+			}
+			
+			$this->timings->stopTiming();
 
+			return $hasUpdate;
+		}
+	}
+	
 	public function kill(){
 		parent::kill();
 
@@ -51,7 +67,7 @@ class Boat extends Entity{
 
 	public function getDrops(){
 		return [
-			ItemItem::get(ItemItem::BOAT, 0, 1)
+			[ItemItem::get(ItemItem::BOAT, 0, 1)]
 		];
 	}
 

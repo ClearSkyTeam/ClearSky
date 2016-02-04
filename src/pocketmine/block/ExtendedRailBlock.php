@@ -22,7 +22,7 @@ abstract class ExtendedRailBlock extends RailBlock{
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $block->getSide(Vector3::SIDE_DOWN);
-		if($down->isTransparent() === false){
+		if($down->isTransparent() === false	|| ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
 			$this->getLevel()->setBlock($this, Block::get($this->id, 0));
 			$up = $block->getSide(Vector3::SIDE_UP);
 			if($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){

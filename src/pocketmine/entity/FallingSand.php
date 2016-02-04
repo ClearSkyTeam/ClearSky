@@ -1,18 +1,15 @@
 <?php
 namespace pocketmine\entity;
 
-
 use pocketmine\block\Block;
 
 use pocketmine\block\Liquid;
 use pocketmine\event\entity\EntityBlockChangeEvent;
 use pocketmine\event\entity\EntityDamageEvent;
-
 use pocketmine\item\Item as ItemItem;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\Byte;
 use pocketmine\nbt\tag\Int;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
@@ -138,18 +135,8 @@ class FallingSand extends Entity{
 	}
 
 	public function spawnTo(Player $player){
-		$pk = new AddEntityPacket();
+		$pk = $this->addEntityDataPacket($player);
 		$pk->type = FallingSand::NETWORK_ID;
-		$pk->eid = $this->getId();
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = $this->motionX;
-		$pk->speedY = $this->motionY;
-		$pk->speedZ = $this->motionZ;
-		$pk->yaw = $this->yaw;
-		$pk->pitch = $this->pitch;
-		$pk->metadata = $this->dataProperties;
 		$player->dataPacket($pk);
 
 		parent::spawnTo($player);

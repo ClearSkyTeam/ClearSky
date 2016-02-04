@@ -19,53 +19,40 @@ abstract class RailBlock extends Flowable{
 		if($down->isTransparent() === false){
 			$up = $block->getSide(Vector3::SIDE_UP);
 			if($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 				return $this->setDirection(self::SIDE_SOUTH_EAST);
 			}
 			elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 				return $this->setDirection(self::SIDE_NORTH_EAST);
 			}
 			elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 				return $this->setDirection(self::SIDE_SOUTH_WEST);
 			}
 			elseif($block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 				return $this->setDirection(self::SIDE_NORTH_WEST);
 			}
 			elseif($block->getSide(Vector3::SIDE_EAST) instanceof RailBlock && $block->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 				if($up->getSide(Vector3::SIDE_EAST) instanceof RailBlock){
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					return $this->setDirection(Vector3::SIDE_EAST, true);
 				}
 				elseif($up->getSide(Vector3::SIDE_WEST) instanceof RailBlock){
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					return $this->setDirection(Vector3::SIDE_WEST, true);
 				}
 				else{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					return $this->setDirection(Vector3::SIDE_EAST);
 				}
 			}
 			elseif($block->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock && $block->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 				if($up->getSide(Vector3::SIDE_SOUTH) instanceof RailBlock){
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					return $this->setDirection(Vector3::SIDE_SOUTH, true);
 				}
 				elseif($up->getSide(Vector3::SIDE_NORTH) instanceof RailBlock){
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					return $this->setDirection(Vector3::SIDE_NORTH, true);
 				}
 				else{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					return $this->setDirection(Vector3::SIDE_SOUTH);
 				}
 			}
 			else{
-				echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 				return $this->setDirection(Vector3::SIDE_NORTH);
 			}
 		}
@@ -137,63 +124,52 @@ abstract class RailBlock extends Flowable{
 
 	public function setDirection($face, $isOnSlope = false){
 		$class = "";
-		echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 		switch($face){
 			case Vector3::SIDE_EAST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = $isOnSlope?2:1;
 				}
 				break;
 			case Vector3::SIDE_WEST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = $isOnSlope?3:1;
 				}
 				break;
 			case Vector3::SIDE_NORTH:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = $isOnSlope?4:0;
 				}
 				break;
 			case Vector3::SIDE_SOUTH:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = $isOnSlope?5:0;
 				}
 				break;
 			case self::SIDE_NORTH_WEST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 6;
 				}
 				break;
 			case self::SIDE_NORTH_EAST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 7;
 				}
 				break;
 			case self::SIDE_SOUTH_EAST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 8;
 				}
 				break;
 			case self::SIDE_SOUTH_WEST:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 9;
 				}
 				break;
 			default:
 				{
-					echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 					$meta = 0;
 				}
 		}
-		echo __METHOD__ . "," . __LINE__ . "  class=$class\n"; // ##DEBUG
 		return $this->getLevel()->setBlock($this, Block::get($this->id, $meta));
 	}
 

@@ -1,9 +1,9 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\network\protocol\AddPaintingPacket;
 use pocketmine\Player;
+use pocketmine\item\Item as ItemItem;
+use pocketmine\network\protocol\AddPaintingPacket;
 
 class Painting extends Hanging{
 	const NETWORK_ID = 83;
@@ -11,17 +11,12 @@ class Painting extends Hanging{
 	private $motive;
 	
 	public function initEntity(){
+		$this->setMaxHealth(1);
 		parent::initEntity();
 		
 		if(isset($this->namedtag->Motive)) {
 			$this->motive = $this->namedtag["Motive"];
 		} else $this->close();
-	}
-	
-	public function attack($damage, EntityDamageEvent $source){
-		parent::attack($damage, $source);
-		
-		$this->close();
 	}
 	
 	public function spawnTo(Player $player){
@@ -33,7 +28,18 @@ class Painting extends Hanging{
 		$pk->direction = $this->getDirection();
 		$pk->title = $this->motive;
 		$player->dataPacket($pk);
-
 		parent::spawnTo($player);
+	}
+
+	public function kill(){
+		parent::kill();
+	
+		foreach($this->getDrops() as $item){
+			$this->getLevel()->dropItem($this, $item);
+		}
+	}
+	
+	public function getDrops(){
+		return [[ItemItem::get(ItemItem::PAINTING, 0, 1)]];
 	}
 }

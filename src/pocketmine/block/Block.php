@@ -903,26 +903,44 @@ class Block extends Position implements Metadatable{
 			$around = $this->getSide($side);
 			if($around instanceof RedstoneTransmitter and $around->getPower() > 0){
 				$around_back = $around->getSide($side);
+				$Rcount = 0;
+				$Tcount = 0;
 				if($around_back instanceof RedstoneTransmitter){
-					$Rcount = 0;
-				}
-				else{
-					$Rcount = 1;
-				}
-				for($side2 = 2; $side2 <= 5; $side2++){
-					$around2 = $around->getSide($side2);
-					if($around2 instanceof RedstoneTransmitter){
-						$Rcount++;
-					}
-					else{
-						if(!$around2 instanceof Transparent){
+					for($side2 = 2; $side2 <= 5; $side2++){
+						$around2 = $around->getSide($side2);
+						if($around2 instanceof RedstoneTransmitter){
+							$Rcount++;
+						}elseif($around2 ->getId() == Block::LIT_REDSTONE_TORCH){
+							$Tcount++;
+						}elseif(!$around2 instanceof Transparent){
 							$up = $around2->getSide(1);
 							if($up instanceof RedstoneTransmitter){
-								return true;
+								$Rcount++;
+							}
+						}elseif($around2->getId() == Block::AIR){
+							$down = $around2->getSide(0);
+							if($down instanceof RedstoneTransmitter){
+								$Rcount++;
 							}
 						}
-						else{
-							if($around2->id == self::AIR){
+					}
+					if($Tcount > 0){
+						return true;
+					}
+				}else{
+					if($around_back->getPower()>0 or ($around_back->getId() == Block::AIR and $around_back->getSide(0) instanceof RedstoneTransmitter) or ($around_back->getSide(1) instanceof RedstoneTransmitter)){
+						for($side2 = 2; $side2 <= 5; $side2++){
+							$around2 = $around->getSide($side2);
+							if($around2 instanceof RedstoneTransmitter){
+								$Rcount++;
+							}elseif($around2 ->getId() == Block::LIT_REDSTONE_TORCH){
+								$Rcount++;
+							}elseif(!$around2 instanceof Transparent){
+								$up = $around2->getSide(1);
+								if($up instanceof RedstoneTransmitter){
+									$Rcount++;
+								}
+							}elseif($around2->getId() == Block::AIR){
 								$down = $around2->getSide(0);
 								if($down instanceof RedstoneTransmitter){
 									$Rcount++;
@@ -1101,8 +1119,12 @@ class Block extends Position implements Metadatable{
 		return;
 	}
 	
+	public function chkTarget($hash){
+		return false;
+	}
+	
 	public function isPowered(){
-		$hash = Level::blockHash($this->x,$this->y,$this->z);
+		$hash = $this->getHash();
 		if($this instanceof Transparent){
 			if($this->isPointCharged()){
 				return true;
@@ -1112,7 +1134,7 @@ class Block extends Position implements Metadatable{
 		}
 		for($side = 0; $side <= 5; $side++){
 			$near = $this->getSide($side);
-			if($near->isCharged($hash)){
+			if($near->isCharged($hash) or ($near instanceof RedstoneSwitch and $near->getPower()>0)){
 				return true;
 			}
 		}

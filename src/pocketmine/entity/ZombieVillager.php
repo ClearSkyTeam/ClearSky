@@ -1,8 +1,6 @@
 <?php
 namespace pocketmine\entity;
 
-
-use pocketmine\item\Item as drp;
 use pocketmine\Player;
 
 class ZombieVillager extends Zombie{

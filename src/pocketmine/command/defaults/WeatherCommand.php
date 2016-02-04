@@ -48,9 +48,7 @@ class WeatherCommand extends VanillaCommand{
                 return true;
             }
 
-            $level->setRaining(false);
-            $level->setThundering(false);
-            $level->setRainTime($seconds * 20);
+            $level->setWeather(Level::WEATHER_CLEARSKY);
 
             Command::broadcastCommandMessage($sender, new TranslationContainer("commands.weather.clear"));
 
@@ -61,9 +59,14 @@ class WeatherCommand extends VanillaCommand{
                 $sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
                 return true;
             }
-
-            $level->setRaining(true);
-            $level->setRainTime($seconds * 20);
+			
+			if(isset($args[1]) and is_numeric($args[1]) and $args[1] > 0){
+				$time = $args[1];
+			}else{
+				$time = 120;
+			}
+			
+            $level->setWeather(Level::WEATHER_RAIN,$time);
 
             Command::broadcastCommandMessage($sender, new TranslationContainer("commands.weather.rain"));
 
@@ -74,12 +77,12 @@ class WeatherCommand extends VanillaCommand{
                 $sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
                 return true;
             }
+//WEATHER TODO : THUNDER
+            //$level->setThundering(true);
+            //$level->setRainTime($seconds * 20);
+            //$level->setThunderTime($seconds * 20);
 
-            $level->setThundering(true);
-            $level->setRainTime($seconds * 20);
-            $level->setThunderTime($seconds * 20);
-
-            Command::broadcastCommandMessage($sender, new TranslationContainer("commands.weather.thunder"));
+            Command::broadcastCommandMessage($sender,"WIP"/* new TranslationContainer("commands.weather.thunder")*/);
 
             return true;
 

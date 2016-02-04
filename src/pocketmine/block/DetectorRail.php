@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
@@ -10,7 +11,6 @@ use pocketmine\Player;
 use pocketmine\math\Vector3;
 
 class DetectorRail extends ExtendedRailBlock implements RedstoneConsumer{
-
 	protected $id = self::DETECTOR_RAIL;
 	const SIDE_NORTH_WEST = 6;
 	const SIDE_NORTH_EAST = 7;
@@ -32,11 +32,11 @@ class DetectorRail extends ExtendedRailBlock implements RedstoneConsumer{
 	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
 	}
-	
+
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED){
 			if($this->meta === 1 && !$this->isEntityCollided()){
-				$this->meta =0;
+				$this->meta = 0;
 				$this->getLevel()->setBlock($this, Block::get($this->getId(), $this->meta), false, true, true);
 				return Level::BLOCK_UPDATE_WEAK;
 			}
@@ -54,17 +54,16 @@ class DetectorRail extends ExtendedRailBlock implements RedstoneConsumer{
 	}
 
 	public function getDrops(Item $item){
-		return [[Item::DETECTOR_RAIL, 0, 1]];
+		return [[Item::DETECTOR_RAIL,0,1]];
 	}
 
 	public function isPowered(){
 		return (($this->meta & 0x01) === 0x01);
 	}
-	
+
 	public function isEntityCollided(){
-		foreach ($this->getLevel()->getEntities() as $entity){
-			if($entity instanceof Minecart && $this->getLevel()->getBlock($entity->getPosition()) === $this)
-				return true;
+		foreach($this->getLevel()->getEntities() as $entity){
+			if($entity instanceof Minecart && $this->getLevel()->getBlock($entity->getPosition()) === $this) return true;
 		}
 		return false;
 	}
@@ -74,45 +73,45 @@ class DetectorRail extends ExtendedRailBlock implements RedstoneConsumer{
 	 */
 	public function togglePowered(){
 		$this->meta ^= 0x08;
-		$this->isPowered()?$this->power=15:$this->power=0;
+		$this->isPowered()?$this->power = 15:$this->power = 0;
 		$this->getLevel()->setBlock($this, $this, true, true);
 	}
 
-	public function setDirection($face, $isOnSlope=false){
-		$extrabitset=(($this->meta&0x08)===0x08);
+	public function setDirection($face, $isOnSlope = false){
+		$extrabitset = (($this->meta & 0x08) === 0x08);
 		if($face !== Vector3::SIDE_WEST && $face !== Vector3::SIDE_EAST && $face !== Vector3::SIDE_NORTH && $face !== Vector3::SIDE_SOUTH){
 			throw new IllegalArgumentException("This rail variant can't be on a curve!");
 		}
-		$this->meta=($extrabitset?($this->meta|0x08):($this->meta&~0x08));
+		$this->meta = ($extrabitset?($this->meta | 0x08):($this->meta & ~0x08));
 		$this->getLevel()->setBlock($this, Block::get($this->id, $this->meta));
 	}
-	
+
 	public function isCurve(){
 		return false;
 	}
-	
+
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$down=$block->getSide(Vector3::SIDE_DOWN);
-		if($down->isTransparent() === false){
-			$this->getLevel()->setBlock($this, Block::get($this->id,0));
-			$up=$block->getSide(Vector3::SIDE_UP);
-			if($block->getSide(Vector3::SIDE_EAST)&&$block->getSide(Vector3::SIDE_WEST)){
+		$down = $block->getSide(Vector3::SIDE_DOWN);
+		if($down->isTransparent() === false || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
+			$this->getLevel()->setBlock($this, Block::get($this->id, 0));
+			$up = $block->getSide(Vector3::SIDE_UP);
+			if($block->getSide(Vector3::SIDE_EAST) && $block->getSide(Vector3::SIDE_WEST)){
 				if($up->getSide(Vector3::SIDE_EAST)){
-					$this->setDirection(Vector3::SIDE_EAST,true);
+					$this->setDirection(Vector3::SIDE_EAST, true);
 				}
 				elseif($up->getSide(Vector3::SIDE_WEST)){
-					$this->setDirection(Vector3::SIDE_WEST,true);
+					$this->setDirection(Vector3::SIDE_WEST, true);
 				}
 				else{
 					$this->setDirection(Vector3::SIDE_EAST);
 				}
 			}
-			elseif($block->getSide(Vector3::SIDE_SOUTH)&&$block->getSide(Vector3::SIDE_NORTH)){
+			elseif($block->getSide(Vector3::SIDE_SOUTH) && $block->getSide(Vector3::SIDE_NORTH)){
 				if($up->getSide(Vector3::SIDE_SOUTH)){
-					$this->setDirection(Vector3::SIDE_SOUTH,true);
+					$this->setDirection(Vector3::SIDE_SOUTH, true);
 				}
 				elseif($up->getSide(Vector3::SIDE_NORTH)){
-					$this->setDirection(Vector3::SIDE_NORTH,true);
+					$this->setDirection(Vector3::SIDE_NORTH, true);
 				}
 				else{
 					$this->setDirection(Vector3::SIDE_SOUTH);

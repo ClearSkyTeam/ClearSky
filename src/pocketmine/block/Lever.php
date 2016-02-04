@@ -3,6 +3,8 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 use pocketmine\level\Level;
+use pocketmine\level\sound\ButtonClickSound;
+use pocketmine\level\sound\ButtonReturnSound;
 use pocketmine\Player;
 
 class Lever extends Flowable implements Redstone,RedstoneSource,RedstoneSwitch{
@@ -122,13 +124,16 @@ class Lever extends Flowable implements Redstone,RedstoneSource,RedstoneSwitch{
 	
 	public function onActivate(Item $item, Player $player = null){
 		if($this->meta <= 7 ){
+			$this->getLevel()->addSound(new ButtonClickSound($this));
 			$type = Level::REDSTONE_UPDATE_PLACE;
 		}else{
+			$this->getLevel()->addSound(new ButtonReturnSound($this));
 			$type = Level::REDSTONE_UPDATE_BREAK;
 		}
 		$this->meta ^= 0x08;
 		$this->getLevel()->setBlock($this, $this ,true ,false);
 		$this->BroadcastRedstoneUpdate($type,Block::REDSTONESOURCEPOWER);
+		return true;
 	}
 	
 	public function getDrops(Item $item){

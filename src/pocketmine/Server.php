@@ -18,6 +18,7 @@ use pocketmine\entity\Chicken;
 use pocketmine\entity\Cow;
 use pocketmine\entity\Creeper;
 use pocketmine\entity\Effect;
+use pocketmine\entity\Egg;
 use pocketmine\entity\Enderman;
 use pocketmine\entity\Entity;
 use pocketmine\entity\ExperienceOrb;
@@ -1527,7 +1528,13 @@ class Server{
 				$this->logger->warning("xdebug Enabled !ONLY FOR DEVELOPMENT USE!");
 			}
 		}
-
+		if(!$this->getProperty("I/O.log-to-file", true)){
+			$this->logger->info("Disable MainLogger to file");
+			$this->logger->Disable();
+		}else{
+			$this->logger->info("Enable MainLogger to file");
+			$this->logger->Enable();
+		}
 		$this->forceLanguage = $this->getProperty("settings.force-language", false);
 		$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
 		$this->logger->info($this->getLanguage()->translateString("language.selected", [$this->getLanguage()->getName(), $this->getLanguage()->getLang()]));
@@ -2285,10 +2292,10 @@ class Server{
 		}
 	}
 
-	public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinName, $skinData, array $players = null, $skinTransparency = false){
+	public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinName, $skinData, array $players = null){
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
-		$pk->entries[] = [$uuid, $entityId, $name, $skinName, $skinData, $skinTransparency];
+		$pk->entries[] = [$uuid, $entityId, $name, $skinName, $skinData];
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
 	}
 
@@ -2303,7 +2310,7 @@ class Server{
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		foreach($this->playerList as $player){
-			$pk->entries[] = [$player->getUniqueId(), $player->getId(), $player->getDisplayName(), $player->getSkinName(), $player->getSkinData(), $player->isSkinTransparent()];
+			$pk->entries[] = [$player->getUniqueId(), $player->getId(), $player->getDisplayName(), $player->getSkinName(), $player->getSkinData()];
 		}
 
 		$p->dataPacket($pk);
@@ -2431,20 +2438,22 @@ class Server{
 		if(!Terminal::hasFormattingCodes()){
 			return;
 		}
+		
+		if($this->getProperty("I/O.title-usage", true)){
+			$d = Utils::getRealMemoryUsage();
 
-		$d = Utils::getRealMemoryUsage();
+			$u = Utils::getMemoryUsage(true);
+			$usage = round(($u[0] / 1024) / 1024, 2) . "/" . round(($d[0] / 1024) / 1024, 2) . "/" . round(($u[1] / 1024) / 1024, 2) . "/" . round(($u[2] / 1024) / 1024, 2) . " MB @ " . Utils::getThreadCount() . " threads";
 
-		$u = Utils::getMemoryUsage(true);
-		$usage = round(($u[0] / 1024) / 1024, 2) . "/" . round(($d[0] / 1024) / 1024, 2) . "/" . round(($u[1] / 1024) / 1024, 2) . "/" . round(($u[2] / 1024) / 1024, 2) . " MB @ " . Utils::getThreadCount() . " threads";
-
-		echo "\x1b]0;" . $this->getName() . " " .
-			$this->getPocketMineVersion() .
-			" | Online " . count($this->players) . "/" . $this->getMaxPlayers() .
-			" | Memory " . $usage .
-			" | U " . round($this->network->getUpload() / 1024, 2) .
-			" D " . round($this->network->getDownload() / 1024, 2) .
-			" kB/s | TPS " . $this->getTicksPerSecondAverage() .
-			" | Load " . $this->getTickUsageAverage() . "%\x07";
+			echo "\x1b]0;" . $this->getName() . " " .
+				$this->getPocketMineVersion() .
+				" | Online " . count($this->players) . "/" . $this->getMaxPlayers() .
+				" | Memory " . $usage .
+				" | U " . round($this->network->getUpload() / 1024, 2) .
+				" D " . round($this->network->getDownload() / 1024, 2) .
+				" kB/s | TPS " . $this->getTicksPerSecondAverage() .
+				" | Load " . $this->getTickUsageAverage() . "%\x07";
+		}
 
 		$this->network->resetStatistics();
 	}
@@ -2560,7 +2569,7 @@ class Server{
 		$tick = min(20, 1 / max(0.001, $now - $tickTime));
 		$use = min(1, ($now - $tickTime) / 0.05);
 
-		//TimingsHandler::tick($tick <= $this->profilingTickRate);
+		TimingsHandler::tick($tick <= $this->profilingTickRate);
 
 		if($this->maxTick > $tick){
 			$this->maxTick = $tick;
@@ -2595,6 +2604,7 @@ class Server{
 		Entity::registerEntity(Cow::class);
 		Entity::registerEntity(Creeper::class);
 		Entity::registerEntity(DroppedItem::class);
+		Entity::registerEntity(Egg::class);
 		Entity::registerEntity(Enderman::class);
 		Entity::registerEntity(ExperienceOrb::class);
 		Entity::registerEntity(FallingSand::class);
