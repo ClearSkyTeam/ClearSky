@@ -33,7 +33,7 @@ class SnowGolem extends Animal{
 
     public function getDrops(){
         return [
-            [ItemItem::get(ItemItem::SNOWBALL, 0, mt_rand(0, 15))]
+            ItemItem::get(ItemItem::SNOWBALL, 0, mt_rand(0, 15))
         ];
     }
 

@@ -67,7 +67,7 @@ class Boat extends Vehicle{
 
 	public function getDrops(){
 		return [
-			[ItemItem::get(ItemItem::BOAT, 0, 1)]
+			ItemItem::get(ItemItem::BOAT, 0, 1)
 		];
 	}
 
