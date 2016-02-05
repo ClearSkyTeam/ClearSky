@@ -11,10 +11,6 @@ class Obsidian extends Solid{
 	public function __construct(){
 
 	}
-	
-	public function buildProtal(){
-		for($i=0;)
-	}
 
 	public function getName(){
 		return "Obsidian";
