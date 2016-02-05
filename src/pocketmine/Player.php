@@ -728,6 +728,37 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 	}
 
+	public function changeDimension(Level $targetLevel, $isNether = false){
+		$oldLevel = $this->level;
+		if(parent::switchLevel($targetLevel)){
+			foreach($this->usedChunks as $index => $d){
+				Level::getXZ($index, $X, $Z);
+				$this->unloadChunk($X, $Z, $oldLevel);
+			}
+			
+			$this->usedChunks = [];
+			$pk = new SetTimePacket();
+			$pk->time = $this->level->getTime();
+			$pk->started = $this->level->stopTime == false;
+			$this->dataPacket($pk);
+			
+			// if(WeatherManager::isRegistered($targetLevel)) $targetLevel->getWeather()->sendWeather($this);
+			
+			if($isNether){
+				$pk = new ChangeDimensionPacket();
+				$pk->dimension = ChangeDimensionPacket::NETHER;
+				$this->dataPacket($pk);
+				$this->shouldSendStatus = true;
+			}
+			else{
+				$pk = new ChangeDimensionPacket();
+				$pk->dimension = ChangeDimensionPacket::NORMAL;
+				$this->dataPacket($pk);
+				$this->shouldSendStatus = true;
+			}
+		}
+	}
+
 	private function unloadChunk($x, $z, Level $level = null){
 		$level = $level === null ? $this->level : $level;
 		$index = Level::chunkHash($x, $z);
