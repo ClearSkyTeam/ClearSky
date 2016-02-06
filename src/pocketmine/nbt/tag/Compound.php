@@ -77,7 +77,7 @@ class Compound extends NamedTag implements \ArrayAccess{
 				$nbt->writeTag($tag);
 			}
 		}
-		$nbt->writeTag(new End());
+		$nbt->writeTag(new End);
 	}
 
 	public function __toString(){
