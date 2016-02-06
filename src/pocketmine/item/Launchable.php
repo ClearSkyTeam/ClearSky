@@ -9,7 +9,7 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
 
-abstract class Launchable extends Item{
+class Launchable extends Item{
 	public function launch(Player $player){
 		$dir = $player->getDirectionVector();
  		$frontPos = $player->add($dir->multiply(1.1));
