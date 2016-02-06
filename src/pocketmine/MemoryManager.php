@@ -188,6 +188,10 @@ class MemoryManager{
 		}
 
 		$cycles = gc_collect_cycles();
+		
+		foreach($this->server->getLevels() as $level){
+			$level->doChunkGarbageCollection();
+		}
 
 		foreach($this->server->getLevels() as $level){
 			$level->doChunkGarbageCollection();

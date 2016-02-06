@@ -337,6 +337,13 @@ abstract class Entity extends Location implements Metadatable{
 	public function getNameTag(){
 		return $this->getDataProperty(self::DATA_NAMETAG);
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getName(){
+		return $this->getNameTag();
+	}
 
 	/**
 	 * @return bool
