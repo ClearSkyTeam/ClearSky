@@ -44,5 +44,6 @@ class Launchable extends Item{
 		}else{
 			$launched->spawnToAll();
 		}
+		return true;
 	}
 }
