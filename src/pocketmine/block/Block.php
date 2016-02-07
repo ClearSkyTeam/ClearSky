@@ -1149,20 +1149,15 @@ class Block extends Position implements Metadatable{
 			$around = $this->getSide($side);
 			$this->getLevel()->setRedstoneUpdate($around, Block::REDSTONEDELAY, $type, $power);
 		}
+		return true;
 	}
 
 	public function onRedstoneUpdate($type, $power){
-		if($type == Level::REDSTONE_UPDATE_BLOCK){
-			return;
+		if($type == Level::REDSTONE_UPDATE_BLOCK or $this instanceof Transparent){
+			return true;
 		}
-		
-		if($this instanceof Transparent){
-			return;
-		}
-
 		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK, $power);
-		
-		return;
+		return true;
 	}
 	
 	/**
