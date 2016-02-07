@@ -1658,7 +1658,7 @@ class Item{
 	}
 	
 	final public function getEntityName(){
-		return $this->entityname == null ? $this->name : $this->entityname;
+		return $this->entityname === null ? $this->name : $this->entityname;
 	}
 	
 	final public function canBePlaced(){
