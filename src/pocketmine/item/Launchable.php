@@ -8,19 +8,30 @@ use pocketmine\nbt\tag\Byte;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\entity\Entity;
 use pocketmine\Player;
+use pocketmine\event\entity\ProjectileLaunchEvent;
+
 
 class Launchable extends Item{
 	public function launch(Player $player){
-		$dir = $player->getDirectionVector();
- 		$frontPos = $player->add($dir->multiply(1.1));
  		$nbt = new Compound("", [
-							"Pos" => new Enum("Pos", [new Double("", $frontPos->x),new Double("", $frontPos->y + $player->getEyeHeight()),new Double("", $frontPos->z)]),
- 							"Motion" => new Enum("Motion", [new Double("", $dir->x),new Double("", $dir->y),new Double("", $dir->z)]),
-							"Rotation" => new Enum("Rotation", [new Float("", 0),new Float("", 0)]),
-							"Data" => new Byte("Data", $this->getDamage()),
-							]);
+			"Pos" => new Enum("Pos", [
+				new Double("", $player->x),
+				new Double("", $player->y + $player->getEyeHeight()),
+				new Double("", $player->z)
+			]),
+ 			"Motion" => new Enum("Motion", [
+				new Double("", -sin($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI)),
+				new Double("", -sin($player->pitch / 180 * M_PI)),
+				new Double("", cos($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI))
+			]),
+			"Rotation" => new Enum("Rotation", [
+				new Float("", $player->yaw),
+				new Float("", $player->pitch)
+			]),
+			"Data" => new Byte("Data", $this->getDamage()),
+		]);
 		$f = $this->f;
-		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt);
+		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt, $player);
 		$launched->setMotion($launched->getMotion()->multiply($f));
 		if($launched instanceof Projectile){
 			$player->server->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($launched));
@@ -33,5 +44,6 @@ class Launchable extends Item{
 		}else{
 			$launched->spawnToAll();
 		}
+		return true;
 	}
 }

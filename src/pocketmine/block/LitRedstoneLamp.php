@@ -27,10 +27,8 @@ class LitRedstoneLamp extends Solid implements Redstone,RedstoneConsumer{
 	}
 
 	public function onRedstoneUpdate($type,$power){	
-		if($this->isStrongCharged()){
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK, null);
-			return;
-		}elseif(!$this->isPowered()){
+		if(!$this->isPowered()){
+			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK, $power);
 			$this->id=123;
 			$this->getLevel()->setBlock($this, $this, true, false);
 			return;

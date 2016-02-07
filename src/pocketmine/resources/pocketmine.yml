@@ -58,13 +58,13 @@ memory:
   low-memory-trigger: true
 
  world-caches:
-  disable-chunk-cache: true
+  disable-chunk-cache: false
   low-memory-trigger: true
 
 
 network:
- batch-threshold: 128
- compression-level: 2
+ batch-threshold: 256
+ compression-level: 5
  async-compression: true
  upnp-forwarding: false
 
