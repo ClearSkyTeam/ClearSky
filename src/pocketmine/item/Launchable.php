@@ -20,7 +20,7 @@ class Launchable extends Item{
 							"Data" => new Byte("Data", $this->getDamage()),
 							]);
 		$f = $this->f;
-		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt);
+		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt, $player);
 		$launched->setMotion($launched->getMotion()->multiply($f));
 		if($launched instanceof Projectile){
 			$player->server->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($launched));
