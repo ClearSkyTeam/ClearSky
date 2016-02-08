@@ -2058,7 +2058,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if(count($this->server->getOnlinePlayers()) >= $this->server->getMaxPlayers() and $this->kick("disconnectionScreen.serverFull", false)){
 					break;
 				}
-				if(!in_array($packet->protocol1,ProtocolInfo::ACCEPT_PROTOCAL)){
+				if(!in_array($packet->protocol1,ProtocolInfo::ACCEPT_PROTOCOL)){
 					if($packet->protocol1 < ProtocolInfo::CURRENT_PROTOCOL){
 						$message = "disconnectionScreen.outdatedClient";
 						$pk = new PlayStatusPacket();
