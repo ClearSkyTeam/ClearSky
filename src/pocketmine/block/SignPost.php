@@ -57,13 +57,11 @@ class SignPost extends Transparent{
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide(0)->getId() === self::AIR){
+			if($this->getSide(Vector3::SIDE_DOWN)->getId() === Item::AIR){
 				$this->getLevel()->useBreakOn($this);
-
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
-
 		return false;
 	}
 
