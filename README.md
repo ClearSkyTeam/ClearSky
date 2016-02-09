@@ -16,6 +16,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 ## Advanced Features
 All features can be configed in pocketmine.yml.<br>
  - About 20 times faster than offical PM repo.
+ - Universal Client version join(e.g. 0.13.0 0.13.1 0.13.2 can join together)
  - UltraFast Redstone Calculation with lots of logic.
  - Fully working Experience System, include block/player/entity/bottle/furnace hook.
  - Fully working Food & Hunger System, include game-difficulty hook.
@@ -49,6 +50,7 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 ## 高级功能
 所有的功能都可以在 pocketmine.yml 中设置.<br>
  - 较之PM官方项目，晴空有近20倍的性能提升.
+ - 通用客户端加入(比如0.13.0 0.13.1 0.13.2可以在一起游戏)
  - 高效且有逻辑的红石系统.
  - 完整的经验系统 , 包括 挖掘/玩家/生物/附魔瓶/熔炉 事件.
  - 完整的食物 和 饥饿系统 ， 可以根据游戏难度自动适配.
