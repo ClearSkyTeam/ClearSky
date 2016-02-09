@@ -43,7 +43,7 @@ memory:
  global-limit: 0
  main-limit: 0
  main-hard-limit: 2048
- check-rate: 600
+ check-rate: 20
  continuous-trigger: true
  continuous-trigger-rate: 30
 
@@ -53,7 +53,7 @@ memory:
   low-memory-trigger: true
 
  max-chunks:
-  trigger-limit: 32
+  trigger-limit: 96
   trigger-chunk-collect: true
   low-memory-trigger: true
 
@@ -64,7 +64,7 @@ memory:
 
 network:
  batch-threshold: 256
- compression-level: 5
+ compression-level: 7
  async-compression: true
  upnp-forwarding: false
 
@@ -83,20 +83,20 @@ level-settings:
  always-tick-players: false
 
 chunk-sending:
- per-tick: 1
- max-chunks: 32
- spawn-threshold: 28
+ per-tick: 4
+ max-chunks: 192
+ spawn-threshold: 56
  cache-chunks: true
 
 chunk-ticking:
- per-tick: 2
- tick-radius: 1
+ per-tick: 40
+ tick-radius: 3
  light-updates: false
  clear-tick-list: true
 
 chunk-generation:
- queue-size: 2
- population-queue-size: 1
+ queue-size: 8
+ population-queue-size: 8
 
 ticks-per:
  animal-spawns: 400
