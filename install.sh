@@ -45,7 +45,7 @@ else
 	cd .. >>../$l 2>>../$le
 	rm -rf ClearSky-master >>./$l 2>>./$le
 	rm -rf master.zip >>./$l 2>>./$le
-	wget https://raw.githubusercontent.com/PocketMine/PocketMine-MP/master/start.sh >>./$l 2>>./$le
+	wget https://github.com/ClearSkyTeam/ClearSky/master/start.sh >>./$l 2>>./$le
 	chmod 777 start.sh >>./$l 2>>./$le
 	echo
 	
