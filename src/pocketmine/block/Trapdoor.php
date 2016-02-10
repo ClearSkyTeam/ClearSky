@@ -99,7 +99,7 @@ class Trapdoor extends Transparent implements Redstone{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if(($target->isTransparent() === false or $target->getId() === self::SLAB or $target->getId() === self::ICE) and $face !== 0 and $face !== 1){
+		if(($target->isTransparent() === false or $target->getId() === self::SLAB or $target->getId() === self::PACKED_ICE) and $face !== 0 and $face !== 1){
 			$faces = [
 				2 => 0,
 				3 => 1,
