@@ -63,4 +63,11 @@ abstract class PlayerBucketEvent extends PlayerEvent implements Cancellable{
 	public function getBlockClicked(){
 		return $this->blockClicked;
 	}
-}
+ 
+ 	/**
+ 	 * @return int
+ 	 */
+ 	public function getBlockFace(){
+ 		return $this->blockFace;
+ 	}
+ }
