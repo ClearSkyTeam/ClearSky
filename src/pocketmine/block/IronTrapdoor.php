@@ -1,11 +1,7 @@
 <?php
 namespace pocketmine\block;
 
-use pocketmine\item\Item;
 use pocketmine\item\Tool;
-use pocketmine\math\AxisAlignedBB;
-use pocketmine\Player;
-use pocketmine\level\sound\DoorSound;
 
 class IronTrapdoor extends Transparent implements Redstone{
 
@@ -99,7 +95,7 @@ class IronTrapdoor extends Transparent implements Redstone{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if(($target->isTransparent() === false or $target->getId() === self::SLAB) and $face !== 0 and $face !== 1){
+		if(($target->isTransparent() === false or $target->getId() === self::SLAB or $target->getId() === self::ICE) and $face !== 0 and $face !== 1){
 			$faces = [
 				2 => 0,
 				3 => 1,
@@ -117,19 +113,19 @@ class IronTrapdoor extends Transparent implements Redstone{
 
 		return false;
 	}
-	
-	public function onRedstoneUpdate($type,$power){
-		if($this->isPowered() and $this->meta < 4){
-			$this->meta = $this->meta+4;
-			$this->getLevel()->setBlock($this, $this);
-			$this->getLevel()->addSound(new DoorSound($this));
-		}
-	}
 
 	public function getDrops(Item $item){
 		return [
 			[$this->id, 0, 1],
 		];
+	}
+	
+	public function onRedstoneUpdate($type,$power){
+		if($this->isPowered() and $this->meta < 4){
+			$this->meta ^= 0x04;
+			$this->getLevel()->setBlock($this, $this);
+			$this->getLevel()->addSound(new DoorSound($this));
+		}
 	}
 
 	public function getToolType(){
