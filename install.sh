@@ -55,5 +55,5 @@ else
 	tar zxvf $z >>./$lp 2>>./$lpe
 	rm -r $z >>./$lp 2>>./$lpe
 	echo
-	echo "ClearSky installed! Run ./start.sh (or ./st*) to start ClearSky."
+	echo "ClearSky installation completed! Run ./start.sh (or ./st*) to start ClearSky."
 fi
