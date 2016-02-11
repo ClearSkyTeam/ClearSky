@@ -49,7 +49,7 @@ class RakLibServer extends \Thread{
 	    if(\Phar::running(true) !== ""){
 		    $this->mainPath = \Phar::running(true);
 	    }else{
-		    $this->mainPath = getcwd() . DIRECTORY_SEPARATOR;
+		    $this->mainPath = \getcwd() . DIRECTORY_SEPARATOR;
 	    }
 
         $this->start(PTHREADS_INHERIT_NONE);
