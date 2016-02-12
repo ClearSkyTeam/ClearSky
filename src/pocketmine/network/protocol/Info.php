@@ -10,7 +10,7 @@ interface Info{
 	/**
 	 * Actual Minecraft: PE protocol version
 	 */
-	const CURRENT_PROTOCOL = 37;
+	const CURRENT_PROTOCOL = 39; //Now 0.13.2 client will show green and 0.13 all others (0.13.1,0.13) will show 0.13 but red
 	const ACCEPT_PROTOCOL = [37,38,39];
 
 	const LOGIN_PACKET = 0x8f;
