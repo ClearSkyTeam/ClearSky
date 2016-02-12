@@ -1,7 +1,7 @@
 # ClearSky-Blue [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky)
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean feels and stable features. It was initially designed for production servers.
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
- - Here is an Telegram group, where you can discuss things with us: Telegram/ClearSky](https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
+ - Here is an Telegram group, where you can communicate with us: Telegram/ClearSky](https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
  - Official Test Server : Creative IP: 45.78.7.144 Port: 19132
 
 ## Where can I get a phar?
