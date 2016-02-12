@@ -883,7 +883,7 @@ class Block extends Position implements Metadatable{
 		for($side=0;$side<=5;$side++){
 			$near = $this->getSide($side);
 			if($near instanceof RedstoneSwitch){
-				$hash = Level::blockHash($this->x,$this->y,$this->z);
+				$hash = $this->getHash();
 				if($near->chkTarget($hash)){
 					return true;
 				}
