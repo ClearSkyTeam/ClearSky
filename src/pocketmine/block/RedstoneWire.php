@@ -62,6 +62,7 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 				$this->getLevel()->useBreakOn($this);
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
+			$this->setPower($this->fetchMaxPower());
 		}
 		return true;
 	}
@@ -93,13 +94,13 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 					$around_down = $near->getSide(0);
 					$around_up = $near->getSide(1);
 					$around_next = $near->getSide($side);
-					if($near->id == self::AIR and $around_down instanceof RedstoneTransmitter){
+					if($near->getId() == Block::AIR and $around_down instanceof RedstoneTransmitter){
 						$power_in = $around_down->getPower();
 						if($power_in > $power_in_max){
 							$power_in_max = $power_in;
 						}
 					}
-					if(!$near instanceof Transparent and $around_up instanceof RedstoneTransmitter){
+					elseif(!$near instanceof Transparent and $around_up instanceof RedstoneTransmitter and $this->getSide(1) instanceof Transparent){
 						$power_in = $around_up->getPower();
 						if($power_in > $power_in_max){
 							$power_in_max = $power_in;
@@ -198,7 +199,7 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 						if($near->getId() == Block::AIR and $around_down instanceof RedstoneTransmitter){
 							$around_down->setRedstoneUpdateList($type, $thispower);
 						}
-						elseif(!$near instanceof Transparent and $around_up instanceof RedstoneTransmitter){
+						elseif(!$near instanceof Transparent and $around_up instanceof RedstoneTransmitter and $this->getSide(1) instanceof Transparent){
 							$around_up->setRedstoneUpdateList($type, $thispower);
 						}
 					}
@@ -229,7 +230,7 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 					if($near->getId() == Block::AIR and $around_down instanceof RedstoneTransmitter){
 						$around_down->setRedstoneUpdateList($type, $thispower);
 					}
-					elseif(!$near instanceof Transparent and $around_up instanceof RedstoneTransmitter){
+					elseif(!$near instanceof Transparent and $around_up instanceof RedstoneTransmitter and $this->getSide(1) instanceof Transparent){
 						$around_up->setRedstoneUpdateList($type, $thispower);
 					}
 				}
@@ -269,7 +270,7 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 							}
 							$around_down->setRedstoneUpdateList($type, $thispower);
 						}
-						elseif(!$near instanceof Transparent and $around_up instanceof RedstoneTransmitter){
+						elseif(!$near instanceof Transparent and $around_up instanceof RedstoneTransmitter and $this->getSide(1) instanceof Transparent){
 							$around_up_hash = Level::blockHash($around_up->x, $around_up->y, $around_up->z);
 							if(isset($this->getLevel()->RedstoneUpdateList[$around_up_hash])){
 								continue;
@@ -300,7 +301,7 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 			if($type === Level::REDSTONE_UPDATE_BREAK){
 				$up = $around->getSide(1);
 				$down = $around->getSide(0);
-				if(!$around instanceof Transparent and $up instanceof RedstoneTransmitter){
+				if(!$around instanceof Transparent and $up instanceof RedstoneTransmitter and $this->getSide(1) instanceof Transparent){
 					$this->getLevel()->setRedstoneUpdate($up, Block::REDSTONEDELAY, $type, $power);
 				}
 				elseif($around->id == self::AIR and $down instanceof Redstone){

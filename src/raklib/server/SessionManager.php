@@ -1,18 +1,4 @@
 <?php
-
-/*
- * RakLib network library
- *
- *
- * This project is not affiliated with Jenkins Software LLC nor RakNet.
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- */
-
 namespace raklib\server;
 
 use raklib\Binary;
@@ -72,7 +58,7 @@ class SessionManager{
     protected $block = [];
     protected $ipSec = [];
 
-    public $portChecking = false;
+    public $portChecking = true;
 
     public function __construct(RakLibServer $server, UDPServerSocket $socket){
         $this->server = $server;
@@ -167,10 +153,23 @@ class SessionManager{
                 $this->ipSec[$source] = 1;
             }
 
-            if(($packet = $this->getPacketFromPool(ord($buffer{0}))) !== null){
+            $pid = ord($buffer{0});
+
+            if(($packet = $this->getPacketFromPool($pid)) !== null){
                 $packet->buffer = $buffer;
                 $this->getSession($source, $port)->handlePacket($packet);
 	            return true;
+            }elseif($pid === UNCONNECTED_PING::$ID){
+                //No need to create a session for just pings
+                $packet = new UNCONNECTED_PING;
+                $packet->buffer = $buffer;
+                $packet->decode();
+
+                $pk = new UNCONNECTED_PONG();
+                $pk->serverID = $this->getID();
+                $pk->pingID = $packet->pingID;
+                $pk->serverName = $this->getName();
+                $this->sendPacket($pk, $source, $port);
             }elseif($buffer !== ""){
                 $this->streamRaw($source, $port, $buffer);
 	            return true;
@@ -222,6 +221,19 @@ class SessionManager{
     protected function streamOption($name, $value){
         $buffer = chr(RakLib::PACKET_SET_OPTION) . chr(strlen($name)) . $name . $value;
         $this->server->pushThreadToMainPacket($buffer);
+    }
+
+    private function checkSessions(){
+        if(count($this->sessions) > 4096){
+            foreach($this->sessions as $i => $s){
+                if($s->isTemporal()){
+                    unset($this->sessions[$i]);
+                    if(count($this->sessions) <= 4096){
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     public function receiveStream(){
@@ -308,7 +320,7 @@ class SessionManager{
             if($timeout === -1){
                 $final = PHP_INT_MAX;
             }else{
-                $this->getLogger()->notice("[RakLib Thread #". \Thread::getCurrentThreadId() ."] Blocked $address for $timeout seconds");
+                $this->getLogger()->notice("Blocked $address for $timeout seconds");
             }
             $this->block[$address] = $final;
         }elseif($this->block[$address] < $final){
@@ -325,6 +337,7 @@ class SessionManager{
     public function getSession($ip, $port){
         $id = $ip . ":" . $port;
         if(!isset($this->sessions[$id])){
+            $this->checkSessions();
             $this->sessions[$id] = new Session($this, $ip, $port);
         }
 
@@ -374,7 +387,7 @@ class SessionManager{
 	}
 
     private function registerPackets(){
-        $this->registerPacket(UNCONNECTED_PING::$ID, UNCONNECTED_PING::class);
+        //$this->registerPacket(UNCONNECTED_PING::$ID, UNCONNECTED_PING::class);
         $this->registerPacket(UNCONNECTED_PING_OPEN_CONNECTIONS::$ID, UNCONNECTED_PING_OPEN_CONNECTIONS::class);
         $this->registerPacket(OPEN_CONNECTION_REQUEST_1::$ID, OPEN_CONNECTION_REQUEST_1::class);
         $this->registerPacket(OPEN_CONNECTION_REPLY_1::$ID, OPEN_CONNECTION_REPLY_1::class);
