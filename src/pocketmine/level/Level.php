@@ -806,9 +806,16 @@ class Level implements ChunkManager, Metadatable{
 			while($this->updateRedstoneQueue->count() > 0 and $this->updateRedstoneQueue->current()["priority"] <= $currentTick){
 				$block = $this->getBlock($this->updateRedstoneQueue->extract()["data"]);
 				$hash = Level::blockHash($block->x, $block->y, $block->z);
-				$type = $this->updateRedstoneQueueIndex[$hash]['type'];
-				$power = $this->updateRedstoneQueueIndex[$hash]['power'];
-				unset($this->updateRedstoneQueueIndex[$hash]);
+				$this->updateRedstoneQueueIndex[$hash] = array_values($this->updateRedstoneQueueIndex[$hash]);
+				if(count($this->updateRedstoneQueueIndex[$hash]) == 1){
+					$type = $this->updateRedstoneQueueIndex[$hash][0]['type'];
+					$power = $this->updateRedstoneQueueIndex[$hash][0]['power'];
+					unset($this->updateRedstoneQueueIndex[$hash]);
+				}else{
+					$type = $this->updateRedstoneQueueIndex[$hash][0]['type'];
+					$power = $this->updateRedstoneQueueIndex[$hash][0]['power'];
+					unset($this->updateRedstoneQueueIndex[$hash][0]);
+				}
 				$block->onRedstoneUpdate($type,$power);
 			}
 			$this->timings->doTickRedstone->stopTiming();
@@ -1194,12 +1201,11 @@ class Level implements ChunkManager, Metadatable{
 	 */
 	public function setRedstoneUpdate(Vector3 $pos, $delay, $type , $power){
 		if($this->server->getProperty("redstone.enable", true)){
-			if(isset($this->updateRedstoneQueueIndex[$index = Level::blockHash($pos->x, $pos->y, $pos->z)]) and $this->updateRedstoneQueueIndex[$index]['delay'] <= $delay){
-				return;
-			}
-			$this->updateRedstoneQueueIndex[$index]['delay'] = $delay;
-			$this->updateRedstoneQueueIndex[$index]['type'] = $type;
-			$this->updateRedstoneQueueIndex[$index]['power'] = $power;
+			$this->updateRedstoneQueueIndex[Level::blockHash($pos->x, $pos->y, $pos->z)][]=[
+				'delay'=>$delay,
+				'type'=>$type,
+				'power'=>$power
+			];
 			$this->updateRedstoneQueue->insert(new Vector3((int) $pos->x, (int) $pos->y, (int) $pos->z), (int) $delay + $this->server->getTick());
 		}
 		return;
