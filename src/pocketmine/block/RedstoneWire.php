@@ -170,13 +170,6 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 			$target->setPower($setpower);
 			unset($this->getLevel()->RedstoneUpdateList[$hash]);
 			$target->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_NORMAL, $setpower);
-			/*
-			 * if($setpower < $originalpower){
-			 * $target->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_LOSTPOWER,$originalpower);
-			 * }elseif($setpower > $originalpower){
-			 * $target->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_NORMAL,$setpower);
-			 * }
-			 */
 		}
 	}
 
