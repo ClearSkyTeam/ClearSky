@@ -802,7 +802,7 @@ class Level implements ChunkManager, Metadatable{
 		
 		//Do Redstone updates
 		if($this->server->getProperty("redstone.enable", true)){
-			$this->timings->doTickPending->startTiming();
+			$this->timings->doTickRedstone->startTiming();
 			while($this->updateRedstoneQueue->count() > 0 and $this->updateRedstoneQueue->current()["priority"] <= $currentTick){
 				$block = $this->getBlock($this->updateRedstoneQueue->extract()["data"]);
 				$hash = Level::blockHash($block->x, $block->y, $block->z);
@@ -811,7 +811,7 @@ class Level implements ChunkManager, Metadatable{
 				unset($this->updateRedstoneQueueIndex[$hash]);
 				$block->onRedstoneUpdate($type,$power);
 			}
-			$this->timings->doTickPending->stopTiming();
+			$this->timings->doTickRedstone->stopTiming();
 		}
 		
 		$this->timings->entityTick->startTiming();
