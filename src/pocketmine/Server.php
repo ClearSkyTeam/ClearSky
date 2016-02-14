@@ -13,7 +13,6 @@ use pocketmine\entity\Bat;
 use pocketmine\entity\Blaze;
 use pocketmine\entity\Boat;
 use pocketmine\entity\CavernSpider;
-use pocketmine\entity\ChargedCreeper;
 use pocketmine\entity\Chicken;
 use pocketmine\entity\Cow;
 use pocketmine\entity\Creeper;
@@ -2620,7 +2619,6 @@ class Server{
 		Entity::registerEntity(Blaze::class);
 		Entity::registerEntity(Boat::class);
 		Entity::registerEntity(CavernSpider::class);
-		Entity::registerEntity(ChargedCreeper::class);
 		Entity::registerEntity(Chicken::class);
 		Entity::registerEntity(Cow::class);
 		Entity::registerEntity(Creeper::class);
