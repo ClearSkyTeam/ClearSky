@@ -30,19 +30,5 @@ class HeavyWeightedPressurePlate extends WoodenPressurePlate{
 		}
 		return [];
 	}
-
-	public function isEntityCollided(){
-		$entities = 0;
-		foreach($this->getLevel()->getChunk($this->x >> 4, $this->z >> 4)->getEntities() as $entity){
-			$pos = $entity->getPosition();
-			if(abs($this->x - $pos->x) < 1.5 and abs($this->y - $pos->y) < 1.5 and abs($this->z - $pos->z) < 1.5){
-				$entities++;
-			}
-		}
-		if($this->getPower() !== floor($entities / 10) + 1){
-			$this->setPower(floor($entities / 10) + 1);
-			return true;
-		}
-		return $entities !== 0;
-	}
+	
 }
