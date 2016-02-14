@@ -20,7 +20,6 @@ experience:
  
 redstone:
  enable: true
- tick-limit: 2048
 
 weather:
  enable: true
@@ -64,15 +63,13 @@ memory:
 
 
 network:
- batch-threshold: 128
- compression-level: 2
- anti-cheat: true
- acceptable-packetlost: 2
+ batch-threshold: 256
+ compression-level: 7
  async-compression: true
  upnp-forwarding: false
 
 debug:
- level: 1
+ level: 10
  allow-xdebug: false
  #Enables /status, /gc
  commands: true

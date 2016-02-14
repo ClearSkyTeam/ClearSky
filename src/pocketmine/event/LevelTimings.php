@@ -14,6 +14,8 @@ class LevelTimings{
 	/** @var TimingsHandler */
 	public $doTickPending;
 	/** @var TimingsHandler */
+	public $doTickRedstone;
+	/** @var TimingsHandler */
 	public $doTickTiles;
 	/** @var TimingsHandler */
 	public $doVillages;
@@ -62,6 +64,7 @@ class LevelTimings{
 		$this->mobSpawn = new TimingsHandler("** " . $name . "mobSpawn");
 		$this->doChunkUnload = new TimingsHandler("** " . $name . "doChunkUnload");
 		$this->doTickPending = new TimingsHandler("** " . $name . "doTickPending");
+		$this->doTickRedstone = new TimingsHandler("** " . $name . "doTickRedstone");
 		$this->doTickTiles = new TimingsHandler("** " . $name . "doTickTiles");
 		$this->doVillages = new TimingsHandler("** " . $name . "doVillages");
 		$this->doChunkMap = new TimingsHandler("** " . $name . "doChunkMap");
