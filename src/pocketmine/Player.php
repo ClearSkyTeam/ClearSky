@@ -2131,7 +2131,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->close("", "disconnectionScreen.invalidName");
 					break;
 				}
-				if((strlen($packet->skin) != 64 * 64 * 4) and (strlen($packet->skin) != 64 * 32 * 4)){
+				if((strlen($packet->skin) !== 64 * 64 * 4) and (strlen($packet->skin) !== 64 * 32 * 4)){
 					$this->close("", "disconnectionScreen.invalidSkin");
 					break;
 					//$this->setSkin("", "Standard_Steve");
@@ -2977,7 +2977,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->server->getPluginManager()->callEvent($ev = new PlayerKickEvent($this, $reason, $this->getLeaveMessage()));
 		if(!$ev->isCancelled()){
 			if($isAdmin){
-				$message = "Kicked by admin." . ($reason !== "" ? " Reason: " . $reason : "");
+                if(!$this->isBanned()) {
+                    $message = "Kicked by admin." . ($reason !== "" ? " Reason: " . $reason : "");
+                }else{
+                    $message = $reason;
+                }
 			}else{
 				if($reason === ""){
 					$message = "disconnectionScreen.noReason";
@@ -3002,7 +3006,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($message instanceof TextContainer){
 			if($message instanceof TranslationContainer){
 				$this->sendTranslation($message->getText(), $message->getParameters());
-				return false;
+				return true;
 			}
 			$message = $message->getText();
 		}
