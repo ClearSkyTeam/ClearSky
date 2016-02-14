@@ -30,7 +30,6 @@ class FlowerPot extends Spawnable{
 	}
 
 	/**
-	 *
 	 * @param int $item        	
 	 * @param int $data        	
 	 */
@@ -41,6 +40,11 @@ class FlowerPot extends Spawnable{
 		if($this->chunk){
 			$this->chunk->setChanged();
 			$this->level->clearChunkCache($this->chunk->getX(), $this->chunk->getZ());
+			$block = $this->level->getBlock($this);
+			if($block->getId() === Block::FLOWER_POT_BLOCK){
+				$this->level->updateBlock($block);
+				$this->level->setBlock($this, Block::get(Block::FLOWER_POT_BLOCK, ($block->getDamage() === 0 ? 1:0)), true);
+			}
 		}
 		return true;
 	}
