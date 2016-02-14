@@ -1,10 +1,4 @@
 <?php
-
-/*
- * THIS IS COPIED FROM THE PLUGIN FlowerPot MADE BY @beito123!!
- * https://github.com/beito123/PocketMine-MP-Plugins/blob/master/test%2FFlowerPot%2Fsrc%2Fbeito%2FFlowerPot%2Fomake%2FSkull.php
- *
- */
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
@@ -15,6 +9,7 @@ use pocketmine\tile\Tile;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\nbt\tag\String;
 use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\Short;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\tile\FlowerPot as FlowerPotTile;
 
@@ -53,31 +48,37 @@ class FlowerPot extends Flowable{
 		$down = $block->getSide(0);
 		if($down->isTransparent() === false || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
 			$this->getLevel()->setBlock($block, $this, true, true);
-			$nbt = new Compound("", [new String("id", Tile::FLOWER_POT),new Int("x", $block->x),new Int("y", $block->y),new Int("z", $block->z),new Int("item", 0),new Int("data", 0)]);
+			$nbt = new Compound("", [
+				new String("id", Tile::FLOWER_POT),
+				new Int("x", $block->x),
+				new Int("y", $block->y),
+				new Int("z", $block->z),
+				new Short("item", 0),
+				new Int("mData", 0)
+			]);
 			$pot = Tile::createTile("FlowerPot", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			return true;
 		}
 		return false;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(item $item, Player $player = null){
 		$tile = $this->getLevel()->getTile($this);
 		if($tile instanceof FlowerPotTile){
-			if($tile->getFlowerPotItem() === Item::AIR){
+			if($tile->getFlowerPotItem() === item::AIR){
 				switch($item->getId()){
-					case Item::TALL_GRASS:
+					case item::TALL_GRASS:
 						if($item->getDamage() === 1){
 							break;
 						}
-					case Item::SAPLING:
-					case Item::DEAD_BUSH:
-					case Item::DANDELION:
-					case Item::RED_FLOWER:
-					case Item::BROWN_MUSHROOM:
-					case Item::RED_MUSHROOM:
-					case Item::CACTUS:
+					case item::SAPLING:
+					case item::DEAD_BUSH:
+					case item::DANDELION:
+					case item::RED_FLOWER:
+					case item::BROWN_MUSHROOM:
+					case item::RED_MUSHROOM:
+					case item::CACTUS:
 						$tile->setFlowerPotData($item->getId(), $item->getDamage());
-						$this->setDamage($item->getDamage());
 						if($player->isSurvival()){
 							$item->count--;
 						}
@@ -91,7 +92,7 @@ class FlowerPot extends Flowable{
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide(Vector3::SIDE_DOWN)->getId() === Item::AIR){
+			if($this->getSide(Vector3::SIDE_DOWN)->getId() === item::AIR){
 				$this->getLevel()->useBreakOn($this);
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
@@ -99,10 +100,10 @@ class FlowerPot extends Flowable{
 		return false;
 	}
 
-	public function getDrops(Item $item){
-		$items = array([Item::FLOWER_POT,0,1]);
+	public function getDrops(item $item){
+		$items = array([item::FLOWER_POT,0,1]);
 		if(($tile = $this->getLevel()->getTile($this)) instanceof FlowerPotTile){
-			if($tile->getFlowerPotItem() !== Item::AIR){
+			if($tile->getFlowerPotItem() !== item::AIR){
 				$items[] = array($tile->getFlowerPotItem(),$tile->getFlowerPotData(),1);
 			}
 		}

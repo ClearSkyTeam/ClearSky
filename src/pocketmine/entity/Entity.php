@@ -225,7 +225,9 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		$pk->to = 0;
 		$pk->type = 0;
-		$this->dataPacket($pk);
+		if($this instanceof Player){
+			$this->dataPacket($pk);
+		}
 		$this->islinked = false;
 		if($this->linkedTarget instanceof Entity){
 			$this->linkedTarget->setLinked(false);
