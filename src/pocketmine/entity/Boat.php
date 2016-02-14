@@ -9,10 +9,23 @@ use pocketmine\event\entity\EntityRegainHealthEvent;
 
 class Boat extends Vehicle{
 	const NETWORK_ID = 90;
+	private $woodID = 1;
 
 	public function initEntity(){
 		$this->setMaxHealth(4);
 		parent::initEntity();
+				
+		if(isset($this->namedtag->woodID)){
+			$this->woodID = $this->namedtag["woodID"];
+		}
+		//for($i=10;$i<25;$i++){
+		//$this->setDataProperty(20/*i*/, self::DATA_TYPE_BYTE, $this->getWoodID());
+		//}
+		$this->setDataProperty(self::DATA_BOAT_COLOR, self::DATA_TYPE_BYTE, $this->getWoodID());
+	}
+	
+	public function getWoodID(){
+		return $this->woodID;
 	}
 
 	public function spawnTo(Player $player){
