@@ -55,7 +55,7 @@ namespace pocketmine {
 	const VERSION = "2.1dev-#CuttingEdge";
 	const API_VERSION = "1.20.1";
 	const CODENAME = "Moonlight-#CuttingEdge";
-	const MINECRAFT_VERSION = "v0.13 alpha";
+	const MINECRAFT_VERSION = "v0.13.x alpha";
 	const MINECRAFT_VERSION_NETWORK = "0.13";
 
 	/*
@@ -381,6 +381,9 @@ namespace pocketmine {
 		++$errors;
 	}
 
+	if(!extension_loaded("uopz")){
+		//$logger->notice("Couldn't find the uopz extension. Some functions may be limited");
+	}
 	if(extension_loaded("pocketmine")){
 		if(version_compare(phpversion("pocketmine"), "0.0.1") < 0){
 			$logger->critical("You have the native PocketMine extension, but your version is lower than 0.0.1.");

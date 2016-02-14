@@ -36,7 +36,7 @@ class Trapdoor extends Transparent implements Redstone{
 		if(($damage & 0x08) > 0){
 			$bb = new AxisAlignedBB(
 				$this->x,
-				$this->y + $f,
+				$this->y + 1 - $f,
 				$this->z,
 				$this->x + 1,
 				$this->y + 1,
@@ -58,7 +58,7 @@ class Trapdoor extends Transparent implements Redstone{
 				$bb->setBounds(
 					$this->x,
 					$this->y,
-					$this->z + $f,
+					$this->z + 1 - $f,
 					$this->x + 1,
 					$this->y + 1,
 					$this->z + 1
@@ -75,7 +75,7 @@ class Trapdoor extends Transparent implements Redstone{
 			}
 			if(($damage & 0x03) === 2){
 				$bb->setBounds(
-					$this->x + $f,
+					$this->x + 1 - $f,
 					$this->y,
 					$this->z,
 					$this->x + 1,
@@ -99,7 +99,7 @@ class Trapdoor extends Transparent implements Redstone{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if(($target->isTransparent() === false or $target->getId() === self::SLAB) and $face !== 0 and $face !== 1){
+		if(($target->isTransparent() === false or $target->getId() === self::SLAB or $target->getId() === self::PACKED_ICE) and $face !== 0 and $face !== 1){
 			$faces = [
 				2 => 3,
 				3 => 2,
@@ -108,9 +108,10 @@ class Trapdoor extends Transparent implements Redstone{
 			];
 			$this->meta = $faces[$face] & 0x03;
 			if($fy > 0.5){
-				$this->meta |= 0x08;
+				$this->meta |= 0x04;
 			}
 			$this->getLevel()->setBlock($block, $this, true, true);
+
 			return true;
 		}
 
@@ -124,21 +125,21 @@ class Trapdoor extends Transparent implements Redstone{
 	}
 
 	public function onActivate(Item $item, Player $player = null){
-		$this->meta |= 0x04;
+		$this->meta ^= 0x08;
 		$this->getLevel()->setBlock($this, $this, true);
 		$this->getLevel()->addSound(new DoorSound($this));
 		return true;
 	}
-	
-	public function onRedstoneUpdate($type,$power){
-		if($this->isPowered() and $this->meta < 4){
-			$this->meta = $this->meta+4;
-			$this->getLevel()->setBlock($this, $this);
-			$this->getLevel()->addSound(new DoorSound($this));
-		}
-	}
 
 	public function getToolType(){
 		return Tool::TYPE_AXE;
+	}
+	
+	public function onRedstoneUpdate($type, $power){
+		if(($this->isPowered() and $this->meta < 8) || (!$this->isPowered() and $this->meta > 8)){
+			$this->meta ^= 0x08;
+			$this->getLevel()->setBlock($this, $this);
+			$this->getLevel()->addSound(new DoorSound($this));
+		}
 	}
 }

@@ -340,6 +340,13 @@ class Server{
 	public function getDataPath(){
 		return $this->dataPath;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCrashDumpPath(){
+		return $this->dataPath . "crashdumps/";
+	}
 
 	/**
 	 * @return string
@@ -757,7 +764,7 @@ class Server{
 			new ShortTag("Hunger", 20),
 			new ShortTag("Health", 20),
 			new ShortTag("MaxHealth", 20),
-			new LongTag("Experience", 0),
+			new LongTag("ExpCurrent", 0),
 			new LongTag("ExpLevel", 0),
 		]);
 		$nbt->Pos->setTagType(NBT::TAG_Double);
@@ -1391,7 +1398,6 @@ class Server{
 
 		return $result;
 	}
-
 	/**
 	 * @return Server
 	 */
@@ -1417,6 +1423,11 @@ class Server{
 		$this->logger = $logger;
 		try{
 		$this->filePath = $filePath;
+		
+		if(!file_exists($dataPath . "crashdumps/")){
+			mkdir($dataPath . "crashdumps/", 0777);
+		}
+		
 		if(!file_exists($dataPath . "worlds/")){
 			mkdir($dataPath . "worlds/", 0777);
 		}
@@ -1572,7 +1583,7 @@ class Server{
 
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.info", [
 			$this->getName(),
-				($version->isDev() ? TextFormat::YELLOW : "") . $version->get(true) . TextFormat::WHITE,
+			($version->isDev() ? TextFormat::YELLOW : "") . $version->get(true) . TextFormat::WHITE,
 			$this->getCodename(),
 			$this->getApiVersion()
 		]));
@@ -1608,7 +1619,8 @@ class Server{
 		$this->network->registerInterface(new RakLibInterface($this));
 
 		$this->pluginManager->loadPlugins($this->pluginPath);
-			$this->updater = new AutoUpdater($this, $this->getProperty("auto-updater.host", "www.pocketmine.net"));
+		
+		$this->updater = new AutoUpdater($this, $this->getProperty("auto-updater.host", "www.pocketmine.net"));
 
 		$this->enablePlugins(PluginLoadOrder::STARTUP);
 

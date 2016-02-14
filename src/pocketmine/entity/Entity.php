@@ -211,18 +211,22 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		return false;
 	}
-	
-	public function unlinkEntity(Entity $entity){
-		if($this->linkedTarget instanceof Entity){
-			$this->linkedTarget = null;
-			$entity->islinked = false;
-		}
+	public function setLinked(Bool $status){
+		$this->islinked = $status;
+		return true;
+	}
+	public function unlinkEntity(Entity $entity = null){
 		$pk = new SetEntityLinkPacket();
-		$pk->from = $entity->getId();
+		$pk->from = $this->linkedTarget->getId();
 		$pk->to = 0;
 		$pk->type = 0;
 		$this->dataPacket($pk);
 		$this->islinked = false;
+		if($this->linkedTarget instanceof Entity){
+			$this->linkedTarget->setLinked(false);
+			$this->linkedTarget = null;
+		}
+		return true;
 	}
 	
 	public function getlinkedTarget(){
@@ -231,6 +235,7 @@ abstract class Entity extends Location implements Metadatable{
 	
 	public function setlinkTarget(Entity $target){
 		$this->linkedTarget = $target;
+		return true;
 	}
 	
 	public function getlinkType(){
@@ -250,7 +255,7 @@ abstract class Entity extends Location implements Metadatable{
 	}
 	
 	public function isLinked(){
-		return $this->isLinked;
+		return $this->islinked;
 	}
 	
 	public function isVehicle(){
@@ -259,6 +264,7 @@ abstract class Entity extends Location implements Metadatable{
 	
 	public function followEntity(Entity $entity){
 		$this->setPosition($entity->temporalVector->setComponents($entity->x, $entity->y - 0.5, $entity->z));
+		return true;
 	}
 	
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
@@ -1598,6 +1604,11 @@ abstract class Entity extends Location implements Metadatable{
 			$this->server->getPluginManager()->callEvent(new EntityDespawnEvent($this));
 			$this->closed = true;
 			$this->despawnFromAll();
+			
+			//Unlink Entity
+			if($this->isLinked()){
+				$this->unlinkEntity();
+			}
 			if($this->chunk !== null){
 				$this->chunk->removeEntity($this);
 			}

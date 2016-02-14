@@ -662,6 +662,8 @@ class Block extends Position implements Metadatable{
 							}else{
 								self::$lightFilter[$id] = 1;
 							}
+						}elseif($block->getId()==Block::GLOWSTONE){
+							self::$lightFilter[$id] = 1;
 						}else{
 							self::$lightFilter[$id] = 15;
 						}
@@ -880,10 +882,10 @@ class Block extends Position implements Metadatable{
 		if($this->getSide(0)->getId()==Block::LIT_REDSTONE_TORCH){
 			return true;
 		}
-		for($side=1;$side<=5;$side++){
+		for($side=0;$side<=5;$side++){
 			$near = $this->getSide($side);
 			if($near instanceof RedstoneSwitch){
-				$hash = Level::blockHash($this->x,$this->y,$this->z);
+				$hash = $this->getHash();
 				if($near->chkTarget($hash)){
 					return true;
 				}
@@ -1095,7 +1097,6 @@ class Block extends Position implements Metadatable{
 	 * 16 is a source block
 	 */
 	public function getPower(){
-		//return 0;
 		if($this->isStrongCharged()){
 			return Block::REDSTONESOURCEPOWER;
 		}

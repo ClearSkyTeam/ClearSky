@@ -798,16 +798,28 @@ class Level implements ChunkManager, Metadatable{
 		
 		//Do Redstone updates
 		if($this->server->getProperty("redstone.enable", true)){
-			$this->timings->doTickPending->startTiming();
+			$this->timings->doTickRedstone->startTiming();
+			$Counter = 0;
 			while($this->updateRedstoneQueue->count() > 0 and $this->updateRedstoneQueue->current()["priority"] <= $currentTick){
+				$Counter++;
 				$block = $this->getBlock($this->updateRedstoneQueue->extract()["data"]);
 				$hash = Level::blockHash($block->x, $block->y, $block->z);
-				$type = $this->updateRedstoneQueueIndex[$hash]['type'];
-				$power = $this->updateRedstoneQueueIndex[$hash]['power'];
-				unset($this->updateRedstoneQueueIndex[$hash]);
+				$this->updateRedstoneQueueIndex[$hash] = array_values($this->updateRedstoneQueueIndex[$hash]);
+				if(count($this->updateRedstoneQueueIndex[$hash]) == 1){
+					$type = $this->updateRedstoneQueueIndex[$hash][0]['type'];
+					$power = $this->updateRedstoneQueueIndex[$hash][0]['power'];
+					unset($this->updateRedstoneQueueIndex[$hash]);
+				}else{
+					$type = $this->updateRedstoneQueueIndex[$hash][0]['type'];
+					$power = $this->updateRedstoneQueueIndex[$hash][0]['power'];
+					unset($this->updateRedstoneQueueIndex[$hash][0]);
+				}
 				$block->onRedstoneUpdate($type,$power);
+				if($Counter >= $this->server->getProperty("redstone.tick-limit", 2048)){
+					break;
+				}
 			}
-			$this->timings->doTickPending->stopTiming();
+			$this->timings->doTickRedstone->stopTiming();
 		}
 		
 		$this->timings->entityTick->startTiming();
@@ -835,7 +847,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->timings->tileEntityTick->stopTiming();
 
 		$this->timings->doTickTiles->startTiming();
-		if(($currentTick % 2) === 0) $this->tickChunks();
+		$this->tickChunks();
 		$this->timings->doTickTiles->stopTiming();
 
 		if(count($this->changedBlocks) > 0){
@@ -1190,12 +1202,11 @@ class Level implements ChunkManager, Metadatable{
 	 */
 	public function setRedstoneUpdate(Vector3 $pos, $delay, $type , $power){
 		if($this->server->getProperty("redstone.enable", true)){
-			if(isset($this->updateRedstoneQueueIndex[$index = Level::blockHash($pos->x, $pos->y, $pos->z)]) and $this->updateRedstoneQueueIndex[$index]['delay'] <= $delay){
-				return;
-			}
-			$this->updateRedstoneQueueIndex[$index]['delay'] = $delay;
-			$this->updateRedstoneQueueIndex[$index]['type'] = $type;
-			$this->updateRedstoneQueueIndex[$index]['power'] = $power;
+			$this->updateRedstoneQueueIndex[Level::blockHash($pos->x, $pos->y, $pos->z)][]=[
+				'delay'=>$delay,
+				'type'=>$type,
+				'power'=>$power
+			];
 			$this->updateRedstoneQueue->insert(new Vector3((int) $pos->x, (int) $pos->y, (int) $pos->z), (int) $delay + $this->server->getTick());
 		}
 		return;
@@ -1609,7 +1620,7 @@ class Level implements ChunkManager, Metadatable{
 
 				"Motion" => new ListTag("Motion", [
 					new DoubleTag("", $motion->x),
-					new DoubleTag("", $motion->y + 0.1),
+					new DoubleTag("", $motion->y),
 					new DoubleTag("", $motion->z)
 				]),
 				"Rotation" => new ListTag("Rotation", [
@@ -2031,6 +2042,7 @@ class Level implements ChunkManager, Metadatable{
 		}
 		return $nearby;
 	}
+	
 	public function getNearbyExperienceOrb(AxisAlignedBB $bb){
 		$nearby = [];
 		foreach($this->getNearbyEntities($bb) as $entity){
@@ -3085,7 +3097,7 @@ class Level implements ChunkManager, Metadatable{
 		$Z = null;
 
 		foreach($this->chunks as $index => $chunk){
-			if(!isset($this->unloadQueue[$index]) and (!isset($this->usedChunks[$index]) or count($this->usedChunks[$index]) === 0)){
+			if(!isset($this->unloadQueue[$index])){
 				Level::getXZ($index, $X, $Z);
 				if(!$this->isSpawnChunk($X, $Z)){
 					$this->unloadChunkRequest($X, $Z, true);
