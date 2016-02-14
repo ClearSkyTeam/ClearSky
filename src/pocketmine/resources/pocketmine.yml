@@ -64,8 +64,10 @@ memory:
 
 
 network:
- batch-threshold: 256
- compression-level: 7
+ batch-threshold: 128
+ compression-level: 2
+ anti-cheat: true
+ acceptable-packetlost: 2
  async-compression: true
  upnp-forwarding: false
 
