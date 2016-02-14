@@ -218,7 +218,11 @@ abstract class Entity extends Location implements Metadatable{
 	}
 	public function unlinkEntity(Entity $entity = null){
 		$pk = new SetEntityLinkPacket();
-		$pk->from = $this->linkedTarget->getId();
+		if(is_null($this->linkedTarget)){
+			$pk->from = 0;
+		}else{
+			$pk->from = $this->linkedTarget->getId();
+		}
 		$pk->to = 0;
 		$pk->type = 0;
 		$this->dataPacket($pk);
