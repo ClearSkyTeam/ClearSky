@@ -18,7 +18,7 @@ class Creeper extends Monster implements Explosive{
         parent::initEntity();
 
         if(!isset($this->namedtag->Powered)){
-            $this->setPowered(1);
+            $this->setPowered(0);
         }
     }
 
@@ -40,6 +40,7 @@ class Creeper extends Monster implements Explosive{
 
     public function setPowered($value){
         $this->namedtag->Powered = new Int("Powered", $value);
+		$this->setDataProperty(19, self::DATA_TYPE_BYTE, $value);
     }
 
     public function isPowered(){
@@ -54,7 +55,7 @@ class Creeper extends Monster implements Explosive{
             ];
         }
 
-        if($this->lastDamageCause instanceof EntityExplodeEvent and $this->lastDamageCause->getEntity() instanceof ChargedCreeper){
+        if($this->lastDamageCause instanceof EntityExplodeEvent and $this->lastDamageCause->getEntity() instanceof Creeper && $this->lastDamageCause->getEntity()->isPowered()){
             $drops = [
                 ItemItem::get(ItemItem::SKULL, 4, 1)
             ];
