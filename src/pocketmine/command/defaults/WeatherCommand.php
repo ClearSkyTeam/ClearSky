@@ -24,9 +24,8 @@ class WeatherCommand extends VanillaCommand{
             return true;
         }
 
-        if(count($args) > 2 || count($args) === 0){
+        if(count($args) > 3 || count($args) === 0){
             $sender->sendMessage(new TranslationContainer("commands.weather.usage", [$this->usageMessage]));
-
             return false;
         }
 
@@ -35,12 +34,22 @@ class WeatherCommand extends VanillaCommand{
         }else{
             $seconds = 600*20;
         }
-
-        if($sender instanceof Player){
-            $level = $sender->getLevel();
-        }else{
-            $level = $sender->getServer()->getDefaultLevel();
-        }
+	if(!count(args) > 2)
+	{
+        	if($sender instanceof Player){
+            		$level = $sender->getLevel();
+		}else{
+			$level = $this->getServer()->getDefaultLevel();
+        	}
+	}
+	else
+	{
+		if(!$level = $this->getServer()->getLevelByName($args[3]))
+		{
+			$sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnotfound"));
+			return false;
+		}
+	}
 
         if($args[0] === "clear"){
             if(!$sender->hasPermission("pocketmine.command.weather.clear")){
