@@ -2634,7 +2634,7 @@ class Server{
 		Entity::registerEntity(Minecart::class);
 		Entity::registerEntity(Mooshroom::class);
 		Entity::registerEntity(Ozelot::class);
-	        Entity::registerEntity(Painting::class);
+	    Entity::registerEntity(Painting::class);
 		Entity::registerEntity(Pig::class);
 		Entity::registerEntity(PigZombie::class);
 		Entity::registerEntity(PrimedTNT::class);
