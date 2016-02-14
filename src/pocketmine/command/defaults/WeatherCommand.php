@@ -46,8 +46,15 @@ class WeatherCommand extends VanillaCommand{
 	{
 		if(!$level = $this->getServer()->getLevelByName($args[3]))
 		{
+			if(!$this->loadLevel($args[3]]))
+			{
 			$sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnotfound"));
 			return false;
+			}
+			else
+			{
+				$level = $this->getServer()->getLevelByName($args[3]);
+			}
 		}
 	}
 
