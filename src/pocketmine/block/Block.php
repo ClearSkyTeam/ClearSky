@@ -662,6 +662,8 @@ class Block extends Position implements Metadatable{
 							}else{
 								self::$lightFilter[$id] = 1;
 							}
+						}elseif($block->getId()==Block::GLOWSTONE){
+							self::$lightFilter[$id] = 1;
 						}else{
 							self::$lightFilter[$id] = 15;
 						}
