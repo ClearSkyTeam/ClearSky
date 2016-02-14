@@ -42,7 +42,6 @@ class FlowerPot extends Spawnable{
 			$this->level->clearChunkCache($this->chunk->getX(), $this->chunk->getZ());
 			$block = $this->level->getBlock($this);
 			if($block->getId() === Block::FLOWER_POT_BLOCK){
-				$this->level->updateBlock($block);
 				$this->level->setBlock($this, Block::get(Block::FLOWER_POT_BLOCK, ($block->getDamage() === 0 ? 1:0)), true);
 			}
 		}
