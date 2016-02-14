@@ -212,10 +212,15 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		return false;
 	}
-	public function setLinked(Bool $status){
-		$this->islinked = $status;
-		return true;
+	
+	public function setLinked($status){
+		if($status === true or $status === false){
+			$this->islinked = $status;
+			return true;
+		}
+		return false;
 	}
+	
 	public function unlinkEntity(Entity $entity = null){
 		$pk = new SetEntityLinkPacket();
 		if(is_null($this->linkedTarget)){
