@@ -339,6 +339,13 @@ class Server{
 	public function getDataPath(){
 		return $this->dataPath;
 	}
+	
+	/**
+	 * @return string
+	 */
+	public function getCrashDumpPath(){
+		return $this->dataPath . "crashdumps/";
+	}
 
 	/**
 	 * @return string
@@ -1453,7 +1460,6 @@ class Server{
 
 		return $result;
 	}
-
 	/**
 	 * @return Server
 	 */
@@ -1474,6 +1480,11 @@ class Server{
 		$this->autoloader = $autoloader;
 		$this->logger = $logger;
 		$this->filePath = $filePath;
+		
+		if(!file_exists($dataPath . "crashdumps/")){
+			mkdir($dataPath . "crashdumps/", 0777);
+		}
+		
 		if(!file_exists($dataPath . "worlds/")){
 			mkdir($dataPath . "worlds/", 0777);
 		}
