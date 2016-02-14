@@ -48,7 +48,7 @@ class WeatherCommand extends VanillaCommand{
 		{
 			if(!$this->loadLevel($args[3]]))
 			{
-			$sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnotfound"));
+			$sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnotfound", $args[3]));
 			return false;
 			}
 			else
