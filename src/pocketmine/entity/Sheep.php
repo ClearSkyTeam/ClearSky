@@ -19,9 +19,10 @@ class Sheep extends Animal implements Colorable{
         $this->setMaxHealth(8);
         parent::initEntity();
 
-        if(!isset($this->namedtag->Color)){
-            $this->setColor(0);
+        if(!isset($this->namedtag->Color) || $this->getVariant() > 16){
+            $this->setVariant(0);
         }
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $this->getVariant());
     }
 
     public function getName(){
@@ -36,12 +37,12 @@ class Sheep extends Animal implements Colorable{
         parent::spawnTo($player);
     }
 
-    public function setColor($value){
+    public function setVariant($value){
         $this->namedtag->Color = new Int("Color", $value);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $value);
     }
 
-    public function getColor(){
+    public function getVariant(){
         return $this->namedtag["Color"];
     }
 

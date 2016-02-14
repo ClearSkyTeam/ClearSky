@@ -6,10 +6,11 @@ use pocketmine\nbt\tag\Int;
 
 class Ozelot extends Animal implements Tameable{
 	const NETWORK_ID = 22;
-	const NORMAL = 0;
-	const BLACK = 1;
-	const ORANGE = 2;
-	const SIAMESE = 3;
+	
+	const TYPE_NORMAL = 0;
+	const TYPE_BLACK = 1;
+	const TYPE_ORANGE = 2;
+	const TYPE_SIAMESE = 3;
 
 	public $width = 0.312;
 	public $length = 2.188;
@@ -37,9 +38,10 @@ class Ozelot extends Animal implements Tameable{
 		//19 creeper charged
 		//21 love
 
-        if(!isset($this->namedtag->Type)){
-            $this->setType(self::NORMAL);
+        if(!isset($this->namedtag->Type) || $this->getVariant() > 3){
+            $this->setVariant(self::TYPE_NORMAL);
         }
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $this->getVariant());
 	}
 
 	public function getName(){
@@ -62,12 +64,12 @@ class Ozelot extends Animal implements Tameable{
 		return false;
 	}
 
-    public function setType($value){
+    public function setVariant($value){
         $this->namedtag->Color = new Int("Type", $value);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $value);
     }
 
-    public function getType(){
+    public function getVariant(){
         return $this->namedtag["Type"];
     }
 }

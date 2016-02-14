@@ -30,9 +30,10 @@ class Villager extends Creature implements NPC, Ageable{
 		$this->setMaxHealth(20);
 		parent::initEntity();
 
-		if(!isset($this->namedtag->Profession)){
-			$this->setProfession(mt_rand(0, 4));
+		if(!isset($this->namedtag->Profession) || $this->getVariant() > 4){
+			$this->setVariant(mt_rand(0, 4));
 		}
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $this->getVariant());
 	}
 
 	public function spawnTo(Player $player){
@@ -48,12 +49,12 @@ class Villager extends Creature implements NPC, Ageable{
 	 *
 	 * @param $profession
 	 */
-	public function setProfession($profession){
-		$this->namedtag->Profession = new Int("Profession", $profession);
-		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $profession);
+	public function setVariant($type){
+		$this->namedtag->Profession = new Int("Profession", $type);
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $type);
 	}
 
-	public function getProfession(){
+	public function getVariant(){
 		return $this->namedtag["Profession"];
 	}
 
