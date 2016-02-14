@@ -2,6 +2,7 @@
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean feels and stable features. It was initially designed for production servers.
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
  - Our communicate group is online now. Join us here: [Telegram/ClearSky](https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
+ - Official Test Server : Creative IP:45.78.7.144 Port:19132
 
 ## Where can I get a phar?
  - **Before you launch ClearSky please remove pocketmine.yml once to update.**
@@ -16,8 +17,8 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 ## Advanced Features
 All features can be configed in pocketmine.yml.<br>
  - About 20 times faster than offical PM repo.
- - Universal Client version join(e.g. 0.13.0 0.13.1 0.13.2 can join together)
- - Unlimit player join(set max-players=-1 in server.properties)
+ - Universal Client version join(e.g. 0.13.0 0.13.1 0.13.2 can join together)(note¹)
+ - Unlimit player join(set max-players=-1 in server.properties)(note²)
  - UltraFast Redstone Calculation with lots of logic.
  - Fully working Experience System, include block/player/entity/bottle/furnace hook.
  - Fully working Food & Hunger System, include game-difficulty hook.
@@ -27,6 +28,10 @@ All features can be configed in pocketmine.yml.<br>
  - Potions (Working, Creative Only)
  - Enchanting (Command)
  - Bug Fixes
+
+Note¹ - Please set 'Outdated Server' message to 'false' on CustomAlert plugin or any related plugin if you encounter *outdated server error*
+
+Note² - Please set 'Full server' message to 'false' on CustomAlert plugin or any related plugin if you encounter *full server error*
 
 ## For Developers
 This is a clean, high quality code base. Developing/modifying this project is easy.<br>

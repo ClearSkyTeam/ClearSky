@@ -662,6 +662,8 @@ class Block extends Position implements Metadatable{
 							}else{
 								self::$lightFilter[$id] = 1;
 							}
+						}elseif($block->getId()==Block::GLOWSTONE){
+							self::$lightFilter[$id] = 1;
 						}else{
 							self::$lightFilter[$id] = 15;
 						}
@@ -1095,7 +1097,6 @@ class Block extends Position implements Metadatable{
 	 * 16 is a source block
 	 */
 	public function getPower(){
-		//return 0;
 		if($this->isStrongCharged()){
 			return Block::REDSTONESOURCEPOWER;
 		}

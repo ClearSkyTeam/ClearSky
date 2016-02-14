@@ -8,7 +8,7 @@ namespace pocketmine\network\protocol;
 interface Info{
 
 	/**
-	 * Actual Minecraft: PE protocol version
+	 * Actual Minecraft: PE protocol versions
 	 */
 	const CURRENT_PROTOCOL = 40;
 	const ACCEPT_PROTOCOL = [40,41,42,43,44,45,46,47,48,49];
