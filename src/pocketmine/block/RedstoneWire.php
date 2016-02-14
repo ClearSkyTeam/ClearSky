@@ -62,7 +62,13 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 				$this->getLevel()->useBreakOn($this);
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
-			$this->setPower($this->fetchMaxPower());
+			if($this->getLevel()->getServer()->getProperty("redstone.enable", true)){
+				if($this->fetchMaxPower()<$this->getmetaPower()+1){
+					$this->setRedstoneUpdateList(Level::REDSTONE_UPDATE_LOSTPOWER,$this->getmetaPower()+1);
+				}else{
+					$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,$this->getmetaPower());
+				}
+			}
 		}
 		return true;
 	}
@@ -72,7 +78,11 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 		for($side = 0; $side <= 5; $side++){
 			$near = $this->getSide($side);
 			
-			if($near->isRedstoneSource() or $near->isStrongCharged()){
+			if($near->isStrongCharged()){
+				return Block::REDSTONESOURCEPOWER;
+			}
+			
+			if($near->isRedstoneSource()){
 				$power_in = $near->getPower();
 				if($power_in == Block::REDSTONESOURCEPOWER){
 					return Block::REDSTONESOURCEPOWER;
