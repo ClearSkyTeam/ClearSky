@@ -13,7 +13,7 @@ class Villager extends Creature implements NPC, Ageable{
 	const PROFESSION_PRIEST = 2;
 	const PROFESSION_BLACKSMITH = 3;
 	const PROFESSION_BUTCHER = 4;
-	const PROFESSION_GENERIC = 5;
+	const PROFESSION_GENERIC = 5;//will crash client!
 
 	public $width = 0.938;
 	public $length = 0.609;
@@ -31,7 +31,7 @@ class Villager extends Creature implements NPC, Ageable{
 		parent::initEntity();
 
 		if(!isset($this->namedtag->Profession)){
-			$this->setProfession(mt_rand(0, 5));
+			$this->setProfession(mt_rand(0, 4));
 		}
 	}
 
@@ -50,6 +50,7 @@ class Villager extends Creature implements NPC, Ageable{
 	 */
 	public function setProfession($profession){
 		$this->namedtag->Profession = new Int("Profession", $profession);
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $profession);
 	}
 
 	public function getProfession(){
