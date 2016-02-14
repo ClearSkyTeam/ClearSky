@@ -1095,7 +1095,6 @@ class Block extends Position implements Metadatable{
 	 * 16 is a source block
 	 */
 	public function getPower(){
-		//return 0;
 		if($this->isStrongCharged()){
 			return Block::REDSTONESOURCEPOWER;
 		}

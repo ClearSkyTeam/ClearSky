@@ -806,7 +806,6 @@ class Level implements ChunkManager, Metadatable{
 			$Counter = 0;
 			while($this->updateRedstoneQueue->count() > 0 and $this->updateRedstoneQueue->current()["priority"] <= $currentTick){
 				$Counter++;
-				//echo "Do Redstone Ticking\n";
 				$block = $this->getBlock($this->updateRedstoneQueue->extract()["data"]);
 				$hash = Level::blockHash($block->x, $block->y, $block->z);
 				$this->updateRedstoneQueueIndex[$hash] = array_values($this->updateRedstoneQueueIndex[$hash]);
@@ -852,7 +851,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->timings->tileEntityTick->stopTiming();
 
 		$this->timings->doTickTiles->startTiming();
-		if(($currentTick % 2) === 0) $this->tickChunks();
+		$this->tickChunks();
 		$this->timings->doTickTiles->stopTiming();
 
 		if(count($this->changedBlocks) > 0){
@@ -2047,6 +2046,7 @@ class Level implements ChunkManager, Metadatable{
 		}
 		return $nearby;
 	}
+	
 	public function getNearbyExperienceOrb(AxisAlignedBB $bb){
 		$nearby = [];
 		foreach($this->getNearbyEntities($bb) as $entity){
