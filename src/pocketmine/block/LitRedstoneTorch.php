@@ -67,7 +67,7 @@ class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource{
 			$side = $this->getDamage();
 			$faces = [1 => 4,2 => 5,3 => 2,4 => 3,5 => 0,6 => 0,0 => 0];
 			
-			if($this->getSide($faces[$side])->isTransparent() === true and !($side === 0 and ($below->getId() === self::FENCE or $below->getId() === self::COBBLE_WALL or $below->getId() === self::GLASS || ($below instanceof Slab && ($below->meta & 0x08) === 0x08) || ($below instanceof WoodSlab && ($below->meta & 0x08) === 0x08) || ($below instanceof Stair && ($below->meta & 0x04) === 0x04)))){
+			if($this->getSide($faces[$side])->isTransparent() === true and !($side === 0 and ($below instanceof Fence or $below->getId() === self::COBBLE_WALL or $below->getId() === self::GLASS || ($below instanceof Slab && ($below->meta & 0x08) === 0x08) || ($below instanceof WoodSlab && ($below->meta & 0x08) === 0x08) || ($below instanceof Stair && ($below->meta & 0x04) === 0x04)))){
 				$this->getLevel()->useBreakOn($this);
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
@@ -92,7 +92,7 @@ class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource{
 			
 			return true;
 		}
-		elseif($down->isTransparent() === false or $down->getId() === self::FENCE or $down->getId() === self::COBBLE_WALL or $down->getId() === self::GLASS || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
+		elseif($down->isTransparent() === false or $down instanceof Fence or $down->getId() === self::COBBLE_WALL or $down->getId() === self::GLASS || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
 			$this->meta = 0;
 			if($target->isCharged($this->getHash())){
 				$this->id = 75;
