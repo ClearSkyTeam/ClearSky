@@ -1,6 +1,7 @@
 <?php
 namespace raklib\protocol;
 
+use raklib\Binary;
 #include <rules/RakLibPacket.h>
 
 
@@ -23,19 +24,19 @@ class OPEN_CONNECTION_REPLY_2 extends Packet{
 
     public function encode(){
         parent::encode();
-        $this->put(RakLib::MAGIC);
-        $this->putLong($this->serverID);
+        $this->buffer .= RakLib::MAGIC;
+        $this->buffer .= Binary::writeLong($this->serverID);
         $this->putAddress($this->clientAddress, $this->clientPort, 4);
-        $this->putShort($this->mtuSize);
-        $this->putByte(0); //server security
+        $this->buffer .= \pack("n", $this->mtuSize);
+        $this->buffer .= \chr(0); //server security
     }
 
     public function decode(){
         parent::decode();
         $this->offset += 16; //Magic
-        $this->serverID = $this->getLong();
+        $this->serverID = Binary::readLong($this->get(8));
 		$this->getAddress($this->clientAddress, $this->clientPort);
-        $this->mtuSize = $this->getShort();
+        $this->mtuSize = \unpack("n", $this->get(2))[1];
         //server security
     }
 }

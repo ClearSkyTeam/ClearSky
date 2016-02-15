@@ -2,6 +2,7 @@
 
 namespace raklib\protocol;
 
+use raklib\Binary;
 #include <rules/RakLibPacket.h>
 
 class PING_DataPacket extends Packet{
@@ -11,11 +12,11 @@ class PING_DataPacket extends Packet{
 
     public function encode(){
         parent::encode();
-        $this->putLong($this->pingID);
+        $this->buffer .= Binary::writeLong($this->pingID);
     }
 
     public function decode(){
         parent::decode();
-        $this->pingID = $this->getLong();
+        $this->pingID = Binary::readLong($this->get(8));
     }
 }
