@@ -1704,7 +1704,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$diff = ($this->speed->y - $expectedVelocity) ** 2;
 
 						if(!$this->hasEffect(Effect::JUMP) and $diff > 0.6 and $expectedVelocity < $this->speed->y and !$this->server->getAllowFlight()){
-							if($this->inAirTicks < 100){
+							if($this->inAirTicks < 100 * $this->getServer()->getProperty("network.acceptable-packetlost", 2)){
 								$this->setMotion(new Vector3(0, $expectedVelocity, 0));
 							}elseif($this->kick("Flying is not enabled on this server")){
 								$this->timings->stopTiming();
@@ -1717,11 +1717,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 			}
 		}
-
-		$this->checkTeleportPosition();
-
-		$this->timings->stopTiming();
-
 		if($this->getServer()->getProperty("hunger.enable", true) and ($this->isSurvival() || $this->isAdventure())){
 			if($this->starvationTick >= 20){
 				if(!($this->getFood() <= 1 && $this->getServer()->getDifficulty() === 1)){
@@ -1765,6 +1760,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			if($this->getHealth() < $this->getMaxHealth()){
 				$this->foodTick++;
 			}
+			$this->checkTeleportPosition();
+			$this->timings->stopTiming();
 			return true;
 		}
 	}
