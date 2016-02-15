@@ -435,6 +435,7 @@ class Item{
 	const RAW_CHICKEN = 365;
 	const COOKED_CHICKEN = 366;
 	const ROTTEN_FLESH = 367;
+	const ENDERPEARL = 368;
 	const BLAZE_ROD = 369;
 	const GHAST_TEAR = 370;
 	const GOLD_NUGGET = 371;
@@ -478,11 +479,6 @@ class Item{
 	const ACACIA_DOOR = 430;
 	const DARK_OAK_DOOR = 431;
 	const SPLASH_POTION = 438;
-	// const SPRUCE_BOAT = 444;
-	// const BIRCH_BOAT = 445;
-	// const JUNGLE_BOAT = 446;
-	// const ACACIA_BOAT = 447;
-	// const DARK_OAK_BOAT = 448;
 	const CAMERA = 456;
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
@@ -1152,6 +1148,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::COOKED_RABBIT, 0));
 		Item::addCreativeItem(Item::get(Item::RABBIT_STEW, 0));
 		Item::addCreativeItem(Item::get(Item::MAGMA_CREAM, 0));
+		// Item::addCreativeItem(Item::get(Item::ENDERPEARL, 0));
 		Item::addCreativeItem(Item::get(Item::BLAZE_ROD, 0));
 		Item::addCreativeItem(Item::get(Item::GOLD_NUGGET, 0));
 		Item::addCreativeItem(Item::get(Item::GOLDEN_CARROT, 0));
