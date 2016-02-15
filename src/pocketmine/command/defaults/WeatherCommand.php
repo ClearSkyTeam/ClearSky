@@ -33,30 +33,29 @@ class WeatherCommand extends VanillaCommand{
             $seconds = (int) $args[1];
         }else{
             $seconds = 600*20;
+            $sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.novalidnumber", $worldName));
         }
-	if(!count(args) > 2)
-	{
+	    if(count($args) === 0 || count($args) === 1 || count($args) === 2)
+	    {
         	if($sender instanceof Player){
-            		$level = $sender->getLevel();
-		}else{
-			$level = $this->getServer()->getDefaultLevel();
+            	$level = $sender->getLevel();
+		    }else{
+			    $level = $sender->getServer()->getDefaultLevel(); //get ALL Levels maybe?
         	}
-	}
-	else
-	{
-		if(!$level = $this->getServer()->getLevelByName($args[3]))
-		{
-			if(!$this->loadLevel($args[3]]))
-			{
-			$sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnotfound", $args[3]));
-			return false;
-			}
-			else
-			{
-				$level = $this->getServer()->getLevelByName($args[3]);
-			}
-		}
-	}
+	    }else{
+		    if(!$sender->getServer()->isLevelLoaded($args[2]))
+		    {
+                $sender->getServer()->loadLevel($args[2]);
+                $level = $sender->getServer()->getLevelByName($args[2]);
+			    if(!$sender->getServer()->isLevelLoaded($args[2]))
+			    {
+                    $worldName = $args[2];
+		            return false;
+	            }
+	        }else{
+	            $level = $sender->getServer()->getLevelByName($args[2]);
+	        }
+        }
 
         if($args[0] === "clear"){
             if(!$sender->hasPermission("pocketmine.command.weather.clear")){
