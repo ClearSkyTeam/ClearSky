@@ -2,6 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
+use pocketmine\nbt\tag\Int;
 
 class ZombieVillager extends Zombie{
 	const NETWORK_ID = 44;
@@ -13,6 +14,10 @@ class ZombieVillager extends Zombie{
 	public function initEntity(){
 		$this->setMaxHealth(20);
 		parent::initEntity();
+		if(!isset($this->namedtag->Profession) || $this->getVariant() > 4){
+			$this->setVariant(mt_rand(0, 4));
+		}
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $this->getVariant());
 	}
 
 	public function getName(){
@@ -25,6 +30,20 @@ class ZombieVillager extends Zombie{
 
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
+	}
+
+	/**
+	 * Sets the zombievillager profession
+	 *
+	 * @param $profession
+	 */
+	public function setVariant($type){
+		$this->namedtag->Profession = new Int("Profession", $type);
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $type);
+	}
+
+	public function getVariant(){
+		return $this->namedtag["Profession"];
 	}
 
 }

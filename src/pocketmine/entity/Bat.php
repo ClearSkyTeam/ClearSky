@@ -2,6 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
+use pocketmine\nbt\tag\Int;
 
 class Bat extends Animal{
 	const NETWORK_ID = 19;
@@ -18,6 +19,9 @@ class Bat extends Animal{
 	public function initEntity(){
 		$this->setMaxHealth(6);
 		parent::initEntity();
+		/*for($i = 1; $i < 40; $i++){
+			$this->setDataProperty($i, self::DATA_TYPE_BYTE, 1);
+		}*/
 	}
 
 	public function getName(){
@@ -30,6 +34,15 @@ class Bat extends Animal{
 
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
+	}
+	
+	public function setVariant($type){
+		$this->namedtag->Variant = new Int("Variant", $type);
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $type);
+	}
+
+	public function getVariant(){
+		return $this->namedtag["Variant"];
 	}
 
 }

@@ -3,6 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\Player;
 use pocketmine\item\Item as ItemItem;
+use pocketmine\nbt\tag\Int;
 
 class Enderman extends Monster{
 	const NETWORK_ID = 38;
@@ -17,6 +18,12 @@ class Enderman extends Monster{
 	public function initEntity(){
 		$this->setMaxHealth(40);
 		parent::initEntity();
+		#for($i = 10; $i < 25; $i++){
+		#	$this->setDataProperty($i, self::DATA_TYPE_BYTE, 1);
+		#}
+		if(!isset($this->namedtag->Angry)){
+			$this->setAngry(false);
+		}
 	}
 
 	public function getName() {
@@ -37,5 +44,14 @@ class Enderman extends Monster{
 			// holding Block
 		];
 	}*/
+	
+	public function setAngry($angry = true){
+		$this->namedtag->Angry = new Int("Angry", $angry);
+		$this->setDataProperty(18, self::DATA_TYPE_BYTE, $angry);
+	}
+
+	public function getAngry(){
+		return $this->namedtag["Angry"];
+	}
 
 }
