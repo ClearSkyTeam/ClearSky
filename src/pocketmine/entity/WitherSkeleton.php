@@ -39,7 +39,7 @@ class WitherSkeleton extends Skeleton{
             ];
         }
 
-        if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof ChargedCreeper){
+        if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof Creeper && $this->lastDamageCause->getEntity()->isPowered()){
             $drops = [
                 ItemItem::get(ItemItem::SKULL, 1, 1)
             ];

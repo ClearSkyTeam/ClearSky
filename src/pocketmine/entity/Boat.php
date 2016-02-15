@@ -6,19 +6,38 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\event\entity\EntityRegainHealthEvent;
+use pocketmine\level\format\FullChunk;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Byte;
 
 class Boat extends Vehicle{
 	const NETWORK_ID = 90;
-
+	
+	public $height = 0.7;
+	public $width = 1.6;
+	public $gravity = 0.5;
+	public $drag = 0.1;
+	
+	public function __construct(FullChunk $chunk, Compound $nbt){
+		if(!isset($nbt->woodID)){
+			$nbt->woodID = new Byte("woodID", 0);
+		}
+		parent::__construct($chunk, $nbt);
+		$this->setDataProperty(self::DATA_BOAT_COLOR, self::DATA_TYPE_BYTE, $this->getWoodID());
+	}
+	
 	public function initEntity(){
-		$this->setMaxHealth(4);
+		$this->setMaxHealth(1);
 		parent::initEntity();
+	}
+	
+	public function getWoodID(){
+		return $this->namedtag["woodID"];
 	}
 
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
 		$pk->type = self::NETWORK_ID;
-		
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
 	}

@@ -29,4 +29,8 @@ class Wolf extends Animal implements Tameable{
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
 	}
+	
+	public function isTamed(){
+		return false;
+	}
 }

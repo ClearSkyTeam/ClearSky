@@ -102,7 +102,7 @@ class WoodenButton extends Flowable implements Redstone, RedstoneSource, Redston
 		if(($player instanceof Player && !$player->isSneaking()) || $player === null){
 			$this->togglePowered();
 			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE, Block::REDSTONESOURCEPOWER);
-			$this->getLevel()->scheduleUpdate($this, 15);
+			$this->getLevel()->scheduleUpdate($this, 40);
 		}
 		return true;
 	}

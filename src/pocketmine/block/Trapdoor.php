@@ -136,7 +136,7 @@ class Trapdoor extends Transparent implements Redstone{
 	}
 	
 	public function onRedstoneUpdate($type, $power){
-		if(($this->isPowered() and $this->meta < 8) || (!$this->isPowered() and $this->meta > 8)){
+		if(($this->isPowered() and $this->meta < 8) || (!$this->isPowered() and $this->meta >= 8)){
 			$this->meta ^= 0x08;
 			$this->getLevel()->setBlock($this, $this);
 			$this->getLevel()->addSound(new DoorSound($this));

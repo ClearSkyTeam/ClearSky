@@ -26,9 +26,11 @@ class Rabbit extends Animal{
     public function initEntity(){
         $this->setMaxHealth(3);
         parent::initEntity();
-        if(!isset($this->namedtag->Type)){
-            $this->setType(mt_rand(0, 5));
+        
+        if(!isset($this->namedtag->Type) || $this->getVariant() > 5){
+            $this->setVariant(mt_rand(0, 5));
         }
+		$this->setDataProperty(18, self::DATA_TYPE_BYTE, $this->getVariant());
     }
 
     public function getName(){
@@ -43,11 +45,12 @@ class Rabbit extends Animal{
         parent::spawnTo($player);
     }
 
-    public function setType($type){
-        $this->namedtag->Profession = new Int("Type", $type);
+    public function setVariant($type){
+        $this->namedtag->Type = new Int("Type", $type);
+		$this->setDataProperty(18, self::DATA_TYPE_BYTE, $type);
     }
 
-    public function getType(){
+    public function getVariant(){
         return $this->namedtag["Type"];
     }
 

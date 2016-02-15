@@ -3,6 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
+use pocketmine\nbt\tag\Int;
 
 class Sheep extends Animal implements Colorable{
     const NETWORK_ID = 13;
@@ -17,6 +18,11 @@ class Sheep extends Animal implements Colorable{
     public function initEntity(){
         $this->setMaxHealth(8);
         parent::initEntity();
+
+        if(!isset($this->namedtag->Color) || $this->getVariant() > 16){
+            $this->setVariant(0);
+        }
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $this->getVariant());
     }
 
     public function getName(){
@@ -31,9 +37,18 @@ class Sheep extends Animal implements Colorable{
         parent::spawnTo($player);
     }
 
+    public function setVariant($value){
+        $this->namedtag->Color = new Int("Color", $value);
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $value);
+    }
+
+    public function getVariant(){
+        return $this->namedtag["Color"];
+    }
+
     public function getDrops(){
         return[
-            ItemItem::get(ItemItem::WOOL, 0, 1) //haven't found Network IDs for coloured sheeps (not wools) so can't check the color of the sheep.
+            ItemItem::get(ItemItem::WOOL, $this->getVariant(), 1)
         ];
     }
 }

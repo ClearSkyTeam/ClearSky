@@ -1,11 +1,4 @@
 <?php
-
-/*
- * THIS IS COPIED FROM THE PLUGIN FlowerPot MADE BY @beito123!!
- * https://github.com/beito123/PocketMine-MP-Plugins/blob/master/test%2FFlowerPot%2Fsrc%2Fbeito%2FFlowerPot%2Fomake%2FSkull.php
- * 
- */
-
 namespace pocketmine\tile;
 
 use pocketmine\block\Block;
@@ -22,8 +15,8 @@ class FlowerPot extends Spawnable{
 		if(!isset($nbt->item)){
 			$nbt->item = new Short("item", 0);
 		}
-		if(!isset($nbt->data)){
-			$nbt->data = new Int("data", 0);
+		if(!isset($nbt->mData)){
+			$nbt->mData = new Int("mData", 0);
 		}
 		parent::__construct($chunk, $nbt);
 	}
@@ -33,24 +26,23 @@ class FlowerPot extends Spawnable{
 	}
 
 	public function getFlowerPotData(){
-		return $this->namedtag["data"];
+		return $this->namedtag["mData"];
 	}
 
 	/**
-	 *
 	 * @param int $item        	
 	 * @param int $data        	
 	 */
 	public function setFlowerPotData($item, $data){
 		$this->namedtag->item = new Short("item", (int) $item);
-		$this->namedtag->data = new Int("data", (int) $data);
+		$this->namedtag->mData = new Int("mData", (int) $data);
 		$this->spawnToAll();
 		if($this->chunk){
 			$this->chunk->setChanged();
 			$this->level->clearChunkCache($this->chunk->getX(), $this->chunk->getZ());
 			$block = $this->level->getBlock($this);
 			if($block->getId() === Block::FLOWER_POT_BLOCK){
-				$this->level->setBlock($this, Block::get(Block::FLOWER_POT_BLOCK, $data), true, true);
+				$this->level->setBlock($this, Block::get(Block::FLOWER_POT_BLOCK, ($block->getDamage() === 0 ? 1:0)), true);
 			}
 		}
 		return true;
@@ -63,7 +55,7 @@ class FlowerPot extends Spawnable{
 			new Int("y", (int) $this->y),
 			new Int("z", (int) $this->z),
 			new Short("item", (int) $this->namedtag["item"]),
-			new Int("data", (int) $this->namedtag["data"])
+			new Int("mData", (int) $this->namedtag["mData"])
 		]);
 	}
 }

@@ -7,6 +7,8 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Double;
 use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\Byte;
 use pocketmine\entity\Boat as BoatEntity;
 
 class Boat extends Item{
@@ -51,6 +53,7 @@ class Boat extends Item{
 				new Float("", 0),
 				new Float("", 0)
 			]),
+			"woodID" => new Byte("woodID",$this->getDamage()),
 		]));
 		$boat->spawnToAll();
 

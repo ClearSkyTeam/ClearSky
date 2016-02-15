@@ -2,9 +2,15 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
+use pocketmine\nbt\tag\Int;
 
 class Ozelot extends Animal implements Tameable{
 	const NETWORK_ID = 22;
+	
+	const TYPE_NORMAL = 0;
+	const TYPE_BLACK = 1;
+	const TYPE_ORANGE = 2;
+	const TYPE_SIAMESE = 3;
 
 	public $width = 0.312;
 	public $length = 2.188;
@@ -21,6 +27,21 @@ class Ozelot extends Animal implements Tameable{
 	public function initEntity(){
 		$this->setMaxHealth(10);
 		parent::initEntity();
+
+		//0 burning
+		//1 air time
+		//5 invis
+		//14 age (0=baby 130000 = parent)
+		//15 no movement
+		//16 sheep color
+		//18 type/variant
+		//19 creeper charged
+		//21 love
+
+        if(!isset($this->namedtag->Type) || $this->getVariant() > 3){
+            $this->setVariant(self::TYPE_NORMAL);
+        }
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $this->getVariant());
 	}
 
 	public function getName(){
@@ -38,4 +59,17 @@ class Ozelot extends Animal implements Tameable{
 	public function getDrops(){
 		return [];
 	}
+	
+	public function isTamed(){
+		return false;
+	}
+
+    public function setVariant($value){
+        $this->namedtag->Color = new Int("Type", $value);
+		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $value);
+    }
+
+    public function getVariant(){
+        return $this->namedtag["Type"];
+    }
 }

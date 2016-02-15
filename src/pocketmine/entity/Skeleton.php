@@ -58,7 +58,7 @@ class Skeleton extends Monster implements ProjectileSource{
             }
         }
 
-        if($this->lastDamageCause instanceof EntityExplodeEvent and $this->lastDamageCause->getEntity() instanceof ChargedCreeper){
+        if($this->lastDamageCause instanceof EntityExplodeEvent and $this->lastDamageCause->getEntity() instanceof Creeper && $this->lastDamageCause->getEntity()->isPowered()){
             $drops[] = ItemItem::get(ItemItem::SKULL, 0, 1);
         }
 

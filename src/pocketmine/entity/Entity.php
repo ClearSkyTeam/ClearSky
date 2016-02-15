@@ -67,7 +67,8 @@ abstract class Entity extends Location implements Metadatable{
 	const DATA_SILENT = 4;
 	const DATA_POTION_COLOR = 7;
 	const DATA_POTION_AMBIENT = 8;
-    const DATA_NO_AI = 15;
+        const DATA_NO_AI = 15;
+	const DATA_BOAT_COLOR = 20;
 
 	const DATA_FLAG_ONFIRE = 0;
 	const DATA_FLAG_SNEAKING = 1;
@@ -211,16 +212,27 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		return false;
 	}
-	public function setLinked(Bool $status){
-		$this->islinked = $status;
-		return true;
+	
+	public function setLinked($status){
+		if($status === true or $status === false){
+			$this->islinked = $status;
+			return true;
+		}
+		return false;
 	}
+	
 	public function unlinkEntity(Entity $entity = null){
 		$pk = new SetEntityLinkPacket();
-		$pk->from = $this->linkedTarget->getId();
+		if(is_null($this->linkedTarget)){
+			$pk->from = 0;
+		}else{
+			$pk->from = $this->linkedTarget->getId();
+		}
 		$pk->to = 0;
 		$pk->type = 0;
-		$this->dataPacket($pk);
+		if($this instanceof Player){
+			$this->dataPacket($pk);
+		}
 		$this->islinked = false;
 		if($this->linkedTarget instanceof Entity){
 			$this->linkedTarget->setLinked(false);
