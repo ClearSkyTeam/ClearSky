@@ -33,14 +33,14 @@ class WeatherCommand extends VanillaCommand{
             $seconds = (int) $args[1];
         }else{
             $seconds = 600*20;
-            $sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.novalidnumber", $worldName));
+            $sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.invalidnumber", $worldName));
         }
-	    if(count($args) === 0 || count($args) === 1 || count($args) === 2)
+	    if(count($args) === 0 && !count($args) > 2)
 	    {
         	if($sender instanceof Player){
             	$level = $sender->getLevel();
 		    }else{
-			    $level = $sender->getServer()->getDefaultLevel(); //get ALL Levels maybe?
+			    $level = $sender->getServer()->getDefaultLevel();
         	}
 	    }else{
 		    if(!$sender->getServer()->isLevelLoaded($args[2]))
