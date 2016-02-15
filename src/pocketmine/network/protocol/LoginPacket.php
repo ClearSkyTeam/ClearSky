@@ -33,6 +33,7 @@ class LoginPacket extends DataPacket{
 		$this->clientSecret = $this->getString();
 
 		$this->skinName = $this->getString();
+		$this->transparency = FALSE; //$this->getByte() > 0;
 		$this->skin = $this->getString();
 	}
 
