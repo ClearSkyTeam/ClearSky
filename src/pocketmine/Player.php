@@ -1311,7 +1311,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->spawnToAll();
 		}
 		if($oldgm === Player::CREATIVE or $oldgm === Player::SPECTATOR){
-                        $this->getInventory()->clearAll();
+            $this->getInventory()->clearAll();
 		}
 
 		$this->namedtag->playerGameType = new Int("playerGameType", $this->gamemode);
