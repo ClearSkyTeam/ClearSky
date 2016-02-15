@@ -16,6 +16,8 @@ class PlayerChatEvent extends PlayerEvent implements Cancellable{
 
 	/** @var string */
 	protected $format;
+	
+	protected $flitered = false;
 
 	/**
 	 * @var Player[]
@@ -80,5 +82,13 @@ class PlayerChatEvent extends PlayerEvent implements Cancellable{
 
 	public function setRecipients(array $recipients){
 		$this->recipients = $recipients;
+	}
+	
+	public function isFlitered(){
+		return $this->flitered;
+	}
+
+	public function setFlitered($status){
+		$this->flitered = (bool)$status;
 	}
 }

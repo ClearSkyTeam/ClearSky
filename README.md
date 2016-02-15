@@ -3,6 +3,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
  - Here is an Telegram group, where you can communicate with us: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
  - Official Test Server : Creative IP: 45.78.7.144 Port: 19132 *//This server runs with 256MB RAM and 1 Thread/CPU!*
+ - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19133** *Often offline, but if online, latest version*
 
 ## Where can I get a phar?
  - **Before you launch ClearSky please remove pocketmine.yml once to update.**
