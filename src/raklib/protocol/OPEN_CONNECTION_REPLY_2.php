@@ -2,7 +2,6 @@
 namespace raklib\protocol;
 
 use raklib\Binary;
-#include <rules/RakLibPacket.h>
 
 
 
