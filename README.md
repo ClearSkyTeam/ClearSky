@@ -28,6 +28,7 @@ All features can be configed in pocketmine.yml.<br>
  - Almost perfect translations
  - Potions (Working, Creative Only)
  - Enchanting (Command)
+ - Variations of Mobs (Rabbits, Villagers etc.)
  - Bug Fixes
 
 Note¹ - Please set 'Outdated Server' message to 'false' in the CustomAlert plugin or any related plugin if you encounter *Outdated server*
