@@ -242,10 +242,10 @@ class Effect{
 				}
 				break;
 			case Effect::SPEED:
-			    if($entity instanceof Player) $entity->setSpeed(0.1 + ($this->amplifier + 1) * 0.01);
+			    if($entity instanceof Player) $entity->setMovementSpeed(0.1 + ($this->amplifier + 1) * 0.01);
 			    break;
 			case Effect::SLOWNESS:
-			    if($entity instanceof Player) $entity->setSpeed(0.1 - ($this->amplifier + 1) * 0.01);
+			    if($entity instanceof Player) $entity->setMovementSpeed(0.1 - ($this->amplifier + 1) * 0.01);
 			    break;
 		}
 	}

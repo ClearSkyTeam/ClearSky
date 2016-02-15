@@ -19,8 +19,8 @@ class Sheep extends Animal implements Colorable{
         $this->setMaxHealth(8);
         parent::initEntity();
 
-        if(!isset($this->namedtag->Color) || $this->getVariant() > 16){
-            $this->setVariant(0);
+        if(!isset($this->namedtag->Color) || $this->getVariant() > 15){
+			$this->setVariant(mt_rand(0, 15));
         }
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $this->getVariant());
     }

@@ -2,7 +2,7 @@
 abstract class AttachableThreadedLogger extends \ThreadedLogger{
 
     /** @var \ThreadedLoggerAttachment */
-    protected $attachment = null;
+    protected $attachment = \null;
 
     /**
      * @param ThreadedLoggerAttachment $attachment
@@ -21,7 +21,7 @@ abstract class AttachableThreadedLogger extends \ThreadedLogger{
     public function removeAttachment(\ThreadedLoggerAttachment $attachment){
         if($this->attachment instanceof \ThreadedLoggerAttachment){
             if($this->attachment === $attachment){
-                $this->attachment = null;
+                $this->attachment = \null;
                 foreach($attachment->getAttachments() as $attachment){
                     $this->addAttachment($attachment);
                 }
@@ -32,7 +32,7 @@ abstract class AttachableThreadedLogger extends \ThreadedLogger{
     public function removeAttachments(){
         if($this->attachment instanceof \ThreadedLoggerAttachment){
             $this->attachment->removeAttachments();
-            $this->attachment = null;
+            $this->attachment = \null;
         }
     }
 

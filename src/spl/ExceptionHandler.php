@@ -9,11 +9,11 @@ abstract class ExceptionHandler{
 	 * @return \Exception
 	 */
 	public static function handler($errno, $errstr, $errfile, $errline){
-		if(error_reporting() === 0){
-			return false;
+		if(\error_reporting() === 0){
+			return \false;
 		}
 
-		$exception = null;
+		$exception = \null;
 
 		if(self::errorStarts($errstr, "Undefined offset: ")){
 			$exception = new ArrayOutOfBoundsException($errstr, $errno);
@@ -35,7 +35,7 @@ abstract class ExceptionHandler{
 			$exception = new UndefinedConstantException($errstr, $errno);
 		}elseif(self::errorStarts($errstr, "Accessing static property ")){
 			$exception = new InvalidStateException($errstr, $errno);
-		}elseif(strpos($errstr, " could not be converted to ") !== false){
+		}elseif(\strpos($errstr, " could not be converted to ") !== \false){
 			$exception = new ClassCastException($errstr, $errno);
 		}elseif(
 			$errstr === "Trying to get property of non-object"
@@ -43,34 +43,34 @@ abstract class ExceptionHandler{
 		){
 			$exception = new InvalidStateException($errstr, $errno);
 		}elseif(
-			strpos($errstr, " expects parameter ") !== false
-			or strpos($errstr, " must be ") !== false
+			\strpos($errstr, " expects parameter ") !== \false
+			or \strpos($errstr, " must be ") !== \false
 		){
 			$exception = new InvalidArgumentException($errstr, $errno);
 		}elseif(
 			self::errorStarts($errstr, "Wrong parameter count for ")
 			or self::errorStarts($errstr, "Missing argument 1 for ")
-			or preg_match('/^.*\\(\\) expects [a-z]{1,} [0-9]{1,} parameters?, [0-9]{1,} given$/', $errstr) > 0
+			or \preg_match('/^.*\\(\\) expects [a-z]{1,} [0-9]{1,} parameters?, [0-9]{1,} given$/', $errstr) > 0
 		){
 			$exception = new InvalidArgumentCountException($errstr, $errno);
 		}
 
-		if($exception === null){
+		if($exception === \null){
 			$exception = new RuntimeException($errstr, $errno);
 		}
 
 		$er = new ReflectionObject($exception);
 		$file = $er->getProperty("file");
-		$file->setAccessible(true);
+		$file->setAccessible(\true);
 		$file->setValue($exception, $errfile);
 		$line = $er->getProperty("line");
-		$line->setAccessible(true);
+		$line->setAccessible(\true);
 		$line->setValue($exception, $errline);
 
 		throw $exception;
 	}
 
 	private static function errorStarts($error, $str){
-		return substr($error, 0, strlen($str)) === $str;
+		return \substr($error, 0, \strlen($str)) === $str;
 	}
 }
