@@ -153,23 +153,13 @@ class SessionManager{
                 $this->ipSec[$source] = 1;
             }
 
-            $pid = ord($buffer{0});
 
-            if(($packet = $this->getPacketFromPool($pid)) !== \null){
+            if(($packet = $this->getPacketFromPool(\ord($buffer{0}))) !== \null){
                 $packet->buffer = $buffer;
                 $this->getSession($source, $port)->handlePacket($packet);
-	            return true;
-            }elseif($pid === UNCONNECTED_PING::$ID){
+	            return \true;
                 //No need to create a session for just pings
-                $packet = new UNCONNECTED_PING;
-                $packet->buffer = $buffer;
-                $packet->decode();
 
-                $pk = new UNCONNECTED_PONG();
-                $pk->serverID = $this->getID();
-                $pk->pingID = $packet->pingID;
-                $pk->serverName = $this->getName();
-                $this->sendPacket($pk, $source, $port);
             }elseif($buffer !== ""){
                 $this->streamRaw($source, $port, $buffer);
 	            return \true;
@@ -221,19 +211,7 @@ class SessionManager{
     protected function streamOption($name, $value){
         $buffer = \chr(RakLib::PACKET_SET_OPTION) . \chr(\strlen($name)) . $name . $value;
         $this->server->pushThreadToMainPacket($buffer);
-    }
 
-    private function checkSessions(){
-        if(count($this->sessions) > 4096){
-            foreach($this->sessions as $i => $s){
-                if($s->isTemporal()){
-                    unset($this->sessions[$i]);
-                    if(count($this->sessions) <= 4096){
-                        break;
-                    }
-                }
-            }
-        }
     }
 
     public function receiveStream(){
@@ -337,7 +315,6 @@ class SessionManager{
     public function getSession($ip, $port){
         $id = $ip . ":" . $port;
         if(!isset($this->sessions[$id])){
-            $this->checkSessions();
             $this->sessions[$id] = new Session($this, $ip, $port);
         }
 
@@ -387,7 +364,7 @@ class SessionManager{
 	}
 
     private function registerPackets(){
-        //$this->registerPacket(UNCONNECTED_PING::$ID, UNCONNECTED_PING::class);
+        $this->registerPacket(UNCONNECTED_PING::$ID, UNCONNECTED_PING::class);
         $this->registerPacket(UNCONNECTED_PING_OPEN_CONNECTIONS::$ID, UNCONNECTED_PING_OPEN_CONNECTIONS::class);
         $this->registerPacket(OPEN_CONNECTION_REQUEST_1::$ID, OPEN_CONNECTION_REQUEST_1::class);
         $this->registerPacket(OPEN_CONNECTION_REPLY_1::$ID, OPEN_CONNECTION_REPLY_1::class);
