@@ -753,7 +753,7 @@ class PluginManager{
 	 *
 	 * @return HandlerList
 	 */
-	private function getEventListeners($event){
+	public function getEventListeners($event){
 		if($event::$handlerList === null){
 			$event::$handlerList = new HandlerList();
 		}

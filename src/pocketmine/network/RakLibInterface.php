@@ -36,10 +36,13 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 	/** @var ServerHandler */
 	private $interface;
+	
+	private $timeout;
 
 	public function __construct(Server $server){
 
 		$this->server = $server;
+		$this->timeout = $server->getProperty("network.timeout", -1);
 		$this->identifiers = [];
 
 		$this->rakLib = new RakLibServer($this->server->getLogger(), $this->server->getLoader(), $this->server->getPort(), $this->server->getIp() === "" ? "0.0.0.0" : $this->server->getIp());
@@ -58,8 +61,18 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 		$work = false;
 		if($this->interface->handlePacket()){
 			$work = true;
-			while($this->interface->handlePacket()){
+			if($this->timeout<0){
+				while($this->interface->handlePacket()){
+				}
+			}else{
+				$timestamp=time();
+				while($this->interface->handlePacket()){
+					if(time()-$timestamp >= $this->timeout){
+						break;
+					}
+				}
 			}
+
 		}
 
 		if($this->rakLib->isTerminated()){

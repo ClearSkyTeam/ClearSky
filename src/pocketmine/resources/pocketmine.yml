@@ -1,3 +1,4 @@
+version: 1
 settings:
  language: "eng"
  force-language: false
@@ -7,6 +8,7 @@ settings:
  enable-profiling: false
  profile-report-trigger: 20
  async-workers: auto
+ config-update: true
 
 hunger:
  enable: true
@@ -68,6 +70,7 @@ network:
  compression-level: 7
  anti-cheat: false
  acceptable-packetlost: 3
+ timeout: 1
  async-compression: true
  upnp-forwarding: false
 

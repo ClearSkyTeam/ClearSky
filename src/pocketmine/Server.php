@@ -1505,13 +1505,23 @@ class Server{
 		$this->logger->info("Loading pocketmine.yml...");
 		if(!file_exists($this->dataPath . "pocketmine.yml")){
 			$content = file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
-			if($version->isDev()){
-				$content = str_replace("preferred-channel: stable", "preferred-channel: beta", $content);
-			}
 			@file_put_contents($this->dataPath . "pocketmine.yml", $content);
 		}
 		$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
-
+		$internal_config = yaml_parse(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
+		if($this->getProperty("version", 0) < $internal_config['version']){
+			$this->logger->warning("Outdated pocketmine.yml");
+			if($this->getProperty("settings.config-update", true)){
+				$this->logger->info("Updating pocketmine.yml...");
+				rename($this->dataPath . "pocketmine.yml",$this->dataPath . "pocketmine.yml.".time().".bak");
+				$content = file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
+				@file_put_contents($this->dataPath . "pocketmine.yml", $content);
+				$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
+			}else{
+				$this->logger->info("Ignore outdated pocketmine.yml");
+			}
+		}
+		unset($inernal_config);
 		$this->logger->info("Loading server properties...");
 		$this->properties = new Config($this->dataPath . "server.properties", Config::PROPERTIES, [
 			"motd" => "Minecraft: PE Server",
