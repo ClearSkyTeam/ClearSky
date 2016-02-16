@@ -1,4 +1,4 @@
-version: 2 #This is for internal use. Changing it will damage something!
+version: 3 #This is for internal use. Changing it will damage something!
 # Main configuration file for ClearSky
 # Some of these settings are safe, others can break your server if modified incorrectly!
 # New settings/defaults will appear automatically on this file when upgrading, if config-update is set to true
@@ -33,46 +33,66 @@ hunger:
 experience:
  enable: true
  #Whether experience should be calculated or not
- player-drop: true
+ player-drop: true #@deprecated
+ #Whether player should drop experience or not
  mob-drop: true
+ #Whether mobs should drop experience or not
  break-drop: true
+ #Whether blocks should drop experience or not
  smelt-drop: true
+ #Whether furncace melting should giveexperience or not
  
 redstone:
  enable: true
+ #Whether redstone should be calculated or not
  tick-limit: 2048
+ #If the server does execute more redstone calc
 
 weather:
  enable: true
- 
+ #Whether weather should be calculated or not
  rain:
   possibility: 10
- 
+  #Chance in % per tick to start rain
   time:
    min: 30
    max: 120
-   
   rainfall:
    min: 1000
    max: 100000
  
-I/O:
+I/O: #These settings do enormly affect performance!
  title-usage: true
+ #Whether to change the title of the console window or not
  log-to-file: true
+ #Whether to log to file or not
 
 memory:
- global-limit: 0
- main-limit: 0
- main-hard-limit: 2048
- check-rate: 20
+ global-limit: 0 #MB
+ #Global soft memory limit. Set to 0 to disable
+ #This will trigger low-memory-triggers and fire an event to free memory when the usage goes over this
+ main-limit: 0 #MB
+ #Main thread soft memory limit in. Set to 0 to disable
+ #This will trigger low-memory-triggers and fire an event to free memory when the usage goes over this
+ main-hard-limit: 2048 #MB
+ #Main thread hard memory limit in megabytes. Set to 0 to disable
+ #This will stop the server when the limit is surpassed
+ check-rate: 20 #ticks
+ #Period in ticks to check memory
  continuous-trigger: true
- continuous-trigger-rate: 30
+ #Continue firing low-memory-triggers and event while on low memory
+ continuous-trigger-rate: 30 #secounds
+ #Only if memory.continuous-trigger is enabled. Specifies the rate in memory.check-rate steps
 
  garbage-collection:
   period: 1800
+  #Period in ticks to fire the garbage collector manually (default 30 minutes), set to 0 to disable
+  #This only affect the main thread. Other threads should fire their own collections
   collect-async-worker: true
+  #Fire asynchronous tasks to collect garbage from workers
   low-memory-trigger: true
-
+  #Trigger on low memory
+  
  max-chunks:
   trigger-limit: 28
   trigger-chunk-collect: true
