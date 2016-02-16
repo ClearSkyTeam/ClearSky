@@ -110,7 +110,7 @@ network:
  #Set to 0 to compress everything, -1 to disable.
  compression-level: 7
  #Compression level used when sending batched packets. Higher = more CPU, less bandwidth usage
- async-compression: false
+ async-compression: true
  #Use AsyncTasks for compression. Adds half/one tick delay, less CPU load on main thread
  anti-cheat: false
  #Prevent cheating
@@ -120,7 +120,6 @@ network:
  #MCPE Protocol Version.
  version: "0.13.2"
  #MCPE Version string
- async-compression: true
  #Prevent cheating
  upnp-forwarding: false
  #Experimental, only for Windows. Tries to use UPnP to automatically port forward
