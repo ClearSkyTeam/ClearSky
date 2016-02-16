@@ -105,15 +105,25 @@ memory:
   low-memory-trigger: true
 
 network:
- batch-threshold: 256
+ batch-threshold: 256 #bytes
+ #Threshold for batching packets. Only these packets will be compressed
+ #Set to 0 to compress everything, -1 to disable.
  compression-level: 7
+ #Compression level used when sending batched packets. Higher = more CPU, less bandwidth usage
+ async-compression: false
+ #Use AsyncTasks for compression. Adds half/one tick delay, less CPU load on main thread
  anti-cheat: false
+ #Prevent cheating
  acceptable-packetlost: 3
  timeout: 1
  protocol: 39
+ #MCPE Protocol Version.
  version: "0.13.2"
+ #MCPE Version string
  async-compression: true
+ #Prevent cheating
  upnp-forwarding: false
+ #Experimental, only for Windows. Tries to use UPnP to automatically port forward
 
 debug:
  level: 1
@@ -124,7 +134,7 @@ debug:
 
 level-settings:
  default-format: mcregion
- convert-format: false
+ convert-format: false #WIP
  auto-tick-rate: false
  auto-tick-rate-limit: 20
  base-tick-rate: 1
@@ -137,11 +147,14 @@ chunk-sending:
  cache-chunks: true
 
 chunk-ticking:
- per-tick: 1
- tick-radius: 2
+ #Max amount of chunks processed each tick
+ per-tick: 20
+ tick-radius: 4
+ #Radius of chunks around a player to tick
  light-updates: false
+ #Whether to do light-updates or not
  clear-tick-list: true
-
+ 
 chunk-generation:
  queue-size: 2
  population-queue-size: 2
@@ -170,7 +183,7 @@ anonymous-statistics:
  enabled: true
  host: stats.pocketmine.net
 
-auto-updater: #This only exists beacuse of legacy support!
+auto-updater: #This only exists because of legacy support!
  enabled: false
  on-update:
   warn-console: true
