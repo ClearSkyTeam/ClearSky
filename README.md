@@ -20,6 +20,8 @@ All features can be configed in pocketmine.yml.<br>
  - About 20 times faster than offical PM repo
  - Universal Client version join(e.g. 0.13.0 0.13.1 0.13.2 can join together)(note¹)
  - Unlimited player join(set max-players to -1 in server.properties)(note²)
+ - Modified Version color and string freely(set network.protocol,version in pocketmine.yml)
+ - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network(network section in pocketmine.yml) 
  - UltraFast Redstone Calculation with almost no bugs
  - Fully working Experience System, include block/player/entity/bottle/furnace hook.
  - Fully working Food & Hunger System, include game-difficulty hook.
@@ -61,6 +63,8 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
  - 较之PM官方项目，晴空有近20倍的性能提升.
  - 通用客户端加入(比如0.13.0 0.13.1 0.13.2可以在一起游戏)
  - 无限玩家数量(将server.properties中的 max-players 设置为-1)
+ - 你可以自定义显示的版本号及颜色(pocketmine.yml 中 network 项下的 protocol 和 version 设置)
+ - 兼容网络差的玩家，可以在netowrk下关闭作弊检测(anti-cheat)或者增大丢包允许率
  - 高效且有逻辑的红石系统.
  - 完整的经验系统 , 包括 挖掘/玩家/生物/附魔瓶/熔炉 事件.
  - 完整的食物 和 饥饿系统 ， 可以根据游戏难度自动适配.
