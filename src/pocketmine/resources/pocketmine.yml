@@ -93,7 +93,7 @@ memory:
   #Trigger on low memory
   
  max-chunks:
-  trigger-limit: 96
+  trigger-limit: 28
   #Limit of chunks to load per player, overrides chunk-sending.max-chunks
   trigger-chunk-collect: true
   #Do chunk garbage collection on trigger
@@ -101,7 +101,7 @@ memory:
   #Trigger on low memory
 
  world-caches:
-  disable-chunk-cache: true
+  disable-chunk-cache: false
   low-memory-trigger: true
 
 network:
@@ -154,8 +154,8 @@ chunk-sending:
 
 chunk-ticking:
  #Max amount of chunks processed each tick
- per-tick: 20
- tick-radius: 4
+ per-tick: 1
+ tick-radius: 2
  #Radius of chunks around a player to tick
  light-updates: false
  #Whether to do light-updates or not
@@ -163,9 +163,9 @@ chunk-ticking:
  
 chunk-generation:
  #Max. amount of chunks in the waiting queue to be generated
- queue-size: 4
+ queue-size: 2
  #Max. amount of chunks in the waiting queue to be populated
- population-queue-size: 4
+ population-queue-size: 2
 
 ticks-per:
  animal-spawns: 400
@@ -188,7 +188,7 @@ auto-report:
 
 anonymous-statistics:
  #Sends anonymous statistics for data aggregation, plugin usage tracking
- enabled: true
+ enabled: false
  host: stats.pocketmine.net
 
 auto-updater: #This only exists because of legacy support!
