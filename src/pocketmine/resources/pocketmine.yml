@@ -1,6 +1,6 @@
 # Main configuration file for ClearSky
 # Some of these settings are safe, others can break your server if modified incorrectly!
-# New settings/defaults will appear automatically on this file when upgrading, if config-update is set to true
+# If config-update is set to true, new settings/defaults will appear automatically on this file when upgrading,
 
 settings:
  language: "eng"
@@ -93,14 +93,16 @@ memory:
   #Trigger on low memory
   
  max-chunks:
-  trigger-limit: 28
+  trigger-limit: 96
+  #Limit of chunks to load per player, overrides chunk-sending.max-chunks
   trigger-chunk-collect: true
+  #Do chunk garbage collection on trigger
   low-memory-trigger: true
+  #Trigger on low memory
 
  world-caches:
-  disable-chunk-cache: false
+  disable-chunk-cache: true
   low-memory-trigger: true
-
 
 network:
  batch-threshold: 256
