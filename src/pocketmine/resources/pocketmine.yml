@@ -49,12 +49,12 @@ memory:
  continuous-trigger-rate: 30
 
  garbage-collection:
-  period: 36000
+  period: 1800
   collect-async-worker: true
   low-memory-trigger: true
 
  max-chunks:
-  trigger-limit: 96
+  trigger-limit: 28
   trigger-chunk-collect: true
   low-memory-trigger: true
 
@@ -64,10 +64,10 @@ memory:
 
 
 network:
- batch-threshold: 128
- compression-level: 2
- anti-cheat: true
- acceptable-packetlost: 2
+ batch-threshold: 256
+ compression-level: 7
+ anti-cheat: false
+ acceptable-packetlost: 3
  async-compression: true
  upnp-forwarding: false
 
@@ -80,26 +80,26 @@ debug:
 level-settings:
  default-format: mcregion
  convert-format: false
- auto-tick-rate: true
+ auto-tick-rate: false
  auto-tick-rate-limit: 20
  base-tick-rate: 1
  always-tick-players: false
 
 chunk-sending:
- per-tick: 4
- max-chunks: 192
- spawn-threshold: 56
+ per-tick: 1
+ max-chunks: 32
+ spawn-threshold: 28
  cache-chunks: true
 
 chunk-ticking:
- per-tick: 40
- tick-radius: 3
+ per-tick: 1
+ tick-radius: 2
  light-updates: false
  clear-tick-list: true
 
 chunk-generation:
- queue-size: 8
- population-queue-size: 8
+ queue-size: 2
+ population-queue-size: 2
 
 ticks-per:
  animal-spawns: 400
