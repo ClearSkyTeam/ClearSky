@@ -1,4 +1,4 @@
-version: 1
+version: 2
 settings:
  language: "eng"
  force-language: false
@@ -71,6 +71,8 @@ network:
  anti-cheat: false
  acceptable-packetlost: 3
  timeout: 1
+ protocol: 43
+ version: "0.14.0"
  async-compression: true
  upnp-forwarding: false
 
