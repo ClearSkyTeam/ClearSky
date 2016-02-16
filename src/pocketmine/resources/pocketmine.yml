@@ -32,7 +32,8 @@ hunger:
 experience:
  enable: true
  #Whether experience should be calculated or not
- player-drop: true #@deprecated
+ player-drop: true
+ #@deprecated
  #Whether player should drop experience or not
  mob-drop: true
  #Whether mobs should drop experience or not
@@ -45,7 +46,7 @@ redstone:
  enable: true
  #Whether redstone should be calculated or not
  tick-limit: 2048
- #If the server does execute more redstone calc
+ #Redstone calculation limit (per tick)
 
 weather:
  enable: true
@@ -60,27 +61,33 @@ weather:
    min: 1000
    max: 100000
  
-I/O: #These settings do enormly affect performance!
+I/O:
+ #These settings do enormly affect disk or console performance!
  title-usage: true
- #Whether to change the title of the console window or not
+ #Show server usage in title
  log-to-file: true
- #Whether to log to file or not
+ #Log console to file(server.log)
 
 memory:
- global-limit: 0 #MB
+ global-limit: 0
+ #MB
  #Global soft memory limit. Set to 0 to disable
  #This will trigger low-memory-triggers and fire an event to free memory when the usage goes over this
- main-limit: 0 #MB
+ main-limit: 0
+ #MB
  #Main thread soft memory limit in. Set to 0 to disable
  #This will trigger low-memory-triggers and fire an event to free memory when the usage goes over this
- main-hard-limit: 2048 #MB
+ main-hard-limit: 2048
+ #MB
  #Main thread hard memory limit in megabytes. Set to 0 to disable
  #This will stop the server when the limit is surpassed
- check-rate: 20 #ticks
+ check-rate: 20
+ #ticks
  #Period in ticks to check memory
  continuous-trigger: true
  #Continue firing low-memory-triggers and event while on low memory
- continuous-trigger-rate: 30 #secounds
+ continuous-trigger-rate: 30
+ #secounds
  #Only if memory.continuous-trigger is enabled. Specifies the rate in memory.check-rate steps
 
  garbage-collection:
@@ -105,7 +112,8 @@ memory:
   low-memory-trigger: true
 
 network:
- batch-threshold: 256 #bytes
+ batch-threshold: 256
+ #bytes
  #Threshold for batching packets. Only these packets will be compressed
  #Set to 0 to compress everything, -1 to disable.
  compression-level: 7
@@ -113,14 +121,16 @@ network:
  async-compression: true
  #Use AsyncTasks for compression. Adds half/one tick delay, less CPU load on main thread
  anti-cheat: false
- #Prevent cheating
- acceptable-packetlost: 3
+ #Prevent cheating , but consider turn it off when have a bad network connection
+ acceptable-packetlost: 2
+ #If your server have a bad network connection , increase this
  timeout: 1
+ #second
+ #Interrupt Raklib after reach timeout , save CPU usage , may cause packet lost.(-1 for disable , all pkt will send)
  protocol: 39
- #MCPE Protocol Version.
+ #MCPE Protocol Version , it will affect the color of version string.
  version: "0.13.2"
- #MCPE Version string
- #Prevent cheating
+ #MCPE Version string shown in server list , number and dot(.) allowed
  upnp-forwarding: false
  #Experimental, only for Windows. Tries to use UPnP to automatically port forward
 
@@ -212,4 +222,6 @@ worlds:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
-version: 3 #This is for internal use. Changing it will damage something!
+version: 4
+#!DO NOT EDIT!
+#Version of pocketmine.yml
