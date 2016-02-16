@@ -134,16 +134,23 @@ debug:
 
 level-settings:
  default-format: mcregion
+ #The default format that levels will use when created
  convert-format: false #WIP
  auto-tick-rate: false
+ #Automatically change levels tick rate to maintain 20 ticks per second
  auto-tick-rate-limit: 20
- base-tick-rate: 1
+ base-tick-rate: 1 #(1 = 20 ticks per second, 2 = 10 ticks per second, etc.)
+ #Sets the base tick rate
  always-tick-players: false
+ #Tick all players each tick even when other settings disallow this.
 
 chunk-sending:
  per-tick: 1
+ #Limit of chunks to send per tick to player
  max-chunks: 32
+ #Limit of chunks to send per player
  spawn-threshold: 28
+ #Chunks, that have to be loaded before the player spawns
  cache-chunks: true
 
 chunk-ticking:
@@ -156,8 +163,10 @@ chunk-ticking:
  clear-tick-list: true
  
 chunk-generation:
- queue-size: 2
- population-queue-size: 2
+ #Max. amount of chunks in the waiting queue to be generated
+ queue-size: 4
+ #Max. amount of chunks in the waiting queue to be populated
+ population-queue-size: 4
 
 ticks-per:
  animal-spawns: 400
