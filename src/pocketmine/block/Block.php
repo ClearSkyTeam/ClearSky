@@ -367,7 +367,12 @@ class Block extends Position implements Metadatable{
 
 	/** @var AxisAlignedBB */
 	public $boundingBox = null;
-
+	
+	/** LightSource Mod **/
+	public function isLightSource(){
+		return false;
+	}
+	
 	/**
 	 * Backwards-compatibility with old way to define block properties
 	 *
@@ -662,7 +667,7 @@ class Block extends Position implements Metadatable{
 							}else{
 								self::$lightFilter[$id] = 1;
 							}
-						}elseif($block->getId()==Block::GLOWSTONE){
+						}elseif($block instanceof LightSource){
 							self::$lightFilter[$id] = 1;
 						}else{
 							self::$lightFilter[$id] = 15;

@@ -4,14 +4,18 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 
-class Glowstone extends Solid{
+class Glowstone extends Solid implements LightSource{
 
 	protected $id = self::GLOWSTONE_BLOCK;
 
 	public function __construct(){
 
 	}
-
+	
+	public function isLightSource(){
+		return true;
+	}
+	
 	public function getName(){
 		return "Glowstone";
 	}
