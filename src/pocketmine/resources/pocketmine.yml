@@ -108,7 +108,7 @@ memory:
   #Trigger on low memory
 
  world-caches:
-  disable-chunk-cache: false
+  disable-chunk-cache: true
   low-memory-trigger: true
 
 network:
@@ -144,7 +144,8 @@ debug:
 level-settings:
  default-format: mcregion
  #The default format that levels will use when created
- convert-format: false #WIP
+ convert-format: false 
+ #WIP
  auto-tick-rate: false
  #Automatically change levels tick rate to maintain 20 ticks per second
  auto-tick-rate-limit: 20
@@ -163,8 +164,8 @@ chunk-sending:
  cache-chunks: true
 
 chunk-ticking:
- #Max amount of chunks processed each tick
  per-tick: 1
+ #Max amount of chunks processed each tick
  tick-radius: 2
  #Radius of chunks around a player to tick
  light-updates: false
@@ -222,6 +223,6 @@ worlds:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
-version: 5
+version: 6
 #!DO NOT EDIT!
 #Version of pocketmine.yml
