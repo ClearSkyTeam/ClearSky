@@ -29,12 +29,20 @@ abstract class DataPacket extends BinaryStream{
 	public function reset(){
 		$this->buffer = chr($this::NETWORK_ID);
 		$this->offset = 0;
-
+	}
+	
 	/**
 	 * @deprecated This adds extra overhead on the network, so its usage is now discouraged. It was a test for the viability of this.
 	 */
-
+	 
+	public function setChannel($channel){
+		return $this;
 	}
+
+	public function getChannel(){
+		return 0;
+	}
+	
 
 	public function clean(){
 		$this->buffer = null;
