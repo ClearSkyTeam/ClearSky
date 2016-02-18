@@ -34,7 +34,7 @@ class WeatherCommand extends VanillaCommand{
         }else{
             $seconds = 600*20;
         }
-	    if(count($args) <= 2)
+	    if(count($args) === 0 && count($args) <= 2)
 	    {
         	if($sender instanceof Player){
             	$level = $sender->getLevel();
