@@ -12,52 +12,52 @@
 /**
  * The default inheritance mask used when starting Threads and Workers
  */
-\define('PTHREADS_INHERIT_ALL', 0x111111);
+define('PTHREADS_INHERIT_ALL', 0x111111);
 
 /**
  * Nothing will be inherited by the new context
  */
-\define('PTHREADS_INHERIT_NONE', 0);
+define('PTHREADS_INHERIT_NONE', 0);
 
 /**
  * Determines whether the ini entries are inherited by the new context
  */
-\define('PTHREADS_INHERIT_INI', 0x1);
+define('PTHREADS_INHERIT_INI', 0x1);
 
 /**
  * Determines whether the constants are inherited by the new context
  */
-\define('PTHREADS_INHERIT_CONSTANTS', 0x10);
+define('PTHREADS_INHERIT_CONSTANTS', 0x10);
 
 /**
  * Determines whether the class table is inherited by the new context
  */
-\define('PTHREADS_INHERIT_CLASSES', 0x100);
+define('PTHREADS_INHERIT_CLASSES', 0x100);
 
 /**
  * Determines whether the function table is inherited by the new context
  */
-\define('PTHREADS_INHERIT_FUNCTIONS', 0x100);
+define('PTHREADS_INHERIT_FUNCTIONS', 0x100);
 
 /**
  * Determines whether the included_files table is inherited by the new context
  */
-\define('PTHREADS_INHERIT_INCLUDES', 0x10000);
+define('PTHREADS_INHERIT_INCLUDES', 0x10000);
 
 /**
  * Determines whether the comments are inherited by the new context
  */
-\define('PTHREADS_INHERIT_COMMENTS', 0x100000);
+define('PTHREADS_INHERIT_COMMENTS', 0x100000);
 
 /**
  * Allow output headers from the threads
  */
-\define('PTHREADS_ALLOW_HEADERS', 0x1000000);
+define('PTHREADS_ALLOW_HEADERS', 0x1000000);
 
 /**
  * Allow global inheritance for new threads
  */
-\define('PTHREADS_ALLOW_GLOBALS', 0x10000000);
+define('PTHREADS_ALLOW_GLOBALS', 0x10000000);
 
 class Collectable extends Threaded{
 
@@ -156,7 +156,7 @@ class Threaded implements Traversable, Countable, ArrayAccess{
      * @link http://www.php.net/manual/en/threaded.merge.php
      * @return bool A boolean indication of success
      */
-    public function merge($from, $overwrite = \true){
+    public function merge($from, $overwrite = true){
     }
 
     /**
@@ -228,7 +228,7 @@ class Threaded implements Traversable, Countable, ArrayAccess{
      * @link http://www.php.net/manual/en/threaded.synchronized.php
      * @return mixed The return value from the block
      */
-    public function synchronized(\Closure $function, $args = \null){
+    public function synchronized(\Closure $function, $args = null){
     }
 
     /**
@@ -360,7 +360,7 @@ class Thread extends Threaded{
      * @link  http://www.php.net/manual/en/thread.start.php
      * @return bool A boolean indication of success
      */
-    public static function globally(Callable $block, $args = \null){
+    public static function globally(Callable $block, $args = null){
     }
 }
 
@@ -436,7 +436,7 @@ class Worker extends Thread{
      * @link http://www.php.net/manual/en/worker.unstack.php
      * @return int The new length of the stack
      */
-    public function unstack(Threaded &$work = \null){
+    public function unstack(Threaded &$work = null){
     }
 }
 
@@ -457,7 +457,7 @@ class Mutex{
      * @link http://www.php.net/manual/en/mutex.create.php
      * @return int A newly created and optionally locked Mutex handle
      */
-    final public static function create($lock = \false){
+    final public static function create($lock = false){
     }
 
     /**
@@ -510,7 +510,7 @@ class Mutex{
      * @link http://www.php.net/manual/en/mutex.unlock.php
      * @return bool A boolean indication of success
      */
-    final public static function unlock($mutex, $destroy = \false){
+    final public static function unlock($mutex, $destroy = false){
     }
 }
 
@@ -577,7 +577,7 @@ class Cond{
      *
      * @return bool A boolean indication of success
      */
-    final public static function wait($condition, $mutex, $timeout = \null){
+    final public static function wait($condition, $mutex, $timeout = null){
     }
 }
 
