@@ -3,17 +3,17 @@ class SplFixedByteArray extends SplFixedArray{
 
 	private $convert;
 
-	public function __construct($size, $convert = \false){
+	public function __construct($size, $convert = false){
 		parent::__construct($size);
 		$this->convert = (bool) $convert;
 	}
 
-	public function chunk($start, $size, $normalize = \true){
+	public function chunk($start, $size, $normalize = true){
 		$end = $start + $size;
 		if($normalize and $this->convert){
 			$d = "";
 			for($i = $start; $i < $end; ++$i){
-				$d .= \chr($this[$i]);
+				$d .= chr($this[$i]);
 			}
 		}else{
 			$d = [];
@@ -30,13 +30,13 @@ class SplFixedByteArray extends SplFixedArray{
 	 *
 	 * @return SplFixedByteArray
 	 */
-	public static function fromString($str, $convert = \false){
-		$len = \strlen($str);
+	public static function fromString($str, $convert = false){
+		$len = strlen($str);
 		$ob = new SplFixedByteArray($len, $convert);
 
 		if($convert){
 			for($i = 0; $i < $len; ++$i){
-				$ob[$i] = \ord($str{$i});
+				$ob[$i] = ord($str{$i});
 			}
 		}else{
 			for($i = 0; $i < $len; ++$i){
@@ -55,12 +55,12 @@ class SplFixedByteArray extends SplFixedArray{
 	 *
 	 * @return SplFixedByteArray
 	 */
-	public static function fromStringChunk($str, $size, $start = 0, $convert = \false){
+	public static function fromStringChunk($str, $size, $start = 0, $convert = false){
 		$ob = new SplFixedByteArray($size, $convert);
 
 		if($convert){
 			for($i = 0; $i < $size; ++$i){
-				$ob[$i] = \ord($str{$i + $start});
+				$ob[$i] = ord($str{$i + $start});
 			}
 		}else{
 			for($i = 0; $i < $size; ++$i){
@@ -75,7 +75,7 @@ class SplFixedByteArray extends SplFixedArray{
 		$result = "";
 		if($this->convert){
 			for($i = 0; $i < $this->getSize(); ++$i){
-				$result .= \chr($this[$i]);
+				$result .= chr($this[$i]);
 			}
 		}else{
 			for($i = 0; $i < $this->getSize(); ++$i){

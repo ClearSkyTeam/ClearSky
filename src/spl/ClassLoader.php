@@ -4,7 +4,7 @@ interface ClassLoader{
     /**
      * @param ClassLoader $parent
      */
-    public function __construct(ClassLoader $parent = \null);
+    public function __construct(ClassLoader $parent = null);
 
     /**
      * Adds a path to the lookup list
@@ -12,7 +12,7 @@ interface ClassLoader{
      * @param string $path
      * @param bool   $prepend
      */
-    public function addPath($path, $prepend = \false);
+    public function addPath($path, $prepend = false);
 
     /**
      * Removes a path from the lookup list
@@ -42,7 +42,7 @@ interface ClassLoader{
      *
      * @return bool
      */
-    public function register($prepend = \false);
+    public function register($prepend = false);
 
     /**
      * Called when there is a class to load
