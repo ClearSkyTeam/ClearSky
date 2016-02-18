@@ -140,7 +140,9 @@ class ServerScheduler{
 		}
 		$this->tasks = [];
 		$this->asyncPool->removeTasks();
-		$this->queue = new ReversePriorityQueue();
+		while(!$this->queue->isEmpty()){
+			$this->queue->extract();
+		}
 		$this->ids = 1;
 	}
 

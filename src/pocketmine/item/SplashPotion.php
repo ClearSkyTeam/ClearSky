@@ -1,9 +1,13 @@
 <?php
 namespace pocketmine\item;
 
-class SplashPotion extends Launchable{
+class SplashPotion extends Item implements Launchable{
 	protected $entityname = "ThrownPotion";
 	protected $f = 1.1;
+	
+	public function isLaunchable(){
+		return true;
+	}
 	
 	public function __construct($meta = 0, $count = 1){
 		parent::__construct(self::SPLASH_POTION, $meta, $count, $this->getNameByMeta($meta));

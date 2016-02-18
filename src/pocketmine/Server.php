@@ -300,6 +300,13 @@ class Server{
 	/**
 	 * @return string
 	 */
+	public function getPocketMineBuild(){
+		return \pocketmine\BUILD;
+	}
+	
+	/**
+	 * @return string
+	 */
 	public function getPocketMineVersion(){
 		return \pocketmine\VERSION;
 	}
@@ -1478,6 +1485,7 @@ class Server{
 
 		$this->autoloader = $autoloader;
 		$this->logger = $logger;
+		try{
 		$this->filePath = $filePath;
 		
 		if(!file_exists($dataPath . "crashdumps/")){
@@ -1645,10 +1653,12 @@ class Server{
 
 
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.info", [
-			$this->getName(),
-			($version->isDev() ? TextFormat::YELLOW : "") . $version->get(true) . TextFormat::WHITE,
+			$this->getName().
+			'-'.
 			$this->getCodename(),
-			$this->getApiVersion()
+			($version->isDev() ? TextFormat::YELLOW : "") . $version->get(true) . TextFormat::WHITE,
+			$this->getApiVersion(),
+			$this->getPocketMineBuild()
 		]));
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.license", [$this->getName()]));
 		Timings::init();
@@ -1751,6 +1761,9 @@ class Server{
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 
 		$this->start();
+		}catch(\Exception $e){
+			$this->exceptionHandler($e);
+		}
 	}
 
 	/**
@@ -1858,7 +1871,7 @@ class Server{
 		$packet->encode();
 		$packet->isEncoded = true;
 		if(Network::$BATCH_THRESHOLD >= 0 and strlen($packet->buffer) >= Network::$BATCH_THRESHOLD){
-			Server::getInstance()->batchPackets($players, [$packet->buffer], false, $packet->getChannel());
+			Server::getInstance()->batchPackets($players, [$packet->buffer], false);
 			return;
 		}
 
@@ -1876,9 +1889,8 @@ class Server{
 	 * @param Player[]            $players
 	 * @param DataPacket[]|string $packets
 	 * @param bool                $forceSync
-	 * @param int                 $channel
 	 */
-	public function batchPackets(array $players, array $packets, $forceSync = false, $channel = 0){
+	public function batchPackets(array $players, array $packets, $forceSync = false){
 		Timings::$playerNetworkTimer->startTiming();
 		$str = "";
 
@@ -1901,10 +1913,10 @@ class Server{
 		}
 
 		if(!$forceSync and $this->networkCompressionAsync){
-			$task = new CompressBatchedTask($str, $targets, $this->networkCompressionLevel, $channel);
+			$task = new CompressBatchedTask($str, $targets, $this->networkCompressionLevel);
 			$this->getScheduler()->scheduleAsyncTask($task);
 		}else{
-			$this->broadcastPacketsCallback(zlib_encode($str, ZLIB_ENCODING_DEFLATE, $this->networkCompressionLevel), $targets, $channel);
+			$this->broadcastPacketsCallback(zlib_encode($str, ZLIB_ENCODING_DEFLATE, $this->networkCompressionLevel), $targets);
 		}
 
 		Timings::$playerNetworkTimer->stopTiming();
@@ -2476,7 +2488,8 @@ class Server{
 			$usage = round(($u[0] / 1024) / 1024, 2) . "/" . round(($d[0] / 1024) / 1024, 2) . "/" . round(($u[1] / 1024) / 1024, 2) . "/" . round(($u[2] / 1024) / 1024, 2) . " MB @ " . Utils::getThreadCount() . " threads";
 
 			echo "\x1b]0;" . $this->getName() . " " .
-				$this->getPocketMineVersion() .
+				$this->getPocketMineVersion() .'-#'.
+				$this->getPocketMineBuild().
 				" | Online " . count($this->players) . "/" . $this->getMaxPlayers() .
 				" | Memory " . $usage .
 				" | U " . round($this->network->getUpload() / 1024, 2) .

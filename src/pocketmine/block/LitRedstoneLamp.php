@@ -6,12 +6,16 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 
-class LitRedstoneLamp extends Solid implements Redstone,RedstoneConsumer{
+class LitRedstoneLamp extends Solid implements Redstone,RedstoneConsumer,LightSource{
 
 	protected $id = self::LIT_REDSTONE_LAMP;
 
 	public function __construct(){
 
+	}
+	
+	public function isLightSource(){
+		return true;
 	}
 	
 	public function getToolType(){
