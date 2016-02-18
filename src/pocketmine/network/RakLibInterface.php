@@ -46,8 +46,8 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 		$this->server = $server;
 		$this->timeout = $server->getProperty("network.timeout", -1);
-		$this->currentprotocol = $server->getProperty("network.protocol", 39);
-		$this->networkversion = $server->getProperty("network.version", "0.13.2");
+		$this->currentprotocol = $server->getProperty("network.protocol", 40);
+		$this->networkversion = $server->getProperty("network.version", "0.14.0");
 		
 		$this->identifiers = [];
 
@@ -204,8 +204,8 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 				if(!isset($packet->__encapsulatedPacket)){
 					$packet->__encapsulatedPacket = new CachedEncapsulatedPacket;
 					$packet->__encapsulatedPacket->identifierACK = null;
-					$packet->__encapsulatedPacket->buffer = $packet->buffer;
-						$packet->__encapsulatedPacket->reliability = 3;
+					$packet->__encapsulatedPacket->buffer = chr(0x8e) . $packet->buffer;
+					$packet->__encapsulatedPacket->reliability = 3;
 					$packet->__encapsulatedPacket->orderChannel = 0;
 				}
 				$pk = $packet->__encapsulatedPacket;
@@ -220,8 +220,8 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 			if($pk === null){
 				$pk = new EncapsulatedPacket();
-				$pk->buffer = $packet->buffer;
-					$packet->reliability = 3;
+				$pk->buffer = chr(0x8e) .  $packet->buffer;
+				$packet->reliability = 3;
 				$packet->orderChannel = 0;
 
 				if($needACK === true){
@@ -238,12 +238,12 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 	}
 
 	private function getPacket($buffer){
-		$pid = ord($buffer{0});
+		$pid = ord($buffer{1});
 
 		if(($data = $this->network->getPacket($pid)) === null){
 			return null;
 		}
-		$data->setBuffer($buffer, 1);
+		$data->setBuffer($buffer, 2);
 
 		return $data;
 	}
