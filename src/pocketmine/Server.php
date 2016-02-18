@@ -1862,7 +1862,7 @@ class Server{
 		$packet->encode();
 		$packet->isEncoded = true;
 		if(Network::$BATCH_THRESHOLD >= 0 and strlen($packet->buffer) >= Network::$BATCH_THRESHOLD){
-			Server::getInstance()->batchPackets($players, [$packet->buffer], false, $packet->getChannel());
+			Server::getInstance()->batchPackets($players, [$packet->buffer], false);
 			return;
 		}
 
@@ -1880,9 +1880,8 @@ class Server{
 	 * @param Player[]            $players
 	 * @param DataPacket[]|string $packets
 	 * @param bool                $forceSync
-	 * @param int                 $channel
 	 */
-	public function batchPackets(array $players, array $packets, $forceSync = false, $channel = 0){
+	public function batchPackets(array $players, array $packets, $forceSync = false){
 		Timings::$playerNetworkTimer->startTiming();
 		$str = "";
 
@@ -1905,10 +1904,10 @@ class Server{
 		}
 
 		if(!$forceSync and $this->networkCompressionAsync){
-			$task = new CompressBatchedTask($str, $targets, $this->networkCompressionLevel, $channel);
+			$task = new CompressBatchedTask($str, $targets, $this->networkCompressionLevel);
 			$this->getScheduler()->scheduleAsyncTask($task);
 		}else{
-			$this->broadcastPacketsCallback(zlib_encode($str, ZLIB_ENCODING_DEFLATE, $this->networkCompressionLevel), $targets, $channel);
+			$this->broadcastPacketsCallback(zlib_encode($str, ZLIB_ENCODING_DEFLATE, $this->networkCompressionLevel), $targets);
 		}
 
 		Timings::$playerNetworkTimer->stopTiming();
