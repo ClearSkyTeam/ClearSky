@@ -127,7 +127,7 @@ network:
  timeout: 1
  #second
  #Interrupt Raklib after reach timeout , save CPU usage , may cause packet lost.(-1 for disable , all pkt will send)
- protocol: 43
+ protocol: 45
  #MCPE Protocol Version , it will affect the color of version string.
  version: "0.14.0"
  #MCPE Version string shown in server list , number and dot(.) allowed
@@ -222,6 +222,6 @@ worlds:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
-version: 4
+version: 5
 #!DO NOT EDIT!
 #Version of pocketmine.yml
