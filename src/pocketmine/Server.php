@@ -300,6 +300,13 @@ class Server{
 	/**
 	 * @return string
 	 */
+	public function getPocketMineBuild(){
+		return \pocketmine\BUILD;
+	}
+	
+	/**
+	 * @return string
+	 */
 	public function getPocketMineVersion(){
 		return \pocketmine\VERSION;
 	}
@@ -1646,10 +1653,12 @@ class Server{
 
 
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.info", [
-			$this->getName(),
-			($version->isDev() ? TextFormat::YELLOW : "") . $version->get(true) . TextFormat::WHITE,
+			$this->getName().
+			'-'.
 			$this->getCodename(),
-			$this->getApiVersion()
+			($version->isDev() ? TextFormat::YELLOW : "") . $version->get(true) . TextFormat::WHITE,
+			$this->getApiVersion(),
+			$this->getPocketMineBuild()
 		]));
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.license", [$this->getName()]));
 		Timings::init();
@@ -2479,7 +2488,8 @@ class Server{
 			$usage = round(($u[0] / 1024) / 1024, 2) . "/" . round(($d[0] / 1024) / 1024, 2) . "/" . round(($u[1] / 1024) / 1024, 2) . "/" . round(($u[2] / 1024) / 1024, 2) . " MB @ " . Utils::getThreadCount() . " threads";
 
 			echo "\x1b]0;" . $this->getName() . " " .
-				$this->getPocketMineVersion() .
+				$this->getPocketMineVersion() .'-#'.
+				$this->getPocketMineBuild().
 				" | Online " . count($this->players) . "/" . $this->getMaxPlayers() .
 				" | Memory " . $usage .
 				" | U " . round($this->network->getUpload() / 1024, 2) .
