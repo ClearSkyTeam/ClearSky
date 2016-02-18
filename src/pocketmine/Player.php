@@ -907,7 +907,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			++$count;
 
 			$this->usedChunks[$index] = false;
-			$this->level->registerChunkLoader($this, $X, $Z, false);
+			$this->level->registerChunkLoader($this, $X, $Z, true);
 
 			if(!$this->level->populateChunk($X, $Z)){
 				if($this->spawned and $this->teleportPosition === null){
@@ -926,7 +926,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		Timings::$playerChunkSendTimer->stopTiming();
-		return true;
 	}
 
 	protected function doFirstSpawn(){
@@ -2169,6 +2168,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					break;
 				}
 				$this->randomClientId = $packet->clientId;
+				$this->loginData = ["clientId" => $packet->clientId, "loginData" => null];
 
 				$this->uuid = $packet->clientUUID;
 				$this->rawUUID = $this->uuid->toBinary();
@@ -2469,6 +2469,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$this->setHealth($this->getMaxHealth());
 						$this->setFood(20);
 						$this->setMovementSpeed(0.1);
+						$this->updateExperience();
 						$this->starvationTick = 0;
 						$this->foodTick = 0;
 						$this->foodUsageTime = 0;
@@ -3070,7 +3071,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($message instanceof TextContainer){
 			if($message instanceof TranslationContainer){
 				$this->sendTranslation($message->getText(), $message->getParameters());
-				return true;
+				return false;
 			}
 			$message = $message->getText();
 		}

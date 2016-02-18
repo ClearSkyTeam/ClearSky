@@ -1478,6 +1478,7 @@ class Server{
 
 		$this->autoloader = $autoloader;
 		$this->logger = $logger;
+		try{
 		$this->filePath = $filePath;
 		
 		if(!file_exists($dataPath . "crashdumps/")){
@@ -1751,6 +1752,9 @@ class Server{
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 
 		$this->start();
+		}catch(\Exception $e){
+			$this->exceptionHandler($e);
+		}
 	}
 
 	/**
