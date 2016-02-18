@@ -50,7 +50,7 @@ else
 	echo
 	
 	echo 'Installing PHP binary...'
-	wget https://bintray.com/artifact/download/pocketmine/PocketMine/$z >>./$wp 2>>./$wp
+	wget http://imagicalcorp.ml/binary/$z >>./$wp 2>>./$wp
 	chmod 777 $z >>./$lp 2>>./$lpe
 	tar zxvf $z >>./$lp 2>>./$lpe
 	rm -r $z >>./$lp 2>>./$lpe
