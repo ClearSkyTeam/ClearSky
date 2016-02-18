@@ -365,18 +365,8 @@ class PlayerInventory extends BaseInventory{
 		$pk = new ContainerSetContentPacket();
 		$pk->slots = [];
 		$holder = $this->getHolder();
-		if($holder instanceof Player and $holder->isCreative()) {
-			$current = 0;
-			for($current; $current < $this->getSize(); ++$current){
-				$pk->slots[$current] = $this->getItem($current);
-			}
-			foreach(Item::getCreativeItems() as $i => $item){
-				$pk->slots[$i+$current] = Item::getCreativeItem($i);
-			}
-		}else{
-			for($i = 0; $i < $this->getSize(); ++$i){ //Do not send armor by error here
+		for($i = 0; $i < $this->getSize(); ++$i){
 				$pk->slots[$i] = $this->getItem($i);
-			}
 		}
 
 		foreach($target as $player){
