@@ -2342,7 +2342,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					
 					/** New Launchable Class **/
 					if($item instanceof Launchable){
-						$item->launch($this);
+						$item->Launch($this);
 						if($this->isSurvival()){
 							$item->setCount($item->getCount() - 1);
 							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));

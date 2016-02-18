@@ -21,7 +21,7 @@ class RedstoneOre extends Solid{
 	}
 
 	public function getHardness(){
-		return 15;
+		return 3;
 	}
 
 	public function onUpdate($type){
@@ -41,7 +41,7 @@ class RedstoneOre extends Solid{
 	}
 
 	public function getDrops(Item $item){
-		if($item->isPickaxe() >= Tool::TIER_GOLD){
+		if($item->isPickaxe() >= Tool::TIER_IRON){
 			return [
 				[Item::REDSTONE_DUST, 0, mt_rand(4, 5)],
 			];
