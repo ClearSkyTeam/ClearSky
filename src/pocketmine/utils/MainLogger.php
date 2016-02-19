@@ -12,7 +12,6 @@ class MainLogger extends \AttachableThreadedLogger{
 	protected $logStream;
 	protected $shutdown;
 	protected $logDebug;
-	private $logResource;
 	private $enabled;
 	/** @var MainLogger */
 	public static $logger = null;
@@ -181,7 +180,7 @@ class MainLogger extends \AttachableThreadedLogger{
 			$threadName = (new \ReflectionClass($thread))->getShortName() . " thread";
 		}
 
-		$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] ". TextFormat::RESET . $color ."[" . $prefix . "]:" . " " . $message . TextFormat::RESET);
+		$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] ". TextFormat::RESET . $color ."[" . $threadName . "/" . $prefix . "]:" . " " . $message . TextFormat::RESET);
 		//$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s") . "] ". TextFormat::RESET . $color ."<".$prefix . ">" . " " . $message . TextFormat::RESET);
 		$cleanMessage = TextFormat::clean($message);
 
@@ -209,7 +208,7 @@ class MainLogger extends \AttachableThreadedLogger{
 			$this->synchronized(function (){
 				while($this->logStream->count() > 0 and $this->enabled){
 					$chunk = $this->logStream->shift();
-					$this->logResource = file_put_contents($this->logFile, $chunk, FILE_APPEND);
+					file_put_contents($this->logFile, $chunk, FILE_APPEND);
 				}	
 				$this->wait(25000);
 			});
@@ -218,7 +217,7 @@ class MainLogger extends \AttachableThreadedLogger{
 		if($this->logStream->count() > 0){
 			while($this->logStream->count() > 0 and $this->enabled){
 				$chunk = $this->logStream->shift();
-				$this->logResource = file_put_contents($this->logFile, $chunk, FILE_APPEND);
+				file_put_contents($this->logFile, $chunk, FILE_APPEND);
 			}
 		}
 	}
