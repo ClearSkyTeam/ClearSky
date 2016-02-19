@@ -1812,9 +1812,9 @@ class Item{
 	}
 
 	public final function deepEquals(Item $item, $checkDamage = true, $checkCompound = true){
-		if($this->equals($item, $checkDamage, $checkCompound)){
+		if($item->equals($item, $checkDamage, $checkCompound)){
 			return true;
-		}elseif($item->hasCompoundTag() and $this->hasCompoundTag()){
+		}elseif($item->hasCompoundTag() or $this->hasCompoundTag()){
 			return NBT::matchTree($this->getNamedTag(), $item->getNamedTag());
 		}
 
