@@ -307,6 +307,9 @@ class Binary{
 	}
 
 	public static function readInt($str){
+		if(strlen($str) != 4){
+		 return 0;
+		}
 		if(PHP_INT_SIZE === 8){
 			return unpack("N", $str)[1] << 32 >> 32;
 		}else{

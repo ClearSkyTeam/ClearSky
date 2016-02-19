@@ -1097,6 +1097,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			return false;
 		}
 
+		if(!isset($this->batchedPackets)){
+			$this->batchedPackets = [];
+		}
 		$this->batchedPackets[] = clone $packet;
 
 		$timings->stopTiming();
@@ -1776,9 +1779,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			}
 		}
 
-		$this->checkTeleportPosition();
-
-		$this->timings->stopTiming();
 
 		if($this->getServer()->getProperty("player.hunger.enable", true) and ($this->isSurvival() || $this->isAdventure())){
 			if($this->starvationTick >= 20){
@@ -1791,10 +1791,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			if($this->getFood() <= 0 && $this->getServer()->getDifficulty() >= 1){
 				$this->starvationTick++;
 			}
-			if($this->isSprinting()){
-				$this->foodUsageTime += 300;
-			}else{
-				$this->foodUsageTime += 150;
+			if($this->isSurvival()){
+				if($this->isSprinting()){
+					$this->foodUsageTime += 300;
+				}else{
+					$this->foodUsageTime += 150;
+				}
 			}
 			if($this->foodUsageTime >= 100000){
 				$this->foodUsageTime -= 100000;
@@ -1823,8 +1825,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			if($this->getHealth() < $this->getMaxHealth()){
 				$this->foodTick++;
 			}
-			return true;
+			
 		}
+		$this->checkTeleportPosition();
+		$this->timings->stopTiming();
+		return true;
 	}
 
 	protected $eatCoolDown = 0;
@@ -2215,7 +2220,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->forceMovement = new Vector3($this->x, $this->y, $this->z);
 				}
 				if($this->teleportPosition !== null or ($this->forceMovement instanceof Vector3 and (($dist = $newPos->distanceSquared($this->forceMovement)) > 0.1 or $revert))){
-					$this->sendPosition($this->teleportPosition === null ? $this->forceMovement : $this->teleportPosition, $packet->yaw, $packet->pitch);
+					if($this->forceMovement instanceof Vector3) $this->sendPosition($this->forceMovement, $packet->yaw, $packet->pitch);
 				}else{
 					$packet->yaw %= 360;
 					$packet->pitch %= 360;
@@ -2783,11 +2788,19 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						for($y = 0;$y < 3;++$y){
 							$item = $packet->input[$y * 3 + $x];
 							$ingredient = $recipe->getIngredient($x, $y);
-							if($item->getCount() > 0){
-								if($ingredient === null or !$ingredient->deepEquals($item, $ingredient->getDamage() !== null, $ingredient->getCompoundTag() !== null)){
+							if($item->getCount() > 0 and $item->getId() > 0){
+								if($ingredient == null){
 									$canCraft = false;
 									break;
 								}
+								if($ingredient->getId() != 0 and !$ingredient->deepEquals($item, $ingredient->getDamage() !== null, $ingredient->getCompoundTag() !== null)){
+									$canCraft = false;
+									break;
+								}
+
+							}elseif($ingredient !== null and $item->getId() !== 0){
+								$canCraft = false;
+								break;
 							}
 						}
 					}
