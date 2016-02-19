@@ -1667,7 +1667,7 @@ class Server{
 		$this->registerEntities();
 		$this->registerTiles();
 
-		InventoryType::init($this->getProperty("player.inventory.solt", 27));
+		InventoryType::init($this->getProperty("player.inventory.slot", 27));
 		Block::init();
 		Item::init();
 		Biome::init();
