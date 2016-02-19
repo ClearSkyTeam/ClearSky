@@ -9,6 +9,7 @@ settings:
  force-language: false
  #Whether to send all strings translated to server locale or let the device handle them
  shutdown-message: "Server closed"
+ whitelist-message: "Server is whitelisted"
  query-plugins: true
  #Allow listing plugins via Query
  deprecated-verbose: true
@@ -224,6 +225,5 @@ worlds:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
-version: 8
-#!DO NOT EDIT!
-#Version of pocketmine.yml
+version: 9
+#!DO NOT EDIT! This is for internal use, changing this will reset your whole pocketmine.yml!
