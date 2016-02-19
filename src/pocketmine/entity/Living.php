@@ -150,7 +150,7 @@ abstract class Living extends Entity implements Damageable{
 		foreach($ev->getDrops() as $item){
 			$this->getLevel()->dropItem($this, $item);
 		}
-		if($this->server->getProperty("experience.enable", true)
+		if($this->server->getProperty("player.experience.enable", true)
 		and $this->server->getProperty("experience.mob-drop", true)){
 			$DropExp = $this->getExperience();
 			$vector = new Vector3(ceil($this->x),ceil($this->y),ceil($this->z));

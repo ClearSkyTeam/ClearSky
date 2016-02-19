@@ -283,7 +283,7 @@ class Level implements ChunkManager, Metadatable{
 	private $weatherexectick = 0;
 
 	private function generateWeather(){
-		if($this->getServer()->getProperty("weather.enable", true)){
+		if($this->getServer()->getProperty("level-settings.weather.enable", true)){
 			if($this->getWeather() === Level::WEATHER_CLEARSKY){
 				$random = mt_rand(1, 1000000);
 				if($random <= $this->rainprob){
@@ -429,11 +429,11 @@ class Level implements ChunkManager, Metadatable{
 		$this->autoSave = $server->getAutoSave();
 		
 		/** Weather Config Loader **/
-		$this->rainprob = $this->getServer()->getProperty("weather.rain.possibility", 10);
-		$this->raintime[] = $this->getServer()->getProperty("weather.rain.time.min", 30);
-		$this->raintime[] = $this->getServer()->getProperty("weather.rain.time.max", 120);
-		$this->rainfall[] = $this->getServer()->getProperty("weather.rain.rainfall.min", 1000);
-		$this->rainfall[] = $this->getServer()->getProperty("weather.rain.rainfall.max", 100000);
+		$this->rainprob = $this->getServer()->getProperty("level-settings.weather.rain.possibility", 10);
+		$this->raintime[] = $this->getServer()->getProperty("level-settings.weather.rain.time.min", 30);
+		$this->raintime[] = $this->getServer()->getProperty("level-settings.weather.rain.time.max", 120);
+		$this->rainfall[] = $this->getServer()->getProperty("level-settings.weather.rain.rainfall.min", 1000);
+		$this->rainfall[] = $this->getServer()->getProperty("level-settings.weather.rain.rainfall.max", 100000);
 		
 		/** @var LevelProvider $provider */
 
@@ -1713,7 +1713,7 @@ class Level implements ChunkManager, Metadatable{
 
 			$drops = $ev->getDrops();
 			
-			if($this->server->getProperty("experience.enable", true)
+			if($this->server->getProperty("player.experience.enable", true)
 				and $this->server->getProperty("experience.break-drop", true)
 				and $player->isSurvival()){
 				$exp = $target->getExperience();

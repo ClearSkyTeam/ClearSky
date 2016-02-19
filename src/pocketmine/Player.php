@@ -1780,7 +1780,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$this->timings->stopTiming();
 
-		if($this->getServer()->getProperty("hunger.enable", true) and ($this->isSurvival() || $this->isAdventure())){
+		if($this->getServer()->getProperty("player.hunger.enable", true) and ($this->isSurvival() || $this->isAdventure())){
 			if($this->starvationTick >= 20){
 				if(!($this->getFood() <= 1 && $this->getServer()->getDifficulty() === 1)){
 					$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_CUSTOM, 1);
@@ -2966,7 +2966,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 										$achievements[] = "acquireIron";
 										break;
 								}
-								if($this->server->getProperty("experience.enable", true)
+								if($this->server->getProperty("player.experience.enable", true)
 								and $this->server->getProperty("experience.smelt-drop", true)){
 									$this->addExperience($inv->getResult()->count * $inv->getResult()->getExperience());
 								}
@@ -3388,7 +3388,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->setExperience(0);
 		}
 		
-		/*if($this->server->getProperty("experience.enable", true)
+		/*if($this->server->getProperty("player.experience.enable", true)
 		and $this->server->getProperty("experience.player-drop", true)){
 			$DropExp = $this->getExperience();
 			$vector = new Vector3(ceil($this->x),ceil($this->y),ceil($this->z));
@@ -3399,9 +3399,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($ev->getDeathMessage() != ""){
 			$this->server->broadcast($ev->getDeathMessage(), Server::BROADCAST_CHANNEL_USERS);
 		}
-
-		$pk = new RespawnPacket();
 		$pos = $this->getSpawn();
+		$pk = new RespawnPacket();
 		$pk->x = $pos->x;
 		$pk->y = $pos->y;
 		$pk->z = $pos->z;

@@ -1485,7 +1485,6 @@ class Server{
 
 		$this->autoloader = $autoloader;
 		$this->logger = $logger;
-		try{
 		$this->filePath = $filePath;
 		
 		if(!file_exists($dataPath . "crashdumps/")){
@@ -1668,7 +1667,7 @@ class Server{
 		$this->registerEntities();
 		$this->registerTiles();
 
-		InventoryType::init();
+		InventoryType::init($this->getProperty("player.inventory.solt", 27));
 		Block::init();
 		Item::init();
 		Biome::init();
@@ -1761,9 +1760,6 @@ class Server{
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 
 		$this->start();
-		}catch(\Exception $e){
-			$this->exceptionHandler($e);
-		}
 	}
 
 	/**
@@ -2595,7 +2591,7 @@ class Server{
 				$level->clearCache();
 			}
 
-			if($this->getTicksPerSecondAverage() < 12){
+			if($this->getTicksPerSecondAverage() < 10){
 				$this->logger->warning($this->getLanguage()->translateString("pocketmine.server.tickOverload"));
 			}
 		}

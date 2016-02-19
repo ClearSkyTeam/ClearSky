@@ -25,22 +25,24 @@ settings:
  config-update: true
  #Whether the server should "try" to add new configs automatically here
 
-hunger:
- enable: true
- #Whether hunger should be calculated or not
-
-experience:
- enable: true
- #Whether experience should be calculated or not
- player-drop: true
- #@deprecated
- #Whether player should drop experience or not
- mob-drop: true
- #Whether mobs should drop experience or not
- break-drop: true
- #Whether blocks should drop experience or not
- smelt-drop: true
- #Whether furncace melting should giveexperience or not
+player:
+ inventory:
+  slot: 27
+  #The inventory solt a player can have
+ hunger:
+  enable: true
+  #Whether hunger should be calculated or not
+ experience:
+  enable: true
+  #Whether experience should be calculated or not
+  player-drop: true
+  #Whether player should drop experience or not
+  mob-drop: true
+  #Whether mobs should drop experience or not
+  break-drop: true
+  #Whether blocks should drop experience or not
+  smelt-drop: true
+  #Whether furncace melting should giveexperience or not
  
 redstone:
  enable: true
@@ -48,19 +50,6 @@ redstone:
  tick-limit: 2048
  #Redstone calculation limit (per tick)
 
-weather:
- enable: true
- #Whether weather should be calculated or not
- rain:
-  possibility: 10
-  #Chance in % per tick to start rain
-  time:
-   min: 30
-   max: 120
-  rainfall:
-   min: 1000
-   max: 100000
- 
 I/O:
  #These settings do enormly affect disk or console performance!
  title-usage: true
@@ -153,6 +142,18 @@ level-settings:
  #Sets the base tick rate
  always-tick-players: false
  #Tick all players each tick even when other settings disallow this.
+ weather:
+  enable: true
+  #Whether weather should be calculated or not
+  rain:
+   possibility: 10
+   #Chance in % per tick to start rain
+   time:
+    min: 30
+    max: 120
+   rainfall:
+    min: 1000
+    max: 100000
 
 chunk-sending:
  per-tick: 1
@@ -223,6 +224,6 @@ worlds:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
-version: 6
+version: 7
 #!DO NOT EDIT!
 #Version of pocketmine.yml
