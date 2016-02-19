@@ -115,10 +115,9 @@ class Item extends Entity{
 				$this->motionY *= -0.5;
 			}
 
-			if($currentTick % 5 ==0)
 			$this->updateMovement();
 
-			if($this->age > 2000){
+			if($this->age > 6000){
 				$this->server->getPluginManager()->callEvent($ev = new ItemDespawnEvent($this));
 				if($ev->isCancelled()){
 					$this->age = 0;

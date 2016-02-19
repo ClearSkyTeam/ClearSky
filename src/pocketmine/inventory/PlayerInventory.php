@@ -393,6 +393,7 @@ class PlayerInventory extends BaseInventory{
 		}
 		return $result;
 	}
+	
 	public function removeItem(...$slots){
 		$result = parent::removeItem(...$slots);
 		if($this->getHolder() instanceof Player){
@@ -410,11 +411,6 @@ class PlayerInventory extends BaseInventory{
 		}
 
 		$pk = new ContainerSetSlotPacket();
-		$pk->hotbar = [];
-		for ($i = 0; $i < $this->getHotbarSize(); ++$i) {
-			$index = $this->getHotbarSlotIndex($i);
-			$pk->hotbar[] = $index <= -1 ? -1 : $index + 9;
-		}
 		$pk->slot = $index;
 		$pk->item = clone $this->getItem($index);
 

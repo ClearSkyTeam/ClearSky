@@ -1202,13 +1202,13 @@ abstract class Entity extends Location implements Metadatable{
 
 		Timings::$entityMoveTimer->startTiming();
 
-		/*$newBB = $this->boundingBox->getOffsetBoundingBox($dx, $dy, $dz);
+		$newBB = $this->boundingBox->getOffsetBoundingBox($dx, $dy, $dz);
 
 		$list = $this->level->getCollisionCubes($this, $newBB, false);
 
 		if(count($list) === 0){
 			$this->boundingBox = $newBB;
-		}*/
+		}
 
 		$this->x = ($this->boundingBox->minX + $this->boundingBox->maxX) / 2;
 		$this->y = $this->boundingBox->minY - $this->ySize;
@@ -1220,12 +1220,10 @@ abstract class Entity extends Location implements Metadatable{
 			$bb = clone $this->boundingBox;
 			$bb->minY -= 0.75;
 			$this->onGround = false;
-			if(!$this->level->getBlock(new Vector3($this->x, $this->y - 1, $this->z))->isTransparent())
-				$this->onGround = \true;
-			/*
-                        if(count($this->level->getCollisionBlocks($bb)) > 0){
-                            $this->onGround = true;
-                        }*/
+
+			if(count($this->level->getCollisionBlocks($bb)) > 0){
+				$this->onGround = true;
+			}
 		}
 		$this->isCollided = $this->onGround;
 		$this->updateFallState($dy, $this->onGround);
