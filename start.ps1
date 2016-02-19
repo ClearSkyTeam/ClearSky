@@ -1,3 +1,4 @@
+[Console]::OutputEncoding = [System.Text.Encoding]::UTF8
 if(!(Test-Path .\php5\php.exe)){
 	"Can't find an available PHP runtime"
 	sleep 5
