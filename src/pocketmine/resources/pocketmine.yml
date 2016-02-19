@@ -80,7 +80,7 @@ memory:
  #Only if memory.continuous-trigger is enabled. Specifies the rate in memory.check-rate steps
 
  garbage-collection:
-  period: 1800
+  period: 3600
   #Period in ticks to fire the garbage collector manually (default 30 minutes), set to 0 to disable
   #This only affect the main thread. Other threads should fire their own collections
   collect-async-worker: true
@@ -101,11 +101,11 @@ memory:
   low-memory-trigger: true
 
 network:
- batch-threshold: 256
+ batch-threshold: 128
  #bytes
  #Threshold for batching packets. Only these packets will be compressed
  #Set to 0 to compress everything, -1 to disable.
- compression-level: 7
+ compression-level: 2
  #Compression level used when sending batched packets. Higher = more CPU, less bandwidth usage
  async-compression: true
  #Use AsyncTasks for compression. Adds half/one tick delay, less CPU load on main thread
@@ -224,6 +224,6 @@ worlds:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
-version: 7
+version: 8
 #!DO NOT EDIT!
 #Version of pocketmine.yml
