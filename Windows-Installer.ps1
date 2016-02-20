@@ -11,17 +11,17 @@ Try{
 $buildnumber = $jenkinsinfo.freeStyleProject.lastSuccessfulBuild.number
 "Latest successful build number is #$buildnumber"
 'Downloading Clearsky...'
-$WC.DownloadFile("http://jenkins.clearskyteam.org/job/ClearSky/$buildnumber/artifact/releases/ClearSky-master-%23$buildnumber.phar","./ClearSky.phar")
+$WC.DownloadFile("http://jenkins.clearskyteam.org/job/ClearSky/$buildnumber/artifact/releases/ClearSky-master-%23$buildnumber.phar",".\ClearSky.phar")
 'Done!'
 'Downloading PHP runtime...'
-$WC.DownloadFile("https://github.com/ClearSkyTeam/PHPbinary/blob/master/PHP5-windows-x86.zip?raw=true","./php.zip")
+$WC.DownloadFile("https://github.com/ClearSkyTeam/PHPbinary/blob/master/PHP5-windows-x86.zip?raw=true",".\php.zip")
 'Extracting...'
 [System.IO.Compression.ZipFile]::ExtractToDirectory(".\php.zip", ".\")
 'Cleaning...'
 rm php.zip
 'Done!'
 'Downloading Startup Script'
-$WC.DownloadFile("https://raw.githubusercontent.com/ClearSkyTeam/ClearSky/master/start.cmd","start.cmd")
+$WC.DownloadFile("https://raw.githubusercontent.com/ClearSkyTeam/ClearSky/master/start.cmd",".\start.cmd")
 }
 Catch{
 'Something went wronly , please restart this script later'
