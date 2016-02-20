@@ -1655,7 +1655,7 @@ class Server{
 			$this->getName().
 			'-'.
 			$this->getCodename(),
-			($version->isDev() ? TextFormat::YELLOW : "") . $version->get(true) . TextFormat::WHITE,
+			$this->getPocketMineVersion(),
 			$this->getApiVersion(),
 			$this->getPocketMineBuild()
 		]));
