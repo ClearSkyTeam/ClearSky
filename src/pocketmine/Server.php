@@ -1693,7 +1693,7 @@ class Server{
 		$this->network->registerInterface(new RakLibInterface($this));
 
 		$this->pluginManager->loadPlugins($this->pluginPath);
-		$this->updater = new AutoUpdater($this, $this->getProperty("auto-updater.host", "www.pocketmine.net"));
+		$this->updater = new AutoUpdater($this, $this->getProperty("auto-updater.host", "jenkins.clearskyteam.org"));
 
 		$this->enablePlugins(PluginLoadOrder::STARTUP);
 

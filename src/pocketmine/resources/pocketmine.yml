@@ -204,14 +204,13 @@ anonymous-statistics:
  enabled: false
  host: stats.pocketmine.net
 
-auto-updater: #This only exists because of legacy support!
- enabled: false
+auto-updater:
+ enabled: true
  on-update:
   warn-console: true
   warn-ops: true
- preferred-channel: beta
- suggest-channels: true
- host: www.pocketmine.net
+ preferred-channel: ClearSky
+ host: jenkins.clearskyteam.org
 
 aliases:
  #Examples:
@@ -225,5 +224,5 @@ worlds:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
-version: 9
+version: 10
 #!DO NOT EDIT! This is for internal use, changing this will reset your whole pocketmine.yml!

@@ -22,11 +22,7 @@ class VersionString{
 			$this->major = isset($version[3]) ? (int) $version[3] : 0; //0-15
 			$this->minor = isset($version[4]) ? (int) $version[4] : 0; //0-31
 			$this->development = $version[5] === "dev" ? true : false;
-			if($version[6] !== ""){
-				$this->build = intval(substr($version[6], 1));
-			}else{
-				$this->build = 0;
-			}
+			$this->build = \pocketmine\BUILD;
 		}
 	}
 
