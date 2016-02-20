@@ -43,7 +43,6 @@ Temporary Items
 .apdisk
 *.dll
 *.txt
-*.cmd
 *.dat
 *.log
 *.properties

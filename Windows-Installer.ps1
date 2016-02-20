@@ -21,14 +21,14 @@ $WC.DownloadFile("https://github.com/ClearSkyTeam/PHPbinary/blob/master/PHP5-win
 rm php.zip
 'Done!'
 'Downloading Startup Script'
-$WC.DownloadFile("https://raw.githubusercontent.com/ClearSkyTeam/ClearSky/master/start.ps1","start.ps1")
+$WC.DownloadFile("https://raw.githubusercontent.com/ClearSkyTeam/ClearSky/master/start.cmd","start.cmd")
 }
 Catch{
 'Something went wronly , please restart this script later'
 sleep 5
 exit
 }
-'All have done! Run start.ps1 by powershell for your new server!'
+'All have done! Run start.cmd for your new server!'
 sleep 5
 rm split-path -parent $MyInvocation.MyCommand.Definition
 exit
