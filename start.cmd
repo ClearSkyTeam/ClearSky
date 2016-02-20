@@ -9,7 +9,7 @@ if exist bin\php\php.exe (
 	set PHP_BINARY=php
 )
 
-if exist PocketMine-MP.phar (
+if exist ClearSky.phar (
 	set POCKETMINE_FILE=ClearSky.phar
 ) else (
 	if exist src\pocketmine\PocketMine.php (
