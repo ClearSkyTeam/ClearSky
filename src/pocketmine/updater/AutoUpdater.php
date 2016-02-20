@@ -13,11 +13,7 @@ class AutoUpdater{
 	protected $endpoint;
 	protected $hasUpdate = false;
 	protected $updateInfo = null;
-	
-	/*
-	 * http://jenkins.clearskyteam.org/job/ClearSky/api/json
-	*/
-	
+
 	public function __construct(Server $server, $endpoint){
 		$this->server = $server;
 		$this->endpoint = "http://$endpoint/job/".$this->getChannel()."/api/json";
@@ -42,7 +38,7 @@ class AutoUpdater{
 		$this->updateInfo = [
 			"build" => $response["lastSuccessfulBuild"]["number"],
 			"details_url" => "http://jenkins.clearskyteam.org/job/ClearSky/".$response["lastSuccessfulBuild"]["number"]."/changes",
-			"download_url" => "http://jenkins.clearskyteam.org/job/ClearSky/".$response["lastSuccessfulBuild"]["number"]."/artifact/releases/ClearSky-master-#".$response["lastSuccessfulBuild"]["number"].".phar"
+			"download_url" => "http://jenkins.clearskyteam.org/job/ClearSky/".$response["lastSuccessfulBuild"]["number"]."/artifact/releases/ClearSky-master-%23".$response["lastSuccessfulBuild"]["number"].".phar"
 		];
 		$this->checkUpdate();
 	}
