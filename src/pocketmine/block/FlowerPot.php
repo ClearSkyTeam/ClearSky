@@ -24,16 +24,8 @@ class FlowerPot extends Flowable{
 		return true;
 	}
 
-	public function canBeFlowedInto(){
-		return true;
-	}
-
 	public function getHardness(){
 		return 0;
-	}
-
-	public function isSolid(){
-		return false;
 	}
 
 	public function getName(){
