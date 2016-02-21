@@ -9,7 +9,7 @@ use pocketmine\Player;
 class Slab2 extends Slab{
 	const RED_SANDSTONE = 0;
 
-	protected $id = self::STONE_STONE_SLAB22;
+	protected $id = self::STONE_SLAB2;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
@@ -30,7 +30,7 @@ class Slab2 extends Slab{
 			self::QUARTZ => "?",
 			self::NETHER_BRICK => "?",
 		];
-		return (($this->meta & 0x08) > 0 ? "Upper " : "") . $names[$this->meta & 0x07] . " STONE_SLAB2";
+		return (($this->meta & 0x08) > 0 ? "Upper " : "") . $names[$this->meta & 0x07] . " Slab";
 	}
 
 	protected function recalculateBoundingBox(){
