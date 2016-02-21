@@ -19,11 +19,13 @@ class Slimeblock extends Transparent{
 
 	public function damageHandler(EntityDamageEvent $event){
 		$cause = $event->getCause();
-		$entity = $event->getEntity();
-		if($cause == EntityDamageEvent::CAUSE_FALL && $entity->getLevel()->getBlock($entity->getSide(0))->getId() === $this->getId()){
-			if(!$entity->isSneaking()) $event->setCancelled(true);
-			if(!$entity->isSneaking() && !$entity->getMotion()->distanceSquared($entity->getPosition()->subtract(0, 1)->floor()) > 0.1){
-				$entity->setMotion($entity->getMotion()->add(0, (($entity->getMotion()->getY() * 2) * 0.88), 0));
+		if($cause == EntityDamageEvent::CAUSE_FALL){
+			$entity = $event->getEntity();
+			if($entity->getLevel()->getBlock($entity->getSide(0))->getId() == $this->getId()){
+				if(!$entity->isSneaking()) $event->setCancelled(true);
+				if(!$entity->isSneaking() && !$entity->getPosition()->distanceSquared($entity->getPosition()->subtract(0, 1)->floor()) > 0.1){
+					$entity->setMotion($entity->getMotion()->add(0, (($entity->getMotion()->getY() * 2) * 0.88), 0));
+				}
 			}
 		}
 	}
