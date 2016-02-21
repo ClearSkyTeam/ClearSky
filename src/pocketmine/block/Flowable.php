@@ -1,8 +1,6 @@
 <?php
+
 namespace pocketmine\block;
-
-
-
 
 abstract class Flowable extends Transparent{
 
