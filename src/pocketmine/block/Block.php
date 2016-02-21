@@ -604,7 +604,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::WOOD2] = Wood2::class;
 			self::$list[self::ACACIA_WOOD_STAIRS] = AcaciaWoodStairs::class;
 			self::$list[self::DARK_OAK_WOOD_STAIRS] = DarkOakWoodStairs::class;
-			//self::$list[self::SLIMEBLOCK] = Slimeblock::class;
+			self::$list[self::SLIMEBLOCK] = Slimeblock::class;
 		//	self::$list[self::BARRIER] = Barrier::class;
 			self::$list[self::IRON_TRAPDOOR] = IronTrapdoor::class;
 			//self::$list[self::PRISMARINE] = Prismarine::class;
@@ -620,8 +620,8 @@ class Block extends Position implements Metadatable{
 			//self::$list[self::STANDING_BANNER] = StandingBanner::class;
 			//self::$list[self::WALL_BANNER] = WallBanner::class;
 			self::$list[self::DAYLIGHT_DETECTOR_INVERTED] = DaylightDetectorInverted::class;
-			//self::$list[self::RED_SANDSTONE] = RedSandstone::class;
-			//self::$list[self::RED_SANDSTONE_STAIRS] = RedSandstoneStairs::class;
+			self::$list[self::RED_SANDSTONE] = RedSandstone::class;
+			self::$list[self::RED_SANDSTONE_STAIRS] = RedSandstoneStairs::class;
 			//self::$list[self::DOUBLE_STONE_SLAB2] = DoubleStoneSlab2::class;
 			//self::$list[self::STONE_SLAB2] = StoneSlab2::class;
 
