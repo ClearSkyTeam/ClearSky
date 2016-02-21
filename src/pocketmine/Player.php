@@ -3437,6 +3437,16 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$source->setCancelled();
 		}elseif($this->allowFlight and $source->getCause() === EntityDamageEvent::CAUSE_FALL){
 			$source->setCancelled();
+		}elseif($source->getCause() === EntityDamageEvent::CAUSE_FALL){
+			if($this->getLevel()->getBlock($this->getMotion()->floor()->add(0.5, -1, 0.5))->getId() == Item::SLIME_BLOCK){
+				if(!$this->isSneaking()){
+					$source->setCancelled();
+					$this->resetFallDistance();
+				}
+				if(!$this->isSneaking() && !$this->getPosition()->distanceSquared($this->getPosition()->subtract(0, 1)->floor()) > 0.1){
+					$this->setMotion($this->getMotion()->add(0, (($this->getMotion()->getY() * 2) * 0.88), 0));
+				}
+			}
 		}
 
 		parent::attack($damage, $source);
