@@ -6,7 +6,7 @@ use pocketmine\item\Tool;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\Player;
 
-class Slab2 extends Slab{
+class StoneSlab2 extends Slab{
 	const RED_SANDSTONE = 0;
 
 	protected $id = self::STONE_SLAB2;
