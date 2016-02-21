@@ -86,11 +86,11 @@ ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソ
 最初はプロダクションサーバーとしてつくられました。
  - GPLのプログラムのコードをとっている部分もありますが、大部分は新たに書かれたものです。
  - Telegramのグループです。（英語）[Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
- - Lobiのグループです。[Lobi/ClearSky] (https://lobi.co/invite/UsAcu).
+ - Lobiのグループです。（日本語)[Lobi/ClearSky] (https://lobi.co/invite/UsAcu).
  - 公式テストサーバー : クリエイティブ IP: 45.78.7.144 Port: 19132 *//256MB RAMで1コアのCPUで動いています*
  - 非公式テストサーバー : クリエイティブ Creative IP: WolvesFortress.de Port: **19133** 
 
-## pharのダウンロード?
+## pharのダウンロード
  - **立ち上げる前にClearSkyのpocketmine.ymlを消してください、アップデートされます**
  - phar: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - phpのbin(php5,7対応): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
@@ -106,14 +106,14 @@ ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソ
  - 複数のバージョンが同時に入れる(例えば 0.13.0 0.13.1 0.13.2が同時にはいれる)(note¹)
  - ユーザー人数を無制限にできる(server.propertiesのmax-players を-1とします)(note²)
  - バージョンの色と文字を変えられます（pocketmine.ymlのnetwork.protocol,versionを編集してください )
- - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network(network section in pocketmine.yml) 
+ - 通信回線が悪いネットワークでも許容できるパケットロスを増やせてチート対策ができます。
  - バグのない高速なレッドストーン
  - 経験値.
  - 空腹、食物、ゲーム難易度設定.
  - 天気
  - 高速なチャンク読み込み、送信
  - ログを on/offできます
- - Almost perfect translations
+ - 完璧な翻訳
  - ポーション (クリエイティブのみ)
  - エンチャント (コマンド)
  - Mob対応(Rabbits, Villagers など.)
