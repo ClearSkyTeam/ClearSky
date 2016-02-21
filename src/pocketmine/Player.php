@@ -3443,7 +3443,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$source->setCancelled();
 					$this->resetFallDistance();
 				}
-				if(!$this->isSneaking() && !$this->getPosition()->distanceSquared($this->getPosition()->subtract(0, 1)->floor()) > 0.1){
+				if(!$this->isSneaking() && !$this->getPosition()->distanceSquared($this->getPosition()->subtract(0, 1)) > 0.1){
 					$this->setMotion($this->getMotion()->add(0, (($this->getMotion()->getY() * 2) * 0.88), 0));
 				}
 			}
