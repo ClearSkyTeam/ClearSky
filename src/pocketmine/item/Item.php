@@ -836,6 +836,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::WOODEN_SLAB, 5));
 		Item::addCreativeItem(Item::get(Item::SLAB, 4));
 		Item::addCreativeItem(Item::get(Item::SLAB, 1));
+		Item::addCreativeItem(Item::get(Item::STONE_SLAB2, 0));
 		Item::addCreativeItem(Item::get(Item::SLAB, 5));
 		Item::addCreativeItem(Item::get(Item::SLAB, 6));
 		Item::addCreativeItem(Item::get(Item::SLAB, 7));
