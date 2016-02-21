@@ -32,10 +32,11 @@ class Cobweb extends Flowable{
 	}
 
 	public function getDrops(Item $item){
-		$drops = [];
 		if($item->isSword()){
-			$drops[] = [Item::get($this->id, 0, 1)];
+			return [[Item::STRING,0,1]];
 		}
-		return $drops;
+		else{
+			return [];
+		}
 	}
 }
