@@ -79,3 +79,52 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 这是一个干净，高效的PocketMine-MP的重制，你可以在这里获得最佳的开发体验.<br>
 我们仍然在不断地重写代码保证其高效性以及易读性.<br>
 晴空不仅仅是用起来干净，对于开发者来说也是一片艳阳天!<br>
+
+
+# ClearSky
+ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソフトウェアです。
+最初はプロダクションサーバーとしてつくられました。
+ - GPLのプログラムのコードをとっている部分もありますが、大部分は新たに書かれたものです。
+ - Telegramのグループです。（英語）[Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
+ - Lobiのグループです。[Lobi/ClearSky] (https://lobi.co/invite/UsAcu).
+ - 公式テストサーバー : クリエイティブ IP: 45.78.7.144 Port: 19132 *//256MB RAMで1コアのCPUで動いています*
+ - 非公式テストサーバー : クリエイティブ Creative IP: WolvesFortress.de Port: **19133** 
+
+## pharのダウンロード?
+ - **立ち上げる前にClearSkyのpocketmine.ymlを消してください、アップデートされます**
+ - phar: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - phpのbin(php5,7対応): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
+ - Multicraftの設定: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+
+## [CRITICAL]: Please REMOVE xdebug in production server
+ - php.iniのzend_extension=php_xdebugをコメントアウトするかxdebugなしでリコンパイルします.
+ - pocketmine.ymlでのデバックにxdebug強制的に有効にもできます.
+
+## 特徴
+すべての特徴はpocketmine.ymlで設定できます.<br>
+ - 公式のpharより20倍早い
+ - 複数のバージョンが同時に入れる(例えば 0.13.0 0.13.1 0.13.2が同時にはいれる)(note¹)
+ - ユーザー人数を無制限にできる(server.propertiesのmax-players を-1とします)(note²)
+ - バージョンの色と文字を変えられます（pocketmine.ymlのnetwork.protocol,versionを編集してください )
+ - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network(network section in pocketmine.yml) 
+ - バグのない高速なレッドストーン
+ - 経験値.
+ - 空腹、食物、ゲーム難易度設定.
+ - 天気
+ - 高速なチャンク読み込み、送信
+ - ログを on/offできます
+ - Almost perfect translations
+ - ポーション (クリエイティブのみ)
+ - エンチャント (コマンド)
+ - Mob対応(Rabbits, Villagers など.)
+ - バグ修正
+
+
+Note¹ - 'Outdated Server'と言われたら、CustomAlert等でそのメッセージを表示しないようにしてください。
+
+Note² - 'Full server'と言われたら、CustomAlert等でそのメッセージを表示しないようにしてください。
+
+## 開発者へ
+きれいでハイクオリティなコードでできています.開発、修正は簡単です<br>
+常に快適な状況を保てるよう、私たちは常にコードを修正しています<br>
+ClearSky はユーザーにとってまだクリーンとは言えません、それは開発者にとっても同じです!!<br>
