@@ -4,7 +4,6 @@ namespace pocketmine;
 use pocketmine\block\Block;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Arrow;
-use pocketmine\entity\Boat;
 use pocketmine\entity\AttributeManager;
 use pocketmine\entity\Effect;
 use pocketmine\entity\Entity;
@@ -64,7 +63,6 @@ use pocketmine\item\Launchable;
 use pocketmine\item\Food;
 use pocketmine\level\ChunkLoader;
 use pocketmine\level\format\FullChunk;
-use pocketmine\level\format\LevelProvider;
 use pocketmine\level\Level;
 use pocketmine\level\Location;
 use pocketmine\level\Position;
@@ -83,7 +81,6 @@ use pocketmine\nbt\tag\Int;
 use pocketmine\nbt\tag\Long;
 use pocketmine\nbt\tag\Short;
 use pocketmine\nbt\tag\String;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\AdventureSettingsPacket;
 use pocketmine\network\protocol\AnimatePacket;
 use pocketmine\network\protocol\BatchPacket;
@@ -103,7 +100,6 @@ use pocketmine\network\protocol\TextPacket;
 use pocketmine\network\protocol\MovePlayerPacket;
 use pocketmine\network\protocol\SetDifficultyPacket;
 use pocketmine\network\protocol\SetEntityMotionPacket;
-use pocketmine\network\protocol\SetHealthPacket;
 use pocketmine\network\protocol\SetSpawnPositionPacket;
 use pocketmine\network\protocol\SetTimePacket;
 use pocketmine\network\protocol\StartGamePacket;
@@ -118,11 +114,7 @@ use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 use pocketmine\utils\TextFormat;
 use raklib\Binary;
-use pocketmine\entity\ThrownExpBottle;
-use pocketmine\entity\ThrownPotion;
 use pocketmine\event\player\PlayerExperienceChangeEvent;
-use pocketmine\item\FishingRod;
-use pocketmine\event\entity\EntityLaunchFishingRodEvent;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -135,9 +127,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	const VIEW = Player::SPECTATOR;
 	const SURVIVAL_SLOTS = 36;
 	const CREATIVE_SLOTS = 112;
-	
-	const INTERACT_PACKET_IN = 1;
-	const INTERACT_PACKET_LEAVE = 3;
 
 	/** @var SourceInterface */
 	protected $interface;
