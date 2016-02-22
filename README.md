@@ -81,7 +81,7 @@ ClearSky є ультра-швидким Minecraft: Pocket Edition ПЗ для с
 
 Примітка¹ - Установіть 'Outdated Server' повідомлення на 'false' в CustomAlert плагіні
 
-Note² - Установіть 'Full server' повідомлення на 'false' в CustomAlert плагіні
+Примітка² - Установіть 'Full server' повідомлення на 'false' в CustomAlert плагіні
 
 ## Для Розробників
 Це є досконала, високоякісна база коду. Писання/модифікування цього проекту є легким.<br>
