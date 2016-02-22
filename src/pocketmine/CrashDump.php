@@ -35,7 +35,7 @@ class CrashDump{
 
 		$this->extraData();
 
-		//$this->encodeData();
+
 	}
 
 	public function getPath(){
@@ -213,7 +213,6 @@ class CrashDump{
 		$this->data["general"]["php_os"] = PHP_OS;
 		$this->data["general"]["os"] = Utils::getOS();
 		$this->addLine("ClearSky version: " . $version->get(false) . " #" . $version->getBuild() . " [Protocol " . Info::CURRENT_PROTOCOL . "; API " . API_VERSION . "]");
-		//$this->addLine("Git commit: " . GIT_COMMIT);
 		$this->addLine("uname -a: " . php_uname("a"));
 		$this->addLine("PHP Version: " . phpversion());
 		$this->addLine("Zend version: " . zend_version());

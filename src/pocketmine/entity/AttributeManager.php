@@ -26,7 +26,7 @@ class AttributeManager{
     public function init(){
         self::addAttribute(self::MAX_HEALTH, "generic.health", 0, 20, 20, true);
         self::addAttribute(self::MAX_HUNGER, "player.hunger", 0, 20, 20, true);
-		self::addAttribute(self::EXPERIENCE, "player.experience", 0, 1, 0, true);
+		self::addAttribute(self::EXPERIENCE, "player.experience", 0, 24791, 0, true);
         self::addAttribute(self::EXPERIENCE_LEVEL, "player.level", 0, 24791, 0, true);
         self::addAttribute(self::MOVEMENTSPEED, "generic.movementSpeed", 0, 24791, 0.1, true);
     }
