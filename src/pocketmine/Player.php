@@ -2564,7 +2564,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							else $this->linkEntity($target);
 							break;
 					}
-					return;
 				}
 				if(
 					$target instanceof Player and
