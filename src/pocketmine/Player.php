@@ -2561,25 +2561,25 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->craftingType = 0;
 				$target = $this->level->getEntity($packet->target);
 				$cancelled = false;
-				if(
-					$target instanceof Player and
-					$this->server->getConfigBoolean("pvp", true) === false
-				){
-					$cancelled = true;
-				}
 				/**
 				 * EntityLink *
 				 */
 				if($target !== null && $target->isVehicle()){
 					switch($packet->action){
-						case Player::INTERACT_PACKET_IN:
+						case InteractPacket::ACTION_RIGHT_CLICK:
 							$this->linkEntity($target);
 							break;
-						case Player::INTERACT_PACKET_LEAVE:
+						case InteractPacket::ACTION_LEAVE_VEHICLE:
 							$this->unlinkEntity($target);
 							break;
 					}
 					return;
+				}
+				if(
+					$target instanceof Player and
+					$this->server->getConfigBoolean("pvp", true) === false
+				){
+					$cancelled = true;
 				}
 				if($target instanceof Entity and $this->getGamemode() !== Player::VIEW and $this->isAlive() and $target->isAlive()){
 					if($target instanceof DroppedItem or $target instanceof Arrow){
