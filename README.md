@@ -43,6 +43,51 @@ This is a clean, high quality code base. Developing/modifying this project is ea
 We are still rewriting the base to make sure ClearSky has the best developing feel.<br>
 ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
+# UKR
+ClearSky є ультра-швидким Minecraft: Pocket Edition ПЗ для сервера з багатьма можливостями. Він був створений для продуктивних серверів.
+ - Ми можемо брати код з інших GPL ліцензованих проектів, але більшість особливостей були повністю переписані для ClearSky.
+ - Це наша Telegram група, де ви можете співпрацювати з нами: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
+ - Офіційний тестовий сервер: Creative IP: 45.78.7.144 Port: 19132 *//Цей сервер працює з 256MB RAM і 1 Thread/CPU!*
+ - Неофіційний тестовий сервер: Creative IP: WolvesFortress.de Port: **19133** *Часто офлайн, але як онлайн, остання версія*
+
+## Де я можу отримати phar?
+ - **Перед запуском ClearSky видаліть pocketmine.yml для оновленя.**
+ - Ви можете отримати авто генерований phar тут: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - Ви можете отримати PHP бібліотеку тут: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
+ - Ви можете отримати Multicraft config demo тут: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+
+## [CRITICAL]: Будь ласка ЗАБЕРІТЬ xdebug в продуктивному сервері
+ - Ви можете прокоментувати zend_extension=php_xdebug у php.ini або перебудувати PHP без xdebug.
+ - Також є перемикач в pocketmine.yml щоб примусово ввімкнути xdebug.
+
+## Особливості
+Усі особливості можуть бути переконфігуровані у pocketmine.yml.<br>
+ - Понад 20 разів швидший ніж офіційна PM репозиторія
+ - Універсальний клієнт може грати(тобто 0.13.0 0.13.1 0.13.2 можуть грати разом)(примітка¹)
+ - Безлімітні слоти(установіть max-players на -1 в server.properties)(примітка²)
+ - Модифікований колір версії(установіть network.protocol,version у pocketmine.yml)
+ - Ви можете покращити packetlost і вимкнути anti-cheat коли у вас погане з'єднання(network секція в pocketmine.yml) 
+ - Ультра-швидка калькуляція редстоуну майже без багів
+ - Повністю робоча система досвіду, включаючи block/player/entity/bottle/furnace hook.
+ - Повністю робоча система їди & голоду, включаючи game-difficulty hook.
+ - Повністю робоча система роботи
+ - Швидке надсилання і отримання чанків
+ - Швидкий логгер, включаючи увімкнення або вимкнення
+ - Досконалі переклади
+ - Зілля (Працюють, Creative тільки)
+ - Чарування (Команда)
+ - Моби (Кролики, Жителі і т.д.)
+ - Фікс багів
+
+Примітка¹ - Установіть 'Outdated Server' повідомлення на 'false' в CustomAlert плагіні
+
+Note² - Установіть 'Full server' повідомлення на 'false' в CustomAlert плагіні
+
+## Для Розробників
+Це є досконала, високоякісна база коду. Писання/модифікування цього проекту є легким.<br>
+Ми продовжуємо переписувати базу щоб впевнитися що ClearSky є найкращим.<br>
+ClearSky призначений не тільки для звичайних коричтувачів - він також для розробників!<br>
+
 # 晴空
 一个为应用服务器设计的高性能MinecraftPE服务端软件
  - 我们可能从其他GPL许可的项目中获取源码，但是绝大多数已经在被整合到晴空之前被复刻（这意味着它与其他的项目/源码是不同的）。
