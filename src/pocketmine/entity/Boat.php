@@ -75,18 +75,10 @@ class Boat extends Vehicle{
 			return $hasUpdate;
 		}
 	}
-	
-	public function kill(){
-		parent::kill();
-
-		foreach($this->getDrops() as $item){
-			$this->getLevel()->dropItem($this, $item);
-		}
-	}
 
 	public function getDrops(){
 		return [
-			ItemItem::get(ItemItem::BOAT, 0, 1)
+			ItemItem::get(ItemItem::BOAT, $this->getWoodID(), 1)
 		];
 	}
 

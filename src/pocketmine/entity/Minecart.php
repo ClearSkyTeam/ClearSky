@@ -130,14 +130,6 @@ class Minecart extends Vehicle{
         }
     }
 
-    public function kill(){
-        parent::kill();
-
-        foreach($this->getDrops() as $item){
-            $this->getLevel()->dropItem($this, $item);
-        }
-    }
-
     public function getDrops(){
         return [ItemItem::get(ItemItem::MINECART, 0, 1)];
     }
