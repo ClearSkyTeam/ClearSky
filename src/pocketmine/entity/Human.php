@@ -93,7 +93,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			}
 
 			if(isset($this->namedtag->Skin) and $this->namedtag->Skin instanceof Compound){
-				$this->setSkin($this->namedtag->Skin["Data"], $this->namedtag->Skin["Name"] > 0);
+				$this->setSkin($this->namedtag->Skin["Data"], $this->namedtag->Skin["Name"]);
 			}
 
 			$this->uuid = UUID::fromData($this->getId(), $this->getSkinData(), $this->getNameTag());
@@ -193,8 +193,6 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			if(!($this instanceof Player)){
 				$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->getName(), $this->skinName, $this->skin, [$player]);
 			}
-			
-			$this->server->updatePlayerListData($this->getUniqueId(), $this->getId(), $this->getName(), $this->skinName, $this->skin, [$player]);
 
 			$pk = new AddPlayerPacket();
 			$pk->uuid = $this->getUniqueId();
