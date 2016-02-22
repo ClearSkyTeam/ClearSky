@@ -80,7 +80,7 @@ class FallingSand extends Entity{
 		if($this->isAlive()){
 			$pos = (new Vector3($this->x - 0.5, $this->y, $this->z - 0.5))->round();
 
-			if(1 <= $this->ticksLived <= 2){
+			if(1 < $this->ticksLived < 2){
 				$block = $this->level->getBlock($pos);
 				if($block->getId() !== $this->blockId){
 					$this->kill();
