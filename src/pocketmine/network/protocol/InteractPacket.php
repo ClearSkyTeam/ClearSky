@@ -9,7 +9,7 @@ class InteractPacket extends DataPacket{
 	
 	const ACTION_LEFT_CLICK = 1;
 	const ACTION_RIGHT_CLICK = 2;
-	const ACTION_LEAVE_VEHICLE = 3;
+	const ACTION_JUMP = 3;
 
 	public $action;
 	public $eid;
