@@ -2556,7 +2556,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				 */
 				if($target !== null && $target->isVehicle()){
 					switch($packet->action){
-						case InteractPacket::ACTION_RIGHT_CLICK:
+						case InteractPacket::ACTION_LEFT_CLICK:
 							$this->linkEntity($target);
 							break;
 						case InteractPacket::ACTION_JUMP:
