@@ -81,7 +81,7 @@ memory:
  #Only if memory.continuous-trigger is enabled. Specifies the rate in memory.check-rate steps
 
  garbage-collection:
-  period: 3600
+  period: 36000
   #Period in ticks to fire the garbage collector manually (default 30 minutes), set to 0 to disable
   #This only affect the main thread. Other threads should fire their own collections
   collect-async-worker: true
@@ -90,7 +90,7 @@ memory:
   #Trigger on low memory
   
  max-chunks:
-  trigger-limit: 28
+  trigger-limit: 96
   #Limit of chunks to load per player, overrides chunk-sending.max-chunks
   trigger-chunk-collect: true
   #Do chunk garbage collection on trigger
@@ -139,7 +139,8 @@ level-settings:
  auto-tick-rate: false
  #Automatically change levels tick rate to maintain 20 ticks per second
  auto-tick-rate-limit: 20
- base-tick-rate: 1 #(1 = 20 ticks per second, 2 = 10 ticks per second, etc.)
+ base-tick-rate: 1
+ #(1 = 20 ticks per second, 2 = 10 ticks per second, etc.)
  #Sets the base tick rate
  always-tick-players: false
  #Tick all players each tick even when other settings disallow this.
@@ -157,14 +158,16 @@ level-settings:
     max: 100000
 
 chunk-sending:
- per-tick: 1
+ per-tick: 4
  #Limit of chunks to send per tick to player
- max-chunks: 32
+ max-chunks: 192
  #Limit of chunks to send per player
- spawn-threshold: 28
+ spawn-threshold: 56
  #Chunks, that have to be loaded before the player spawns
  cache-chunks: true
-
+ #Save a serialized copy of the chunk in memory for faster sending
+ #Useful in mostly-static worlds where lots of players join at the same time
+ 
 chunk-ticking:
  per-tick: 1
  #Max amount of chunks processed each tick
@@ -176,9 +179,9 @@ chunk-ticking:
  
 chunk-generation:
  #Max. amount of chunks in the waiting queue to be generated
- queue-size: 2
+ queue-size: 8
  #Max. amount of chunks in the waiting queue to be populated
- population-queue-size: 2
+ population-queue-size: 8
 
 ticks-per:
  animal-spawns: 400
@@ -224,5 +227,5 @@ worlds:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
-version: 10
+version: 11
 #!DO NOT EDIT! This is for internal use, changing this will reset your whole pocketmine.yml!
