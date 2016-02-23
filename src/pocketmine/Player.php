@@ -116,6 +116,9 @@ use pocketmine\utils\TextFormat;
 use raklib\Binary;
 use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
+use pocketmine\entity\Colorable;
+use pocketmine\entity\Tameable;
+use pocketmine\entity\Explosive;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -2555,15 +2558,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				 * EntityLink *
 				 */
 				if($target !== null && $target->isVehicle()){
-					switch($packet->action){
-						case InteractPacket::ACTION_LEFT_CLICK:
-							$this->linkEntity($target);
-							break;
-						case InteractPacket::ACTION_JUMP:
-							if($this->isLinked()) $this->unlinkEntity($target);
-							else $this->linkEntity($target);
-							break;
+					if($packet->action === InteractPacket::ACTION_RIGHT_CLICK){
+						$this->linkEntity($target);
+						break;
 					}
+					elseif($packet->action === InteractPacket::ACTION_LEAVE_VEHICLE){
+						if($this->isLinked()) $this->unlinkEntity($this);
+						break;
+					}
+				}
+				if($packet->action === InteractPacket::ACTION_RIGHT_CLICK && $target instanceof Colorable || $target instanceof Tameable|| $target instanceof Explosive /*and add something for using shear.. mooshroom + snow golem*/){
+					$cancelled = !($this->getInventory()->getItemInHand()->useOn($target)); // this is beta. Should return false anyways
 				}
 				if(
 					$target instanceof Player and

@@ -81,9 +81,4 @@ class Boat extends Vehicle{
 			ItemItem::get(ItemItem::BOAT, $this->getWoodID(), 1)
 		];
 	}
-
-	public function getSaveId(){
-		$class = new \ReflectionClass(static::class);
-		return $class->getShortName();
-	}
 }
