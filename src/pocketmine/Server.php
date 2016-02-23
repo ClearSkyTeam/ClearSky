@@ -1474,6 +1474,21 @@ class Server{
 	}
 	
 	/**
+	 * ClearSky internal use
+	 */
+	private function translateConfig(){
+		$translateJson = json_decode(str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/eng.json")),true);
+		$translateKeys = array_keys($translateJson);
+		$translateValue = array_values($translateJson);
+		foreach($translateValue as $key=>$value){
+			$translateValue[$key]=>'#'.str_replace('\n','\n#',$value);
+		}
+		unset($translateJson);
+		$translatedConfig = str_replace($translateKeys, $translateValue, file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
+		file_put_contents($this->dataPath."tc.yml",$translatedConfig);
+	}
+	
+	/**
 	 * @param \ClassLoader    $autoloader
 	 * @param \ThreadedLogger $logger
 	 * @param string          $filePath
@@ -1514,6 +1529,7 @@ class Server{
 			$content = file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
 			@file_put_contents($this->dataPath . "pocketmine.yml", $content);
 		}
+		$this->translateConfig();
 		$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
 		$internal_config = yaml_parse(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
 		if($this->getProperty("version", 0) < $internal_config['version']){

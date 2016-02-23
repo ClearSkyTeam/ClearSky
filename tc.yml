@@ -1,8 +1,11 @@
-#{Title}
+Main configuration file for ClearSky
+Some of these settings are safe, others can break your server if modified incorrectly!
+If config-update is set to true, new settings/defaults will appear automatically on this file when upgrading.
 
 settings:
  language: "eng"
- #{settings.language}
+ Three-letter language code for server-side localization
+Check your language code on https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
  force-language: false
  #{settings.force-language}
  shutdown-message: "Server closed"
@@ -217,5 +220,5 @@ worlds:
 
 #{StopEditing}
 version: 11
-translate: #{Translate}
+translate: eng
 #!DO NOT EDIT! This is for internal use, changing this will reset your whole pocketmine.yml!
