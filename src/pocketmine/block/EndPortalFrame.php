@@ -5,7 +5,7 @@ use pocketmine\item\Item;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\Player;
 
-class EndPortalFrame extends Solid{
+class EndPortalFrame extends Solid implements LightSource{
 
 	protected $id = self::END_PORTAL_FRAME;
 

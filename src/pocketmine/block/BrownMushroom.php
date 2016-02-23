@@ -5,7 +5,7 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 
-class BrownMushroom extends Flowable{
+class BrownMushroom extends Flowable implements LightSource{
 
 	protected $id = self::BROWN_MUSHROOM;
 

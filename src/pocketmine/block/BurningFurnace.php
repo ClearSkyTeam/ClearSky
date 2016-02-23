@@ -32,7 +32,7 @@ use pocketmine\Player;
 use pocketmine\tile\Furnace;
 use pocketmine\tile\Tile;
 
-class BurningFurnace extends Solid{
+class BurningFurnace extends Solid implements LightSource{
 
 	protected $id = self::BURNING_FURNACE;
 

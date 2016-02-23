@@ -4,7 +4,7 @@ namespace pocketmine\block;
 use pocketmine\item\Item; 
 use pocketmine\item\Tool; 
 
-class GlowingObsidian extends Solid{
+class GlowingObsidian extends Solid implements LightSource{
 
 	protected $id = self::GLOWING_OBSIDIAN;
 

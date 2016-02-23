@@ -5,7 +5,7 @@ use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
 
-class GlowingRedstoneOre extends Solid{
+class GlowingRedstoneOre extends Solid implements LightSource{
 
 	protected $id = self::GLOWING_REDSTONE_ORE;
 

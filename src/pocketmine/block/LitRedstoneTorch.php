@@ -7,7 +7,7 @@ use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
 
-class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource{
+class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource, LightSource{
 	protected $id = self::LIT_REDSTONE_TORCH;
 
 	public function __construct($meta = 0){
