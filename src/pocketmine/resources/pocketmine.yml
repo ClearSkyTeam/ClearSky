@@ -178,24 +178,18 @@ ticks-per:
  monster-spawns: 1
  autosave: 6000
  cache-cleanup: 900
+ 
 spawn-limits:
   monsters: 70
   animals: 15
   water-animals: 5
   ambient: 15
 
-auto-report:
- enabled: false
- #Whether to send crash reports for processing
- send-code: true
- send-settings: true
- send-phpinfo: false
- host: crash.pocketmine.net
+aliases:
+ #{aliases}
 
-anonymous-statistics:
- #Sends anonymous statistics for data aggregation, plugin usage tracking
- enabled: false
- host: stats.pocketmine.net
+worlds:
+ #{worlds}
 
 auto-updater:
  enabled: true
@@ -205,19 +199,17 @@ auto-updater:
  preferred-channel: ClearSky
  host: jenkins.clearskyteam.org
 
-aliases:
- #Examples:
- #showtheversion: version
- #savestop: [save-all, stop]
-
-worlds:
- #These settings will override the generator set in server.properties and allows loading multiple levels
- #Example:
- #world:
- # seed: 404
- # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
-
-#{StopEditing}
+#{StopEdit}
 version: 11
 translate: "#{Translate}"
-#{StopEditing.warning}
+
+auto-report:
+ enabled: false
+ send-code: true
+ send-settings: true
+ send-phpinfo: false
+ host: crash.pocketmine.net
+ 
+anonymous-statistics:
+ enabled: false
+ host: stats.pocketmine.net
