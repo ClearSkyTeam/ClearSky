@@ -12,7 +12,7 @@ If config-update is set to true, new settings/defaults will appear automatically
 Check your language code on https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes",
 
 "#{settings.force-language}":
-"Whether to send all strings translated to server locale or let the device handle them"
+"Whether to send all strings translated to server locale or let the device handle them",
 
 "#{settings.shutdown-message}":
 "",
