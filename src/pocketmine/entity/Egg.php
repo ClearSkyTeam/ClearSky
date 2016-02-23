@@ -47,7 +47,7 @@ class Egg extends Projectile{
 				$nbt->Age = new String("Age", 0);
 				$chicken = Entity::createEntity("Chicken", $chunk, $nbt);
 				if($chicken instanceof Entity){
-					$chicken->setDataProperty(14, self::DATA_TYPE_INT, 0);
+					$chicken->setDataProperty(14, self::DATA_TYPE_BYTE, 0);
 					$chicken->spawnToAll();
 				}
 			}

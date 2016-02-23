@@ -6,7 +6,7 @@ use pocketmine\item\Item;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
 
-class Rail extends Flowable{
+class Rail extends RailBlock{
 	protected $id = self::RAIL;
 	protected $connected = [];
 
@@ -155,6 +155,18 @@ class Rail extends Flowable{
 
 	public function canPassThrough(){
 		return true;
+	}
+
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_NORMAL){
+			if($this->getSide(Vector3::SIDE_DOWN)->isTransparent()){
+				$this->getLevel()->useBreakOn($this);
+
+				return Level::BLOCK_UPDATE_NORMAL;
+			}
+		}
+
+		return false;
 	}
 
 	public function getDrops(Item $item){

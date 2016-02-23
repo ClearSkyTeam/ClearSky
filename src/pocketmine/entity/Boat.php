@@ -27,7 +27,8 @@ class Boat extends Vehicle{
 	}
 	
 	public function initEntity(){
-		$this->setMaxHealth(1);
+        $this->setMaxHealth(4);
+        $this->setHealth($this->getMaxHealth());
 		parent::initEntity();
 	}
 	
@@ -66,7 +67,7 @@ class Boat extends Vehicle{
 				$this->updateMovement();
 			}
 			if($this->getHealth() < $this->getMaxHealth()){
-				$this->heal(0.1, $source = EntityRegainHealthEvent::CAUSE_MAGIC);
+				$this->heal(0.1, new EntityRegainHealthEvent($this, 0.1, EntityRegainHealthEvent::CAUSE_CUSTOM));
 				$hasUpdate = true;
 			}
 			

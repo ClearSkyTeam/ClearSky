@@ -31,7 +31,7 @@ class Minecart extends Vehicle{
     public $oldPosition = null;
 
     public function initEntity(){
-        $this->setMaxHealth(1);
+        $this->setMaxHealth(4);
         $this->setHealth($this->getMaxHealth());
         parent::initEntity();
     }

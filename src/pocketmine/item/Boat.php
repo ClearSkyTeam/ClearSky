@@ -1,5 +1,6 @@
 <?php
 namespace pocketmine\item;
+
 use pocketmine\level\Level;
 use pocketmine\block\Block;
 use pocketmine\Player;
@@ -7,7 +8,6 @@ use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Double;
 use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Int;
 use pocketmine\nbt\tag\Byte;
 use pocketmine\entity\Boat as BoatEntity;
 
@@ -36,8 +36,7 @@ class Boat extends Item{
 	}
 
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
-		$realPos = $block->getSide($face);
-
+		$realPos = $target->getSide($face)->add(0.5, 0.4, 0.5);
 		$boat = new BoatEntity($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new Compound("", [
 			"Pos" => new Enum("Pos", [
 				new Double("", $realPos->getX()),
@@ -56,17 +55,8 @@ class Boat extends Item{
 			"woodID" => new Byte("woodID",$this->getDamage()),
 		]));
 		$boat->spawnToAll();
-
-		if($player->isSurvival()) {
-			$item = $player->getInventory()->getItemInHand();
-			$count = $item->getCount();
-			if(--$count <= 0){
-				$player->getInventory()->setItemInHand(Item::get(Item::AIR));
-				return;
-			}
-
-			$item->setCount($count);
-			$player->getInventory()->setItemInHand($item);
+		if($player->isSurvival()){
+			--$this->count;
 		}
 		
 		return true;
