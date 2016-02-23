@@ -17,6 +17,10 @@ class UnlitRedstoneTorch extends Flowable implements Redstone, RedstoneSource{
 	public function getLightLevel(){
 		return 0;
 	}
+	
+	public function isLightSource(){
+		return false;
+	}
 
 	public function getName(){
 		return "Redstone Torch";

@@ -29,6 +29,10 @@ class Fire extends Flowable{
 	public function getLightLevel(){
 		return 15;
 	}
+	
+	public function isLightSource(){
+		return true;
+	}
 
 	public function canBeReplaced(){
 		return true;

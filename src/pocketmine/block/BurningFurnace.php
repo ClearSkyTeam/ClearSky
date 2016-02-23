@@ -59,6 +59,10 @@ class BurningFurnace extends Solid{
 	public function getLightLevel(){
 		return 13;
 	}
+	
+	public function isLightSource(){
+		return true;
+	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$faces = [

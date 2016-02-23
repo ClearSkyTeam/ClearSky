@@ -17,8 +17,14 @@ class RedstoneLamp extends Solid implements Redstone,RedstoneConsumer{
 	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
 	}
+
+	public function getLightLevel(){
+		return 0;
+	}
 	
-	
+	public function isLightSource(){
+		return false;
+	}
 	
 	public function onRedstoneUpdate($type, $power){
 		if($this->isPowered()){

@@ -14,7 +14,7 @@ class GlowingRedstoneOre extends Solid{
 	}
 
 	public function getLightLevel(){
-		return 7;
+		return 9;
 	}
 	
 	public function isLightSource(){
@@ -31,10 +31,6 @@ class GlowingRedstoneOre extends Solid{
 
 	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
-	}
-
-	public function getLightLevel(){
-		return 9;
 	}
 
 	public function onUpdate($type){

@@ -20,6 +20,10 @@ class BrownMushroom extends Flowable{
 	public function getLightLevel(){
 		return 1;
 	}
+	
+	public function isLightSource(){
+		return true;
+	}
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){

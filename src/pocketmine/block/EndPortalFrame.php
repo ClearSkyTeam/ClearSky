@@ -16,6 +16,10 @@ class EndPortalFrame extends Solid{
 	public function getLightLevel(){
 		return 1;
 	}
+	
+	public function isLightSource(){
+		return true;
+	}
 
 	public function getName(){
 		return "End Portal Frame";

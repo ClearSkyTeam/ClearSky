@@ -24,6 +24,10 @@ class GlowingObsidian extends Solid{
 		return 12;
 	}
 	
+	public function isLightSource(){
+		return true;
+	}
+	
 	public function getToolType(){ 
  		return Tool::TYPE_PICKAXE; 
  	} 
