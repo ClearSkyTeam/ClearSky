@@ -13,6 +13,10 @@ class LitRedstoneLamp extends Solid implements Redstone,RedstoneConsumer,LightSo
 	public function __construct(){
 
 	}
+
+	public function getLightLevel(){
+		return 15;
+	}
 	
 	public function isLightSource(){
 		return true;

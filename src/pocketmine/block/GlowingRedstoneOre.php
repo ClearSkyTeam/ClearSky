@@ -13,6 +13,14 @@ class GlowingRedstoneOre extends Solid{
 
 	}
 
+	public function getLightLevel(){
+		return 7;
+	}
+	
+	public function isLightSource(){
+		return true;
+	}
+
 	public function getHardness(){
 		return 15;
 	}

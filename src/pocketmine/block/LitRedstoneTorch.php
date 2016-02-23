@@ -17,6 +17,10 @@ class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource{
 	public function getLightLevel(){
 		return 7;
 	}
+	
+	public function isLightSource(){
+		return true;
+	}
 
 	public function isRedstoneSource(){
 		return true;

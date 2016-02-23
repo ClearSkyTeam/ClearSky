@@ -17,6 +17,10 @@ class NetherPortal extends Flowable{
 	public function getLightLevel(){
 		return 15;
 	}
+	
+	public function isLightSource(){
+		return true;
+	}
 
 	public function getName(){
 		return "Nether Portal";
