@@ -1476,8 +1476,11 @@ class Server{
 	/**
 	 * ClearSky internal use
 	 */
-	private function translateConfig(){
-		$translateJson = json_decode(str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/eng.json")),true);
+	private function translateConfig($language = "eng"){
+		if(!file_exists($this->filePath . "src/pocketmine/resources/$language.json")){
+			$language = "eng";
+		}
+		$translateJson = json_decode(str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/$language.json")),true);
 		$translateKeys = array_keys($translateJson);
 		$translateValue = array_values($translateJson);
 		foreach($translateValue as $key => $value){
@@ -1485,7 +1488,7 @@ class Server{
 		}
 		unset($translateJson);
 		$translatedConfig = str_replace($translateKeys, $translateValue, file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
-		file_put_contents($this->dataPath."tc.yml",$translatedConfig);
+		return $translatedConfig;
 	}
 	
 	/**
