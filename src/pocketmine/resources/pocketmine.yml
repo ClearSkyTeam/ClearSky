@@ -149,41 +149,49 @@ level-settings:
 
 chunk-sending:
  per-tick: 4
- #Limit of chunks to send per tick to player
+ #{chunk-sending.per-tick}
  max-chunks: 192
- #Limit of chunks to send per player
+ #{chunk-sending.max-chunks}
  spawn-threshold: 56
- #Chunks, that have to be loaded before the player spawns
+ #{chunk-sending.spawn-threshold}
  cache-chunks: true
- #Save a serialized copy of the chunk in memory for faster sending
- #Useful in mostly-static worlds where lots of players join at the same time
+ #{chunk-sending.cache-chunks}
  
 chunk-ticking:
  per-tick: 1
- #Max amount of chunks processed each tick
+ #{chunk-ticking.per-tick}
  tick-radius: 2
- #Radius of chunks around a player to tick
+ #{chunk-ticking.tick-radius}
  light-updates: false
- #Whether to do light-updates or not
+ #{chunk-ticking.light-updates}
  clear-tick-list: true
+ #{chunk-ticking.clear-tick-list}
  
 chunk-generation:
- #Max. amount of chunks in the waiting queue to be generated
  queue-size: 8
- #Max. amount of chunks in the waiting queue to be populated
+ #{chunk-generation.queue-size}
  population-queue-size: 8
+ #{chunk-generation.population-queue-size}
 
 ticks-per:
  animal-spawns: 400
+ #{ticks-per.animal-spawns}
  monster-spawns: 1
+ #{ticks-per.monster-spawns}
  autosave: 6000
+ #{ticks-per.autosave}
  cache-cleanup: 900
+ #{ticks-per.cache-cleanup}
  
 spawn-limits:
   monsters: 70
+  #{spawn-limits.monsters}
   animals: 15
+  #{spawn-limits.animals}
   water-animals: 5
+  #{spawn-limits.water-animals}
   ambient: 15
+  #{spawn-limits.ambient}
 
 aliases:
  #{aliases}
