@@ -51,10 +51,6 @@ class LitRedstoneLamp extends Solid implements Redstone,RedstoneConsumer,LightSo
 	public function getHardness(){
 		return 0.3;
 	}
-	
-	public function getLightLevel(){
-		return 15;
-	}
 
 	public function getDrops(Item $item){
 		$drops = [];
