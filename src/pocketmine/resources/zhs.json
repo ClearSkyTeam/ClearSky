@@ -4,11 +4,11 @@
 
 "#{Title}":
 "ClearSky的主要配置文件\n
-Some of these settings are safe, others can break your server if modified incorrectly!\n
-If config-update is set to true, new settings/defaults will appear automatically on this file when upgrading.",
+这其中一部分的设置是可以安全更改的,但是有一些错误的设置却足以破坏整个服务器\n
+如果 config-update 被设置成了 true 那么系统将会自动更新pocketmine.yml反之亦然",
 
 "#{settings.language}":
-"Three-letter language code for server-side localization\n
-Check your language code on https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes"
+"三个字母的区域码\n
+你可以在这里找到你需要的区域码 https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes"
 
 }

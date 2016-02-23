@@ -71,77 +71,79 @@ memory:
 
  garbage-collection:
   period: 36000
-  #{}
+  #{garbage-collection.period}
   collect-async-worker: true
-  #{}
+  #{garbage-collection.collect-async-worker}
   low-memory-trigger: true
-  #{}
+  #{garbage-collection.low-memory-trigger}
   
  max-chunks:
   trigger-limit: 96
-  #{}
+  #{max-chunks.trigger-limit}
   trigger-chunk-collect: true
-  #{}
+  #{max-chunks.trigger-chunk-collect}
   low-memory-trigger: true
-  #{}
+  #{max-chunks.low-memory-trigger}
 
  world-caches:
   disable-chunk-cache: true
-  #{}
+  #{world-caches.disable-chunk-cache}
   low-memory-trigger: true
-  #{}
+  #{world-caches.low-memory-trigger}
 
 network:
  batch-threshold: 128
- #{}
+ #{network.batch-threshold}
  compression-level: 2
- #{}
+ #{network.compression-level}
  async-compression: true
- #{}
+ #{network.async-compression}
  anti-cheat: false
- #{}
+ #{network.anti-cheat}
  acceptable-packetlost: 2
- #{}
+ #{network.acceptable-packetlost}
  timeout: 1
- #{}
+ #{network.timeout}
  protocol: 45
- #{}
+ #{network.protocol}
  version: "0.14.0"
- #{}
+ #{network.version}
  upnp-forwarding: false
- #{}
+ #{network.upnp-forwarding}
 
 debug:
  level: 1
- #{}
+ #{debug.level}
  allow-xdebug: false
- #{}
+ #{debug.allow-xdebug}
  commands: true
- #{}
+ #{debug.commands}
 
 level-settings:
  default-format: mcregion
- #{}
+ #{level-settings.default-format}
  convert-format: false 
- #{}
+ #{level-settings.convert-format}
  auto-tick-rate: false
- #{}
+ #{level-settings.auto-tick-rate}
  auto-tick-rate-limit: 20
- #{}
+ #{level-settings.auto-tick-rate-limit}
  base-tick-rate: 1
- #{}
+ #{level-settings.base-tick-rate}
  always-tick-players: false
- #{}
+ #{level-settings.always-tick-players}
  weather:
   enable: true
-  #{}
+  #{level-settings.weather.enable}
   rain:
    possibility: 10
-   #{}
+   #{level-settings.weather.rain}
    time:
+    #{level-settings.weather.rain.time}
     min: 30
     max: 120
    rainfall:
+    #{level-settings.weather.rain.rainfall}
     min: 1000
     max: 100000
 
@@ -218,4 +220,4 @@ worlds:
 #{StopEditing}
 version: 11
 translate: "#{Translate}"
-#!DO NOT EDIT! This is for internal use, changing this will reset your whole pocketmine.yml!
+#{StopEditing.warning}
