@@ -91,12 +91,14 @@ ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソ
  - 非公式テストサーバー : クリエイティブ Creative IP: WolvesFortress.de Port: **19133** 
 
 ## pharのダウンロード
+ - 便利な詰め合わせを用意しました。[ClearSkyダウンロード](http://blog.haniokasai.com/2016/02/pocketmineclearsly-windows.html).
  - **立ち上げる前にClearSkyのpocketmine.ymlを消してください、アップデートされます**
  - phar: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - phpのbin(php5,7対応): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Multicraftの設定: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+ - 
 
-## [CRITICAL]: Please REMOVE xdebug in production server
+## [CRITICAL]: 公開するサーバーではxdebugを消してください。
  - php.iniのzend_extension=php_xdebugをコメントアウトするかxdebugなしでリコンパイルします.
  - pocketmine.ymlでのデバックにxdebug強制的に有効にもできます.
 
