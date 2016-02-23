@@ -33,10 +33,6 @@ class GlowingRedstoneOre extends Solid{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getLightLevel(){
-		return 9;
-	}
-
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED or $type === Level::BLOCK_UPDATE_RANDOM){
 			$this->getLevel()->setBlock($this, Block::get(Item::REDSTONE_ORE, $this->meta), false, false, true);
