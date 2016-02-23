@@ -9,6 +9,7 @@ class Snake extends Entity{
 		foreach($this->getDrops() as $item){
 			$this->getLevel()->dropItem($this, $item);
 		}
+		$this->close();
 	}
 
 	public function getDrops(){
