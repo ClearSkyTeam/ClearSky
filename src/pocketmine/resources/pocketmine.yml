@@ -217,5 +217,5 @@ worlds:
 
 #{StopEditing}
 version: 11
-translate: #{Translate}
+translate: "#{Translate}"
 #!DO NOT EDIT! This is for internal use, changing this will reset your whole pocketmine.yml!

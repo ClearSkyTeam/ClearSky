@@ -1537,6 +1537,7 @@ class Server{
 		if(!file_exists($this->dataPath . "pocketmine.yml")){
 			$content = $this->translateConfig(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"),"eng");
 			@file_put_contents($this->dataPath . "pocketmine.yml", $content);
+			$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
 		}else{
 			$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
 			$internal_config = yaml_parse(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
