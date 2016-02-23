@@ -2,5 +2,11 @@
 namespace pocketmine\block;
 
 interface LightSource{
-	public function isLightSource();
+	public function getLightLevel(){
+		return 15;
+	}
+	
+	public function isLightSource(){
+		return true;
+	}
 }
