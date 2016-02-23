@@ -1480,8 +1480,8 @@ class Server{
 		$translateJson = json_decode(str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/eng.json")),true);
 		$translateKeys = array_keys($translateJson);
 		$translateValue = array_values($translateJson);
-		foreach($translateValue as $key=>$value){
-			$translateValue[$key]=>'#'.str_replace('\n','\n#',$value);
+		foreach($translateValue as $key => $value){
+			$translateValue[$key]='#'.str_replace("\n","\n #",$value);
 		}
 		unset($translateJson);
 		$translatedConfig = str_replace($translateKeys, $translateValue, file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
