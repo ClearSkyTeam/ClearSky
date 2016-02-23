@@ -1,0 +1,14 @@
+{
+"#{Translate}":
+"zhs",
+
+"#{Title}":
+"ClearSky的主要配置文件\n
+Some of these settings are safe, others can break your server if modified incorrectly!\n
+If config-update is set to true, new settings/defaults will appear automatically on this file when upgrading.",
+
+"#{settings.language}":
+"Three-letter language code for server-side localization\n
+Check your language code on https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes"
+
+}

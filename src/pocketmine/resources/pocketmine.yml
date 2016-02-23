@@ -1,7 +1,7 @@
 #{Title}
 
 settings:
- language: "eng"
+ language: "#{Translate}"
  #{settings.language}
  force-language: false
  #{settings.force-language}
