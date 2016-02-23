@@ -81,7 +81,7 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 晴空不仅仅是用起来干净，对于开发者来说也是一片艳阳天!<br>
 
 
-# ClearSky
+# クリアースカイ
 ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソフトウェアです。
 最初はプロダクションサーバーとしてつくられました。
  - GPLのプログラムのコードをとっている部分もありますが、大部分は新たに書かれたものです。
