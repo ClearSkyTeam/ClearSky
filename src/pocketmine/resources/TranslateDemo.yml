@@ -15,7 +15,7 @@ settings:
  deprecated-verbose: true
  #Show a console message when a plugin uses deprecated API methods
  enable-profiling: false
- #DAFUC?
+ #Enable debugging of Server Lagg
  profile-report-trigger: 20
  #Will only add results when tick measurement is below or equal to given value (default 20)
  async-workers: auto
