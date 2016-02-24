@@ -39,6 +39,7 @@ use pocketmine\network\protocol\MoveEntityPacket;
 use pocketmine\network\protocol\MovePlayerPacket;
 use pocketmine\network\protocol\PlayerActionPacket;
 use pocketmine\network\protocol\MobArmorEquipmentPacket;
+use pocketmine\network\protocol\MobEffectPacket;
 use pocketmine\network\protocol\MobEquipmentPacket;
 use pocketmine\network\protocol\RemoveBlockPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
@@ -54,6 +55,7 @@ use pocketmine\network\protocol\SetTimePacket;
 use pocketmine\network\protocol\StartGamePacket;
 use pocketmine\network\protocol\TakeItemEntityPacket;
 use pocketmine\network\protocol\BlockEventPacket;
+use pocketmine\network\protocol\UpdateAttributesPacket;
 use pocketmine\network\protocol\UpdateBlockPacket;
 use pocketmine\network\protocol\UseItemPacket;
 use pocketmine\network\protocol\PlayerListPacket;
@@ -288,6 +290,7 @@ class Network{
 	private function registerPackets(){
 		$this->packetPool = new \SplFixedArray(256);
 
+		// $this->registerPacket(ProtocolInfo::ATTRIBUTE_PACKET, AttributePacket::class);
 		$this->registerPacket(ProtocolInfo::LOGIN_PACKET, LoginPacket::class);
 		$this->registerPacket(ProtocolInfo::PLAY_STATUS_PACKET, PlayStatusPacket::class);
 		$this->registerPacket(ProtocolInfo::DISCONNECT_PACKET, DisconnectPacket::class);
@@ -310,6 +313,8 @@ class Network{
 		$this->registerPacket(ProtocolInfo::LEVEL_EVENT_PACKET, LevelEventPacket::class);
 		$this->registerPacket(ProtocolInfo::BLOCK_EVENT_PACKET, BlockEventPacket::class);
 		$this->registerPacket(ProtocolInfo::ENTITY_EVENT_PACKET, EntityEventPacket::class);
+		$this->registerPacket(ProtocolInfo::MOB_EFFECT_PACKET, MobEffectPacket::class);
+		$this->registerPacket(ProtocolInfo::UPDATE_ATTRIBUTES_PACKET, UpdateAttributesPacket::class);
 		$this->registerPacket(ProtocolInfo::MOB_EQUIPMENT_PACKET, MobEquipmentPacket::class);
 		$this->registerPacket(ProtocolInfo::MOB_ARMOR_EQUIPMENT_PACKET, MobArmorEquipmentPacket::class);
 		$this->registerPacket(ProtocolInfo::INTERACT_PACKET, InteractPacket::class);
@@ -333,11 +338,17 @@ class Network{
 		$this->registerPacket(ProtocolInfo::CRAFTING_EVENT_PACKET, CraftingEventPacket::class);
 		$this->registerPacket(ProtocolInfo::ADVENTURE_SETTINGS_PACKET, AdventureSettingsPacket::class);
 		$this->registerPacket(ProtocolInfo::BLOCK_ENTITY_DATA_PACKET, BlockEntityDataPacket::class);
+		$this->registerPacket(ProtocolInfo::PLAYER_INPUT_PACKET, PlayerInputPacket::class);
 		$this->registerPacket(ProtocolInfo::FULL_CHUNK_DATA_PACKET, FullChunkDataPacket::class);
 		$this->registerPacket(ProtocolInfo::SET_DIFFICULTY_PACKET, SetDifficultyPacket::class);
-		$this->registerPacket(ProtocolInfo::PLAYER_LIST_PACKET, PlayerListPacket::class);
-		$this->registerPacket(ProtocolInfo::PLAYER_INPUT_PACKET, PlayerInputPacket::class);
-		$this->registerPacket(ProtocolInfo::SET_PLAYER_GAMETYPE_PACKET, SetPlayerGameTypePacket::class);
 		$this->registerPacket(ProtocolInfo::CHANGE_DIMENSION_PACKET, ChangeDimensionPacket::class);
+		$this->registerPacket(ProtocolInfo::SET_PLAYER_GAMETYPE_PACKET, SetPlayerGameTypePacket::class);
+		$this->registerPacket(ProtocolInfo::PLAYER_LIST_PACKET, PlayerListPacket::class);
+		// $this->registerPacket(ProtocolInfo::TELEMETRY_EVENT_PACKET, TelemetryEventPacket::class);
+		// $this->registerPacket(ProtocolInfo::CLIENTBOUND_MAP_ITEM_DATA_PACKET, ClientboundMapItemDataPacket::class);
+		// $this->registerPacket(ProtocolInfo::MAP_INFO_REQUEST_PACKET, MapInfoRequestPacket::class);
+		// $this->registerPacket(ProtocolInfo::REQUEST_CHUNK_RADIUS_PACKET, RequestChunkRadiusPacket::class);
+		// $this->registerPacket(ProtocolInfo::CHUNK_RADIUS_UPDATED_PACKET, ChunkRadiusUpdatedPacket::class);
+		// $this->registerPacket(ProtocolInfo::ITEM_FRAME_DROP_ITEM_PACKET, ItemFrameDropItemPacket::class);
 	}
 }
