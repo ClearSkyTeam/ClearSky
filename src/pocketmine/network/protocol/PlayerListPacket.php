@@ -1,8 +1,8 @@
 <?php
+
 namespace pocketmine\network\protocol;
 
 #include <rules/DataPacket.h>
-
 
 
 class PlayerListPacket extends DataPacket{
@@ -11,8 +11,8 @@ class PlayerListPacket extends DataPacket{
 	const TYPE_ADD = 0;
 	const TYPE_REMOVE = 1;
 
-	//REMOVE: UUID; ADD: UUID, entity id, name, skinName, transparency, skin
-	/** @var PlayerListEntry[] */
+	//REMOVE: UUID, ADD: UUID, entity id, name, isSlim, skin
+	/** @var array[] */
 	public $entries = [];
 	public $type;
 
@@ -35,7 +35,6 @@ class PlayerListPacket extends DataPacket{
 				$this->putLong($d[1]);
 				$this->putString($d[2]);
 				$this->putString($d[3]);
-//				$this->putByte($entry->transparency ? 1 : 0);
 				$this->putString($d[4]);
 			}else{
 				$this->putUUID($d[0]);
