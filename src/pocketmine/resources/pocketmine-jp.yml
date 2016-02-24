@@ -1,0 +1,233 @@
+# ClearSkyのメイン設定ファイル（機械翻訳みたいな和訳でごめんなさいｗ)
+# 安全な設定もありますが、誤って設定すると鯖が壊れる設定の項目もあります。
+# config-updateをtrueにすれば, 新しい設定欄が自動で追加されます。
+
+settings:
+ language: "jpn"
+ #以下3つの言語設定は、サーバー側でのみ適用されます。
+ #https://en.wikipedia.org/wiki/List_of_ISO_639-2_codesを見て自分の国のコードを見つけてください。
+ force-language: false
+ #端末に送る言語を強制するかどうか
+ shutdown-message: "サーバーが終了しました"
+ whitelist-message: "サーバーがホワイトリストです"
+ query-plugins: true
+ #クエリーからプラグインリストを見えるようにする
+ deprecated-verbose: true
+ #プラグインが非推奨APIメソッドを使用すると、コンソールにメッセージを表示します
+ enable-profiling: false
+ #DAFUC?
+ profile-report-trigger: 20
+ #チックをこの値以下の時、結果を加えます  (デフォルト20)
+ async-workers: auto
+ #AsyncTask workersの数
+ #プラグインの非同期作業、例えばマップ生成、圧縮、ウェブ通信に使われます
+ #Set this approximately
+ #auto に設定すると, コア数を検出しようとします（少なくとも2）
+ config-update: true
+ #設定ファイルをアップデートしようと努力させるか
+
+player:
+ inventory:
+  slot: 27
+  #インベントリのサイズ
+ hunger:
+  enable: true
+  #空腹度を計算するか
+ experience:
+  enable: true
+  #経験値を計算するか
+  player-drop: true
+  #プレイヤーが経験値を落とすか
+  mob-drop: true
+  #モブが経験値を落とすか
+  break-drop: true
+  #ブロックを壊したときモブが経験値を落とすか
+  smelt-drop: true
+  #かまどを使った時に経験値を落とすかどうか
+ 
+redstone:
+ enable: true
+ #レッドストーンを計算するか
+ tick-limit: 2048
+ #レッドストーンの計算量制限 (毎tick)
+
+I/O:
+ #これらの設定はディスクやコンソールのパフォーマンスに影響します!
+ title-usage: true
+ #ウィンドウにサーバー負荷値を表示するか
+ log-to-file: true
+ #server.logを保存するか
+
+memory:
+ global-limit: 0
+ #MB
+ #緩めのメモリ利用量制限。0で無効
+ #このメモリの値を超えたら、自動でメモリ開放されます。
+ main-limit: 0
+ #MB
+ #緩めのメインスレッド利用量制限。0で無効
+ #このメモリの値を超えたら、自動でメモリ開放されます。
+ main-hard-limit: 2048
+ #MB
+ #メインスレッド利用量の上限。0で無効
+ #設定値を超えたらサーバーが止まります。
+ check-rate: 20
+ #ticks
+ #何チックでメモリをチェックするか
+ continuous-trigger: true
+ #メモリが少なくなった時メモリ開放を続けるか
+ continuous-trigger-rate: 30
+ #秒
+ #continuous-triggerが有効の時、何秒ごとにメモリ開放するか
+
+ garbage-collection:
+  period: 36000
+  #何チックでギャーベッジコレクションするか(デフォルト30分),0で無効
+  #メインスレッドのみに適応. 他のスレッドはそれぞれ他のガーベジコレクションを使いましょう
+  collect-async-worker: true
+  #非同期でごみ集めするか
+  low-memory-trigger: true
+  #低メモリトリガーを有効にするか
+  
+ max-chunks:
+  trigger-limit: 96
+  #１人の読み込める最大チャンク量, chunk-sending.max-chunksを無視します
+  trigger-chunk-collect: true
+  #チャンクのガーベジコレクションするか
+  low-memory-trigger: true
+  #低メモリトリガーを有効にするか
+
+ world-caches:
+  disable-chunk-cache: true
+  low-memory-trigger: true
+
+network:
+ batch-threshold: 128
+ #bytes
+ #バッチ処理パケットの入り口。これらのパケットだけ圧縮されます
+ #0ですべてを圧縮, -1で無効.
+ compression-level: 2
+ #バッチパケットを送るときの圧縮率. 数字を大きくすればたくさんのCPUを使い,小さくすれば通信量が増えます
+ async-compression: true
+ #非同期圧縮. 0.5か1チックぐらい、遅らせることで,メインスレッドの負荷を減らします。
+ anti-cheat: false
+ #チート防止, 回線が悪いならfalseにしましょう
+ acceptable-packetlost: 2
+ #回線が悪いなら、いじりましょう
+ timeout: 1
+ #秒
+ #Interrupt Raklib after reach timeout , save CPU usage , may cause packet lost.(-1 for disable , all pkt will send)
+ protocol: 45
+ #MCPEプロトコルバージョン,バージョンの色の表示に影響します.
+ version: "0.14.0"
+ #MCPEバージョン表示。数字とドットだけ。
+ upnp-forwarding: false
+ #実験、windowsのみ. UPnPのポートホワーディング
+
+debug:
+ level: 1
+ allow-xdebug: false
+ #php-extension "xdebug"を有効にするか（無効推奨)
+ commands: true
+ # /status, /gcを有効にする
+
+level-settings:
+ default-format: mcregion
+ #マップのフォーマット
+ convert-format: false 
+ #WIP
+ auto-tick-rate: false
+ #20チックごとにチャンクをチェックするか
+ auto-tick-rate-limit: 20
+#自動的にレベルが毎秒20ティックを維持するためにtickの速度を変えます。
+ base-tick-rate: 1
+ #(1 = 20 チック毎秒, 2 = 10 チック毎秒...)
+ #デフォルトのチックの長さを設定。
+ always-tick-players: false
+ #ほかの設定が許可しなくても、プレイヤーにチックします（はぁ?).
+ weather:
+  enable: true
+  #天気
+  rain:
+   possibility: 10
+   #毎チック何％で雨が降り始めるか
+   time:
+    min: 30
+    max: 120
+   rainfall:
+    min: 1000
+    max: 100000
+
+chunk-sending:
+ per-tick: 4
+ #毎チックあたりに各プレイヤーに送るチャンク量の制限
+ max-chunks: 192
+ #各プレイヤーのチャンク量制限
+ spawn-threshold: 56
+ #サーバーに入るとき、読み込まれていなければならないチャンク量
+ cache-chunks: true
+#より速く送信するために、メモリ内にチャンクのシリアル化されたコピーを保存します
+#プレイヤーがたくさんが同時に参加し、主にあまりブロックを設置したり壊したりしないワールドに効果ありです。
+ 
+chunk-ticking:
+ per-tick: 1
+#各チックで処理する最大のチャンク量
+ tick-radius: 2
+#プレイヤーの周りのチャンクの半径のtick
+ light-updates: false
+ #軽い更新をするかどうか
+ clear-tick-list: true
+ 
+chunk-generation:
+# マップ生成のキューが待機できるチャンクのサイズ
+ queue-size: 8
+#読み込みのキューが待機できるチャンクのサイズ
+ population-queue-size: 8
+
+ticks-per:
+ animal-spawns: 400
+ monster-spawns: 1
+ autosave: 6000
+ cache-cleanup: 900
+spawn-limits:
+  monsters: 70
+  animals: 15
+  water-animals: 5
+  ambient: 15
+
+auto-report:
+ enabled: false
+ #クラッシュレポートを送るかどうか
+ send-code: true
+ send-settings: true
+ send-phpinfo: false
+ host: crash.pocketmine.net
+
+anonymous-statistics:
+ #匿名でプラグインの使用状況を送るか
+ enabled: false
+ host: stats.pocketmine.net
+
+auto-updater:
+ enabled: true
+ on-update:
+  warn-console: true
+  warn-ops: true
+ preferred-channel: ClearSky
+ host: jenkins.clearskyteam.org
+
+aliases:
+#コマンドのショートカット
+ #例:
+ #showtheversion: version
+ #savestop: [save-all, stop]
+
+worlds:
+# これらの設定は、server.propertiesでセットされたマップ生成の設定を上書きし、複数のワールドの読み込みを許可します
+ #例:
+ #world:
+ # seed: 404
+ # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
+ 
+version: 11
+#!編集するな! 編集するとpocketmine.ymlが消されるかもしれません（え、ホント？）!
