@@ -2567,8 +2567,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						break;
 					}
 				}
-				if($packet->action === InteractPacket::ACTION_RIGHT_CLICK && $target instanceof Colorable || $target instanceof Tameable|| $target instanceof Explosive /*and add something for using shear.. mooshroom + snow golem*/){
-					$this->getInventory()->getItemInHand()->useOn($target); // this is beta. Should return false anyways
+				if($packet->action === InteractPacket::ACTION_RIGHT_CLICK && $target instanceof Colorable || $target instanceof Tameable || $target instanceof Explosive /*and add something for using shear.. mooshroom + snow golem*/){
+					// $this->getInventory()->getItemInHand()->useOn($target); // this is beta. Should return false anyways
+					break;
 				}
 				if(
 					$target instanceof Player and

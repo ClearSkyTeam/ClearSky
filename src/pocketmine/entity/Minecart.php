@@ -12,6 +12,7 @@ use pocketmine\event\entity\EntityDamageByChildEntityEvent;
 use pocketmine\event\entity\ProjectileHitEvent;
 use pocketmine\event\entity\EntityDamageByBlockEvent;
 use pocketmine\block\Cactus;
+use pocketmine\event\entity\EntityRegainHealthEvent;
 
 class Minecart extends Vehicle{
 
@@ -36,9 +37,16 @@ class Minecart extends Vehicle{
         parent::initEntity();
     }
 
+	public function spawnTo(Player $player){
+		$pk = $this->addEntityDataPacket($player);
+		$pk->type = self::NETWORK_ID;
+		$player->dataPacket($pk);
+		parent::spawnTo($player);
+	}
+
     public function getName(){
         return "Minecart";
-    }
+    }/*
 
     public function onUpdate($currentTick){
         if($this->closed !== false){
@@ -90,54 +98,37 @@ class Minecart extends Vehicle{
         $this->timings->stopTiming();
 
         return $hasUpdate or !$this->onGround or abs($this->motionX) > 0.00001 or abs($this->motionY) > 0.00001 or abs($this->motionZ) > 0.00001;
-    }
+    }*/
+    
 
-    public function spawnTo(Player $player){
-        $pk = new AddEntityPacket();
-        $pk->eid = $this->getId();
-        $pk->type = Minecart::NETWORK_ID;
-        $pk->x = $this->x;
-        $pk->y = $this->y;
-        $pk->z = $this->z;
-        $pk->speedX = 0;
-        $pk->speedY = 0;
-        $pk->speedZ = 0;
-        $pk->yaw = 0;
-        $pk->pitch = 0;
-        $pk->metadata = $this->dataProperties;
-        $player->dataPacket($pk);
 
-        parent::spawnTo($player);
-    }
-
-    public function attack($damage, EntityDamageEvent $source){
-    	if($source instanceof EntityDamageByChildEntityEvent){
-    		if($source instanceof ProjectileHitEvent && $source->getEntity() instanceof Arrow){
-    			$this->setHealth(0);
+    public function onUpdate($currentTick){
+    	if($this->isAlive()){
+    		$this->timings->startTiming();
+    		$hasUpdate = false;
+    		
+    		if($this->isLinked() && $this->getlinkedTarget() !== null){
+    			$hasUpdate = true;
+				$newx = $this->getX() - $this->getlinkedTarget()->getX();
+				$newy = $this->getY() - $this->getlinkedTarget()->getY();
+				$newz = $this->getZ() - $this->getlinkedTarget()->getZ();
+				$this->move($newx, $newy, $newz);
+				$this->updateMovement();
+			}
+			if($this->getHealth() < $this->getMaxHealth()){
+				$this->heal(0.1, new EntityRegainHealthEvent($this, 0.1, EntityRegainHealthEvent::CAUSE_CUSTOM));
+				$hasUpdate = true;
     		}
-    	}elseif($source instanceof EntityDamageByBlockEvent && $source->getDamager() instanceof Cactus){
-    		$this->setHealth(0);
+    			
+    		$this->timings->stopTiming();
+    
+    		return $hasUpdate;
     	}
-        parent::attack($damage, $source);
-
-        if(!$source->isCancelled()){
-            $pk = new EntityEventPacket();
-            $pk->eid = $this->id;
-			$pk->event = $this->getHealth() <= 0?EntityEventPacket::DEATH_ANIMATION:EntityEventPacket::HURT_ANIMATION;
-			foreach($this->getLevel()->getPlayers() as $player){
-                $player->dataPacket($pk);
-            }
-        }
     }
 
     public function getDrops(){
         return [ItemItem::get(ItemItem::MINECART, 0, 1)];
-    }
-
-    public function getSaveId(){
-        $class = new \ReflectionClass(static::class);
-        return $class->getShortName();
-    }
+    }/*
 
     public function onPlayerAction(Player $player, $playerAction) {
         if($playerAction == 1) {
@@ -179,6 +170,6 @@ class Minecart extends Vehicle{
         }
 
         return true;
-    }
+    }*/
 
 }

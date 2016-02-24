@@ -30,7 +30,7 @@ class Slime extends Living{
 
     public function spawnTo(Player $player){
         $pk = $this->addEntityDataPacket($player);
-        $pk->type = Slime::NETWORK_ID;
+        $pk->type = self::NETWORK_ID;
 
         $player->dataPacket($pk);
         parent::spawnTo($player);

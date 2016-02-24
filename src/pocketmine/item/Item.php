@@ -439,7 +439,7 @@ class Item{
 	const RAW_CHICKEN = 365;
 	const COOKED_CHICKEN = 366;
 	const ROTTEN_FLESH = 367;
-	const ENDERPEARL = 368;
+	// const ENDERPEARL = 368;
 	const BLAZE_ROD = 369;
 	const GHAST_TEAR = 370;
 	const GOLD_NUGGET = 371;
@@ -483,7 +483,7 @@ class Item{
 	const ACACIA_DOOR = 430;
 	const DARK_OAK_DOOR = 431;
 	const SPLASH_POTION = 438;
-	const CAMERA = 456;
+	const CAMERA = 439;
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
 	const BEETROOT_SEED = 458;
@@ -1033,6 +1033,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::CLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::COMPASS, 0));
 		Item::addCreativeItem(Item::get(Item::MINECART, 0));
+		// Item::addCreativeItem(Item::get(Item::CAMERA, 0)); // Crashes client
 		Item::addCreativeItem(Item::get(Item::BOAT, 0)); // Oak
 		Item::addCreativeItem(Item::get(Item::BOAT, 1)); // Spruce
 		Item::addCreativeItem(Item::get(Item::BOAT, 2)); // Birch
@@ -1063,10 +1064,10 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 42)); //Magma Cube
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 41)); //Ghast
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 43)); //Blaze
-
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 20)); //Iron Golem
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 21)); //Snow Golem
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 44)); //Zombie Villager
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 45)); //Witch
 		
 		Item::addCreativeItem(Item::get(Item::WOODEN_SWORD));
 		Item::addCreativeItem(Item::get(Item::WOODEN_HOE));

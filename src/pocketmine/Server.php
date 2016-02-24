@@ -132,6 +132,12 @@ use pocketmine\utils\Utils;
 use pocketmine\utils\UUID;
 use pocketmine\utils\VersionString;
 use pocketmine\entity\FishingHook;
+use pocketmine\entity\Witch;
+use pocketmine\entity\MinecartChest;
+use pocketmine\entity\MinecartHopper;
+use pocketmine\entity\MinecartTNT;
+use pocketmine\entity\TripoidCamera;
+use pocketmine\entity\ThrownEnderPearl;
 
 /**
  * The class that manages everything
@@ -2651,6 +2657,9 @@ class Server{
 		Entity::registerEntity(IronGolem::class);
 		Entity::registerEntity(MagmaCube::class);
 		Entity::registerEntity(Minecart::class);
+		Entity::registerEntity(MinecartChest::class);
+		Entity::registerEntity(MinecartHopper::class);
+		Entity::registerEntity(MinecartTNT::class);
 		Entity::registerEntity(Mooshroom::class);
 		Entity::registerEntity(Ozelot::class);
 	    Entity::registerEntity(Painting::class);
@@ -2666,9 +2675,12 @@ class Server{
 		Entity::registerEntity(SnowGolem::class);
 		Entity::registerEntity(Spider::class);
 		Entity::registerEntity(Squid::class);
+		Entity::registerEntity(ThrownEnderPearl::class);
 		Entity::registerEntity(ThrownExpBottle::class);
 		Entity::registerEntity(ThrownPotion::class);
+		Entity::registerEntity(TripoidCamera::class);
 		Entity::registerEntity(Villager::class);
+		Entity::registerEntity(Witch::class);
 		Entity::registerEntity(WitherSkeleton::class);
 		Entity::registerEntity(Wolf::class);
 		Entity::registerEntity(Zombie::class);

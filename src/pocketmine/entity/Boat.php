@@ -31,10 +31,6 @@ class Boat extends Vehicle{
         $this->setHealth($this->getMaxHealth());
 		parent::initEntity();
 	}
-	
-	public function getWoodID(){
-		return $this->namedtag["woodID"];
-	}
 
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
@@ -42,18 +38,9 @@ class Boat extends Vehicle{
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
 	}
-
-	public function attack($damage, EntityDamageEvent $source){
-		parent::attack($damage, $source);
-
-		if(!$source->isCancelled()){
-			$pk = new EntityEventPacket();
-			$pk->eid = $this->id;
-			$pk->event = $this->getHealth() <= 0?EntityEventPacket::DEATH_ANIMATION:EntityEventPacket::HURT_ANIMATION;
-			foreach($this->getLevel()->getPlayers() as $player){
-				$player->dataPacket($pk);
-			}
-		}
+	
+	public function getWoodID(){
+		return $this->namedtag["woodID"];
 	}
 	
 	public function onUpdate($currentTick){
@@ -63,7 +50,20 @@ class Boat extends Vehicle{
 			
 			if($this->isInsideOfWater()){
 				$hasUpdate = true;
-				$this->move(0,0.1,0);
+				$this->move(0,0.1, 0);
+				$this->updateMovement();
+			}
+			if($this->isLinked() && $this->getlinkedTarget() !== null){
+				if(($player = $this->getlinkedTarget()) instanceof Player){
+					$newyaw = $player->getYaw();
+					$deltayaw = $newyaw - $this->getYaw();
+					if($deltayaw < 0.1) $deltayaw * -1;
+					$hasUpdate = $newyaw - $this->getYaw() > 0.1;
+				}
+				if($hasUpdate){
+					$this->setRotation($newyaw, $this->pitch);
+					$this->move(0, 1, 0);
+				}
 				$this->updateMovement();
 			}
 			if($this->getHealth() < $this->getMaxHealth()){
