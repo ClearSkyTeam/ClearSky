@@ -5,8 +5,9 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
+use pocketmine\level\Level;
 
-class Rail extends RailBlock{
+class Rail extends Flowable{
 	protected $id = self::RAIL;
 	protected $connected = [];
 
