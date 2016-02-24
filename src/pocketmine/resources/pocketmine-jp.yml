@@ -1,103 +1,101 @@
-# ClearSky�̃��C���ݒ�t�@�C���i�@�B�|��݂����Șa��ł��߂�Ȃ�����)
-# ���S�Ȑݒ������܂����A����Đݒ肷��ƎI������ݒ�̍��ڂ�����܂��B
-# config-update��true�ɂ����, �V�����ݒ藓�������Œǉ�����܂��B
+# ClearSkyのメイン設定ファイル（機械翻訳みたいな和訳でごめんなさいｗ)
+# 安全な設定もありますが、誤って設定すると鯖が壊れる設定の項目もあります。
+# config-updateをtrueにすれば, 新しい設定欄が自動で追加されます。
 
 settings:
  language: "jpn"
- #�ȉ�3�̌���ݒ�́A�T�[�o�[���ł̂ݓK�p����܂��B
- #https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes�����Ď����̍��̃R�[�h�������Ă��������B
+ #以下3つの言語設定は、サーバー側でのみ適用されます。
+ #https://en.wikipedia.org/wiki/List_of_ISO_639-2_codesを見て自分の国のコードを見つけてください。
  force-language: false
- #�[���ɑ��錾����������邩�ǂ���
- shutdown-message: "�T�[�o�[���I�����܂���"
- whitelist-message: "�T�[�o�[���z���C�g���X�g�ł�"
+ #端末に送る言語を強制するかどうか
+ shutdown-message: "サーバーが終了しました"
+ whitelist-message: "サーバーがホワイトリストです"
  query-plugins: true
- #�N�G���[����v���O�C�����X�g��������悤�ɂ���
+ #クエリーからプラグインリストを見えるようにする
  deprecated-verbose: true
- #�v���O�C�����񐄏�API���\�b�h���g�p����ƁA�R���\�[���Ƀ��b�Z�[�W��\�����܂�
+ #プラグインが非推奨APIメソッドを使用すると、コンソールにメッセージを表示します
  enable-profiling: false
  #DAFUC?
  profile-report-trigger: 20
- #�`�b�N�����̒l�ȉ��̎��A���ʂ������܂�  (�f�t�H���g20)
+ #チックをこの値以下の時、結果を加えます  (デフォルト20)
  async-workers: auto
- #AsyncTask workers�̐�
- #�v���O�C���̔񓯊���ƁA�Ⴆ�΃}�b�v�����A���k�A�E�F�u�ʐM�Ɏg���܂�
+ #AsyncTask workersの数
+ #プラグインの非同期作業、例えばマップ生成、圧縮、ウェブ通信に使われます
  #Set this approximately
- #auto �ɐݒ肷���, �R�A�������o���悤�Ƃ��܂��i���Ȃ��Ƃ�2�j
+ #auto に設定すると, コア数を検出しようとします（少なくとも2）
  config-update: true
- #�ݒ�t�@�C�����A�b�v�f�[�g���悤�Ɠw�͂����邩
+ #設定ファイルをアップデートしようと努力させるか
 
 player:
  inventory:
   slot: 27
-  #�C���x���g���̃T�C�Y
+  #インベントリのサイズ
  hunger:
   enable: true
-  #�󕠓x���v�Z���邩
+  #空腹度を計算するか
  experience:
   enable: true
-  #�o���l���v�Z���邩
+  #経験値を計算するか
   player-drop: true
-  #�v���C���[���o���l�𗎂Ƃ���
+  #プレイヤーが経験値を落とすか
   mob-drop: true
-  #���u���o���l�𗎂Ƃ���
+  #モブが経験値を落とすか
   break-drop: true
-  #�u���b�N���󂵂��Ƃ����u���o���l�𗎂Ƃ���
+  #ブロックを壊したときモブが経験値を落とすか
   smelt-drop: true
-  #���܂ǂ��g�������Ɍo���l�𗎂Ƃ����ǂ���
+  #かまどを使った時に経験値を落とすかどうか
  
 redstone:
  enable: true
- #���b�h�X�g�[�����v�Z���邩
+ #レッドストーンを計算するか
  tick-limit: 2048
- #���b�h�X�g�[���̌v�Z�ʐ��� (��tick)
+ #レッドストーンの計算量制限 (毎tick)
 
 I/O:
- #�����̐ݒ�̓f�B�X�N��R���\�[���̃p�t�H�[�}���X�ɉe�����܂�!
+ #これらの設定はディスクやコンソールのパフォーマンスに影響します!
  title-usage: true
- #�E�B���h�E�ɃT�[�o�[���גl��\�����邩
+ #ウィンドウにサーバー負荷値を表示するか
  log-to-file: true
- #server.log��ۑ����邩
+ #server.logを保存するか
 
 memory:
  global-limit: 0
  #MB
- #�ɂ߂̃��������p�ʐ����B0�Ŗ���
- #���̃������̒l�𒴂�����A�����Ń������J������܂��B
+ #緩めのメモリ利用量制限。0で無効
+ #このメモリの値を超えたら、自動でメモリ開放されます。
  main-limit: 0
  #MB
- #�ɂ߂̃��C���X���b�h���p�ʐ����B0�Ŗ���
- #���̃������̒l�𒴂�����A�����Ń������J������܂��B
+ #緩めのメインスレッド利用量制限。0で無効
+ #このメモリの値を超えたら、自動でメモリ開放されます。
  main-hard-limit: 2048
  #MB
- #���C���X���b�h���p�ʂ̏���B0�Ŗ���
- #�ݒ�l�𒴂�����
-�T�[�o�[���~�܂�܂��B
+ #メインスレッド利用量の上限。0で無効
+ #設定値を超えたらサーバーが止まります。
  check-rate: 20
  #ticks
- #���`�b�N�Ń��������`�F�b�N���邩
+ #何チックでメモリをチェックするか
  continuous-trigger: true
- #�����������Ȃ��Ȃ������������J���𑱂��邩
+ #メモリが少なくなった時メモリ開放を続けるか
  continuous-trigger-rate: 30
- #�b
- #continuous-trigger���L���̎��A���b���ƂɃ������J�����邩
+ #秒
+ #continuous-triggerが有効の時、何秒ごとにメモリ開放するか
 
  garbage-collection:
   period: 36000
-  #���`�b�N�ŃM���[�x�b�W�R���N�V�������邩(�f�t�H���g30��),0�Ŗ���
-  #���C���X���b�h�݂̂ɓK��. ���̃X���b�h�͂��ꂼ�ꑼ�̃K�[�x�W�R���N�V�������g���܂��傤
+  #何チックでギャーベッジコレクションするか(デフォルト30分),0で無効
+  #メインスレッドのみに適応. 他のスレッドはそれぞれ他のガーベジコレクションを使いましょう
   collect-async-worker: true
-  #�񓯊��ł��ݏW�߂��邩
+  #非同期でごみ集めするか
   low-memory-trigger: true
-  #�Ⴡ�����g���K�[��L���ɂ��邩
+  #低メモリトリガーを有効にするか
   
  max-chunks:
   trigger-limit: 96
-  #�P�l�̓ǂݍ��߂�ő�`�����N��, chunk-sending.max-chunks
-�𖳎����܂�
+  #１人の読み込める最大チャンク量, chunk-sending.max-chunksを無視します
   trigger-chunk-collect: true
-  #�`�����N�̃K�[�x�W�R���N�V�������邩
+  #チャンクのガーベジコレクションするか
   low-memory-trigger: true
-  #�Ⴡ�����g���K�[��L���ɂ��邩
+  #低メモリトリガーを有効にするか
 
  world-caches:
   disable-chunk-cache: true
@@ -106,53 +104,53 @@ memory:
 network:
  batch-threshold: 128
  #bytes
- #�o�b�`�����p�P�b�g�̓�����B�����̃p�P�b�g�������k����܂�
- #0�ł��ׂĂ����k, -1�Ŗ���.
+ #バッチ処理パケットの入り口。これらのパケットだけ圧縮されます
+ #0ですべてを圧縮, -1で無効.
  compression-level: 2
- #�o�b�`�p�P�b�g�𑗂�Ƃ��̈��k��. ������傫������΂��������CPU���g��,����������ΒʐM�ʂ������܂�
+ #バッチパケットを送るときの圧縮率. 数字を大きくすればたくさんのCPUを使い,小さくすれば通信量が増えます
  async-compression: true
- #�񓯊����k. 0.5��1�`�b�N���炢�A�x�点�邱�Ƃ�,���C���X���b�h�̕��ׂ����炵�܂��B
+ #非同期圧縮. 0.5か1チックぐらい、遅らせることで,メインスレッドの負荷を減らします。
  anti-cheat: false
- #�`�[�g�h�~, ����������Ȃ�false�ɂ��܂��傤
+ #チート防止, 回線が悪いならfalseにしましょう
  acceptable-packetlost: 2
- #����������Ȃ�A������܂��傤
+ #回線が悪いなら、いじりましょう
  timeout: 1
- #�b
+ #秒
  #Interrupt Raklib after reach timeout , save CPU usage , may cause packet lost.(-1 for disable , all pkt will send)
  protocol: 45
- #MCPE�v���g�R���o�[�W����,�o�[�W�����̐F�̕\���ɉe�����܂�.
+ #MCPEプロトコルバージョン,バージョンの色の表示に影響します.
  version: "0.14.0"
- #MCPE�o�[�W�����\���B�����ƃh�b�g�����B
+ #MCPEバージョン表示。数字とドットだけ。
  upnp-forwarding: false
- #�����Awindows�̂�. UPnP�̃|�[�g�z���[�f�B���O
+ #実験、windowsのみ. UPnPのポートホワーディング
 
 debug:
  level: 1
  allow-xdebug: false
- #php-extension "xdebug"��L���ɂ��邩�i��������)
+ #php-extension "xdebug"を有効にするか（無効推奨)
  commands: true
- # /status, /gc��L���ɂ���
+ # /status, /gcを有効にする
 
 level-settings:
  default-format: mcregion
- #�}�b�v�̃t�H�[�}�b�g
+ #マップのフォーマット
  convert-format: false 
  #WIP
  auto-tick-rate: false
- #20�`�b�N���ƂɃ`�����N���`�F�b�N���邩
+ #20チックごとにチャンクをチェックするか
  auto-tick-rate-limit: 20
-#�����I�Ƀ��x�������b20�e�B�b�N���ێ����邽�߂�tick�̑��x��ς��܂��B
+#自動的にレベルが毎秒20ティックを維持するためにtickの速度を変えます。
  base-tick-rate: 1
- #(1 = 20 �`�b�N���b, 2 = 10 �`�b�N���b...)
- #�f�t�H���g�̃`�b�N�̒�����ݒ�B
+ #(1 = 20 チック毎秒, 2 = 10 チック毎秒...)
+ #デフォルトのチックの長さを設定。
  always-tick-players: false
- #�ق��̐ݒ肪�����Ȃ��Ă��A�v���C���[�Ƀ`�b�N���܂��i�͂�?).
+ #ほかの設定が許可しなくても、プレイヤーにチックします（はぁ?).
  weather:
   enable: true
-  #�V�C
+  #天気
   rain:
    possibility: 10
-   #���`�b�N�����ŉJ���~��n�߂邩
+   #毎チック何％で雨が降り始めるか
    time:
     min: 30
     max: 120
@@ -162,28 +160,28 @@ level-settings:
 
 chunk-sending:
  per-tick: 4
- #���`�b�N������Ɋe�v���C���[�ɑ���`�����N�ʂ̐���
+ #毎チックあたりに各プレイヤーに送るチャンク量の制限
  max-chunks: 192
- #�e�v���C���[�̃`�����N�ʐ���
+ #各プレイヤーのチャンク量制限
  spawn-threshold: 56
- #�T�[�o�[�ɓ���Ƃ��A�ǂݍ��܂�Ă��Ȃ���΂Ȃ�Ȃ��`�����N��
+ #サーバーに入るとき、読み込まれていなければならないチャンク量
  cache-chunks: true
-#��葬�����M���邽�߂ɁA���������Ƀ`�����N�̃V���A�������ꂽ�R�s�[��ۑ����܂�
-#�v���C���[���������񂪓����ɎQ�����A��ɂ��܂�u���b�N��ݒu������󂵂��肵�Ȃ����[���h�Ɍ��ʂ���ł��B
+#より速く送信するために、メモリ内にチャンクのシリアル化されたコピーを保存します
+#プレイヤーがたくさんが同時に参加し、主にあまりブロックを設置したり壊したりしないワールドに効果ありです。
  
 chunk-ticking:
  per-tick: 1
-#�e�`�b�N�ŏ�������ő�̃`�����N��
+#各チックで処理する最大のチャンク量
  tick-radius: 2
-#�v���C���[�̎���̃`�����N�̔��a��tick
+#プレイヤーの周りのチャンクの半径のtick
  light-updates: false
- #�y���X�V�����邩�ǂ���
+ #軽い更新をするかどうか
  clear-tick-list: true
  
 chunk-generation:
-# �}�b�v�����̃L���[���ҋ@�ł���`�����N�̃T�C�Y
+# マップ生成のキューが待機できるチャンクのサイズ
  queue-size: 8
-#�ǂݍ��݂̃L���[���ҋ@�ł���`�����N�̃T�C�Y
+#読み込みのキューが待機できるチャンクのサイズ
  population-queue-size: 8
 
 ticks-per:
@@ -199,14 +197,14 @@ spawn-limits:
 
 auto-report:
  enabled: false
- #�N���b�V�����|�[�g�𑗂邩�ǂ���
+ #クラッシュレポートを送るかどうか
  send-code: true
  send-settings: true
  send-phpinfo: false
  host: crash.pocketmine.net
 
 anonymous-statistics:
- #�����Ńv���O�C���̎g�p�󋵂𑗂邩
+ #匿名でプラグインの使用状況を送るか
  enabled: false
  host: stats.pocketmine.net
 
@@ -219,17 +217,17 @@ auto-updater:
  host: jenkins.clearskyteam.org
 
 aliases:
-#�R�}���h�̃V���[�g�J�b�g
- #��:
+#コマンドのショートカット
+ #例:
  #showtheversion: version
  #savestop: [save-all, stop]
 
 worlds:
-# �����̐ݒ�́Aserver.properties�ŃZ�b�g���ꂽ�}�b�v�����̐ݒ���㏑�����A�����̃��[���h�̓ǂݍ��݂������܂�
- #��:
+# これらの設定は、server.propertiesでセットされたマップ生成の設定を上書きし、複数のワールドの読み込みを許可します
+ #例:
  #world:
  # seed: 404
  # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
  
 version: 11
-#!�ҏW�����! �ҏW�����pocketmine.yml��������邩������܂���i���A�z���g�H�j!
+#!編集するな! 編集するとpocketmine.ymlが消されるかもしれません（え、ホント？）!
