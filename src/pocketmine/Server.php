@@ -288,6 +288,7 @@ class Server{
 
 	/** @var Level */
 	private $levelDefault = null;
+	private $chunkRadius = 30;
 
 	/**
 	 * @return string
@@ -385,6 +386,13 @@ class Server{
 	 */
 	public function getViewDistance(){
 		return max(56, $this->getProperty("chunk-sending.max-chunks", 256));
+	}
+
+	/**
+	 * @return int
+	 */
+	public function getChunkLoadRadius(){
+		return $this->getProperty("chunk-sending.chunk-radius", 30);
 	}
 
 	/**
@@ -1607,6 +1615,8 @@ class Server{
 		$this->autoTickRateLimit = (int) $this->getProperty("level-settings.auto-tick-rate-limit", 20);
 		$this->alwaysTickPlayers = (int) $this->getProperty("level-settings.always-tick-players", false);
 		$this->baseTickRate = (int) $this->getProperty("level-settings.base-tick-rate", 1);
+		
+		$this->chunkRadius = $this->getChunkLoadRadius();
 
 		$this->scheduler = new ServerScheduler();
 
