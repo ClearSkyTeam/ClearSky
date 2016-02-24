@@ -3,197 +3,197 @@
 "jpn",
 
 "#{Title}":
-" ClearSky‚ÌƒƒCƒ“Ý’èƒtƒ@ƒCƒ‹i‹@ŠB–|–ó‚Ý‚½‚¢‚È˜a–ó‚Å‚²‚ß‚ñ‚È‚³‚¢‚—)\n
- ˆÀ‘S‚ÈÝ’è‚à‚ ‚è‚Ü‚·‚ªAŒë‚Á‚ÄÝ’è‚·‚é‚ÆŽI‚ª‰ó‚ê‚éÝ’è‚Ì€–Ú‚à‚ ‚è‚Ü‚·B\n
- config-update‚ðtrue‚É‚·‚ê‚Î, V‚µ‚¢Ý’è—“‚ªŽ©“®‚Å’Ç‰Á‚³‚ê‚Ü‚·B\n",
+" ClearSkyã®ãƒ¡ã‚¤ãƒ³è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ï¼ˆæ©Ÿæ¢°ç¿»è¨³ã¿ãŸã„ãªå’Œè¨³ã§ã”ã‚ã‚“ãªã•ã„ï½—)\n
+ å®‰å…¨ãªè¨­å®šã‚‚ã‚ã‚Šã¾ã™ãŒã€èª¤ã£ã¦è¨­å®šã™ã‚‹ã¨é¯–ãŒå£Šã‚Œã‚‹è¨­å®šã®é …ç›®ã‚‚ã‚ã‚Šã¾ã™ã€‚\n
+ config-updateã‚’trueã«ã™ã‚Œã°, æ–°ã—ã„è¨­å®šæ¬„ãŒè‡ªå‹•ã§è¿½åŠ ã•ã‚Œã¾ã™ã€‚\n",
 
 "#{settings.language}":
-"ˆÈ‰º3‚Â‚ÌŒ¾ŒêÝ’è‚ÍAƒT[ƒo[‘¤‚Å‚Ì‚Ý“K—p‚³‚ê‚Ü‚·B\n
-https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes‚ðŒ©‚ÄŽ©•ª‚Ì‘‚ÌƒR[ƒh‚ðŒ©‚Â‚¯‚Ä‚­‚¾‚³‚¢B",
+"ä»¥ä¸‹3ã¤ã®è¨€èªžè¨­å®šã¯ã€ã‚µãƒ¼ãƒãƒ¼å´ã§ã®ã¿é©ç”¨ã•ã‚Œã¾ã™ã€‚\n
+https://en.wikipedia.org/wiki/List_of_ISO_639-2_codesã‚’è¦‹ã¦è‡ªåˆ†ã®å›½ã®ã‚³ãƒ¼ãƒ‰ã‚’è¦‹ã¤ã‘ã¦ãã ã•ã„ã€‚",
 
 "#{settings.force-language}":
-"’[––‚É‘—‚éŒ¾Œê‚ð‹­§‚·‚é‚©‚Ç‚¤‚©",
+"ç«¯æœ«ã«é€ã‚‹è¨€èªžã‚’å¼·åˆ¶ã™ã‚‹ã‹ã©ã†ã‹",
 
 "#{settings.shutdown-message}":
-"ƒT[ƒo[‚ªI—¹‚µ‚Ü‚µ‚½",
+"ã‚µãƒ¼ãƒãƒ¼ãŒçµ‚äº†ã—ã¾ã—ãŸ",
 
 "#{settings.whitelist-message}":
-"ƒT[ƒo[‚ªƒzƒƒCƒgƒŠƒXƒg‚Å‚·",
+"ã‚µãƒ¼ãƒãƒ¼ãŒãƒ›ãƒ¯ã‚¤ãƒˆãƒªã‚¹ãƒˆã§ã™",
 
 "#{settings.query-plugins}":
-"ƒNƒGƒŠ[‚©‚çƒvƒ‰ƒOƒCƒ“ƒŠƒXƒg‚ðŒ©‚¦‚é‚æ‚¤‚É‚·‚é",
+"ã‚¯ã‚¨ãƒªãƒ¼ã‹ã‚‰ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãƒªã‚¹ãƒˆã‚’è¦‹ãˆã‚‹ã‚ˆã†ã«ã™ã‚‹",
 
 "#{settings.deprecated-verbose}":
-"ƒvƒ‰ƒOƒCƒ“‚ª”ñ„§APIƒƒ\ƒbƒh‚ðŽg—p‚·‚é‚ÆAƒRƒ“ƒ\[ƒ‹‚ÉƒƒbƒZ[ƒW‚ð•\Ž¦‚µ‚Ü‚·",
+"ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ãŒéžæŽ¨å¥¨APIãƒ¡ã‚½ãƒƒãƒ‰ã‚’ä½¿ç”¨ã™ã‚‹ã¨ã€ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ã‚’è¡¨ç¤ºã—ã¾ã™",
 
 "#{settings.enable-profiling}":
 "DAFUC?",
 
 "#{settings.profile-report-trigger}":
-"ƒ`ƒbƒN‚ð‚±‚Ì’lˆÈ‰º‚ÌŽžAŒ‹‰Ê‚ð‰Á‚¦‚Ü‚·  (ƒfƒtƒHƒ‹ƒg20)",
+"ãƒãƒƒã‚¯ã‚’ã“ã®å€¤ä»¥ä¸‹ã®æ™‚ã€çµæžœã‚’åŠ ãˆã¾ã™  (ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ20)",
 
 "#{settings.async-workers}":
-"AsyncTask workers‚Ì”\n
-ƒvƒ‰ƒOƒCƒ“‚Ì”ñ“¯Šúì‹ÆA—á‚¦‚Îƒ}ƒbƒv¶¬Aˆ³kAƒEƒFƒu’ÊM‚ÉŽg‚í‚ê‚Ü‚·\n
-auto ‚ÉÝ’è‚·‚é‚Æ, ƒRƒA”‚ðŒŸo‚µ‚æ‚¤‚Æ‚µ‚Ü‚·i­‚È‚­‚Æ‚à2j",
+"AsyncTask workersã®æ•°\n
+ãƒ—ãƒ©ã‚°ã‚¤ãƒ³ã®éžåŒæœŸä½œæ¥­ã€ä¾‹ãˆã°ãƒžãƒƒãƒ—ç”Ÿæˆã€åœ§ç¸®ã€ã‚¦ã‚§ãƒ–é€šä¿¡ã«ä½¿ã‚ã‚Œã¾ã™\n
+auto ã«è¨­å®šã™ã‚‹ã¨, ã‚³ã‚¢æ•°ã‚’æ¤œå‡ºã—ã‚ˆã†ã¨ã—ã¾ã™ï¼ˆå°‘ãªãã¨ã‚‚2ï¼‰",
 
 "#{settings.config-update}":
-"Ý’èƒtƒ@ƒCƒ‹‚ðƒAƒbƒvƒf[ƒg‚µ‚æ‚¤‚Æ“w—Í‚³‚¹‚é‚©",
+"è¨­å®šãƒ•ã‚¡ã‚¤ãƒ«ã‚’ã‚¢ãƒƒãƒ—ãƒ‡ãƒ¼ãƒˆã—ã‚ˆã†ã¨åŠªåŠ›ã•ã›ã‚‹ã‹",
 
 "#{player.inventory.slot}":
-"ƒCƒ“ƒxƒ“ƒgƒŠ‚ÌƒTƒCƒY",
+"ã‚¤ãƒ³ãƒ™ãƒ³ãƒˆãƒªã®ã‚µã‚¤ã‚º",
 
 "#{player.hunger.enable}":
-"‹ó• “x‚ðŒvŽZ‚·‚é‚©",
+"ç©ºè…¹åº¦ã‚’è¨ˆç®—ã™ã‚‹ã‹",
 
 "#{player.experience.enable}":
-"ŒoŒ±’l‚ðŒvŽZ‚·‚é‚©",
+"çµŒé¨“å€¤ã‚’è¨ˆç®—ã™ã‚‹ã‹",
 
 "#{player.experience.player-drop}":
-"ƒvƒŒƒCƒ„[‚ªŒoŒ±’l‚ð—Ž‚Æ‚·‚©",
+"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒçµŒé¨“å€¤ã‚’è½ã¨ã™ã‹",
 
 "#{player.experience.mob-drop}":
-"ƒ‚ƒu‚ªŒoŒ±’l‚ð—Ž‚Æ‚·‚©",
+"ãƒ¢ãƒ–ãŒçµŒé¨“å€¤ã‚’è½ã¨ã™ã‹",
 
 "#{player.experience.break-drop}":
-"ƒuƒƒbƒN‚ð‰ó‚µ‚½‚Æ‚«ƒ‚ƒu‚ªŒoŒ±’l‚ð—Ž‚Æ‚·‚©",
+"ãƒ–ãƒ­ãƒƒã‚¯ã‚’å£Šã—ãŸã¨ããƒ¢ãƒ–ãŒçµŒé¨“å€¤ã‚’è½ã¨ã™ã‹",
 
 "#{player.experience.smelt-drop}":
-"‚©‚Ü‚Ç‚ðŽg‚Á‚½Žž‚ÉŒoŒ±’l‚ð—Ž‚Æ‚·‚©‚Ç‚¤‚©",
+"ã‹ã¾ã©ã‚’ä½¿ã£ãŸæ™‚ã«çµŒé¨“å€¤ã‚’è½ã¨ã™ã‹ã©ã†ã‹",
 
 "#{redstone}":
-"ƒŒƒbƒhƒXƒg[ƒ“",
+"ãƒ¬ãƒƒãƒ‰ã‚¹ãƒˆãƒ¼ãƒ³",
 
 "#{redstone.enable}":
-"ƒŒƒbƒhƒXƒg[ƒ“‚ðŒvŽZ‚·‚é‚©)",
+"ãƒ¬ãƒƒãƒ‰ã‚¹ãƒˆãƒ¼ãƒ³ã‚’è¨ˆç®—ã™ã‚‹ã‹)",
 
 "#{redstone.tick-limit}":
-"ƒŒƒbƒhƒXƒg[ƒ“‚ÌŒvŽZ—Ê§ŒÀ (–ˆtick)",
+"ãƒ¬ãƒƒãƒ‰ã‚¹ãƒˆãƒ¼ãƒ³ã®è¨ˆç®—é‡åˆ¶é™ (æ¯Žtick)",
 
 "#{I/O}":
-"‚±‚ê‚ç‚ÌÝ’è‚ÍƒfƒBƒXƒN‚âƒRƒ“ƒ\[ƒ‹‚ÌƒpƒtƒH[ƒ}ƒ“ƒX‚É‰e‹¿‚µ‚Ü‚·!",
+"ã“ã‚Œã‚‰ã®è¨­å®šã¯ãƒ‡ã‚£ã‚¹ã‚¯ã‚„ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã®ãƒ‘ãƒ•ã‚©ãƒ¼ãƒžãƒ³ã‚¹ã«å½±éŸ¿ã—ã¾ã™!",
 
 "#{I/O.title-usage}":
-"ƒEƒBƒ“ƒhƒE‚ÉƒT[ƒo[•‰‰×’l‚ð•\Ž¦‚·‚é‚©",
+"ã‚¦ã‚£ãƒ³ãƒ‰ã‚¦ã«ã‚µãƒ¼ãƒãƒ¼è² è·å€¤ã‚’è¡¨ç¤ºã™ã‚‹ã‹",
 
 "#{I/O.log-to-file}":
-"server.log‚ð•Û‘¶‚·‚é‚©",
+"server.logã‚’ä¿å­˜ã™ã‚‹ã‹",
 
 "#{memory.global-limit}":
 "MB\n
- ŠÉ‚ß‚Ìƒƒ‚ƒŠ—˜—p—Ê§ŒÀB0‚Å–³Œø\n
- ‚±‚Ìƒƒ‚ƒŠ‚Ì’l‚ð’´‚¦‚½‚çAŽ©“®‚Åƒƒ‚ƒŠŠJ•ú‚³‚ê‚Ü‚·B
+ ç·©ã‚ã®ãƒ¡ãƒ¢ãƒªåˆ©ç”¨é‡åˆ¶é™ã€‚0ã§ç„¡åŠ¹\n
+ ã“ã®ãƒ¡ãƒ¢ãƒªã®å€¤ã‚’è¶…ãˆãŸã‚‰ã€è‡ªå‹•ã§ãƒ¡ãƒ¢ãƒªé–‹æ”¾ã•ã‚Œã¾ã™ã€‚
 ",
 
 "#{memory.main-limit}":
 "MB\n
- ŠÉ‚ß‚ÌƒƒCƒ“ƒXƒŒƒbƒh—˜—p—Ê§ŒÀB0‚Å–³Œø\n
- ‚±‚Ìƒƒ‚ƒŠ‚Ì’l‚ð’´‚¦‚½‚çAŽ©“®‚Åƒƒ‚ƒŠŠJ•ú‚³‚ê‚Ü‚·B",
+ ç·©ã‚ã®ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰åˆ©ç”¨é‡åˆ¶é™ã€‚0ã§ç„¡åŠ¹\n
+ ã“ã®ãƒ¡ãƒ¢ãƒªã®å€¤ã‚’è¶…ãˆãŸã‚‰ã€è‡ªå‹•ã§ãƒ¡ãƒ¢ãƒªé–‹æ”¾ã•ã‚Œã¾ã™ã€‚",
 
 "#{memory.main-hard-limit}":
 "MB\n
- ƒƒCƒ“ƒXƒŒƒbƒh—˜—p—Ê‚ÌãŒÀB0‚Å–³Œø\n
- Ý’è’l‚ð’´‚¦‚½‚çƒT[ƒo[‚ªŽ~‚Ü‚è‚Ü‚·B
+ ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰åˆ©ç”¨é‡ã®ä¸Šé™ã€‚0ã§ç„¡åŠ¹\n
+ è¨­å®šå€¤ã‚’è¶…ãˆãŸã‚‰ã‚µãƒ¼ãƒãƒ¼ãŒæ­¢ã¾ã‚Šã¾ã™ã€‚
 ",
 
 "#{memory.check-rate}":
 "ticks\n
- ‰½ƒ`ƒbƒN‚Åƒƒ‚ƒŠ‚ðƒ`ƒFƒbƒN‚·‚é‚©",
+ ä½•ãƒãƒƒã‚¯ã§ãƒ¡ãƒ¢ãƒªã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‹",
 
 "#{memory.continuous-trigger}":
-"ƒƒ‚ƒŠ‚ª­‚È‚­‚È‚Á‚½Žžƒƒ‚ƒŠŠJ•ú‚ð‘±‚¯‚é‚©",
+"ãƒ¡ãƒ¢ãƒªãŒå°‘ãªããªã£ãŸæ™‚ãƒ¡ãƒ¢ãƒªé–‹æ”¾ã‚’ç¶šã‘ã‚‹ã‹",
 
 "#{memory.continuous-trigger-rate}":
-"•b,continuous-trigger‚ª—LŒø‚ÌŽžA‰½•b‚²‚Æ‚Éƒƒ‚ƒŠŠJ•ú‚·‚é‚©",
+"ç§’,continuous-triggerãŒæœ‰åŠ¹ã®æ™‚ã€ä½•ç§’ã”ã¨ã«ãƒ¡ãƒ¢ãƒªé–‹æ”¾ã™ã‚‹ã‹",
 
 "#{garbage-collection.period}":
-"‰½ƒ`ƒbƒN‚ÅƒMƒƒ[ƒxƒbƒWƒRƒŒƒNƒVƒ‡ƒ“‚·‚é‚©(ƒfƒtƒHƒ‹ƒg30•ª),0‚Å–³Œø\n
- ƒƒCƒ“ƒXƒŒƒbƒh‚Ì‚Ý‚É“K‰ž. ‘¼‚ÌƒXƒŒƒbƒh‚Í‚»‚ê‚¼‚ê‘¼‚ÌƒK[ƒxƒWƒRƒŒƒNƒVƒ‡ƒ“‚ðŽg‚¢‚Ü‚µ‚å‚¤",
+"ä½•ãƒãƒƒã‚¯ã§ã‚®ãƒ£ãƒ¼ãƒ™ãƒƒã‚¸ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã™ã‚‹ã‹(ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆ30åˆ†),0ã§ç„¡åŠ¹\n
+ ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã®ã¿ã«é©å¿œ. ä»–ã®ã‚¹ãƒ¬ãƒƒãƒ‰ã¯ãã‚Œãžã‚Œä»–ã®ã‚¬ãƒ¼ãƒ™ã‚¸ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã‚’ä½¿ã„ã¾ã—ã‚‡ã†",
 
 "#{garbage-collection.collect-async-worker}":
-"”ñ“¯Šú‚Å‚²‚ÝW‚ß‚·‚é‚©",
+"éžåŒæœŸã§ã”ã¿é›†ã‚ã™ã‚‹ã‹",
 
 "#{garbage-collection.low-memory-trigger}":
-"’áƒƒ‚ƒŠƒgƒŠƒK[‚ð—LŒø‚É‚·‚é‚©",
+"ä½Žãƒ¡ãƒ¢ãƒªãƒˆãƒªã‚¬ãƒ¼ã‚’æœ‰åŠ¹ã«ã™ã‚‹ã‹",
 
 "#{max-chunks.trigger-limit}":
-"‚Pl‚Ì“Ç‚Ýž‚ß‚éÅ‘åƒ`ƒƒƒ“ƒN—Ê, chunk-sending.max-chunks‚ð–³Ž‹‚µ‚Ü‚·",
+"ï¼‘äººã®èª­ã¿è¾¼ã‚ã‚‹æœ€å¤§ãƒãƒ£ãƒ³ã‚¯é‡, chunk-sending.max-chunksã‚’ç„¡è¦–ã—ã¾ã™",
 
 "#{max-chunks.trigger-chunk-collect}":
-"ƒ`ƒƒƒ“ƒN‚ÌƒK[ƒxƒWƒRƒŒƒNƒVƒ‡ƒ“‚·‚é‚©",
+"ãƒãƒ£ãƒ³ã‚¯ã®ã‚¬ãƒ¼ãƒ™ã‚¸ã‚³ãƒ¬ã‚¯ã‚·ãƒ§ãƒ³ã™ã‚‹ã‹",
 
 "#{max-chunks.low-memory-trigger}":
-"’áƒƒ‚ƒŠƒgƒŠƒK[‚ð—LŒø‚É‚·‚é‚©",
+"ä½Žãƒ¡ãƒ¢ãƒªãƒˆãƒªã‚¬ãƒ¼ã‚’æœ‰åŠ¹ã«ã™ã‚‹ã‹",
 
 "#{world-caches.disable-chunk-cache}":
-"ƒ[ƒ‹ƒh‚ÌƒLƒƒƒbƒVƒ…‚ðì‚ç‚È‚¢H",
+"ãƒ¯ãƒ¼ãƒ«ãƒ‰ã®ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’ä½œã‚‰ãªã„ï¼Ÿ",
 
 "#{world-caches.low-memory-trigger}":
-"’áƒƒ‚ƒŠƒgƒŠƒK[‚ð—LŒø‚É‚·‚é‚©",
+"ä½Žãƒ¡ãƒ¢ãƒªãƒˆãƒªã‚¬ãƒ¼ã‚’æœ‰åŠ¹ã«ã™ã‚‹ã‹",
 
 "#{network.batch-threshold}":
 "bytes\n
-ƒoƒbƒ`ˆ—ƒpƒPƒbƒg‚Ì“ü‚èŒûB‚±‚ê‚ç‚ÌƒpƒPƒbƒg‚¾‚¯ˆ³k‚³‚ê‚Ü‚·\n
-0‚Å‚·‚×‚Ä‚ðˆ³k, -1‚Å–³Œø.",
+ãƒãƒƒãƒå‡¦ç†ãƒ‘ã‚±ãƒƒãƒˆã®å…¥ã‚Šå£ã€‚ã“ã‚Œã‚‰ã®ãƒ‘ã‚±ãƒƒãƒˆã ã‘åœ§ç¸®ã•ã‚Œã¾ã™\n
+0ã§ã™ã¹ã¦ã‚’åœ§ç¸®, -1ã§ç„¡åŠ¹.",
 
 "#{network.compression-level}":
-"ƒoƒbƒ`ƒpƒPƒbƒg‚ð‘—‚é‚Æ‚«‚Ìˆ³k—¦. ”Žš‚ð‘å‚«‚­‚·‚ê‚Î‚½‚­‚³‚ñ‚ÌCPU‚ðŽg‚¢,¬‚³‚­‚·‚ê‚Î’ÊM—Ê‚ª‘‚¦‚Ü‚·",
+"ãƒãƒƒãƒãƒ‘ã‚±ãƒƒãƒˆã‚’é€ã‚‹ã¨ãã®åœ§ç¸®çŽ‡. æ•°å­—ã‚’å¤§ããã™ã‚Œã°ãŸãã•ã‚“ã®CPUã‚’ä½¿ã„,å°ã•ãã™ã‚Œã°é€šä¿¡é‡ãŒå¢—ãˆã¾ã™",
 
 "#{network.async-compression}":
-"”ñ“¯Šúˆ³k. 0.5‚©1ƒ`ƒbƒN‚®‚ç‚¢A’x‚ç‚¹‚é‚±‚Æ‚Å,ƒƒCƒ“ƒXƒŒƒbƒh‚Ì•‰‰×‚ðŒ¸‚ç‚µ‚Ü‚·B",
+"éžåŒæœŸåœ§ç¸®. 0.5ã‹1ãƒãƒƒã‚¯ãã‚‰ã„ã€é…ã‚‰ã›ã‚‹ã“ã¨ã§,ãƒ¡ã‚¤ãƒ³ã‚¹ãƒ¬ãƒƒãƒ‰ã®è² è·ã‚’æ¸›ã‚‰ã—ã¾ã™ã€‚",
 
 "#{network.anti-cheat}":
-"ƒ`[ƒg–hŽ~, ‰ñü‚ªˆ«‚¢‚È‚çfalse‚É‚µ‚Ü‚µ‚å‚¤",
+"ãƒãƒ¼ãƒˆé˜²æ­¢, å›žç·šãŒæ‚ªã„ãªã‚‰falseã«ã—ã¾ã—ã‚‡ã†",
 
 "#{network.acceptable-packetlost}":
-"‰ñü‚ªˆ«‚¢‚È‚çA‚¢‚¶‚è‚Ü‚µ‚å‚¤",
+"å›žç·šãŒæ‚ªã„ãªã‚‰ã€ã„ã˜ã‚Šã¾ã—ã‚‡ã†",
 
 "#{network.timeout}":
-"•b\n
-raklib‚ªƒ^ƒCƒ€ƒAƒEƒg‚µ‚½‚ ‚ÆAØ’f‚·‚é‚©@cpu‚Ì•‰‰×‚ðŒ¸‚ç‚µAƒpƒPƒbƒgƒƒX‚ÌŒ´ˆö‚Æ‚È‚é(-1 ‚Å–³Œø, ‚·‚×‚Ä‚ÌƒpƒPƒbƒg‚ª‘—‚ç‚ê‚é)",
+"ç§’\n
+raklibãŒã‚¿ã‚¤ãƒ ã‚¢ã‚¦ãƒˆã—ãŸã‚ã¨ã€åˆ‡æ–­ã™ã‚‹ã‹ã€€cpuã®è² è·ã‚’æ¸›ã‚‰ã—ã€ãƒ‘ã‚±ãƒƒãƒˆãƒ­ã‚¹ã®åŽŸå› ã¨ãªã‚‹(-1 ã§ç„¡åŠ¹, ã™ã¹ã¦ã®ãƒ‘ã‚±ãƒƒãƒˆãŒé€ã‚‰ã‚Œã‚‹)",
 
 "#{network.protocol}":
-"MCPEƒvƒƒgƒRƒ‹ƒo[ƒWƒ‡ƒ“,ƒo[ƒWƒ‡ƒ“‚ÌF‚Ì•\Ž¦‚É‰e‹¿‚µ‚Ü‚·.",
+"MCPEãƒ—ãƒ­ãƒˆã‚³ãƒ«ãƒãƒ¼ã‚¸ãƒ§ãƒ³,ãƒãƒ¼ã‚¸ãƒ§ãƒ³ã®è‰²ã®è¡¨ç¤ºã«å½±éŸ¿ã—ã¾ã™.",
 
 "#{network.version}":
-"MCPEƒo[ƒWƒ‡ƒ“•\Ž¦B”Žš‚Æƒhƒbƒg‚¾‚¯B",
+"MCPEãƒãƒ¼ã‚¸ãƒ§ãƒ³è¡¨ç¤ºã€‚æ•°å­—ã¨ãƒ‰ãƒƒãƒˆã ã‘ã€‚",
 
 "#{network.upnp-forwarding}":
-"ŽÀŒ±Awindows‚Ì‚Ý. UPnP‚Ìƒ|[ƒgƒzƒ[ƒfƒBƒ“ƒO",
+"å®Ÿé¨“ã€windowsã®ã¿. UPnPã®ãƒãƒ¼ãƒˆãƒ›ãƒ¯ãƒ¼ãƒ‡ã‚£ãƒ³ã‚°",
 
 "#{debug.level}":
-"1‚æ‚è‘å‚«‚¢‚ÆAƒRƒ“ƒ\[ƒ‹‚ÉƒfƒoƒbƒOƒƒbƒZ[ƒW‚ª•\Ž¦‚³‚ê‚Ü‚·",
+"1ã‚ˆã‚Šå¤§ãã„ã¨ã€ã‚³ãƒ³ã‚½ãƒ¼ãƒ«ã«ãƒ‡ãƒãƒƒã‚°ãƒ¡ãƒƒã‚»ãƒ¼ã‚¸ãŒè¡¨ç¤ºã•ã‚Œã¾ã™",
 
 "#{debug.allow-xdebug}":
-"php-extension "xdebug"‚ð—LŒø‚É‚·‚é‚©i–³Œø„§)",
+"php-extension xdebugã‚’æœ‰åŠ¹ã«ã™ã‚‹ã‹ï¼ˆç„¡åŠ¹æŽ¨å¥¨)",
 
 "#{debug.commands}":
-"/status, /gc‚ð—LŒø‚É‚·‚é",
+"/status, /gcã‚’æœ‰åŠ¹ã«ã™ã‚‹",
 
 "#{level-settings.default-format}":
-"ƒ}ƒbƒv‚ÌƒtƒH[ƒ}ƒbƒg",
+"ãƒžãƒƒãƒ—ã®ãƒ•ã‚©ãƒ¼ãƒžãƒƒãƒˆ",
 
 "#{level-settings.convert-format}":
 "WIP",
 
 "#{level-settings.auto-tick-rate}":
-"20ƒ`ƒbƒN‚²‚Æ‚Éƒ`ƒƒƒ“ƒN‚ðƒ`ƒFƒbƒN‚·‚é‚©",
+"20ãƒãƒƒã‚¯ã”ã¨ã«ãƒãƒ£ãƒ³ã‚¯ã‚’ãƒã‚§ãƒƒã‚¯ã™ã‚‹ã‹",
 
 "#{level-settings.auto-tick-rate-limit}":
-"Ž©“®“I‚ÉƒŒƒxƒ‹‚ª–ˆ•b20ƒeƒBƒbƒN‚ðˆÛŽ‚·‚é‚½‚ß‚Étick‚Ì‘¬“x‚ð•Ï‚¦‚Ü‚·B",
+"è‡ªå‹•çš„ã«ãƒ¬ãƒ™ãƒ«ãŒæ¯Žç§’20ãƒ†ã‚£ãƒƒã‚¯ã‚’ç¶­æŒã™ã‚‹ãŸã‚ã«tickã®é€Ÿåº¦ã‚’å¤‰ãˆã¾ã™ã€‚",
 
 "#{level-settings.base-tick-rate}":
-"(1 = 20 ƒ`ƒbƒN–ˆ•b, 2 = 10 ƒ`ƒbƒN–ˆ•b...)\n
-ƒfƒtƒHƒ‹ƒg‚Ìƒ`ƒbƒN‚Ì’·‚³‚ðÝ’èB",
+"(1 = 20 ãƒãƒƒã‚¯æ¯Žç§’, 2 = 10 ãƒãƒƒã‚¯æ¯Žç§’...)\n
+ãƒ‡ãƒ•ã‚©ãƒ«ãƒˆã®ãƒãƒƒã‚¯ã®é•·ã•ã‚’è¨­å®šã€‚",
 
 "#{level-settings.always-tick-players}":
-"‚Ù‚©‚ÌÝ’è‚ª‹–‰Â‚µ‚È‚­‚Ä‚àAƒvƒŒƒCƒ„[‚Éƒ`ƒbƒN‚µ‚Ü‚·i‚Í‚Ÿ?).",
+"ã»ã‹ã®è¨­å®šãŒè¨±å¯ã—ãªãã¦ã‚‚ã€ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«ãƒãƒƒã‚¯ã—ã¾ã™ï¼ˆã¯ã?).",
 
 "#{level-settings.weather.enable}":
-"“V‹C",
+"å¤©æ°—",
 
 "#{level-settings.weather.rain}":
-"–ˆƒ`ƒbƒN‰½“‚Å‰J‚ª~‚èŽn‚ß‚é‚©",
+"æ¯Žãƒãƒƒã‚¯ä½•ï¼…ã§é›¨ãŒé™ã‚Šå§‹ã‚ã‚‹ã‹",
 
 "#{level-settings.weather.rain.time}":
 "",
@@ -202,35 +202,35 @@ raklib‚ªƒ^ƒCƒ€ƒAƒEƒg‚µ‚½‚ ‚ÆAØ’f‚·‚é‚©@cpu‚Ì•‰‰×‚ðŒ¸‚ç‚µAƒpƒPƒbƒgƒƒX‚ÌŒ´ˆö‚
 "",
 
 "#{chunk-sending.per-tick}":
-"–ˆƒ`ƒbƒN‚ ‚½‚è‚ÉŠeƒvƒŒƒCƒ„[‚É‘—‚éƒ`ƒƒƒ“ƒN—Ê‚Ì§ŒÀ",
+"æ¯Žãƒãƒƒã‚¯ã‚ãŸã‚Šã«å„ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã«é€ã‚‹ãƒãƒ£ãƒ³ã‚¯é‡ã®åˆ¶é™",
 
 "#{chunk-sending.max-chunks}":
-"ŠeƒvƒŒƒCƒ„[‚Ìƒ`ƒƒƒ“ƒN—Ê§ŒÀ",
+"å„ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®ãƒãƒ£ãƒ³ã‚¯é‡åˆ¶é™",
 
 "#{chunk-sending.spawn-threshold}":
-"ƒT[ƒo[‚É“ü‚é‚Æ‚«A“Ç‚Ýž‚Ü‚ê‚Ä‚¢‚È‚¯‚ê‚Î‚È‚ç‚È‚¢ƒ`ƒƒƒ“ƒN—Ê",
+"ã‚µãƒ¼ãƒãƒ¼ã«å…¥ã‚‹ã¨ãã€èª­ã¿è¾¼ã¾ã‚Œã¦ã„ãªã‘ã‚Œã°ãªã‚‰ãªã„ãƒãƒ£ãƒ³ã‚¯é‡",
 
 "#{chunk-sending.cache-chunks}":
-"‚æ‚è‘¬‚­‘—M‚·‚é‚½‚ß‚ÉAƒƒ‚ƒŠ“à‚Éƒ`ƒƒƒ“ƒN‚ÌƒVƒŠƒAƒ‹‰»‚³‚ê‚½ƒRƒs[‚ð•Û‘¶‚µ‚Ü‚·\n
-ƒvƒŒƒCƒ„[‚ª‚½‚­‚³‚ñ‚ª“¯Žž‚ÉŽQ‰Á‚µAŽå‚É‚ ‚Ü‚èƒuƒƒbƒN‚ðÝ’u‚µ‚½‚è‰ó‚µ‚½‚è‚µ‚È‚¢ƒ[ƒ‹ƒh‚ÉŒø‰Ê‚ ‚è‚Å‚·B",
+"ã‚ˆã‚Šé€Ÿãé€ä¿¡ã™ã‚‹ãŸã‚ã«ã€ãƒ¡ãƒ¢ãƒªå†…ã«ãƒãƒ£ãƒ³ã‚¯ã®ã‚·ãƒªã‚¢ãƒ«åŒ–ã•ã‚ŒãŸã‚³ãƒ”ãƒ¼ã‚’ä¿å­˜ã—ã¾ã™\n
+ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ãŒãŸãã•ã‚“ãŒåŒæ™‚ã«å‚åŠ ã—ã€ä¸»ã«ã‚ã¾ã‚Šãƒ–ãƒ­ãƒƒã‚¯ã‚’è¨­ç½®ã—ãŸã‚Šå£Šã—ãŸã‚Šã—ãªã„ãƒ¯ãƒ¼ãƒ«ãƒ‰ã«åŠ¹æžœã‚ã‚Šã§ã™ã€‚",
 
 "#{chunk-ticking.per-tick}":
-"Šeƒ`ƒbƒN‚Åˆ—‚·‚éÅ‘å‚Ìƒ`ƒƒƒ“ƒN—Ê",
+"å„ãƒãƒƒã‚¯ã§å‡¦ç†ã™ã‚‹æœ€å¤§ã®ãƒãƒ£ãƒ³ã‚¯é‡",
 
 "#{chunk-ticking.tick-radius}":
-"ƒvƒŒƒCƒ„[‚ÌŽü‚è‚Ìƒ`ƒƒƒ“ƒN‚Ì”¼Œa‚Ìtick",
+"ãƒ—ãƒ¬ã‚¤ãƒ¤ãƒ¼ã®å‘¨ã‚Šã®ãƒãƒ£ãƒ³ã‚¯ã®åŠå¾„ã®tick",
 
 "#{chunk-ticking.light-updates}":
-"Œy‚¢XV‚ð‚·‚é‚©‚Ç‚¤‚©",
+"è»½ã„æ›´æ–°ã‚’ã™ã‚‹ã‹ã©ã†ã‹",
 
 "#{chunk-ticking.clear-tick-list}":
 "",
 
 "#{chunk-generation.queue-size}":
-"ƒ}ƒbƒv¶¬‚ÌƒLƒ…[‚ª‘Ò‹@‚Å‚«‚éƒ`ƒƒƒ“ƒN‚ÌƒTƒCƒY",
+"ãƒžãƒƒãƒ—ç”Ÿæˆã®ã‚­ãƒ¥ãƒ¼ãŒå¾…æ©Ÿã§ãã‚‹ãƒãƒ£ãƒ³ã‚¯ã®ã‚µã‚¤ã‚º",
 
 "#{chunk-generation.population-queue-size}":
-"“Ç‚Ýž‚Ý‚ÌƒLƒ…[‚ª‘Ò‹@‚Å‚«‚éƒ`ƒƒƒ“ƒN‚ÌƒTƒCƒY",
+"èª­ã¿è¾¼ã¿ã®ã‚­ãƒ¥ãƒ¼ãŒå¾…æ©Ÿã§ãã‚‹ãƒãƒ£ãƒ³ã‚¯ã®ã‚µã‚¤ã‚º",
 
 "#{ticks-per.animal-spawns}":
 "",
@@ -239,10 +239,10 @@ raklib‚ªƒ^ƒCƒ€ƒAƒEƒg‚µ‚½‚ ‚ÆAØ’f‚·‚é‚©@cpu‚Ì•‰‰×‚ðŒ¸‚ç‚µAƒpƒPƒbƒgƒƒX‚ÌŒ´ˆö‚
 "",
 
 "#{ticks-per.autosave}":
-"‰½ƒ`ƒbƒN‚²‚Æ‚ÉŽ©“®•Û‘¶‚·‚é‚©",
+"ä½•ãƒãƒƒã‚¯ã”ã¨ã«è‡ªå‹•ä¿å­˜ã™ã‚‹ã‹",
 
 "#{ticks-per.cache-cleanup}":
-"‰½ƒ`ƒbƒN‚²‚Æ‚ÉƒLƒƒƒbƒVƒ…‚ðÁ‚·‚©",
+"ä½•ãƒãƒƒã‚¯ã”ã¨ã«ã‚­ãƒ£ãƒƒã‚·ãƒ¥ã‚’æ¶ˆã™ã‹",
 
 "#{spawn-limits.monsters}":
 "",
@@ -257,18 +257,18 @@ raklib‚ªƒ^ƒCƒ€ƒAƒEƒg‚µ‚½‚ ‚ÆAØ’f‚·‚é‚©@cpu‚Ì•‰‰×‚ðŒ¸‚ç‚µAƒpƒPƒbƒgƒƒX‚ÌŒ´ˆö‚
 "",
 
 "#{aliases}":
-"ƒRƒ}ƒ“ƒh‚ÌƒVƒ‡[ƒgƒJƒbƒg\n
- —á:\n
+"ã‚³ãƒžãƒ³ãƒ‰ã®ã‚·ãƒ§ãƒ¼ãƒˆã‚«ãƒƒãƒˆ\n
+ ä¾‹:\n
  showtheversion: version\n
  savestop: [save-all, stop]",
 
 "#{worlds}":
-"‚±‚ê‚ç‚ÌÝ’è‚ÍAserver.properties‚ÅƒZƒbƒg‚³‚ê‚½ƒ}ƒbƒv¶¬‚ÌÝ’è‚ðã‘‚«‚µA•¡”‚Ìƒ[ƒ‹ƒh‚Ì“Ç‚Ýž‚Ý‚ð‹–‰Â‚µ‚Ü‚·
- \n—á:\n
+"ã“ã‚Œã‚‰ã®è¨­å®šã¯ã€server.propertiesã§ã‚»ãƒƒãƒˆã•ã‚ŒãŸãƒžãƒƒãƒ—ç”Ÿæˆã®è¨­å®šã‚’ä¸Šæ›¸ãã—ã€è¤‡æ•°ã®ãƒ¯ãƒ¼ãƒ«ãƒ‰ã®èª­ã¿è¾¼ã¿ã‚’è¨±å¯ã—ã¾ã™
+ \nä¾‹:\n
  world:\n
   seed: 404\n
   generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)",
 
 "#{StopEdit}":
-"•ÒW‚·‚é‚È! •ÒW‚·‚é‚Æpocketmine.yml‚ªÁ‚³‚ê‚é‚©‚à‚µ‚ê‚Ü‚¹‚ñi‚¦Aƒzƒ“ƒgHj!"
+"ç·¨é›†ã™ã‚‹ãª! ç·¨é›†ã™ã‚‹ã¨pocketmine.ymlãŒæ¶ˆã•ã‚Œã‚‹ã‹ã‚‚ã—ã‚Œã¾ã›ã‚“ï¼ˆãˆã€ãƒ›ãƒ³ãƒˆï¼Ÿï¼‰!"
 }
