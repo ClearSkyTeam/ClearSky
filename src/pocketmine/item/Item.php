@@ -213,7 +213,7 @@ class Item{
 	const ENCHANT_TABLE = 116;
 	const ENCHANTMENT_TABLE = 116;
 	const BREWING_STAND_BLOCK = 117;
-	const CAULDRON = 118;
+	const CAULDRON_BLOCK = 118;
 	const END_PORTAL = 119;
 	const END_PORTAL_FRAME = 120;
 	const END_STONE = 121;
@@ -259,7 +259,7 @@ class Item{
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
 	const QUARTZ_ORE = 153;
-	const HOPPER = 154;
+	const HOPPER_BLOCK = 154;
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
 	const DOUBLE_WOOD_SLAB = 157;
@@ -415,6 +415,7 @@ class Item{
 	const PAPER = 339;
 	const BOOK = 340;
 	const SLIMEBALL = 341;
+	const CHEST_MINECART = 342;
 	const EGG = 344;
 	const COMPASS = 345;
 	const FISHING_ROD = 346;
@@ -427,7 +428,10 @@ class Item{
 	const SUGAR = 353;
 	const CAKE = 354;
 	const BED = 355;
+	const REDSTONE_REPEATER = 356;
+	const REPEATER = 356;
 	const COOKIE = 357;
+	const WRITTEN_MAP = 358;
 	const SHEARS = 359;
 	const MELON = 360;
 	const MELON_SLICE = 360;
@@ -452,10 +456,12 @@ class Item{
 	const BLAZE_POWDER = 377;
 	const MAGMA_CREAM = 378;
 	const BREWING_STAND = 379;
+	const CAULDRON = 380;
 	const GLISTERING_MELON = 382;
 	const SPAWN_EGG = 383;
 	const EXP_BOTTLE = 384;
 	const EMERALD = 388;
+	const ITEM_FRAME = 389;
 	const FLOWER_POT = 390;
 	const CARROT = 391;
 	const CARROTS = 391;
@@ -464,14 +470,19 @@ class Item{
 	const BAKED_POTATO = 393;
 	const BAKED_POTATOES = 393;
 	const POISONOUS_POTATO = 394;
+	const EMPTY_MAP = 395;
 	const GOLDEN_CARROT = 396;
 	const MOB_HEAD = 397;
 	const SKULL = 397;
 	const PUMPKIN_PIE = 400;
 	const ENCHANTED_BOOK = 403;
+	const COMPARATOR = 404;
 	const NETHER_BRICK = 405;
 	const QUARTZ = 406;
 	const NETHER_QUARTZ = 406;
+	const TNT_MINECART = 407;
+	const HOPPER_MINECART = 408;
+	const HOPPER = 410;
 	const RAW_RABBIT = 411;
 	const COOKED_RABBIT = 412;
 	const RABBIT_STEW = 413;
@@ -707,7 +718,7 @@ class Item{
 			
 			self::$list[self::PUMPKIN_PIE] = PumpkinPie::class;
 			
-			self::$list[self::ENCHANTED_BOOK] = EnchantedBook::class;
+			//self::$list[self::ENCHANTED_BOOK] = EnchantedBook::class;
 			
 			self::$list[self::NETHER_BRICK] = NetherBrick::class;
 			//self::$list[self::QUARTZ] = Quartz::class;
