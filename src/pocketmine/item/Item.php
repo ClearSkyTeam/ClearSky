@@ -662,6 +662,7 @@ class Item{
 			self::$list[self::PAPER] = Paper::class;
 			self::$list[self::BOOK] = Book::class;
 			self::$list[self::SLIMEBALL] = Slimeball::class;
+			self::$list[self::CHEST_MINECART] = MinecartChest::class;
 			
 			self::$list[self::EGG] = Egg::class;
 			self::$list[self::COMPASS] = Compass::class;
@@ -710,6 +711,7 @@ class Item{
 			self::$list[self::EXP_BOTTLE] = EXPBottle::class;
 			
 			self::$list[self::EMERALD] = Emerald::class;
+			self::$list[self::ITEM_FRAME] = ItemFrame::class;
 			self::$list[self::FLOWER_POT] = FlowerPot::class;
 			
 			self::$list[self::CARROT] = Carrot::class;
@@ -727,6 +729,8 @@ class Item{
 			
 			self::$list[self::NETHER_BRICK] = NetherBrick::class;
 			self::$list[self::QUARTZ] = NetherQuartz::class;
+			self::$list[self::TNT_MINECART] = MinecartTNT::class;
+			self::$list[self::HOPPER_MINECART] = MinecartHopper::class;
 
 			self::$list[self::RAW_RABBIT] = RawRabbit::class;
 			self::$list[self::COOKED_RABBIT] = CookedRabbit::class;

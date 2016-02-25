@@ -11,7 +11,7 @@ use pocketmine\nbt\tag\Double;
 use pocketmine\nbt\tag\Float;
 use pocketmine\entity\MinecartChest as MinecartChestEntity;
 
-class MinecartTNT extends Item{
+class MinecartChest extends Item{
 
 	public function __construct($meta = 0, $count = 1){
 		parent::__construct(self::CHEST_MINECART, $meta, $count, "Chest Minecart");
