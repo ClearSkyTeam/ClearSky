@@ -676,8 +676,10 @@ class Item{
 			self::$list[self::SUGAR] = Sugar::class;
 			self::$list[self::CAKE] = Cake::class;
 			self::$list[self::BED] = Bed::class;
+			self::$list[self::REDSTONE_REPEATER] = RedstoneRepeater::class;
 			
 			self::$list[self::COOKIE] = Cookie::class;
+			self::$list[self::EMPTY_MAP] = EmptyMap::class;
 			
 			self::$list[self::SHEARS] = Shears::class;
 			self::$list[self::MELON] = Melon::class;
@@ -701,6 +703,7 @@ class Item{
 			self::$list[self::BLAZE_POWDER] = BlazePowder::class;
 			self::$list[self::MAGMA_CREAM] = MagmaCream::class;
 			self::$list[self::BREWING_STAND] = BrewingStand::class;
+			self::$list[self::CAULDRON] = Cauldron::class;
 			self::$list[self::GLISTERING_MELON] = GlisteringMelon::class;
 			
 			self::$list[self::SPAWN_EGG] = SpawnEgg::class;
@@ -713,12 +716,14 @@ class Item{
 			self::$list[self::POTATO] = Potato::class;
 			self::$list[self::BAKED_POTATO] = BakedPotato::class;
 			self::$list[self::POISONOUS_POTATO] = PoisonousPotato::class;
+			self::$list[self::WRITTEN_MAP] = WrittenMap::class;
 			self::$list[self::GOLDEN_CARROT] = GoldenCarrot::class;
 			self::$list[self::SKULL] = Skull::class;
 			
 			self::$list[self::PUMPKIN_PIE] = PumpkinPie::class;
 			
 			self::$list[self::ENCHANTED_BOOK] = EnchantedBook::class;
+			self::$list[self::COMPARATOR] = RedstoneComparator::class;
 			
 			self::$list[self::NETHER_BRICK] = NetherBrick::class;
 			self::$list[self::QUARTZ] = NetherQuartz::class;
