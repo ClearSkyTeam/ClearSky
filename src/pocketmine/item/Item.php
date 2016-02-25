@@ -718,10 +718,9 @@ class Item{
 			
 			self::$list[self::PUMPKIN_PIE] = PumpkinPie::class;
 			
-			//self::$list[self::ENCHANTED_BOOK] = EnchantedBook::class;
+			self::$list[self::ENCHANTED_BOOK] = EnchantedBook::class;
 			
 			self::$list[self::NETHER_BRICK] = NetherBrick::class;
-			//self::$list[self::QUARTZ] = Quartz::class;
 			self::$list[self::QUARTZ] = NetherQuartz::class;
 
 			self::$list[self::RAW_RABBIT] = RawRabbit::class;
@@ -914,13 +913,16 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::IRON_BARS, 0));
 		Item::addCreativeItem(Item::get(Item::BED, 0));
 		Item::addCreativeItem(Item::get(Item::BOOKSHELF, 0));
+		Item::addCreativeItem(Item::get(Item::SIGN, 0));
 		Item::addCreativeItem(Item::get(Item::PAINTING, 0));
+		Item::addCreativeItem(Item::get(Item::ITEM_FRAME, 0));
 		Item::addCreativeItem(Item::get(Item::WORKBENCH, 0));
 		Item::addCreativeItem(Item::get(Item::STONECUTTER, 0));
 		Item::addCreativeItem(Item::get(Item::CHEST, 0));
 		Item::addCreativeItem(Item::get(Item::TRAPPED_CHEST, 0));
 		Item::addCreativeItem(Item::get(Item::FURNACE, 0));
 		Item::addCreativeItem(Item::get(Item::BREWING_STAND, 0));
+		Item::addCreativeItem(Item::get(Item::CAULDRON, 0));
 		Item::addCreativeItem(Item::get(Item::NOTEBLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::END_PORTAL_FRAME, 0));
 		Item::addCreativeItem(Item::get(Item::ANVIL_BLOCK, AnvilBlock::TYPE_ANVIL));
@@ -982,7 +984,6 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::SKULL, 3)); // Head (Steve)
 		Item::addCreativeItem(Item::get(Item::SKULL, 4)); // Creeper
 		
-		Item::addCreativeItem(Item::get(Item::SIGN, 0));
 		Item::addCreativeItem(Item::get(Item::FLOWER_POT, 0));
 		Item::addCreativeItem(Item::get(Item::MONSTER_SPAWNER, 0));
 		Item::addCreativeItem(Item::get(Item::ENCHANTING_TABLE, 0));
@@ -1044,6 +1045,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::CLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::COMPASS, 0));
 		Item::addCreativeItem(Item::get(Item::MINECART, 0));
+		Item::addCreativeItem(Item::get(Item::CHEST_MINECART, 0));
+		Item::addCreativeItem(Item::get(Item::HOPPER_MINECART, 0));
+		Item::addCreativeItem(Item::get(Item::TNT_MINECART, 0));
 		// Item::addCreativeItem(Item::get(Item::CAMERA, 0)); // Crashes client
 		Item::addCreativeItem(Item::get(Item::BOAT, 0)); // Oak
 		Item::addCreativeItem(Item::get(Item::BOAT, 1)); // Spruce
@@ -1144,6 +1148,11 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::STONE_BUTTON, 5));
 		Item::addCreativeItem(Item::get(Item::DAYLIGHT_DETECTOR));
 		Item::addCreativeItem(Item::get(Item::TRIPWIRE_HOOK));
+		Item::addCreativeItem(Item::get(Item::REPEATER));
+		Item::addCreativeItem(Item::get(Item::COMPARATOR));
+		Item::addCreativeItem(Item::get(Item::DISPENSER, 3));
+		// Item::addCreativeItem(Item::get(Item::DROPPER));
+		Item::addCreativeItem(Item::get(Item::HOPPER));
 		Item::addCreativeItem(Item::get(Item::SNOWBALL));
 	}
 	
@@ -1173,6 +1182,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::BOOK, 0));
 		Item::addCreativeItem(Item::get(Item::ARROW, 0));
 		Item::addCreativeItem(Item::get(Item::BONE, 0));
+		Item::addCreativeItem(Item::get(Item::EMPTY_MAP, 0));
 		Item::addCreativeItem(Item::get(Item::SUGARCANE, 0));
 		Item::addCreativeItem(Item::get(Item::WHEAT, 0));
 		Item::addCreativeItem(Item::get(Item::SEEDS, 0));
@@ -1226,7 +1236,10 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::FERMENTED_SPIDER_EYE, 0));
 		Item::addCreativeItem(Item::get(Item::EXP_BOTTLE, 0));
 		// enchanted books
-		
+		//TODO: Enchantments
+		for($i = 0; $i < 79; $i++){
+			Item::addCreativeItem(Item::get(Item::ENCHANTED_BOOK, $i));
+		}
 		Item::addCreativeItem(Item::get(Item::DYE, 0));
 		Item::addCreativeItem(Item::get(Item::DYE, 8));
 		Item::addCreativeItem(Item::get(Item::DYE, 7));
