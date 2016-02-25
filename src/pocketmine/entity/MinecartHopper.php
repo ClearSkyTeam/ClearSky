@@ -1,17 +1,8 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\network\protocol\PlayerActionPacket;
-
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\item\Item as ItemItem;
-use pocketmine\event\entity\EntityDamageByChildEntityEvent;
-use pocketmine\event\entity\ProjectileHitEvent;
-use pocketmine\event\entity\EntityDamageByBlockEvent;
-use pocketmine\block\Cactus;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 
 class MinecartHopper extends Minecart{
@@ -60,7 +51,7 @@ class MinecartHopper extends Minecart{
     }
 
     public function getDrops(){
-        return [ItemItem::get(ItemItem::MINECART, 0, 1),ItemItem::get(ItemItem::TNT, 0, 1)];
+        return [ItemItem::get(ItemItem::MINECART, 0, 1),ItemItem::get(ItemItem::HOPPER, 0, 1)];
     }
     
     //TODO: Open inventory, add inventory, drop inventory contents
