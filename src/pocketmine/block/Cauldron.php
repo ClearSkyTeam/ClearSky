@@ -9,10 +9,6 @@ use pocketmine\Server;
 use pocketmine\network\protocol\ExplodePacket;
 use pocketmine\item\GlassBottle;
 use pocketmine\item\Bucket;
-use pocketmine\network\protocol\Info;
-use pocketmine\network\protocol\AnimatePacket;
-use pocketmine\network\protocol\InteractPacket;
-use pocketmine\network\protocol\PlayerActionPacket;
 
 class Cauldron extends Transparent{
 	protected $id = self::CAULDRON_BLOCK;
@@ -93,7 +89,11 @@ class Cauldron extends Transparent{
 		if($success){
 			$this->getLevel()->setBlock($this, $this, true);
 		}
-		//TODO: Bubbles
+		// TODO: Bubbles
 		return $success;
+	}
+
+	public function getDrops(Item $item){
+		return $item->isPickaxe()?[Item::get(Item::CAULDRON)]:[];
 	}
 }
