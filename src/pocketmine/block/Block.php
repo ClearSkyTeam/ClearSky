@@ -379,7 +379,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::GLASS] = Glass::class;
 			self::$list[self::LAPIS_ORE] = LapisOre::class;
 			self::$list[self::LAPIS_BLOCK] = Lapis::class;
-			//self::$list[self::DISPENSER] = Dispenser::class;
+			self::$list[self::DISPENSER] = Dispenser::class;
 			self::$list[self::SANDSTONE] = Sandstone::class;
 			self::$list[self::NOTEBLOCK] = Noteblock::class;
 			self::$list[self::BED_BLOCK] = Bed::class;
@@ -457,7 +457,7 @@ class Block extends Position implements Metadatable{
 
 			self::$list[self::LIT_PUMPKIN] = LitPumpkin::class;
 			self::$list[self::CAKE_BLOCK] = Cake::class;
-			//self::$list[self::UNPOWERED_REPEATER] = UnpoweredRepeater::class;
+			self::$list[self::UNPOWERED_REPEATER] = RedstoneRepeater::class;
 			//self::$list[self::POWERED_REPEATER] = PoweredRepeater::class;
 			//self::$list[self::STAINED_GLASS] = StainedGlass::class;
 
@@ -488,7 +488,7 @@ class Block extends Position implements Metadatable{
 
 			self::$list[self::ENCHANTING_TABLE] = EnchantingTable::class;
 			self::$list[self::BREWING_STAND_BLOCK] = BrewingStand::class;
-			//self::$list[self::CAULDRON] = Cauldron::class;
+			self::$list[self::CAULDRON_BLOCK] = Cauldron::class;
 			//self::$list[self::END_PORTAL] = EndPortal::class;
 
 			self::$list[self::END_PORTAL_FRAME] = EndPortalFrame::class;
@@ -527,7 +527,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::TRAPPED_CHEST] = TrappedChest::class;
 			self::$list[self::LIGHT_WEIGHTED_PRESSURE_PLATE] = LightWeightedPressurePlate::class;
 			self::$list[self::HEAVY_WEIGHTED_PRESSURE_PLATE] = HeavyWeightedPressurePlate::class;
-			//self::$list[self::UNPOWERED_COMPARATOR] = UnpoweredComparator::class;
+			self::$list[self::UNPOWERED_COMPARATOR] = RedstoneComparator::class;
 			//self::$list[self::POWERED_COMPARATOR] = PoweredComparator::class;
 			self::$list[self::DAYLIGHT_DETECTOR] = DaylightDetector::class;
 
