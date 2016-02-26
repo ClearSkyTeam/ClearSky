@@ -65,8 +65,7 @@ class Dispenser extends Solid implements ProjectileSource{
 			$this->meta = 1;
 		}elseif($player->yaw <=-45){
 			$this->meta = 0;
-		}
-		$this->meta = $face;
+		}else $this->meta = $face;
 		$this->getLevel()->setBlock($block, $this, true, true);
 		$nbt = new Compound("", [
 			new Enum("Items", []),
