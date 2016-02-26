@@ -24,8 +24,8 @@ class Installer{
 			echo " $native => $short\n";
 		}
 		do{
-			echo "[?] Language (en): ";
-			$lang = strtolower($this->getInput("en"));
+			echo "[?] Language (eng): ";
+			$lang = strtolower($this->getInput("eng"));
 			if(!isset(InstallerLang::$languages[$lang])){
 				echo "[!] Couldn't find the language\n";
 				$lang = false;
@@ -40,7 +40,7 @@ class Installer{
 			\pocketmine\kill(getmypid());
 			exit(-1);
 		}
-
+		$this->generateLang();
 		echo "[?] " . $this->lang->skip_installer . " (y/N): ";
 		if(strtolower($this->getInput()) === "y"){
 			return;
@@ -82,7 +82,13 @@ LICENSE;
 		echo "[*] " . $this->lang->server_properties . "\n";
 
 	}
-
+	
+	private function generateLang(){
+		$configdir = \pocketmine\DATA . "pocketmine.yml";
+		$lang = $this->lang->getLang();
+		file_put_contents($configdir,"temp-file: true\nsettings:\n language: \"$lang\"");
+	}
+	
 	private function generateBaseConfig(){
 		$config = new Config(\pocketmine\DATA . "server.properties", Config::PROPERTIES);
 		echo "[?] " . $this->lang->name_your_server . " (" . self::DEFAULT_NAME . "): ";

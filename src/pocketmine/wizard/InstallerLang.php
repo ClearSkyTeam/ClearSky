@@ -4,24 +4,23 @@ namespace pocketmine\wizard;
 
 class InstallerLang{
 	public static $languages = [
-		"en" => "English",
-		"es" => "Español",
-		"zh" => "中文",
-		"ru" => "Pyccĸий",
+		"eng" => "English",
+		"zhs" => "中文",
 		"jpn" => "日本語",
-		"de" => "Deutsch",
+		//"ru" => "Pyccĸий",
+		//"de" => "Deutsch",
 		//"vi" => "Tiếng Việt",
-		"ko" => "한국어",
-		"nl" => "Nederlands",
-		"fr" => "Français",
-		"it" => "Italiano",
+		//"ko" => "한국어",
+		//"nl" => "Nederlands",
+		//"fr" => "Français",
+		//"it" => "Italiano",
 		//"lv" => "Latviešu",
-		"ms" => "Melayu",
-		"no" => "Norsk",
+		//"ms" => "Melayu",
+		//"no" => "Norsk",
 		//"pt" => "Português",
-		"sv" => "Svenska",
-		"fi" => "Suomi",
-		"tr" => "Türkçe",
+		//"sv" => "Svenska",
+		//"fi" => "Suomi",
+		//"tr" => "Türkçe",
 		//"et" => "Eesti",
 	];
 	private $texts = [];
@@ -48,23 +47,23 @@ class InstallerLang{
 				$this->lang = isset(self::$languages[$l]) ? $l : $lang;
 				$this->langfile = \pocketmine\PATH . "src/pocketmine/lang/Installer/" . $l . ".ini";
 			}else{
-				$this->lang = "en";
-				$this->langfile = \pocketmine\PATH . "src/pocketmine/lang/Installer/en.ini";
+				$this->lang = "eng";
+				$this->langfile = \pocketmine\PATH . "src/pocketmine/lang/Installer/eng.ini";
 			}
 		}
 
-		$this->loadLang(\pocketmine\PATH . "src/pocketmine/lang/Installer/en.ini", "en");
-		if($this->lang !== "en"){
+		$this->loadLang(\pocketmine\PATH . "src/pocketmine/lang/Installer/eng.ini", "eng");
+		if($this->lang !== "eng"){
 			$this->loadLang($this->langfile, $this->lang);
 		}
-
+		
 	}
 
 	public function getLang(){
 		return ($this->lang);
 	}
 
-	public function loadLang($langfile, $lang = "en"){
+	public function loadLang($langfile, $lang = "eng"){
 		$this->texts[$lang] = [];
 		$texts = explode("\n", str_replace(["\r", "\\/\\/"], ["", "//"], file_get_contents($langfile)));
 		foreach($texts as $line){
@@ -79,8 +78,8 @@ class InstallerLang{
 
 	public function get($name, $search = [], $replace = []){
 		if(!isset($this->texts[$this->lang][$name])){
-			if($this->lang !== "en" and isset($this->texts["en"][$name])){
-				return $this->texts["en"][$name];
+			if($this->lang !== "eng" and isset($this->texts["eng"][$name])){
+				return $this->texts["eng"][$name];
 			}else{
 				return $name;
 			}
