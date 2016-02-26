@@ -1494,9 +1494,9 @@ class Server{
 		if(!file_exists($this->filePath . "src/pocketmine/resources/".$language.".json")){
 			$language = "eng";
 		}
-		//For json error debug
-		//file_put_contents($this->dataPath . "debug.json",str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/$language.json")));
-		$translateJson = json_decode(utf8_encode(str_replace("\n", "", str_replace("\t", "", str_replace("\r", "", str_replace("#", "", file_get_contents($this->filePath . "src/pocketmine/resources/".$language.".json")))))),true);
+			// For json error debug
+			// file_put_contents($this->dataPath . "debug.json",str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/$language.json")));
+		$translateJson = json_decode(str_replace("\n", "", str_replace("\t", "", str_replace("\r", "", str_replace("#", "", file_get_contents($this->filePath . "src/pocketmine/resources/" . $language . ".json"))))), true);
 		$translateKeys = array_keys($translateJson);
 		$translateValue = array_values($translateJson);
 		foreach($translateValue as $key => $value){
