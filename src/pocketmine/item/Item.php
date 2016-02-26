@@ -731,6 +731,7 @@ class Item{
 			self::$list[self::QUARTZ] = NetherQuartz::class;
 			self::$list[self::TNT_MINECART] = MinecartTNT::class;
 			self::$list[self::HOPPER_MINECART] = MinecartHopper::class;
+			self::$list[self::HOPPER] = Hopper::class;
 
 			self::$list[self::RAW_RABBIT] = RawRabbit::class;
 			self::$list[self::COOKED_RABBIT] = CookedRabbit::class;

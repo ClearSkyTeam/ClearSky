@@ -5,7 +5,7 @@ use pocketmine\Player;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 
-class MinecartChest extends Minecart{
+class MinecartChest extends Snake{
 
      const NETWORK_ID = 98;
      
