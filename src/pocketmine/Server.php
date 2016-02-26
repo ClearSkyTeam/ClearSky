@@ -1494,6 +1494,8 @@ class Server{
 		if(!file_exists($this->filePath . "src/pocketmine/resources/$language.json")){
 			$language = "eng";
 		}
+		//For json error debug
+		//file_put_contents($this->dataPath . "debug.json",str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/$language.json")));
 		$translateJson = json_decode(str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/$language.json")),true);
 		
 		$translateKeys = array_keys($translateJson);

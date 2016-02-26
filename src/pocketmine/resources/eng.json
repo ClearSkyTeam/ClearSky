@@ -2,6 +2,9 @@
 "#{Translate}":
 "eng",
 
+"#{Author}":
+"PocketMine-MP Team, ClearSky Team, Aodzip, robske110",
+
 "#{Title}":
 "Main configuration file for ClearSky\n
 Some of these settings are safe, others can break your server if modified incorrectly!\n
