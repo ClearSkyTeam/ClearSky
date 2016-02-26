@@ -1698,10 +1698,9 @@ class Server{
 
 
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.info", [
-			$this->getName().
-			'-'.
-			$this->getCodename(),
+			$this->getName(),
 			$this->getPocketMineVersion(),
+			$this->getCodename(),
 			$this->getApiVersion(),
 			$this->getPocketMineBuild()
 		]));
