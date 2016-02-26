@@ -1,7 +1,7 @@
 #{Title}
 
 settings:
- language: "#{Translate}"
+ language: "eng"
  #{settings.language}
  force-language: false
  #{settings.force-language}
@@ -211,7 +211,6 @@ auto-updater:
 
 #{StopEdit}
 version: 12
-translate: "#{Translate}"
 
 auto-report:
  enabled: false

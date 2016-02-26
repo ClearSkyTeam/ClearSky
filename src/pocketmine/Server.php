@@ -1556,7 +1556,7 @@ class Server{
 		}else{
 			$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
 			$internal_config = yaml_parse(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
-			if($this->getProperty("version", 0) < $internal_config['version'] or $this->getProperty("settings.language", "eng") !== $this->getProperty("translate", "")){
+			if($this->getProperty("version", 0) < $internal_config['version']){
 				$this->logger->warning("Outdated pocketmine.yml");
 				if($this->getProperty("settings.config-update", true)){
 					$this->logger->info("Updating pocketmine.yml...");
