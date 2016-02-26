@@ -27,7 +27,7 @@ Check your language code on https://en.wikipedia.org/wiki/List_of_ISO_639-2_code
 "Show a console message when a plugin uses deprecated API methods",
 
 "#{settings.enable-profiling}":
-"",
+"Enable debugging of Server Lag",
 
 "#{settings.profile-report-trigger}":
 "Will only add results when tick measurement is below or equal to given value (default 20)",
