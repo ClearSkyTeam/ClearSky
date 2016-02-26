@@ -1,24 +1,5 @@
 <?php
 
-/*
- *
- *  ____            _        _   __  __ _                  __  __ ____  
- * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
- * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
- * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
- * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
- *
- * This program is free software: you can redistribute it and/or modify
- * it under the terms of the GNU Lesser General Public License as published by
- * the Free Software Foundation, either version 3 of the License, or
- * (at your option) any later version.
- *
- * @author PocketMine Team
- * @link http://www.pocketmine.net/
- * 
- *
-*/
-
 namespace pocketmine\block;
 
 use pocketmine\item\Item;
@@ -33,9 +14,9 @@ use pocketmine\tile\Dispenser as DispenserTile;
 use pocketmine\tile\Tile;
 use pocketmine\entity\ProjectileSource;
 use pocketmine\math\Vector3;
+use pocketmine\math\Vector2;
 
 class Dispenser extends Solid implements ProjectileSource{
-
 	protected $id = self::DISPENSER;
 
 	public function __construct($meta = 0){
@@ -59,35 +40,38 @@ class Dispenser extends Solid implements ProjectileSource{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($player->yaw < 45 && $player->yaw > -45){
-			$this->meta = $player->getDirection() + 2;
-		}elseif($player->yaw >=45){
+		if($player->pitch <= 45 && $player->pitch = -45){
+			$faces = [
+					0 => 4,
+					1 => 2,
+					2 => 5,
+					3 => 3,
+			];
+			$this->meta = $faces[$player->getDirection()];
+		}
+		elseif($player->pitch > 45){
 			$this->meta = 1;
-		}elseif($player->yaw <=-45){
+		}
+		elseif($player->pitch <= -45){
 			$this->meta = 0;
-		}else $this->meta = $face;
+		}
+		$player->sendTip($player->getDirection());
 		$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new Compound("", [
-			new Enum("Items", []),
-			new String("id", Tile::DISPENSER),
-			new Int("x", $this->x),
-			new Int("y", $this->y),
-			new Int("z", $this->z)
-		]);
+		$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
 		$nbt->Items->setTagType(NBT::TAG_Compound);
-
+		
 		if($item->hasCustomName()){
 			$nbt->CustomName = new String("CustomName", $item->getCustomName());
 		}
-
+		
 		if($item->hasCustomBlockData()){
 			foreach($item->getCustomBlockData() as $key => $v){
 				$nbt->{$key} = $v;
 			}
 		}
-
+		
 		Tile::createTile("Dispenser", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-
+		
 		return true;
 	}
 
@@ -97,40 +81,35 @@ class Dispenser extends Solid implements ProjectileSource{
 			$dispenser = false;
 			if($t instanceof DispenserTile){
 				$dispenser = $t;
-			}else{
-				$nbt = new Compound("", [
-					new Enum("Items", []),
-					new String("id", Tile::DISPENSER),
-					new Int("x", $this->x),
-					new Int("y", $this->y),
-					new Int("z", $this->z)
-				]);
+			}
+			else{
+				$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
 				$dispenser = Tile::createTile("Dispenser", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
-
+			
 			if(isset($dispenser->namedtag->Lock) and $dispenser->namedtag->Lock instanceof String){
 				if($dispenser->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}
 			}
-
+			
 			if($player->isCreative()){
 				return true;
 			}
-
+			
 			$player->addWindow($dispenser->getInventory());
 		}
-
+		
 		return true;
 	}
 
 	public function getDrops(Item $item){
 		$drops = [];
 		if($item->isPickaxe() >= 1){
-			$drops[] = [Item::DISPENSER, 0, 1];
+			$drops[] = [Item::DISPENSER,0,1];
 		}
-
+		
 		return $drops;
 	}
 }
