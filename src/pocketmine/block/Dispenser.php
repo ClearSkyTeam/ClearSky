@@ -32,6 +32,7 @@ use pocketmine\Player;
 use pocketmine\tile\Dispenser as DispenserTile;
 use pocketmine\tile\Tile;
 use pocketmine\entity\ProjectileSource;
+use pocketmine\math\Vector3;
 
 class Dispenser extends Solid implements ProjectileSource{
 
@@ -58,6 +59,13 @@ class Dispenser extends Solid implements ProjectileSource{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
+		if($player->yaw < 45 && $player->yaw > -45){
+			$this->meta = $player->getDirection() + 2;
+		}elseif($player->yaw >=45){
+			$this->meta = 1;
+		}elseif($player->yaw <=-45){
+			$this->meta = 0;
+		}
 		$this->meta = $face;
 		$this->getLevel()->setBlock($block, $this, true, true);
 		$nbt = new Compound("", [
