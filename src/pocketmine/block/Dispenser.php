@@ -15,6 +15,7 @@ use pocketmine\tile\Tile;
 use pocketmine\entity\ProjectileSource;
 use pocketmine\math\Vector3;
 use pocketmine\math\Vector2;
+use pocketmine\tile\Chest;
 
 class Dispenser extends Solid implements ProjectileSource{
 	protected $id = self::DISPENSER;
@@ -55,9 +56,14 @@ class Dispenser extends Solid implements ProjectileSource{
 		elseif($player->pitch <= -45){
 			$this->meta = 0;
 		}
-		$player->sendTip($player->getDirection());
 		$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
+		$nbt = new Compound("", [
+				new Enum("Items", []),
+				new String("id", Tile::DISPENSER),
+				new Int("x", $this->x),
+				new Int("y", $this->y),
+				new Int("z", $this->z)
+		]);
 		$nbt->Items->setTagType(NBT::TAG_Compound);
 		
 		if($item->hasCustomName()){
@@ -70,36 +76,7 @@ class Dispenser extends Solid implements ProjectileSource{
 			}
 		}
 		
-		Tile::createTile("Dispenser", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-		
-		return true;
-	}
-
-	public function onActivate(Item $item, Player $player = null){
-		if($player instanceof Player){
-			$t = $this->getLevel()->getTile($this);
-			$dispenser = false;
-			if($t instanceof DispenserTile){
-				$dispenser = $t;
-			}
-			else{
-				$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
-				$nbt->Items->setTagType(NBT::TAG_Compound);
-				$dispenser = Tile::createTile("Dispenser", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-			}
-			
-			if(isset($dispenser->namedtag->Lock) and $dispenser->namedtag->Lock instanceof String){
-				if($dispenser->namedtag->Lock->getValue() !== $item->getCustomName()){
-					return true;
-				}
-			}
-			
-			if($player->isCreative()){
-				return true;
-			}
-			
-			$player->addWindow($dispenser->getInventory());
-		}
+		$tile = Tile::createTile(Tile::DISPENSER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 		
 		return true;
 	}
