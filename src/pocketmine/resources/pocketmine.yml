@@ -49,12 +49,12 @@ memory:
   low-memory-trigger: true
 
  world-caches:
-  disable-chunk-cache: true
+  disable-chunk-cache: false
   low-memory-trigger: true
 
 network:
- batch-threshold: 128
- compression-level: 2
+ batch-threshold: 256
+ compression-level: 7
  async-compression: true
  anti-cheat: false
  acceptable-packetlost: 2
@@ -71,7 +71,7 @@ debug:
 level-settings:
  default-format: mcregion
  convert-format: false 
- auto-tick-rate: false
+ auto-tick-rate: true
  auto-tick-rate-limit: 20
  base-tick-rate: 1
  always-tick-players: false
@@ -127,7 +127,7 @@ auto-updater:
  preferred-channel: ClearSky
  host: jenkins.clearskyteam.org
 
-version: 12
+version: 13
 
 auto-report:
  enabled: false
