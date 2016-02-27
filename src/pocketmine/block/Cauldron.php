@@ -37,12 +37,12 @@ class Cauldron extends Transparent{
 		if($item instanceof Potion){
 			if($this->potion === null || $this->potion === false){
 				$this->potion = $item->getId();
-				$this->meta = 1;
+				$this->meta = 2;
 				$success = true;
 			}
 			elseif($this->potion === $item->getId()){
-				if($this->meta < 3){
-					++$this->meta;
+				if($this->meta < 6){
+					$this->meta += 2;
 					$success = true;
 				}
 			}
@@ -59,7 +59,7 @@ class Cauldron extends Transparent{
 			}
 		}
 		elseif($item instanceof GlassBottle){
-			--$this->meta;
+			$this->meta -= 2;
 			if($this->water === true && $this->meta === 0){
 				$this->water = false;
 			}
@@ -68,7 +68,7 @@ class Cauldron extends Transparent{
 			$success = true;
 		}
 		elseif($item instanceof Bucket && $item->getDamage() === Block::WATER){
-			$this->meta = 3;
+			$this->meta = 6;
 			$this->potion = 0;
 			$this->water = true;
 			$player->getInventory()->removeItem(Item::get($item->getId()));
@@ -76,7 +76,7 @@ class Cauldron extends Transparent{
 			$success = true;
 		}
 		elseif($item instanceof Bucket && $item->getDamage() === Block::AIR && $this->water === true){
-			$full = ($this->meta >= 3);
+			$full = ($this->meta >= 6);
 			$this->meta = 0;
 			$this->potion = false;
 			$this->water = false;
@@ -94,6 +94,6 @@ class Cauldron extends Transparent{
 	}
 
 	public function getDrops(Item $item){
-		return $item->isPickaxe()?[Item::get(Item::CAULDRON)]:[];
+		return $item->isPickaxe()?[[Item::CAULDRON, 0, 1]]:[];
 	}
 }
