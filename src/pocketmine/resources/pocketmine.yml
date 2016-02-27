@@ -96,7 +96,7 @@ chunk-sending:
 chunk-ticking:
  per-tick: 1
  tick-radius: 2
- light-updates: false
+ light-updates: true
  clear-tick-list: true
  
 chunk-generation:
