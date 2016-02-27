@@ -392,7 +392,7 @@ class Server{
 	 * @return int
 	 */
 	public function getChunkLoadRadius(){
-		return $this->getProperty("chunk-sending.chunk-radius", 30);
+		return min(60,$this->getProperty("chunk-sending.chunk-radius", 30));
 	}
 
 	/**
@@ -1623,7 +1623,7 @@ class Server{
 
 		if(($poolSize = $this->getProperty("settings.async-workers", "auto")) === "auto"){
 			$poolSize = ServerScheduler::$WORKERS;
-			$processors = Utils::getCoreCount() - 2;
+			$processors = Utils::getCoreCount() - 4;
 
 			if($processors > 0){
 				$poolSize = max(1, $processors);
