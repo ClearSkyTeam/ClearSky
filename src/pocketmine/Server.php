@@ -288,7 +288,7 @@ class Server{
 
 	/** @var Level */
 	private $levelDefault = null;
-	private $chunkRadius = 30;
+	public $chunkRadius = 30;
 
 	/**
 	 * @return string

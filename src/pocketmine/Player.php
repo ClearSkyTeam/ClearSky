@@ -2094,9 +2094,13 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk->slots = Item::getCreativeItems();
 			$this->dataPacket($pk);
 		}
+		
+		$pk = new ChunkRadiusUpdatedPacket();
+		$pk->radius = $this->server->chunkRadius;
+		$this->dataPacket($pk);
 
 		$this->forceMovement = $this->teleportPosition = $this->getPosition();
-
+		
 		$this->server->onPlayerLogin($this);
 	}
 
@@ -2132,6 +2136,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		switch($packet::NETWORK_ID){
 			case ProtocolInfo::REQUEST_CHUNK_RADIUS_PACKET:
+				//echo"wow\n";
+				//var_dump($packet);
 				$pk = new ChunkRadiusUpdatedPacket();
 				$pk->radius = $this->server->chunkRadius;
 				$this->dataPacket($pk);
