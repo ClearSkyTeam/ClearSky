@@ -102,10 +102,6 @@ class BurningFurnace extends Solid implements LightSource{
 				}
 			}
 
-			if($player->isCreative()){
-				return true;
-			}
-
 			$player->addWindow($furnace->getInventory());
 		}
 

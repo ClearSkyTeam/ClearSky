@@ -60,10 +60,6 @@ class BrewingStand extends Transparent{
 
 	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
-			//TODO lock
-			if($player->isCreative()){
-				return true;
-			}
 			if(($t = $this->getLevel()->getTile($this)) instanceof TileBrewingStand) $player->addWindow(new BrewingInventory($t));
 		}
 
