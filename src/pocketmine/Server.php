@@ -392,7 +392,7 @@ class Server{
 	 * @return int
 	 */
 	public function getChunkLoadRadius(){
-		return min(60,$this->getProperty("chunk-sending.chunk-radius", 30));
+		return max(30,$this->getProperty("chunk-sending.chunk-radius", 64));
 	}
 
 	/**
