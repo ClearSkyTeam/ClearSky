@@ -1931,32 +1931,6 @@ class Level implements ChunkManager, Metadatable{
 		if($hand->place($item, $block, $target, $face, $fx, $fy, $fz, $player) === false){
 			return false;
 		}
-
-		if($hand->getId() === Item::SIGN_POST or $hand->getId() === Item::WALL_SIGN){
-
-			$nbt = new Compound("", [
-				"id" => new String("id", Tile::SIGN),
-				"x" => new Int("x", $block->x),
-				"y" => new Int("y", $block->y),
-				"z" => new Int("z", $block->z),
-				"Text1" => new String("Text1", ""),
-				"Text2" => new String("Text2", ""),
-				"Text3" => new String("Text3", ""),
-				"Text4" => new String("Text4", "")
-			]);
-
-			if($player !== null){
-				$nbt->Creator = new String("Creator", $player->getRawUniqueId());
-			}
-
-			if($item->hasCustomBlockData()){
-				foreach($item->getCustomBlockData() as $key => $v){
-					$nbt->{$key} = $v;
-				}
-			}
-
-			Tile::createTile("Sign", $this->getChunk($block->x >> 4, $block->z >> 4), $nbt);
-		}
 		$item->setCount($item->getCount() - 1);
 		if($item->getCount() <= 0){
 			$item = Item::get(Item::AIR, 0, 0);

@@ -6,6 +6,10 @@ use pocketmine\item\Tool;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\String;
+use pocketmine\tile\Tile;
+use pocketmine\nbt\tag\Int;
 
 class SignPost extends Transparent{
 
@@ -51,6 +55,28 @@ class SignPost extends Transparent{
 
 				return true;
 			}
+			$nbt = new Compound("", [
+				"id" => new String("id", Tile::SIGN),
+				"x" => new Int("x", $block->x),
+				"y" => new Int("y", $block->y),
+				"z" => new Int("z", $block->z),
+				"Text1" => new String("Text1", ""),
+				"Text2" => new String("Text2", ""),
+				"Text3" => new String("Text3", ""),
+				"Text4" => new String("Text4", "")
+			]);
+
+			if($player !== null){
+				$nbt->Creator = new String("Creator", $player->getRawUniqueId());
+			}
+
+			if($item->hasCustomBlockData()){
+				foreach($item->getCustomBlockData() as $key => $v){
+					$nbt->{$key} = $v;
+				}
+			}
+
+			Tile::createTile(Tile::SIGN, $this->getChunk($block->x >> 4, $block->z >> 4), $nbt);
 		}
 
 		return false;
