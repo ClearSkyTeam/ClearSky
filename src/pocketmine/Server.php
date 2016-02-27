@@ -1551,8 +1551,9 @@ class Server{
 		$reloadpreConfig = false;
 		$this->logger->info("Loading pocketmine.yml...");
 		if(!file_exists($this->dataPath . "pocketmine.yml")){
-			$content = $this->translateConfig(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"),"eng");
-			@file_put_contents($this->dataPath . "pocketmine.yml", $content);
+			//$content = $this->translateConfig(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"),"eng");
+			$content = \file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
+			@\file_put_contents($this->dataPath . "pocketmine.yml", $content);
 		}else{
 			$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
 			$internal_config = yaml_parse(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
@@ -1563,8 +1564,9 @@ class Server{
 					if(!$this->getProperty("temp-file", false)){
 						rename($this->dataPath . "pocketmine.yml",$this->dataPath . "pocketmine.yml.".time().".bak");
 					}
-					$content = $this->translateConfig(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"),$this->getProperty("settings.language", "eng"));
-					@file_put_contents($this->dataPath . "pocketmine.yml", $content);
+					//$content = $this->translateConfig(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"),$this->getProperty("settings.language", "eng"));
+					$content = \file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
+					@\file_put_contents($this->dataPath . "pocketmine.yml", $content);
 				}else{
 					$this->logger->info("Ignore outdated pocketmine.yml");
 				}
