@@ -1201,12 +1201,33 @@ class Level implements ChunkManager, Metadatable{
 	}
 	
 	/**
+	 * ClearSky internal use
+	 */
+	private function compareRedstone($old,$new){
+		$oldtype = $old['type'];
+		$oldpower = $old['power'];
+		$newtype = $new['type'];
+		$newpower = $new['power'];
+		if($oldtype == $newtype and $oldpower == $newpower){
+			return true;
+		}
+		//TODO : more similar redstone status
+		return false;
+	}
+	
+	/**
 	 * @param Vector3 $pos
 	 * @param int     $delay
 	 */
 	public function setRedstoneUpdate(Vector3 $pos, $delay, $type , $power){
 		if($this->server->getProperty("redstone.enable", true)){
-			$this->updateRedstoneQueueIndex[Level::blockHash($pos->x, $pos->y, $pos->z)][]=[
+			$hash = Level::blockHash($pos->x, $pos->y, $pos->z);
+			if(isset($this->updateRedstoneQueueIndex[$hash])){
+				if($this->compareRedstone(\end($this->updateRedstoneQueueIndex[$hash]),['type'=>$type,'power'=>$power])){
+					return false;
+				}
+			}
+			$this->updateRedstoneQueueIndex[$hash][]=[
 				'delay'=>$delay,
 				'type'=>$type,
 				'power'=>$power
