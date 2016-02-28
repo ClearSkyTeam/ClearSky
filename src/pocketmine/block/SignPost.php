@@ -44,17 +44,6 @@ class SignPost extends Transparent{
 				4 => 4,
 				5 => 5,
 			];
-			if(!isset($faces[$face])){
-				$this->meta = floor((($player->yaw + 180) * 16 / 360) + 0.5) & 0x0F;
-				$this->getLevel()->setBlock($block, Block::get(Item::SIGN_POST, $this->meta), true);
-
-				return true;
-			}else{
-				$this->meta = $faces[$face];
-				$this->getLevel()->setBlock($block, Block::get(Item::WALL_SIGN, $this->meta), true);
-
-				return true;
-			}
 			$nbt = new Compound("", [
 				"id" => new String("id", Tile::SIGN),
 				"x" => new Int("x", $block->x),
@@ -76,7 +65,19 @@ class SignPost extends Transparent{
 				}
 			}
 
-			Tile::createTile(Tile::SIGN, $this->getChunk($block->x >> 4, $block->z >> 4), $nbt);
+			if(!isset($faces[$face])){
+				$this->meta = floor((($player->yaw + 180) * 16 / 360) + 0.5) & 0x0F;
+				$this->getLevel()->setBlock($block, Block::get(Item::SIGN_POST, $this->meta), true);
+				Tile::createTile("Sign", $this->getLevel()->getChunk($block->x >> 4, $block->z >> 4), $nbt);
+
+				return true;
+			}else{
+				$this->meta = $faces[$face];
+				$this->getLevel()->setBlock($block, Block::get(Item::WALL_SIGN, $this->meta), true);
+				Tile::createTile("Sign", $this->getLevel()->getChunk($block->x >> 4, $block->z >> 4), $nbt);
+
+				return true;
+			}
 		}
 
 		return false;
