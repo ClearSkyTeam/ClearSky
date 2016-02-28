@@ -212,6 +212,7 @@ class PlayerInventory extends BaseInventory{
 		$old = $this->getItem($index);
 		$this->slots[$index] = clone $item;
 		$this->onSlotChange($index, $old);
+		$this->sendContents($this->getHolder());
 
 		return true;
 	}
@@ -409,6 +410,11 @@ class PlayerInventory extends BaseInventory{
 		}
 
 		$pk = new ContainerSetSlotPacket();
+		$pk->hotbar = [];
+		for($i = 0; $i < $this->getHotbarSize(); ++$i){
+			$index = $this->getHotbarSlotIndex($i);
+			$pk->hotbar[] = $index <= -1 ? -1 : $index + 9;
+		}
 		$pk->slot = $index;
 		$pk->item = clone $this->getItem($index);
 
