@@ -6,7 +6,6 @@ use pocketmine\event\entity\EntityArmorChangeEvent;
 use pocketmine\event\entity\EntityInventoryChangeEvent;
 use pocketmine\event\player\PlayerItemHeldEvent;
 use pocketmine\item\Item;
-use pocketmine\network\Network;
 use pocketmine\network\protocol\ContainerSetContentPacket;
 use pocketmine\network\protocol\ContainerSetSlotPacket;
 use pocketmine\network\protocol\MobArmorEquipmentPacket;
@@ -21,7 +20,7 @@ class PlayerInventory extends BaseInventory{
 	protected $hotbar;
 
 	public function __construct(Human $player){
-		$this->hotbar = array_fill(0, $this->getHotbarSize(), -1);
+		$this->hotbar = array_fill(0, $this->getHotbarSize(), 0);
 		parent::__construct($player, InventoryType::get(InventoryType::PLAYER));
 	}
 
