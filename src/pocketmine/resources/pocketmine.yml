@@ -12,7 +12,7 @@ settings:
 
 player:
  inventory:
-  slot: 27
+  slot: 36
  hunger:
   enable: true
  experience:
@@ -127,7 +127,7 @@ auto-updater:
  preferred-channel: ClearSky
  host: jenkins.clearskyteam.org
 
-version: 13
+version: 14
 
 auto-report:
  enabled: false

@@ -30,7 +30,7 @@ class InventoryType{
 		return isset(static::$default[$index]) ? static::$default[$index] : null;
 	}
 
-	public static function init($playerinventory = 27){
+	public static function init($playerinventory = 36){
 		if(count(static::$default) > 0){
 			return;
 		}
