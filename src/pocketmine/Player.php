@@ -2767,7 +2767,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			case ProtocolInfo::CRAFTING_EVENT_PACKET:
 				if($this->spawned === false or !$this->isAlive()){
 					break;
-				}elseif(!isset($this->windowIndex[$packet->windowId])){
+				}elseif(!isset($this->windowIndex[$packet->windowId])){// need fix for windows 10 edition
 					$this->inventory->sendContents($this);
 					$pk = new ContainerClosePacket();
 					$pk->windowid = $packet->windowId;
@@ -2887,7 +2887,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$extraItem = $this->inventory->addItem($recipe->getResult());
 				if(count($extraItem) > 0){
 					foreach($extraItem as $item){
-						$this->level->dropItem($this, $item);
+						$this->level->dropItem($this, $item); // Fix win10
 					}
 				}
 				switch($recipe->getResult()->getId()){
