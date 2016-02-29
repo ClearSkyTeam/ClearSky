@@ -84,7 +84,7 @@ use pocketmine\nbt\tag\String;
 use pocketmine\network\protocol\AdventureSettingsPacket;
 use pocketmine\network\protocol\AnimatePacket;
 use pocketmine\network\protocol\BatchPacket;
-use pocketmine\network\protocol\ChunkRadiusUpdatedPacket;
+use pocketmine\network\protocol\ChunkRadiusUpdatePacket;
 use pocketmine\network\protocol\ContainerClosePacket;
 use pocketmine\network\protocol\ContainerSetContentPacket;
 use pocketmine\network\protocol\ChangeDimensionPacket;
@@ -2094,10 +2094,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk->slots = Item::getCreativeItems();
 			$this->dataPacket($pk);
 		}
-		
-		$pk = new ChunkRadiusUpdatedPacket();
-		$pk->radius = $this->server->chunkRadius;
-		$this->dataPacket($pk);
 
 		$this->forceMovement = $this->teleportPosition = $this->getPosition();
 		
@@ -2139,7 +2135,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->spawned){
 					$this->viewDistance = $packet->radius ** 2;
 				}
-				$pk = new ChunkRadiusUpdatedPacket();
+				$pk = new ChunkRadiusUpdatePacket();
 				$pk->radius = $packet->radius;
 				$this->dataPacket($pk);
 				break;

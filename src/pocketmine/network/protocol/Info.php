@@ -71,7 +71,7 @@ interface Info{
     const CLIENTBOUND_MAP_ITEM_DATA_PACKET = 0xc6;
     const MAP_INFO_REQUEST_PACKET = 0xc7;
     const REQUEST_CHUNK_RADIUS_PACKET = 0xc8;
-    const CHUNK_RADIUS_UPDATED_PACKET = 0xc9;
+    const CHUNK_RADIUS_UPDATE_PACKET = 0xc9;
     const ITEM_FRAME_DROP_ITEM_PACKET = 0xca;
     
 }

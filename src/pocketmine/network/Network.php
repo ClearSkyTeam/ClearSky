@@ -11,6 +11,7 @@ use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\AdventureSettingsPacket;
 use pocketmine\network\protocol\AnimatePacket;
 use pocketmine\network\protocol\BatchPacket;
+use pocketmine\network\protocol\ChunkRadiusUpdatePacket;
 use pocketmine\network\protocol\ContainerClosePacket;
 use pocketmine\network\protocol\ContainerOpenPacket;
 use pocketmine\network\protocol\ContainerSetContentPacket;
@@ -23,6 +24,7 @@ use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\DropItemPacket;
 use pocketmine\network\protocol\FullChunkDataPacket;
 use pocketmine\network\protocol\Info;
+use pocketmine\network\protocol\RequestChunkRadiusPacket;
 use pocketmine\network\protocol\SetEntityLinkPacket;
 use pocketmine\network\protocol\BlockEntityDataPacket;
 use pocketmine\network\protocol\EntityEventPacket;
@@ -347,8 +349,8 @@ class Network{
 		// $this->registerPacket(ProtocolInfo::TELEMETRY_EVENT_PACKET, TelemetryEventPacket::class);
 		// $this->registerPacket(ProtocolInfo::CLIENTBOUND_MAP_ITEM_DATA_PACKET, ClientboundMapItemDataPacket::class);
 		// $this->registerPacket(ProtocolInfo::MAP_INFO_REQUEST_PACKET, MapInfoRequestPacket::class);
-		// $this->registerPacket(ProtocolInfo::REQUEST_CHUNK_RADIUS_PACKET, RequestChunkRadiusPacket::class);
-		// $this->registerPacket(ProtocolInfo::CHUNK_RADIUS_UPDATED_PACKET, ChunkRadiusUpdatedPacket::class);
+		$this->registerPacket(ProtocolInfo::REQUEST_CHUNK_RADIUS_PACKET, RequestChunkRadiusPacket::class);
+		$this->registerPacket(ProtocolInfo::CHUNK_RADIUS_UPDATE_PACKET, ChunkRadiusUpdatePacket::class);
 		// $this->registerPacket(ProtocolInfo::ITEM_FRAME_DROP_ITEM_PACKET, ItemFrameDropItemPacket::class);
 	}
 }
