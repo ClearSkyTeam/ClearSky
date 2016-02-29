@@ -127,7 +127,7 @@ class RedstoneRepeater extends Flowable implements Redstone, RedstoneTransmitter
 	}
 
 	public function getDrops(Item $item){
-		return [[Item::REDSTONE_DUST,0,1]];
+		return [[Item::REPEATER,0,1]];
 	}
 
 	public function __toString(){
@@ -140,6 +140,13 @@ class RedstoneRepeater extends Flowable implements Redstone, RedstoneTransmitter
 			return false;
 		}
 		else{
+			$faces = [
+				0 => 4,
+				1 => 2,
+				2 => 5,
+				3 => 3,
+			];
+			$this->meta = $faces[$player->getDirection()];
 			$this->getLevel()->setBlock($block, $this, true, true);
 			if($this->getLevel()->getServer()->getProperty("redstone.enable", true)){
 				$this->setRedstoneUpdateList(Level::REDSTONE_UPDATE_NORMAL, $this->fetchMaxPower());
@@ -147,6 +154,7 @@ class RedstoneRepeater extends Flowable implements Redstone, RedstoneTransmitter
 			}
 			return true;
 		}
+		return false;
 	}
 
 	public function onBreak(Item $item){
