@@ -25,21 +25,29 @@ class PlayerInventory extends BaseInventory{
 	}
 
 	public function getSize(){
-		return parent::getSize() - 4; //Remove armor slots
+		return parent::getSize() - $this->getArmorSlotSize(); //Remove armor slots
+	}
+	
+	public function getArmorSlotSize(){
+		return 4;
+	}
+
+	public function getFullSize(){
+		return parent::getSize();
 	}
 
 	public function setSize($size){
-		parent::setSize($size + 4);
+		parent::setSize($size + $this->getArmorSlotSize());
 		$this->sendContents($this->getViewers());
 	}
 
 	public function getHotbarSlotIndex($index){
-		return ($index >= 0 and $index < $this->getHotbarSize()) ? $this->hotbar[$index] : -1;
+		return ($index >= 0 and $index < $this->getHotbarSize()) ? $this->hotbar[$index] : -1;//rewrite?
 	}
 
 	public function setHotbarSlotIndex($index, $slot){
 		if($index >= 0 and $index < $this->getHotbarSize() and $slot >= -1 and $slot < $this->getSize()){
-			$this->hotbar[$index] = $slot;
+			$this->hotbar[$index] = $slot;//rewrite? useless?!
 		}
 	}
 
@@ -142,7 +150,7 @@ class PlayerInventory extends BaseInventory{
 	}
 
 	public function getHotbarSize(){
-		return 9;
+		return 9;//invalid, depends on GUI size
 	}
 
 	public function getArmorItem($index){
@@ -186,13 +194,13 @@ class PlayerInventory extends BaseInventory{
 	}
 
 	public function setItem($index, Item $item){
-		if($index < 0 or $index >= $this->size){
+		if($index < 0 or $index >= $this->getFullSize()){
 			return false;
 		}elseif($item->getId() === 0 or $item->getCount() <= 0){
 			return $this->clear($index);
 		}
 
-		if($index >= $this->getSize()){ //Armor change
+		if($index >= $this->getSize() && $index <= $this->getFullSize()){
 			Server::getInstance()->getPluginManager()->callEvent($ev = new EntityArmorChangeEvent($this->getHolder(), $this->getItem($index), $item, $index));
 			if($ev->isCancelled() and $this->getHolder() instanceof Human){
 				$this->sendArmorSlot($index, $this->getViewers());
@@ -211,7 +219,6 @@ class PlayerInventory extends BaseInventory{
 		$old = $this->getItem($index);
 		$this->slots[$index] = clone $item;
 		$this->onSlotChange($index, $old);
-		// $this->sendContents($this->getHolder());
 
 		return true;
 	}
@@ -220,7 +227,7 @@ class PlayerInventory extends BaseInventory{
 		if(isset($this->slots[$index])){
 			$item = Item::get(Item::AIR, null, 0);
 			$old = $this->slots[$index];
-			if($index >= $this->getSize() and $index < $this->size){ //Armor change
+			if($index >= $this->getSize() and $index < $this->getFullSize()){
 				Server::getInstance()->getPluginManager()->callEvent($ev = new EntityArmorChangeEvent($this->getHolder(), $old, $item, $index));
 				if($ev->isCancelled()){
 					if($index >= $this->size){
@@ -246,7 +253,7 @@ class PlayerInventory extends BaseInventory{
 			if($item->getId() !== Item::AIR){
 				$this->slots[$index] = clone $item;
 			}else{
-				unset($this->slots[$index]);
+				$this->slots[$index] = Item::get(Item::AIR, null, 0); // set 0 instead of unset and messing up everything
 			}
 
 			$this->onSlotChange($index, $old);
@@ -261,7 +268,7 @@ class PlayerInventory extends BaseInventory{
 	public function getArmorContents(){
 		$armor = [];
 
-		for($i = 0; $i < 4; ++$i){
+		for($i = 0; $i < $this->getArmorSlotSize(); ++$i){
 			$armor[$i] = $this->getItem($this->getSize() + $i);
 		}
 
@@ -269,7 +276,7 @@ class PlayerInventory extends BaseInventory{
 	}
 
 	public function clearAll(){
-		$limit = $this->getSize() + 4;
+		$limit = $this->getFullSize();
 		for($index = 0; $index < $limit; ++$index){
 			$this->clear($index);
 		}
@@ -307,7 +314,7 @@ class PlayerInventory extends BaseInventory{
 	 * @param Item[] $items
 	 */
 	public function setArmorContents(array $items){
-		for($i = 0; $i < 4; ++$i){
+		for($i = 0; $i < $this->getArmorSlotSize(); ++$i){
 			if(!isset($items[$i]) or !($items[$i] instanceof Item)){
 				$items[$i] = Item::get(Item::AIR, null, 0);
 			}
@@ -364,7 +371,7 @@ class PlayerInventory extends BaseInventory{
 		$pk->slots = [];
 		$holder = $this->getHolder();
 		for($i = 0; $i < $this->getSize(); ++$i){
-				$pk->slots[$i] = $this->getItem($i);
+			$pk->slots[$i] = $this->getItem($i);
 		}
 
 		foreach($target as $player){
@@ -372,7 +379,7 @@ class PlayerInventory extends BaseInventory{
 			if($player === $this->getHolder()){
 				for($i = 0; $i < $this->getHotbarSize(); ++$i){
 					$index = $this->getHotbarSlotIndex($i);
-					$pk->hotbar[] = $index <= -1 ? -1 : $index + 9;
+					$pk->hotbar[] = $index <= -1 ? -1 : $index + $this->getHotbarSize();
 				}
 			}
 			if(($id = $player->getWindowId($this)) === -1 or $player->spawned !== true){
@@ -387,7 +394,7 @@ class PlayerInventory extends BaseInventory{
 	public function addItem(...$slots) {
 		$result = parent::addItem(...$slots);
 		if($this->getHolder() instanceof Player){
-			if($this->getHolder()->isSurvival()) $this->sendContents($this->getHolder());
+			/*if($this->getHolder()->isSurvival())*/ $this->sendContents($this->getHolder()); //creative also, just test
 		}
 		return $result;
 	}
@@ -395,7 +402,7 @@ class PlayerInventory extends BaseInventory{
 	public function removeItem(...$slots){
 		$result = parent::removeItem(...$slots);
 		if($this->getHolder() instanceof Player){
-			if($this->getHolder()->isSurvival()) $this->sendContents($this->getHolder());
+			/*if($this->getHolder()->isSurvival())*/ $this->sendContents($this->getHolder());
 		}
 		return $result;
 	}
@@ -412,7 +419,7 @@ class PlayerInventory extends BaseInventory{
 		$pk->hotbar = [];
 		for($i = 0; $i < $this->getHotbarSize(); ++$i){
 			$index = $this->getHotbarSlotIndex($i);
-			$pk->hotbar[] = $index <= -1 ? -1 : $index + 9;
+			$pk->hotbar[] = $index <= -1 ? -1 : $index + $this->getHotbarSize();
 		}
 		$pk->slot = $index;
 		$pk->item = clone $this->getItem($index);
