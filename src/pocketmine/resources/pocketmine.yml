@@ -91,7 +91,6 @@ chunk-sending:
  max-chunks: 192
  spawn-threshold: 56
  cache-chunks: true
- chunk-radius: 30
  
 chunk-ticking:
  per-tick: 1
@@ -127,7 +126,7 @@ auto-updater:
  preferred-channel: ClearSky
  host: jenkins.clearskyteam.org
 
-version: 14
+version: 15
 
 auto-report:
  enabled: false
