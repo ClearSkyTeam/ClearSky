@@ -26,6 +26,7 @@ All features can be configed in pocketmine.yml.<br>
  - Fully working Experience System, include block/player/entity/bottle/furnace hook.
  - Fully working Food & Hunger System, include game-difficulty hook.
  - Fully working Weather System
+ - Fully working boats
  - Fast Chunk loading and sending
  - Fast Logger, includes a switch to turn log on/off
  - Almost perfect translations
@@ -157,6 +158,7 @@ ClearSky є ультра-швидким Minecraft: Pocket Edition ПЗ для с
  - Повністю робоча система досвіду, включаючи блоки/гравець/створіння/зілля/піч.
  - Повністю робоча система їди & голоду, включаючи складність гри.
  - Повністю робоча система погоди
+ - Робочі човни
  - Швидке надсилання і отримання чанків
  - Швидкий логгер, включаючи увімкнення або вимкнення запису до файлу
  - Досконалі переклади
