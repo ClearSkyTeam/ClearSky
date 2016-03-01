@@ -1,0 +1,280 @@
+{
+"#{Translate}":
+"jpn",
+
+"#{Author}":
+"haniokasai",
+
+"#{Title}":
+" ClearSkyのメイン設定ファイル（機械翻訳みたいな和訳でごめんなさいｗ)\n
+ 安全な設定もありますが、誤って設定すると鯖が壊れる設定の項目もあります。\n
+ config-updateをtrueにすれば, 新しい設定欄が自動で追加されます。\n",
+
+"#{settings.language}":
+"以下3つの言語設定は、サーバー側でのみ適用されます。\n
+https://en.wikipedia.org/wiki/List_of_ISO_639-2_codesを見て自分の国のコードを見つけてください。",
+
+"#{settings.force-language}":
+"端末に送る言語を強制するかどうか",
+
+"#{settings.shutdown-message}":
+"サーバーが終了しました",
+
+"#{settings.whitelist-message}":
+"サーバーがホワイトリストです",
+
+"#{settings.query-plugins}":
+"クエリーからプラグインリストを見えるようにする",
+
+"#{settings.deprecated-verbose}":
+"プラグインが非推奨APIメソッドを使用すると、コンソールにメッセージを表示します",
+
+"#{settings.enable-profiling}":
+"DAFUC?",
+
+"#{settings.profile-report-trigger}":
+"チックをこの値以下の時、結果を加えます  (デフォルト20)",
+
+"#{settings.async-workers}":
+"AsyncTask workersの数\n
+プラグインの非同期作業、例えばマップ生成、圧縮、ウェブ通信に使われます\n
+auto に設定すると, コア数を検出しようとします（少なくとも2）",
+
+"#{settings.config-update}":
+"設定ファイルをアップデートしようと努力させるか",
+
+"#{player.inventory.slot}":
+"インベントリのサイズ",
+
+"#{player.hunger.enable}":
+"空腹度を計算するか",
+
+"#{player.experience.enable}":
+"経験値を計算するか",
+
+"#{player.experience.player-drop}":
+"プレイヤーが経験値を落とすか",
+
+"#{player.experience.mob-drop}":
+"モブが経験値を落とすか",
+
+"#{player.experience.break-drop}":
+"ブロックを壊したときモブが経験値を落とすか",
+
+"#{player.experience.smelt-drop}":
+"かまどを使った時に経験値を落とすかどうか",
+
+"#{redstone}":
+"レッドストーン",
+
+"#{redstone.enable}":
+"レッドストーンを計算するか)",
+
+"#{redstone.tick-limit}":
+"レッドストーンの計算量制限 (毎tick)",
+
+"#{I/O}":
+"これらの設定はディスクやコンソールのパフォーマンスに影響します!",
+
+"#{I/O.title-usage}":
+"ウィンドウにサーバー負荷値を表示するか",
+
+"#{I/O.log-to-file}":
+"server.logを保存するか",
+
+"#{memory.global-limit}":
+"MB\n
+ 緩めのメモリ利用量制限。0で無効\n
+ このメモリの値を超えたら、自動でメモリ開放されます。
+",
+
+"#{memory.main-limit}":
+"MB\n
+ 緩めのメインスレッド利用量制限。0で無効\n
+ このメモリの値を超えたら、自動でメモリ開放されます。",
+
+"#{memory.main-hard-limit}":
+"MB\n
+ メインスレッド利用量の上限。0で無効\n
+ 設定値を超えたらサーバーが止まります。
+",
+
+"#{memory.check-rate}":
+"ticks\n
+ 何チックでメモリをチェックするか",
+
+"#{memory.continuous-trigger}":
+"メモリが少なくなった時メモリ開放を続けるか",
+
+"#{memory.continuous-trigger-rate}":
+"秒,continuous-triggerが有効の時、何秒ごとにメモリ開放するか",
+
+"#{garbage-collection.period}":
+"何チックでギャーベッジコレクションするか(デフォルト30分),0で無効\n
+ メインスレッドのみに適応. 他のスレッドはそれぞれ他のガーベジコレクションを使いましょう",
+
+"#{garbage-collection.collect-async-worker}":
+"非同期でごみ集めするか",
+
+"#{garbage-collection.low-memory-trigger}":
+"低メモリトリガーを有効にするか",
+
+"#{max-chunks.trigger-limit}":
+"１人の読み込める最大チャンク量, chunk-sending.max-chunksを無視します",
+
+"#{max-chunks.trigger-chunk-collect}":
+"チャンクのガーベジコレクションするか",
+
+"#{max-chunks.low-memory-trigger}":
+"低メモリトリガーを有効にするか",
+
+"#{world-caches.disable-chunk-cache}":
+"ワールドのキャッシュを作らない？",
+
+"#{world-caches.low-memory-trigger}":
+"低メモリトリガーを有効にするか",
+
+"#{network.batch-threshold}":
+"bytes\n
+バッチ処理パケットの入り口。これらのパケットだけ圧縮されます\n
+0ですべてを圧縮, -1で無効.",
+
+"#{network.compression-level}":
+"バッチパケットを送るときの圧縮率. 数字を大きくすればたくさんのCPUを使い,小さくすれば通信量が増えます",
+
+"#{network.async-compression}":
+"非同期圧縮. 0.5か1チックぐらい、遅らせることで,メインスレッドの負荷を減らします。",
+
+"#{network.anti-cheat}":
+"チート防止, 回線が悪いならfalseにしましょう",
+
+"#{network.acceptable-packetlost}":
+"回線が悪いなら、いじりましょう",
+
+"#{network.timeout}":
+"秒\n
+raklibがタイムアウトしたあと、切断するか　cpuの負荷を減らし、パケットロスの原因となる(-1 で無効, すべてのパケットが送られる)",
+
+"#{network.protocol}":
+"MCPEプロトコルバージョン,バージョンの色の表示に影響します.",
+
+"#{network.version}":
+"MCPEバージョン表示。数字とドットだけ。",
+
+"#{network.upnp-forwarding}":
+"実験、windowsのみ. UPnPのポートホワーディング",
+
+"#{debug.level}":
+"1より大きいと、コンソールにデバッグメッセージが表示されます",
+
+"#{debug.allow-xdebug}":
+"php-extension xdebugを有効にするか（無効推奨)",
+
+"#{debug.commands}":
+"/status, /gcを有効にする",
+
+"#{level-settings.default-format}":
+"マップのフォーマット",
+
+"#{level-settings.convert-format}":
+"WIP",
+
+"#{level-settings.auto-tick-rate}":
+"20チックごとにチャンクをチェックするか",
+
+"#{level-settings.auto-tick-rate-limit}":
+"自動的にレベルが毎秒20ティックを維持するためにtickの速度を変えます。",
+
+"#{level-settings.base-tick-rate}":
+"(1 = 20 チック毎秒, 2 = 10 チック毎秒...)\n
+デフォルトのチックの長さを設定。",
+
+"#{level-settings.always-tick-players}":
+"ほかの設定が許可しなくても、プレイヤーにチックします（はぁ?).",
+
+"#{level-settings.weather.enable}":
+"天気",
+
+"#{level-settings.weather.rain}":
+"毎チック何％で雨が降り始めるか",
+
+"#{level-settings.weather.rain.time}":
+"",
+
+"#{level-settings.weather.rain.rainfall}":
+"",
+
+"#{chunk-sending.per-tick}":
+"毎チックあたりに各プレイヤーに送るチャンク量の制限",
+
+"#{chunk-sending.max-chunks}":
+"各プレイヤーのチャンク量制限",
+
+"#{chunk-sending.spawn-threshold}":
+"サーバーに入るとき、読み込まれていなければならないチャンク量",
+
+"#{chunk-sending.cache-chunks}":
+"より速く送信するために、メモリ内にチャンクのシリアル化されたコピーを保存します\n
+プレイヤーがたくさんが同時に参加し、主にあまりブロックを設置したり壊したりしないワールドに効果ありです。",
+
+"#{chunk-sending.tick-radius}":
+"プレイヤーの周りのチャンクの半径のtick",
+
+"#{chunk-ticking.per-tick}":
+"各チックで処理する最大のチャンク量",
+
+"#{chunk-ticking.tick-radius}":
+"プレイヤーの周りのチャンクの半径のtick",
+
+"#{chunk-ticking.light-updates}":
+"軽い更新をするかどうか",
+
+"#{chunk-ticking.clear-tick-list}":
+"",
+
+"#{chunk-generation.queue-size}":
+"マップ生成のキューが待機できるチャンクのサイズ",
+
+"#{chunk-generation.population-queue-size}":
+"読み込みのキューが待機できるチャンクのサイズ",
+
+"#{ticks-per.animal-spawns}":
+"",
+
+"#{ticks-per.monster-spawns}":
+"",
+
+"#{ticks-per.autosave}":
+"何チックごとに自動保存するか",
+
+"#{ticks-per.cache-cleanup}":
+"何チックごとにキャッシュを消すか",
+
+"#{spawn-limits.monsters}":
+"",
+
+"#{spawn-limits.animals}":
+"",
+
+"#{spawn-limits.water-animals}":
+"",
+
+"#{spawn-limits.ambient}":
+"",
+
+"#{aliases}":
+"コマンドのショートカット\n
+ 例:\n
+ showtheversion: version\n
+ savestop: [save-all, stop]",
+
+"#{worlds}":
+"これらの設定は、server.propertiesでセットされたマップ生成の設定を上書きし、複数のワールドの読み込みを許可します
+ \n例:\n
+ world:\n
+  seed: 404\n
+  generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)",
+
+"#{StopEdit}":
+"編集するな! 編集するとpocketmine.ymlが消されるかもしれません（え、ホント？）!"
+}

@@ -15,9 +15,10 @@ before_script:
  - pecl install channel://pecl.php.net/pthreads-2.0.10
  - pecl install channel://pecl.php.net/weakref-0.2.6
  - echo | pecl install channel://pecl.php.net/yaml-1.1.1
+ - git clone https://github.com/ClearSkyTeam/CI-Test
 
 script:
- - php tests/Travis.php
+ - php CI-Test/Travis.php
  
 notifications:
  email: false

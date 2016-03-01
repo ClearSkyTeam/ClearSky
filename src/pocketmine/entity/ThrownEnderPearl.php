@@ -5,7 +5,7 @@ use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\Player;
 
-class EnderPearl extends Projectile{
+class ThrownEnderPearl extends Projectile{
 	const NETWORK_ID = 87;
 
 	public $width = 0.25;
@@ -45,7 +45,7 @@ class EnderPearl extends Projectile{
 	
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
-		$pk->type = EnderPearl::NETWORK_ID;
+		$pk->type = ThrownEnderPearl::NETWORK_ID;
 		$player->dataPacket($pk);
 
 		parent::spawnTo($player);

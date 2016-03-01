@@ -7,7 +7,7 @@ use pocketmine\Server;
 use pocketmine\entity\Entity;
 use pocketmine\event\entity\EntityEnterPortalEvent;
 
-class NetherPortal extends Flowable{
+class NetherPortal extends Flowable implements LightSource{
 	protected $id = self::NETHER_PORTAL;
 
 	public function __construct($meta = 0){
@@ -16,6 +16,10 @@ class NetherPortal extends Flowable{
 
 	public function getLightLevel(){
 		return 15;
+	}
+	
+	public function isLightSource(){
+		return true;
 	}
 
 	public function getName(){

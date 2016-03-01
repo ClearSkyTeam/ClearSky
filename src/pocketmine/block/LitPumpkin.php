@@ -6,11 +6,15 @@ use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\Player;
 
-class LitPumpkin extends Solid{
+class LitPumpkin extends Solid implements LightSource{
 	protected $id = self::LIT_PUMPKIN;
 
 	public function getLightLevel(){
 		return 15;
+	}
+	
+	public function isLightSource(){
+		return true;
 	}
 
 	public function getHardness(){

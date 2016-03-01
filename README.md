@@ -1,12 +1,16 @@
-# ClearSky-Sunrise [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky)
+# We invent to you: ClearSky-Sunrise
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean feels and stable features. It was initially designed for production servers.
+
+**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
+
+
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
  - Here is an Telegram group, where you can communicate with us: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
- - Official Test Server : Creative IP: 45.78.7.144 Port: 19132 *//This server runs with 256MB RAM and 1 Thread/CPU!*
- - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19133** *Often offline, but if online, latest version*
+ - [Look here how fast ClearSky starts with 70 plugins and 20 worlds!](http://wolvesfortress.de/ezgif-1446650535.gif)
+ - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
 
 ## Where can I get a phar?
- - **Before you launch ClearSky please remove pocketmine.yml once to update.**
  - You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - You can get an optimized PHP enviroment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
@@ -82,7 +86,7 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 晴空不仅仅是用起来干净，对于开发者来说也是一片艳阳天!<br>
 
 
-# ClearSky
+# クリアースカイ
 ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソフトウェアです。
 最初はプロダクションサーバーとしてつくられました。
  - GPLのプログラムのコードをとっている部分もありますが、大部分は新たに書かれたものです。
@@ -92,12 +96,14 @@ ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソ
  - 非公式テストサーバー : クリエイティブ Creative IP: WolvesFortress.de Port: **19133** 
 
 ## pharのダウンロード
+ - 便利な詰め合わせを用意しました。[ClearSkyダウンロード](http://blog.haniokasai.com/2016/02/pocketmineclearsly-windows.html).
  - **立ち上げる前にClearSkyのpocketmine.ymlを消してください、アップデートされます**
  - phar: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - phpのbin(php5,7対応): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Multicraftの設定: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+ - 
 
-## [CRITICAL]: Please REMOVE xdebug in production server
+## [CRITICAL]: 公開するサーバーではxdebugを消してください。
  - php.iniのzend_extension=php_xdebugをコメントアウトするかxdebugなしでリコンパイルします.
  - pocketmine.ymlでのデバックにxdebug強制的に有効にもできます.
 

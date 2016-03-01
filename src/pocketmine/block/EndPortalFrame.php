@@ -5,7 +5,7 @@ use pocketmine\item\Item;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\Player;
 
-class EndPortalFrame extends Solid{
+class EndPortalFrame extends Solid implements LightSource{
 
 	protected $id = self::END_PORTAL_FRAME;
 
@@ -15,6 +15,10 @@ class EndPortalFrame extends Solid{
 
 	public function getLightLevel(){
 		return 1;
+	}
+	
+	public function isLightSource(){
+		return true;
 	}
 
 	public function getName(){

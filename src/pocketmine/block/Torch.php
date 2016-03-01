@@ -6,7 +6,7 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 
-class Torch extends Flowable{
+class Torch extends Flowable implements LightSource{
 	protected $id = self::TORCH;
 
 	public function __construct($meta = 0){
@@ -15,6 +15,10 @@ class Torch extends Flowable{
 
 	public function getLightLevel(){
 		return 15;
+	}
+	
+	public function isLightSource(){
+		return true;
 	}
 
 	public function getName(){

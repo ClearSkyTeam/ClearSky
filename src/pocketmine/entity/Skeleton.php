@@ -32,7 +32,7 @@ class Skeleton extends Monster implements ProjectileSource{
 
     public function spawnTo(Player $player){
         $pk = $this->addEntityDataPacket($player);
-        $pk->type = Skeleton::NETWORK_ID;
+        $pk->type = self::NETWORK_ID;
 
         $player->dataPacket($pk);
         parent::spawnTo($player);

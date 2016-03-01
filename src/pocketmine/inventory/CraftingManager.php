@@ -32,7 +32,7 @@ class CraftingManager{
 		$this->registerArmor();
 		$this->registerFood();
 		$this->registerPlank();
-		$this->registerShapelessRecipeMap();
+		//$this->registerShapelessRecipeMap();
 		$this->registerShapedRecipeMap();
 		$this->registerBigShapedRecipeMap();
 	}
@@ -148,26 +148,6 @@ class CraftingManager{
 		    "II",
 			"  "
 		))->setIngredient("I", Item::get(Item::IRON_INGOT, 0, 2)));
-		
-		
-		$this->registerRecipe((new ShapedRecipe(Item::get(Item::GOLD_INGOT, 0, 9),
-			"G"
-		))->setIngredient("G", Item::get(Item::GOLD_BLOCK, 0, 1)));
-		
-		
-		$this->registerRecipe((new ShapedRecipe(Item::get(Item::IRON_INGOT, 0, 9),
-			"I"
-		))->setIngredient("I", Item::get(Item::IRON_BLOCK, 0, 1)));
-		
-		
-		$this->registerRecipe((new ShapedRecipe(Item::get(Item::DIAMOND, 0, 9),
-			"D"
-		))->setIngredient("D", Item::get(Item::DIAMOND_BLOCK, 0, 1)));
-		
-		
-		$this->registerRecipe((new ShapedRecipe(Item::get(Item::REDSTONE_DUST, 0, 9),
-			"R"
-		))->setIngredient("R", Item::get(Item::REDSTONE_BLOCK, 0, 1)));
 		
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::SUGAR, 0, 1),
@@ -575,48 +555,6 @@ class CraftingManager{
 		))->setIngredient("D", Item::get(Item::DYE, 4, 9)));
 		
 		
-		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::GOLD_BLOCK, 0, 1),
-			"GGG",
-			"GGG",
-			"GGG"
-		))->setIngredient("G", Item::get(Item::GOLD_INGOT, 0, 9)));
-		
-		
-		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::IRON_BLOCK, 0, 1),
-			"III",
-			"III",
-			"III"
-		))->setIngredient("I", Item::get(Item::IRON_INGOT, 0, 9)));
-
-		
-		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::DIAMOND_BLOCK, 0, 1),
-			"DDD",
-			"DDD",
-			"DDD"
-		))->setIngredient("D", Item::get(Item::DIAMOND, 0, 9)));
-		
-
-		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::EMERALD_BLOCK, 0, 1),
-			"EEE",
-			"EEE",
-			"EEE"
-		))->setIngredient("E", Item::get(Item::EMERALD, 0, 9)));
-
-		
-		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::REDSTONE_BLOCK, 0, 1),
-			"RRR",
-			"RRR",
-			"RRR"
-		))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 9)));
-		
-		
-		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::COAL_BLOCK, 0, 1),
-			"CCC",
-			"CCC",
-			"CCC"
-		))->setIngredient("C", Item::get(Item::COAL, 0, 9)));
-		
-		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::GOLD_INGOT, 0, 1),
 			"GGG",
 			"GGG",
@@ -997,7 +935,30 @@ class CraftingManager{
 			Item::REDSTONE_BLOCK => Item::REDSTONE_DUST,
 			Item::COAL_BLOCK => Item::COAL,
 			Item::HAY_BALE => Item::WHEAT,
+			//Item::GOLD_INGOT => Item::GOLD_NUGGET
 		];
+		foreach($ingots as $block => $ingot){
+			$this->registerRecipe((new BigShapedRecipe(Item::get($ingot, 0, 9),
+				"   ",
+				" D ",
+				"   "
+			))->setIngredient("D", Item::get($block, 0, 1)));
+			$this->registerRecipe((new BigShapedRecipe(Item::get($block, 0, 1),
+				"GGG",
+				"GGG",
+				"GGG"
+			))->setIngredient("G", Item::get($ingot, 0, 9)));
+		}
+		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::LAPIS_BLOCK, 0, 1),
+			"GGG",
+			"GGG",
+			"GGG"
+		))->setIngredient("G", Item::get(Item::DYE, 4, 9)));
+		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::DYE, 4, 9),
+			"   ",
+			" L ",
+			"   "
+		))->setIngredient("L", Item::get(Item::LAPIS_BLOCK, 0, 1)));
 	}
 
 	public function sort(Item $i1, Item $i2){

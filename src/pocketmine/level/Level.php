@@ -1201,12 +1201,33 @@ class Level implements ChunkManager, Metadatable{
 	}
 	
 	/**
+	 * ClearSky internal use
+	 */
+	private function compareRedstone($old,$new){
+		$oldtype = $old['type'];
+		$oldpower = $old['power'];
+		$newtype = $new['type'];
+		$newpower = $new['power'];
+		if($oldtype == $newtype and $oldpower == $newpower){
+			return true;
+		}
+		//TODO : more similar redstone status
+		return false;
+	}
+	
+	/**
 	 * @param Vector3 $pos
 	 * @param int     $delay
 	 */
 	public function setRedstoneUpdate(Vector3 $pos, $delay, $type , $power){
 		if($this->server->getProperty("redstone.enable", true)){
-			$this->updateRedstoneQueueIndex[Level::blockHash($pos->x, $pos->y, $pos->z)][]=[
+			$hash = Level::blockHash($pos->x, $pos->y, $pos->z);
+			if(isset($this->updateRedstoneQueueIndex[$hash])){
+				if($this->compareRedstone(\end($this->updateRedstoneQueueIndex[$hash]),['type'=>$type,'power'=>$power])){
+					return false;
+				}
+			}
+			$this->updateRedstoneQueueIndex[$hash][]=[
 				'delay'=>$delay,
 				'type'=>$type,
 				'power'=>$power
@@ -1749,11 +1770,12 @@ class Level implements ChunkManager, Metadatable{
 
 		if($createParticles){
 			$players = $this->getChunkPlayers($target->x >> 4, $target->z >> 4);
-			if($player !== null){
-				unset($players[$player->getLoaderId()]);
-			}
 
 			$this->addParticle(new DestroyBlockParticle($target->add(0.5), $target), $players);
+			
+			if ($player !== null){
+				unset($players[$player->getLoaderId()]);
+			}
 		}
 		
 		$target->onBreak($item);
@@ -1929,32 +1951,6 @@ class Level implements ChunkManager, Metadatable{
 
 		if($hand->place($item, $block, $target, $face, $fx, $fy, $fz, $player) === false){
 			return false;
-		}
-
-		if($hand->getId() === Item::SIGN_POST or $hand->getId() === Item::WALL_SIGN){
-
-			$nbt = new Compound("", [
-				"id" => new String("id", Tile::SIGN),
-				"x" => new Int("x", $block->x),
-				"y" => new Int("y", $block->y),
-				"z" => new Int("z", $block->z),
-				"Text1" => new String("Text1", ""),
-				"Text2" => new String("Text2", ""),
-				"Text3" => new String("Text3", ""),
-				"Text4" => new String("Text4", "")
-			]);
-
-			if($player !== null){
-				$nbt->Creator = new String("Creator", $player->getRawUniqueId());
-			}
-
-			if($item->hasCustomBlockData()){
-				foreach($item->getCustomBlockData() as $key => $v){
-					$nbt->{$key} = $v;
-				}
-			}
-
-			Tile::createTile("Sign", $this->getChunk($block->x >> 4, $block->z >> 4), $nbt);
 		}
 		$item->setCount($item->getCount() - 1);
 		if($item->getCount() <= 0){

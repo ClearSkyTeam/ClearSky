@@ -15,6 +15,10 @@ class Glowstone extends Solid implements LightSource{
 	public function isLightSource(){
 		return true;
 	}
+
+	public function getLightLevel(){
+		return 15;
+	}
 	
 	public function getName(){
 		return "Glowstone";
@@ -26,10 +30,6 @@ class Glowstone extends Solid implements LightSource{
 
 	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
-	}
-
-	public function getLightLevel(){
-		return 15;
 	}
 
 	public function getDrops(Item $item){

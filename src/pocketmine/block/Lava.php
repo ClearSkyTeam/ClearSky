@@ -10,7 +10,7 @@ use pocketmine\item\Item;
 use pocketmine\Player;
 use pocketmine\Server;
 
-class Lava extends Liquid{
+class Lava extends Liquid implements LightSource{
 
 	protected $id = self::LAVA;
 
@@ -20,6 +20,10 @@ class Lava extends Liquid{
 
 	public function getLightLevel(){
 		return 15;
+	}
+	
+	public function isLightSource(){
+		return true;
 	}
 
 	public function getName(){

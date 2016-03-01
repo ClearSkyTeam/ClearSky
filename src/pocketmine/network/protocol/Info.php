@@ -13,6 +13,7 @@ interface Info{
 	const CURRENT_PROTOCOL = 42;
 	const ACCEPT_PROTOCOL = [42,43,44,45,46,47,48,49];
 
+    const ATTRIBUTE_PACKET = 0x60;
 	const LOGIN_PACKET = 0x8f;
 	const PLAY_STATUS_PACKET = 0x90;
 	const DISCONNECT_PACKET = 0x91;
@@ -70,9 +71,8 @@ interface Info{
     const CLIENTBOUND_MAP_ITEM_DATA_PACKET = 0xc6;
     const MAP_INFO_REQUEST_PACKET = 0xc7;
     const REQUEST_CHUNK_RADIUS_PACKET = 0xc8;
-    const CHUNK_RADIUS_UPDATED_PACKET = 0xc9;
+    const CHUNK_RADIUS_UPDATE_PACKET = 0xc9;
     const ITEM_FRAME_DROP_ITEM_PACKET = 0xca;
-    const ATTRIBUTE_PACKET = 0x60;
     
 }
 

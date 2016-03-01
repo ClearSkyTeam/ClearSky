@@ -28,7 +28,7 @@ class MainLogger extends \AttachableThreadedLogger{
 		}
 		static::$logger = $this;
 		$this->enabled=false;
-		touch($logFile);
+		file_put_contents($logFile, "", FILE_APPEND);
 		$this->logFile = $logFile;
 		$this->logDebug = (bool) $logDebug;
 		$this->logStream = \ThreadedFactory::create();

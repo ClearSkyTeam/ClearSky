@@ -84,6 +84,7 @@ use pocketmine\nbt\tag\String;
 use pocketmine\network\protocol\AdventureSettingsPacket;
 use pocketmine\network\protocol\AnimatePacket;
 use pocketmine\network\protocol\BatchPacket;
+use pocketmine\network\protocol\ChunkRadiusUpdatePacket;
 use pocketmine\network\protocol\ContainerClosePacket;
 use pocketmine\network\protocol\ContainerSetContentPacket;
 use pocketmine\network\protocol\ChangeDimensionPacket;
@@ -116,6 +117,9 @@ use pocketmine\utils\TextFormat;
 use raklib\Binary;
 use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
+use pocketmine\entity\Colorable;
+use pocketmine\entity\Tameable;
+use pocketmine\entity\Explosive;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -1498,7 +1502,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					continue;
 				}
 
-				$pk = new TakeItemEntityPacket();
+				/*$pk = new TakeItemEntityPacket();
 				$pk->eid = $this->getId();
 				$pk->target = $entity->getId();
 				Server::broadcastPacket($entity->getViewers(), $pk);
@@ -1506,7 +1510,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$pk = new TakeItemEntityPacket();
 				$pk->eid = 0;
 				$pk->target = $entity->getId();
-				$this->dataPacket($pk);
+				$this->dataPacket($pk);*/
 
 				$this->inventory->addItem(clone $item);
 				$entity->kill();
@@ -2092,7 +2096,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$this->forceMovement = $this->teleportPosition = $this->getPosition();
-
+		
 		$this->server->onPlayerLogin($this);
 	}
 
@@ -2127,6 +2131,14 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		switch($packet::NETWORK_ID){
+			case ProtocolInfo::REQUEST_CHUNK_RADIUS_PACKET:
+				if($this->spawned){
+					$this->viewDistance = $packet->radius ** 2;
+				}
+				$pk = new ChunkRadiusUpdatePacket();
+				$pk->radius = $packet->radius;
+				$this->dataPacket($pk);
+				break;
 			case ProtocolInfo::PLAYER_INPUT_PACKET:
 				break;
 			case ProtocolInfo::LOGIN_PACKET:
@@ -2524,11 +2536,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$item = $this->inventory->getItemInHand();
 				}
 				$oldItem = clone $item;
-				if($this->canInteract($vector->add(0.5, 0.5, 0.5), $this->isCreative() ? 13 : 6) and $this->level->useBreakOn($vector, $item, $this)){
+				if($this->canInteract($vector->add(0.5, 0.5, 0.5), $this->isCreative() ? 8 : 6) and $this->level->useBreakOn($vector, $item, $this, true)){
 					if($this->isSurvival()){
-						if(!$item->deepEquals($oldItem) or $item->getCount() !== $oldItem->getCount()){
+						if(!$item->equals($oldItem) or $item->getCount() !== $oldItem->getCount()){
 							$this->inventory->setItemInHand($item);
-							$this->inventory->sendHeldItem($this->hasSpawned);
+							$this->inventory->sendHeldItem($this);
 						}
 					}
 					break;
@@ -2555,15 +2567,18 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				 * EntityLink *
 				 */
 				if($target !== null && $target->isVehicle()){
-					switch($packet->action){
-						case InteractPacket::ACTION_RIGHT_CLICK:
-							$this->linkEntity($target);
-							break;
-						case InteractPacket::ACTION_JUMP:
-							$this->unlinkEntity($target);
-							break;
+					if($packet->action === InteractPacket::ACTION_RIGHT_CLICK){
+						$this->linkEntity($target);
+						break;
 					}
-					return;
+					elseif($packet->action === InteractPacket::ACTION_LEAVE_VEHICLE){
+						if($this->isLinked()) $this->unlinkEntity($this);
+						break;
+					}
+				}
+				if($packet->action === InteractPacket::ACTION_RIGHT_CLICK && $target instanceof Colorable || $target instanceof Tameable || $target instanceof Explosive /*and add something for using shear.. mooshroom + snow golem*/){
+					// $this->getInventory()->getItemInHand()->useOn($target); // this is beta. Should return false anyways
+					break;
 				}
 				if(
 					$target instanceof Player and
@@ -2692,14 +2707,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->spawned === false or $this->blocked === true or !$this->isAlive()){
 					break;
 				}
-				$item = $this->inventory->getItemInHand();
+				$item = $this->inventory->contains($packet->item) ? $packet->item : $this->inventory->getItemInHand();
 				$ev = new PlayerDropItemEvent($this, $item);
 				$this->server->getPluginManager()->callEvent($ev);
 				if($ev->isCancelled()){
 					$this->inventory->sendContents($this);
 					break;
 				}
-				$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 1));
+
+				$this->inventory->remove($item);
 				$motion = $this->getDirectionVector()->multiply(0.4);
 				$this->level->dropItem($this->add(0, 1.3, 0), $item, $motion, 40);
 				$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, false);
@@ -2751,7 +2767,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			case ProtocolInfo::CRAFTING_EVENT_PACKET:
 				if($this->spawned === false or !$this->isAlive()){
 					break;
-				}elseif(!isset($this->windowIndex[$packet->windowId])){
+				}elseif(!isset($this->windowIndex[$packet->windowId])){// need fix for windows 10 edition
 					$this->inventory->sendContents($this);
 					$pk = new ContainerClosePacket();
 					$pk->windowid = $packet->windowId;
@@ -2822,6 +2838,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$canCraft = false;
 				}
 				/** @var Item[] $ingredients */
+
 				$ingredients = $packet->input;
 				$result = $packet->output[0];
 				if(!$canCraft or !$recipe->getResult()->deepEquals($result)){
@@ -2870,7 +2887,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$extraItem = $this->inventory->addItem($recipe->getResult());
 				if(count($extraItem) > 0){
 					foreach($extraItem as $item){
-						$this->level->dropItem($this, $item);
+						$this->level->dropItem($this, $item); // Fix win10
 					}
 				}
 				switch($recipe->getResult()->getId()){

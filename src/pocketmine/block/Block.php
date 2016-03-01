@@ -41,12 +41,10 @@ class Block extends Position implements Metadatable{
 	const STILL_LAVA = 11;
 	const SAND = 12;
 	const GRAVEL = 13;
-	
 	const GOLD_ORE = 14;
 	const IRON_ORE = 15;
 	const COAL_ORE = 16;
 	const LOG = 17;
-	
 	const WOOD = 17;
 	const TRUNK = 17;
 	const LEAVES = 18;
@@ -55,20 +53,12 @@ class Block extends Position implements Metadatable{
 	const GLASS = 20;
 	const LAPIS_ORE = 21;
 	const LAPIS_BLOCK = 22;
-	
 	const DISPENSER = 23;
-
 	const SANDSTONE = 24;
-	
 	const NOTEBLOCK = 25;
-
 	const BED_BLOCK = 26;
-	
 	const POWERED_RAIL = 27;
 	const DETECTOR_RAIL = 28;
-	//const STICKY_PISTON = 27;
-
-
 	const COBWEB = 30;
 	const TALL_GRASS = 31;
 	const BUSH = 32;
@@ -76,7 +66,6 @@ class Block extends Position implements Metadatable{
 	const PISTON = 33;
 	const PISTON_HEAD = 34;
 	const WOOL = 35;
-	const PISTON_EXTENSION = 35;
 	const DANDELION = 37;
 	const POPPY = 38;
 	const ROSE = 38;
@@ -104,9 +93,7 @@ class Block extends Position implements Metadatable{
 	const OAK_WOOD_STAIRS = 53;
 	const OAK_WOODEN_STAIRS = 53;
 	const CHEST = 54;
-	
 	const REDSTONE_WIRE = 55;
-
 	const DIAMOND_ORE = 56;
 	const DIAMOND_BLOCK = 57;
 	const CRAFTING_TABLE = 58;
@@ -122,11 +109,9 @@ class Block extends Position implements Metadatable{
 	const WOOD_DOOR_BLOCK = 64;
 	const LADDER = 65;
 	const RAIL = 66;
-
 	const COBBLE_STAIRS = 67;
 	const COBBLESTONE_STAIRS = 67;
 	const WALL_SIGN = 68;
-	
 	const LEVER = 69;
 	const STONE_PRESSURE_PLATE = 70;
 	const IRON_DOOR_BLOCK = 71;
@@ -138,7 +123,6 @@ class Block extends Position implements Metadatable{
 	const LIT_REDSTONE_TORCH = 76;
 	const REDSTONE_TORCH = 76;
 	const STONE_BUTTON = 77;
-
 	const SNOW = 78;
 	const SNOW_LAYER = 78;
 	const ICE = 79;
@@ -147,38 +131,27 @@ class Block extends Position implements Metadatable{
 	const CLAY_BLOCK = 82;
 	const REEDS = 83;
 	const SUGARCANE_BLOCK = 83;
-	
-	const JUKEBOX = 83;
-
+	// const JUKEBOX = 83;
 	const FENCE = 85;
 	const PUMPKIN = 86;
 	const NETHERRACK = 87;
 	const SOUL_SAND = 88;
 	const GLOWSTONE = 89;
 	const GLOWSTONE_BLOCK = 89;
-	
 	const NETHER_PORTAL = 90;
 	const PORTAL = 90;
-
 	const LIT_PUMPKIN = 91;
 	const JACK_O_LANTERN = 91;
 	const CAKE_BLOCK = 92;
-	
 	const UNPOWERED_REPEATER = 93;
 	const POWERED_REPEATER = 94;
-	
 	const STAINED_GLASS = 95; //INVISIBLE BEDROCK ID
-
 	const TRAPDOOR = 96;
-	
 	const MONSTER_EGG = 97;
-
 	const STONE_BRICKS = 98;
 	const STONE_BRICK = 98;
-	
 	const BROWN_MUSHROOM_BLOCK = 99;
 	const RED_MUSHROOM_BLOCK = 100;
-
 	const IRON_BAR = 101;
 	const IRON_BARS = 101;
 	const GLASS_PANE = 102;
@@ -199,37 +172,27 @@ class Block extends Position implements Metadatable{
 	const NETHER_BRICK_FENCE = 113;
 	const NETHER_BRICKS_STAIRS = 114;
 	const NETHER_WART_BLOCK = 115;
-
 	const ENCHANTING_TABLE = 116;
 	const ENCHANT_TABLE = 116;
 	const ENCHANTMENT_TABLE = 116;
 	const BREWING_STAND_BLOCK = 117;
-	
-	const CAULDRON = 118;
-	const END_PORTAL = 119;
-
+	const CAULDRON_BLOCK = 118;
+	//const END_PORTAL = 119;
 	const END_PORTAL_FRAME = 120;
 	const END_STONE = 121;
-	const DRAGON_EGG = 122;
-	
+	//const DRAGON_EGG = 122;
 	const REDSTONE_LAMP = 123;
 	const LIT_REDSTONE_LAMP = 124;
-	
 	//const DOUBLE_WOODEN_SLAB = 125;
 	//const WOODEN_SLAB = 126;
 	const ACTIVATOR_RAIL = 126;
-	
 	const COCOA = 127;
 	const COCOA_BEANS = 127;
-
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
-	
 	const ENDERCHEST = 130;
-	
 	const TRIPWIRE_HOOK = 131;
 	const TRIPWIRE = 132;
-
 	const EMERALD_BLOCK = 133;
 	const SPRUCE_WOOD_STAIRS = 134;
 	const SPRUCE_WOODEN_STAIRS = 134;
@@ -237,24 +200,18 @@ class Block extends Position implements Metadatable{
 	const BIRCH_WOODEN_STAIRS = 135;
 	const JUNGLE_WOOD_STAIRS = 136;
 	const JUNGLE_WOODEN_STAIRS = 136;
-	
 	const COMMAND_BLOCK = 136;
 	const BEACON = 136;
-
 	const COBBLE_WALL = 139;
 	const STONE_WALL = 139;
 	const COBBLESTONE_WALL = 139;
-	
 	const FLOWER_POT_BLOCK = 140;
 	const CARROT_BLOCK = 141;
 	const POTATO_BLOCK = 142;
-
 	const WOODEN_BUTTON = 143;
-	
 	const SKULL_BLOCK = 144;
 	const HEAD_BLOCK = 144;
 	const MOB_HEAD_BLOCK = 144;
-
 	const ANVIL_BLOCK = 145;
 	const TRAPPED_CHEST = 146;
 	const LIGHT_WEIGHTED_PRESSURE_PLATE = 147;
@@ -262,14 +219,10 @@ class Block extends Position implements Metadatable{
 	const UNPOWERED_COMPARATOR = 149;
 	const POWERED_COMPARATOR = 150;
 	const DAYLIGHT_DETECTOR = 151;
-
 	const REDSTONE_BLOCK = 152;
-	
 	const NETHER_QUARTZ_ORE = 153;
 	const QUARTZ_ORE = 153;
-	
 	const HOPPER = 154;
-	
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
 	const DOUBLE_WOOD_SLAB = 157;
@@ -282,9 +235,7 @@ class Block extends Position implements Metadatable{
 	const WOODEN_SLABS = 158;
 	const STAINED_CLAY = 159;
 	const STAINED_HARDENED_CLAY = 159;
-	
 	const STAINED_GLASS_PANE = 160;
-
 	const LEAVES2 = 161;
 	const LEAVE2 = 161;
 	const WOOD2 = 162;
@@ -294,45 +245,36 @@ class Block extends Position implements Metadatable{
 	const ACACIA_WOODEN_STAIRS = 163;
 	const DARK_OAK_WOOD_STAIRS = 164;
 	const DARK_OAK_WOODEN_STAIRS = 164;
-	
 	const SLIME_BLOCK = 165;
 	const SLIMEBLOCK = 165;
-	const BARRIER = 166;
+	//const BARRIER = 166;
 	const IRON_TRAPDOOR = 167;
-	const PRISMARINE = 168;
-	const SEA_LANTERN = 169;
-
+	//const PRISMARINE = 168;
+	//const SEA_LANTERN = 169;
 	const HAY_BALE = 170;
 	const CARPET = 171;
 	const HARDENED_CLAY = 172;
 	const COAL_BLOCK = 173;
 	const PACKED_ICE = 174;
-
 	const DOUBLE_PLANT = 175;
-	const STANDING_BANNER = 176;
-	const WALL_BANNER = 177;
-	
+	//const STANDING_BANNER = 176;
+	//const WALL_BANNER = 177;
 	const DAYLIGHT_DETECTOR_INVERTED = 178;
-	
 	const RED_SANDSTONE = 179;
 	const RED_SANDSTONE_STAIRS = 180;
 	const DOUBLE_STONE_SLAB2 = 181;
 	const STONE_SLAB2 = 182;
-
 	const FENCE_GATE_SPRUCE = 183;
 	const FENCE_GATE_BIRCH = 184;
 	const FENCE_GATE_JUNGLE = 185;
 	const FENCE_GATE_DARK_OAK = 186;
 	const FENCE_GATE_ACACIA = 187;
-	
 	const SPRUCE_DOOR_BLOCK = 193;
 	const BIRCH_DOOR_BLOCK = 194;
 	const JUNGLE_DOOR_BLOCK = 195;
 	const ACACIA_DOOR_BLOCK = 196;
 	const DARK_OAK_DOOR_BLOCK = 197;
-
 	const GRASS_PATH = 198;
-
 	const PODZOL = 243;
 	const BEETROOT_BLOCK = 244;
 	const STONECUTTER = 245;
@@ -437,7 +379,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::GLASS] = Glass::class;
 			self::$list[self::LAPIS_ORE] = LapisOre::class;
 			self::$list[self::LAPIS_BLOCK] = Lapis::class;
-			//self::$list[self::DISPENSER] = Dispenser::class;
+			self::$list[self::DISPENSER] = Dispenser::class;
 			self::$list[self::SANDSTONE] = Sandstone::class;
 			self::$list[self::NOTEBLOCK] = Noteblock::class;
 			self::$list[self::BED_BLOCK] = Bed::class;
@@ -515,7 +457,7 @@ class Block extends Position implements Metadatable{
 
 			self::$list[self::LIT_PUMPKIN] = LitPumpkin::class;
 			self::$list[self::CAKE_BLOCK] = Cake::class;
-			//self::$list[self::UNPOWERED_REPEATER] = UnpoweredRepeater::class;
+			self::$list[self::UNPOWERED_REPEATER] = RedstoneRepeater::class;
 			//self::$list[self::POWERED_REPEATER] = PoweredRepeater::class;
 			//self::$list[self::STAINED_GLASS] = StainedGlass::class;
 
@@ -546,7 +488,7 @@ class Block extends Position implements Metadatable{
 
 			self::$list[self::ENCHANTING_TABLE] = EnchantingTable::class;
 			self::$list[self::BREWING_STAND_BLOCK] = BrewingStand::class;
-			//self::$list[self::CAULDRON] = Cauldron::class;
+			self::$list[self::CAULDRON_BLOCK] = Cauldron::class;
 			//self::$list[self::END_PORTAL] = EndPortal::class;
 
 			self::$list[self::END_PORTAL_FRAME] = EndPortalFrame::class;
@@ -585,7 +527,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::TRAPPED_CHEST] = TrappedChest::class;
 			self::$list[self::LIGHT_WEIGHTED_PRESSURE_PLATE] = LightWeightedPressurePlate::class;
 			self::$list[self::HEAVY_WEIGHTED_PRESSURE_PLATE] = HeavyWeightedPressurePlate::class;
-			//self::$list[self::UNPOWERED_COMPARATOR] = UnpoweredComparator::class;
+			self::$list[self::UNPOWERED_COMPARATOR] = RedstoneComparator::class;
 			//self::$list[self::POWERED_COMPARATOR] = PoweredComparator::class;
 			self::$list[self::DAYLIGHT_DETECTOR] = DaylightDetector::class;
 

@@ -1,0 +1,224 @@
+#{Title}
+
+settings:
+ language: "eng"
+ #{settings.language}
+ force-language: false
+ #{settings.force-language}
+ shutdown-message: "Server closed"
+ #{settings.shutdown-message}
+ whitelist-message: "Server is whitelisted"
+ #{settings.whitelist-message}
+ query-plugins: true
+ #{settings.query-plugins}
+ deprecated-verbose: true
+ #{settings.deprecated-verbose}
+ enable-profiling: false
+ #{settings.enable-profiling}
+ profile-report-trigger: 20
+ #{settings.profile-report-trigger}
+ async-workers: auto
+ #{settings.async-workers}
+ config-update: true
+ #{settings.config-update}
+
+player:
+ inventory:
+  slot: 27
+  #{player.inventory.slot}
+ hunger:
+  enable: true
+  #{player.hunger.enable}
+ experience:
+  enable: true
+  #{player.experience.enable}
+  player-drop: true
+  #{player.experience.player-drop}
+  mob-drop: true
+  #{player.experience.mob-drop}
+  break-drop: true
+  #{player.experience.break-drop}
+  smelt-drop: true
+  #{player.experience.smelt-drop}
+ 
+redstone:
+ #{redstone}
+ enable: true
+ #{redstone.enable}
+ tick-limit: 2048
+ #{redstone.tick-limit}
+
+I/O:
+ #{I/O}
+ title-usage: true
+ #{I/O.title-usage}
+ log-to-file: true
+ #{I/O.log-to-file}
+
+memory:
+ global-limit: 0
+ #{memory.global-limit}
+ main-limit: 0
+ #{memory.main-limit}
+ main-hard-limit: 2048
+ #{memory.main-hard-limit}
+ check-rate: 20
+ #{memory.check-rate}
+ continuous-trigger: true
+ #{memory.continuous-trigger}
+ continuous-trigger-rate: 30
+ #{memory.continuous-trigger-rate}
+
+ garbage-collection:
+  period: 36000
+  #{garbage-collection.period}
+  collect-async-worker: true
+  #{garbage-collection.collect-async-worker}
+  low-memory-trigger: true
+  #{garbage-collection.low-memory-trigger}
+  
+ max-chunks:
+  trigger-limit: 96
+  #{max-chunks.trigger-limit}
+  trigger-chunk-collect: true
+  #{max-chunks.trigger-chunk-collect}
+  low-memory-trigger: true
+  #{max-chunks.low-memory-trigger}
+
+ world-caches:
+  disable-chunk-cache: true
+  #{world-caches.disable-chunk-cache}
+  low-memory-trigger: true
+  #{world-caches.low-memory-trigger}
+
+network:
+ batch-threshold: 128
+ #{network.batch-threshold}
+ compression-level: 2
+ #{network.compression-level}
+ async-compression: true
+ #{network.async-compression}
+ anti-cheat: false
+ #{network.anti-cheat}
+ acceptable-packetlost: 2
+ #{network.acceptable-packetlost}
+ timeout: 1
+ #{network.timeout}
+ protocol: 45
+ #{network.protocol}
+ version: "0.14.0"
+ #{network.version}
+ upnp-forwarding: false
+ #{network.upnp-forwarding}
+
+debug:
+ level: 1
+ #{debug.level}
+ allow-xdebug: false
+ #{debug.allow-xdebug}
+ commands: true
+ #{debug.commands}
+
+level-settings:
+ default-format: mcregion
+ #{level-settings.default-format}
+ convert-format: false 
+ #{level-settings.convert-format}
+ auto-tick-rate: false
+ #{level-settings.auto-tick-rate}
+ auto-tick-rate-limit: 20
+ #{level-settings.auto-tick-rate-limit}
+ base-tick-rate: 1
+ #{level-settings.base-tick-rate}
+ always-tick-players: false
+ #{level-settings.always-tick-players}
+ weather:
+  enable: true
+  #{level-settings.weather.enable}
+  rain:
+   possibility: 10
+   #{level-settings.weather.rain}
+   time:
+    #{level-settings.weather.rain.time}
+    min: 30
+    max: 120
+   rainfall:
+    #{level-settings.weather.rain.rainfall}
+    min: 1000
+    max: 100000
+
+chunk-sending:
+ per-tick: 4
+ #{chunk-sending.per-tick}
+ max-chunks: 192
+ #{chunk-sending.max-chunks}
+ spawn-threshold: 56
+ #{chunk-sending.spawn-threshold}
+ cache-chunks: true
+ #{chunk-sending.cache-chunks}
+ chunk-radius: 30
+ #{chunk-sending.chunk-radius}
+ 
+chunk-ticking:
+ per-tick: 1
+ #{chunk-ticking.per-tick}
+ tick-radius: 2
+ #{chunk-ticking.tick-radius}
+ light-updates: false
+ #{chunk-ticking.light-updates}
+ clear-tick-list: true
+ #{chunk-ticking.clear-tick-list}
+ 
+chunk-generation:
+ queue-size: 8
+ #{chunk-generation.queue-size}
+ population-queue-size: 8
+ #{chunk-generation.population-queue-size}
+
+ticks-per:
+ animal-spawns: 400
+ #{ticks-per.animal-spawns}
+ monster-spawns: 1
+ #{ticks-per.monster-spawns}
+ autosave: 6000
+ #{ticks-per.autosave}
+ cache-cleanup: 900
+ #{ticks-per.cache-cleanup}
+ 
+spawn-limits:
+  monsters: 70
+  #{spawn-limits.monsters}
+  animals: 15
+  #{spawn-limits.animals}
+  water-animals: 5
+  #{spawn-limits.water-animals}
+  ambient: 15
+  #{spawn-limits.ambient}
+
+aliases:
+ #{aliases}
+
+worlds:
+ #{worlds}
+
+auto-updater:
+ enabled: true
+ on-update:
+  warn-console: true
+  warn-ops: true
+ preferred-channel: ClearSky
+ host: jenkins.clearskyteam.org
+
+#{StopEdit}
+version: 12
+
+auto-report:
+ enabled: false
+ send-code: true
+ send-settings: true
+ send-phpinfo: false
+ host: crash.pocketmine.net
+ 
+anonymous-statistics:
+ enabled: false
+ host: stats.pocketmine.net

@@ -132,6 +132,12 @@ use pocketmine\utils\Utils;
 use pocketmine\utils\UUID;
 use pocketmine\utils\VersionString;
 use pocketmine\entity\FishingHook;
+use pocketmine\entity\Witch;
+use pocketmine\entity\MinecartChest;
+use pocketmine\entity\MinecartHopper;
+use pocketmine\entity\MinecartTNT;
+use pocketmine\entity\TripoidCamera;
+use pocketmine\entity\ThrownEnderPearl;
 
 /**
  * The class that manages everything
@@ -1474,6 +1480,31 @@ class Server{
 	}
 	
 	/**
+	 * ClearSky internal use
+	 */
+	private function translateConfig($config, $language = "eng"){
+		if(!file_exists($this->filePath . "src/pocketmine/resources/".$language.".json")){
+			$language = "eng";
+		}
+			// For json error debug
+			// file_put_contents($this->dataPath . "debug.json",str_replace("\n", '', file_get_contents($this->filePath . "src/pocketmine/resources/$language.json")));
+		$translateJson = json_decode(str_replace("\n", "", str_replace("\t", "", str_replace("\r", "", str_replace("#", "", file_get_contents($this->filePath . "src/pocketmine/resources/" . $language . ".json"))))), true);
+		$translateKeys = array_keys($translateJson);
+		$translateValue = array_values($translateJson);
+		foreach($translateValue as $key => $value){
+			if($translateKeys[$key] !== "#{Translate}"){
+				$translateValue[$key]=str_replace("\n","\n #",$value);
+			}else{
+				$translateValue[$key]=$value;
+			}
+			
+		}
+		unset($translateJson);
+		$translatedConfig = str_replace($translateKeys, $translateValue, $config);
+		return $translatedConfig;
+	}
+	
+	/**
 	 * @param \ClassLoader    $autoloader
 	 * @param \ThreadedLogger $logger
 	 * @param string          $filePath
@@ -1509,26 +1540,32 @@ class Server{
 		$this->console = new CommandReader();
 
 		$version = new VersionString($this->getPocketMineVersion());
+		$reloadpreConfig = false;
 		$this->logger->info("Loading pocketmine.yml...");
 		if(!file_exists($this->dataPath . "pocketmine.yml")){
-			$content = file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
-			@file_put_contents($this->dataPath . "pocketmine.yml", $content);
+			//$content = $this->translateConfig(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"),"eng");
+			$content = \file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
+			@\file_put_contents($this->dataPath . "pocketmine.yml", $content);
+		}else{
+			$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
+			$internal_config = yaml_parse(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
+			if($this->getProperty("version", 0) < $internal_config['version']){
+				$this->logger->warning("Outdated pocketmine.yml");
+				if($this->getProperty("settings.config-update", true)){
+					$this->logger->info("Updating pocketmine.yml...");
+					if(!$this->getProperty("temp-file", false)){
+						rename($this->dataPath . "pocketmine.yml",$this->dataPath . "pocketmine.yml.".time().".bak");
+					}
+					//$content = $this->translateConfig(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"),$this->getProperty("settings.language", "eng"));
+					$content = \file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
+					@\file_put_contents($this->dataPath . "pocketmine.yml", $content);
+				}else{
+					$this->logger->info("Ignore outdated pocketmine.yml");
+				}
+			}
+			unset($inernal_config);
 		}
 		$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
-		$internal_config = yaml_parse(file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml"));
-		if($this->getProperty("version", 0) < $internal_config['version']){
-			$this->logger->warning("Outdated pocketmine.yml");
-			if($this->getProperty("settings.config-update", true)){
-				$this->logger->info("Updating pocketmine.yml...");
-				rename($this->dataPath . "pocketmine.yml",$this->dataPath . "pocketmine.yml.".time().".bak");
-				$content = file_get_contents($this->filePath . "src/pocketmine/resources/pocketmine.yml");
-				@file_put_contents($this->dataPath . "pocketmine.yml", $content);
-				$this->config = new Config($this->dataPath . "pocketmine.yml", Config::YAML, []);
-			}else{
-				$this->logger->info("Ignore outdated pocketmine.yml");
-			}
-		}
-		unset($inernal_config);
 		$this->logger->info("Loading server properties...");
 		$this->properties = new Config($this->dataPath . "server.properties", Config::PROPERTIES, [
 			"motd" => "Minecraft: PE Server",
@@ -1580,7 +1617,7 @@ class Server{
 
 		if(($poolSize = $this->getProperty("settings.async-workers", "auto")) === "auto"){
 			$poolSize = ServerScheduler::$WORKERS;
-			$processors = Utils::getCoreCount() - 2;
+			$processors = Utils::getCoreCount() - 4;
 
 			if($processors > 0){
 				$poolSize = max(1, $processors);
@@ -1652,10 +1689,9 @@ class Server{
 
 
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.info", [
-			$this->getName().
-			'-'.
-			$this->getCodename(),
+			$this->getName(),
 			$this->getPocketMineVersion(),
+			$this->getCodename(),
 			$this->getApiVersion(),
 			$this->getPocketMineBuild()
 		]));
@@ -1667,7 +1703,7 @@ class Server{
 		$this->registerEntities();
 		$this->registerTiles();
 
-		InventoryType::init($this->getProperty("player.inventory.slot", 27));
+		InventoryType::init($this->getProperty("player.inventory.slot", Player::SURVIVAL_SLOTS - 13));
 		Block::init();
 		Item::init();
 		Biome::init();
@@ -2651,6 +2687,9 @@ class Server{
 		Entity::registerEntity(IronGolem::class);
 		Entity::registerEntity(MagmaCube::class);
 		Entity::registerEntity(Minecart::class);
+		Entity::registerEntity(MinecartChest::class);
+		Entity::registerEntity(MinecartHopper::class);
+		Entity::registerEntity(MinecartTNT::class);
 		Entity::registerEntity(Mooshroom::class);
 		Entity::registerEntity(Ozelot::class);
 	    Entity::registerEntity(Painting::class);
@@ -2666,9 +2705,12 @@ class Server{
 		Entity::registerEntity(SnowGolem::class);
 		Entity::registerEntity(Spider::class);
 		Entity::registerEntity(Squid::class);
+		Entity::registerEntity(ThrownEnderPearl::class);
 		Entity::registerEntity(ThrownExpBottle::class);
 		Entity::registerEntity(ThrownPotion::class);
+		Entity::registerEntity(TripoidCamera::class);
 		Entity::registerEntity(Villager::class);
+		Entity::registerEntity(Witch::class);
 		Entity::registerEntity(WitherSkeleton::class);
 		Entity::registerEntity(Wolf::class);
 		Entity::registerEntity(Zombie::class);

@@ -13,9 +13,9 @@ class EnchantedGoldenApple extends Food{
 	public function getEffects(){
 		return [
 			[Effect::getEffect(Effect::ABSORPTION)->setDuration(120 * 20), 1],
-			[Effect::getEffect(Effect::REGENERATION)->setDuration(30 * 20)->setAmplifier(4), 1],
-			[Effect::getEffect(Effect::FIRE_RESISTANCE)->setDuration(5 * 60 * 20), 1],
-			[Effect::getEffect(Effect::DAMAGE_RESISTANCE)->setDuration(5 * 60 * 20), 1]
+ 			[Effect::getEffect(Effect::REGENERATION)->setDuration(30 * 20)->setAmplifier(4), 1],
+ 			[Effect::getEffect(Effect::FIRE_RESISTANCE)->setDuration(5 * 60 * 20), 1],
+ 			[Effect::getEffect(Effect::DAMAGE_RESISTANCE)->setDuration(5 * 60 * 20), 1]
 		];
 	}
 }

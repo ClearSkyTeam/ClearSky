@@ -7,6 +7,7 @@ use pocketmine\block\Liquid;
 use pocketmine\event\player\PlayerBucketFillEvent;
 use pocketmine\level\Level;
 use pocketmine\Player;
+use pocketmine\event\player\PlayerBucketEmptyEvent;
 
 class Bucket extends Food{
 	public function __construct($meta = 0, $count = 1){
@@ -42,7 +43,7 @@ class Bucket extends Food{
 		}elseif($targetBlock instanceof Liquid){
 			$result = clone $this;
 			$result->setDamage(0);
-			$player->getServer()->getPluginManager()->callEvent($ev = new PlayerBucketFillEvent($player, $block, $face, $this, $result));
+			$player->getServer()->getPluginManager()->callEvent($ev = new PlayerBucketEmptyEvent($player, $block, $face, $this, $result));
 			if(!$ev->isCancelled()){
 				$player->getLevel()->setBlock($block, $targetBlock, true, true);
 				if($player->isSurvival()){

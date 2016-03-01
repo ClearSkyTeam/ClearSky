@@ -5,7 +5,7 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 
-class BrownMushroom extends Flowable{
+class BrownMushroom extends Flowable implements LightSource{
 
 	protected $id = self::BROWN_MUSHROOM;
 
@@ -19,6 +19,10 @@ class BrownMushroom extends Flowable{
 
 	public function getLightLevel(){
 		return 1;
+	}
+	
+	public function isLightSource(){
+		return true;
 	}
 
 	public function onUpdate($type){
