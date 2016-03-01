@@ -1,6 +1,6 @@
 ## Choose Language: 
 ##  [English](https://github.com/ClearSkyTeam/ClearSky#english) 
-##  [український](https://github.com/ClearSkyTeam/ClearSky#ukr)
+##  [Українська мова](https://github.com/ClearSkyTeam/ClearSky#ukr)
 ##  [中国](https://github.com/ClearSkyTeam/ClearSky#中国)
 
 # English
