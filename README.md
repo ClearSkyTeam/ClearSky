@@ -142,7 +142,7 @@ Note² - 'Full server'と言われたら、CustomAlert等でそのメッセー�
 常に快適な状況を保てるよう、私たちは常にコードを修正しています<br>
 ClearSky はユーザーにとってまだクリーンとは言えません、それは開発者にとっても同じです!!<br>
 
-# UKR
+# Українська мова
 ClearSky є ультра-швидким Minecraft: Pocket Edition ПЗ для сервера з багатьма можливостями.
  - Ми можемо брати код з інших GPL ліцензованих проектів, але більшість особливостей були повністю переписані для ClearSky.
  - Це наша Telegram група, де ви можете спілкуватися з нами: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
