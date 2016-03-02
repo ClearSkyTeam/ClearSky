@@ -1,7 +1,7 @@
 ## Choose Language:   
-##  [English](https://github.com/ClearSkyTeam/ClearSky#English)   
-##  [中国](https://github.com/ClearSkyTeam/ClearSky#晴空)  
-##  [Українська мова](https://github.com/ClearSkyTeam/ClearSky#ukr)  
+###  [English](https://github.com/ClearSkyTeam/ClearSky#English)   
+###  [中国](https://github.com/ClearSkyTeam/ClearSky#晴空)  
+###  [Українська мова](https://github.com/ClearSkyTeam/ClearSky#Українська мова)  
 
 # English  
 # We present you: ClearSky-Sunrise
