@@ -24,9 +24,8 @@ class WeatherCommand extends VanillaCommand{
             return true;
         }
 
-        if(count($args) > 2 || count($args) === 0){
+        if(count($args) > 3 || count($args) === 0){
             $sender->sendMessage(new TranslationContainer("commands.weather.usage", [$this->usageMessage]));
-
             return false;
         }
 
@@ -35,11 +34,23 @@ class WeatherCommand extends VanillaCommand{
         }else{
             $seconds = 600*20;
         }
-
-        if($sender instanceof Player){
-            $level = $sender->getLevel();
-        }else{
-            $level = $sender->getServer()->getDefaultLevel();
+	    if(count($args) === 0 && count($args) <= 2){
+        	if($sender instanceof Player){
+            		$level = $sender->getLevel();
+		}else{
+			$level = $sender->getServer()->getDefaultLevel();
+        	}
+	    }else{
+		if(!$sender->getServer()->isLevelLoaded($args[2])){
+                	$sender->getServer()->loadLevel($args[2]);
+                	$level = $sender->getServer()->getLevelByName($args[2]);
+			if(!$sender->getServer()->isLevelLoaded($args[2])){
+                    		$worldName = $args[2];
+		         	return false;
+	            	}
+	        }else{
+	            $level = $sender->getServer()->getLevelByName($args[2]);
+	        }
         }
 
         if($args[0] === "clear"){
