@@ -1,9 +1,10 @@
 ## Choose Language:   
-##  [English](https://github.com/ClearSkyTeam/ClearSky#english-1)   
-##  [Українська мова](https://github.com/ClearSkyTeam/ClearSky#Українська-мова-1)  
-##  [中国](https://github.com/ClearSkyTeam/ClearSky#晴空)  
+####  [English](#ENG)   
+####  [中国](#CHINESE_1)  
+####  [クリアースカイ](#CHINESE_2)
+####  [Українська мова](#UKR)  
 
-# English  
+# <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean feels and stable features. It was initially designed for production servers.
 
@@ -54,7 +55,7 @@ This is a clean, high quality code base. Developing/modifying this project is ea
 We are still rewriting the base to make sure ClearSky has the best developing feel.<br>
 ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
-# 晴空
+# <a name="CHINESE_1"></a>晴空
 一个为应用服务器设计的高性能MinecraftPE服务端软件
  - 我们可能从其他GPL许可的项目中获取源码，但是绝大多数已经在被整合到晴空之前被复刻（这意味着它与其他的项目/源码是不同的）。
 
@@ -92,7 +93,7 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 晴空不仅仅是用起来干净，对于开发者来说也是一片艳阳天!<br>
 
 
-# クリアースカイ
+# <a name="CHINESE_2"></a>クリアースカイ
 ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソフトウェアです。
 最初はプロダクションサーバーとしてつくられました。
  - GPLのプログラムのコードをとっている部分もありますが、大部分は新たに書かれたものです。
@@ -142,7 +143,7 @@ Note² - 'Full server'と言われたら、CustomAlert等でそのメッセー�
 常に快適な状況を保てるよう、私たちは常にコードを修正しています<br>
 ClearSky はユーザーにとってまだクリーンとは言えません、それは開発者にとっても同じです!!<br>
 
-# Українська мова
+# <a name="UKR"></a>Українська мова
 ClearSky є ультра-швидким програмним забезпеченням для сервера Minecraft: Pocket Edition з багатьма можливостями.
  - Ми можемо брати код з інших GPL ліцензованих проектів, але більшість функцій були повністю перероблені для ClearSky.
  - Це наша Telegram група, де ви можете спілкуватися з нами: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
