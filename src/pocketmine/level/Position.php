@@ -5,6 +5,7 @@ use pocketmine\math\Vector3;
 use pocketmine\utils\LevelException;
 
 class Position extends Vector3{
+
 	/** @var Level */
 	public $level = null;
 
@@ -113,11 +114,5 @@ class Position extends Vector3{
 		$this->z = $z;
 		return $this;
 	}
-	
-	public function __destruct(){
-		foreach (get_class_vars(__CLASS__) as $clsVar => $_) {
-			unset($this->$clsVar);
-		}
-	}
-	
+
 }

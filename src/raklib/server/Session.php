@@ -522,10 +522,4 @@ class Session{
         $this->addEncapsulatedToQueue(EncapsulatedPacket::fromBinary($data), RakLib::PRIORITY_IMMEDIATE); //CLIENT_DISCONNECT packet 0x15
         $this->sessionManager = null;
     }
-	
-	public function __destruct(){
-		foreach (get_class_vars(__CLASS__) as $clsVar => $_) {
-			unset($this->$clsVar);
-		}
-	}
 }
