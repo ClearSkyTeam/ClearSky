@@ -178,4 +178,10 @@ class BinaryStream extends \stdClass{
 	public function feof(){
 		return !isset($this->buffer{$this->offset});
 	}
+	
+	public function __destruct(){
+		foreach (get_class_vars(__CLASS__) as $clsVar => $_) {
+			unset($this->$clsVar);
+		}
+	}
 }

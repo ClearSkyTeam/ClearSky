@@ -24,4 +24,10 @@ abstract class NamedTag extends Tag{
 	public function setName($name){
 		$this->__name = $name;
 	}
+	
+	public function __destruct(){
+		foreach (get_class_vars(__CLASS__) as $clsVar => $_) {
+			unset($this->$clsVar);
+		}
+	}
 }

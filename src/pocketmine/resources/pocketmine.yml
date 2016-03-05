@@ -39,7 +39,7 @@ memory:
  continuous-trigger-rate: 30
 
  garbage-collection:
-  period: 36000
+  period: 18000
   collect-async-worker: true
   low-memory-trigger: true
   
@@ -93,7 +93,7 @@ chunk-sending:
  cache-chunks: true
  
 chunk-ticking:
- per-tick: 1
+ per-tick: 0
  tick-radius: 2
  light-updates: true
  clear-tick-list: true
@@ -126,7 +126,7 @@ auto-updater:
  preferred-channel: ClearSky
  host: jenkins.clearskyteam.org
 
-version: 15
+version: 16
 
 auto-report:
  enabled: false

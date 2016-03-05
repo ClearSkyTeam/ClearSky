@@ -105,7 +105,6 @@ use pocketmine\entity\ExperienceOrb;
 #include <rules/Level.h>
 
 class Level implements ChunkManager, Metadatable{
-
 	private static $levelIdCounter = 1;
 	private static $chunkLoaderCounter = 1;
 	public static $COMPRESSION_LEVEL = 8;
@@ -3162,6 +3161,12 @@ class Level implements ChunkManager, Metadatable{
 			$this->moveToSend[$index] = [];
 		}
 		$this->moveToSend[$index][$entityId] = [$entityId, $x, $y, $z, $yaw, $headYaw === null ? $yaw : $headYaw, $pitch];
+	}
+	
+	public function __destruct(){
+		foreach (get_class_vars(__CLASS__) as $clsVar => $_) {
+			unset($this->$clsVar);
+		}
 	}
 	
 }
