@@ -20,6 +20,7 @@ class AutoUpdater{
 
 		if($server->getProperty("auto-updater.enabled", true)){
 			$this->check();
+			$this->checkStable();
 			if($this->hasUpdate()){
 				if($this->server->getProperty("auto-updater.on-update.warn-console", true)){
 					$this->showConsoleUpdate();
@@ -40,6 +41,17 @@ class AutoUpdater{
 			"details_url" => "http://jenkins.clearskyteam.org/job/ClearSky/".$response["lastSuccessfulBuild"]["number"]."/changes",
 			"download_url" => "http://jenkins.clearskyteam.org/job/ClearSky/".$response["lastSuccessfulBuild"]["number"]."/artifact/releases/ClearSky-master-%23".$response["lastSuccessfulBuild"]["number"].".phar"
 		];
+		$this->checkUpdate();
+	}
+	
+	protected function checkStable(){
+		$response = Utils::getURL("https://raw.githubusercontent.com/ClearSkyTeam/ClearSkyStable/master/CurrentStableVersion", 4);
+		if(!is_string($response)){
+			return;
+		}
+		if(!$this->updateInfo["build"] == $response){
+			$this->hasUpdate = false;
+		}
 		$this->checkUpdate();
 	}
 
