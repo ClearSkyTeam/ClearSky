@@ -199,10 +199,10 @@ class CraftingManager{
 		
 		
 		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::REDSTONE_LAMP),
-		    " R ",
+		        " R ",
 			"RGR",
 			" R "
-		))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 4))->setIngredient("G", Item::get(Item::GLOWSTONE_DUST, 0, 1)));
+		))->setIngredient("R", Item::get(Item::REDSTONE_DUST, 0, 4))->setIngredient("G", Item::get(Item::GLOWSTONE, 0, 1)));
 		
 		
 		$this->registerRecipe((new ShapedRecipe(Item::get(Item::BOOK, 0, 1),
