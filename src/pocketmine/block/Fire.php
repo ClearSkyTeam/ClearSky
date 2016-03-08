@@ -9,6 +9,8 @@ use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Server;
+use pocketmine\Player;
+use pocketmine\level\sound\FizzSound;
 
 class Fire extends Flowable implements LightSource{
 
@@ -63,22 +65,28 @@ class Fire extends Flowable implements LightSource{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			for($s = 0; $s <= 5; ++$s){
 				$side = $this->getSide($s);
-				if($side->getId() !== self::AIR and !($side instanceof Liquid)){
+				if(!($side instanceof Transparent) and !($side instanceof Liquid)){
 					return false;
 				}
 			}
-			$this->getLevel()->setBlock($this, new Air(), true);
+			$this->getLevel()->useBreakOn($this);
 
 			return Level::BLOCK_UPDATE_NORMAL;
 		}elseif($type === Level::BLOCK_UPDATE_RANDOM){
 			if($this->getSide(0)->getId() !== self::NETHERRACK){
-				$this->getLevel()->setBlock($this, new Air(), true);
+				$this->getLevel()->useBreakOn($this);
 
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
 
 		return false;
+	}
+
+	public function onActivate(Item $item, Player $player = null){
+		$this->getLevel()->useBreakOn($this);
+		$this->getLevel()->addSound(new FizzSound($this));
+		return true;
 	}
 
 }
