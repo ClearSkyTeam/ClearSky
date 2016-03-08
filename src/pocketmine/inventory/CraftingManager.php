@@ -324,7 +324,7 @@ class CraftingManager{
 		))->setIngredient("G", Item::get(Item::GLASS, 0, 6)));
 
 		
-		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::LADDER, 0, 2),
+		$this->registerRecipe((new BigShapedRecipe(Item::get(Item::LADDER, 0, 3),
 			"S S",
 			"SSS",
 			"S S"
