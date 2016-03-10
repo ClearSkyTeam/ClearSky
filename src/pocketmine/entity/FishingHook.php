@@ -18,7 +18,8 @@ class FishingHook extends Projectile{
 	protected $gravity = 0.1;
 	protected $drag = 0.05;
 	public $data = 0;
-	public $attractTimer = 0;
+	public $attractTimer = 100;
+	public $coughtTimer = 0;
 	public $damageRod = false;
 
 	public function initEntity(){
@@ -71,12 +72,19 @@ class FishingHook extends Projectile{
 			$this->keepMovement = false;
 			$hasUpdate = true;
 		}
-		if($this->attractTimer === 0 && mt_rand(0, 100) <= (0.1 * 100)){ // chance, that a fish bites
-			$this->attractTimer = mt_rand(5, 10) * 20; // random delay when a fish bites (5-10 seconds)
-		}
-		else{
+		if($this->attractTimer === 0 && mt_rand(0, 100) <= 30){ // chance, that a fish bites
+			$this->coughtTimer = mt_rand(5, 10) * 20; // random delay to catch fish
+			$this->attractTimer = mt_rand(30, 100) * 20; // reset timer
 			$this->attractFish();
+			if($this->shootingEntity !== null)
+				$this->shootingEntity->sendTip("A fish bites!");
+		}
+		elseif($this->attractTimer > 0){
 			$this->attractTimer--;
+		}
+		if($this->coughtTimer > 0){
+			$this->coughtTimer--;
+			$this->fishBites();
 		}
 		
 		$this->timings->stopTiming();
@@ -84,16 +92,27 @@ class FishingHook extends Projectile{
 		return $hasUpdate;
 	}
 
+	public function fishBites(){
+		if($this->shootingEntity instanceof Player){
+			$pk = new EntityEventPacket();
+			$pk->eid = $this->shootingEntity->getId();//$this or $this->shootingEntity
+			$pk->event = EntityEventPacket::FISH_HOOK_HOOK;
+			Server::broadcastPacket($this->shootingEntity->hasSpawned, $pk);
+		}
+	}
+
 	public function attractFish(){
-		$pk = new EntityEventPacket();
-		$pk->eid = $this->getId();
-		$pk->event = EntityEventPacket::FISH_HOOK_BUBBLE;
-		Server::broadcastPacket($this->shootingEntity->hasSpawned, $pk);
+		if($this->shootingEntity instanceof Player){
+			$pk = new EntityEventPacket();
+			$pk->eid = $this->shootingEntity->getId();//$this or $this->shootingEntity
+			$pk->event = EntityEventPacket::FISH_HOOK_BUBBLE;
+			Server::broadcastPacket($this->shootingEntity->hasSpawned, $pk);
+		}
 	}
 
 	public function reelLine(){
 		$this->damageRod = false;
-		if($this->shootingEntity !== null && $this->shootingEntity instanceof Player && $this->attractTimer > 0 && $this->attractTimer < 2){
+		if($this->shootingEntity !== null && $this->shootingEntity instanceof Player && $this->coughtTimer > 0){
 			$fishs = array(ItemItem::RAW_FISH,ItemItem::RAW_SALMON,ItemItem::CLOWNFISH,ItemItem::PUFFERFISH);
 			$fish = array_rand($fishs, 1);
 			$fish = $fishs[$fish];
@@ -102,10 +121,12 @@ class FishingHook extends Projectile{
 			$this->damageRod = true;
 		}
 		if($this->shootingEntity !== null && $this->shootingEntity instanceof Player){
-			$this->shootingEntity->linkHook($this, false);
+			$this->shootingEntity->unlinkHookFromPlayer($this->shootingEntity);
 		}
-		$this->kill();
-		$this->close();
+		if(!$this->closed){
+			$this->kill();
+			$this->close();
+		}
 		return $this->damageRod;
 	}
 

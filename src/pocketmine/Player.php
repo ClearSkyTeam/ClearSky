@@ -15,6 +15,7 @@ use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\entity\EntityDamageByBlockEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityLaunchFishingRodEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\event\entity\EntityShootBowEvent;
 use pocketmine\event\entity\ProjectileLaunchEvent;
@@ -30,6 +31,7 @@ use pocketmine\event\player\PlayerChatEvent;
 use pocketmine\event\player\PlayerCommandPreprocessEvent;
 use pocketmine\event\player\PlayerDeathEvent;
 use pocketmine\event\player\PlayerDropItemEvent;
+use pocketmine\event\player\PlayerFishEvent;
 use pocketmine\event\player\PlayerGameModeChangeEvent;
 use pocketmine\event\player\PlayerHungerChangeEvent;
 use pocketmine\event\player\PlayerInteractEvent;
@@ -120,6 +122,7 @@ use pocketmine\network\protocol\InteractPacket;
 use pocketmine\entity\Colorable;
 use pocketmine\entity\Tameable;
 use pocketmine\entity\Explosive;
+use pocketmine\entity\FishingHook;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -231,6 +234,38 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	
 	/** Fishing **/
 	protected $isFishing = false;
+	protected $hook = null;
+	public function linkHookToPlayer(Entity $entity){
+		if($entity !== null and $entity instanceof FishingHook and $entity->isAlive()){
+			$this->setHook($entity);
+			$this->isFishing = true;
+			$pk = new EntityEventPacket();
+			$pk->eid = $this->getHook()->getId();
+			$pk->event = EntityEventPacket::FISH_HOOK_POSITION;
+			$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+			return true;
+		}
+		return false;
+	}
+
+	public function unlinkHookFromPlayer(Player $player){
+		$this->getHook()->kill();
+		$this->setHook();
+		$this->isFishing = false;
+		$pk = new EntityEventPacket();
+		$pk->eid = 0;
+		$pk->event = EntityEventPacket::FISH_HOOK_TEASE;
+		$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+		return true;
+	}
+	
+	public function getHook(){
+		return $this->hook;
+	}
+	
+	public function setHook(Entity $entity = null){
+		$this->hook = $entity;
+	}
 	
 	/** Additional API **/
 	
@@ -1632,6 +1667,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$radius = $this->width / 2;
 					$this->boundingBox->setBounds($this->x - $radius, $this->y, $this->z - $radius, $this->x + $radius, $this->y + $this->height, $this->z + $radius);
 				}
+				
+				if($this->getHook() !== null && $this->getHook() instanceof FishingHook && $this->distance($this->getHook()->getPosition()) > 33){
+					$this->unlinkHookFromPlayer($this);
+				}
 			}
 		}
 
@@ -2353,6 +2392,41 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						if($this->isSurvival()){
 							$item->setCount($item->getCount() - 1);
 							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
+						}
+					}
+					elseif($item->getId() === Item::FISHING_ROD) {
+						if ($this->getHook() !== null && $this->getHook() instanceof FishingHook) {
+							$this->server->getPluginManager()->callEvent($fish = new PlayerFishEvent($this, $item, $this->getHook()));
+							if (!$ev->isCancelled()) {
+								$damageRod = $this->getHook()->reelLine();
+								#$this->unlinkHookFromPlayer($this);
+							}
+						} else {
+							$f = 0.6;
+							$nbt = new Compound("", [
+								"Pos" => new Enum("Pos", [
+									new Double("", $this->x),
+									new Double("", $this->y + $this->getEyeHeight()),
+									new Double("", $this->z)
+								]),
+								"Motion" => new Enum("Motion", [
+									new Double("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
+									new Double("", -sin($this->pitch / 180 * M_PI)),
+									new Double("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
+								]),
+								"Rotation" => new Enum("Rotation", [
+									new Float("", $this->yaw),
+									new Float("", $this->pitch)
+								])
+							]);
+							$fishingHook = new FishingHook($this->chunk, $nbt, $this);
+							$this->server->getPluginManager()->callEvent($fish = new EntityLaunchFishingRodEvent($this, $item, $fishingHook, $f));
+							if (!$ev->isCancelled()) {
+								$this->linkHookToPlayer($fishingHook);
+								$this->getHook()->setMotion($this->getHook()->getMotion()->multiply($f));
+								$this->getHook()->shootingEntity = $this;
+								$this->getHook()->spawnToAll();
+							}
 						}
 					}
 					
