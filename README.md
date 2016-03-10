@@ -110,7 +110,7 @@ ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソ
  - Multicraftの設定: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
  - 
 
-## [CRITICAL]: 公開するサーバーではxdebugを消してください。
+## [CRITICAL]: 公開するサーバーではxdebugを消してください。通常は気にしなくていいです。
  - php.iniのzend_extension=php_xdebugをコメントアウトするかxdebugなしでリコンパイルします.
  - pocketmine.ymlでのデバックにxdebug強制的に有効にもできます.
 
