@@ -76,7 +76,7 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
  - 通用客户端加入(比如0.13.0 0.13.1 0.13.2可以在一起游戏)
  - 无限玩家数量(将server.properties中的 max-players 设置为-1)
  - 你可以自定义显示的版本号及颜色(pocketmine.yml 中 network 项下的 protocol 和 version 设置)
- - 兼容网络差的玩家，可以在netowrk下关闭作弊检测(anti-cheat)或者增大丢包允许率
+ - 兼容网络差的玩家，可以在network下关闭作弊检测(anti-cheat)或者增大丢包允许率
  - 高效且有逻辑的红石系统.
  - 完整的经验系统 , 包括 挖掘/玩家/生物/附魔瓶/熔炉 事件.
  - 完整的食物 和 饥饿系统 ， 可以根据游戏难度自动适配.
