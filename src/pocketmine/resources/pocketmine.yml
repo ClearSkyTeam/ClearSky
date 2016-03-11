@@ -123,7 +123,7 @@ auto-updater:
  on-update:
   warn-console: true
   warn-ops: true
- preferred-channel: ClearSky #Stable or DEV
+ preferred-channel: Stable #Stable or DEV
  host: jenkins.clearskyteam.org
 
 version: 16
