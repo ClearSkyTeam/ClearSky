@@ -66,7 +66,7 @@ class AutoUpdater{
 		return $this->hasUpdate;
 	}
 	
-	protected function checkStable(){
+	protected function checkStable(){ //TODO::Pocketmine.yml channel detection!
 		$response = Utils::getURL("https://raw.githubusercontent.com/ClearSkyTeam/ClearSkyStable/master/CurrentStableVersion", 4);
 		if(!is_string($response)){
 			return;
@@ -81,6 +81,8 @@ class AutoUpdater{
 		if(!$this->isupdating){
 			$this->isupdating = true;
 			$this->server->getScheduler()->scheduleAsyncTask(new Upgrader($this->updateInfo['download_url'],$this->updateInfo['fingerprint']));
+		}else{
+			Command::broadcastCommandMessage($sender, new TranslationContainer("commands.upgrade.isUpdating"));
 		}
 	}
 	
