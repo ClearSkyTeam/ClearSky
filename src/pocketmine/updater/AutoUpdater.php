@@ -37,7 +37,6 @@ class AutoUpdater{
 		$response = Utils::getURL($this->endpoint, 4);
 		$response = json_decode($response, true);
 		if(!is_array($response)){
-			echo"fail1";
 			return;
 		}
 
