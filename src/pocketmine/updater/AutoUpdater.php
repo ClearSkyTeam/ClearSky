@@ -66,6 +66,17 @@ class AutoUpdater{
 		return $this->hasUpdate;
 	}
 	
+	protected function checkStable(){
+		$response = Utils::getURL("https://raw.githubusercontent.com/ClearSkyTeam/ClearSkyStable/master/CurrentStableVersion", 4);
+		if(!is_string($response)){
+			return;
+		}
+		if(!$this->updateInfo["build"] == $response){
+			$this->hasUpdate = false;
+		}
+		$this->checkUpdate();
+	}
+	
 	public function doUpgrade(){
 		if(!$this->isupdating){
 			$this->isupdating = true;
@@ -74,7 +85,7 @@ class AutoUpdater{
 	}
 	
 	public function downloadCompleteCallback(){
-		$this->isupdating = false;
+		#$this->isupdating = false; //If its completed, the user should not be able to update it again!
 		$this->server->broadcastMessage(new TranslationContainer("commands.upgrade.finish"));
 	}
 	
