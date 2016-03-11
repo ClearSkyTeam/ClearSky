@@ -57,6 +57,11 @@ class AutoUpdater{
 		$this->updateInfo['fingerprint'] = $fingerprint;
 		
 		$this->checkUpdate();
+		if($this->server->getProperty("auto-updater.preferred-channel", "DEV")){
+			//Do nothing
+		}else{
+			$this->checkStable();
+		}
 	}
 
 	/**
@@ -66,7 +71,7 @@ class AutoUpdater{
 		return $this->hasUpdate;
 	}
 	
-	protected function checkStable(){ //TODO::Pocketmine.yml channel detection!
+	protected function checkStable(){
 		$response = Utils::getURL("https://raw.githubusercontent.com/ClearSkyTeam/ClearSkyStable/master/CurrentStableVersion", 4);
 		if(!is_string($response)){
 			return;
