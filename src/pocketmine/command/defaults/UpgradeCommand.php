@@ -22,10 +22,10 @@ class UpgradeCommand extends VanillaCommand{
 			return true;
 		}
 		
-		/*if(!$sender->getServer()->getUpdater()->hasUpdate()){
+		if(!$sender->getServer()->getUpdater()->hasUpdate()){
 			$sender->sendMessage(new TranslationContainer("commands.upgrade.noupgrade"));
 			return true;
-		}*/
+		}
 		
 		Command::broadcastCommandMessage($sender, new TranslationContainer("commands.upgrade.start"));
 		$sender->getServer()->getUpdater()->doUpgrade();
