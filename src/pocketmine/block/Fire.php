@@ -31,13 +31,13 @@ class Fire extends Flowable implements LightSource{
 	public function getLightLevel(){
 		return 15;
 	}
+	
+	public function getHardness(){
+		return 0;
+	}
 
 	public function isLightSource(){
 		return true;
-	}
-
-	public function isBreakable(Item $item){
-		return false;
 	}
 
 	public function canBeReplaced(){
@@ -91,12 +91,6 @@ class Fire extends Flowable implements LightSource{
 		}
 
 		return false;
-	}
-
-	public function onActivate(Item $item, Player $player = null){
-		$this->getLevel()->useBreakOn($this);
-		$this->getLevel()->addSound(new FizzSound($this));
-		return true;
 	}
 
 }

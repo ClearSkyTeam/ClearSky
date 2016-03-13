@@ -9,6 +9,7 @@ use pocketmine\Player;
 
 class FlintSteel extends Tool{
 	public function __construct($meta = 0, $count = 1){
+		$this->block = Block::get(Block::FIRE);
 		parent::__construct(self::FLINT_STEEL, $meta, $count, "Flint and Steel");
 	}
 
@@ -16,17 +17,9 @@ class FlintSteel extends Tool{
 		return true;
 	}
 
-	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
-		if(($player->gamemode & 0x01) === 0 and $this->useOn($block) and $this->getDamage() >= $this->getMaxDurability()){
-			$player->getInventory()->setItemInHand(new Item(Item::AIR, 0, 0));
-		}
-
-		if($block->getId() === self::AIR and ($target instanceof Solid)){
+	/*public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
+		if($block->canBeReplaced() and ($target instanceof Solid)){
 			$level->setBlock($block, new Fire(), true);
-
-			return true;
 		}
-
-		return false;
-	}
+	}*/
 }

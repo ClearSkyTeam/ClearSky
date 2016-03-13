@@ -56,6 +56,12 @@ abstract class Tool extends Item{
 			if(($object instanceof Block) and ($object->getId() === self::GRASS or $object->getId() === self::DIRT)){
 				$this->meta++;
 			}
+		}elseif($this->isShovel()){
+			if(($object instanceof Block) and ($object->getId() === self::GRASS or $object->getId() === self::DIRT)){
+				$this->meta++;
+			}
+		}elseif($this->getId() === self::FLINT_STEEL){
+			$this->meta++;
 		}elseif(($object instanceof Entity) and !$this->isSword()){
 			$this->meta += 2;
 		}else{
