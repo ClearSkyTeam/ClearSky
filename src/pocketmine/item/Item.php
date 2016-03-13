@@ -1245,10 +1245,10 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::SPIDER_EYE, 0));
 		Item::addCreativeItem(Item::get(Item::FERMENTED_SPIDER_EYE, 0));
 		Item::addCreativeItem(Item::get(Item::EXP_BOTTLE, 0));
-		// enchanted books
-		//TODO: Enchantments
+		// TODO: Enchantments
 		for($i = 0; $i < 79; $i++){
-			Item::addCreativeItem(Item::get(Item::ENCHANTED_BOOK, $i));
+			$item = Item::get(Item::ENCHANTED_BOOK)->addEnchantment(Enchantment::getEnchantment($i));
+			if($item !== null) Item::addCreativeItem();
 		}
 		Item::addCreativeItem(Item::get(Item::DYE, 0));
 		Item::addCreativeItem(Item::get(Item::DYE, 8));
@@ -1266,9 +1266,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::DYE, 10));
 		Item::addCreativeItem(Item::get(Item::DYE, 2));
 		Item::addCreativeItem(Item::get(Item::DYE, 6));
-		
 		Item::addCreativeItem(Item::get(Item::GLASS_BOTTLE, 0));
-		
 		self::addCreativeItem(Item::get(Item::POTION, Potion::WATER_BOTTLE));
 		self::addCreativeItem(Item::get(Item::POTION, Potion::AWKWARD));
 		self::addCreativeItem(Item::get(Item::POTION, Potion::THICK));
