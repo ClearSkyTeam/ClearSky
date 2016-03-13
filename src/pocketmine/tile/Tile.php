@@ -18,12 +18,15 @@ abstract class Tile extends Position{
 	const SIGN = "Sign";
 	const CHEST = "Chest";
 	const FURNACE = "Furnace";
-	const DISPENSER = "Dispenser";
 	const FLOWER_POT = "FlowerPot";
 	const MOB_SPAWNER = "MobSpawner";
 	const SKULL = "Skull";
 	const BREWING_STAND = "BrewingStand";
 	const ENCHANT_TABLE = "EnchantTable";
+	const ITEM_FRAME = "ItemFrame";
+	const DISPENSER = "Dispenser";
+	const DROPPER = "Dropper";
+	const DAY_LIGHT_DETECTOR = "DLDetector";
 
 	public static $tileCount = 1;
 

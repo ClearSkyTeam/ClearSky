@@ -10,11 +10,10 @@ use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Int;
 use pocketmine\nbt\tag\String;
 use pocketmine\Player;
-use pocketmine\tile\Dispenser as DispenserTile;
+use pocketmine\tile\Dropper as DropperTile;
 use pocketmine\tile\Tile;
-use pocketmine\entity\ProjectileSource;
 
-class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
+class Dispenser extends Solid implements RedstoneConsumer{
 	protected $id = self::DISPENSER;
 
 	public function __construct($meta = 0){
@@ -50,11 +49,24 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 		}
 		else
 			$f = 0;
-		$faces = [3 => 3,0 => 4,2 => 5,1 => 2,4 => 0,5 => 1];
+		$faces = [
+			3 => 3,
+			0 => 4,
+			2 => 5,
+			1 => 2,
+			4 => 0,
+			5 => 1
+		];
 		$this->meta = $faces[$f];
 		$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
-		$nbt->Items->setType(NBT::_Compound);
+		$nbt = new Compound("", [
+			new Enum("Items", []),
+			new String("id", Tile::DROPPER),
+			new Int("x", $this->x),
+			new Int("y", $this->y),
+			new Int("z", $this->z)
+		]);
+		$nbt->Items->setType(NBT::TAG_Compound);
 		if($item->hasCustomName()){
 			$nbt->CustomName = new String("CustomName", $item->getCustomName());
 		}
@@ -63,13 +75,13 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 				$nbt->{$key} = $v;
 			}
 		}
-		Tile::createTile(Tile::DISPENSER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+		Tile::createTile(Tile::DROPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 		return true;
 	}
 
 	public function activate(){
 		$tile = $this->getLevel()->getTile($this);
-		if($tile instanceof DispenserTile){
+		if($tile instanceof DropperTile){
 			$tile->activate();
 		}
 	}
@@ -78,13 +90,19 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
 			$dispenser = null;
-			if($t instanceof DispenserTile){
+			if($t instanceof DropperTile){
 				$dispenser = $t;
 			}
 			else{
-				$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
-				$nbt->Items->setType(NBT::_Compound);
-				$dispenser = Tile::createTile(Tile::DISPENSER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+				$nbt = new Compound("", [
+					new Enum("Items", []),
+					new String("id", Tile::DROPPER),
+					new Int("x", $this->x),
+					new Int("y", $this->y),
+					new Int("z", $this->z)
+				]);
+				$nbt->Items->setType(NBT::TAG_Compound);
+				$dispenser = Tile::createTile(Tile::DROPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 			if($player->isCreative() and $player->getServer()->limitedCreative){
 				return true;
@@ -95,11 +113,6 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 	}
 
 	public function getDrops(Item $item){
-		$drops = [];
-		if($item->isPickaxe() >= 1){
-			$drops[] = [Item::DISPENSER,0,1];
-		}
-		
-		return $drops;
+		return [[$this->id,0,1]];
 	}
 }

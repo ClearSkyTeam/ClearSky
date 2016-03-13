@@ -220,8 +220,7 @@ class Item{
 	const DRAGON_EGG = 122;
 	const REDSTONE_LAMP = 123;
 	const LIT_REDSTONE_LAMP = 124;
-	// const DOUBLE_WOODEN_SLAB = 125;
-	// const WOODEN_SLAB = 126;
+	const DROPPER = 125;
 	const ACTIVATOR_RAIL = 126;
 	const COCOA_POD = 127;
 	const COCOA_BEANS = 127;
@@ -312,6 +311,7 @@ class Item{
 	const ACACIA_DOOR_BLOCK = 196;
 	const DARK_OAK_DOOR_BLOCK = 197;
 	const GRASS_PATH = 198;
+	const ITEM_FRAME_BLOCK = 199;
 	const PODZOL = 243;
 	const BEETROOT_BLOCK = 244;
 	const STONECUTTER = 245;
@@ -1161,7 +1161,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::REPEATER));
 		Item::addCreativeItem(Item::get(Item::COMPARATOR));
 		Item::addCreativeItem(Item::get(Item::DISPENSER, 3));
-		// Item::addCreativeItem(Item::get(Item::DROPPER));
+		Item::addCreativeItem(Item::get(Item::DROPPER, 3));
 		Item::addCreativeItem(Item::get(Item::HOPPER));
 		Item::addCreativeItem(Item::get(Item::SNOWBALL));
 	}
