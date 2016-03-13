@@ -38,11 +38,11 @@ class ChestInventory extends ContainerInventory{
 		if($this->getHolder()->getLevel() instanceof Level){
 			/** @var TrappedChest $block */
 			$block = $this->getHolder()->getBlock();
-			if($block instanceof TrappedChest){
+			/*if($block instanceof TrappedChest){
 				if(!$block->isActivated()){
 					$block->activate();
 				}
-			}
+			}*/
 		}
 	}
 
@@ -50,11 +50,11 @@ class ChestInventory extends ContainerInventory{
 		if($this->getHolder()->getLevel() instanceof Level){
 			/** @var TrappedChest $block */
 			$block = $this->getHolder()->getBlock();
-			if($block instanceof TrappedChest){
+			/*if($block instanceof TrappedChest){
 				if($block->isActivated()){
 					$block->deactivate();
 				}
-			}
+			}*/
 		}
 
 		if(count($this->getViewers()) === 1){
