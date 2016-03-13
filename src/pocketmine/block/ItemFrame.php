@@ -37,7 +37,7 @@ class ItemFrame extends Transparent{
 				new Byte("ItemRotation", 0),
 				new Float("ItemDropChance", 1.0)
 			]);
-			Tile::createTile(Tile::ITEM_FRAME, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+			$tile = Tile::createTile(Tile::ITEM_FRAME, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 		}
 
 		if($tile->getItem()->getId() === 0){

@@ -13,7 +13,7 @@ use pocketmine\Player;
 use pocketmine\tile\Dropper as DropperTile;
 use pocketmine\tile\Tile;
 
-class Dispenser extends Solid implements RedstoneConsumer{
+class Dropper extends Solid implements RedstoneConsumer{
 	protected $id = self::DISPENSER;
 
 	public function __construct($meta = 0){
