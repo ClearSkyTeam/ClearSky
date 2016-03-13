@@ -1249,6 +1249,7 @@ class Item{
 		for($i = 0; $i < 79; $i++){
 			$item = Item::get(Item::ENCHANTED_BOOK)->addEnchantment(Enchantment::getEnchantment($i));
 			if($item !== null) Item::addCreativeItem();
+			else Item::addCreativeItem(Item::get(Item::ENCHANTED_BOOK));
 		}
 		Item::addCreativeItem(Item::get(Item::DYE, 0));
 		Item::addCreativeItem(Item::get(Item::DYE, 8));
