@@ -26,7 +26,7 @@ class Skeleton extends Monster implements ProjectileSource{
         }
     }
 
- 	public function getName() {
+ 	public function getName(){
         return "Skeleton";
     }
 

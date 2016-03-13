@@ -22,7 +22,7 @@ class Creeper extends Monster implements Explosive{
         }
     }
 
-    public function getName() {
+    public function getName(){
         return "Creeper";
     }
 

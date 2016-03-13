@@ -2394,10 +2394,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
 						}
 					}
-					elseif($item->getId() === Item::FISHING_ROD) {
-						if ($this->getHook() !== null && $this->getHook() instanceof FishingHook) {
+					elseif($item->getId() === Item::FISHING_ROD){
+						if ($this->getHook() !== null && $this->getHook() instanceof FishingHook){
 							$this->server->getPluginManager()->callEvent($fish = new PlayerFishEvent($this, $item, $this->getHook()));
-							if (!$ev->isCancelled()) {
+							if (!$ev->isCancelled()){
 								$damageRod = $this->getHook()->reelLine();
 								#$this->unlinkHookFromPlayer($this);
 							}
@@ -2421,7 +2421,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							]);
 							$fishingHook = new FishingHook($this->chunk, $nbt, $this);
 							$this->server->getPluginManager()->callEvent($fish = new EntityLaunchFishingRodEvent($this, $item, $fishingHook, $f));
-							if (!$ev->isCancelled()) {
+							if (!$ev->isCancelled()){
 								$this->linkHookToPlayer($fishingHook);
 								$this->getHook()->setMotion($this->getHook()->getMotion()->multiply($f));
 								$this->getHook()->shootingEntity = $this;
@@ -2961,7 +2961,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$extraItem = $this->inventory->addItem($recipe->getResult());
 				if(count($extraItem) > 0){
 					foreach($extraItem as $item){
-						$this->level->dropItem($this, $item); // Fix win10
+						$this->level->dropItem($this, $item);
 					}
 				}
 				switch($recipe->getResult()->getId()){
@@ -3127,7 +3127,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->server->getPluginManager()->callEvent($ev = new PlayerKickEvent($this, $reason, $this->getLeaveMessage()));
 		if(!$ev->isCancelled()){
 			if($isAdmin){
-                if(!$this->isBanned()) {
+                if(!$this->isBanned()){
                     $message = "Kicked by admin." . ($reason !== "" ? " Reason: " . $reason : "");
                 }else{
                     $message = $reason;

@@ -20,7 +20,7 @@ class Pig extends Animal implements Rideable{
         parent::initEntity();
     }
 
-    public function getName() {
+    public function getName(){
         return "Pig";
     }
 

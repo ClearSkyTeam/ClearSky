@@ -20,7 +20,7 @@ class Chicken extends Animal{
 		parent::initEntity();
 	}
 
-	public function getName() {
+	public function getName(){
 		return "Chicken";
 	}
 

@@ -18,7 +18,7 @@ class Witch extends Monster implements ProjectileSource{
         parent::initEntity();
     }
 
- 	public function getName() {
+ 	public function getName(){
         return "Witch";
     }
 

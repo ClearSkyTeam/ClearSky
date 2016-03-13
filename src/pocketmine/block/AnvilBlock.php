@@ -85,7 +85,7 @@ class AnvilBlock extends Fallable{
     }
 
     public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-        if ($target->isTransparent() === false) {
+        if ($target->isTransparent() === false){
             $faces = [
                 0 => 0,
                 1 => 1,

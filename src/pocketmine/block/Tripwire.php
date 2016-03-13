@@ -75,7 +75,7 @@ class Tripwire extends Flowable{
      *
      * @return true if activated, false if not
      */
-    public function isActivated() {
+    public function isActivated(){
         return ($this->getDamage() & 0x04) != 0;
     }
     
@@ -84,9 +84,9 @@ class Tripwire extends Flowable{
      *
      * @param $act - true if activated, false if not
      */
-    public function setActivated($act) {
+    public function setActivated($act){
         $dat = $this->getDamage() & (0x08 | 0x03);
-        if ($act) {
+        if ($act){
             $dat |= 0x04;
         }
         $this->setDamage($dat);
@@ -97,7 +97,7 @@ class Tripwire extends Flowable{
      *
      * @return true if object activating tripwire, false if not
      */
-    public function isObjectTriggering() {
+    public function isObjectTriggering(){
         return ($this->getDamage() & 0x01) != 0;
     }
 
@@ -106,9 +106,9 @@ class Tripwire extends Flowable{
      *
      * @param trig - true if object activating tripwire, false if not
      */
-    public function setObjectTriggering($trig) {
+    public function setObjectTriggering($trig){
         $dat = $this->getDamage() & 0x0E;
-        if ($trig) {
+        if ($trig){
             $dat |= 0x01;
         }
         $this->setDamage($dat);

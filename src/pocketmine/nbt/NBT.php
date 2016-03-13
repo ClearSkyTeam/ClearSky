@@ -677,7 +677,7 @@ class NBT{
 	}
 	
 	public function __destruct(){
-		foreach (get_class_vars(__CLASS__) as $clsVar => $_) {
+		foreach (get_class_vars(__CLASS__) as $clsVar => $_){
 			unset($this->$clsVar);
 		}
 	}

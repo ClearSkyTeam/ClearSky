@@ -66,7 +66,7 @@ abstract class Generator{
 		if($samplingRate === 0){
 			throw new \InvalidArgumentException("samplingRate cannot be 0");
 		}
-		if ($xSize % $samplingRate !== 0) {
+		if ($xSize % $samplingRate !== 0){
 			throw new \InvalidArgumentCountException("xSize % samplingRate must return 0");
 		}
 
@@ -101,10 +101,10 @@ abstract class Generator{
 		if($samplingRate === 0){
 			throw new \InvalidArgumentException("samplingRate cannot be 0");
 		}
-		if ($xSize % $samplingRate !== 0) {
+		if ($xSize % $samplingRate !== 0){
 			throw new \InvalidArgumentCountException("xSize % samplingRate must return 0");
 		}
-		if ($zSize % $samplingRate !== 0) {
+		if ($zSize % $samplingRate !== 0){
 			throw new \InvalidArgumentCountException("zSize % samplingRate must return 0");
 		}
 
@@ -162,13 +162,13 @@ abstract class Generator{
 		if($ySamplingRate === 0){
 			throw new \InvalidArgumentException("ySamplingRate cannot be 0");
 		}
-		if ($xSize % $xSamplingRate !== 0) {
+		if ($xSize % $xSamplingRate !== 0){
 			throw new \InvalidArgumentCountException("xSize % xSamplingRate must return 0");
 		}
-		if ($zSize % $zSamplingRate !== 0) {
+		if ($zSize % $zSamplingRate !== 0){
 			throw new \InvalidArgumentCountException("zSize % zSamplingRate must return 0");
 		}
-		if ($ySize % $ySamplingRate !== 0) {
+		if ($ySize % $ySamplingRate !== 0){
 			throw new \InvalidArgumentCountException("ySize % ySamplingRate must return 0");
 		}
 

@@ -783,7 +783,7 @@ class Level implements ChunkManager, Metadatable{
 
 		$this->checkTime();
 
-		if (++$this->sendTimeTicker === 200) {
+		if (++$this->sendTimeTicker === 200){
 			$this->sendTime();
 			$this->sendTimeTicker = 0;
 

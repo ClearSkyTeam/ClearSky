@@ -26,7 +26,7 @@ class Enderman extends Monster{
 		}
 	}
 
-	public function getName() {
+	public function getName(){
 		return "Enderman";
 	}
 

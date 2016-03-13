@@ -3,12 +3,12 @@ namespace pocketmine\gui;
 
 class frmMain extends \wxFrame {
 
-	function onMenuServerExit() {
+	function onMenuServerExit(){
 		$this->Destroy();
 	}
   
-	function onMenuServerStart() {
-		if($this->menuServerStart->GetText() === "S&tart") {
+	function onMenuServerStart(){
+		if($this->menuServerStart->GetText() === "S&tart"){
 			$this->menuServerStart->SetText("S&top");
 			$this->menuServerStart->SetHelp("Stop server ...");
 			//$this->menuServerStart->SetBitmap(new \wxBitmap("./images/stop.png", wxBITMAP_TYPE_PNG));
@@ -19,20 +19,20 @@ class frmMain extends \wxFrame {
 		}
 	}
   
-	function onMenuHelpForums() {
+	function onMenuHelpForums(){
 		wxLaunchDefaultBrowser("http://forums.pocketmine.net");
 	}
 	
-	function onMenuOptionsProp() {
+	function onMenuOptionsProp(){
 		$this->ServerProperties->ShowModal();
 	}
 
-	function onMenuHelpAbout() {
+	function onMenuHelpAbout(){
 		$dlg = new \wxMessageDialog($this, "PocketMine-MP is a sofware for creating Minecraft Pocket Edition servers.\nIt has a Plugin API that enables a developer to extend it and add new features, or change default ones.\n\nThe entire server is done in PHP, and has been tested, profiled and optimized to run smoothly.", "About PocketMine-MP...", wxICON_INFORMATION);
 		$dlg->ShowModal();
 	}
 
-	function __construct($parent = Null) {
+	function __construct($parent = Null){
 		parent::__construct($parent, wxID_ANY, "PocketMine-MP {VERSION} server", wxDefaultPosition, new \wxSize( 800,480 ), wxCAPTION|wxCLOSE_BOX|wxMINIMIZE_BOX|wxSYSTEM_MENU|wxTAB_TRAVERSAL );
 
 		$this->SetIcon(new \wxIcon("./images/app.png", wxBITMAP_TYPE_PNG));
@@ -146,10 +146,10 @@ class frmMain extends \wxFrame {
 		$this->ServerProperties = new frmProperties($this);
 	}
 	
-	function __destruct() {}
+	function __destruct(){}
 	
 	function onMenulbPlayers($event){
-		if(stripos($this->lbPlayers->GetString($this->lbPlayers->GetSelection()), "@") !== false) {
+		if(stripos($this->lbPlayers->GetString($this->lbPlayers->GetSelection()), "@") !== false){
 			$this->menulbPlayersOp->SetText("Deop");
 		} else {
 			$this->menulbPlayersOp->SetText("Op");
@@ -249,7 +249,7 @@ class frmProperties extends \wxDialog {
 }
 
 class PocketMineGui extends \wxApp {
-	function OnInit() {
+	function OnInit(){
 		wxInitAllImageHandlers();
 		$this->mf = new frmMain();
 		$this->mf->Show();

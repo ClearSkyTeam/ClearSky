@@ -9,11 +9,11 @@ class SetPlayerGameTypePacket extends DataPacket {
 
 	public $gamemode;
 
-	public function decode() {
+	public function decode(){
 
 	}
 
-	public function encode() {
+	public function encode(){
 		$this->reset();
 		$this->putInt($this->gamemode);
 	}

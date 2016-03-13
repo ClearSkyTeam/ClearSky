@@ -110,8 +110,8 @@ class Ladder extends Transparent{
 			5 => 4,
 		];
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if(isset($faces[$this->meta])) {
-				if ($this->getSide($faces[$this->meta])->getId() === self::AIR) {
+			if(isset($faces[$this->meta])){
+				if ($this->getSide($faces[$this->meta])->getId() === self::AIR){
 					$this->getLevel()->useBreakOn($this);
 				}
 				return Level::BLOCK_UPDATE_NORMAL;

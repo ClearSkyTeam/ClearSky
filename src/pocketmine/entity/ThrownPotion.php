@@ -48,9 +48,9 @@ class ThrownPotion extends Projectile{
 		$color = Potion::getColor($this->getData());
 		$this->getLevel()->addParticle(new SpellParticle($this, $color[0], $color[1], $color[2]));
 		$players = $this->getViewers();
-		foreach($players as $p) {
+		foreach($players as $p){
 			if($p->distance($this) <= 6){
-				switch($this->getData()) {
+				switch($this->getData()){
 					case Potion::NIGHT_VISION:
 						$p->addEffect(Effect::getEffect(Effect::NIGHT_VISION)->setAmplifier(0)->setDuration(3 * 60 * 20));
 						break;

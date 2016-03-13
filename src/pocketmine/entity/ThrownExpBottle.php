@@ -38,7 +38,7 @@ class ThrownExpBottle extends Projectile{
 			$hasUpdate = true;
 		}
 		
-		if($this->onGround) {
+		if($this->onGround){
 			$this->kill();
 			$this->close();
 			$this->getLevel()->spawnExperienceOrb($this->add(0,1,0), mt_rand(3,11));

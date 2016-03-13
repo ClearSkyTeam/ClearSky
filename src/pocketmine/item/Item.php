@@ -1745,7 +1745,7 @@ class Item{
 	final public function canBePlaced(){
 		return $this->block !== null and $this->block->canBePlaced();
 	}
-	final public function isPlaceable() {
+	final public function isPlaceable(){
 		$this->canBePlaced();
 	}
 

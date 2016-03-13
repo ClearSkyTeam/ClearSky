@@ -31,7 +31,7 @@ class AttributeManager{
         self::addAttribute(self::MOVEMENTSPEED, "generic.movementSpeed", 0, 24791, 0.1, true);
     }
 
-    public function getPlayer() {
+    public function getPlayer(){
 		return $this->player;
     }
 
@@ -77,14 +77,14 @@ class AttributeManager{
         return null;
     }
 
-    public function sendAll() {
-        foreach($this->attributes as $attribute) {
+    public function sendAll(){
+        foreach($this->attributes as $attribute){
             $attribute->send();
         }
     }
 
-    public function resetAll() {
-        foreach($this->attributes as $attribute) {
+    public function resetAll(){
+        foreach($this->attributes as $attribute){
             $attribute->setValue($attribute->getDefaultValue());
         }
     }

@@ -126,7 +126,7 @@ class Attribute{
             return $this->shouldSend;
         }
 
-        public function send() {
+        public function send(){
 		$pk = new UpdateAttributePacket();
             $pk->maxValue = $this->getMaxValue();
             $pk->minValue = $this->getMinValue();

@@ -13,7 +13,7 @@ class StoneButton extends WoodenButton{
 		return "Stone Button";
 	}
 	
-	public function getToolType() {
+	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
 	}
 }

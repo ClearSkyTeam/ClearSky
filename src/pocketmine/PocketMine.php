@@ -5,7 +5,7 @@ namespace {
 		foreach(func_get_args() as $var){
 			switch(true){
 				case is_array($var):
-					echo str_repeat("  ", $cnt) . "array(" . count($var) . ") {" . PHP_EOL;
+					echo str_repeat("  ", $cnt) . "array(" . count($var) . "){" . PHP_EOL;
 					foreach($var as $key => $value){
 						echo str_repeat("  ", $cnt + 1) . "[" . (is_integer($key) ? $key : '"' . $key . '"') . "]=>" . PHP_EOL;
 						++$cnt;
@@ -165,7 +165,7 @@ namespace pocketmine {
 				 * Get the timezone offset
 				 *
 				 * Sample Output var_dump
-				 * array(3) {
+				 * array(3){
 				 *	  [0] =>
 				 *	  string(7) "Caption"
 				 *	  [1] =>

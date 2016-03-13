@@ -24,7 +24,7 @@ class ShapedRecipe implements Recipe{
 	 * @param Item     $result
 	 * @param string[] $shape
 	 *
-	 * @throws \Exception
+	 * @throws \Throwable
 	 */
 	public function __construct(Item $result, ...$shape){
 		if(count($shape) === 0){

@@ -1,6 +1,7 @@
 <?php
 namespace pocketmine\inventory;
 
+use pocketmine\block\TrappedChest;
 use pocketmine\level\Level;
 use pocketmine\network\protocol\BlockEventPacket;
 use pocketmine\Player;
@@ -33,9 +34,29 @@ class ChestInventory extends ContainerInventory{
 				$level->addChunkPacket($this->getHolder()->getX() >> 4, $this->getHolder()->getZ() >> 4, $pk);
 			}
 		}
+
+		if($this->getHolder()->getLevel() instanceof Level){
+			/** @var TrappedChest $block */
+			$block = $this->getHolder()->getBlock();
+			if($block instanceof TrappedChest){
+				if(!$block->isActivated()){
+					$block->activate();
+				}
+			}
+		}
 	}
 
 	public function onClose(Player $who){
+		if($this->getHolder()->getLevel() instanceof Level){
+			/** @var TrappedChest $block */
+			$block = $this->getHolder()->getBlock();
+			if($block instanceof TrappedChest){
+				if($block->isActivated()){
+					$block->deactivate();
+				}
+			}
+		}
+
 		if(count($this->getViewers()) === 1){
 			$pk = new BlockEventPacket();
 			$pk->x = $this->getHolder()->getX();
