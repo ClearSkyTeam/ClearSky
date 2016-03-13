@@ -1,7 +1,6 @@
 <?php
 namespace pocketmine\tile;
 
-use pocketmine\block\Block;
 use pocketmine\entity\Entity;
 use pocketmine\inventory\DispenserInventory;
 use pocketmine\inventory\InventoryHolder;

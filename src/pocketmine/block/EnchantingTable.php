@@ -81,7 +81,7 @@ class EnchantingTable extends Transparent{
 					new Int("z", $this->z)
 				]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
-				$table = Tile::createTile("Chest", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+				$table = Tile::createTile("EnchantTable", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
 			if(isset($table->namedtag->Lock) and $table->namedtag->Lock instanceof String){

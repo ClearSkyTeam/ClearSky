@@ -54,7 +54,7 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 		$this->meta = $faces[$f];
 		$this->getLevel()->setBlock($block, $this, true, true);
 		$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
-		$nbt->Items->setType(NBT::_Compound);
+		$nbt->Items->setTagType(NBT::TAG_Compound);
 		if($item->hasCustomName()){
 			$nbt->CustomName = new String("CustomName", $item->getCustomName());
 		}
@@ -83,7 +83,7 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 			}
 			else{
 				$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
-				$nbt->Items->setType(NBT::_Compound);
+				$nbt->Items->setTagType(NBT::TAG_Compound);
 				$dispenser = Tile::createTile(Tile::DISPENSER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 			if($player->isCreative() and $player->getServer()->limitedCreative){

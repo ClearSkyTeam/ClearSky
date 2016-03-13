@@ -66,7 +66,7 @@ class Dropper extends Solid implements RedstoneConsumer{
 			new Int("y", $this->y),
 			new Int("z", $this->z)
 		]);
-		$nbt->Items->setType(NBT::TAG_Compound);
+		$nbt->Items->setTagType(NBT::TAG_Compound);
 		if($item->hasCustomName()){
 			$nbt->CustomName = new String("CustomName", $item->getCustomName());
 		}
@@ -101,7 +101,7 @@ class Dropper extends Solid implements RedstoneConsumer{
 					new Int("y", $this->y),
 					new Int("z", $this->z)
 				]);
-				$nbt->Items->setType(NBT::TAG_Compound);
+				$nbt->Items->setTagType(NBT::TAG_Compound);
 				$dispenser = Tile::createTile(Tile::DROPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 			if($player->isCreative() and $player->getServer()->limitedCreative){
