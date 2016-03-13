@@ -14,6 +14,11 @@ class InventoryType{
 	const BREWING_STAND = 6;
 	const ANVIL = 7;
 	const ENCHANT_TABLE = 8;
+	const DISPENSER = 9;
+	const DROPPER = 10;
+	const HOPPER = 11;
+	const CHEST_MINECART = 12;
+	const HOPPER_MINECART = 13;// i am not sure about the new ones
 
 	private static $default = [];
 
@@ -39,7 +44,7 @@ class InventoryType{
 		static::$default[static::DOUBLE_CHEST] = new InventoryType(27 + 27, "Double Chest", 0);
 		static::$default[static::PLAYER] = new InventoryType($playerinventory + 4 + 9, "Player", 0); //27 CONTAINER, 4 ARMOR, 9 HOTBAR slots)
 		static::$default[static::FURNACE] = new InventoryType(3, "Furnace", 2);
-		static::$default[static::CRAFTING] = new InventoryType(5, "Crafting", 1); //4 CRAFTING slots, 1 RESULT
+		static::$default[static::CRAFTING] = new InventoryType(5, "InventoryCrafting", 1); //4 CRAFTING slots, 1 RESULT
 		static::$default[static::WORKBENCH] = new InventoryType(10, "Crafting", 1); //9 CRAFTING slots, 1 RESULT
 		static::$default[static::ENCHANT_TABLE] = new InventoryType(2, "Enchant", 4); //1 INPUT/OUTPUT, 1 LAPIS
 		static::$default[static::BREWING_STAND] = new InventoryType(4, "Brewing", 5); //1 INPUT, 3 POTION
