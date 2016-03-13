@@ -10,6 +10,8 @@ use pocketmine\nbt\tag\Int;
 use pocketmine\nbt\tag\String;
 use pocketmine\Player;
 use pocketmine\tile\Tile;
+use pocketmine\nbt\tag\Enum;
+use pocketmine\tile\EnchantTable;
 
 class EnchantingTable extends Transparent{
 
@@ -65,12 +67,29 @@ class EnchantingTable extends Transparent{
 
 	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
-			//TODO lock
-			if($player->isCreative()){
-				return true;
+
+			$t = $this->getLevel()->getTile($this);
+			$table = null;
+			if($t instanceof EnchantTable){
+				$table = $t;
+			}else{
+				$nbt = new Compound("", [
+					new Enum("Items", []),
+					new String("id", Tile::ENCHANT_TABLE),
+					new Int("x", $this->x),
+					new Int("y", $this->y),
+					new Int("z", $this->z)
+				]);
+				$nbt->Items->setTagType(NBT::TAG_Compound);
+				$table = Tile::createTile("Chest", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			$player->addWindow(new EnchantInventory($this));
+			if(isset($table->namedtag->Lock) and $table->namedtag->Lock instanceof String){
+				if($table->namedtag->Lock->getValue() !== $item->getCustomName()){
+					return true;
+				}
+			}
+			$player->addWindow($table->getInventory());
 		}
 
 		return true;
