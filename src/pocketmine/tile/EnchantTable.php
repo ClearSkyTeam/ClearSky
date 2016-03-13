@@ -8,6 +8,8 @@ use pocketmine\inventory\EnchantInventory;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\NBT;
+use pocketmine\level\format\FullChunk;
+use pocketmine\item\Item;
 
 class EnchantTable extends Spawnable implements InventoryHolder, Container, Nameable{
 

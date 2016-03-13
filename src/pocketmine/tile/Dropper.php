@@ -1,13 +1,5 @@
 <?php
-/**
- * Author: PeratX
- * QQ: 1215714524
- * Time: 2016/2/3 15:44
 
-
- *
- * OpenGenisys Project
- */
 namespace pocketmine\tile;
 
 use pocketmine\block\Block;
