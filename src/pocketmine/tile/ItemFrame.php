@@ -29,7 +29,7 @@ class ItemFrame extends Spawnable{
 		parent::__construct($chunk, $nbt);
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return "Item Frame";
 	}
 
