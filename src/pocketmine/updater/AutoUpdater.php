@@ -106,9 +106,9 @@ class AutoUpdater{
 	protected function showCuttingEdge(){
 		$logger = $this->server->getLogger();
 		$logger->warning("----- ClearSky Auto Updater -----");
-		$logger->warning("It appears you're running a CuttingEdge build, it is means you are using src or a custom build");
-		$logger->warning("If you are running src for a production server , please use phar provide by our jenkins server for better performane");
-		$logger->warning("If you are running a cunstom build , please remember ClearSky Team wont support this version");
+		$logger->warning("It appears you're running a CuttingEdge build, it means you are using src or a custom build");
+		$logger->warning("If you want to run a production server, please use a phar provided by our Jenkins server for better performance");
+		$logger->warning("If you are running a custom build, please remember that the ClearSky Team won't support this version");
 		$logger->warning("----- -------------------------- -----");
 	}
 	
