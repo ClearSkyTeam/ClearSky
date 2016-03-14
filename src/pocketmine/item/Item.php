@@ -1846,18 +1846,17 @@ class Item{
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		return false;
 	}
-
+	
 	public final function equals(Item $item, $checkDamage = true, $checkCompound = true){
 		return $this->id === $item->getId() and ($checkDamage === false or $this->getDamage() === $item->getDamage()) and ($checkCompound === false or $this->getCompoundTag() === $item->getCompoundTag());
 	}
-
-	public final function deepEquals(Item $item, $checkDamage = true, $checkCompound = true){
+	
+	public final function deepEquals(Item $item, $checkDamage = true, $checkCompound = false){
 		if($this->equals($item, $checkDamage, $checkCompound)){
 			return true;
-		}elseif($item->hasCompoundTag() or $this->hasCompoundTag()){
+		}elseif($item->hasCompoundTag() and $this->hasCompoundTag()){
 			return NBT::matchTree($this->getNamedTag(), $item->getNamedTag());
 		}
-
 		return false;
 	}
 

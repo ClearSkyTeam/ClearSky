@@ -23,6 +23,7 @@ abstract class Tile extends Position{
 	const SKULL = "Skull";
 	const BREWING_STAND = "BrewingStand";
 	const ENCHANT_TABLE = "EnchantTable";
+	const HOPPER = "Hopper";
 	const ITEM_FRAME = "ItemFrame";
 	const DISPENSER = "Dispenser";
 	const DROPPER = "Dropper";

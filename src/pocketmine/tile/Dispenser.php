@@ -38,7 +38,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 		for($i = 0; $i < $this->getSize(); ++$i){
 			$this->inventory->setItem($i, $this->getItem($i));
 		}
-
+		
 		$this->scheduleUpdate();
 	}
 
@@ -73,8 +73,8 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	 */
 	protected function getSlotIndex($index){
 		foreach($this->namedtag->Items as $i => $slot){
-			if($slot["Slot"] === $index){
-				return $i;
+			if((int) $slot["Slot"] === (int) $index){
+				return (int) $i;
 			}
 		}
 
@@ -134,6 +134,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	public function getInventory(){
 		return $this->inventory;
 	}
+
 	public function getName(){
 		return isset($this->namedtag->CustomName) ? $this->namedtag->CustomName->getValue() : "Dispenser";
 	}
@@ -255,9 +256,9 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	public function getSpawnCompound(){
 		$c = new Compound("", [
 			new String("id", Tile::DISPENSER),
-			new Int("x", $this->x),
-			new Int("y", $this->y),
-			new Int("z", $this->z)
+			new Int("x", (int) $this->x),
+			new Int("y", (int) $this->y),
+			new Int("z", (int) $this->z)
 		]);
 
 		if($this->hasName()){

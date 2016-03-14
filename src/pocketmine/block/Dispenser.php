@@ -14,7 +14,8 @@ use pocketmine\tile\Dispenser as DispenserTile;
 use pocketmine\tile\Tile;
 use pocketmine\entity\ProjectileSource;
 
-class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
+class Dispenser extends Solid implements ProjectileSource{
+
 	protected $id = self::DISPENSER;
 
 	public function __construct($meta = 0){
@@ -26,7 +27,7 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return false; // crashes without reason!
 	}
 
 	public function getHardness(){
@@ -38,7 +39,6 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$dispenser = null;
 		if($player instanceof Player){
 			$pitch = $player->getPitch();
 			if(abs($pitch) >= 45){
@@ -53,18 +53,66 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 		$faces = [3 => 3,0 => 4,2 => 5,1 => 2,4 => 0,5 => 1];
 		$this->meta = $faces[$f];
 		$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
+		$nbt = new Compound("", [
+			new Enum("Items", []),
+			new String("id", Tile::DISPENSER),
+			new Int("x", $this->x),
+			new Int("y", $this->y),
+			new Int("z", $this->z)
+		]);
 		$nbt->Items->setTagType(NBT::TAG_Compound);
+
 		if($item->hasCustomName()){
 			$nbt->CustomName = new String("CustomName", $item->getCustomName());
 		}
+
 		if($item->hasCustomBlockData()){
 			foreach($item->getCustomBlockData() as $key => $v){
 				$nbt->{$key} = $v;
 			}
 		}
-		Tile::createTile(Tile::DISPENSER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+
+		Tile::createTile("Dispenser", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+
 		return true;
+	}
+
+	public function onActivate(Item $item, Player $player = null){
+		if($player instanceof Player){
+			$t = $this->getLevel()->getTile($this);
+			$dispenser = false;
+			if($t instanceof DispenserTile){
+				$dispenser = $t;
+			}else{
+				$nbt = new Compound("", [
+					new Enum("Items", []),
+					new String("id", Tile::DISPENSER),
+					new Int("x", $this->x),
+					new Int("y", $this->y),
+					new Int("z", $this->z)
+				]);
+				$nbt->Items->setTagType(NBT::TAG_Compound);
+				$dispenser = Tile::createTile("Dispenser", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+			}
+
+			if(isset($dispenser->namedtag->Lock) and $dispenser->namedtag->Lock instanceof String){
+				if($dispenser->namedtag->Lock->getValue() !== $item->getCustomName()){
+					return true;
+				}
+			}
+			$player->addWindow($dispenser->getInventory());
+		}
+
+		return true;
+	}
+
+	public function getDrops(Item $item){
+		$drops = [];
+		if($item->isPickaxe() >= 1){
+			$drops[] = [$this->id, 0, 1];
+		}
+
+		return $drops;
 	}
 
 	public function activate(){
@@ -72,34 +120,5 @@ class Dispenser extends Solid implements ProjectileSource,RedstoneConsumer{
 		if($tile instanceof DispenserTile){
 			$tile->activate();
 		}
-	}
-
-	public function onActivate(Item $item, Player $player = null){
-		if($player instanceof Player){
-			$t = $this->getLevel()->getTile($this);
-			$dispenser = null;
-			if($t instanceof DispenserTile){
-				$dispenser = $t;
-			}
-			else{
-				$nbt = new Compound("", [new Enum("Items", []),new String("id", Tile::DISPENSER),new Int("x", $this->x),new Int("y", $this->y),new Int("z", $this->z)]);
-				$nbt->Items->setTagType(NBT::TAG_Compound);
-				$dispenser = Tile::createTile(Tile::DISPENSER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-			}
-			if($player->isCreative() and $player->getServer()->limitedCreative){
-				return true;
-			}
-			$player->addWindow($dispenser->getInventory());
-		}
-		return true;
-	}
-
-	public function getDrops(Item $item){
-		$drops = [];
-		if($item->isPickaxe() >= 1){
-			$drops[] = [Item::DISPENSER,0,1];
-		}
-		
-		return $drops;
 	}
 }

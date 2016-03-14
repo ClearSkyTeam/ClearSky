@@ -104,9 +104,6 @@ class Dropper extends Solid implements RedstoneConsumer{
 				$nbt->Items->setTagType(NBT::TAG_Compound);
 				$dispenser = Tile::createTile(Tile::DROPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
-			if($player->isCreative() and $player->getServer()->limitedCreative){
-				return true;
-			}
 			$player->addWindow($dispenser->getInventory());
 		}
 		return true;

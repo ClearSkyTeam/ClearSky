@@ -159,10 +159,6 @@ class TrappedChest extends Transparent implements Redstone{
 					return true;
 				}
 			}
-
-			if($player->isCreative()){
-				return true;
-			}
 			
 				$player->addWindow($chest->getInventory());
 			}

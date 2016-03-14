@@ -176,7 +176,7 @@ class EnchantInventory extends ContainerInventory{
 					$level = $who->getExpLevel();
 					$exp = $who->getExperience();
 					$cost = $this->entries[$i]->getCost();
-					if($lapis->getId() == Item::DYE and $lapis->getDamage() == Dye::BLUE and $lapis->getCount() > $i and $level >= $cost){
+					if($lapis->getId() == Item::DYE and $lapis->getDamage() == Dye::LAPIS_LAZULI and $lapis->getCount() > $i and $level >= $cost){
 						foreach($enchantments as $enchantment){
 							$result->addEnchantment($enchantment);
 						}

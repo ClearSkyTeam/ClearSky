@@ -10,19 +10,19 @@ use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Int;
 use pocketmine\nbt\tag\String;
 use pocketmine\Player;
-use pocketmine\tile\Furnace;
+use pocketmine\tile\Hopper as HopperTile;
 use pocketmine\tile\Tile;
 
-class BurningFurnace extends Solid implements LightSource{
+class Hopper extends Solid{
 
-	protected $id = self::BURNING_FURNACE;
+	protected $id = self::HOPPER;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
 
 	public function getName(){
-		return "Burning Furnace";
+		return "Hopper";
 	}
 
 	public function canBeActivated(){
@@ -37,14 +37,6 @@ class BurningFurnace extends Solid implements LightSource{
 		return Tool::TYPE_PICKAXE;
 	}
 
-	public function getLightLevel(){
-		return 13;
-	}
-	
-	public function isLightSource(){
-		return true;
-	}
-
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$faces = [
 			0 => 4,
@@ -56,7 +48,7 @@ class BurningFurnace extends Solid implements LightSource{
 		$this->getLevel()->setBlock($block, $this, true, true);
 		$nbt = new Compound("", [
 			new Enum("Items", []),
-			new String("id", Tile::FURNACE),
+			new String("id", Tile::HOPPER),
 			new Int("x", $this->x),
 			new Int("y", $this->y),
 			new Int("z", $this->z)
@@ -73,7 +65,7 @@ class BurningFurnace extends Solid implements LightSource{
 			}
 		}
 
-		Tile::createTile("Furnace", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+		Tile::createTile("Hopper", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 
 		return true;
 	}
@@ -82,18 +74,18 @@ class BurningFurnace extends Solid implements LightSource{
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
 			$furnace = false;
-			if($t instanceof Furnace){
+			if($t instanceof HopperTile){
 				$furnace = $t;
 			}else{
 				$nbt = new Compound("", [
 					new Enum("Items", []),
-					new String("id", Tile::FURNACE),
+					new String("id", Tile::HOPPER),
 					new Int("x", $this->x),
 					new Int("y", $this->y),
 					new Int("z", $this->z)
 				]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
-				$furnace = Tile::createTile("Furnace", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+				$furnace = Tile::createTile("Hopper", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
 			if(isset($furnace->namedtag->Lock) and $furnace->namedtag->Lock instanceof String){
@@ -111,7 +103,7 @@ class BurningFurnace extends Solid implements LightSource{
 	public function getDrops(Item $item){
 		$drops = [];
 		if($item->isPickaxe() >= 1){
-			$drops[] = [Item::FURNACE, 0, 1];
+			$drops[] = [Item::HOPPER, 0, 1];
 		}
 
 		return $drops;

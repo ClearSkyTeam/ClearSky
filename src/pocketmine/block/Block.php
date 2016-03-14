@@ -386,6 +386,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::POWERED_RAIL] = PoweredRail::class;
 			self::$list[self::DETECTOR_RAIL] = DetectorRail::class;
 			self::$list[self::ACTIVATOR_RAIL] = ActivatorRail::class;
+			self::$list[self::DROPPER] = Dropper::class;
 			//self::$list[self::STICKY_PISTON] = StickyPiston::class;
 			self::$list[self::COBWEB] = Cobweb::class;
 			self::$list[self::TALL_GRASS] = TallGrass::class;
