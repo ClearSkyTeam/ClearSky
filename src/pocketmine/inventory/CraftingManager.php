@@ -67,8 +67,7 @@ class CraftingManager{
 		];
 		for($i=0;$i<count($WOOD);$i++){
 			$this->registerRecipe((new ShapedRecipe(Item::get(Item::WOODEN_PLANK, $PLANK[$i], 4),
-				"X ",
-				"  "
+				"X"
 			))->setIngredient("X", Item::get($WOOD_CLASS[$i], $WOOD[$i], 1)));
 		}
 	}
