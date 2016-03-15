@@ -1835,6 +1835,10 @@ class Item{
 		return false;
 	}
 
+	public function isArmor(){
+		return false;
+	}
+
 	final public function __toString(){
 		return "Item " . $this->name . " (" . $this->id . ":" . ($this->meta === null ? "?" : $this->meta) . ")x" . $this->count . ($this->hasCompoundTag() ? " tags:0x".bin2hex($this->getCompoundTag()) : "");
 	}
