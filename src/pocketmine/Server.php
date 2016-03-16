@@ -391,10 +391,7 @@ class Server{
 	 * @return string
 	 */
 	public function getIp(){
-		$ip = $this->getConfigString("server-ip", getHostByName(getHostName()));
-		if($ip === "localhost" || empty($ip));
-			$ip = getHostByName(getHostName());
-		return $ip;
+		return $this->getConfigString("server-ip", "0.0.0.0");
 	}
 
 	/**
