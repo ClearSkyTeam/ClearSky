@@ -9,7 +9,7 @@ class UDPServerSocket{
     public function __construct(\ThreadedLogger $logger, $port = 19132, $interface = "0.0.0.0"){
         $this->socket = socket_create(AF_INET, SOCK_DGRAM, SOL_UDP);
         //socket_set_option($this->socket, SOL_SOCKET, SO_BROADCAST, 1); //Allow sending broadcast messages
-        if(empty($interface) || $interface === "localhost") $interface = getHostByName(getHostName());;
+        if(empty($interface) || $interface === "0.0.0.0" || $interface === "localhost") $interface = getHostByName(getHostName());;
         if(@socket_bind($this->socket, $interface, $port) === true){
             socket_set_option($this->socket, SOL_SOCKET, SO_REUSEADDR, 0);
             $this->setSendBuffer(1024 * 1024 * 8)->setRecvBuffer(1024 * 1024 * 8);
