@@ -2212,7 +2212,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->loginData = ["clientId" => $packet->clientId, "loginData" => null];
 
 				$this->uuid = $packet->clientUUID;
-				$this->rawUUID = $this->uuid->toBinary();
 				$this->clientSecret = $packet->clientSecret;
 				$valid = true;
 				$len = strlen($packet->username);
