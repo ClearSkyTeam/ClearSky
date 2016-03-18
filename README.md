@@ -30,9 +30,9 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 All features can be configed in pocketmine.yml.<br>
  - About 20 times faster than offical PM repo
  - Universal Client version join (e.g. 0.14.0 and builds for 0.14.0 can join together)(note¹)
- - Unlimited player join(set max-players to -1 in server.properties)(note²)
- - Modified Version color and string freely(set network.protocol,version in pocketmine.yml)
- - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network(network section in pocketmine.yml) 
+ - Unlimited player join (set max-players to -1 in server.properties)(note²)
+ - Modified Version color and string freely (set network.protocol,version in pocketmine.yml)
+ - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network (network section in pocketmine.yml) 
  - UltraFast Redstone Calculation with almost no bugs
  - Fully working Experience System, include block/player/entity/bottle/furnace hook.
  - Fully working Food & Hunger System, include game-difficulty hook.
@@ -73,10 +73,10 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 ## 高级功能
 所有的功能都可以在 pocketmine.yml 中设置.<br>
  - 较之PM官方项目，晴空有近20倍的性能提升.
- - 通用客户端加入(比如0.13.0 0.13.1 0.13.2可以在一起游戏)
- - 无限玩家数量(将server.properties中的 max-players 设置为-1)
- - 你可以自定义显示的版本号及颜色(pocketmine.yml 中 network 项下的 protocol 和 version 设置)
- - 兼容网络差的玩家，可以在network下关闭作弊检测(anti-cheat)或者增大丢包允许率
+ - 通用客户端加入 (比如0.13.0 0.13.1 0.13.2可以在一起游戏)
+ - 无限玩家数量 (将server.properties中的 max-players 设置为-1)
+ - 你可以自定义显示的版本号及颜色 (pocketmine.yml 中 network 项下的 protocol 和 version 设置)
+ - 兼容网络差的玩家，可以在network下关闭作弊检测 (anti-cheat)或者增大丢包允许率
  - 高效且有逻辑的红石系统.
  - 完整的经验系统 , 包括 挖掘/玩家/生物/附魔瓶/熔炉 事件.
  - 完整的食物 和 饥饿系统 ， 可以根据游戏难度自动适配.
@@ -117,8 +117,8 @@ ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソ
 ## 特徴
 すべての特徴はpocketmine.ymlで設定できます.<br>
  - 公式のpharより20倍早い
- - 複数のバージョンが同時に入れる(例えば 0.13.0 0.13.1 0.13.2が同時にはいれる)(note¹)
- - ユーザー人数を無制限にできる(server.propertiesのmax-players を-1とします)(note²)
+ - 複数のバージョンが同時に入れる (例えば 0.13.0 0.13.1 0.13.2が同時にはいれる)(note¹)
+ - ユーザー人数を無制限にできる (server.propertiesのmax-players を-1とします)(note²)
  - バージョンの色と文字を変えられます（pocketmine.ymlのnetwork.protocol,versionを編集してください )
  - 通信回線が悪いネットワークでも許容できるパケットロスを増やせてチート対策ができます。
  - バグのない高速なレッドストーン
