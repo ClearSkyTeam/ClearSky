@@ -8,6 +8,7 @@ use pocketmine\item\enchantment\EnchantmentEntry;
 use pocketmine\item\enchantment\EnchantmentLevelTable;
 use pocketmine\item\enchantment\EnchantmentList;
 use pocketmine\item\Item;
+use pocketmine\level\Level;
 use pocketmine\network\protocol\CraftingDataPacket;
 use pocketmine\Player;
 use pocketmine\Server;
@@ -53,7 +54,7 @@ class EnchantInventory extends ContainerInventory{
 		}
 	}
 
-	private function randomFloat($min = 0, $max = 1){
+	private function randomFloat($min = 0, $max = 1) {
 		return $min + mt_rand() / mt_getrandmax() * ($max - $min);
 	}
 
@@ -100,6 +101,7 @@ class EnchantInventory extends ContainerInventory{
 						}
 						$key--;
 
+						if(!isset($possible[$key])) return;
 						$enchantment = $possible[$key];
 						$result[] = $enchantment;
 						unset($possible[$key]);
@@ -153,8 +155,9 @@ class EnchantInventory extends ContainerInventory{
 	public function onClose(Player $who){
 		parent::onClose($who);
 
+		$level = $this->getHolder()->getLevel();
 		for($i = 0; $i < 2; ++$i){
-			$this->getHolder()->getLevel()->dropItem($this->getHolder()->add(0.5, 0.5, 0.5), $this->getItem($i));
+			if($level instanceof Level) $level->dropItem($this->getHolder()->add(0.5, 0.5, 0.5), $this->getItem($i));
 			$this->clear($i);
 		}
 
@@ -215,34 +218,38 @@ class EnchantInventory extends ContainerInventory{
 	 * @return Enchantment[]
 	 */
 	public function removeConflictEnchantment(Enchantment $enchantment, array $enchantments){
-		foreach($enchantments as $e){
-			$id = $e->getId();
-			if($id == $enchantment->getId()){
-				unset($enchantments[$id]);
-				continue;
-			}
+		if(count($enchantments) > 0){
+			foreach($enchantments as $e){
+				$id = $e->getId();
+				if($id == $enchantment->getId()){
+					unset($enchantments[$id]);
+					continue;
+				}
 
-			if($id >= 0 and $id <= 4 and $enchantment->getId() >= 0 and $enchantment->getId() <= 4){
-				//Protection
-				unset($enchantments[$id]);
-				continue;
-			}
+				if($id >= 0 and $id <= 4 and $enchantment->getId() >= 0 and $enchantment->getId() <= 4){
+					//Protection
+					unset($enchantments[$id]);
+					continue;
+				}
 
-			if($id >= 9 and $id <= 14 and $enchantment->getId() >= 9 and $enchantment->getId() <= 14){
-				//Weapon
-				unset($enchantments[$id]);
-				continue;
-			}
+				if($id >= 9 and $id <= 14 and $enchantment->getId() >= 9 and $enchantment->getId() <= 14){
+					//Weapon
+					unset($enchantments[$id]);
+					continue;
+				}
 
-			if (($id == Enchantment::TYPE_MINING_SILK_TOUCH and $enchantment->getId() == Enchantment::TYPE_MINING_FORTUNE) or ($id == Enchantment::TYPE_MINING_FORTUNE and $enchantment->getId() == Enchantment::TYPE_MINING_SILK_TOUCH)){
-				//Protection
-				unset($enchantments[$id]);
-				continue;
+				if(($id == Enchantment::TYPE_MINING_SILK_TOUCH and $enchantment->getId() == Enchantment::TYPE_MINING_FORTUNE) or ($id == Enchantment::TYPE_MINING_FORTUNE and $enchantment->getId() == Enchantment::TYPE_MINING_SILK_TOUCH)){
+					//Protection
+					unset($enchantments[$id]);
+					continue;
+				}
 			}
 		}
 		$result = [];
-		foreach($enchantments as $enchantment){
-			$result[] = $enchantment;
+		if(count($enchantments) > 0){
+			foreach($enchantments as $enchantment){
+				$result[] = $enchantment;
+			}
 		}
 		return $result;
 	}
