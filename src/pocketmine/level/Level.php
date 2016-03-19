@@ -235,7 +235,7 @@ class Level implements ChunkManager, Metadatable{
 	private $chunkTickList = [];
 	private $chunksPerTick;
 	private $clearChunksOnTick;
-	private $randomTickBlocks = [
+	private $randomTickBlocks = [/*
 		Block::GRASS => Grass::class,
 		Block::SAPLING => Sapling::class,
 		Block::LEAVES => Leaves::class,
@@ -256,7 +256,7 @@ class Level implements ChunkManager, Metadatable{
 		Block::POTATO_BLOCK => Potato::class,
 		Block::LEAVES2 => Leaves2::class,
 		Block::BEETROOT_BLOCK => Beetroot::class,
-		Block::FIRE => Fire::class,
+		Block::FIRE => Fire::class,*/
 	];
 
 	/** @var LevelTimings */
