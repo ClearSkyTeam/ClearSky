@@ -228,7 +228,7 @@ class SessionManager{
             foreach($this->sessions as $i => $s){
                 if($s->isTemporal()){
                     unset($this->sessions[$i]);
-                    if(count($this->sessions) <= 8192){
+                    if(count($this->sessions) <= 1024){
                         break;
                     }
                 }
