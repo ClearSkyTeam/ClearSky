@@ -86,7 +86,7 @@ class AutoUpdater{
 	public function doUpgrade(){
 		if(!$this->isupdating){
 			$this->isupdating = true;
-			$this->server->getScheduler()->scheduleAsyncTask(new Upgrader($this->updateInfo['download_url'],$this->updateInfo['fingerprint'],"phar://" . $this->Server->getDataPath() . "ClearSky" . $this->updateInfo["Build"] ."phar")); //Is an .phar needed?
+			$this->server->getScheduler()->scheduleAsyncTask(new Upgrader($this->updateInfo['download_url'],$this->updateInfo['fingerprint'],"phar://" . $this->Server->getDataPath() . "ClearSkyNewVersion" . "phar")); //Is an .phar needed?
 		}else{
 			Command::broadcastCommandMessage($sender, new TranslationContainer("commands.upgrade.isUpdating"));
 		}
