@@ -58,7 +58,7 @@ class SessionManager{
     protected $block = [];
     protected $ipSec = [];
 
-    public $portChecking = true;
+    public $portChecking = false;
 
     public function __construct(RakLibServer $server, UDPServerSocket $socket){
         $this->server = $server;
@@ -224,11 +224,11 @@ class SessionManager{
     }
 
     private function checkSessions(){
-        if(count($this->sessions) > 4096){
+        if(count($this->sessions) > 8192){
             foreach($this->sessions as $i => $s){
                 if($s->isTemporal()){
                     unset($this->sessions[$i]);
-                    if(count($this->sessions) <= 4096){
+                    if(count($this->sessions) <= 8192){
                         break;
                     }
                 }

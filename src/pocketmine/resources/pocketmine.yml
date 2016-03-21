@@ -64,7 +64,7 @@ network:
  upnp-forwarding: false
 
 debug:
- level: 1
+ level: 10
  allow-xdebug: false
  commands: true
 
@@ -126,7 +126,7 @@ auto-updater:
  preferred-channel: Stable #Stable or DEV
  host: jenkins.clearskyteam.org
 
-version: 16
+version: 17
 
 auto-report:
  enabled: false

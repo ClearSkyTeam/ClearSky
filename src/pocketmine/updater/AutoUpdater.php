@@ -49,6 +49,7 @@ class AutoUpdater{
 		$response = Utils::getURL("http://jenkins.clearskyteam.org/job/ClearSky/".$this->updateInfo['build']."/fingerprints/", 4);
 		$t = explode('<a href="/fingerprint/', $response);
 		if(!is_array($t))return;
+                if(!isset($t[1]))return;
 		$j = explode('/">' ,$t[1]);
 		if(!is_array($j))return;
 		$fingerprint = $j[0];
