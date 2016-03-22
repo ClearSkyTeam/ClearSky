@@ -86,7 +86,7 @@ class AutoUpdater{
 	public function doUpgrade(){
 		if(!$this->isupdating){
 			$this->isupdating = true;
-			$this->server->getScheduler()->scheduleAsyncTask(new Upgrader($this->updateInfo['download_url'],$this->updateInfo['fingerprint']));
+			$this->server->getScheduler()->scheduleAsyncTask(new Upgrader($this->updateInfo['download_url'],$this->updateInfo['fingerprint'],"phar://" . $this->Server->getDataPath() . "ClearSkyNewVersion" . "phar")); //Is an .phar needed?
 		}else{
 			Command::broadcastCommandMessage($sender, new TranslationContainer("commands.upgrade.isUpdating"));
 		}
@@ -94,6 +94,7 @@ class AutoUpdater{
 	
 	public function downloadCompleteCallback(){
 		#$this->isupdating = false; //If its completed, the user should not be able to update it again!
+		$this->hasUpdate = false;
 		$this->server->broadcastMessage(new TranslationContainer("commands.upgrade.finish"));
 	}
 	

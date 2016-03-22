@@ -10,14 +10,14 @@ class Upgrader extends AsyncTask{
 	private $md5hash;
 	private $status = true;
 	
-	public function __construct($link,$hash){
+	public function __construct($link,$hash, $filePath){
 		$this->md5hash = $hash;
 		$this->dlink = $link;
-		$this->dfile = str_replace("phar://","",dirname(dirname(dirname(dirname(__FILE__)))));
+		$this->dfile = $filePath;
 	}
 	
 	public function onRun(){
-		if(!(\Phar::running(true) === "")){
+		#if(!(\Phar::running(true) === "")){
 			$file_name = $this->dfile;
 			$downloaded_file = file_get_contents($this->dlink);
 			if($downloaded_file){
@@ -30,9 +30,9 @@ class Upgrader extends AsyncTask{
 			}else{
 				$this->status = false;
 			}
-		}else{
-			$this->status = false;
-		}
+		#}else{
+			#$this->status = false;
+		#}
 	}
 	
 	public function onCompletion(Server $server){
