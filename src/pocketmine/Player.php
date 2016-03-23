@@ -384,11 +384,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return false;
 	}
 	
-	public function getCurrentExperience(){
+	private function getCurrentExperience(){
 		return $this->expcurrent;
 	}
 	
-	public function setCurrentExperience($exp){
+	private function setCurrentExperience($exp){
 		$this->expcurrent = $exp;
 	}
 	
