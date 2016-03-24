@@ -64,7 +64,7 @@ network:
  upnp-forwarding: false
 
 debug:
- level: 10
+ level: 1
  allow-xdebug: false
  commands: true
 
