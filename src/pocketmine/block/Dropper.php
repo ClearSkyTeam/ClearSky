@@ -14,14 +14,14 @@ use pocketmine\tile\Dropper as DropperTile;
 use pocketmine\tile\Tile;
 
 class Dropper extends Solid implements RedstoneConsumer{
-	protected $id = self::DISPENSER;
+	protected $id = self::DROPPER;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
 
 	public function getName(){
-		return "Dispenser";
+		return "Dropper";
 	}
 
 	public function canBeActivated(){
