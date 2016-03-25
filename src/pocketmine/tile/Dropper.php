@@ -141,7 +141,7 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 		return $this->inventory;
 	}
 
-	public function getName() : string{
+	public function getName(){
 		return isset($this->namedtag->CustomName) ? $this->namedtag->CustomName->getValue() : "Dropper";
 	}
 

@@ -37,7 +37,7 @@ class Dropper extends Solid implements RedstoneConsumer{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$dispenser = null;
+		$dropper = null;
 		if($player instanceof Player){
 			$pitch = $player->getPitch();
 			if(abs($pitch) >= 45){
@@ -89,9 +89,9 @@ class Dropper extends Solid implements RedstoneConsumer{
 	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
-			$dispenser = null;
+			$dropper = null;
 			if($t instanceof DropperTile){
-				$dispenser = $t;
+				$dropper = $t;
 			}
 			else{
 				$nbt = new Compound("", [
@@ -102,9 +102,9 @@ class Dropper extends Solid implements RedstoneConsumer{
 					new Int("z", $this->z)
 				]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
-				$dispenser = Tile::createTile(Tile::DROPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+				$dropper = Tile::createTile(Tile::DROPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
-			$player->addWindow($dispenser->getInventory());
+			$player->addWindow($dropper->getInventory());
 		}
 		return true;
 	}
