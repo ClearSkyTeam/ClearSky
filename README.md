@@ -1,7 +1,7 @@
 ## Choose Language:   
 ####  [English](#ENG)   
 ####  [中国](#CHINESE_1)  
-####  [クリアースカイ](#CHINESE_2)
+####  [日本語](#CHINESE_2)
 ####  [Українська мова](#UKR)  
 
 # <a name="ENG"></a>English  
@@ -93,55 +93,51 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 晴空不仅仅是用起来干净，对于开发者来说也是一片艳阳天!<br>
 
 
-# <a name="CHINESE_2"></a>クリアースカイ
-ClearSkyはきれいで安定した、非常に速いMinecraft PEサーバーソフトウェアです。
-最初はプロダクションサーバーとしてつくられました。
- - GPLのプログラムのコードをとっている部分もありますが、大部分は新たに書かれたものです。
- - Telegramのグループです。（英語）[Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
- - Lobiのグループです。（日本語)[Lobi/ClearSky] (https://lobi.co/invite/UsAcu).
- - 公式テストサーバー : クリエイティブ IP: 45.78.7.144 Port: 19132 *//256MB RAMで1コアのCPUで動いています*
- - 非公式テストサーバー : クリエイティブ Creative IP: WolvesFortress.de Port: **19133** 
+# <a name="JAPANESE"></a>クリアースカイ
+クリアスカイは綺麗で安定した機能を備えた超高速なMinecrraft: Pocket Editionサーバーソフトウェアです。当初はプロダクトサーバー用に設計されました。<br>
+ - 他のGPLライセンスプロジェクトのコードを使用している部分もありますが、殆どはClearSkyによって書き換えられた物です。
+ - ここで私達とコミュニケーションを取ることができます: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA)(英語)
+ - [ここを見て 70個のプラグイン・20個のワールド と共に、早いClearSkyを始めましょう！](http://wolvesfortress.de/ezgif-1446650535.gif)
+ - 公式テストサーバー: Creative (IP: WolvesFortress.de, Port: **19134**) *基本的にはオフラインですが、もしオンラインの場合は最新バージョンです。*
 
-## pharのダウンロード
- - 便利な詰め合わせを用意しました。[ClearSkyダウンロード](http://blog.haniokasai.com/2016/02/pocketmineclearsly-windows.html).
- - **立ち上げる前にClearSkyのpocketmine.ymlを消してください、アップデートされます**
- - phar: [Jenkins CI](http://jenkins.clearskyteam.org/).
- - phpのbin(php5,7対応): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
- - Multicraftの設定: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
- - 
+## どこで私はpharを手に入れれますか？
+ - 自動でビルドされたphar: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - 最適化されたPHP環境(bin): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
+ - Multicraftの設定例: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
-## [CRITICAL]: 公開するサーバーではxdebugを消してください。通常は気にしなくていいです。
- - php.iniのzend_extension=php_xdebugをコメントアウトするかxdebugなしでリコンパイルします.
- - pocketmine.ymlでのデバックにxdebug強制的に有効にもできます.
+## [重要]: 本番ではXdebugを削除してください
+ - あなたのphp.iniから"zend_extension=php_xdebug"をコメントアウトするか、Xdebug無しでPHPを再コンパイルしてください。
+ - pocketmine.ymlで強制的にXdebugを有効にすることも出来ます。
 
-## 特徴
-すべての特徴はpocketmine.ymlで設定できます.<br>
- - 公式のpharより20倍早い
- - 複数のバージョンが同時に入れる (例えば 0.13.0 0.13.1 0.13.2が同時にはいれる)(note¹)
- - ユーザー人数を無制限にできる (server.propertiesのmax-players を-1とします)(note²)
- - バージョンの色と文字を変えられます（pocketmine.ymlのnetwork.protocol,versionを編集してください )
- - 通信回線が悪いネットワークでも許容できるパケットロスを増やせてチート対策ができます。
- - バグのない高速なレッドストーン
- - 経験値.
- - 空腹、食物、ゲーム難易度設定.
- - 天気
- - 高速なチャンク読み込み、送信
- - ログを on/offできます
- - 完璧な翻訳
+## 高度な機能
+全ての機能はpocketmine.ymlで設定することができます。<br>
+ - 公式PocketMine-MPよりも20倍早く動きます
+ - 複数のバージョンに同時に対応 (例えば、0.14.0でビルドを行ったら、0.14.1, 0.14.2などでも一緒に入れます。)(脚注1)
+ - プレイヤー数を無制限に (server.propertiesの"max-players"を"-1"にしてください。)(脚注2)
+ - 自由にバージョンの色と文字を変更できます。 (pocketmine.ymlの"network.protocol"を変更してください。)
+ - 通信環境が悪いネットワークでも、パケットロスの許容数を増やせてチート対策が行えます。
+ - 全くバグのない高速なレッドストーン
+ - Fully working Experience System, include block/player/entity/bottle/furnace hook.
+ - 完全な空腹システム。ゲームの難易度のフックが含まれています。
+ - 完全な天候システム。
+ - 完全なボート。
+ - 高速なチャンクの読み込み・送信
+ - 高速なロガー。ログのオン/オフの切り替えを含みます。
+ - ほぼ完璧な翻訳。
  - ポーション (クリエイティブのみ)
- - エンチャント (コマンド)
- - Mob対応(Rabbits, Villagers など.)
- - バグ修正
+ - エンチャント (コマンドのみ)
+ - Mobのバリエーション (うさぎ、村人、などなど...)
+ - バグの修正
 
+脚注1: "Outdated Server"のメッセージが表示された場合、CustomAlertプラグインなどで無効化してください。
 
-Note¹ - 'Outdated Server'と言われたら、CustomAlert等でそのメッセージを表示しないようにしてください。
-
-Note² - 'Full server'と言われたら、CustomAlert等でそのメッセージを表示しないようにしてください。
+脚注2: "Full server"のメッセージが表示された場合、CustomAlertプラグインなどで無効化してください。
 
 ## 開発者へ
-きれいでハイクオリティなコードでできています.開発、修正は簡単です<br>
-常に快適な状況を保てるよう、私たちは常にコードを修正しています<br>
-ClearSky はユーザーにとってまだクリーンとは言えません、それは開発者にとっても同じです!!<br>
+これはきれいな、高品質のコードベースです。開発/修正がこのプロジェクトは簡単です。<br>
+私たちは最良な開発状況を保てるよう、常にコードを書き換えています。<br>
+クリアスカイは単にユーザーのために高品質なのではありません。開発者の為にもです！<br>
+
 
 # <a name="UKR"></a>Українська мова
 ClearSky є ультра-швидким програмним забезпеченням для сервера Minecraft: Pocket Edition з багатьма можливостями.
