@@ -1,7 +1,7 @@
 ## Choose Language:   
 ####  [English](#ENG)   
 ####  [中国](#CHINESE_1)  
-####  [日本語](#CHINESE_2)
+####  [日本語](#JAPANESE)
 ####  [Українська мова](#UKR)  
 
 # <a name="ENG"></a>English  
@@ -93,8 +93,8 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 晴空不仅仅是用起来干净，对于开发者来说也是一片艳阳天!<br>
 
 
-# <a name="JAPANESE"></a>クリアースカイ
-クリアスカイは綺麗で安定した機能を備えた超高速なMinecrraft: Pocket Editionサーバーソフトウェアです。当初はプロダクトサーバー用に設計されました。<br>
+# <a name="JAPANESE"></a>クリアスカイ
+クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初はプロダクトサーバー用に設計されました。<br>
  - 他のGPLライセンスプロジェクトのコードを使用している部分もありますが、殆どはClearSkyによって書き換えられた物です。
  - ここで私達とコミュニケーションを取ることができます: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA)(英語)
  - [ここを見て 70個のプラグイン・20個のワールド と共に、早いClearSkyを始めましょう！](http://wolvesfortress.de/ezgif-1446650535.gif)
@@ -114,10 +114,10 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
  - 公式PocketMine-MPよりも20倍早く動きます
  - 複数のバージョンに同時に対応 (例えば、0.14.0でビルドを行ったら、0.14.1, 0.14.2などでも一緒に入れます。)(脚注1)
  - プレイヤー数を無制限に (server.propertiesの"max-players"を"-1"にしてください。)(脚注2)
- - 自由にバージョンの色と文字を変更できます。 (pocketmine.ymlの"network.protocol"を変更してください。)
+ - バージョンの色と文字を自由に変更できます。 (pocketmine.ymlの"network.protocol"を変更してください。)
  - 通信環境が悪いネットワークでも、パケットロスの許容数を増やせてチート対策が行えます。
  - 全くバグのない高速なレッドストーン
- - Fully working Experience System, include block/player/entity/bottle/furnace hook.
+ - 完全な経験値システム。ブロック/プレイヤー/エンティティ/ボトル/かまど に対応しています。
  - 完全な空腹システム。ゲームの難易度のフックが含まれています。
  - 完全な天候システム。
  - 完全なボート。
@@ -136,7 +136,7 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 ## 開発者へ
 これはきれいな、高品質のコードベースです。開発/修正がこのプロジェクトは簡単です。<br>
 私たちは最良な開発状況を保てるよう、常にコードを書き換えています。<br>
-クリアスカイは単にユーザーのために高品質なのではありません。開発者の為にもです！<br>
+クリアスカイは単にユーザーのために高品質なのではなく、開発者の為にもです！<br>
 
 
 # <a name="UKR"></a>Українська мова
