@@ -1,7 +1,7 @@
 ## Choose Language:   
 ####  [English](#ENG)   
 ####  [中国](#CHINESE_1)  
-####  [日本語](#CHINESE_2)
+####  [日本語](#JAPANESE)
 ####  [Українська мова](#UKR)  
 
 # <a name="ENG"></a>English  
