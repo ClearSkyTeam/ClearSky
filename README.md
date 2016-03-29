@@ -98,14 +98,14 @@ Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
  - Variaciones de Mobs (Conejos, Aldeanos, etc.)
  - Correción de errores.
 
-Nota¹ - Please set 'Outdated Server' message to 'false' in the CustomAlert plugin or any related plugin if you encounter *Outdated server*
+Nota¹ - Porfavor poner el mensaje 'Outdated Server' a 'false' en el plugin CustomAlert, o algun plugin parecido si se encuentra *Outdated Server* al entrar.
 
-Nota² - Please set 'Full server' message to 'false' in the CustomAlert plugin or any related plugin if you encounter *Full server*
+Nota² -Porfavor poner el mensaje 'Full Server' a 'false' en el plugin CustomAlert, o algun plugin parecido si se encuentra *FullServer* al entrar.
 
-## For Developers
-This is a clean, high quality code base. Developing/modifying this project is easy.<br>
-We are still rewriting the base to make sure ClearSky has the best developing feel.<br>
-ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
+## Para desarrolladores
+Este es un codigo limpio, y de Alta Calidad. Desarrollar/modificar este proyecto es facil.<br>
+Aun estamos reescribiendo la base para asegurar que ClearSky tenga la mejor sensación de desarrollo.<br>
+ClearSky no tiene una sesación limpia solo para los Usuarios, Sino para los desarrolladores tambien!<br>
 
 # <a name="CHINESE_1"></a>晴空
 一个为应用服务器设计的高性能MinecraftPE服务端软件
