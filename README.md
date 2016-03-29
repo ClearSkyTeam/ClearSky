@@ -74,7 +74,7 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
  - Consigue un tiempo de ejecución de PHP optimizado: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Consigue una prueba de multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
-## [CRITICAL]: Remueve xdebug en el servidor de producción.
+## [CRITICO!]: Remueve xdebug en el servidor de producción.
  - Puedes poner de comentario zend_extension=php_xdebug en tú php.ini o recompila un PHP sin xdebug.
  - tambien hay un switch debajo de debug en pocketmine.yml para forzar el habilitamiento de xdebug.
 
@@ -98,7 +98,9 @@ Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
  - Variaciones de Mobs (Conejos, Aldeanos, etc.)
  - Correción de errores.
 
-Atención! Notas originales suprimidas.
++Nota¹ - Porfavor pon el mensaje 'Outdated Server' a 'false' en el plugin CustomAlert, o algun plugin parecido si se encuentra *Outdated Server* al entrar.
+ +
+ +Nota² -Porfavor pon el mensaje 'Full Server' a 'false' en el plugin CustomAlert, o algun plugin parecido si se encuentra *FullServer* al entrar.
 
 ## Para desarrolladores
 Se trata de una base de código limpio de alta calidad. El desarrollo / modificación de este proyecto es fácil. <br>
