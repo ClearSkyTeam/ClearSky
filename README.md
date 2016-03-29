@@ -58,34 +58,34 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
 # <a name="SPA"></a>Español
 # Te presentamos: ClearSky-Sunrise
-ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para servidores de producción.
+ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
 **Estado de la compilación deTravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 **Estado de la compilación de Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
 
 
- - Tomamos codigo de otros proyectos pero lq mayoria de las caracteristicas las reescribimos para ClearSky.
+ - Tomamos codigo de otros proyectos pero la mayoria de las caracteristicas las reescribimos para ClearSky.
  - Nuestro grupo de Telegram, para que hables con nosotros: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
  - [Mira como ClearSky abre así de rapido con con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
- - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
+ - Servidor de Pruebas Inofficial : IP Creativa: WolvesFortress.de Puerto: **19134** *Mayormente Offline, pero si esta online, Version mas nueva*
 
 ## Donde consigo una compilación?
  - Consiguelo aqui: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - Consigue un tiempo de ejecución de PHP optimizado: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
- - Consigue una demo de multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+ - Consigue una demo para Multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
-## [CRITICAL]: Remueve xdebug en el servidor de producción.
+## [CRITICAL]: Remover xdebug en el servidor de producción.
  - Puedes poner de comentario zend_extension=php_xdebug en tú php.ini o recompila un PHP sin xdebug.
  - tambien hay un switch debajo de debug en pocketmine.yml para forzar el habilitamiento de xdebug.
 
 ## Caracteristicas Advanzadas
 Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
- - Es alrededor 20 mas rapida que PocketMine
+ - Es alrededor 20 veces mas rapida que PocketMine
  - Soporte universal de clientes(e.g. 0.14.0 y builds de 0.14.0 pueden entrar juntos)(nota¹)
- - Capacidad de jugadores ilimitada (pon max-players a -1 en server.properties)(note²)
+ - Capacidad de jugadores ilimitada (pon max-players a -1 en server.properties)(nota²)
  - Color de la versión modificada libremente (set network.protocol,version en pocketmine.yml)
- - Puede aumentar packetlost aceptable y desactivar el anti-trampas cuando su servidor este en una red mala (network section in pocketmine.yml) 
- - Ultra Rapida Calculación en la Redstone sin fallos.
+ - Puede aumentar packetlost aceptable y desactivar el anti-trampas cuando su servidor este en una red mala (sección de red 'Network' en pocketmine.yml) 
+ - Calculación Ultra Rapida en la Redstone sin fallas.
  - Sistema de Experiencia operativo, incluido en block/player/entity/bottle/furnace hook.
  - Sistema de comida y hambre funcional con soporte de intercambio de dificultad.
  - Clima operativo.
@@ -98,10 +98,14 @@ Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
  - Variaciones de Mobs (Conejos, Aldeanos, etc.)
  - Correción de errores.
 
-Atención! Notas originales suprimidas.
+Nota¹ - Please set 'Outdated Server' message to 'false' in the CustomAlert plugin or any related plugin if you encounter *Outdated server*
 
-## Para desarrolladores
-ClearSky es un software limpio con codigo de alta calidad.<br>
+Nota² - Please set 'Full server' message to 'false' in the CustomAlert plugin or any related plugin if you encounter *Full server*
+
+## For Developers
+This is a clean, high quality code base. Developing/modifying this project is easy.<br>
+We are still rewriting the base to make sure ClearSky has the best developing feel.<br>
+ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
 # <a name="CHINESE_1"></a>晴空
 一个为应用服务器设计的高性能MinecraftPE服务端软件
