@@ -58,21 +58,21 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
 # <a name="SPA"></a>Español
 # Te presentamos: ClearSky-Sunrise
-ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para servidores de producción.
+ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para servidores en masa.
 
 **Estado de la compilación deTravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 **Estado de la compilación de Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
 
 
- - Tomamos codigo de otros proyectos pero lq mayoria de las caracteristicas las reescribimos para ClearSky.
+ - Tomamos codigo de otros proyectos pero la mayoria de las caracteristicas las reescribimos para ClearSky.
  - Nuestro grupo de Telegram, para que hables con nosotros: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
- - [Mira como ClearSky abre así de rapido con con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
- - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
+ - [Mira como ClearSky abre así de rapido con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
+ - Servidor de pruebas no oficial : IP Creativo: WolvesFortress.de Puerto: **19134** *A menudo fuera de línea, pero cuando está en línea posee la última versión*
 
 ## Donde consigo una compilación?
  - Consiguelo aqui: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - Consigue un tiempo de ejecución de PHP optimizado: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
- - Consigue una demo de multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+ - Consigue una prueba de multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## [CRITICAL]: Remueve xdebug en el servidor de producción.
  - Puedes poner de comentario zend_extension=php_xdebug en tú php.ini o recompila un PHP sin xdebug.
@@ -80,19 +80,19 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
 
 ## Caracteristicas Advanzadas
 Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
- - Es alrededor 20 mas rapida que PocketMine
+ - Es alrededor 20 veces más rapida que PocketMine
  - Soporte universal de clientes(e.g. 0.14.0 y builds de 0.14.0 pueden entrar juntos)(nota¹)
- - Capacidad de jugadores ilimitada (pon max-players a -1 en server.properties)(note²)
+ - Capacidad de jugadores ilimitada (pon max-players a -1 en server.properties)(nota²)
  - Color de la versión modificada libremente (set network.protocol,version en pocketmine.yml)
  - Puede aumentar packetlost aceptable y desactivar el anti-trampas cuando su servidor este en una red mala (network section in pocketmine.yml) 
- - Ultra Rapida Calculación en la Redstone sin fallos.
- - Sistema de Experiencia operativo, incluido en block/player/entity/bottle/furnace hook.
+ - Ultra Rapida Calculación de la Redstone sin fallos.
+ - Sistema de Experiencia operativo, incluido en block/player/entity/bottle/furnace.
  - Sistema de comida y hambre funcional con soporte de intercambio de dificultad.
  - Clima operativo.
  - Barcas operativas.
  - Envio y recepción de Chunks rapida.
  - Registro rapido, switch incluido.
- - Traducciones casi perfectas
+ - Traducciones casi perfectas.
  - Pociones (Funcionan solo en creativo)
  - Encantamientos (Solo por comandos)
  - Variaciones de Mobs (Conejos, Aldeanos, etc.)
@@ -101,7 +101,9 @@ Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
 Atención! Notas originales suprimidas.
 
 ## Para desarrolladores
-ClearSky es un software limpio con codigo de alta calidad.<br>
+Se trata de una base de código limpio de alta calidad. El desarrollo / modificación de este proyecto es fácil. <br>
+Todavía estamos reescribiendo la base para asegurarse de ClearSky tiene la mejor sensación en desarrollo. <br>
+ClearSky no es sólo para una sensación de limpieza para los usuarios - es también para los desarrolladores <br>!
 
 # <a name="CHINESE_1"></a>晴空
 一个为应用服务器设计的高性能MinecraftPE服务端软件
