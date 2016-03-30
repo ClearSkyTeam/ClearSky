@@ -2361,7 +2361,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							break;
 						}
 					}
-					$this->inventory->sendHeldItem($this);
 					if($blockVector->distanceSquared($this) > 10000){
 						break;
 					}
