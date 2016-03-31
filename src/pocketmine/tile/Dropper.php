@@ -10,16 +10,16 @@ use pocketmine\level\format\FullChunk;
 use pocketmine\level\particle\SmokeParticle;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\Double;
+use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\Short;
 use pocketmine\entity\Item as ItemEntity;
 
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\ListTag;
-use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Enum;
+use pocketmine\nbt\tag\Int;
 
-use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\String;
 
 class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 
@@ -28,12 +28,12 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 
 	protected $nextUpdate = 0;
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt){
+	public function __construct(FullChunk $chunk, Compound $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new DropperInventory($this);
 
-		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof ListTag)){
-			$this->namedtag->Items = new ListTag("Items", []);
+		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof Enum)){
+			$this->namedtag->Items = new Enum("Items", []);
 			$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		}
 
@@ -58,7 +58,7 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 	}
 
 	public function saveNBT(){
-		$this->namedtag->Items = new ListTag("Items", []);
+		$this->namedtag->Items = new Enum("Items", []);
 		$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		for($index = 0; $index < $this->getSize(); ++$index){
 			$this->setItem($index, $this->inventory->getItem($index));
@@ -79,8 +79,8 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 	 */
 	protected function getSlotIndex($index){
 		foreach($this->namedtag->Items as $i => $slot){
-			if((int) $slot["Slot"] === (int) $index){
-				return (int) $i;
+			if($slot["Slot"] === $index){
+				return $i;
 			}
 		}
 
@@ -155,7 +155,7 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 			return;
 		}
 
-		$this->namedtag->CustomName = new StringTag("CustomName", $str);
+		$this->namedtag->CustomName = new String("CustomName", $str);
 	}
 
 	public function getMotion(){
@@ -220,24 +220,24 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 			$itemTag->setName("Item");
 
 
-			$nbt = new CompoundTag("", [
-				"Pos" => new ListTag("Pos", [
-					new DoubleTag("", $this->x + $motion[0] * 2 + 0.5),
-					new DoubleTag("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
-					new DoubleTag("", $this->z + $motion[2] * 2 + 0.5)
+			$nbt = new Compound("", [
+				"Pos" => new Enum("Pos", [
+					new Double("", $this->x + $motion[0] * 2 + 0.5),
+					new Double("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
+					new Double("", $this->z + $motion[2] * 2 + 0.5)
 				]),
-				"Motion" => new ListTag("Motion", [
-					new DoubleTag("", $motion[0]),
-					new DoubleTag("", $motion[1]),
-					new DoubleTag("", $motion[2])
+				"Motion" => new Enum("Motion", [
+					new Double("", $motion[0]),
+					new Double("", $motion[1]),
+					new Double("", $motion[2])
 				]),
-				"Rotation" => new ListTag("Rotation", [
-					new FloatTag("", lcg_value() * 360),
-					new FloatTag("", 0)
+				"Rotation" => new Enum("Rotation", [
+					new Float("", lcg_value() * 360),
+					new Float("", 0)
 				]),
-				"Health" => new ShortTag("Health", 5),
+				"Health" => new Short("Health", 5),
 				"Item" => $itemTag,
-				"PickupDelay" => new ShortTag("PickupDelay", 10)
+				"PickupDelay" => new Short("PickupDelay", 10)
 			]);
 
 			$f = 0.3;
@@ -252,11 +252,11 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 	}
 
 	public function getSpawnCompound(){
-		$c = new CompoundTag("", [
-			new StringTag("id", Tile::DROPPER),
-			new IntTag("x", (int) $this->x),
-			new IntTag("y", (int) $this->y),
-			new IntTag("z", (int) $this->z)
+		$c = new Compound("", [
+			new String("id", Tile::DROPPER),
+			new Int("x", $this->x),
+			new Int("y", $this->y),
+			new Int("z", $this->z)
 		]);
 
 		if($this->hasName()){
