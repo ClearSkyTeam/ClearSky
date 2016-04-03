@@ -17,6 +17,7 @@ use pocketmine\utils\ChunkException;
 abstract class Tile extends Position{
 	const SIGN = "Sign";
 	const CHEST = "Chest";
+	const CAULDRON = "Cauldron";
 	const FURNACE = "Furnace";
 	const FLOWER_POT = "FlowerPot";
 	const MOB_SPAWNER = "MobSpawner";
@@ -28,6 +29,7 @@ abstract class Tile extends Position{
 	const DISPENSER = "Dispenser";
 	const DROPPER = "Dropper";
 	const DAY_LIGHT_DETECTOR = "DLDetector";
+	const NOTEBLOCK = "Music";
 
 	public static $tileCount = 1;
 

@@ -12,6 +12,7 @@ use pocketmine\nbt\tag\String;
 use pocketmine\Player;
 use pocketmine\tile\Hopper as HopperTile;
 use pocketmine\tile\Tile;
+use pocketmine\inventory\HopperInventory;
 
 class Hopper extends Solid{
 
@@ -70,7 +71,7 @@ class Hopper extends Solid{
 		return true;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+/*	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
 			$furnace = false;
@@ -97,6 +98,12 @@ class Hopper extends Solid{
 			$player->addWindow($furnace->getInventory());
 		}
 
+		return true;
+	}*/
+	public function onActivate(Item $item, Player $player = null){
+		if($player instanceof Player){
+			$player->addWindow(new HopperInventory($this));
+		}
 		return true;
 	}
 

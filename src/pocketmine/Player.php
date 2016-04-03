@@ -112,6 +112,7 @@ use pocketmine\network\SourceInterface;
 use pocketmine\permission\PermissibleBase;
 use pocketmine\permission\PermissionAttachment;
 use pocketmine\plugin\Plugin;
+use pocketmine\tile\ItemFrame;
 use pocketmine\tile\Sign;
 use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
@@ -2170,6 +2171,18 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		switch($packet::NETWORK_ID){
+			case ProtocolInfo::ITEM_FRAME_DROP_ITEM_PACKET:
+				$tile = $this->level->getTile($this->temporalVector->setComponents($packet->x, $packet->y, $packet->z));
+				if($tile instanceof ItemFrame){
+					if($tile->getItem()->getId() !== Item::AIR){
+						if((mt_rand(0, 10) / 10) <= $tile->getItemDropChance()){
+							$this->level->dropItem($tile, $tile->getItem());
+						}
+						$tile->setItem(Item::get(Item::AIR));
+						$tile->setItemRotation(0);
+					}
+				}
+				break;
 			case ProtocolInfo::REQUEST_CHUNK_RADIUS_PACKET:
 				if($this->spawned){
 					$this->viewDistance = $packet->radius ** 2;
@@ -2781,7 +2794,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->spawned === false or $this->blocked === true or !$this->isAlive()){
 					break;
 				}
-				$item = $this->inventory->contains($packet->item) ? $packet->item : $this->inventory->getItemInHand();
+				$item = $this->inventory->getItemInHand();
 				$ev = new PlayerDropItemEvent($this, $item);
 				$this->server->getPluginManager()->callEvent($ev);
 				if($ev->isCancelled()){

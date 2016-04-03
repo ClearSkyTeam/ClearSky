@@ -13,6 +13,7 @@ use pocketmine\Player;
 use pocketmine\tile\Dispenser as DispenserTile;
 use pocketmine\tile\Tile;
 use pocketmine\entity\ProjectileSource;
+use pocketmine\inventory\DispenserInventory;
 
 class Dispenser extends Solid implements ProjectileSource{
 
@@ -27,7 +28,7 @@ class Dispenser extends Solid implements ProjectileSource{
 	}
 
 	public function canBeActivated(){
-		return false; // crashes without reason!
+		return true;
 	}
 
 	public function getHardness(){
@@ -77,7 +78,7 @@ class Dispenser extends Solid implements ProjectileSource{
 		return true;
 	}
 
-	public function onActivate(Item $item, Player $player = null){
+/*	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
 			$dispenser = false;
@@ -104,7 +105,13 @@ class Dispenser extends Solid implements ProjectileSource{
 		}
 
 		return true;
-	}
+	}*/
+    public function onActivate(Item $item, Player $player = null){
+        if($player instanceof Player){
+            $player->addWindow(new DispenserInventory($this));
+        }
+        return true;
+    }
 
 	public function getDrops(Item $item){
 		$drops = [];

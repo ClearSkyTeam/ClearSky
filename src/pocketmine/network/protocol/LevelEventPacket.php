@@ -42,13 +42,17 @@ class LevelEventPacket extends DataPacket{
 
 	const EVENT_SOUND_BUTTON_CLICK = 3500;
 	const EVENT_SOUND_BUTTON_RETURN = 3500;
+	const EVENT_SOUND_EXPLODE = 3501;
+	const EVENT_SOUND_SPELL = 3504;
+	const EVENT_SOUND_SPLASH = 3506;
+	const EVENT_SOUND_GRAY_SPLASH = 3507;
 
 	const EVENT_SET_DATA = 4000;
 
 	const EVENT_PLAYERS_SLEEPING = 9800;
 
 	const EVENT_ADD_PARTICLE_MASK = 0x4000;
-
+	
 	public $evid;
 	public $x;
 	public $y;
