@@ -26,7 +26,7 @@ class Dropper extends Solid implements RedstoneConsumer{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return false;
 	}
 
 	public function getHardness(){

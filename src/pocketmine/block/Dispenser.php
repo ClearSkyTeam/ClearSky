@@ -28,7 +28,7 @@ class Dispenser extends Solid implements ProjectileSource{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return false;
 	}
 
 	public function getHardness(){

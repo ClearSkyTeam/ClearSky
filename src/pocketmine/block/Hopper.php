@@ -27,7 +27,7 @@ class Hopper extends Solid{
 	}
 
 	public function canBeActivated(){
-		return true;
+		return false;
 	}
 
 	public function getHardness(){
