@@ -86,7 +86,7 @@ class ItemFrame extends Transparent {
 				3 => Vector3::SIDE_SOUTH,
 				4 => Vector3::SIDE_WEST
 			];
-			if($this->getSide($faces[$this->meta] -1)->getId() === Item::AIR){
+			if($this->getSide(isset($faces[$this->meta])?$faces[$this->meta]:-1)->getId() === Item::AIR){
 				$this->getLevel()->useBreakOn($this);
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
