@@ -377,19 +377,21 @@ class PlayerInventory extends BaseInventory{
 		}
 
 		foreach($target as $player){
-			$pk->hotbar = [];
-			if($player === $this->getHolder()){
-				for($i = 0; $i < $this->getHotbarSize(); ++$i){
-					$index = $this->getHotbarSlotIndex($i);
-					$pk->hotbar[] = $index <= -1 ? -1 : $index + $this->getHotbarSize();
+			if($player instanceof Player){
+				$pk->hotbar = [];
+				if($player === $this->getHolder()){
+					for($i = 0; $i < $this->getHotbarSize(); ++$i){
+						$index = $this->getHotbarSlotIndex($i);
+						$pk->hotbar[] = $index <= -1 ? -1 : $index + $this->getHotbarSize();
+					}
 				}
+				if(($id = $player->getWindowId($this)) === -1 or $player->spawned !== true){
+					$this->close($player);
+					continue;
+				}
+				$pk->windowid = $id;
+				$player->dataPacket(clone $pk);
 			}
-			if(($id = $player->getWindowId($this)) === -1 or $player->spawned !== true){
-				$this->close($player);
-				continue;
-			}
-			$pk->windowid = $id;
-			$player->dataPacket(clone $pk);
 		}
 	}
 

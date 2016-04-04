@@ -2854,7 +2854,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			case ProtocolInfo::CRAFTING_EVENT_PACKET:
 				if($this->spawned === false or !$this->isAlive()){
 					break;
-				}elseif(!isset($this->windowIndex[$packet->windowId])){// need fix for windows 10 edition
+				}elseif(!isset($this->windowIndex[$packet->windowId])){
 					$this->inventory->sendContents($this);
 					$pk = new ContainerClosePacket();
 					$pk->windowid = $packet->windowId;
@@ -2866,6 +2866,25 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->inventory->sendContents($this);
 					break;
 				}
+				$win10 = false;
+				if(empty($packet->input)){ // win10
+					if($recipe instanceof ShapedRecipe){
+						$win10 = true;
+						$ingredients2 = array();
+						for($x = 0; $x <= $recipe->getWidth(); $x++){
+							for($y = 0; $y <= $recipe->getHeight(); $y++){
+								$ingredients2[] = $recipe->getIngredient($x, $y);
+							}
+						}
+						$recipe = (new ShapedRecipe($packet->output[0], "abc", "def", "ghi"))->setIngredient("a", $ingredients2[0])->setIngredient("b", $ingredients2[1])->setIngredient("c", $ingredients2[2])->setIngredient("d", $ingredients2[3])->setIngredient("e", $ingredients2[4])->setIngredient("f", $ingredients2[5])->setIngredient("g", $ingredients2[6])->setIngredient("h", $ingredients2[7])->setIngredient("i", $ingredients2[8]);
+					}
+					elseif($recipe instanceof ShapelessRecipe){
+						$recipe2 = new ShapelessRecipe($packet->output[0]);
+						foreach($recipe2->getIngredientList() as $content){
+							if($this->getInventory()->contains($content)) $packet->input[] = $content;
+						}
+					}
+				}
 				/** @var Item $item */
 				foreach($packet->input as $i => $item){
 					if($item->getDamage() === -1 or $item->getDamage() === 0xffff){
@@ -2876,7 +2895,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 				}
 				$canCraft = true;
-				if($recipe instanceof ShapedRecipe){
+				if($recipe instanceof ShapedRecipe && !$win10){
 					for($x = 0;$x < 3 and $canCraft;++$x){
 						for($y = 0;$y < 3;++$y){
 							$item = $packet->input[$y * 3 + $x];
@@ -2974,7 +2993,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$extraItem = $this->inventory->addItem($recipe->getResult());
 				if(count($extraItem) > 0){
 					foreach($extraItem as $item){
-						$this->level->dropItem($this, $item);
+					#	$this->level->dropItem($this, $item);
 					}
 				}
 				switch($recipe->getResult()->getId()){
