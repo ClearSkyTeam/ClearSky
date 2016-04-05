@@ -73,10 +73,10 @@ class ThrownPotion extends Projectile{
 						$p->addEffect(Effect::getEffect(Effect::JUMP)->setAmplifier(1)->setDuration(1.5 * 60 * 20));
 						break;
 					case Potion::FIRE_RESISTANCE:
-						$p->addEffect(Effect::getEffect(Effect::FIRE_RESISTANCE)->setAmplifier(0)->setDuration(3 * 60 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::FIRE_RESISTANCE)->setAmplifier(0)->setDuration(3 * 60 * 20));}
 						break;
 					case Potion::FIRE_RESISTANCE_T:
-						$p->addEffect(Effect::getEffect(Effect::FIRE_RESISTANCE)->setAmplifier(0)->setDuration(8 * 60 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::FIRE_RESISTANCE)->setAmplifier(0)->setDuration(8 * 60 * 20));}
 						break;
 					case Potion::SPEED:
 						$p->addEffect(Effect::getEffect(Effect::SPEED)->setAmplifier(0)->setDuration(3 * 60 * 20));
@@ -94,28 +94,28 @@ class ThrownPotion extends Projectile{
 						$p->addEffect(Effect::getEffect(Effect::SLOWNESS)->setAmplifier(0)->setDuration(4 * 60 * 20));
 						break;
 					case Potion::WATER_BREATHING:
-						$p->addEffect(Effect::getEffect(Effect::WATER_BREATHING)->setAmplifier(0)->setDuration(3 * 60 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::WATER_BREATHING)->setAmplifier(0)->setDuration(3 * 60 * 20));}
 						break;
 					case Potion::WATER_BREATHING_T:
-						$p->addEffect(Effect::getEffect(Effect::WATER_BREATHING)->setAmplifier(0)->setDuration(8 * 60 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::WATER_BREATHING)->setAmplifier(0)->setDuration(8 * 60 * 20));}
 						break;
 					case Potion::POISON:
-						$p->addEffect(Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(45 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(45 * 20));}
 						break;
 					case Potion::POISON_T:
-						$p->addEffect(Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(2 * 60 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(2 * 60 * 20));}
 						break;
 					case Potion::POISON_TWO:
-						$p->addEffect(Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(22 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(22 * 20));}
 						break;
 					case Potion::REGENERATION:
-						$p->addEffect(Effect::getEffect(Effect::REGENERATION)->setAmplifier(0)->setDuration(45 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::REGENERATION)->setAmplifier(0)->setDuration(45 * 20));}
 						break;
 					case Potion::REGENERATION_T:
-						$p->addEffect(Effect::getEffect(Effect::REGENERATION)->setAmplifier(0)->setDuration(2 * 60 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::REGENERATION)->setAmplifier(0)->setDuration(2 * 60 * 20));}
 						break;
 					case Potion::REGENERATION_TWO:
-						$p->addEffect(Effect::getEffect(Effect::REGENERATION)->setAmplifier(1)->setDuration(22 * 20));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::REGENERATION)->setAmplifier(1)->setDuration(22 * 20));}
 						break;
 					case Potion::STRENGTH:
 						$p->addEffect(Effect::getEffect(Effect::STRENGTH)->setAmplifier(0)->setDuration(3 * 60 * 20));
@@ -133,16 +133,16 @@ class ThrownPotion extends Projectile{
 						$p->addEffect(Effect::getEffect(Effect::WEAKNESS)->setAmplifier(0)->setDuration(4 * 60 * 20));
 						break;
 					case Potion::HEALING:
-						$p->addEffect(Effect::getEffect(Effect::HEALING)->setAmplifier(0)->setDuration(1));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::HEALING)->setAmplifier(0)->setDuration(1));}
 						break;
 					case Potion::HEALING_TWO:
-						$p->addEffect(Effect::getEffect(Effect::HEALING)->setAmplifier(1)->setDuration(1));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::HEALING)->setAmplifier(1)->setDuration(1));}
 						break;
 					case Potion::HARMING:
-						$p->addEffect(Effect::getEffect(Effect::HARMING)->setAmplifier(0)->setDuration(1));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::HARMING)->setAmplifier(0)->setDuration(1));}
 						break;
 					case Potion::HARMING_TWO:
-						$p->addEffect(Effect::getEffect(Effect::HARMING)->setAmplifier(1)->setDuration(1));
+						if($p->getGamemode == 0){$p->addEffect(Effect::getEffect(Effect::HARMING)->setAmplifier(1)->setDuration(1));}
 						break;
 				}	
 			}
