@@ -60,7 +60,7 @@ network:
  acceptable-packetlost: 2
  timeout: 1
  protocol: 45
- version: "0.14.0"
+ version: "0.14"
  upnp-forwarding: false
 
 debug:
