@@ -13,7 +13,7 @@ interface Info{
 	const CURRENT_PROTOCOL = 45;
 	const ACCEPT_PROTOCOL = [42,43,44,45,46];
 
-    const ATTRIBUTE_PACKET = 0x60;
+    	const ATTRIBUTE_PACKET = 0x60;
 	const LOGIN_PACKET = 0x8f;
 	const PLAY_STATUS_PACKET = 0x90;
 	const DISCONNECT_PACKET = 0x91;
