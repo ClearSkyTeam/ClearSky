@@ -2366,11 +2366,20 @@ class Server{
 		}
 	}
 
-	public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinName, $skinData, array $players = null){
+	/*public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinName, $skinData, array $players = null){
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		$pk->entries[] = [$uuid, $entityId, $name, $skinName, $skinData];
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
+	}*/
+
+	public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinName, $skinData, array $players = null){
+		foreach ($this->getOnlinePlayers() as $player){
+			$this->removePlayerListData($player->getUniqueId());
+		}
+		foreach ($this->getOnlinePlayers() as $player){
+			$this->sendFullPlayerListData($player);
+		}
 	}
 
 	public function removePlayerListData(UUID $uuid, array $players = null){
