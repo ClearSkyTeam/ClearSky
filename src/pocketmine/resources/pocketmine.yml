@@ -126,7 +126,7 @@ auto-updater:
  preferred-channel: Stable #Stable or DEV
  host: jenkins.clearskyteam.org
 
-version: 17
+version: 18
 
 auto-report:
  enabled: false
