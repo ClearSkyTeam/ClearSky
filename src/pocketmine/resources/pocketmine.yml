@@ -59,7 +59,7 @@ network:
  anti-cheat: false
  acceptable-packetlost: 2
  timeout: 1
- protocol: 46
+ protocol: 45
  version: "0.14"
  upnp-forwarding: false
 
@@ -126,7 +126,7 @@ auto-updater:
  preferred-channel: Stable #Stable or DEV
  host: jenkins.clearskyteam.org
 
-version: 19
+version: 18
 
 auto-report:
  enabled: false
