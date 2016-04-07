@@ -10,10 +10,11 @@ interface Info{
 	/**
 	 * Actual Minecraft: PE protocol versions
 	 */
-	const CURRENT_PROTOCOL = 45;
-	const ACCEPT_PROTOCOL = [42,43,44,45,46];
+	const CURRENT_PROTOCOL = 40;
+	const ACCEPT_PROTOCOL = [40,41,42,43,44,45,46,47,48,49];
+	//This is for beta 1-bla and 0.14.0-bla , I think no need to change this - Aodzip
 
-    	const ATTRIBUTE_PACKET = 0x60;
+    const ATTRIBUTE_PACKET = 0x60;
 	const LOGIN_PACKET = 0x8f;
 	const PLAY_STATUS_PACKET = 0x90;
 	const DISCONNECT_PACKET = 0x91;
