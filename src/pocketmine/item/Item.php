@@ -1656,22 +1656,23 @@ class Item{
 		if((string) $name === ""){
 			$this->clearCustomName();
 		}
-
-		if(!$this->hasCompoundTag()){
+		
+		if(!($hadCompoundTag = $this->hasCompoundTag())){
 			$tag = new Compound("", []);
 		}else{
 			$tag = $this->getNamedTag();
 		}
-
+		
 		if(isset($tag->display) and $tag->display instanceof Compound){
 			$tag->display->Name = new String("Name", $name);
 		}else{
-			$tag->display = new Compound("display", [
-				"Name" => new String("Name", $name)
-			]);
+			$tag->display = new Compound("display", ["Name" => new String("Name", $name)]);
 		}
 		
-		$this->setNamedTag($tag);
+		if(!$hadCompoundTag){
+			$this->setCompoundTag($tag);
+		}
+		
 		return $this;
 	}
 
