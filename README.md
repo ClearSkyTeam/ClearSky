@@ -148,7 +148,8 @@ ClearSky es un software limpio con codigo de alta calidad.<br>
 クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初は商用サーバー用に設計されました。<br>
  - 他のGPLライセンスプロジェクトのコードを使用している部分もありますが、殆どはClearSkyによって書き換えられた物です。
  - ここで私たちとコミュニケーションを取ることができます: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA)(英語)
- - [ここを見て 70個のプラグイン・20個のワールド と共に、早いClearSkyを始めましょう！](http://wolvesfortress.de/ezgif-1446650535.gif)
+[ClearSkyロビ] (https://lobi.co/invite/mKWL)(日本語)
+ - [ここを見て 70個のプラグイン・20個のワールド と共に、早いClearSkyを始めましょう！(動画)](http://wolvesfortress.de/ezgif-1446650535.gif)
  - 公式テストサーバー: Creative (IP: WolvesFortress.de, Port: **19134**) *基本的にはオフラインですが、もしオンラインの場合は最新バージョンです。*
 
 ## どこで私はpharを手に入れれますか？
