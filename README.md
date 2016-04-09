@@ -145,9 +145,9 @@ ClearSky es un software limpio con codigo de alta calidad.<br>
 
 
 # <a name="JAPANESE"></a>クリアスカイ
-クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初はプロダクトサーバー用に設計されました。<br>
+クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初は商用サーバー用に設計されました。<br>
  - 他のGPLライセンスプロジェクトのコードを使用している部分もありますが、殆どはClearSkyによって書き換えられた物です。
- - ここで私達とコミュニケーションを取ることができます: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA)(英語)
+ - ここで私たちとコミュニケーションを取ることができます: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA)(英語)
  - [ここを見て 70個のプラグイン・20個のワールド と共に、早いClearSkyを始めましょう！](http://wolvesfortress.de/ezgif-1446650535.gif)
  - 公式テストサーバー: Creative (IP: WolvesFortress.de, Port: **19134**) *基本的にはオフラインですが、もしオンラインの場合は最新バージョンです。*
 
@@ -157,7 +157,7 @@ ClearSky es un software limpio con codigo de alta calidad.<br>
  - Multicraftの設定例: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## [重要]: 本番ではXdebugを削除してください
- - あなたのphp.iniから"zend_extension=php_xdebug"をコメントアウトするか、Xdebug無しでPHPを再コンパイルしてください。
+ - bin/php/php.iniまたはbin/php5/bin/php.iniから"zend_extension=php_xdebug"をコメントアウトするか、Xdebug無しでPHPを再コンパイルしてください。
  - pocketmine.ymlで強制的にXdebugを有効にすることも出来ます。
 
 ## 高度な機能
@@ -171,9 +171,9 @@ ClearSky es un software limpio con codigo de alta calidad.<br>
  - 完全な経験値システム。ブロック/プレイヤー/エンティティ/ボトル/かまど に対応しています。
  - 完全な空腹システム。ゲームの難易度のフックが含まれています。
  - 完全な天候システム。
- - 完全なボート。
+ - 完全に動くボート。
  - 高速なチャンクの読み込み・送信
- - 高速なロガー。ログのオン/オフの切り替えを含みます。
+ - 高速なログ記録。ログのオン/オフの切り替えを含みます。
  - ほぼ完璧な翻訳。
  - ポーション (クリエイティブのみ)
  - エンチャント (コマンドのみ)
