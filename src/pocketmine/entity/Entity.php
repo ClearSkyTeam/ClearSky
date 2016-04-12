@@ -880,7 +880,7 @@ abstract class Entity extends Location implements Metadatable{
 			}
 
 			if($direction === 5){
-				$this->motionY = $force;
+				$this->motionZ = $force;
 
 				return true;
 			}
@@ -937,7 +937,7 @@ abstract class Entity extends Location implements Metadatable{
 					$this->fireTicks = 0;
 				}
 			}else{
-				if(!$this->hasEffect(Effect::FIRE_RESISTANCE) and ($this->fireTicks % 20) === 0 or $tickDiff > 20){
+				if(!$this->hasEffect(Effect::FIRE_RESISTANCE) and (($this->fireTicks % 20) === 0 or $tickDiff > 20)){
 					$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_FIRE_TICK, 1);
 					$this->attack($ev->getFinalDamage(), $ev);
 				}
@@ -1202,13 +1202,13 @@ abstract class Entity extends Location implements Metadatable{
 
 		Timings::$entityMoveTimer->startTiming();
 
-		$newBB = $this->boundingBox->getOffsetBoundingBox($dx, $dy, $dz);
+		/*$newBB = $this->boundingBox->getOffsetBoundingBox($dx, $dy, $dz);
 
 		$list = $this->level->getCollisionCubes($this, $newBB, false);
 
 		if(count($list) === 0){
 			$this->boundingBox = $newBB;
-		}
+		}*/
 
 		$this->x = ($this->boundingBox->minX + $this->boundingBox->maxX) / 2;
 		$this->y = $this->boundingBox->minY - $this->ySize;
@@ -1400,9 +1400,10 @@ abstract class Entity extends Location implements Metadatable{
 
 	public function getBlocksAround(){
 		if($this->blocksAround === null){
-			$minX = Math::floorFloat($this->boundingBox->minX);
-			$minY = Math::floorFloat($this->boundingBox->minY);
-			$minZ = Math::floorFloat($this->boundingBox->minZ);
+			//print_r($this->boundingBox);
+			$minX = Math::floorFloat($this->boundingBox->minX - 1);
+			$minY = Math::floorFloat($this->boundingBox->minY - 1);
+			$minZ = Math::floorFloat($this->boundingBox->minZ - 1);
 			$maxX = Math::ceilFloat($this->boundingBox->maxX);
 			$maxY = Math::ceilFloat($this->boundingBox->maxY);
 			$maxZ = Math::ceilFloat($this->boundingBox->maxZ);
@@ -1413,6 +1414,7 @@ abstract class Entity extends Location implements Metadatable{
 				for($x = $minX; $x <= $maxX; ++$x){
 					for($y = $minY; $y <= $maxY; ++$y){
 						$block = $this->level->getBlock($this->temporalVector->setComponents($x, $y, $z));
+						//if($block->getId() !== 0)print_r($block);
 						if($block->hasEntityCollision()){
 							$this->blocksAround[] = $block;
 						}
@@ -1427,6 +1429,8 @@ abstract class Entity extends Location implements Metadatable{
 	protected function checkBlockCollision(){
 		$vector = new Vector3(0, 0, 0);
 		foreach($this->getBlocksAround() as $block){
+			//echo "From Entity";
+			//print_r($block);
 			$block->onEntityCollide($this);
 			$block->addVelocityToEntity($this, $vector);
 		}
