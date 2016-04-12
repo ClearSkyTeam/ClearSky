@@ -136,7 +136,7 @@ class ThrownPotion extends Projectile{
 						$p->addEffect(Effect::getEffect(Effect::HEALING)->setAmplifier(0)->setDuration(1));
 						break;
 					case Potion::HEALING_TWO:
-						{$p->addEffect(Effect::getEffect(Effect::HEALING)->setAmplifier(1)->setDuration(1));
+						$p->addEffect(Effect::getEffect(Effect::HEALING)->setAmplifier(1)->setDuration(1));
 						break;
 					case Potion::HARMING:
 						if($p->getGamemode() == 0){$p->addEffect(Effect::getEffect(Effect::HARMING)->setAmplifier(0)->setDuration(1));}
