@@ -46,7 +46,7 @@ class WeatherCommand extends VanillaCommand{
                 	$level = $sender->getServer()->getLevelByName($args[2]);
 			if(!$sender->getServer()->isLevelLoaded($args[2])){
                     		$worldName = $args[2];
-                                $sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnorfound", $args[2]));
+                                $sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnotfound", $args[2]));
 		         	return false;
 	            	}
 	        }else{
