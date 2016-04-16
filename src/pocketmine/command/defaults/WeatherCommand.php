@@ -24,17 +24,17 @@ class WeatherCommand extends VanillaCommand{
             return true;
         }
 
-        if(count($args) > 3 || count($args) === 0){
+        if(count($args) >= 3 || count($args) === 0){
             $sender->sendMessage(new TranslationContainer("commands.weather.usage", [$this->usageMessage]));
             return false;
         }
 
-        if(count($args) > 1){
+        if(count($args) >= 1){
             $seconds = (int) $args[1];
         }else{
             $seconds = 600*20;
         }
-	    if(count($args) === 0 && count($args) <= 2){
+	    if(count($args) <= 1){
         	if($sender instanceof Player){
             		$level = $sender->getLevel();
 		}else{
@@ -88,7 +88,7 @@ class WeatherCommand extends VanillaCommand{
                 $sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
                 return true;
             }
-//WEATHER TODO : THUNDER
+             //WEATHER TODO : THUNDER
             //$level->setThundering(true);
             //$level->setRainTime($seconds * 20);
             //$level->setThunderTime($seconds * 20);
