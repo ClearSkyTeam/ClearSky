@@ -64,11 +64,5 @@ class TNT extends Solid implements Redstone, RedstoneConsumer{
 
 		return false;
 	}
-
-	public function onRedstoneUpdate($type,$power){
-		if($this->isPowered()){
-			$this->onActivate(new FlintSteel());
-			return;
-		}
-	}
+	
 }

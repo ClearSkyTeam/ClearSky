@@ -136,21 +136,6 @@ abstract class Door2 extends Transparent{
 		}
 	}
 
-	public function onRedstoneUpdate($type, $power){
-		if($this->getSide(0)->getId() === $this->getId()){
-			$this_meta = $this->getSide(0)->meta;
-		}
-		else{
-			$this_meta = $this->meta;
-		}
-		if($this->isPowered() and $this_meta < 4){
-			$this->toggleStatus();
-		}
-		if(!$this->isPowered() and $this_meta >= 4){
-			$this->toggleStatus();
-		}
-	}
-
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		if($face === 1){
 			$blockUp = $this->getSide(1);

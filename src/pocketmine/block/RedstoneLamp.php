@@ -25,15 +25,6 @@ class RedstoneLamp extends Solid implements Redstone,RedstoneConsumer,LightSourc
 	public function isLightSource(){
 		return false;
 	}
-	
-	public function onRedstoneUpdate($type, $power){
-		if($this->isPowered()){
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK,$power);
-			$this->id = 124;
-			$this->getLevel()->setBlock($this, $this);
-			return;
-		}
-	}
 
 	public function getName(){
 		return "Redstone Lamp";

@@ -650,11 +650,7 @@ class Block extends Position implements Metadatable{
 	 * @return bool
 	 */
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$opreturn = $this->getLevel()->setBlock($this, $this, true, true);
-		if($this->getLevel()->getServer()->getProperty("redstone.enable", true) and $this instanceof Redstone){
-			$this->onRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,$this->getPower());
-		}
-		return $opreturn;
+		return $this->getLevel()->setBlock($this, $this, true, true);
 	}
 
 	/**
@@ -1067,14 +1063,6 @@ class Block extends Position implements Metadatable{
 			$around = $this->getSide($side);
 			$this->getLevel()->setRedstoneUpdate($around, Block::REDSTONEDELAY, $type, $power);
 		}
-		return true;
-	}
-
-	public function onRedstoneUpdate($type, $power){
-		if($type == Level::REDSTONE_UPDATE_BLOCK or $this instanceof Transparent){
-			return true;
-		}
-		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK, $power);
 		return true;
 	}
 	

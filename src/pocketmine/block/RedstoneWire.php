@@ -43,8 +43,12 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 	}
 
 	public function setPower($power){
-		$this->meta = $power;
-		$this->getLevel()->setBlock($this, $this, true, false);
+		if($power >= $this->meta){
+			$this->meta = $power;
+			$this->getLevel()->setBlock($this, $this, true, false);
+			return true;
+		}
+		return false;
 	}
 
 	public function getHardness(){
@@ -306,44 +310,4 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 		}
 	}
 
-	public function onRedstoneUpdate($type, $power){
-		if($type == Level::REDSTONE_UPDATE_PLACE){
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_NORMAL, $this->getPower());
-			if($power > $this->getPower() + 1){
-				$this->setRedstoneUpdateList(Level::REDSTONE_UPDATE_NORMAL, $power);
-			}
-			return;
-		}
-		
-		if($type == Level::REDSTONE_UPDATE_REPOWER){
-			foreach($this->getLevel()->RedstoneRepowers as $repower){
-				$pos = new Vector3($repower['x'], $repower['y'], $repower['z']);
-				$this->getLevel()->getBlock($pos)->setRedstoneUpdateList(Level::REDSTONE_UPDATE_REPOWER, null);
-				return;
-			}
-		}
-		
-		if($type == Level::REDSTONE_UPDATE_BLOCK){
-			$FMP = $this->fetchMaxPower();
-			if($this->fetchMaxPower() > $this->getPower() + 1){
-				$this->setRedstoneUpdateList(Level::REDSTONE_UPDATE_NORMAL, $power);
-				return;
-			}
-			if($this->fetchMaxPower() == $this->getPower() + 1){
-				return;
-			}
-			if($this->fetchMaxPower() < $this->getPower() + 1){
-				$this->setRedstoneUpdateList(Level::REDSTONE_UPDATE_LOSTPOWER, $power);
-				return;
-			}
-		}
-		
-		if($type == Level::REDSTONE_UPDATE_BREAK){
-			if($power > $this->getPower()){
-				$this->setRedstoneUpdateList(Level::REDSTONE_UPDATE_LOSTPOWER, $power);
-			}
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_NORMAL, $this->getPower());
-			return;
-		}
-	}
 }
