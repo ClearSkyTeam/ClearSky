@@ -1024,10 +1024,6 @@ class Block extends Position implements Metadatable{
 		return false;
 	}
 	
-	public function setRedstoneUpdateList($type,$power){
-		return;
-	}
-	
 	public function chkTarget($hash){
 		return false;
 	}
