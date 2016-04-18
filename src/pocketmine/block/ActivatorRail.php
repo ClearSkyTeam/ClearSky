@@ -41,12 +41,6 @@ class ActivatorRail extends ExtendedRailBlock implements RedstoneConsumer{
 		return false;
 	}
 
-	public function onRedstoneUpdate($type,$power){
-		if($this->isPowered()){
-			$this->togglePowered();
-		}
-	}
-
 	public function getDrops(Item $item){
 		return [[Item::ACTIVATOR_RAIL, 0, 1]];
 	}

@@ -155,7 +155,6 @@ abstract class Door2 extends Transparent{
 			$this->setDamage($player->getDirection() & 0x03);
 			$this->getLevel()->setBlock($block, $this, true, true); // Bottom
 			$this->getLevel()->setBlock($blockUp, $b = Block::get($this->getId(), $metaUp), true); // Top
-			$this->onRedstoneUpdate(null, null);
 			return true;
 		}
 		

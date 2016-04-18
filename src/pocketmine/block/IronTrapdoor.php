@@ -123,14 +123,6 @@ class IronTrapdoor extends Transparent implements Redstone{
 			[$this->id, 0, 1],
 		];
 	}
-	
-	public function onRedstoneUpdate($type, $power){
-		if(($this->isPowered() and $this->meta < 8) || (!$this->isPowered() and $this->meta > 8)){
-			$this->meta ^= 0x08;
-			$this->getLevel()->setBlock($this, $this);
-			$this->getLevel()->addSound(new DoorSound($this));
-		}
-	}
 
 	public function getToolType(){
 		return Tool::TYPE_PICKAXE;
