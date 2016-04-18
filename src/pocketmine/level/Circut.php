@@ -6,17 +6,20 @@ use pocketmine\block\Redstone;
 use pocketmine\block\RedstoneWire;
 
 class Circut{
+	private $isdestroy = false;
 	private $level = null;
 	private $source = null;
 	private $power = 0;
 	private $range = 0;
 	private $map = [];
+	private $laststatus= [];
 	
 	public function __construct(Redstone $source){
 		$this->source = $source;
 		$this->level = $source->getLevel();
 		$this->power = $source->getPower();
-		$this->range = $source->getPower();
+		//$this->range = $source->getPower();
+		$this->level->addCircut($this);
 		$this->map = [$source => 0];
 		$this->map = $this->map($this->build($source));
 		$this->update();
@@ -64,12 +67,15 @@ class Circut{
 				break;
 			}
 		}
-		//print_r($layers);
 		return $layers;
 	}
 	
 	public function tick(){
-		
+		$status = [$this->source, $this->power, $this->map];
+		if($this->laststatus !== $status){
+			$this->laststatus = $status;
+			$this->update();
+		}
 	}
 	
 	public function add(Block $block){
@@ -109,11 +115,7 @@ class Circut{
 	
 	public function update(){
 		foreach ($this->map as $block=>$powerlayer){
-			if($this->source == null){
-				$block->lostPower($this);
-			}else{
-				$block->setPower($this, $this->power - $powerlayer);
-			}
+			$block->setPower($this, max($this->power - $powerlayer, 0));
 		}
 	}
 	
@@ -134,7 +136,7 @@ class Circut{
 	}
 	
 	public function getPower(Redstone $block){
-		return $this->power - $this->map[$block];
+		return max($this->power - $this->map[$block], 0);
 	}
 	
 }

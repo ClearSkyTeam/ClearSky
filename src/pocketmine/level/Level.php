@@ -256,6 +256,23 @@ class Level implements ChunkManager, Metadatable{
 	/** @var Generator */
 	private $generatorInstance;
 	
+	/** RedstoneCircut **/
+	private circuts = [];
+	
+	public function addCircut(Circut $circut){
+		$this->circuts[] = $circut;
+		return true;
+	}
+	
+	public function removeCircut(Circut $circut){
+		foreach($this->circuts as $i=>$target){
+			if($target === $circut){
+				unset($this->circuts[$i]);
+				break;
+			}
+		}
+		return true;
+	}
 	/** Weather **/
 	const WEATHER_CLEARSKY = 0;//Project Name , Have fun~
 	const WEATHER_RAIN = 1;
@@ -781,6 +798,13 @@ class Level implements ChunkManager, Metadatable{
 			$block->onUpdate(self::BLOCK_UPDATE_SCHEDULED);
 		}
 		$this->timings->doTickPending->stopTiming();
+		
+		//Do redstone updates
+		$this->timings->doTickRedstone->startTiming();
+		foreach($this->circuts as $circut){
+			$circut->tick();
+		}
+		$this->timings->doTickRedstone->stopTiming();
 		
 		$this->timings->entityTick->startTiming();
 		//Update entities that need update
