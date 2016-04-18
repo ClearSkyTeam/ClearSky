@@ -26,7 +26,6 @@ use pocketmine\block\Sapling;
 use pocketmine\block\SnowLayer;
 use pocketmine\block\Sugarcane;
 use pocketmine\block\Wheat;
-use pocketmine\block\Redstone;
 use pocketmine\entity\Arrow;
 use pocketmine\entity\Entity;
 use pocketmine\entity\Item as DroppedItem;
@@ -116,13 +115,6 @@ class Level implements ChunkManager, Metadatable{
 	const BLOCK_UPDATE_SCHEDULED = 3;
 	const BLOCK_UPDATE_WEAK = 4;
 	const BLOCK_UPDATE_TOUCH = 5;
-	
-	const REDSTONE_UPDATE_PLACE = 1;
-	const REDSTONE_UPDATE_NORMAL = 2;
-	const REDSTONE_UPDATE_BLOCK = 4;
-	const REDSTONE_UPDATE_LOSTPOWER = 5;
-	const REDSTONE_UPDATE_REPOWER = 6;
-	const REDSTONE_UPDATE_BREAK = 7;
 
 	const TIME_DAY = 0;
 	const TIME_SUNSET = 12000;
@@ -195,13 +187,6 @@ class Level implements ChunkManager, Metadatable{
 	/** @var ReversePriorityQueue */
 	private $updateQueue;
 	private $updateQueueIndex = [];
-	
-	/*RedstoneQueue*/
-	private $updateRedstoneQueue;
-	private $updateRedstoneQueueIndex = [];
-	public $RedstoneUpdateList=[];
-	public $RedstoneUpdaters=[];
-	public $RedstoneRepowers=[];
 	
 	/** @var Player[][] */
 	private $chunkSendQueue = [];
@@ -458,9 +443,6 @@ class Level implements ChunkManager, Metadatable{
 			if($ticked === true) unset($this->randomTickBlocks[$id]);
 		}
 
-		$this->updateRedstoneQueue = new ReversePriorityQueue();
-		$this->updateRedstoneQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
-		
 		$this->chunkTickRadius = min($this->server->getViewDistance(), max(1, (int) $this->server->getProperty("chunk-ticking.tick-radius", 4)));
 		$this->chunksPerTick = (int) $this->server->getProperty("chunk-ticking.per-tick", 40);
 		$this->chunkGenerationQueueSize = (int) $this->server->getProperty("chunk-generation.queue-size", 8);
@@ -799,32 +781,6 @@ class Level implements ChunkManager, Metadatable{
 			$block->onUpdate(self::BLOCK_UPDATE_SCHEDULED);
 		}
 		$this->timings->doTickPending->stopTiming();
-		
-		//Do Redstone updates
-		if($this->server->getProperty("redstone.enable", true)){
-			$this->timings->doTickRedstone->startTiming();
-			$Counter = 0;
-			while($this->updateRedstoneQueue->count() > 0 and $this->updateRedstoneQueue->current()["priority"] <= $currentTick){
-				$Counter++;
-				$block = $this->getBlock($this->updateRedstoneQueue->extract()["data"]);
-				$hash = Level::blockHash($block->x, $block->y, $block->z);
-				$this->updateRedstoneQueueIndex[$hash] = array_values($this->updateRedstoneQueueIndex[$hash]);
-				if(count($this->updateRedstoneQueueIndex[$hash]) == 1){
-					$type = $this->updateRedstoneQueueIndex[$hash][0]['type'];
-					$power = $this->updateRedstoneQueueIndex[$hash][0]['power'];
-					unset($this->updateRedstoneQueueIndex[$hash]);
-				}else{
-					$type = $this->updateRedstoneQueueIndex[$hash][0]['type'];
-					$power = $this->updateRedstoneQueueIndex[$hash][0]['power'];
-					unset($this->updateRedstoneQueueIndex[$hash][0]);
-				}
-				$block->onRedstoneUpdate($type,$power);
-				if($Counter >= $this->server->getProperty("redstone.tick-limit", 2048)){
-					break;
-				}
-			}
-			$this->timings->doTickRedstone->stopTiming();
-		}
 		
 		$this->timings->entityTick->startTiming();
 		//Update entities that need update
@@ -1200,42 +1156,6 @@ class Level implements ChunkManager, Metadatable{
 		$this->updateQueue->insert(new Vector3((int) $pos->x, (int) $pos->y, (int) $pos->z), (int) $delay + $this->server->getTick());
 	}
 	
-	/**
-	 * ClearSky internal use
-	 */
-	private function compareRedstone($old,$new){
-		$oldtype = $old['type'];
-		$oldpower = $old['power'];
-		$newtype = $new['type'];
-		$newpower = $new['power'];
-		if($oldtype == $newtype and $oldpower == $newpower){
-			return true;
-		}
-		//TODO : more similar redstone status
-		return false;
-	}
-	
-	/**
-	 * @param Vector3 $pos
-	 * @param int     $delay
-	 */
-	public function setRedstoneUpdate(Vector3 $pos, $delay, $type , $power){
-		if($this->server->getProperty("redstone.enable", true)){
-			$hash = Level::blockHash($pos->x, $pos->y, $pos->z);
-			if(isset($this->updateRedstoneQueueIndex[$hash])){
-				if($this->compareRedstone(\end($this->updateRedstoneQueueIndex[$hash]),['type'=>$type,'power'=>$power])){
-					return false;
-				}
-			}
-			$this->updateRedstoneQueueIndex[$hash][]=[
-				'delay'=>$delay,
-				'type'=>$type,
-				'power'=>$power
-			];
-			$this->updateRedstoneQueue->insert(new Vector3((int) $pos->x, (int) $pos->y, (int) $pos->z), (int) $delay + $this->server->getTick());
-		}
-		return;
-	}
 	/**
 	 * @param AxisAlignedBB $bb
 	 * @param bool          $targetFirst
