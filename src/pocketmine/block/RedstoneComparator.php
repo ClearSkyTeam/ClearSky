@@ -151,9 +151,7 @@ class RedstoneComparator extends Flowable implements Redstone, RedstoneTransmitt
 	}
 
 	public function onBreak(Item $item){
-		$oBreturn = $this->getLevel()->setBlock($this, new Air(), true, true);
-		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK, $this->getPower());
-		return $oBreturn;
+		return $this->getLevel()->setBlock($this, new Air(), true, true);
 	}
 
 	public function doRedstoneListUpdate(){

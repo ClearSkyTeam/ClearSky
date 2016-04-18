@@ -61,7 +61,6 @@ class WoodenButton extends Flowable implements Redstone, RedstoneSource, Redston
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED){
 			$this->togglePowered();
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK, 16);
 			return;
 		}
 		elseif($type === Level::BLOCK_UPDATE_NORMAL){
@@ -101,7 +100,6 @@ class WoodenButton extends Flowable implements Redstone, RedstoneSource, Redston
 		}
 		if(($player instanceof Player && !$player->isSneaking()) || $player === null){
 			$this->togglePowered();
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE, Block::REDSTONESOURCEPOWER);
 			$this->getLevel()->scheduleUpdate($this, 40);
 		}
 		return true;

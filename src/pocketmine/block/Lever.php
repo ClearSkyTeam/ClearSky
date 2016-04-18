@@ -132,7 +132,6 @@ class Lever extends Flowable implements Redstone,RedstoneSource,RedstoneSwitch{
 		}
 		$this->meta ^= 0x08;
 		$this->getLevel()->setBlock($this, $this ,true ,false);
-		$this->BroadcastRedstoneUpdate($type,Block::REDSTONESOURCEPOWER);
 		return true;
 	}
 	

@@ -30,13 +30,6 @@ class UnlitRedstoneTorch extends Flowable implements Redstone, RedstoneSource, L
 		return 0;
 	}
 
-	public function BroadcastRedstoneUpdate($type, $power){
-		for($side = 1; $side <= 5; $side++){
-			$around = $this->getSide($side);
-			$this->getLevel()->setRedstoneUpdate($around, Block::REDSTONEDELAY, $type, $power);
-		}
-	}
-
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			$below = $this->getSide(0);
