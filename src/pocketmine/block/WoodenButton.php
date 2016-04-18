@@ -51,13 +51,6 @@ class WoodenButton extends Flowable implements Redstone, RedstoneSource, Redston
 		return 0.5;
 	}
 
-	public function BroadcastRedstoneUpdate($type, $power){
-		for($side = 0; $side <= 5; $side++){
-			$around = $this->getSide($side);
-			$this->getLevel()->setRedstoneUpdate($around, Block::REDSTONEDELAY, $type, $power);
-		}
-	}
-
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED){
 			$this->togglePowered();

@@ -143,9 +143,7 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 	}
 
 	public function onBreak(Item $item){
-		$oBreturn = $this->getLevel()->setBlock($this, new Air(), true, true);
-		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK, $this->getPower());
-		return $oBreturn;
+		return $this->getLevel()->setBlock($this, new Air(), true, true);
 	}
 
 	public function doRedstoneListUpdate(){
@@ -172,7 +170,6 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 			$originalpower = $target->getmetaPower();
 			$target->setPower($setpower);
 			unset($this->getLevel()->RedstoneUpdateList[$hash]);
-			$target->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_NORMAL, $setpower);
 		}
 	}
 
@@ -277,24 +274,6 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 				}
 				$this->getLevel()->RedstoneUpdaters[$this_hash] = true;
 				$this->doRedstoneListUpdate();
-			}
-		}
-	}
-
-	public function BroadcastRedstoneUpdate($type, $power){
-		$down = $this->getSide(0);
-		for($side = 0; $side <= 5; $side++){
-			$around = $this->getSide($side);
-			$this->getLevel()->setRedstoneUpdate($around, Block::REDSTONEDELAY, $type, $power);
-			if($type === Level::REDSTONE_UPDATE_BREAK){
-				$up = $around->getSide(1);
-				$down = $around->getSide(0);
-				if(!$around instanceof Transparent and $up instanceof RedstoneTransmitter and $this->getSide(1) instanceof Transparent){
-					$this->getLevel()->setRedstoneUpdate($up, Block::REDSTONEDELAY, $type, $power);
-				}
-				elseif($around->id == self::AIR and $down instanceof Redstone){
-					$this->getLevel()->setRedstoneUpdate($down, Block::REDSTONEDELAY, $type, $power);
-				}
 			}
 		}
 	}

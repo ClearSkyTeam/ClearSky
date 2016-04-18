@@ -672,11 +672,6 @@ class Block extends Position implements Metadatable{
 	 * @return mixed
 	 */
 	public function onBreak(Item $item){
-		if($this instanceof Redstone){
-			$oBreturn = $this->getLevel()->setBlock($this, new Air(), true, true);
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,$this->getPower());
-			return $oBreturn;
-		}
 		return $this->getLevel()->setBlock($this, new Air(), true, true);
 	}
 

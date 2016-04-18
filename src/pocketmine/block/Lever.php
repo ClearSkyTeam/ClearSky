@@ -115,13 +115,6 @@ class Lever extends Flowable implements Redstone,RedstoneSource,RedstoneSwitch{
 		return false;
 	}
 	
-	public function BroadcastRedstoneUpdate($type,$power){
-		for($side = 0; $side <= 5; $side++){
-			$around=$this->getSide($side);
-			$this->getLevel()->setRedstoneUpdate($around,Block::REDSTONEDELAY,$type,$power);
-		}
-	}
-	
 	public function onActivate(Item $item, Player $player = null){
 		if($this->meta <= 7 ){
 			$this->getLevel()->addSound(new ButtonClickSound($this));

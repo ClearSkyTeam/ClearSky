@@ -136,6 +136,5 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 			$type = Level::REDSTONE_UPDATE_BREAK;
 		}
 		$this->getLevel()->setBlock($this, $this, true, false);
-		$this->BroadcastRedstoneUpdate($type, Block::REDSTONESOURCEPOWER);
 	}
 }

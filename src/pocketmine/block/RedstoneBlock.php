@@ -30,13 +30,6 @@ class RedstoneBlock extends Solid implements Redstone,RedstoneSource{
 		return true;
 	}
 	
-	public function BroadcastRedstoneUpdate($type,$power){
-		for($side = 0; $side <= 5; $side++){
-			$around=$this->getSide($side);
-			$this->getLevel()->setRedstoneUpdate($around,Block::REDSTONEDELAY,$type,$power);
-		}
-	}
-	
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		return $this->getLevel()->setBlock($this, $this, true, true);
 	}

@@ -28,7 +28,6 @@ class DaylightDetectorInverted extends Transparent implements Redstone, Redstone
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED || $type === Level::BLOCK_UPDATE_NORMAL){
 			$this->getLevel()->scheduleUpdate($this, 50);
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_NORMAL, $this->getPower());
 		}
 		return false;
 	}
@@ -36,7 +35,6 @@ class DaylightDetectorInverted extends Transparent implements Redstone, Redstone
 	public function onActivate(Item $item, Player $player = null){
 		$this->id = self::DAYLIGHT_DETECTOR_INVERTED;
 		$this->getLevel()->setBlock($this, $this, true);
-		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_NORMAL, $this->getPower());
 		return true;
 	}
 
