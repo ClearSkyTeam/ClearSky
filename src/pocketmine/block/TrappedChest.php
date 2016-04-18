@@ -45,13 +45,6 @@ class TrappedChest extends Transparent implements Redstone{
 		return Tool::TYPE_AXE;
 	}
 	
-	/*public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_SCHEDULED){
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
-		}
-		return;
-	}*/
-	
 	protected function recalculateBoundingBox(){
 		return new AxisAlignedBB(
 			$this->x + 0.0625,
@@ -136,7 +129,6 @@ class TrappedChest extends Transparent implements Redstone{
 			if($top->isTransparent() !== true){
 				return true;
 			}
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
 			$this->getLevel()->scheduleUpdate($this, 2);
 			$t = $this->getLevel()->getTile($this);
 			$chest = null;

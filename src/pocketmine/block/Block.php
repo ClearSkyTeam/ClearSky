@@ -1054,17 +1054,6 @@ class Block extends Position implements Metadatable{
 		}
 		return false;
 	}
-
-	public function BroadcastRedstoneUpdate($type, $power){
-		if(!$this->getSide(0) instanceof RedstoneSource){
-			$this->getLevel()->setRedstoneUpdate($this->getSide(0), Block::REDSTONEDELAY, $type, $power);
-		}
-		for($side = 1; $side <= 5; $side++){
-			$around = $this->getSide($side);
-			$this->getLevel()->setRedstoneUpdate($around, Block::REDSTONEDELAY, $type, $power);
-		}
-		return true;
-	}
 	
 	/**
 	 * Sets the block position to a new Position object

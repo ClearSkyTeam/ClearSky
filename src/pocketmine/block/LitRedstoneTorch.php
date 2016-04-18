@@ -85,8 +85,6 @@ class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource, Lig
 			}
 			$this->getLevel()->setBlock($block, $this);
 			$this->circut = new Circut($this);
-			//$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE, Block::REDSTONESOURCEPOWER);
-			
 			return true;
 		}
 		elseif($down->isTransparent() === false or $down instanceof Fence or $down->getId() === self::COBBLE_WALL or $down->getId() === self::GLASS || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
@@ -97,7 +95,6 @@ class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource, Lig
 				return;
 			}
 			$this->getLevel()->setBlock($block, $this);
-			//$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE, Block::REDSTONESOURCEPOWER);
 			return true;
 		}
 		

@@ -37,18 +37,8 @@ class RedstoneBlock extends Solid implements Redstone,RedstoneSource{
 		}
 	}
 	
-	public function onRedstoneUpdate($type,$power){
-		if($type == Level::REDSTONE_UPDATE_PLACE or $type == Level::REDSTONE_UPDATE_LOSTPOWER){
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,$this->getPower());
-			return;
-		}
-		return;
-	}
-	
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$o = $this->getLevel()->setBlock($this, $this, true, true);
-		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,$this->getPower());
-		return $o;
+		return $this->getLevel()->setBlock($this, $this, true, true);
 	}
 	
 	public function getToolType(){
