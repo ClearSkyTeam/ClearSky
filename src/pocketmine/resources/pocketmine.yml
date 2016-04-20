@@ -7,7 +7,7 @@ settings:
  deprecated-verbose: true
  enable-profiling: false
  profile-report-trigger: 20
- async-workers: auto
+ async-workers: 1
  config-update: true
 
 player:
@@ -126,7 +126,7 @@ auto-updater:
  preferred-channel: Stable #Stable or DEV
  host: jenkins.clearskyteam.org
 
-version: 19
+version: 20
 
 auto-report:
  enabled: false
