@@ -2794,11 +2794,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->spawned === false or $this->blocked === true or !$this->isAlive()){
 					break;
 				}
-				$item = $this->inventory->getItemInHand();
+				if(!$this->inventory->contains($packet->item)) {
+					$this->inventory->sendContents($this); //Refresh the inventory to do useless stuff
+					break;
+				}
+				$slot = $this->inventory->first($packet->item);
+				if($slot == -1){break;}
+				$item = $this->inventory->getItem($slot);
 				$ev = new PlayerDropItemEvent($this, $item);
 				$this->server->getPluginManager()->callEvent($ev);
 				if($ev->isCancelled()){
-					$this->inventory->sendContents($this);
+					$this->inventory->sendSlot($slot, $this);
 					break;
 				}
 
