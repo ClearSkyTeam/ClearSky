@@ -31,9 +31,12 @@ class Dye extends Item{
 
 	public function __construct($meta = 0, $count = 1){
 		if($meta === self::COCOA_BEANS){
-			$this->block = Block::get(Item::COCOA_POD);
+			$this->block = Block::get(Block::COCOA_BEANS);
+			parent::__construct(self::DYE, self::COCOA_BEANS, $count, $this->getNameByMeta($meta));
 		}
-		parent::__construct(self::DYE, $meta, $count, $this->getNameByMeta($meta));
+		else{
+			parent::__construct(self::DYE, $meta, $count, $this->getNameByMeta($meta));
+		}
 	}
 
 	public function getNameByMeta($meta){
