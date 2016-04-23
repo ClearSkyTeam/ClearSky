@@ -13,7 +13,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 **Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
 
 
- - We may take code from other GPL licenced projects, but very much is fully-rewritten for ClearSky.
+ - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
  - Here is an Telegram group, where you can communicate with us: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
  - [Look here how fast ClearSky starts with 70 plugins and 20 worlds!](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
