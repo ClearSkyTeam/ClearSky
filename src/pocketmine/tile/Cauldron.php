@@ -2,25 +2,25 @@
 namespace pocketmine\tile;
 
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Short;
-use pocketmine\nbt\tag\Int;
-use pocketmine\nbt\tag\Byte;
-use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\tile\Spawnable;
 
 class Cauldron extends Spawnable{
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		if(!isset($nbt->PotionId)){
-			$nbt->PotionId = new Short("PotionId", 0xffff);
+			$nbt->PotionId = new ShortTag("PotionId", 0xffff);
 		}
 		if(!isset($nbt->SplashPotion)){
-			$nbt->SplashPotion = new Byte("SplashPotion", 0);
+			$nbt->SplashPotion = new ByteTag("SplashPotion", 0);
 		}
-		if(!isset($nbt->Items) or !($nbt->Items instanceof Enum)){
-			$nbt->Items = new Enum("Items", []);
+		if(!isset($nbt->Items) or !($nbt->Items instanceof ListTag)){
+			$nbt->Items = new ListTag("Items", []);
 		}
 		parent::__construct($chunk, $nbt);
 	}
@@ -30,7 +30,7 @@ class Cauldron extends Spawnable{
 	}
 
 	public function setPotionId($potionId){
-		$this->namedtag->PotionId = new Short("PotionId", $potionId);
+		$this->namedtag->PotionId = new ShortTag("PotionId", $potionId);
 
 		$this->spawnToAll();
 		if($this->chunk){
@@ -48,7 +48,7 @@ class Cauldron extends Spawnable{
 	}
 
 	public function setSplashPotion($bool){
-		$this->namedtag->SplashPotion = new Byte("SplashPotion", ($bool == true) ? 1:0);
+		$this->namedtag->SplashPotion = new ByteTag("SplashPotion", ($bool == true) ? 1:0);
 
 		$this->spawnToAll();
 		if($this->chunk){
@@ -90,7 +90,7 @@ class Cauldron extends Spawnable{
 		}else{
 			$color = ($r << 16 | $g << 8 | $b) & 0xffffff;
 		}
-		$this->namedtag->CustomColor = new Int("CustomColor", $color);
+		$this->namedtag->CustomColor = new IntTag("CustomColor", $color);
 
 		$this->spawnToAll();
 		if($this->chunk){
@@ -112,13 +112,13 @@ class Cauldron extends Spawnable{
 	}
 
 	public function getSpawnCompound(){
-		$nbt = new Compound("", [
-			new String("id", Tile::CAULDRON),
-			new Int("x", (Int) $this->x),
-			new Int("y", (Int) $this->y),
-			new Int("z", (Int) $this->z),
-			new Short("PotionId", $this->namedtag["PotionId"]),
-			new Byte("SplashPotion", $this->namedtag["SplashPotion"])
+		$nbt = new CompoundTag("", [
+			new StringTag("id", Tile::CAULDRON),
+			new IntTag("x", (IntTag) $this->x),
+			new IntTag("y", (IntTag) $this->y),
+			new IntTag("z", (IntTag) $this->z),
+			new ShortTag("PotionId", $this->namedtag["PotionId"]),
+			new ByteTag("SplashPotion", $this->namedtag["SplashPotion"])
 		]);
 
 		if($this->getPotionId() === 0xffff and $this->isCustomColor()){

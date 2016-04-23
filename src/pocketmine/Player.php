@@ -74,15 +74,15 @@ use pocketmine\math\Vector2;
 use pocketmine\math\Vector3;
 use pocketmine\metadata\MetadataValue;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Byte;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Int;
-use pocketmine\nbt\tag\Long;
-use pocketmine\nbt\tag\Short;
-use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\LongTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\network\protocol\AdventureSettingsPacket;
 use pocketmine\network\protocol\AnimatePacket;
 use pocketmine\network\protocol\BatchPacket;
@@ -462,15 +462,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	public function getFirstPlayed(){
-		return $this->namedtag instanceof Compound ? $this->namedtag["firstPlayed"] : null;
+		return $this->namedtag instanceof CompoundTag ? $this->namedtag["firstPlayed"] : null;
 	}
 
 	public function getLastPlayed(){
-		return $this->namedtag instanceof Compound ? $this->namedtag["lastPlayed"] : null;
+		return $this->namedtag instanceof CompoundTag ? $this->namedtag["lastPlayed"] : null;
 	}
 
 	public function hasPlayedBefore(){
-		return $this->namedtag instanceof Compound;
+		return $this->namedtag instanceof CompoundTag;
 	}
 
 	public function setAllowFlight($value){
@@ -694,7 +694,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->interface = $interface;
 		$this->windows = new \SplObjectStorage();
 		$this->perm = new PermissibleBase($this);
-		$this->namedtag = new Compound();
+		$this->namedtag = new CompoundTag();
 		$this->server = Server::getInstance();
 		$this->lastBreak = PHP_INT_MAX;
 		$this->ip = $ip;
@@ -1343,7 +1343,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
             $this->getInventory()->clearAll();
 		}
 
-		$this->namedtag->playerGameType = new Int("playerGameType", $this->gamemode);
+		$this->namedtag->playerGameType = new IntTag("playerGameType", $this->gamemode);
 
 		/*$spawnPosition = $this->getSpawn();
 
@@ -1994,16 +1994,16 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$nbt = $this->server->getOfflinePlayerData($this->username);
 		$alive = true;
 		if(!isset($nbt->NameTag)){
-			$nbt->NameTag = new String("NameTag", $this->username);
+			$nbt->NameTag = new StringTag("NameTag", $this->username);
 		}else{
 			$nbt["NameTag"] = $this->username;
 		}
 		if(!isset($nbt->Hunger) or !isset($nbt->ExpCurrent) or !isset($nbt->ExpLevel) or !isset($nbt->Health) or !isset($nbt->MaxHealth)){
-			$nbt->Hunger = new Short("Hunger", 20);
-			$nbt->ExpCurrent = new Long("ExpCurrent", 0);
-			$nbt->ExpLevel = new Long("ExpLevel", 0);
-			$nbt->Health = new Short("Health", 20);
-			$nbt->MaxHealth = new Short("MaxHealth", 20);
+			$nbt->Hunger = new ShortTag("Hunger", 20);
+			$nbt->ExpCurrent = new LongTag("ExpCurrent", 0);
+			$nbt->ExpLevel = new LongTag("ExpLevel", 0);
+			$nbt->Health = new ShortTag("Health", 20);
+			$nbt->MaxHealth = new ShortTag("MaxHealth", 20);
 		}
 		$this->setFood($nbt["Hunger"]);
 		$this->setMaxHealth($nbt["MaxHealth"]);
@@ -2018,7 +2018,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->gamemode = $nbt["playerGameType"] & 0x03;
 		if($this->server->getForceGamemode()){
 			$this->gamemode = $this->server->getGamemode();
-			$nbt->playerGameType = new Int("playerGameType", $this->gamemode);
+			$nbt->playerGameType = new IntTag("playerGameType", $this->gamemode);
 		}
 
 		$this->allowFlight = $this->isCreative();
@@ -2033,7 +2033,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->setLevel($level);
 		}
 
-		if(!($nbt instanceof Compound)){
+		if(!($nbt instanceof CompoundTag)){
 			$this->close($this->getLeaveMessage(), "Invalid data");
 
 			return;
@@ -2041,12 +2041,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$this->achievements = [];
 
-		/** @var Byte $achievement */
+		/** @var ByteTag $achievement */
 		foreach($nbt->Achievements as $achievement){
 			$this->achievements[$achievement->getName()] = $achievement->getValue() > 0 ? true : false;
 		}
 
-		$nbt->lastPlayed = new Long("lastPlayed", floor(microtime(true) * 1000));
+		$nbt->lastPlayed = new LongTag("lastPlayed", floor(microtime(true) * 1000));
 		if($this->server->getAutoSave()){
 			$this->server->saveOfflinePlayerData($this->username, $nbt, true);
 		}
@@ -2416,20 +2416,20 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							}
 						} else {
 							$f = 0.6;
-							$nbt = new Compound("", [
-								"Pos" => new Enum("Pos", [
-									new Double("", $this->x),
-									new Double("", $this->y + $this->getEyeHeight()),
-									new Double("", $this->z)
+							$nbt = new CompoundTag("", [
+								"Pos" => new ListTag("Pos", [
+									new DoubleTag("", $this->x),
+									new DoubleTag("", $this->y + $this->getEyeHeight()),
+									new DoubleTag("", $this->z)
 								]),
-								"Motion" => new Enum("Motion", [
-									new Double("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
-									new Double("", -sin($this->pitch / 180 * M_PI)),
-									new Double("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
+								"Motion" => new ListTag("Motion", [
+									new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
+									new DoubleTag("", -sin($this->pitch / 180 * M_PI)),
+									new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
 								]),
-								"Rotation" => new Enum("Rotation", [
-									new Float("", $this->yaw),
-									new Float("", $this->pitch)
+								"Rotation" => new ListTag("Rotation", [
+									new FloatTag("", $this->yaw),
+									new FloatTag("", $this->pitch)
 								])
 							]);
 							$fishingHook = new FishingHook($this->chunk, $nbt, $this);
@@ -2478,22 +2478,22 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 									$this->inventory->sendContents($this);
 									break;
 								}
-								$nbt = new Compound("", [
-									"Pos" => new Enum("Pos", [
-										new Double("", $this->x),
-										new Double("", $this->y + $this->getEyeHeight()),
-										new Double("", $this->z)
+								$nbt = new CompoundTag("", [
+									"Pos" => new ListTag("Pos", [
+										new DoubleTag("", $this->x),
+										new DoubleTag("", $this->y + $this->getEyeHeight()),
+										new DoubleTag("", $this->z)
 									]),
-									"Motion" => new Enum("Motion", [
-										new Double("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
-										new Double("", -sin($this->pitch / 180 * M_PI)),
-										new Double("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
+									"Motion" => new ListTag("Motion", [
+										new DoubleTag("", -sin($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI)),
+										new DoubleTag("", -sin($this->pitch / 180 * M_PI)),
+										new DoubleTag("", cos($this->yaw / 180 * M_PI) * cos($this->pitch / 180 * M_PI))
 									]),
-									"Rotation" => new Enum("Rotation", [
-										new Float("", $this->yaw),
-										new Float("", $this->pitch)
+									"Rotation" => new ListTag("Rotation", [
+										new FloatTag("", $this->yaw),
+										new FloatTag("", $this->pitch)
 									]),
-									"Fire" => new Short("Fire", $this->isOnFire() ? 45 * 60 : 0)
+									"Fire" => new ShortTag("Fire", $this->isOnFire() ? 45 * 60 : 0)
 								]);
 								$diff = ($this->server->getTick() - $this->startAction);
 								$p = $diff / 20;
@@ -3344,7 +3344,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		parent::saveNBT();
 		if($this->level instanceof Level){
-			$this->namedtag->Level = new String("Level", $this->level->getName());
+			$this->namedtag->Level = new StringTag("Level", $this->level->getName());
 			if($this->spawnPosition instanceof Position and $this->spawnPosition->getLevel() instanceof Level){
 				$this->namedtag["SpawnLevel"] = $this->spawnPosition->getLevel()->getName();
 				$this->namedtag["SpawnX"] = (int) $this->spawnPosition->x;
@@ -3353,18 +3353,18 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			}
 
 			foreach($this->achievements as $achievement => $status){
-				$this->namedtag->Achievements[$achievement] = new Byte($achievement, $status === true ? 1 : 0);
+				$this->namedtag->Achievements[$achievement] = new ByteTag($achievement, $status === true ? 1 : 0);
 			}
 
 			$this->namedtag["playerGameType"] = $this->gamemode;
-			$this->namedtag["lastPlayed"] = new Long("lastPlayed", floor(microtime(true) * 1000));
-			$this->namedtag["Hunger"] = new Short("Hunger", $this->getFood());
-			$this->namedtag["Health"] = new Short("Health", $this->getHealth());
-			$this->namedtag["MaxHealth"] = new Short("MaxHealth", $this->getMaxHealth());
-			$this->namedtag["ExpCurrent"] = new Long("ExpCurrent", $this->getCurrentExperience());
-			$this->namedtag["ExpLevel"] = new Long("ExpLevel", $this->getExperienceLevel());
+			$this->namedtag["lastPlayed"] = new LongTag("lastPlayed", floor(microtime(true) * 1000));
+			$this->namedtag["Hunger"] = new ShortTag("Hunger", $this->getFood());
+			$this->namedtag["Health"] = new ShortTag("Health", $this->getHealth());
+			$this->namedtag["MaxHealth"] = new ShortTag("MaxHealth", $this->getMaxHealth());
+			$this->namedtag["ExpCurrent"] = new LongTag("ExpCurrent", $this->getCurrentExperience());
+			$this->namedtag["ExpLevel"] = new LongTag("ExpLevel", $this->getExperienceLevel());
 
-			if($this->username != "" and $this->namedtag instanceof Compound){
+			if($this->username != "" and $this->namedtag instanceof CompoundTag){
 				$this->server->saveOfflinePlayerData($this->username, $this->namedtag, $async);
 			}
 		}
