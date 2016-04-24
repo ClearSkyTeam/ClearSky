@@ -110,7 +110,7 @@ Nota¹ - Porfavor poner el mensaje 'Outdated Server' a 'false' en el plugin Cust
 Nota² -Porfavor poner el mensaje 'Full Server' a 'false' en el plugin CustomAlert, o algun plugin parecido si se encuentra *FullServer* al entrar.
   		  
 ## Para desarrolladores
-ClearSky es un software limpio, porque tratamos de conservar rl codigo de alta calidad de PocketMine.<br>		 
+ClearSky es un software limpio, porque tratamos de conservar el codigo de alta calidad de PocketMine.<br>		 
 Este es un codigo limpio, y de Alta Calidad. Desarrollar/modificar este proyecto es facil.<br>
 Aun estamos reescribiendo la base para asegurar que ClearSky tenga la mejor sensación de desarrollo.<br>
 ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los desarrolladores tambien!<br>
