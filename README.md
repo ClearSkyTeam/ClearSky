@@ -6,7 +6,7 @@
 ####  [Українська мова](#UKR)  
 
 # <a name="ENG"></a>English  
-# We present you: ClearSky-Sunrise (PHP5)
+# We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP5) 
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean feels and stable features. It was initially designed for production servers.
 
 **TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
@@ -55,12 +55,13 @@ Note¹ - Please set 'Outdated Server' message to 'false' in the CustomAlert plug
 Note² - Please set 'Full server' message to 'false' in the CustomAlert plugin or any related plugin if you encounter *Full server*
 
 ## For Developers
-This is a clean, high quality code base. Developing/modifying this project is easy.<br>
+This is a clean, high quality code base, because we are trying to keep PocketMine's great code quality.
+Developing/modifying this project is easy.<br>
 We are still rewriting the base to make sure ClearSky has the best developing feel.<br>
 ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
 # <a name="SPA"></a>Español
-# Te presentamos: ClearSky-Sunrise (PHP5)
+# Te presentamos: ClearSky-Sunrise ~ Una Bifurcación de PocketMine(https://github.com/PocketMine/PocketMine-MP) (PHP5) 
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
 **Estado de la compilación deTravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
@@ -109,10 +110,10 @@ Nota¹ - Porfavor poner el mensaje 'Outdated Server' a 'false' en el plugin Cust
 Nota² -Porfavor poner el mensaje 'Full Server' a 'false' en el plugin CustomAlert, o algun plugin parecido si se encuentra *FullServer* al entrar.
   		  
 ## Para desarrolladores
-ClearSky es un software limpio con codigo de alta calidad.<br>		 
+ClearSky es un software limpio, porque tratamos de conservar el codigo de alta calidad de PocketMine.<br>		 
 Este es un codigo limpio, y de Alta Calidad. Desarrollar/modificar este proyecto es facil.<br>
 Aun estamos reescribiendo la base para asegurar que ClearSky tenga la mejor sensación de desarrollo.<br>
-ClearSky no tiene una sesación limpia solo para los Usuarios, Sino para los desarrolladores tambien!<br>
+ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los desarrolladores tambien!<br>
 
 # <a name="CHINESE_1"></a>晴空
 一个为应用服务器设计的高性能MinecraftPE服务端软件
