@@ -58,7 +58,7 @@ class AutoUpdater{
 		$this->updateInfo['fingerprint'] = $fingerprint;
 		
 		$this->checkUpdate();
-		if($this->server->getProperty("auto-updater.preferred-channel", "DEV")){
+		if($this->server->getProperty("auto-updater.preferred-channel", "null") == "DEV"){
 			//Do nothing
 		}else{
 			$this->checkStable();
