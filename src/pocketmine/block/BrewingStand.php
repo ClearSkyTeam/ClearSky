@@ -12,7 +12,7 @@ use pocketmine\tile\Tile;
 use pocketmine\tile\BrewingStand as TileBrewingStand;
 use pocketmine\math\Vector3;
 
-class BrewingStand extends Transparent{
+class BrewingStand extends Transparent implements LightSource{
 
 	protected $id = self::BREWING_STAND_BLOCK;
 
@@ -56,6 +56,10 @@ class BrewingStand extends Transparent{
 
 	public function getName(){
 		return "Brewing Stand";
+	}
+	
+	public function getLightLevel(){
+		return 1;
 	}
 
 	public function onActivate(Item $item, Player $player = null){
