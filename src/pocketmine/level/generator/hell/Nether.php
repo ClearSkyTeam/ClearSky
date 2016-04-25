@@ -26,6 +26,8 @@ use pocketmine\level\generator\populator\Populator;
 use pocketmine\level\Level;
 use pocketmine\math\Vector3 as Vector3;
 use pocketmine\utils\Random;
+use pocketmine\block\QuartzOre;
+use pocketmine\block\Lava;
 
 class Nether extends Generator{
 
@@ -90,18 +92,12 @@ class Nether extends Generator{
 		$this->noiseBase = new Simplex($this->random, 4, 1 / 4, 1 / 64);
 		$this->random->setSeed($this->level->getSeed());
 
-		/*$ores = new Ore();
+		$ores = new Ore();
 		$ores->setOreTypes([
-			new OreType(new CoalOre(), 20, 16, 0, 128),
-			new OreType(New IronOre(), 20, 8, 0, 64),
-			new OreType(new RedstoneOre(), 8, 7, 0, 16),
-			new OreType(new LapisOre(), 1, 6, 0, 32),
-			new OreType(new GoldOre(), 2, 8, 0, 32),
-			new OreType(new DiamondOre(), 1, 7, 0, 16),
-			new OreType(new Dirt(), 20, 32, 0, 128),
-			new OreType(new Gravel(), 10, 16, 0, 128)
+			new OreType(New QuartzOre(), 20, 8, 0, 64),
+			new OreType(New Lava(), 1, 1, 0, 128)
 		]);
-		$this->populators[] = $ores;*/
+		$this->populators[] = $ores;
 	}
 
 	public function generateChunk($chunkX, $chunkZ){

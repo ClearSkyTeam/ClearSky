@@ -2,7 +2,6 @@
 namespace pocketmine\tile;
 
 use pocketmine\item\Item;
-use pocketmine\Network;
 
 interface Container{
 
