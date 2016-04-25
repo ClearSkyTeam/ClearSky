@@ -8,9 +8,10 @@ use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\item\Dye;
+use pocketmine\math\Vector3;
 
-class CocoaBlock extends Solid{
-	protected $id = self::COCOA_BLOCK;
+class CocoaPod extends Crops{
+	protected $id = self::COCOA_POD;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
@@ -33,26 +34,31 @@ class CocoaBlock extends Solid{
 	}
 
 	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){
+		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){ // Bonemeal
 			$block = clone $this;
-			if($block->meta > 7){
-				return false;
-			}
 			$block->meta += 4;
+			if($block->meta >= 8){
+				$block->meta = 8;
+			}
+			
 			Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($this, $block));
+			
 			if(!$ev->isCancelled()){
 				$this->getLevel()->setBlock($this, $ev->getNewState(), true, true);
 			}
+			
 			$item->count--;
+			
 			return true;
 		}
+		
 		return false;
 	}
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			$faces = [3, 4, 2, 5, 3, 4, 2, 5, 3, 4, 2, 5];
-			if($this->getSide($faces[$this->meta])->isTransparent() === true){
+			$faces = array_flip(array(2 => 2, 3 => 4, 4 => 5, 5 => 3));
+			if($this->getSide(Vector3::getOppositeSide($faces[($this->meta % 4) + 2]))->isTransparent() === true){
 				$this->getLevel()->useBreakOn($this);
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
@@ -83,7 +89,7 @@ class CocoaBlock extends Solid{
 			if($face !== 0 and $face !== 1){
 				$faces = [2 => 0, 3 => 2, 4 => 3, 5 => 1];
 				$this->meta = $faces[$face];
-				$this->getLevel()->setBlock($block, Block::get(Item::COCOA_BLOCK, $this->meta), true);
+				$this->getLevel()->setBlock($block, $this, true);
 				return true;
 			}
 		}
