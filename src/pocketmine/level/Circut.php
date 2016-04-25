@@ -11,6 +11,7 @@ class Circut{
 	private $source = null;
 	private $power = 0;
 	private $range = 0;
+	private $hashmap = [];
 	private $map = [];
 	private $laststatus= [];
 	
@@ -18,16 +19,28 @@ class Circut{
 		$this->source = $source;
 		$this->level = $source->getLevel();
 		$this->power = $source->getPower();
-		$this->level->addCircut($this);
-		$this->map = [$source => 0];
-		$this->map = $this->map($this->build($source));
-		$this->update();
+		$this->level->addCircut($source, $this);
+		$this->map = [$this->getHash($source) => 0];
+		$this->map = $this->map($this->build($this->getHash($source)));
+	}
+	
+	private function getHash($block){
+		$hash = $block->x . $block->y . $block->z;
+		$this->hashmap[$hash] = $block;
+		return $hash;
+	}
+	
+	private function getBlock($hash){
+		return $this->hashmap[$hash];
 	}
 	
 	private function map($layers){
-		for($i = $this->power - 1; $i = 0; $i--){
-			foreach($layers[$i] as $block){
-				$map[$block] = $i;
+		$map = [];
+		for($i = $this->power; $i>=0;$i--){
+			if(isset($layers[$i])){
+				foreach($layers[$i] as $block){
+					$map[$block] = $i;
+				}
 			}
 		}
 		return $map;
@@ -40,43 +53,59 @@ class Circut{
 		return $layers;
 	}
 	
-	private function build(Block $block, $startlayer = 0){
+	private function build($block, $startlayer = 0){
+		$layers = [];
+		$block = $this->getBlock($block);
+		$blockpower = $block->getPower();
 		$syslayers = $this->layer($this->map);
 		for($i = 0; $i <= $startlayer; $i++){
 			$layers[$i] = $syslayers[$i];
 		}
 		
-		for($a = $startlayer; $a <= $block->getPower() - 1; $a++){
+		for($a = $startlayer;$a<=$blockpower-1; $a++){
+			echo "Layer Calcation : $a \n";
 			foreach($layers[$a] as $block){
-				for($b = 0; $b <= 5; $b++){
-					$next = $block->getSide($b);
-					if($a == 0 or in_array($next, $layers[$a - 1])){
-						continue;
+				$block = $this->getBlock($block);
+					for($b = 0; $b <= 5; $b++){
+						echo "Side Calcation : $b \n";
+						$next = $block->getSide($b);
+						if($a !== 0){
+							if(in_array($this->getHash($next), $layers[$a - 1])){
+								continue;
+							}
+						}
+						
+						if($next instanceof RedstoneWire){
+							echo "Side Calcation Added: " . $this->getHash($next) . " \n";
+							$layers[$a + 1][] = $this->getHash($next);
+						}
+						
+						
 					}
-					
-					if($next instanceof RedstoneWire){
-						$layers[$a + 1][] = $next;
-					}
-					
-					
-				}
 			}
+			
 			if(!isset($layers[$a + 1])){
+				echo "Layer Calcation Stop At: $a \n";
 				break;
 			}
+			
 		}
+		echo "Layer: ";
+		print_r($layers);
 		return $layers;
 	}
 	
 	public function tick(){
 		$status = [$this->source, $this->power, $this->map];
+		//echo "Circut Tick \n";
 		if($this->laststatus !== $status){
+			echo"Circut Update \n";
 			$this->laststatus = $status;
 			$this->update();
 		}
 	}
 	
-	public function add(Block $block){
+	public function add($block){
 		$layer = $this->power - 1;
 		for($a = 0; $a <= 5; $a++){
 			$nears[] = $block->getSide($a);
@@ -89,41 +118,64 @@ class Circut{
 		}
 		
 		$this->map[$block] = $layer;
-		$block->setPower($layer);
 	}
 	
-	public function del(Block $block){
-		$blocklayer = $block->getLayer();
-		$oldlayers = $this->layer($this->map);
-		$updatelayers = $this->build($block, $blocklayer);
+	public function del($block){
+		$blocklayer = $this->getLayer($block);
+		$block = $this->getHash($block);
+		$map = $this->map;
+		unset($map[$block]);
+		$layers = $this->layer($map);
+		$final = [];
 		
-		for($i = 0; $i <= $blocklayer; $i++){
-			unset($updatelayers[$i])
+		foreach($layers as $layer=>$blocks){
+			if($layer<$blocklayer){
+				foreach($blocks as $block){
+					$final[$block] = $layer;
+				}
+			}else{
+				foreach($blocks as $block){
+					$final[$block] = 99;
+				}
+			}
 		}
-		$difflayers = array_diff($oldlayer, $updatelayer);
 		
-		foreach($difflayers[$block->getLayer()] as $lblock){
-			if($lblock !=== $block){
-				$newlayers = array_merge($newlayers, $this->build($lblock, $blocklayer));
- 			}
+		$rs = [];
+		print_r($layers);
+		if(isset($layers[$blocklayer])){
+			foreach($layers[$blocklayer] as $block){
+				$rs[] = $this->map($this->build($this->getBlock($block), $blocklayer));
+			}
 		}
 		
-		$layers = $this->build()
+		foreach($rs as $map){
+			foreach($map as $block=>$layer){
+				if($layer < $final[$block]){
+					$final[$block] = $layer;
+				}
+			}
+		}
+		echo "Del And Updated Map:";
+		print_r($final);
+		$this->map = $final;
 	}
 	
 	public function update(){
+		echo "Map: ";
+		print_r($this->map);
 		foreach ($this->map as $block=>$powerlayer){
-			if($block instanceof RedstoneWire){
-				$block->setPower($this, max($this->power - $powerlayer, 0));
-			}elseif($block instanceof RedstoneCosumer){
-				if($this->power > 0){
+			$block = $this->getBlock($block);
+			if($powerlayer == 99){
+				$block->onCircutRemove($this);
+			}elseif($block instanceof RedstoneWire){
+				$block->setPower(max($this->power - $powerlayer, 0));
+			}/*elseif($block instanceof RedstoneCosumer){
+				if($this->power - $powerlayer > 0){
 					$block->onUpdate(Block::POWERON);
 				}else{
 					$block->onUpdate(Block::POWEROFF);
 				}
-			}
-			
-			
+			}*/
 		}
 	}
 	
@@ -140,10 +192,16 @@ class Circut{
 	}
 	
 	public function getLayer(Redstone $block){
-		return $this->map[$block];
+		$block = $this->getHash($block);
+		if(isset($this->map[$block])){
+			return $this->map[$block];
+		}else{
+			return $this->power;
+		}
 	}
 	
 	public function getPower(Redstone $block){
+		$block = $this->getHash($block);
 		return max($this->power - $this->map[$block], 0);
 	}
 	

@@ -257,11 +257,24 @@ class Level implements ChunkManager, Metadatable{
 	private $generatorInstance;
 	
 	/** RedstoneCircut **/
-	private circuts = [];
+	private $circuts = [];
+	private $circutsmap = [];
 	
-	public function addCircut(Circut $circut){
-		$this->circuts[] = $circut;
+	public function addCircut($block, Circut $circut){
+		$hash = $block->x . $block->y . $block->z;
+		if(!in_array($circut,$this->circuts)){
+			$this->circuts[] = $circut;
+		}
+		$this->circutsmap[$hash][] = $circut;
 		return true;
+	}
+	
+	public function getCircuts($block){
+		$hash = $block->x . $block->y . $block->z;
+		if(isset($this->circutsmap[$hash])){
+			return $this->circutsmap[$hash];
+		}
+		return [];
 	}
 	
 	public function removeCircut(Circut $circut){

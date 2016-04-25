@@ -10,7 +10,7 @@ use pocketmine\math\Vector3;
 
 class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource, LightSource{
 	protected $id = self::LIT_REDSTONE_TORCH;
-	protected $circut = [];
+	protected $circut;
 	
 
 	public function __construct($meta = 0){
@@ -43,7 +43,7 @@ class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource, Lig
 	}
 
 	public function getPower(){
-		return Block::REDSTONESOURCEPOWER;
+		return 16;
 	}
 	
 	public function setPower($power){
@@ -92,6 +92,17 @@ class LitRedstoneTorch extends Flowable implements Redstone, RedstoneSource, Lig
 		}
 		
 		return false;
+	}
+	
+	public function onBreak(Item $item){
+		echo"Torch Circut on Break:";
+		$circuts = $this->getLevel()->getCircuts($this);
+		foreach($circuts as $circut){
+			if($circut instanceof Circut){
+				$circut->del($this);
+			}
+		}
+		return $this->getLevel()->setBlock($this, new Air(), true, true);
 	}
 
 	public function getDrops(Item $item){

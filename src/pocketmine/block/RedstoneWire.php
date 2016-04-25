@@ -50,6 +50,11 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 		}
 		return false;
 	}
+	
+	public function onCircutRemove(){
+			$this->meta = 0;
+			$this->getLevel()->setBlock($this, $this, true, false);
+	}
 
 	public function getHardness(){
 		return 0;
@@ -143,6 +148,13 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 	}
 
 	public function onBreak(Item $item){
+		echo"Wire Circut on Break:";
+		$circuts = $this->getLevel()->getCircuts($this);
+		foreach($circuts as $circut){
+			if($circut instanceof Circut){
+				$circut->del($this);
+			}
+		}
 		return $this->getLevel()->setBlock($this, new Air(), true, true);
 	}
 
