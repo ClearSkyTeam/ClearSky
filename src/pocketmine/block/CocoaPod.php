@@ -37,8 +37,8 @@ class CocoaPod extends Crops{
 		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){ // Bonemeal
 			$block = clone $this;
 			$block->meta += 4;
-			if($block->meta >= 8){
-				$block->meta = 8;
+			if($block->meta > 11){
+				return false;
 			}
 			
 			Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($this, $block));
@@ -65,7 +65,7 @@ class CocoaPod extends Crops{
 		}
 		elseif($type === Level::BLOCK_UPDATE_RANDOM){
 			if(mt_rand(0, 2) === 1){
-				if($this->meta < 7){
+				if($this->meta < 8){
 					$block = clone $this;
 					$block->meta += 4;
 					Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($this, $block));
