@@ -18,7 +18,6 @@ class Circut{
 		$this->source = $source;
 		$this->level = $source->getLevel();
 		$this->power = $source->getPower();
-		//$this->range = $source->getPower();
 		$this->level->addCircut($this);
 		$this->map = [$source => 0];
 		$this->map = $this->map($this->build($source));
@@ -42,12 +41,11 @@ class Circut{
 	}
 	
 	private function build(Block $block, $startlayer = 0){
-		//Intl
 		$syslayers = $this->layer($this->map);
 		for($i = 0; $i <= $startlayer; $i++){
 			$layers[$i] = $syslayers[$i];
 		}
-		//Start circut build process
+		
 		for($a = $startlayer; $a <= $block->getPower() - 1; $a++){
 			foreach($layers[$a] as $block){
 				for($b = 0; $b <= 5; $b++){
@@ -96,7 +94,7 @@ class Circut{
 	
 	public function del(Block $block){
 		$blocklayer = $block->getLayer();
-		$oldlayers = $this->map;
+		$oldlayers = $this->layer($this->map);
 		$updatelayers = $this->build($block, $blocklayer);
 		
 		for($i = 0; $i <= $blocklayer; $i++){
@@ -115,7 +113,17 @@ class Circut{
 	
 	public function update(){
 		foreach ($this->map as $block=>$powerlayer){
-			$block->setPower($this, max($this->power - $powerlayer, 0));
+			if($block instanceof RedstoneWire){
+				$block->setPower($this, max($this->power - $powerlayer, 0));
+			}elseif($block instanceof RedstoneCosumer){
+				if($this->power > 0){
+					$block->onUpdate(Block::POWERON);
+				}else{
+					$block->onUpdate(Block::POWEROFF);
+				}
+			}
+			
+			
 		}
 	}
 	
