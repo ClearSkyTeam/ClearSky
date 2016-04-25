@@ -59,7 +59,7 @@ class Cactus extends Transparent{
 			}else{
 				for($side = 2; $side <= 5; ++$side){
 					$b = $this->getSide($side);
-					if(!$b->canBeFlowedInto() && $b->getId() !== Block::SNOW_LAYER){// Snow can be stacked to a full block beside a cactus without destroying the cactus.
+					if(!$b->canBeFlowedInto()){
 						$this->getLevel()->useBreakOn($this);
 					}
 				}
@@ -68,7 +68,7 @@ class Cactus extends Transparent{
 			if($this->getSide(0)->getId() !== self::CACTUS){
 				if($this->meta == 0x0F){
 					for($y = 1; $y < 3; ++$y){
-						$b = $this->getLevel()->getBlock(new Vector3($this->x, $this->y + $y, $this->z));
+						$b = $this->getSide(1);
 						if($b->getId() === self::AIR){
 							Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($b, new Cactus()));
 							if(!$ev->isCancelled()){
@@ -93,15 +93,14 @@ class Cactus extends Transparent{
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $this->getSide(0);
 		if($down->getId() === self::SAND or $down->getId() === self::CACTUS){
-			$block0 = $this->getSide(2);
-			$block1 = $this->getSide(3);
-			$block2 = $this->getSide(4);
-			$block3 = $this->getSide(5);
-			if(($block0->getId() === Block::AIR || $block0->getId() === Block::SNOW_LAYER) and ($block1->getId() === Block::AIR || $block1->getId() === Block::SNOW_LAYER) and ($block2->getId() === Block::AIR || $block2->getId() === Block::SNOW_LAYER) and ($block3->getId() === Block::AIR || $block3->getId() === Block::SNOW_LAYER)){ // Snow can be stacked to a full block beside a cactus without destroying the cactus.
-				$this->getLevel()->setBlock($this, $this, true);
-
-				return true;
+			for($side = 2; $side <= 5; ++$side){
+				$b = $this->getSide($side);
+				if(!$b->canBeFlowedInto()){
+					return false;
+				}
 			}
+			$this->getLevel()->setBlock($this, $this, true);
+			return true;
 		}
 
 		return false;
