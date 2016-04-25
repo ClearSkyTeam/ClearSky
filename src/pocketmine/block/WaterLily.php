@@ -39,7 +39,7 @@ class WaterLily extends Flowable{
 			$this->y,
 			$this->z,
 			$this->x,
-			$this->y + 0.0625,
+			$this->y + 0.09375,
 			$this->z
 		);
 	}
