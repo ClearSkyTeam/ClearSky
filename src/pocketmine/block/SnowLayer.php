@@ -76,4 +76,15 @@ class SnowLayer extends Flowable{
 		
 		return [];
 	}
+
+	protected function recalculateBoundingBox(){
+		return new AxisAlignedBB(
+			$this->x,
+			$this->y,
+			$this->z,
+			$this->x + 1,
+			$this->y + 0.125 + (0.125 * $this->meta),
+			$this->z + 1
+		);
+	}
 }

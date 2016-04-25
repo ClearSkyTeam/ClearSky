@@ -9,6 +9,7 @@ use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\item\Dye;
 use pocketmine\math\Vector3;
+use pocketmine\math\AxisAlignedBB;
 
 class CocoaPod extends Crops{
 	protected $id = self::COCOA_POD;
@@ -105,5 +106,40 @@ class CocoaPod extends Crops{
 			$drops[] = [Item::DYE, 3, 1];
 		}
 		return $drops;
+	}
+
+	protected function recalculateBoundingBox(){
+		if($this->meta % 4 === 0){
+			$x1 = 0.25;
+			$x2 = 0.75;
+			$z1 = 0;
+			$z2 = 0.5;
+		}
+		elseif($this->meta % 4 === 1){
+			$x1 = 0.5;
+			$x2 = 1;
+			$z1 = 0.25;
+			$z2 = 0.75;
+		}
+		elseif($this->meta % 4 === 2){
+			$x1 = 0.25;
+			$x2 = 0.75;
+			$z1 = 0.5;
+			$z2 = 1;
+		}
+		elseif($this->meta % 4 === 3){
+			$x1 = 0;
+			$x2 = 0.5;
+			$z1 = 0.25;
+			$z2 = 0.75;
+		}
+		return new AxisAlignedBB(
+			$this->x + $x1,
+			$this->y + 0.25,
+			$this->z + $z1,
+			$this->x + $x2,
+			$this->y + 0.75,
+			$this->z + $z2
+		);
 	}
 }
