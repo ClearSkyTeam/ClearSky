@@ -97,6 +97,8 @@ chunk-ticking:
  tick-radius: 2
  light-updates: true
  clear-tick-list: true
+ # Use id's, for example [2,59] disables grass growth and wheat growth
+ disabled-randomly-ticking-blocks: []
  
 chunk-generation:
  queue-size: 8
@@ -126,7 +128,7 @@ auto-updater:
  preferred-channel: Stable #Stable or DEV
  host: jenkins.clearskyteam.org
 
-version: 20
+version: 21
 
 auto-report:
  enabled: false

@@ -10,6 +10,7 @@ use pocketmine\block\Block;
 use pocketmine\block\BrownMushroom;
 use pocketmine\block\Cactus;
 use pocketmine\block\Carrot;
+use pocketmine\block\CocoaPod;
 use pocketmine\block\Farmland;
 use pocketmine\block\Fire;
 use pocketmine\block\Grass;
@@ -42,7 +43,6 @@ use pocketmine\event\level\SpawnChangeEvent;
 use pocketmine\event\LevelTimings;
 use pocketmine\event\player\PlayerInteractEvent;
 use pocketmine\event\Timings;
-use pocketmine\event\weather\ThunderChangeEvent;
 use pocketmine\event\weather\WeatherChangeEvent;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\item\Item;
@@ -235,7 +235,7 @@ class Level implements ChunkManager, Metadatable{
 	private $chunkTickList = [];
 	private $chunksPerTick;
 	private $clearChunksOnTick;
-	private $randomTickBlocks = [/*
+	private $randomTickBlocks = [
 		Block::GRASS => Grass::class,
 		Block::SAPLING => Sapling::class,
 		Block::LEAVES => Leaves::class,
@@ -251,12 +251,12 @@ class Level implements ChunkManager, Metadatable{
 		Block::MELON_STEM => MelonStem::class,
 		Block::VINE => Vine::class,
 		Block::MYCELIUM => Mycelium::class,
-		//Block::COCOA_BLOCK => true,
+		Block::COCOA_POD => CocoaPod::class,
 		Block::CARROT_BLOCK => Carrot::class,
 		Block::POTATO_BLOCK => Potato::class,
 		Block::LEAVES2 => Leaves2::class,
 		Block::BEETROOT_BLOCK => Beetroot::class,
-		Block::FIRE => Fire::class,*/
+		Block::FIRE => Fire::class
 	];
 
 	/** @var LevelTimings */
@@ -453,7 +453,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->updateQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
 		$this->time = (int) $this->provider->getTime();
 
-		foreach($this->getServer()->getProperty("disable-block-ticking", []) as $id){
+		foreach($this->getServer()->getProperty("chunk-ticking.disabled-randomly-ticking-blocks", []) as $id){
 			$ticked = isset($this->randomTickBlocks[$id]);
 			if($ticked === true) unset($this->randomTickBlocks[$id]);
 		}
