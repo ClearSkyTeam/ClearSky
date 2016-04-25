@@ -36,11 +36,11 @@ class SkullBlock extends Transparent{
 		return false;
 	}
 
-	public function getBoundingBox(){
+	public function recalculateBoundingBox(){
 		return new AxisAlignedBB(
-			$this->x - 0.75,
-			$this->y - 0.5,
-			$this->z - 0.75,
+			$this->x + 0.25,
+			$this->y + 0.0,
+			$this->z + 0.25,
 			$this->x + 0.75,
 			$this->y + 0.5,
 			$this->z + 0.75

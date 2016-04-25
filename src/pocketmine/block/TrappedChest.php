@@ -21,13 +21,6 @@ class TrappedChest extends Transparent implements Redstone{
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
-
-	public function getBoundingBox(){
-		if($this->boundingBox === null){
-			$this->boundingBox = $this->recalculateBoundingBox();
-		}
-		return $this->boundingBox;
-	}
 	
 	public function canBeActivated(){
 		return true;

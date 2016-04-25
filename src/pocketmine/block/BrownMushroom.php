@@ -48,8 +48,4 @@ class BrownMushroom extends Flowable implements LightSource{
 		return false;
 	}
 
-	public function getBoundingBox(){
-		return null;
-	}
-
 }

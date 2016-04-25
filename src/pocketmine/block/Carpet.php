@@ -45,7 +45,6 @@ class Carpet extends Flowable{
 	}
 
 	protected function recalculateBoundingBox(){
-
 		return new AxisAlignedBB(
 			$this->x,
 			$this->y,

@@ -26,10 +26,6 @@ class TripwireHook extends Flowable{
 		return "Tripwire Hook";
 	}
 
-	public function getBoundingBox(){
-		return null;
-	}
-
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		if($face !== 0 && $face !== 1 && !$target->isTransparent()){
 			$ret = $this->setFacingDirection($face);

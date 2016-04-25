@@ -26,13 +26,12 @@ class SoulSand extends Solid{
 	}
 
 	protected function recalculateBoundingBox(){
-
 		return new AxisAlignedBB(
 			$this->x,
 			$this->y,
 			$this->z,
 			$this->x + 1,
-			$this->y + 1 - 0.125,
+			$this->y + 0.875,
 			$this->z + 1
 		);
 	}
