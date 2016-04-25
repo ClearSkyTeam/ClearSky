@@ -29,7 +29,6 @@ class DoublePlant extends Flowable{
 		return $names[$this->meta & 0x07];
 	}
 
-
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true && !$this->getSide(0) instanceof DoublePlant){ //Replace with common break method

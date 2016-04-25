@@ -4,6 +4,7 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\math\AxisAlignedBB;
+use pocketmine\level\Level;
 
 class Farmland extends Solid{
 
@@ -40,5 +41,15 @@ class Farmland extends Solid{
 		return [
 			[Item::DIRT, 0, 1],
 		];
+	}
+
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_NORMAL){
+			if($this->getSide(1)->isSolid()){
+				$this->getLevel()->setBlock($this, new Dirt()); //todo any event to stop players from griefing farmland
+				return Level::BLOCK_UPDATE_NORMAL;
+			}
+		}
+		return false;
 	}
 }
