@@ -16,6 +16,10 @@ abstract class Flowable extends Transparent{
 		return 0;
 	}
 
+	public function isSolid(){
+		return false;
+	}
+
 	public function getBoundingBox(){
 		return null;
 	}
