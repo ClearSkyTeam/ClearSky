@@ -140,7 +140,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 		$this->BroadcastRedstoneUpdate($type, Block::REDSTONESOURCEPOWER);
 	}
 
-	protected function getBoundingBox(){
+	public function getBoundingBox(){
 		return new AxisAlignedBB(
 			$this->x + 0.0625,
 			$this->y,

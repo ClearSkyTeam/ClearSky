@@ -26,7 +26,7 @@ class Farmland extends Solid{
 		return Tool::TYPE_SHOVEL;
 	}
 
-	protected function getBoundingBox(){
+	public function getBoundingBox(){
 		return new AxisAlignedBB(
 			$this->x,
 			$this->y,
