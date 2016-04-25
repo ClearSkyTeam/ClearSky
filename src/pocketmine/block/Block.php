@@ -185,7 +185,7 @@ class Block extends Position implements Metadatable{
 	const LIT_REDSTONE_LAMP = 124;
 	const DROPPER = 125;
 	const ACTIVATOR_RAIL = 126;
-	const COCOA = 127;
+	const COCOA_POD = 127;
 	const COCOA_BEANS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
@@ -483,7 +483,7 @@ class Block extends Position implements Metadatable{
 			//self::$list[self::DRAGON_EGG] = DragonEgg::class;
 			self::$list[self::REDSTONE_LAMP] = RedstoneLamp::class;
 			self::$list[self::LIT_REDSTONE_LAMP] = LitRedstoneLamp::class;
-		//	self::$list[self::COCOA] = Cocoa::class;
+			self::$list[self::COCOA_POD] = CocoaPod::class;
 			self::$list[self::SANDSTONE_STAIRS] = SandstoneStairs::class;
 			self::$list[self::EMERALD_ORE] = EmeraldOre::class;
 			//self::$list[self::ENDERCHEST] = Enderchest::class;
