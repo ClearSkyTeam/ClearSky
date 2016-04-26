@@ -27,6 +27,13 @@ abstract class Liquid extends Transparent{
 	public function isSolid(){
 		return false;
 	}
+	public function getBoundingBox(){
+		return null;
+	}
+
+	public function getDrops(Item $item){
+		return [];
+	}
 	//API Stuff END
 	public $adjacentSources = 0;
 	public $isOptimalFlowDirection = [0, 0, 0, 0];
@@ -147,7 +154,7 @@ abstract class Liquid extends Transparent{
 			}
 
 			if($falling){
-				$vector = $vector->normalize()->add(0, -6, 0); //@thebigsmileXD I need to know what normalize() is! Oh, let me check that.
+				$vector = $vector->normalize()->add(0, -6, 0);
 			}
 		}
 
@@ -180,7 +187,7 @@ abstract class Liquid extends Transparent{
 			}
 
 			$decay = $this->getFlowDecay($this);
-			$multiplier = $this instanceof Lava ? 2 : 1; //I hate this unreadable stuff Link to PHP?
+			$multiplier = $this instanceof Lava ? 2 : 1; //I hate this unreadable stuff Link to PHP.net?
 
 			$flag = true;
 
@@ -287,14 +294,16 @@ abstract class Liquid extends Transparent{
 		}
 	}
 
-	private function flowIntoBlock(Block $block, $newFlowDecay){
+	private function flowIntoBlock(Block $block, $newFlowDecay){ //So this the actual block setting
 		if($block->canBeFlowedInto()){
 			if($block->getId() > 0){
 				$this->getLevel()->useBreakOn($block);
 			}
 
 			$this->getLevel()->setBlock($block, Block::get($this->getId(), $newFlowDecay), true);
-			$this->getLevel()->scheduleUpdate($block, $this->tickRate());
+			if($newFlowDecay => 0){ //This should actually be added somewhere else, now no water will go away
+				$this->getLevel()->scheduleUpdate($block, $this->tickRate()); //New scheudle for next block updating
+			}
 		}
 	}
 
@@ -428,13 +437,5 @@ abstract class Liquid extends Transparent{
 				}
 			}
 		}
-	}
-
-	public function getBoundingBox(){
-		return null;
-	}
-
-	public function getDrops(Item $item){
-		return [];
 	}
 }
