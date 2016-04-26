@@ -11,7 +11,7 @@ abstract class Liquid extends Transparent{
 
 	/** @var Vector3 */
 	private $temporalVector = null;
-
+	//API Stuff
 	public function hasEntityCollision(){
 		return true;
 	}
@@ -27,11 +27,12 @@ abstract class Liquid extends Transparent{
 	public function isSolid(){
 		return false;
 	}
-
+	//API Stuff END
 	public $adjacentSources = 0;
 	public $isOptimalFlowDirection = [0, 0, 0, 0];
 	public $flowCost = [0, 0, 0, 0];
 
+	/*
 	public function getFluidHeightPercent(){
 		$d = $this->meta;
 		if($d >= 8){
@@ -40,7 +41,8 @@ abstract class Liquid extends Transparent{
 
 		return ($d + 1) / 9;
 	}
-
+	*/
+	/*
 	protected function getFlowDecay(Vector3 $pos){
 		if(!($pos instanceof Block)){
 			$pos = $this->getLevel()->getBlock($pos);
@@ -52,7 +54,8 @@ abstract class Liquid extends Transparent{
 			return $pos->getDamage();
 		}
 	}
-
+	*/
+	/*
 	protected function getEffectiveFlowDecay(Vector3 $pos){
 		if(!($pos instanceof Block)){
 			$pos = $this->getLevel()->getBlock($pos);
@@ -70,7 +73,7 @@ abstract class Liquid extends Transparent{
 
 		return $decay;
 	}
-
+	*/
 	public function getFlowVector(){
 		$vector = new Vector3(0, 0, 0);
 
@@ -78,7 +81,7 @@ abstract class Liquid extends Transparent{
 			$this->temporalVector = new Vector3(0, 0, 0);
 		}
 
-		$decay = $this->getEffectiveFlowDecay($this);
+		$decay = $this->getEffectiveFlowDecay($this); //!
 
 		for($j = 0; $j < 4; ++$j){
 
@@ -96,9 +99,9 @@ abstract class Liquid extends Transparent{
 				++$z;
 			}
 			$sideBlock = $this->getLevel()->getBlock($this->temporalVector->setComponents($x, $y, $z));
-			$blockDecay = $this->getEffectiveFlowDecay($sideBlock);
+			$blockDecay = $this->getEffectiveFlowDecay($sideBlock); //!
 
-			if($blockDecay < 0){
+			/if($blockDecay < 0){ //Check if still water is left
 				if(!$sideBlock->canBeFlowedInto()){
 					continue;
 				}
@@ -122,6 +125,7 @@ abstract class Liquid extends Transparent{
 		}
 
 		if($this->getDamage() >= 8){
+			//THIS WILL BE TAKED IN THE REWRITE::CHECK IF WATER IS NOT SUROUNDED BY BLOCKS/ONLY BY FLOWABLE
 			$falling = false;
 
 			if(!$this->getLevel()->getBlock($this->temporalVector->setComponents($this->x, $this->y, $this->z - 1))->canBeFlowedInto()){
@@ -143,27 +147,26 @@ abstract class Liquid extends Transparent{
 			}
 
 			if($falling){
-				$vector = $vector->normalize()->add(0, -6, 0);
+				$vector = $vector->normalize()->add(0, -6, 0); //@thebigsmileXD I need to know what normalize() is! Oh, let me check that.
 			}
 		}
 
 		return $vector->normalize();
 	}
 
-	public function addVelocityToEntity(Entity $entity, Vector3 $vector){
+	public function addVelocityToEntity(Entity $entity, Vector3 $vector){ //Entity? Pushing entitys away or what?
 		$flow = $this->getFlowVector();
 		$vector->x += $flow->x;
 		$vector->y += $flow->y;
 		$vector->z += $flow->z;
 	}
 
-	public function tickRate(){
+	public function tickRate(){ //Fastness of flowing
 		if($this instanceof Water){
 			return 5;
 		}elseif($this instanceof Lava){
 			return 30;
 		}
-
 		return 0;
 	}
 
@@ -177,7 +180,7 @@ abstract class Liquid extends Transparent{
 			}
 
 			$decay = $this->getFlowDecay($this);
-			$multiplier = $this instanceof Lava ? 2 : 1;
+			$multiplier = $this instanceof Lava ? 2 : 1; //I hate this unreadable stuff Link to PHP?
 
 			$flag = true;
 
