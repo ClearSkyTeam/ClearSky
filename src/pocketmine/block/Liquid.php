@@ -38,8 +38,7 @@ abstract class Liquid extends Transparent{
 	public $adjacentSources = 0;
 	public $isOptimalFlowDirection = [0, 0, 0, 0];
 	public $flowCost = [0, 0, 0, 0];
-
-	/*
+	//Small calculations
 	public function getFluidHeightPercent(){
 		$d = $this->meta;
 		if($d >= 8){
@@ -48,8 +47,6 @@ abstract class Liquid extends Transparent{
 
 		return ($d + 1) / 9;
 	}
-	*/
-	/*
 	protected function getFlowDecay(Vector3 $pos){
 		if(!($pos instanceof Block)){
 			$pos = $this->getLevel()->getBlock($pos);
@@ -61,8 +58,6 @@ abstract class Liquid extends Transparent{
 			return $pos->getDamage();
 		}
 	}
-	*/
-	/*
 	protected function getEffectiveFlowDecay(Vector3 $pos){
 		if(!($pos instanceof Block)){
 			$pos = $this->getLevel()->getBlock($pos);
@@ -80,7 +75,7 @@ abstract class Liquid extends Transparent{
 
 		return $decay;
 	}
-	*/
+	//Big calculations
 	public function getFlowVector(){
 		$vector = new Vector3(0, 0, 0);
 
@@ -106,9 +101,9 @@ abstract class Liquid extends Transparent{
 				++$z;
 			}
 			$sideBlock = $this->getLevel()->getBlock($this->temporalVector->setComponents($x, $y, $z));
-			$blockDecay = $this->getEffectiveFlowDecay($sideBlock); //!
+			$blockDecay = $this->getEffectiveFlowDecay($sideBlock);
 
-			/if($blockDecay < 0){ //Check if still water is left
+			if($blockDecay < 0){ //Check if still water is left
 				if(!$sideBlock->canBeFlowedInto()){
 					continue;
 				}
@@ -132,7 +127,6 @@ abstract class Liquid extends Transparent{
 		}
 
 		if($this->getDamage() >= 8){
-			//THIS WILL BE TAKED IN THE REWRITE::CHECK IF WATER IS NOT SUROUNDED BY BLOCKS/ONLY BY FLOWABLE
 			$falling = false;
 
 			if(!$this->getLevel()->getBlock($this->temporalVector->setComponents($this->x, $this->y, $this->z - 1))->canBeFlowedInto()){
@@ -168,7 +162,7 @@ abstract class Liquid extends Transparent{
 		$vector->z += $flow->z;
 	}
 
-	public function tickRate(){ //Fastness of flowing
+	public function tickRate(){
 		if($this instanceof Water){
 			return 5;
 		}elseif($this instanceof Lava){
@@ -179,7 +173,7 @@ abstract class Liquid extends Transparent{
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			$this->checkForHarden();
+			$this->doHarden(); //Lava+Water handling: Currently in ReWrite
 			$this->getLevel()->scheduleUpdate($this, $this->tickRate());
 		}elseif($type === Level::BLOCK_UPDATE_SCHEDULED){
 			if($this->temporalVector === null){
@@ -187,7 +181,7 @@ abstract class Liquid extends Transparent{
 			}
 
 			$decay = $this->getFlowDecay($this);
-			$multiplier = $this instanceof Lava ? 2 : 1; //I hate this unreadable stuff Link to PHP.net?
+			$multiplier = $this instanceof Lava ? 2 : 1;
 
 			$flag = true;
 
@@ -422,9 +416,16 @@ abstract class Liquid extends Transparent{
 		return ($decay >= 0 && $blockDecay >= $decay) ? $decay : $blockDecay;
 	}
 
-	private function checkForHarden(){
+	private function doHarden(){
 		if($this instanceof Lava){
-			$colliding = false;
+			if($this->getSide(Vector3::SIDE_DOWN) instanceof Water){
+				if($this->getDamage() === 0){
+					$this->getLevel()->setBlock($this, Block::get(Item::STONE), true);
+				}elseif($this->getDamage() <= 4){
+					$this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+				}
+			}
+			if($this->getSide(Vector3::SIDE_DOWN) instanceof Water)
 			for($side = 0; $side <= 5 and !$colliding; ++$side){
 				$colliding = $this->getSide($side) instanceof Water;
 			}
