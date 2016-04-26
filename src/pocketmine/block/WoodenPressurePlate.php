@@ -10,6 +10,7 @@ use pocketmine\Player;
 use pocketmine\math\Vector3;
 use pocketmine\entity\Entity;
 use pocketmine\item\Tool;
+use pocketmine\math\AxisAlignedBB;
 
 class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSource, RedstoneSwitch{
 	protected $id = self::WOODEN_PRESSURE_PLATE;
@@ -137,5 +138,16 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 		}
 		$this->getLevel()->setBlock($this, $this, true, false);
 		$this->BroadcastRedstoneUpdate($type, Block::REDSTONESOURCEPOWER);
+	}
+
+	public function getBoundingBox(){
+		return new AxisAlignedBB(
+			$this->x + 0.0625,
+			$this->y,
+			$this->z + 0.0625,
+			$this->x + 0.9375,
+			$this->y + 0.03125,
+			$this->z + 0.9375
+		);
 	}
 }

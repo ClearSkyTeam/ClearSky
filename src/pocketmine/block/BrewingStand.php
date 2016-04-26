@@ -11,8 +11,9 @@ use pocketmine\Player;
 use pocketmine\tile\Tile;
 use pocketmine\tile\BrewingStand as TileBrewingStand;
 use pocketmine\math\Vector3;
+use pocketmine\math\AxisAlignedBB;
 
-class BrewingStand extends Transparent{
+class BrewingStand extends Transparent implements LightSource{
 
 	protected $id = self::BREWING_STAND_BLOCK;
 
@@ -57,6 +58,10 @@ class BrewingStand extends Transparent{
 	public function getName(){
 		return "Brewing Stand";
 	}
+	
+	public function getLightLevel(){
+		return 1;
+	}
 
 	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
@@ -74,5 +79,24 @@ class BrewingStand extends Transparent{
 		}
 
 		return $drops;
+	}
+
+	protected function recalculateBoundingBox(){
+		$thin = new AxisAlignedBB(
+			$this->x + 0.4375,
+			$this->y,
+			$this->z + 0.4375,
+			$this->x + 0.5625,
+			$this->y + 0.875,
+			$this->z + 0.5625
+		);
+		return $thin->intersectsWith(new AxisAlignedBB(
+			$this->x,
+			$this->y,
+			$this->z,
+			$this->x + 1,
+			$this->y + 0.125,
+			$this->z + 1
+		));
 	}
 }

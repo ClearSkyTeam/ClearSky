@@ -29,7 +29,7 @@ class Cake extends Transparent{
 	protected function recalculateBoundingBox(){
 		$f = (1 + $this->getDamage() * 2) / 16;
 		
-		return new AxisAlignedBB($this->x + $f, $this->y, $this->z + 0.0625, $this->x + 1 - 0.0625, $this->y + 0.5, $this->z + 1 - 0.0625);
+		return new AxisAlignedBB($this->x + $f, $this->y, $this->z + 0.0625, $this->x + 0.9375, $this->y + 0.5, $this->z + 0.9375);
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){

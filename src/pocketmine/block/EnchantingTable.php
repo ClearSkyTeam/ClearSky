@@ -12,6 +12,7 @@ use pocketmine\Player;
 use pocketmine\tile\Tile;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\tile\EnchantTable;
+use pocketmine\math\AxisAlignedBB;
 
 class EnchantingTable extends Transparent{
 
@@ -103,5 +104,16 @@ class EnchantingTable extends Transparent{
 		}else{
 			return [];
 		}
+	}
+
+	protected function recalculateBoundingBox(){
+		return new AxisAlignedBB(
+			$this->x,
+			$this->y,
+			$this->z,
+			$this->x + 0.9375,
+			$this->y + 0.75,
+			$this->z + 0.9375
+		);
 	}
 }

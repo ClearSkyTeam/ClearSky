@@ -6,6 +6,7 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
+use pocketmine\math\AxisAlignedBB;
 
 class RedstoneComparator extends Flowable implements Redstone, RedstoneTransmitter{
 	protected $id = self::UNPOWERED_COMPARATOR;
@@ -16,6 +17,17 @@ class RedstoneComparator extends Flowable implements Redstone, RedstoneTransmitt
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
+	}
+
+	public function recalculateBoundingBox(){
+		return new AxisAlignedBB(
+			$this->x,
+			$this->y,
+			$this->z,
+			$this->x + 1,
+			$this->y + 0.125,
+			$this->z + 1
+		);
 	}
 
 	public function getPower(){
