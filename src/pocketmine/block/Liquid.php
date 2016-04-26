@@ -432,7 +432,7 @@ abstract class Liquid extends Transparent{
 				}
 			}
 			for($side = 2; $side <= 5; ++$side){
-				if()$this->getSide($side) instanceof Water){
+				if($this->getSide($side) instanceof Water){
     				if($this->getDamage() === 0){
     					$this->getLevel()->setBlock($this, Block::get(Item::STONE), true);
     				}elseif($this->getDamage() <= 4){
