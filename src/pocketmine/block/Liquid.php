@@ -294,7 +294,7 @@ abstract class Liquid extends Transparent{
 			}
 
 			$this->getLevel()->setBlock($block, Block::get($this->getId(), $newFlowDecay), true);
-			if($newFlowDecay => 0){ //This should actually be added somewhere else, now no water will go away
+			if($newFlowDecay >= 0){ //This should actually be added somewhere else, now no water will go away
 				$this->getLevel()->scheduleUpdate($block, $this->tickRate());
 			}
 		}
