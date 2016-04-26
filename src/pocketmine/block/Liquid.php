@@ -34,11 +34,11 @@ abstract class Liquid extends Transparent{
 	public function getDrops(Item $item){
 		return [];
 	}
-	//API Stuff END
+
 	public $adjacentSources = 0;
 	public $isOptimalFlowDirection = [0, 0, 0, 0];
 	public $flowCost = [0, 0, 0, 0];
-	//Small calculations
+    
 	public function getFluidHeightPercent(){
 		$d = $this->meta;
 		if($d >= 8){
@@ -75,7 +75,6 @@ abstract class Liquid extends Transparent{
 
 		return $decay;
 	}
-	//Big calculations
 	public function getFlowVector(){
 		$vector = new Vector3(0, 0, 0);
 
@@ -103,7 +102,7 @@ abstract class Liquid extends Transparent{
 			$sideBlock = $this->getLevel()->getBlock($this->temporalVector->setComponents($x, $y, $z));
 			$blockDecay = $this->getEffectiveFlowDecay($sideBlock);
 
-			if($blockDecay < 0){ //Check if still water is left
+			if($blockDecay < 0){
 				if(!$sideBlock->canBeFlowedInto()){
 					continue;
 				}
@@ -296,7 +295,7 @@ abstract class Liquid extends Transparent{
 
 			$this->getLevel()->setBlock($block, Block::get($this->getId(), $newFlowDecay), true);
 			if($newFlowDecay => 0){ //This should actually be added somewhere else, now no water will go away
-				$this->getLevel()->scheduleUpdate($block, $this->tickRate()); //New scheudle for next block updating
+				$this->getLevel()->scheduleUpdate($block, $this->tickRate());
 			}
 		}
 	}
@@ -420,22 +419,32 @@ abstract class Liquid extends Transparent{
 		if($this instanceof Lava){
 			if($this->getSide(Vector3::SIDE_DOWN) instanceof Water){
 				if($this->getDamage() === 0){
-					$this->getLevel()->setBlock($this, Block::get(Item::STONE), true);
+					$this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::STONE), true);
 				}elseif($this->getDamage() <= 4){
-					$this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+					$this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::COBBLESTONE), true);
 				}
 			}
-			if($this->getSide(Vector3::SIDE_DOWN) instanceof Water)
-			for($side = 0; $side <= 5 and !$colliding; ++$side){
-				$colliding = $this->getSide($side) instanceof Water;
-			}
-
-			if($colliding){
+			if($this->getSide(Vector3::SIDE_UP) instanceof Water){
 				if($this->getDamage() === 0){
 					$this->getLevel()->setBlock($this, Block::get(Item::OBSIDIAN), true);
 				}elseif($this->getDamage() <= 4){
 					$this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
 				}
+			}
+			for($side = 2; $side <= 5; ++$side){
+				if()$this->getSide($side) instanceof Water){
+    				if($this->getDamage() === 0){
+    					$this->getLevel()->setBlock($this, Block::get(Item::STONE), true);
+    				}elseif($this->getDamage() <= 4){
+    					$this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+    				}
+				}
+			}
+			for($side = 0; $side <= 5 and !$colliding; ++$side){
+				$colliding = $this->getSide($side) instanceof Water;
+			}
+			if($colliding){
+                echo("Calculation ERROR"); //TODO::Add proper error call
 			}
 		}
 	}
