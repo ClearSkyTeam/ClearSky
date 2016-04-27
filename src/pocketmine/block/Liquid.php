@@ -451,7 +451,7 @@ abstract class Liquid extends Transparent{
                     echo("setCobbleStone()\n");
 				}else{
 				    echo("Calculation ERROR::TYPE 11\n");
-                    $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+                    $this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::COBBLESTONE), true);
                     echo("setCobbleStone()\n");
 				}
 			}
