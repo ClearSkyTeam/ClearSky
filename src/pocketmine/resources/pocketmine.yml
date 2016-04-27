@@ -107,7 +107,7 @@ network:
  #Prevent cheating , but consider turn it off when have a bad network connection
  acceptable-packetlost: 2
  #If your server have a bad network connection , increase this
- timeout: 1a
+ timeout: 1
  #Interrupt Raklib after reach timeout, save CPU usage, may cause packet lost.(-1 for disable , all pkt will send)
  protocol: 47
  #MCPE Protocol Version, it will affect the color of version string.
@@ -194,7 +194,8 @@ auto-updater:
  on-update:
   warn-console: true
   warn-ops: true
- preferred-channel: Stable #Stable or DEV
+ preferred-channel: Stable
+ #Stable or DEV
  host: jenkins.clearskyteam.org
 
 aliases:
