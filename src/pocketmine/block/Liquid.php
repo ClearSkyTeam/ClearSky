@@ -456,6 +456,7 @@ abstract class Liquid extends Transparent{
 			}
 			//#########
 			//On Release: Remove this!
+			$colliding = false;
 			for($side = 0; $side <= 5 and !$colliding; ++$side){
 				$colliding = $this->getSide($side) instanceof Water;
 			}
