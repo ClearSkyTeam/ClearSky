@@ -172,7 +172,7 @@ abstract class Liquid extends Transparent{
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->checkForHarden){//Slight performance improvement
+			if($this->checkForHarden()){//Slight performance improvement
 				$this->doHarden(); //Lava+Water handling: Currently in ReWrite
 			}
 			$this->getLevel()->scheduleUpdate($this, $this->tickRate());
@@ -263,7 +263,9 @@ abstract class Liquid extends Transparent{
 				}
 
 				if($l >= 8){
-					$this->checkForHarden();
+        			if($this->checkForHarden()){//Slight performance improvement
+        				$this->doHarden(); //Lava+Water handling: Currently in ReWrite
+        			}
 					return;
 				}
 
@@ -284,7 +286,9 @@ abstract class Liquid extends Transparent{
 				}
 			}
 
-			$this->checkForHarden();
+			if($this->checkForHarden()){//Slight performance improvement
+				$this->doHarden(); //Lava+Water handling: Currently in ReWrite
+			}
 
 		}
 	}
@@ -296,9 +300,9 @@ abstract class Liquid extends Transparent{
 			}
 
 			$this->getLevel()->setBlock($block, Block::get($this->getId(), $newFlowDecay), true);
-			if($newFlowDecay >= 0){ //This should actually be added somewhere else, now no water will go away
+			//if($newFlowDecay >= 0){ //This should actually be added somewhere else, now no water will go away
 				$this->getLevel()->scheduleUpdate($block, $this->tickRate());
-			}
+            //}
 		}
 	}
 
@@ -419,49 +423,74 @@ abstract class Liquid extends Transparent{
 	
 	public function checkForHarden(){ //Performance improvement (Not that much, though!)
 		if($this instanceof Lava){
+            $colliding = false;
 			for($side = 0; $side <= 5 and !$colliding; ++$side){
 				$colliding = $this->getSide($side) instanceof Water;
 			}
 			if($colliding){
+                        echo("cFH::doHarden() ");
                 		return true;
 			}
-			return false;
 		}
+        return false;
 	}
 	
 	private function doHarden(){
 		if($this instanceof Lava){
+            echo("doHarden()\n");
+            //echo("Damage of Lava Block:");
+            //var_dump($this->getDamage());
 			if($this->getSide(Vector3::SIDE_DOWN) instanceof Water){
-				if($this->getDamage() === 0){
+                //echo("Damage of Water Block:");
+                //var_dump($this->getSide(Vector3::SIDE_DOWN)->getDamage());
+				if($this->getSide(Vector3::SIDE_DOWN)->getDamage() === 0){
 					$this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::STONE), true);
-				}elseif($this->getDamage() <= 1){
+                    echo("setStone()\n");
+				}elseif($this->getSide(Vector3::SIDE_DOWN)->getDamage() <= 1){
 					$this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::COBBLESTONE), true);
+                    echo("setCobbleStone()\n");
+				}else{
+				    echo("Calculation ERROR::TYPE 11\n");
+                    $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+                    echo("setCobbleStone()\n");
 				}
 			}
 			if($this->getSide(Vector3::SIDE_UP) instanceof Water){
 				if($this->getDamage() === 0){
 					$this->getLevel()->setBlock($this, Block::get(Item::OBSIDIAN), true);
+                    echo("setObsidian()\n");
 				}elseif($this->getDamage() <= 1){
 					$this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+                    echo("setCobbleStone()\n");
+				}else{
+				    echo("Calculation ERROR::TYPE 12\n");
+                    $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+                    echo("setCobbleStone()\n");
 				}
 			}
 			for($side = 2; $side <= 5; ++$side){
 				if($this->getSide($side) instanceof Water){
     				if($this->getDamage() === 0){
     					$this->getLevel()->setBlock($this, Block::get(Item::STONE), true);
+                        echo("setStone()\n");
     				}elseif($this->getDamage() <= 1){
     					$this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
-    				}
+                        echo("setCobbleStone()\n");
+    				}else{
+				        echo("Calculation ERROR::TYPE 13\n");
+                        $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
+                        echo("setCobbleStone()\n");
+				    }
 				}
 			}
 			//#########
 			//On Release: Remove this!
-			$colliding = false;
+            $colliding = false;
 			for($side = 0; $side <= 5 and !$colliding; ++$side){
 				$colliding = $this->getSide($side) instanceof Water;
 			}
 			if($colliding){
-                		echo("Calculation ERROR"); //TODO::Add proper error call
+                		echo("Calculation ERROR::TYPE 0\n");
 			}
 			//#########
 		}
