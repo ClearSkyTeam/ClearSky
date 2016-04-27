@@ -1,84 +1,147 @@
+# Main configuration file for ClearSky
+# Some of these settings are safe, others can break your server if modified incorrectly!
+# If config-update is set to true, new settings/defaults will appear automatically on this file when upgrading,
+
 settings:
+ #Three-letter language code for server-side localization
+ #Check your language code on https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
  language: "eng"
  force-language: false
+ #Whether to send all strings translated to server locale or let the device handle them
  shutdown-message: "Server closed"
  whitelist-message: "Server is whitelisted"
  query-plugins: true
+ #Allow listing plugins via Query
  deprecated-verbose: true
+ #Show a console message when a plugin uses deprecated API methods
  enable-profiling: false
  profile-report-trigger: 20
+ #Will only add results when tick measurement is below or equal to given value (default 20)
  async-workers: 1
+ #Number of AsyncTask workers.
+ #Used for plugin asynchronous tasks, world generation, compression and web communication
+ #Set this approximately to your number of cores
+ #If set to auto, the server will try to detect the number of cores (or use 2)
  config-update: true
+ #Whether the server should "try" to add new configs automatically here
 
 player:
  inventory:
   slot: 36
+  #The inventory slot a player can have
  hunger:
   enable: true
+  #Whether hunger should be calculated or not
  experience:
   enable: true
+  #Whether experience should be calculated or not
   player-drop: true
+  #Whether player should drop experience or not
   mob-drop: true
+  #Whether mobs should drop experience or not
   break-drop: true
+  #Whether blocks should drop experience or not
   smelt-drop: true
- 
+  #Whether furncace melting should give experience or not
+  
 redstone:
  enable: true
+ #Whether redstone should be calculated or not
  tick-limit: 2048
+ #Redstone calculation limit (per tick)
 
 I/O:
+ #These settings do enormly affect disk or console performance!
  title-usage: true
+ #Show server usage in title
  log-to-file: true
-
+ #Log console to file(server.log)
+ 
 memory:
  global-limit: 0
+ #Global soft memory limit. Set to 0 to disable
+ #This will trigger low-memory-triggers and fire an event to free memory when the usage goes over this
  main-limit: 0
+ #Main thread soft memory limit in. Set to 0 to disable
+ #This will trigger low-memory-triggers and fire an event to free memory when the usage goes over this
  main-hard-limit: 2048
+ #Main thread hard memory limit in megabytes. Set to 0 to disable
+ #This will stop the server when the limit is surpassed
  check-rate: 20
+ #Period in ticks to check memory
  continuous-trigger: true
+ #Continue firing low-memory-triggers and event while on low memory
  continuous-trigger-rate: 30
+ #Only if memory.continuous-trigger is enabled. Specifies the rate in memory.check-rate steps
 
  garbage-collection:
   period: 18000
+  #Period in ticks to fire the garbage collector manually (default 30 minutes), set to 0 to disable
+  #This only affect the main thread. Other threads should fire their own collections
   collect-async-worker: true
+  #Fire asynchronous tasks to collect garbage from workers
   low-memory-trigger: true
+  #Trigger on low memory
   
  max-chunks:
   trigger-limit: 96
+  #Limit of chunks to load per player, overrides chunk-sending.max-chunks
   trigger-chunk-collect: true
+  #Do chunk garbage collection on trigger
   low-memory-trigger: true
+  #Trigger on low memory
 
  world-caches:
-  disable-chunk-cache: false
+  disable-chunk-cache: true
   low-memory-trigger: true
 
 network:
- batch-threshold: 256
+ batch-threshold: 128
+ #Threshold for batching packets. Only these packets will be compressed
+ #Set to 0 to compress everything, -1 to disable.
  compression-level: 7
+ #Compression level used when sending batched packets. Higher = more CPU, less bandwidth usage
  async-compression: true
+ #Use AsyncTasks for compression. Adds half/one tick delay, less CPU load on main thread
  anti-cheat: false
+ #Prevent cheating , but consider turn it off when have a bad network connection
  acceptable-packetlost: 2
- timeout: 1
+ #If your server have a bad network connection , increase this
+ timeout: 1a
+ #Interrupt Raklib after reach timeout, save CPU usage, may cause packet lost.(-1 for disable , all pkt will send)
  protocol: 47
+ #MCPE Protocol Version, it will affect the color of version string.
  version: "0.14.2"
+ #MCPE Version string shown in server list, number and dot(.) allowed
  upnp-forwarding: false
+ #Experimental, only for Windows. Tries to use UPnP to automatically port forward
 
 debug:
  level: 1
  allow-xdebug: false
+ #Whether to allow the php-extension "xdebug"
  commands: true
+ #Enables /status, /gc
 
 level-settings:
  default-format: mcregion
+ #The default format that levels will use when created
  convert-format: false 
+ #WIP
  auto-tick-rate: true
+ #Automatically change levels tick rate to maintain 20 ticks per second
  auto-tick-rate-limit: 20
  base-tick-rate: 1
+ #(1 = 20 ticks per second, 2 = 10 ticks per second, etc.)
+ #Sets the base tick rate
  always-tick-players: false
+ #Tick all players each tick even when other settings disallow this.
  weather:
   enable: true
+  #Whether weather should be calculated or not
   rain:
    possibility: 10
+   #Chance in % per tick to start rain
    time:
     min: 30
     max: 120
@@ -88,37 +151,43 @@ level-settings:
 
 chunk-sending:
  per-tick: 4
+ #Limit of chunks to send per tick to player
  max-chunks: 192
+ #Limit of chunks to send per player
  spawn-threshold: 56
+ #Chunks, that have to be loaded before the player spawns
  cache-chunks: true
+ #Save a serialized copy of the chunk in memory for faster sending
+ #Useful in mostly-static worlds where lots of players join at the same time
  
 chunk-ticking:
  per-tick: 1
+ #Max amount of chunks processed each tick
  tick-radius: 2
- light-updates: true
- clear-tick-list: true
- # Use id's, for example [2,59] disables grass growth and wheat growth
+ #Radius of chunks around a player to tick
  disabled-randomly-ticking-blocks: []
+ #Use id's, for example [2,59] disables grass growth and wheat growth
+ light-updates: true
+ #Whether to do light-updates or not
+ clear-tick-list: true
+ #NOT IMPLEMENTED YET
+ ticks-per:
+  animal-spawns: 400
+  monster-spawns: 1
+  autosave: 6000
+  cache-cleanup: 900
+ spawn-limits:
+   monsters: 70
+   animals: 15
+   water-animals: 5
+   ambient: 15
+ #NOT IMPLEMENTED YET
  
 chunk-generation:
+ #Max. amount of chunks in the waiting queue to be generated
  queue-size: 8
+ #Max. amount of chunks in the waiting queue to be populated
  population-queue-size: 8
-
-ticks-per:
- animal-spawns: 400
- monster-spawns: 1
- autosave: 6000
- cache-cleanup: 900
- 
-spawn-limits:
-  monsters: 70
-  animals: 15
-  water-animals: 5
-  ambient: 15
-
-aliases:
-
-worlds:
 
 auto-updater:
  enabled: true
@@ -128,15 +197,30 @@ auto-updater:
  preferred-channel: Stable #Stable or DEV
  host: jenkins.clearskyteam.org
 
-version: 21
+aliases:
+ #Examples:
+ #showtheversion: version
+ #savestop: [save-all, stop]
+ 
+worlds:
+ #These settings will override the generator set in server.properties and allows loading multiple levels
+ #Example:
+ #world:
+ # seed: 404
+ # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
+ 
+anonymous-statistics:
+ #Sends anonymous statistics for data aggregation, plugin usage tracking
+ enabled: true
+ host: stats.pocketmine.net
+ 
+#!DO NOT EDIT below this line!
+version: 22
+# This is for internal use, changing this will reset your whole pocketmine.yml!
 
 auto-report:
  enabled: false
  send-code: true
  send-settings: true
- send-phpinfo: false
+ send-phpinfo: true
  host: crash.pocketmine.net
- 
-anonymous-statistics:
- enabled: false
- host: stats.pocketmine.net
