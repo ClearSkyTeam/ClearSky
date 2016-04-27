@@ -59,8 +59,8 @@ network:
  anti-cheat: false
  acceptable-packetlost: 2
  timeout: 1
- protocol: 46
- version: "0.14.1"
+ protocol: 47
+ version: "0.14.2"
  upnp-forwarding: false
 
 debug:
