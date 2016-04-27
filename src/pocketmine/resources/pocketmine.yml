@@ -72,7 +72,6 @@ memory:
  continuous-trigger: true
  #Continue firing low-memory-triggers and event while on low memory
  continuous-trigger-rate: 30
- #secounds
  #Only if memory.continuous-trigger is enabled. Specifies the rate in memory.check-rate steps
 
  garbage-collection:
