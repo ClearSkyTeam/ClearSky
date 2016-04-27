@@ -6,12 +6,9 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\item\Dye;
 
-abstract class NetherCrops extends Flowable{
-	
-	public function canBeActivated(){
-		return true;
-	}
+abstract class NetherCrops extends Crops{
 	
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$down = $this->getSide(0);
@@ -23,9 +20,9 @@ abstract class NetherCrops extends Flowable{
 	}
 	
 	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F){ //Bonemeal
+		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){
 			$block = clone $this;
-			$block->meta -= mt_rand(2, 5);
+			$block->meta += mt_rand(2, 5);
 			if($block->meta > 3){
 				$block->meta = 3;
 			}
@@ -38,7 +35,7 @@ abstract class NetherCrops extends Flowable{
 		}
 		return false;
 	}
-	
+
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true){
@@ -51,6 +48,7 @@ abstract class NetherCrops extends Flowable{
 					$block = clone $this;
 					++$block->meta;
 					Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($this, $block));
+
 					if(!$ev->isCancelled()){
 						$this->getLevel()->setBlock($this, $ev->getNewState(), true, true);
 					}else{
@@ -61,6 +59,7 @@ abstract class NetherCrops extends Flowable{
 				return Level::BLOCK_UPDATE_RANDOM;
 			}
 		}
+
 		return false;
 	}
 }
