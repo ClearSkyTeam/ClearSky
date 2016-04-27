@@ -172,7 +172,9 @@ abstract class Liquid extends Transparent{
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
-			$this->doHarden(); //Lava+Water handling: Currently in ReWrite
+			if($this->checkForHarden){//Slight performance improvement
+				$this->doHarden(); //Lava+Water handling: Currently in ReWrite
+			}
 			$this->getLevel()->scheduleUpdate($this, $this->tickRate());
 		}elseif($type === Level::BLOCK_UPDATE_SCHEDULED){
 			if($this->temporalVector === null){
@@ -414,7 +416,19 @@ abstract class Liquid extends Transparent{
 
 		return ($decay >= 0 && $blockDecay >= $decay) ? $decay : $blockDecay;
 	}
-
+	
+	public function checkForHarden(){ //Performance improvement (Not that much, though!)
+		if($this instanceof Lava){
+			for($side = 0; $side <= 5 and !$colliding; ++$side){
+				$colliding = $this->getSide($side) instanceof Water;
+			}
+			if($colliding){
+                		return true;
+			}
+			return false;
+		}
+	}
+	
 	private function doHarden(){
 		if($this instanceof Lava){
 			if($this->getSide(Vector3::SIDE_DOWN) instanceof Water){
@@ -440,12 +454,15 @@ abstract class Liquid extends Transparent{
     				}
 				}
 			}
+			//#########
+			//On Release: Remove this!
 			for($side = 0; $side <= 5 and !$colliding; ++$side){
 				$colliding = $this->getSide($side) instanceof Water;
 			}
 			if($colliding){
-                echo("Calculation ERROR"); //TODO::Add proper error call
+                		echo("Calculation ERROR"); //TODO::Add proper error call
 			}
+			//#########
 		}
 	}
 }
