@@ -109,7 +109,7 @@ network:
  #If your server have a bad network connection , increase this
  timeout: 1
  #Interrupt Raklib after reach timeout, save CPU usage, may cause packet lost.(-1 for disable , all pkt will send)
- protocol: 47
+ protocol: 60
  #MCPE Protocol Version, it will affect the color of version string.
  version: "0.14.2"
  #MCPE Version string shown in server list, number and dot(.) allowed
@@ -216,7 +216,7 @@ anonymous-statistics:
  host: stats.pocketmine.net
  
 #!DO NOT EDIT below this line!
-version: 22
+version: 23
 # This is for internal use, changing this will reset your whole pocketmine.yml!
 
 auto-report:
