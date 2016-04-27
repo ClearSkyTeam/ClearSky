@@ -123,13 +123,13 @@ class Vine extends Transparent{
 	}
 
 	public function onUpdate($type){
-		$faces = [
-			1 => 2,
-			2 => 5,
-			3 => 4,
-			4 => 3
-		];
 		if($type === Level::BLOCK_UPDATE_NORMAL){
+			$faces = [
+				1 => 2,
+				2 => 5,
+				3 => 4,
+				4 => 3
+			];
 			if(isset($faces[$this->meta])){
 				if($this->getSide($faces[$this->meta])->getId() instanceof Transparent && $this->getSide(Vector3::SIDE_UP) !== Block::VINE){
 					$this->getLevel()->useBreakOn($this);

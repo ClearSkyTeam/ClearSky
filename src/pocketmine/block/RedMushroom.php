@@ -17,7 +17,6 @@ class RedMushroom extends Flowable{
 		return "Red Mushroom";
 	}
 
-
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(0)->isTransparent() === true){

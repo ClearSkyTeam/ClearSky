@@ -7,6 +7,7 @@ use pocketmine\level\Level;
 use pocketmine\math\Vector3 as Vector3;
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\item\Dye;
 
 class Sugarcane extends Flowable{
 
@@ -28,7 +29,7 @@ class Sugarcane extends Flowable{
 	}
 
 	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F){ //Bonemeal
+		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){
 			if($this->getSide(0)->getId() !== self::SUGARCANE_BLOCK){
 				for($y = 1; $y < 3; ++$y){
 					$b = $this->getLevel()->getBlock(new Vector3($this->x, $this->y + $y, $this->z));

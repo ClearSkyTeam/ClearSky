@@ -47,6 +47,9 @@ class Mycelium extends Solid{
 					if(!$ev->isCancelled()){
 						$this->getLevel()->setBlock($block, $ev->getNewState());
 					}
+					else{
+						return Level::BLOCK_UPDATE_RANDOM;
+					}
 				}
 			}
 		}
