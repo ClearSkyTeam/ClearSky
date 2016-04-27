@@ -434,14 +434,14 @@ abstract class Liquid extends Transparent{
 			if($this->getSide(Vector3::SIDE_DOWN) instanceof Water){
 				if($this->getDamage() === 0){
 					$this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::STONE), true);
-				}elseif($this->getDamage() <= 4){
+				}elseif($this->getDamage() <= 1){
 					$this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::COBBLESTONE), true);
 				}
 			}
 			if($this->getSide(Vector3::SIDE_UP) instanceof Water){
 				if($this->getDamage() === 0){
 					$this->getLevel()->setBlock($this, Block::get(Item::OBSIDIAN), true);
-				}elseif($this->getDamage() <= 4){
+				}elseif($this->getDamage() <= 1){
 					$this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
 				}
 			}
@@ -449,7 +449,7 @@ abstract class Liquid extends Transparent{
 				if($this->getSide($side) instanceof Water){
     				if($this->getDamage() === 0){
     					$this->getLevel()->setBlock($this, Block::get(Item::STONE), true);
-    				}elseif($this->getDamage() <= 4){
+    				}elseif($this->getDamage() <= 1){
     					$this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
     				}
 				}
