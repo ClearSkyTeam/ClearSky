@@ -437,7 +437,7 @@ abstract class Liquid extends Transparent{
 	
 	private function doHarden(){
 		if($this instanceof Lava){
-            echo("doHarden()\n");
+        	echo("doHarden()\n");
             //echo("Damage of Lava Block:");
             //var_dump($this->getDamage());
 			if($this->getSide(Vector3::SIDE_DOWN) instanceof Water){
