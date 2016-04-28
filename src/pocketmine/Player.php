@@ -1,4 +1,4 @@
-<?php
+comm<?php
 namespace pocketmine;
 
 use pocketmine\block\Block;
@@ -1338,9 +1338,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->despawnFromAll();
 		}else{
 			$this->spawnToAll();
-		}
-		if($oldgm === Player::CREATIVE or $oldgm === Player::SPECTATOR){
-            $this->getInventory()->clearAll();
 		}
 
 		$this->namedtag->playerGameType = new Int("playerGameType", $this->gamemode);
