@@ -18,7 +18,7 @@ class StartGamePacket extends DataPacket{
 	public $x;
 	public $y;
 	public $z;
-	public $GUIString;
+	public $unknown;
 
 	public function decode(){
 
@@ -40,7 +40,7 @@ class StartGamePacket extends DataPacket{
                 $this->putByte(1);
                 $this->putByte(1);
                 $this->putByte(0);
-                $this->putString($this->GUIString);
+                $this->putString($this->unknown);
 	}
 
 }
