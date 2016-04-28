@@ -1,4 +1,4 @@
-comm<?php
+<?php
 namespace pocketmine;
 
 use pocketmine\block\Block;
