@@ -1447,7 +1447,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$pk = new AdventureSettingsPacket();
 		$pk->userPermission = 2;
- +		$pk->globalPermission = 2;
+  		$pk->globalPermission = 2;
 		$pk->flags = $flags;
 		$this->dataPacket($pk);
 	}

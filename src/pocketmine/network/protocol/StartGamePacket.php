@@ -18,7 +18,7 @@ class StartGamePacket extends DataPacket{
 	public $x;
 	public $y;
 	public $z;
-        public $GUIString;
+	public $GUIString;
 
 	public function decode(){
 
