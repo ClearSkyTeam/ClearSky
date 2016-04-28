@@ -11,7 +11,7 @@ interface Info{
 	 * Actual Minecraft: PE protocol versions
 	 */
 	const CURRENT_PROTOCOL = 60;
-	const ACCEPT_PROTOCOL = [40,41,42,43,44,45,46,47,60];
+	const ACCEPT_PROTOCOL = [60];
 	//This is for beta 1-bla and 0.14.0-0.14.bla , I think no need to change this - Aodzip
 
         const ATTRIBUTE_PACKET = 0x60;
