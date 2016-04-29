@@ -10,9 +10,9 @@ interface Info{
 	/**
 	 * Actual Minecraft: PE protocol versions
 	 */
-	const CURRENT_PROTOCOL = 60;
+	const CURRENT_PROTOCOL = 45; 
 	const ACCEPT_PROTOCOL = [40,41,42,44,45,46,47,60];
-	//CURRENT_PROTOCOL M U S T BE THE LOWEST NUMBER IIN ACCEPT_PROTOCOL ARRAY! (CurrentProtocol does not have to be the same as in pocketmine.yml)
+	//CURRENT_PROTOCOL DOES N O T HAVE TO BE THE HIGHEST NUMBER IN THE ACCEPT_PROTOCOL ARRAY! (CurrentProtocol does not have to be the same as in pocketmine.yml, the one in pocketmine.yml should be the highest in ACCEPT_PROTOCOL array!)
 
         const ATTRIBUTE_PACKET = 0x60;
 	const LOGIN_PACKET = 0x8f;
