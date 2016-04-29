@@ -24,7 +24,7 @@ class WeatherCommand extends VanillaCommand{
             return true;
         }
 
-        if(count($args) <= 3 || count($args) === 0){
+        if(count($args) >= 3 || count($args) === 0){
             $sender->sendMessage(new TranslationContainer("commands.weather.usage", [$this->usageMessage]));
             return false;
         }
