@@ -12,7 +12,7 @@ interface Info{
 	 */
 	const CURRENT_PROTOCOL = 45; 
 	const ACCEPT_PROTOCOL = [40,41,42,44,45,46,47,60];
-	//CURRENT_PROTOCOL DOES N O T HAVE TO BE THE HIGHEST NUMBER IN THE ACCEPT_PROTOCOL ARRAY! (CurrentProtocol does not have to be the same as in pocketmine.yml, the one in pocketmine.yml should be the highest in ACCEPT_PROTOCOL array!)
+	//CURRENT_PROTOCOL M U S T  N O T BE THE HIGHEST NUMBER IN THE ACCEPT_PROTOCOL ARRAY! (CurrentProtocol does not have to be the same as in pocketmine.yml, the one in pocketmine.yml should be the highest in ACCEPT_PROTOCOL array!)
 
         const ATTRIBUTE_PACKET = 0x60;
 	const LOGIN_PACKET = 0x8f;
