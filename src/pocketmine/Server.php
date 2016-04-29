@@ -138,6 +138,13 @@ use pocketmine\entity\MinecartHopper;
 use pocketmine\entity\MinecartTNT;
 use pocketmine\entity\TripoidCamera;
 use pocketmine\entity\ThrownEnderPearl;
+use pocketmine\tile\Dispenser;
+use pocketmine\tile\Dropper;
+use pocketmine\block\Hopper;
+use pocketmine\tile\Music;
+use pocketmine\tile\DLDetector;
+use pocketmine\tile\Cauldron;
+use pocketmine\tile\ItemFrame;
 
 /**
  * The class that manages everything
@@ -2728,13 +2735,21 @@ class Server{
 	}
 
 	private function registerTiles(){
-		Tile::registerTile(Chest::class);
-		Tile::registerTile(Furnace::class);
 		Tile::registerTile(BrewingStand::class);
-		Tile::registerTile(Skull::class);
-		Tile::registerTile(FlowerPot::class);
-		Tile::registerTile(Sign::class);
+		Tile::registerTile(Cauldron::class);
+		Tile::registerTile(Chest::class);
+		Tile::registerTile(Dispenser::class);
+		Tile::registerTile(DLDetector::class);
+		Tile::registerTile(Dropper::class);
 		Tile::registerTile(EnchantTable::class);
+		Tile::registerTile(FlowerPot::class);
+		Tile::registerTile(Furnace::class);
+		Tile::registerTile(Hopper::class);
+		Tile::registerTile(ItemFrame::class);
+		Tile::registerTile(Music::class);
+		Tile::registerTile(Sign::class);
+		Tile::registerTile(Skull::class);
+		// Tile::registerTile(TrappedChest::class);
 	}
 
 }
