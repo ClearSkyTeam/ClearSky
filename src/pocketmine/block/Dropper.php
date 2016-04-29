@@ -26,7 +26,7 @@ class Dropper extends Solid implements RedstoneConsumer{
 	}
 
 	public function canBeActivated(){
-		return false;
+		return true;
 	}
 
 	public function getHardness(){
@@ -91,9 +91,9 @@ class Dropper extends Solid implements RedstoneConsumer{
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
 			$dropper = null;
-			/*if($t instanceof DropperTile){
+			if($t instanceof DropperTile){
 				$dropper = $t;
-			}else{*/
+			}else{
 				$nbt = new Compound("", [
 					new Enum("Items", []),
 					new String("id", Tile::DROPPER),
@@ -103,7 +103,7 @@ class Dropper extends Solid implements RedstoneConsumer{
 				]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
 				$dropper = Tile::createTile(Tile::DROPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-			#}
+			}
 
 			if(isset($dropper->namedtag->Lock) and $dropper->namedtag->Lock instanceof String){
 				if($dropper->namedtag->Lock->getValue() !== $item->getCustomName()){
