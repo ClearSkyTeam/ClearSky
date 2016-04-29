@@ -2089,7 +2089,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk->generator = 1; // 0 old, 1 infinite, 2 flat
 		$pk->gamemode = $this->gamemode & 0x01;
 		$pk->eid = 0; // Always use EntityID as zero for the actual player
-		$pk->GUIString = "Test";
 		$this->dataPacket($pk);
 
 		$pk = new SetTimePacket();
