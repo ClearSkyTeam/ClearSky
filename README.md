@@ -64,7 +64,7 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 # Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PocketMine](https://github.com/PocketMine/PocketMine-MP) (PHP5) 
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
-**Estado de la compilación deTravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 **Estado de la compilación de Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
 
 
@@ -73,10 +73,11 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
  - [Mira como ClearSky abre así de rapido con con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Servidor de pruebas no oficial : IP: WolvesFortress.de Puerto: **19134** *A menudo fuera de línea, pero si lo esta posee la última versión de ClearSky.*
 
-## Donde consigo una  (Phar)?
+## Donde consigo una compilacion (Phar)?
  - Consiguelo aqui: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - Consigue un tiempo de ejecución de PHP optimizado: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Consigue una prueba de Multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+ - O usa el instalador en: [ClearSkyTeam/Installer](https://github.com/ClearSkyTeam/Installer)
 
 ## Esta / Estará disponible una versión para PHP7?
  - Si, pero tenemos planeado hacer las características estables primero, luego actualizamos a PHP7.
@@ -88,7 +89,7 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
 ## Caracteristicas Advanzadas
 Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
  - Es alrededor 20 veces mas rapido que PocketMine!
- - Soporte universal de clientes (e.j. 0.14.0 y builds de 0.14.0 pueden entrar juntos)(nota¹)
+ - Soporte universal de clientes (Todas las versiones 0.14.* Pueden entrar!)(nota¹)
  - Capacidad de jugadores ilimitada (pon max-players a -1 en server.properties)(nota²)
  - Color de la versión modificada libremente (cambia network.protocol, version en pocketmine.yml)
  - Puede aumentar la pérdida de paquetes aceptable y desactivar el anti-trampas cuando su servidor este en una red mala (Sección de red en pocketmine.yml) 
