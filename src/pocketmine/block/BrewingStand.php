@@ -1,4 +1,4 @@
-<?php
++   <?php
 namespace pocketmine\block;
 
 use pocketmine\inventory\BrewingInventory;
@@ -80,6 +80,19 @@ class BrewingStand extends Transparent implements LightSource{
 
 		return $drops;
 	}
+	
+	/*public function collidesWithBB(AxisAlignedBB $bb, &$list = []){
+		if($bb->intersectsWith($bb2 = AxisAlignedBB::getBoundingBoxFromPool(
+			$this->x,
+			$this->y,
+			$this->z,
+			$this->x + 1,
+			$this->y + 0.125,
+			$this->z + 1
+		))){
+			$list[] = $bb2;
+		}
+	}*/
 
 	protected function recalculateBoundingBox(){
 		$thin = new AxisAlignedBB(
@@ -90,13 +103,6 @@ class BrewingStand extends Transparent implements LightSource{
 			$this->y + 0.875,
 			$this->z + 0.5625
 		);
-		return $thin->intersectsWith(new AxisAlignedBB(
-			$this->x,
-			$this->y,
-			$this->z,
-			$this->x + 1,
-			$this->y + 0.125,
-			$this->z + 1
-		));
+		return $thin;
 	}
 }
