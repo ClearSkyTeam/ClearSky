@@ -61,7 +61,7 @@ We are still rewriting the base to make sure ClearSky has the best developing fe
 ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
 # <a name="SPA"></a>Español
-# Te presentamos: ClearSky-Sunrise ~ Una Bifurcación de PocketMine(https://github.com/PocketMine/PocketMine-MP) (PHP5) 
+# Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PocketMine](https://github.com/PocketMine/PocketMine-MP) (PHP5) 
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
 **Estado de la compilación deTravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
@@ -73,7 +73,7 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
  - [Mira como ClearSky abre así de rapido con con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Servidor de pruebas no oficial : IP: WolvesFortress.de Puerto: **19134** *A menudo fuera de línea, pero si lo esta posee la última versión de ClearSky.*
 
-## Donde consigo una compilación?
+## Donde consigo una  (Phar)?
  - Consiguelo aqui: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - Consigue un tiempo de ejecución de PHP optimizado: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Consigue una prueba de Multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
@@ -87,12 +87,12 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
 
 ## Caracteristicas Advanzadas
 Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
- - Es alrededor 20 mas rapido que PocketMine.
- - Soporte universal de clientes(e.j. 0.14.0 y builds de 0.14.0 pueden entrar juntos)(nota¹)
+ - Es alrededor 20 veces mas rapido que PocketMine!
+ - Soporte universal de clientes (e.j. 0.14.0 y builds de 0.14.0 pueden entrar juntos)(nota¹)
  - Capacidad de jugadores ilimitada (pon max-players a -1 en server.properties)(nota²)
- - Color de la versión modificada libremente (cambia network.protocol,version en pocketmine.yml)
+ - Color de la versión modificada libremente (cambia network.protocol, version en pocketmine.yml)
  - Puede aumentar la pérdida de paquetes aceptable y desactivar el anti-trampas cuando su servidor este en una red mala (Sección de red en pocketmine.yml) 
- - Calculación rápida de la Redstone sin fallos.
+ - Calculación rápida de la Redstone sin fallas.
  - Sistema de Experiencia operativo, incluido en block/player/entity/bottle/furnace.
  - Sistema de comida y hambre funcional con soporte de intercambio de dificultad.
  - Clima operativo.
