@@ -1,4 +1,4 @@
-+   <?php
+<?php
 namespace pocketmine\block;
 
 use pocketmine\inventory\BrewingInventory;
