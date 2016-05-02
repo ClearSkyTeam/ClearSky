@@ -9,7 +9,7 @@ class RakLibServer extends \Thread{
     protected $logger;
     protected $loader;
 
-    public $loadPaths = [];
+    public $loadPaths;
 
     protected $shutdown;
 
@@ -43,16 +43,15 @@ class RakLibServer extends \Thread{
         $this->loadPaths = array_reverse($loadPaths);
         $this->shutdown = false;
 
-        $this->externalQueue = \ThreadedFactory::create();
-        $this->internalQueue = \ThreadedFactory::create();
+        $this->externalQueue = new \Threaded;
+        $this->internalQueue = new \Threaded;
 
 	    if(\Phar::running(true) !== ""){
 		    $this->mainPath = \Phar::running(true);
 	    }else{
 		    $this->mainPath = \getcwd() . DIRECTORY_SEPARATOR;
 	    }
-
-        $this->start(PTHREADS_INHERIT_NONE);
+        $this->start();
     }
 
     protected function addDependency(array &$loadPaths, \ReflectionClass $dep){
@@ -124,7 +123,7 @@ class RakLibServer extends \Thread{
 
 	public function shutdownHandler(){
 		if($this->shutdown !== true){
-			$this->getLogger()->emergency("[RakLib Thread #". \Thread::getCurrentThreadId() ."] RakLib crashed!");
+			$this->getLogger()->emergency("RakLib crashed!");
 		}
 	}
 
@@ -156,7 +155,7 @@ class RakLibServer extends \Thread{
 		$oldFile = $errfile;
 		$errfile = $this->cleanPath($errfile);
 
-		$this->getLogger()->debug("[RakLib Thread #". \Thread::getCurrentThreadId() ."] An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
+		$this->getLogger()->debug("An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
 
 		foreach(($trace = $this->getTrace($trace === null ? 3 : 0, $trace)) as $i => $line){
 			$this->getLogger()->debug($line);

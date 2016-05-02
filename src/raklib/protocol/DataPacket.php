@@ -1,15 +1,7 @@
 <?php
-
 namespace raklib\protocol;
 
 #include <rules/RakLibPacket.h>
-
-
-
-
-
-
-
 
 abstract class DataPacket extends Packet{
 
