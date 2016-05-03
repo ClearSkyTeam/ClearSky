@@ -1,7 +1,5 @@
 <?php
 namespace raklib\server;
-
-
 class RakLibServer extends \Thread{
     protected $port;
     protected $interface;
@@ -38,12 +36,6 @@ class RakLibServer extends \Thread{
         $this->shutdown = false;
         $this->externalQueue = \ThreadedFactory::create();
         $this->internalQueue = \ThreadedFactory::create();
-        $this->loadPaths = array_reverse($loadPaths);
-        $this->shutdown = false;
-
-        $this->externalQueue = new \Threaded;
-        $this->internalQueue = new \Threaded;
-
 	    if(\Phar::running(true) !== ""){
 		    $this->mainPath = \Phar::running(true);
 	    }else{
