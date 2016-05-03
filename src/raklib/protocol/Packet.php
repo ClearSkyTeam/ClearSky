@@ -7,11 +7,6 @@ use raklib\Binary;
 
 #include <rules/RakLibPacket.h>
 
-
-
-
-
-
 abstract class Packet{
     public static $ID = -1;
 
@@ -68,7 +63,7 @@ abstract class Packet{
 		$version = $this->getByte();
 		if($version === 4){
 			$addr = ((~$this->getByte()) & 0xff) .".". ((~$this->getByte()) & 0xff) .".". ((~$this->getByte()) & 0xff) .".". ((~$this->getByte()) & 0xff);
-			$port = $this->getShort();
+			$port = $this->getShort(false);
 		}else{
 			//TODO: IPv6
 		}
