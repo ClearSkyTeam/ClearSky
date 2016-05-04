@@ -6,6 +6,7 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\Server;
+use pocketmine\item\Dye;
 
 abstract class Crops extends Flowable{
 
@@ -24,9 +25,8 @@ abstract class Crops extends Flowable{
 		return false;
 	}
 
-
 	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F){ //Bonemeal
+		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){
 			$block = clone $this;
 			$block->meta += mt_rand(2, 5);
 			if($block->meta > 7){

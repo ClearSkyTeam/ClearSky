@@ -27,7 +27,7 @@ class Hopper extends Solid{
 	}
 
 	public function canBeActivated(){
-		return false;
+		return true;
 	}
 
 	public function getHardness(){
@@ -71,7 +71,7 @@ class Hopper extends Solid{
 		return true;
 	}
 
-/*	public function onActivate(Item $item, Player $player = null){
+	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
 			$furnace = false;
@@ -98,12 +98,6 @@ class Hopper extends Solid{
 			$player->addWindow($furnace->getInventory());
 		}
 
-		return true;
-	}*/
-	public function onActivate(Item $item, Player $player = null){
-		if($player instanceof Player){
-			$player->addWindow(new HopperInventory($this));
-		}
 		return true;
 	}
 

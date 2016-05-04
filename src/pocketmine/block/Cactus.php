@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\block;
 
 use pocketmine\entity\Entity;
@@ -13,7 +14,6 @@ use pocketmine\Player;
 use pocketmine\Server;
 
 class Cactus extends Transparent{
-
 	protected $id = self::CACTUS;
 	public $exp_smelt = 0.2;
 
@@ -36,7 +36,7 @@ class Cactus extends Transparent{
 	protected function recalculateBoundingBox(){
 		return new AxisAlignedBB(
 			$this->x + 0.0625,
-			$this->y + 0.0625,
+			$this->y,
 			$this->z + 0.0625,
 			$this->x + 0.9375,
 			$this->y + 0.9375,
@@ -55,7 +55,8 @@ class Cactus extends Transparent{
 			$up = $this->getSide(1);
 			if($down->getId() !== self::SAND and $down->getId() !== self::CACTUS){
 				$this->getLevel()->scheduleUpdate($this, 0);
-			}else{
+			}
+			else{
 				for($side = 2; $side <= 5; ++$side){
 					$b = $this->getSide($side);
 					if(!$b->canBeFlowedInto()){
@@ -63,29 +64,33 @@ class Cactus extends Transparent{
 					}
 				}
 			}
-		}elseif($type === Level::BLOCK_UPDATE_RANDOM){
-			if($this->getSide(0)->getId() !== self::CACTUS){
-				if($this->meta == 0x0F){
-					for($y = 1; $y < 3; ++$y){
+		}
+		elseif($type === Level::BLOCK_UPDATE_RANDOM){
+			if($this->getSide(0)->getId() !== self::SAND and $this->getSide(0)->getId() !== self::CACTUS){
+				$this->getLevel()->scheduleUpdate($this, 0);
+			}
+			elseif($this->getSide(1)->getId() === self::AIR){
+				if($this->meta === 15){
+					if(!($this->getSide(0)->getId() === self::CACTUS && $this->getSide(0, 2)->getId() === self::CACTUS)){
 						$b = $this->getSide(1);
-						if($b->getId() === self::AIR){
-							Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($b, new Cactus()));
-							if(!$ev->isCancelled()){
-								$this->getLevel()->setBlock($b, $ev->getNewState(), true);
-							}
+						Server::getInstance()->getPluginManager()->callEvent($ev = new BlockGrowEvent($b, new Cactus()));
+						if(!$ev->isCancelled()){
+							$this->getLevel()->setBlock($b, $ev->getNewState(), true);
 						}
+						$this->meta = 0;
 					}
-					$this->meta = 0;
 					$this->getLevel()->setBlock($this, $this);
-				}else{
+				}
+				else{
 					++$this->meta;
 					$this->getLevel()->setBlock($this, $this);
 				}
 			}
-		}elseif($type === Level::BLOCK_UPDATE_SCHEDULED){
+		}
+		elseif($type === Level::BLOCK_UPDATE_SCHEDULED){
 			$this->getLevel()->useBreakOn($this);
 		}
-
+		
 		return false;
 	}
 
@@ -101,13 +106,11 @@ class Cactus extends Transparent{
 			$this->getLevel()->setBlock($this, $this, true);
 			return true;
 		}
-
+		
 		return false;
 	}
 
 	public function getDrops(Item $item){
-		return [
-			[$this->id, 0, 1],
-		];
+		return [[$this->id, 0, 1]];
 	}
 }

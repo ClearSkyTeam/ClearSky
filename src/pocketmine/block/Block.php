@@ -6,7 +6,6 @@ namespace pocketmine\block;
 
 use pocketmine\entity\Entity;
 
-
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
@@ -18,8 +17,6 @@ use pocketmine\metadata\Metadatable;
 use pocketmine\metadata\MetadataValue;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
-use pocketmine\nbt\tag\Int;
-
 
 class Block extends Position implements Metadatable{
 	const AIR = 0;

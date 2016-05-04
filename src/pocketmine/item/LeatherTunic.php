@@ -10,4 +10,8 @@ class LeatherTunic extends Armor{
 	public function isArmor(){
 		return true;
 	}
+
+	public function getMaxDurability(){
+		return 81;
+	}
 }

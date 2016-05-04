@@ -4,13 +4,6 @@ namespace raklib\protocol;
 #include <rules/RakLibPacket.h>
 
 
-
-
-
-
-
-
-
 use raklib\RakLib;
 
 class OPEN_CONNECTION_REPLY_1 extends Packet{

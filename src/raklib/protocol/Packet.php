@@ -7,11 +7,6 @@ use raklib\Binary;
 
 #include <rules/RakLibPacket.h>
 
-
-
-
-
-
 abstract class Packet{
     public static $ID = -1;
 

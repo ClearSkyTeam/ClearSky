@@ -1339,9 +1339,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}else{
 			$this->spawnToAll();
 		}
-		if($oldgm === Player::CREATIVE or $oldgm === Player::SPECTATOR){
-            $this->getInventory()->clearAll();
-		}
 
 		$this->namedtag->playerGameType = new Int("playerGameType", $this->gamemode);
 
@@ -1446,6 +1443,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$pk = new AdventureSettingsPacket();
+		$pk->userPermission = 2;
+  		$pk->globalPermission = 2;
 		$pk->flags = $flags;
 		$this->dataPacket($pk);
 	}
