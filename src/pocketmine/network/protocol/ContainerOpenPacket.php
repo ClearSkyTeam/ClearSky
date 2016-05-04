@@ -27,7 +27,9 @@ class ContainerOpenPacket extends DataPacket{
 		$this->putInt($this->x);
 		$this->putInt($this->y);
 		$this->putInt($this->z);
-		$this->putLong($this->entityId);
+		if($this->entityId != -1){
+			$this->putLong($this->entityId);
+		}
 	}
 
 }
