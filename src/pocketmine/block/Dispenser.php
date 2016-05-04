@@ -5,10 +5,10 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\ListTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Enum;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\String;
 use pocketmine\Player;
 use pocketmine\tile\Dispenser as DispenserTile;
 use pocketmine\tile\Tile;
@@ -54,17 +54,17 @@ class Dispenser extends Solid implements ProjectileSource{
 		$faces = [3 => 3,0 => 4,2 => 5,1 => 2,4 => 0,5 => 1];
 		$this->meta = $faces[$f];
 		$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new CompoundTag("", [
-			new ListTag("Items", []),
-			new StringTag("id", Tile::DISPENSER),
-			new IntTag("x", $this->x),
-			new IntTag("y", $this->y),
-			new IntTag("z", $this->z)
+		$nbt = new Compound("", [
+			new Enum("Items", []),
+			new String("id", Tile::DISPENSER),
+			new Int("x", $this->x),
+			new Int("y", $this->y),
+			new Int("z", $this->z)
 		]);
 		$nbt->Items->setTagType(NBT::TAG_Compound);
 
 		if($item->hasCustomName()){
-			$nbt->CustomName = new StringTag("CustomName", $item->getCustomName());
+			$nbt->CustomName = new String("CustomName", $item->getCustomName());
 		}
 
 		if($item->hasCustomBlockData()){
@@ -85,18 +85,18 @@ class Dispenser extends Solid implements ProjectileSource{
 			if($t instanceof DispenserTile){
 				$dispenser = $t;
 			}else{
-				$nbt = new CompoundTag("", [
-					new ListTag("Items", []),
-					new StringTag("id", Tile::DISPENSER),
-					new IntTag("x", $this->x),
-					new IntTag("y", $this->y),
-					new IntTag("z", $this->z)
+				$nbt = new Compound("", [
+					new Enum("Items", []),
+					new String("id", Tile::DISPENSER),
+					new Int("x", $this->x),
+					new Int("y", $this->y),
+					new Int("z", $this->z)
 				]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
 				$dispenser = Tile::createTile("Dispenser", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($dispenser->namedtag->Lock) and $dispenser->namedtag->Lock instanceof StringTag){
+			if(isset($dispenser->namedtag->Lock) and $dispenser->namedtag->Lock instanceof String){
 				if($dispenser->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}

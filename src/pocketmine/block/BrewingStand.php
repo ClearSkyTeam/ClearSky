@@ -4,9 +4,9 @@ namespace pocketmine\block;
 use pocketmine\inventory\BrewingInventory;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\String;
 use pocketmine\Player;
 use pocketmine\tile\Tile;
 use pocketmine\tile\BrewingStand as TileBrewingStand;
@@ -24,14 +24,14 @@ class BrewingStand extends Transparent implements LightSource{
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		if($block->getSide(Vector3::SIDE_DOWN)->isTransparent() === false){
 			$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new CompoundTag("", [
-			new StringTag("id", Tile::BREWING_STAND),
-			new IntTag("x", $this->x),
-			new IntTag("y", $this->y),
-			new IntTag("z", $this->z)
+		$nbt = new Compound("", [
+			new String("id", Tile::BREWING_STAND),
+			new Int("x", $this->x),
+			new Int("y", $this->y),
+			new Int("z", $this->z)
 		]);
 			if($item->hasCustomName()){
-				$nbt->CustomName = new StringTag("CustomName", $item->getCustomName());
+				$nbt->CustomName = new String("CustomName", $item->getCustomName());
 			}
 			
 			if($item->hasCustomBlockData()){

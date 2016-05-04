@@ -5,10 +5,10 @@ use pocketmine\block\Block;
 use pocketmine\block\Solid;
 use pocketmine\item\Item;
 use pocketmine\Player;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\String;
 use pocketmine\tile\Tile;
 use pocketmine\math\Vector3;
 use pocketmine\level\sound\NoteblockSound;
@@ -40,12 +40,12 @@ class Noteblock extends Solid{
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$this->getLevel()->setBlock($this, $this, true, true);
-		$nbt = new CompoundTag("", [
-			new StringTag("id", Tile::NOTEBLOCK),
-			new IntTag("x", $block->x),
-			new IntTag("y", $block->y),
-			new IntTag("z", $block->z),
-			new ByteTag("note", 0)
+		$nbt = new Compound("", [
+			new String("id", Tile::NOTEBLOCK),
+			new Int("x", $block->x),
+			new Int("y", $block->y),
+			new Int("z", $block->z),
+			new Byte("note", 0)
 		]);
 		$pot = Tile::createTile("Music", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 		return true;

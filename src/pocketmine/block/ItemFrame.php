@@ -6,11 +6,11 @@ use pocketmine\item\Item;
 use pocketmine\nbt\NBT;
 use pocketmine\level\Level;
 use pocketmine\math\Vector3;
-use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\String;
 use pocketmine\tile\Tile;
 use pocketmine\Player;
 
@@ -47,14 +47,14 @@ class ItemFrame extends Transparent {
 			];
 			$itemTag = NBT::putItemHelper(Item::get(Item::AIR));
 			$itemTag->setName("Item");
-			$nbt = new CompoundTag("", [
-				new StringTag("id", Tile::ITEM_FRAME),
-				new IntTag("x", $block->x),
-				new IntTag("y", $block->y),
-				new IntTag("z", $block->z),
-				new CompoundTag("Item", $itemTag->getValue()),
-				new FloatTag("ItemDropChance", 1.0),
-				new ByteTag("ItemRotation", 0)
+			$nbt = new Compound("", [
+				new String("id", Tile::ITEM_FRAME),
+				new Int("x", $block->x),
+				new Int("y", $block->y),
+				new Int("z", $block->z),
+				new Compound("Item", $itemTag->getValue()),
+				new Float("ItemDropChance", 1.0),
+				new Byte("ItemRotation", 0)
 			]);
 			Tile::createTile("ItemFrame", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			$this->getLevel()->setBlock($block, Block::get(self::ITEM_FRAME_BLOCK, $faces[$face]), true, true);

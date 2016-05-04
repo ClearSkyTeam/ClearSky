@@ -20,7 +20,7 @@ class ItemFrameDropItemEvent extends BlockEvent implements Cancellable{
 	 * @param Block    $block
 	 * @param Player   $player
 	 * @param Item     $dropItem
-	 * @param FloatTag    $dropChance
+	 * @param Float    $dropChance
 	 */
 	public function __construct(Block $block, Player $player, Item $dropItem, $dropChance){
 		parent::__construct($block);
@@ -48,7 +48,7 @@ class ItemFrameDropItemEvent extends BlockEvent implements Cancellable{
 	}
 
 	/**
-	 * @return FloatTag
+	 * @return Float
 	 */
 	public function getItemDropChance(){
 		return $this->dropChance;

@@ -2,11 +2,11 @@
 namespace pocketmine\nbt\tag;
 
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\ListTag as TagEnum;
+use pocketmine\nbt\tag\Enum as TagEnum;
 
 #include <rules/NBT.h>
 
-class ListTag extends NamedTag implements \ArrayAccess, \Countable{
+class Enum extends NamedTag implements \ArrayAccess, \Countable{
 
 	private $tagType;
 
@@ -101,42 +101,42 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 		for($i = 0; $i < $size and !$nbt->feof(); ++$i){
 			switch($this->tagType){
 				case NBT::TAG_Byte:
-					$tag = new ByteTag("");
+					$tag = new Byte("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Short:
-					$tag = new ShortTag("");
+					$tag = new Short("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Int:
-					$tag = new IntTag("");
+					$tag = new Int("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Long:
-					$tag = new LongTag("");
+					$tag = new Long("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Float:
-					$tag = new FloatTag("");
+					$tag = new Float("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Double:
-					$tag = new DoubleTag("");
+					$tag = new Double("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_ByteArray:
-					$tag = new ByteArrayTag("");
+					$tag = new ByteArray("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_String:
-					$tag = new StringTag("");
+					$tag = new String("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
@@ -146,12 +146,12 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Compound:
-					$tag = new CompoundTag("");
+					$tag = new Compound("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_IntArray:
-					$tag = new IntArrayTag("");
+					$tag = new IntArray("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;

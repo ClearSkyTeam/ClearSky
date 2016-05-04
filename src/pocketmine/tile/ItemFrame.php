@@ -4,29 +4,29 @@ namespace pocketmine\tile;
 use pocketmine\item\Item;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\FloatTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\String;
 use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 
 class ItemFrame extends Spawnable {
 
-	public function __construct(FullChunk $chunk, CompoundTag $nbt){
-		if(!isset($nbt->Item) or !($nbt->Item instanceof CompoundTag)){
+	public function __construct(FullChunk $chunk, Compound $nbt){
+		if(!isset($nbt->Item) or !($nbt->Item instanceof Compound)){
 			$tag = NBT::putItemHelper(Item::get(Item::AIR));
 			$tag->setName("Item");
 			$nbt->Item = $tag;
 		}
 
 		if(!isset($nbt->ItemDropChance)){
-			$nbt->ItemDropChance = new FloatTag("ItemDropChance", 1.0);
+			$nbt->ItemDropChance = new Float("ItemDropChance", 1.0);
 		}
 
 		if(!isset($nbt->ItemRotation)){
-			$nbt->ItemRotation = new ByteTag("ItemRotation", 0);
+			$nbt->ItemRotation = new Byte("ItemRotation", 0);
 		}
 		
 		parent::__construct($chunk, $nbt);
@@ -54,7 +54,7 @@ class ItemFrame extends Spawnable {
 	}
 
 	public function setItemDropChance($chance = 1){
-		$this->namedtag->ItemDropChance = new FloatTag("ItemDropChance", $chance);
+		$this->namedtag->ItemDropChance = new Float("ItemDropChance", $chance);
 	}
 
 	public function getItemRotation(){
@@ -62,7 +62,7 @@ class ItemFrame extends Spawnable {
 	}
 
 	public function setItemRotation($rot){
-		$this->namedtag->ItemRotation = new ByteTag("ItemRotation", $rot);
+		$this->namedtag->ItemRotation = new Byte("ItemRotation", $rot);
 
 		$this->spawnToAll();
 
@@ -73,14 +73,14 @@ class ItemFrame extends Spawnable {
 	}
 
 	public function getSpawnCompound(){
-		return new CompoundTag("", [
-			new StringTag("id", Tile::ITEM_FRAME),
-			new IntTag("x", (int) $this->x),
-			new IntTag("y", (int) $this->y),
-			new IntTag("z", (int) $this->z),
+		return new Compound("", [
+			new String("id", Tile::ITEM_FRAME),
+			new Int("x", (int) $this->x),
+			new Int("y", (int) $this->y),
+			new Int("z", (int) $this->z),
 			$this->namedtag["Item"],
-			new FloatTag("ItemDropChance", $this->namedtag["ItemDropChance"]),
-			new ByteTag("ItemRotation", $this->namedtag["ItemRotation"])
+			new Float("ItemDropChance", $this->namedtag["ItemDropChance"]),
+			new Byte("ItemRotation", $this->namedtag["ItemRotation"])
 		]);	
 	}
 }

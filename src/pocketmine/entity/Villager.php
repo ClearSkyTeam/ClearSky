@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 
-use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\Int;
 use pocketmine\Player;
 
 class Villager extends Creature implements NPC, Ageable{
@@ -50,7 +50,7 @@ class Villager extends Creature implements NPC, Ageable{
 	 * @param $profession
 	 */
 	public function setVariant($type){
-		$this->namedtag->Profession = new IntTag("Profession", $type);
+		$this->namedtag->Profession = new Int("Profession", $type);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $type);
 	}
 
