@@ -18,11 +18,11 @@ class Fire extends Flowable implements LightSource{
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
-	}
+	}/*
 
 	public function hasEntityCollision(){
 		return true;
-	}
+	}*/
 
 	public function getName(){
 		return "Fire Block";
@@ -38,7 +38,7 @@ class Fire extends Flowable implements LightSource{
 
 	public function isLightSource(){
 		return true;
-	}
+	}/*
 
 	public function canBeReplaced(){
 		return true;
@@ -79,18 +79,21 @@ class Fire extends Flowable implements LightSource{
 			if($this->getSide(0)->getId() !== self::NETHERRACK){
 				if(mt_rand(0, 2) === 0){
 					if($this->meta === 0x0F){
-						$this->level->setBlock($this, new Air());
+						$this->level->useBreakOn($this);
 					}else{
 						$this->meta++;
 						$this->level->setBlock($this, $this);
 					}
 
-					return Level::BLOCK_UPDATE_NORMAL;
+					return Level::BLOCK_UPDATE_RANDOM;
 				}
 			}
 		}
 
 		return false;
-	}
+	}*/
 
+	public function onActivate(Item $item, Player $player = null){
+		$this->level->useBreakOn($this);
+	}
 }

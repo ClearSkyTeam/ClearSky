@@ -18,6 +18,7 @@ use pocketmine\block\Ice;
 use pocketmine\block\Leaves;
 use pocketmine\block\Leaves2;
 use pocketmine\block\MelonStem;
+use pocketmine\block\NetherWart;
 use pocketmine\block\Vine;
 use pocketmine\block\Mycelium;
 use pocketmine\block\Potato;
@@ -245,18 +246,19 @@ class Level implements ChunkManager, Metadatable{
 		Block::ICE => Ice::class,
 		Block::CACTUS => Cactus::class,
 		Block::SUGARCANE_BLOCK => Sugarcane::class,
-		Block::RED_MUSHROOM => RedMushroom::class,
-		Block::BROWN_MUSHROOM => BrownMushroom::class,
+		// Block::RED_MUSHROOM => RedMushroom::class,
+		// Block::BROWN_MUSHROOM => BrownMushroom::class,
 		Block::PUMPKIN_STEM => PumpkinStem::class,
 		Block::MELON_STEM => MelonStem::class,
-		Block::VINE => Vine::class,
+		// Block::VINE => Vine::class,
 		Block::MYCELIUM => Mycelium::class,
 		Block::COCOA_POD => CocoaPod::class,
 		Block::CARROT_BLOCK => Carrot::class,
 		Block::POTATO_BLOCK => Potato::class,
 		Block::LEAVES2 => Leaves2::class,
 		Block::BEETROOT_BLOCK => Beetroot::class,
-		Block::FIRE => Fire::class
+		Block::FIRE => Fire::class,
+		Block::NETHER_WART_BLOCK => NetherWart::class
 	];
 
 	/** @var LevelTimings */

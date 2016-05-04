@@ -52,7 +52,7 @@ class Grass extends Solid{
 					$y = mt_rand($this->y - 2, $this->y + 2);
 					$z = mt_rand($this->z - 1, $this->z + 1);
 					$block = $this->getLevel()->getBlock(new Vector3($x, $y, $z));
-					if($block->getId() === Block::DIRT && $block->getDamage() === 0x0F && $block->getSide(1)->getLightLevel() >= 4 && $block->z <= 2){
+					if($block->getId() === Block::DIRT && $block->getSide(1)->getId() !== Block::WATER && $block->getDamage() === 0x0F && $block->getSide(1)->getLightLevel() >= 4 && $block->z <= 2){
 						Server::getInstance()->getPluginManager()->callEvent($ev = new BlockSpreadEvent($block, $this, new Grass()));
 						if(!$ev->isCancelled()){
 							$this->getLevel()->setBlock($block, $ev->getNewState());

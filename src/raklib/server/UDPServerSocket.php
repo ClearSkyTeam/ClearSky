@@ -1,4 +1,5 @@
 <?php
+
 namespace raklib\server;
 
 class UDPServerSocket{

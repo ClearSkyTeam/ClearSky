@@ -8,6 +8,8 @@ class AdventureSettingsPacket extends DataPacket{
 	const NETWORK_ID = Info::ADVENTURE_SETTINGS_PACKET;
 
 	public $flags;
+        public $userPermission;
+        public $globalPermission;
 
 	public function decode(){
 
@@ -16,6 +18,8 @@ class AdventureSettingsPacket extends DataPacket{
 	public function encode(){
 		$this->reset();
 		$this->putInt($this->flags);
+                $this->putInt($this->userPermission);
+                $this->putInt($this->globalPermission);
 	}
 
 }

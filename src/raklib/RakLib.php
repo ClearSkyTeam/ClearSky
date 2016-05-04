@@ -35,7 +35,7 @@ if($errors > 0){
 unset($errors);
 
 abstract class RakLib{
-    const VERSION = "0.7.0";
+    const VERSION = "0.8.0";
     const PROTOCOL = 6;
     const MAGIC = "\x00\xff\xff\x00\xfe\xfe\xfe\xfe\xfd\xfd\xfd\xfd\x12\x34\x56\x78";
 

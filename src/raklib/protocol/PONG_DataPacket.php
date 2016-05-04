@@ -1,5 +1,4 @@
 <?php
-
 namespace raklib\protocol;
 
 #include <rules/RakLibPacket.h>

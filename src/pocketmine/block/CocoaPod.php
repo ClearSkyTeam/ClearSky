@@ -35,7 +35,7 @@ class CocoaPod extends Crops{
 	}
 
 	public function onActivate(Item $item, Player $player = null){
-		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){ // Bonemeal
+		if($item->getId() === Item::DYE and $item->getDamage() === Dye::BONEMEAL){
 			$block = clone $this;
 			$block->meta += 4;
 			if($block->meta > 11){
