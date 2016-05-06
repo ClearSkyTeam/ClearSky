@@ -337,7 +337,7 @@ class SessionManager{
     public function getSession($ip, $port){
         $id = $ip . ":" . $port;
         if(!isset($this->sessions[$id])){
-            $this->checkSessions(); //If frezze doesn't get resolved remove this!
+            $this->checkSessions(); //If server continues to freeze remove this call
             $this->sessions[$id] = new Session($this, $ip, $port);
         }
 
@@ -387,7 +387,7 @@ class SessionManager{
 	}
 
     private function registerPackets(){
-        $this->registerPacket(UNCONNECTED_PING::$ID, UNCONNECTED_PING::class); //Freeze fix
+        //$this->registerPacket(UNCONNECTED_PING::$ID, UNCONNECTED_PING::class);
         $this->registerPacket(UNCONNECTED_PING_OPEN_CONNECTIONS::$ID, UNCONNECTED_PING_OPEN_CONNECTIONS::class);
         $this->registerPacket(OPEN_CONNECTION_REQUEST_1::$ID, OPEN_CONNECTION_REQUEST_1::class);
         $this->registerPacket(OPEN_CONNECTION_REPLY_1::$ID, OPEN_CONNECTION_REPLY_1::class);
