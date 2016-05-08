@@ -103,6 +103,7 @@ class Normal extends Generator{
 		return self::NAME;
 	}
 
+	public function getWaterHeight(){
 		return $this->waterHeight;
 	}
 
