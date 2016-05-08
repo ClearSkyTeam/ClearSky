@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\level\generator\object;
 
 use pocketmine\level\ChunkManager;
@@ -35,7 +36,7 @@ class BigTree extends Tree{
 			}
 		}
 		/*final BlockIterator trunk = new BlockIterator(new Point(w, x, y - 1, z), new Point(w, x, y + trunkHeight, z));
-		while (trunk.hasNext()){
+		while (trunk.hasNext()) {
 			trunk.next().setMaterial(VanillaMaterials.LOG, logMetadata);
 		}
 		generateBranches(w, x, y, z, leaves);

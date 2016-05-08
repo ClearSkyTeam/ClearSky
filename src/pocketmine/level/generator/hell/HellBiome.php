@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\level\generator\hell;
 
 use pocketmine\level\generator\biome\Biome;

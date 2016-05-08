@@ -1,4 +1,29 @@
 <?php
+
+/*
+ *
+ *  _                       _           _ __  __ _
+ * (_)                     (_)         | |  \/  (_)
+ *  _ _ __ ___   __ _  __ _ _  ___ __ _| | \  / |_ _ __   ___
+ * | | '_ ` _ \ / _` |/ _` | |/ __/ _` | | |\/| | | '_ \ / _ \
+ * | | | | | | | (_| | (_| | | (_| (_| | | |  | | | | | |  __/
+ * |_|_| |_| |_|\__,_|\__, |_|\___\__,_|_|_|  |_|_|_| |_|\___|
+ *                     __/ |
+ *                    |___/
+ *
+ * This program is a third party build by ImagicalMine.
+ *
+ * PocketMine is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * @author ImagicalMine Team
+ * @link http://forums.imagicalcorp.ml/
+ *
+ *
+*/
+
 namespace pocketmine\level\generator\normal;
 
 use pocketmine\block\Block;
@@ -14,8 +39,6 @@ use pocketmine\block\Stone;
 use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\biome\Biome;
 use pocketmine\level\generator\biome\BiomeSelector;
-use pocketmine\level\generator\GenerationChunkManager;
-use pocketmine\level\generator\GenerationManager;
 use pocketmine\level\generator\Generator;
 use pocketmine\level\generator\noise\Perlin;
 use pocketmine\level\generator\noise\Simplex;
@@ -31,7 +54,7 @@ use pocketmine\math\Vector3 as Vector3;
 use pocketmine\utils\Random;
 
 class Normal extends Generator{
-    const NAME="Normal";
+	const NAME = "Normal";
 
 	/** @var Populator[] */
 	private $populators = [];
@@ -80,6 +103,9 @@ class Normal extends Generator{
 		return self::NAME;
 	}
 
+		return $this->waterHeight;
+	}
+
 	public function getSettings(){
 		return [];
 	}
@@ -89,7 +115,7 @@ class Normal extends Generator{
 		$hash *= $hash + 223;
 		$xNoise = $hash >> 20 & 3;
 		$zNoise = $hash >> 22 & 3;
-		if ($xNoise == 3){
+		if($xNoise == 3){
 			$xNoise = 1;
 		}
 		if($zNoise == 3){
@@ -226,28 +252,28 @@ class Normal extends Generator{
 
 				$chunk->setBiomeColor($x, $z, sqrt($color[0] / $weightSum), sqrt($color[1] / $weightSum), sqrt($color[2] / $weightSum));
 
-                $solidLand = false;
+				$solidLand = false;
 				for($y = 127; $y >= 0; --$y){
 					if($y === 0){
 						$chunk->setBlockId($x, $y, $z, Block::BEDROCK);
 						continue;
 					}
 
-                    // A noiseAdjustment of 1 will guarantee ground, a noiseAdjustment of -1 will guarantee air.
-                    //$effHeight = min($y - $smoothHeight - $minSum, 
-                    $noiseAdjustment = 2 * (( $maxSum - $y ) / ($maxSum - $minSum)) - 1;
+					// A noiseAdjustment of 1 will guarantee ground, a noiseAdjustment of -1 will guarantee air.
+					//$effHeight = min($y - $smoothHeight - $minSum,
+					$noiseAdjustment = 2 * (($maxSum - $y) / ($maxSum - $minSum)) - 1;
 
 
-                    // To generate caves, we bring the noiseAdjustment down away from 1.
-                    $caveLevel = $minSum - 10;
-                    $distAboveCaveLevel = max(0, $y - $caveLevel); // must be positive
+					// To generate caves, we bring the noiseAdjustment down away from 1.
+					$caveLevel = $minSum - 10;
+					$distAboveCaveLevel = max(0, $y - $caveLevel); // must be positive
 
-                    $noiseAdjustment = min($noiseAdjustment, 0.4 + ($distAboveCaveLevel / 10));
+					$noiseAdjustment = min($noiseAdjustment, 0.4 + ($distAboveCaveLevel / 10));
 					$noiseValue = $noise[$x][$z][$y] + $noiseAdjustment;
 
 					if($noiseValue > 0){
 						$chunk->setBlockId($x, $y, $z, Block::STONE);
-                        $solidLand = true;
+						$solidLand = true;
 					}elseif($y <= $this->waterHeight && $solidLand == false){
 						$chunk->setBlockId($x, $y, $z, Block::STILL_WATER);
 					}

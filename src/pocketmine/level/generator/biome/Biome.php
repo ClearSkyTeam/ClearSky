@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\level\generator\biome;
 
 use pocketmine\block\Block;
@@ -18,7 +19,6 @@ use pocketmine\level\generator\populator\Populator;
 use pocketmine\utils\Random;
 
 abstract class Biome{
-
 	const OCEAN = 0;
 	const PLAINS = 1;
 	const DESERT = 2;
@@ -27,18 +27,10 @@ abstract class Biome{
 	const TAIGA = 5;
 	const SWAMP = 6;
 	const RIVER = 7;
-
 	const HELL = 8;
-
 	const ICE_PLAINS = 12;
-
-
 	const SMALL_MOUNTAINS = 20;
-
-
 	const BIRCH_FOREST = 27;
-
-
 	const MAX_BIOMES = 256;
 
 	/** @var Biome[] */

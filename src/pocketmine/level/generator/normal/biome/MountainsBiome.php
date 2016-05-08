@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\level\generator\normal\biome;
 
 use pocketmine\level\generator\populator\TallGrass;
@@ -14,7 +15,7 @@ class MountainsBiome extends GrassyBiome{
 		$this->addPopulator($trees);
 
 		$tallGrass = new TallGrass();
-		$tallGrass->setBaseAmount(1);
+		$tallGrass->setBaseAmount(6);
 
 		$this->addPopulator($tallGrass);
 
