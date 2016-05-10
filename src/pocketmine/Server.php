@@ -145,6 +145,7 @@ use pocketmine\tile\Music;
 use pocketmine\tile\DLDetector;
 use pocketmine\tile\Cauldron;
 use pocketmine\tile\ItemFrame;
+use pocketmine\tile\MobSpawner;
 
 /**
  * The class that manages everything
@@ -2744,6 +2745,7 @@ class Server{
 		Tile::registerTile(Furnace::class);
 		Tile::registerTile(Hopper::class);
 		Tile::registerTile(ItemFrame::class);
+		Tile::registerTile(MobSpawner::class);
 		Tile::registerTile(Music::class);
 		Tile::registerTile(Sign::class);
 		Tile::registerTile(Skull::class);
