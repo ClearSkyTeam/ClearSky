@@ -34,7 +34,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 		Item::GHAST_TEAR => 0,
 		Item::BLAZE_POWDER => 0,
 		Item::GOLDEN_CARROT => 0,
-		Item::RAW_FISH => Fish::FISH_PUFFERFISH,
+		Item::PUFFERFISH => 0,
 		Item::RABBIT_FOOT => 0,
 
 		Item::GUNPOWDER => 0,
