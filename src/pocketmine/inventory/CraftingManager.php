@@ -1030,14 +1030,13 @@ class CraftingManager{
          * 
          * @return BrewingRecipe
          */
-        public function matchBrewingRecipe(Item $input){
-		if(isset($this->BrewingRecipes[$input->getId() . ":" . $input->getDamage()])){
-			return $this->BrewingRecipes[$input->getId() . ":" . $input->getDamage()];
-		}elseif(isset($this->BrewingRecipes[$input->getId() . ":?"])){
-			return $this->BrewingRecipes[$input->getId() . ":?"];
+ 	public function matchBrewingRecipe(Item $input, Item $potion){
+	$subscript = $input->getId() . ":" . ($input->getDamage() === null ? "0" : $input->getDamage()) . ":" . $potion->getId() . ":" .($potion->getDamage() === null ? "0" : $potion->getDamage());
+		if(isset($this->brewingRecipes[$subscript])){
+			return $this->brewingRecipes[$subscript];
 		}
-        return null;
-	}
+  		return null;
+  	}
 	/**
 	 * @param ShapedRecipe $recipe
 	 */
@@ -1088,7 +1087,7 @@ class CraftingManager{
 	 */
 	public function registerBrewingRecipe(BrewingRecipe $recipe){
 		$input = $recipe->getInput();
-		$this->brewingRecipes[$input->getId() . ":" . ($input->getDamage() === null ? "?" : $input->getDamage())] = $recipe;
+		$this->brewingRecipes[$input->getId() . ":" . ($input->getDamage() === null ? "0" : $input->getDamage()) . ":" . $potion->getId() . ":" .($potion->getDamage() === null ? "0" : $potion->getDamage())] = $recipe;
 	}
 	
 	/**
