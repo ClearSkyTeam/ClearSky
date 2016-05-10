@@ -3236,15 +3236,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	public function sendTip($message){
-		$this->getServer()->getLogger()->debug("A plugin used sendTip(), as this function doesn't work in 0.14.2 it has been redirected to sendPopup() this may cause unexcepted behavior!")
-		$this->sendPopup($message); //TEMP REDIRECT TO sendPopup()
-		//BROKEN IN 0.14.2
-		/*
 		$pk = new TextPacket();
 		$pk->type = TextPacket::TYPE_TIP;
+        $pk->source = ""; //0.14.2 fix
 		$pk->message = $message;
 		$this->dataPacket($pk);
-		*/
 	}
 
 	/**
