@@ -3,6 +3,7 @@ namespace pocketmine\block;
 
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
+use pocketmine\Player;
 
 class MonsterSpawner extends Solid{
 
@@ -48,12 +49,12 @@ class MonsterSpawner extends Solid{
 	
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new CompoundTag("", [
-			new StringTag("id", Tile::MOB_SPAWNER),
-			new IntTag("x", $block->x),
-			new IntTag("y", $block->y),
-			new IntTag("z", $block->z),
-			new IntTag("EntityId", 0),
+		$nbt = new Compound("", [
+			new String("id", Tile::MOB_SPAWNER),
+			new Int("x", $block->x),
+			new Int("y", $block->y),
+			new Int("z", $block->z),
+			new Int("EntityId", 0),
 		]);
 		
 		if($item->hasCustomBlockData()){
