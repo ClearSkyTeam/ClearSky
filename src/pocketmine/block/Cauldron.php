@@ -58,6 +58,13 @@ class Cauldron extends Solid {
 				new Byte("SplashPotion", 0),
 				new Enum("Items", [])
 		]);
+		
+		if($item->hasCustomBlockData()){
+			foreach($item->getCustomBlockData() as $key => $v){
+				$nbt->{$key} = $v;
+			}
+		}
+		
 		$chunk = $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4);
 		$tile = Tile::createTile("Cauldron", $chunk, $nbt);
 
