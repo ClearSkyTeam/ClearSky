@@ -55,6 +55,13 @@ class FlowerPot extends Flowable{
 				new Short("item", 0),
 				new Int("mData", 0)
 			]);
+		
+			if($item->hasCustomBlockData()){
+				foreach($item->getCustomBlockData() as $key => $v){
+					$nbt->{$key} = $v;
+				}
+			}
+		
 			$pot = Tile::createTile("FlowerPot", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			return true;
 		}
