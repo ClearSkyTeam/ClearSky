@@ -70,6 +70,10 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
 
 
  - Tomamos codigo de otros proyectos pero la mayoria de las caracteristicas las reescribimos para ClearSky.
+ - Aquí está una lista de los proyectos de los que tomamos codigo
+(https://github.com/iTXTech/Genisys),[Genisys]
+(https://github.com/Nukkit/Nukkit),[Nukkit](https://github.com/ImagicalCorp/ImagicalMine),[IM]
+Cada vez que tomemos código de algún proyecto pondremos su nombre en la descripción para darle creditos!
  - Nuestro grupo de Telegram, para que hables con nosotros: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
  - [Mira como ClearSky abre así de rapido con con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Servidor de pruebas no oficial : IP: WolvesFortress.de Puerto: **19134** *A menudo fuera de línea, pero si lo esta posee la última versión de ClearSky.*
