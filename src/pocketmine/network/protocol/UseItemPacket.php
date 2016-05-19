@@ -19,7 +19,6 @@ class UseItemPacket extends DataPacket{
 	public $posY;
 	public $posZ;
 	public $slot;
-	public $item;
 
 	public function decode(){
 		$this->x = $this->getInt();
