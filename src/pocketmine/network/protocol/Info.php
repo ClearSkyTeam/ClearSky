@@ -10,9 +10,9 @@ interface Info{
 	/**
 	 * Actual Minecraft: PE protocol versions
 	 */
-	const CURRENT_PROTOCOL = 60;
-	const ACCEPT_PROTOCOL = [60];
-	//This is for beta 1-bla and 0.14.0-0.14.bla , I think no need to change this - Aodzip
+	const CURRENT_PROTOCOL = 45; 
+	const ACCEPT_PROTOCOL = [40,41,42,44,45,46,47,60];
+	//CURRENT_PROTOCOL M U S T  N O T BE THE HIGHEST NUMBER IN THE ACCEPT_PROTOCOL ARRAY! (CurrentProtocol does not have to be the same as in pocketmine.yml, the one in pocketmine.yml should be the highest in ACCEPT_PROTOCOL array!)
 
         const ATTRIBUTE_PACKET = 0x60;
 	const LOGIN_PACKET = 0x8f;
@@ -69,12 +69,11 @@ interface Info{
 	const SET_PLAYER_GAMETYPE_PACKET = 0xc2;
 	const PLAYER_LIST_PACKET = 0xc3;
 	const TELEMETRY_EVENT_PACKET = 0xc4;
-    const CLIENTBOUND_MAP_ITEM_DATA_PACKET = 0xc6;
-    const MAP_INFO_REQUEST_PACKET = 0xc7;
-    const REQUEST_CHUNK_RADIUS_PACKET = 0xc8;
-    const CHUNK_RADIUS_UPDATE_PACKET = 0xc9;
-    const ITEM_FRAME_DROP_ITEM_PACKET = 0xca;
-    
+    	const CLIENTBOUND_MAP_ITEM_DATA_PACKET = 0xc6;
+    	const MAP_INFO_REQUEST_PACKET = 0xc7;
+    	const REQUEST_CHUNK_RADIUS_PACKET = 0xc8;
+    	const CHUNK_RADIUS_UPDATE_PACKET = 0xc9;
+    	const ITEM_FRAME_DROP_ITEM_PACKET = 0xca;
 }
 
 

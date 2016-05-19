@@ -34,7 +34,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 ## Advanced Features
 All features can be configed in pocketmine.yml.<br>
  - About 20 times faster than offical PM repo
- - Universal Client version join (e.g. 0.14.0 and builds for 0.14.0 can join together)(note¹)
+ - Universal Client version join (All builds for 0.14 can join together)(note¹)
  - Unlimited player join (set max-players to -1 in server.properties)(note²)
  - Modified Version color and string freely (set network.protocol,version in pocketmine.yml)
  - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network (network section in pocketmine.yml) 
