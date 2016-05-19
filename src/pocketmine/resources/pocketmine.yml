@@ -109,9 +109,9 @@ network:
  #If your server have a bad network connection , increase this
  timeout: 1
  #Interrupt Raklib after reach timeout, save CPU usage, may cause packet lost.(-1 for disable , all pkt will send)
- protocol: 60
+ protocol: 70
  #MCPE Protocol Version, it will affect the color of version string.
- version: "0.14.2"
+ version: "0.14.3"
  #MCPE Version string shown in server list, number and dot(.) allowed
  upnp-forwarding: false
  #Experimental, only for Windows. Tries to use UPnP to automatically port forward
@@ -217,7 +217,7 @@ anonymous-statistics:
  host: stats.pocketmine.net
  
 #!DO NOT EDIT below this line!
-version: 23
+version: 24
 # This is for internal use, changing this will reset your whole pocketmine.yml!
 
 auto-report:
