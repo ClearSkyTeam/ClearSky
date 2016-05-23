@@ -5,6 +5,8 @@
 ####  [日本語](#JAPANESE)
 ####  [Українська мова](#UKR)  
 
+# WE DO NOT SUPPORT PHP7 FOR NOW
+
 # <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean feels and stable features. It was initially designed for production servers.
