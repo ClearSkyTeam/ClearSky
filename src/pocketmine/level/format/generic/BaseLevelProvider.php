@@ -28,7 +28,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 		$nbt = new NBT(NBT::BIG_ENDIAN);
 		$nbt->readCompressed(file_get_contents($this->getPath() . "level.dat"));
 		$levelData = $nbt->getData();
-		if($levelData->Data instanceof Compound){
+		if($levelData->Data instanceof CompoundTag){
 			$this->levelData = $levelData->Data;
 		}else{
 			throw new LevelException("Invalid level.dat");

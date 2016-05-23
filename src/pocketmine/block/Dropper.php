@@ -105,7 +105,7 @@ class Dropper extends Solid implements RedstoneConsumer{
 				$dropper = Tile::createTile(Tile::DROPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($dropper->namedtag->Lock) and $dropper->namedtag->Lock instanceof String){
+			if(isset($dropper->namedtag->Lock) and $dropper->namedtag->Lock instanceof StringTag){
 				if($dropper->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}

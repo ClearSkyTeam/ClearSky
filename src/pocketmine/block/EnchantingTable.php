@@ -85,7 +85,7 @@ class EnchantingTable extends Transparent{
 				$table = Tile::createTile("EnchantTable", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($table->namedtag->Lock) and $table->namedtag->Lock instanceof String){
+			if(isset($table->namedtag->Lock) and $table->namedtag->Lock instanceof StringTag){
 				if($table->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}

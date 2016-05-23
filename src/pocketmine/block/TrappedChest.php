@@ -147,7 +147,7 @@ class TrappedChest extends Transparent implements Redstone{
 				$chest = Tile::createTile("Chest", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($chest->namedtag->Lock) and $chest->namedtag->Lock instanceof String){
+			if(isset($chest->namedtag->Lock) and $chest->namedtag->Lock instanceof StringTag){
 				if($chest->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}

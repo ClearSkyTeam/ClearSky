@@ -462,15 +462,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	public function getFirstPlayed(){
-		return $this->namedtag instanceof Compound ? $this->namedtag["firstPlayed"] : null;
+		return $this->namedtag instanceof CompoundTag ? $this->namedtag["firstPlayed"] : null;
 	}
 
 	public function getLastPlayed(){
-		return $this->namedtag instanceof Compound ? $this->namedtag["lastPlayed"] : null;
+		return $this->namedtag instanceof CompoundTag ? $this->namedtag["lastPlayed"] : null;
 	}
 
 	public function hasPlayedBefore(){
-		return $this->namedtag instanceof Compound;
+		return $this->namedtag instanceof CompoundTag;
 	}
 
 	public function setAllowFlight($value){
@@ -2032,7 +2032,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->setLevel($level);
 		}
 
-		if(!($nbt instanceof Compound)){
+		if(!($nbt instanceof CompoundTag)){
 			$this->close($this->getLeaveMessage(), "Invalid data");
 
 			return;
@@ -3365,7 +3365,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->namedtag["ExpCurrent"] = new LongTag("ExpCurrent", $this->getCurrentExperience());
 			$this->namedtag["ExpLevel"] = new LongTag("ExpLevel", $this->getExperienceLevel());
 
-			if($this->username != "" and $this->namedtag instanceof Compound){
+			if($this->username != "" and $this->namedtag instanceof CompoundTag){
 				$this->server->saveOfflinePlayerData($this->username, $this->namedtag, $async);
 			}
 		}

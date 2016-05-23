@@ -27,7 +27,7 @@ class Furnace extends Spawnable implements InventoryHolder, Container, Nameable{
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new FurnaceInventory($this);
 
-		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof Enum)){
+		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof ListTag)){
 			$this->namedtag->Items = new ListTag("Items", []);
 			$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		}

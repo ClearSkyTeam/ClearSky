@@ -49,7 +49,7 @@ class Item{
 	 * @param Compound $tag
 	 * @return string
 	 */
-	private static function writeCompoundTag(Compound $tag){
+	private static function writeCompoundTag(CompoundTag $tag){
 		if(self::$cachedParser === null){
 			self::$cachedParser = new NBT(NBT::LITTLE_ENDIAN);
 		}
@@ -1450,7 +1450,7 @@ class Item{
 	}
 
 	public function setCompoundTag($tags){
-		if($tags instanceof Compound){
+		if($tags instanceof CompoundTag){
 			$this->setNamedTag($tags);
 		}else{
 			$this->tags = $tags;
@@ -1477,7 +1477,7 @@ class Item{
 		}
 
 		$tag = $this->getNamedTag();
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof Compound){
+		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
 			return true;
 		}
 
@@ -1490,7 +1490,7 @@ class Item{
 		}
 		$tag = $this->getNamedTag();
 
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof Compound){
+		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
 			unset($tag->display->BlockEntityTag);
 			$this->setNamedTag($tag);
 		}
@@ -1520,7 +1520,7 @@ class Item{
 		}
 
 		$tag = $this->getNamedTag();
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof Compound){
+		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
 			return $tag->BlockEntityTag;
 		}
 
@@ -1535,7 +1535,7 @@ class Item{
 		$tag = $this->getNamedTag();
 		if(isset($tag->ench)){
 			$tag = $tag->ench;
-			if($tag instanceof Enum){
+			if($tag instanceof ListTag){
 				return true;
 			}
 		}
@@ -1628,7 +1628,7 @@ class Item{
 		$tag = $this->getNamedTag();
 		if(isset($tag->display)){
 			$tag = $tag->display;
-			if($tag instanceof Compound and isset($tag->Name) and $tag->Name instanceof String){
+			if($tag instanceof CompoundTag and isset($tag->Name) and $tag->Name instanceof StringTag){
 				return true;
 			}
 		}
@@ -1644,7 +1644,7 @@ class Item{
 		$tag = $this->getNamedTag();
 		if(isset($tag->display)){
 			$tag = $tag->display;
-			if($tag instanceof Compound and isset($tag->Name) and $tag->Name instanceof String){
+			if($tag instanceof CompoundTag and isset($tag->Name) and $tag->Name instanceof StringTag){
 				return $tag->Name->getValue();
 			}
 		}
@@ -1663,7 +1663,7 @@ class Item{
 			$tag = $this->getNamedTag();
 		}
 		
-		if(isset($tag->display) and $tag->display instanceof Compound){
+		if(isset($tag->display) and $tag->display instanceof CompoundTag){
 			$tag->display->Name = new StringTag("Name", $name);
 		}else{
 			$tag->display = new CompoundTag("display", ["Name" => new StringTag("Name", $name)]);
@@ -1682,7 +1682,7 @@ class Item{
 		}
 		$tag = $this->getNamedTag();
 
-		if(isset($tag->display) and $tag->display instanceof Compound){
+		if(isset($tag->display) and $tag->display instanceof CompoundTag){
 			unset($tag->display->Name);
 			if($tag->display->getCount() === 0){
 				unset($tag->display);
@@ -1712,7 +1712,7 @@ class Item{
 		return $this->cachedNBT = self::parseCompoundTag($this->tags);
 	}
 
-	public function setNamedTag(Compound $tag){
+	public function setNamedTag(CompoundTag $tag){
 		if($tag->getCount() === 0){
 			return $this->clearNamedTag();
 		}

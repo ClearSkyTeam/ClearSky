@@ -1753,10 +1753,10 @@ class Level implements ChunkManager, Metadatable{
 		}
 
 		$tag = $item->getNamedTagEntry("CanDestroy");
-		if($tag instanceof Enum){
+		if($tag instanceof ListTag){
 			$canBreak = false;
 			foreach($tag as $v){
-				if($v instanceof String){
+				if($v instanceof StringTag){
 					$entry = Item::fromString($v->getValue());
 					if($entry->getId() > 0 and $entry->getBlock() !== null and $entry->getBlock()->getId() === $target->getId()){
 						$canBreak = true;
@@ -1918,10 +1918,10 @@ class Level implements ChunkManager, Metadatable{
 		}
 
 		$tag = $item->getNamedTagEntry("CanPlaceOn");
-		if($tag instanceof Enum){
+		if($tag instanceof ListTag){
 			$canPlace = false;
 			foreach($tag as $v){
-				if($v instanceof String){
+				if($v instanceof StringTag){
 					$entry = Item::fromString($v->getValue());
 					if($entry->getId() > 0 and $entry->getBlock() !== null and $entry->getBlock()->getId() === $target->getId()){
 						$canPlace = true;

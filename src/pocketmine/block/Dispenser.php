@@ -96,7 +96,7 @@ class Dispenser extends Solid implements ProjectileSource{
 				$dispenser = Tile::createTile("Dispenser", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($dispenser->namedtag->Lock) and $dispenser->namedtag->Lock instanceof String){
+			if(isset($dispenser->namedtag->Lock) and $dispenser->namedtag->Lock instanceof StringTag){
 				if($dispenser->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}

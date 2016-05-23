@@ -19,7 +19,7 @@ class Cauldron extends Spawnable{
 		if(!isset($nbt->SplashPotion)){
 			$nbt->SplashPotion = new ByteTag("SplashPotion", 0);
 		}
-		if(!isset($nbt->Items) or !($nbt->Items instanceof Enum)){
+		if(!isset($nbt->Items) or !($nbt->Items instanceof ListTag)){
 			$nbt->Items = new ListTag("Items", []);
 		}
 		parent::__construct($chunk, $nbt);

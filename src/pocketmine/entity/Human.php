@@ -92,14 +92,14 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 				$this->setNameTag($this->namedtag["NameTag"]);
 			}
 
-			if(isset($this->namedtag->Skin) and $this->namedtag->Skin instanceof Compound){
+			if(isset($this->namedtag->Skin) and $this->namedtag->Skin instanceof CompoundTag){
 				$this->setSkin($this->namedtag->Skin["Data"], $this->namedtag->Skin["Name"]);
 			}
 
 			$this->uuid = UUID::fromData($this->getId(), $this->getSkinData(), $this->getNameTag());
 		}
 
-		if(isset($this->namedtag->Inventory) and $this->namedtag->Inventory instanceof Enum){
+		if(isset($this->namedtag->Inventory) and $this->namedtag->Inventory instanceof ListTag){
 			foreach($this->namedtag->Inventory as $item){
 				if($item["Slot"] >= 0 and $item["Slot"] < 9){ //Hotbar
 					$this->inventory->setHotbarSlotIndex($item["Slot"], isset($item["TrueSlot"]) ? $item["TrueSlot"] : -1);

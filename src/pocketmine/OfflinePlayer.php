@@ -83,15 +83,15 @@ class OfflinePlayer implements IPlayer{
 	}
 
 	public function getFirstPlayed(){
-		return $this->namedtag instanceof Compound ? $this->namedtag["firstPlayed"] : null;
+		return $this->namedtag instanceof CompoundTag ? $this->namedtag["firstPlayed"] : null;
 	}
 
 	public function getLastPlayed(){
-		return $this->namedtag instanceof Compound ? $this->namedtag["lastPlayed"] : null;
+		return $this->namedtag instanceof CompoundTag ? $this->namedtag["lastPlayed"] : null;
 	}
 
 	public function hasPlayedBefore(){
-		return $this->namedtag instanceof Compound;
+		return $this->namedtag instanceof CompoundTag;
 	}
 
 	public function setMetadata($metadataKey, MetadataValue $metadataValue){

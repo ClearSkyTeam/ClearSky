@@ -90,7 +90,7 @@ class NBT{
 
 		$item = Item::get($tag->id->getValue(), !isset($tag->Damage) ? 0 : $tag->Damage->getValue(), $tag->Count->getValue());
 		
-		if(isset($tag->tag) and $tag->tag instanceof CompoundTag){
+		if(isset($tag->tag) and $tag->tag instanceof CompoundTagTag){
 			$item->setNamedTag($tag->tag);
 		}
 
@@ -111,7 +111,7 @@ class NBT{
 				return false;
 			}
 
-			if($v instanceof CompoundTag){
+			if($v instanceof CompoundTagTag){
 				if(!self::matchTree($v, $tag2->{$k})){
 					return false;
 				}
@@ -143,7 +143,7 @@ class NBT{
 				return false;
 			}
 
-			if($v instanceof CompoundTag){
+			if($v instanceof CompoundTagTag){
 				if(!self::matchTree($v, $tag2->{$k})){
 					return false;
 				}
@@ -460,7 +460,7 @@ class NBT{
 		$this->offset = 0;
 		$this->buffer = "";
 
-		if($this->data instanceof CompoundTag){
+		if($this->data instanceof CompoundTagTag){
 			$this->writeTag($this->data);
 
 			return $this->buffer;
@@ -610,7 +610,7 @@ class NBT{
 	private static function toArray(array &$data, Tag $tag){
 		/** @var CompoundTag[]|ListTag[]|IntArrayTag[] $tag */
 		foreach($tag as $key => $value){
-			if($value instanceof CompoundTag or $value instanceof ListTag or $value instanceof IntArrayTag){
+			if($value instanceof CompoundTagTag or $value instanceof ListTag or $value instanceof IntArrayTag){
 				$data[$key] = [];
 				self::toArray($data[$key], $value);
 			}else{

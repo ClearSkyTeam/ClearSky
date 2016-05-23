@@ -42,7 +42,7 @@ class LevelDB extends BaseLevelProvider{
 		$nbt = new NBT(NBT::LITTLE_ENDIAN);
 		$nbt->read(substr(file_get_contents($this->getPath() . "level.dat"), 8));
 		$levelData = $nbt->getData();
-		if($levelData instanceof Compound){
+		if($levelData instanceof CompoundTag){
 			$this->levelData = $levelData;
 		}else{
 			throw new LevelException("Invalid level.dat");
