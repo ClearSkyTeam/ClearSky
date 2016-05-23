@@ -61,7 +61,7 @@ class NBT{
 	 * @return CompoundTag
 	 */
 	public static function putItemHelper(Item $item, $slot = null){
-		$tag = new CompoundTagTag(null, [
+		$tag = new CompoundTag(null, [
 			"id" => new ShortTagTag("id", $item->getId()),
 			"Count" => new ByteArrayTag("Count", $item->getCount()),
 			"Damage" => new ShortTagTag("Damage", $item->getDamage())
@@ -90,7 +90,7 @@ class NBT{
 
 		$item = Item::get($tag->id->getValue(), !isset($tag->Damage) ? 0 : $tag->Damage->getValue(), $tag->Count->getValue());
 		
-		if(isset($tag->tag) and $tag->tag instanceof CompoundTagTag){
+		if(isset($tag->tag) and $tag->tag instanceof CompoundTag){
 			$item->setNamedTag($tag->tag);
 		}
 
@@ -111,7 +111,7 @@ class NBT{
 				return false;
 			}
 
-			if($v instanceof CompoundTagTag){
+			if($v instanceof CompoundTag){
 				if(!self::matchTree($v, $tag2->{$k})){
 					return false;
 				}
@@ -143,7 +143,7 @@ class NBT{
 				return false;
 			}
 
-			if($v instanceof CompoundTagTag){
+			if($v instanceof CompoundTag){
 				if(!self::matchTree($v, $tag2->{$k})){
 					return false;
 				}
@@ -168,7 +168,7 @@ class NBT{
 			if($c === "{"){
 				++$offset;
 				$data = self::parseCompound($data, $offset);
-				return new CompoundTagTag("", $data);
+				return new CompoundTag("", $data);
 			}elseif($c !== " " and $c !== "\r" and $c !== "\n" and $c !== "\t"){
 				throw new \Exception("Syntax error: unexpected '$c' at offset $offset");
 			}
@@ -225,7 +225,7 @@ class NBT{
 					$data[$key] = new ListTag($key, $value);
 					break;
 				case NBT::TAG_Compound:
-					$data[$key] = new CompoundTagTag($key, $value);
+					$data[$key] = new CompoundTag($key, $value);
 					break;
 				case NBT::TAG_IntArray:
 					$data[$key] = new IntArrayTag($key, $value);
@@ -283,7 +283,7 @@ class NBT{
 					$data[$key] = new ListTag($key, $value);
 					break;
 				case NBT::TAG_Compound:
-					$data[$key] = new CompoundTagTag($key, $value);
+					$data[$key] = new CompoundTag($key, $value);
 					break;
 				case NBT::TAG_IntArray:
 					$data[$key] = new IntArrayTag($key, $value);
@@ -460,7 +460,7 @@ class NBT{
 		$this->offset = 0;
 		$this->buffer = "";
 
-		if($this->data instanceof CompoundTagTag){
+		if($this->data instanceof CompoundTag){
 			$this->writeTag($this->data);
 
 			return $this->buffer;
@@ -521,7 +521,7 @@ class NBT{
 				$tag->read($this);
 				break;
 			case NBT::TAG_Compound:
-				$tag = new CompoundTagTag($this->getString());
+				$tag = new CompoundTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_IntArray:
@@ -531,7 +531,7 @@ class NBT{
 
 			case NBT::TAG_End: //No named tag
 			default:
-				$tag = new EndTagTag;
+				$tag = new EndTag;
 				break;
 		}
 		return $tag;
@@ -610,7 +610,7 @@ class NBT{
 	private static function toArray(array &$data, Tag $tag){
 		/** @var CompoundTag[]|ListTag[]|IntArrayTag[] $tag */
 		foreach($tag as $key => $value){
-			if($value instanceof CompoundTagTag or $value instanceof ListTag or $value instanceof IntArrayTag){
+			if($value instanceof CompoundTag or $value instanceof ListTag or $value instanceof IntArrayTag){
 				$data[$key] = [];
 				self::toArray($data[$key], $value);
 			}else{
@@ -646,7 +646,7 @@ class NBT{
 						$isIntArray = false;
 					}
 				}
-				$tag{$key} = $isNumeric ? ($isIntArray ? new IntArrayTag($key, []) : new ListTag($key, [])) : new CompoundTagTag($key, []);
+				$tag{$key} = $isNumeric ? ($isIntArray ? new IntArrayTag($key, []) : new ListTag($key, [])) : new CompoundTag($key, []);
 				self::fromArray($tag->{$key}, $value, $guesser);
 			}else{
 				$v = call_user_func($guesser, $key, $value);
@@ -658,7 +658,7 @@ class NBT{
 	}
 
 	public function setArray(array $data, callable $guesser = null){
-		$this->data = new CompoundTagTag("", []);
+		$this->data = new CompoundTag("", []);
 		self::fromArray($this->data, $data, $guesser === null ? [self::class, "fromArrayGuesser"] : $guesser);
 	}
 

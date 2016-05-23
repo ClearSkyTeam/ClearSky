@@ -208,7 +208,7 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 	}
 	
 	public function getSpawnCompound(){
-		$nbt = new CompoundTagTag("", [
+		$nbt = new CompoundTag("", [
 			new StringTagTag("id", Tile::BREWING_STAND),
 			new IntTag("x", (int) $this->x),
 			new IntTag("y", (int) $this->y),

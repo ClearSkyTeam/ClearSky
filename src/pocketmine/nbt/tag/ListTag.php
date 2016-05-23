@@ -146,7 +146,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Compound:
-					$tag = new CompoundTagTag("");
+					$tag = new CompoundTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;

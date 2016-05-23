@@ -69,16 +69,16 @@ class CompoundTag extends NamedTag implements \ArrayAccess{
 			if($tag instanceof NamedTag and $tag->getName() !== ""){
 				$this->{$tag->getName()} = $tag;
 			}
-		}while(!($tag instanceof EndTagTag) and !$nbt->feof());
+		}while(!($tag instanceof EndTag) and !$nbt->feof());
 	}
 
 	public function write(NBT $nbt){
 		foreach($this as $tag){
-			if($tag instanceof Tag and !($tag instanceof EndTagTag)){
+			if($tag instanceof Tag and !($tag instanceof EndTag)){
 				$nbt->writeTag($tag);
 			}
 		}
-		$nbt->writeTag(new EndTagTag);
+		$nbt->writeTag(new EndTag);
 	}
 
 	public function __toString(){

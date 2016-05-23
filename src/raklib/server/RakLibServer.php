@@ -6,7 +6,7 @@ class RakLibServer extends \Thread{
     /** @var \ThreadedLogger */
     protected $logger;
     protected $loader;
-    public $loadPaths = [];
+    public $loadPaths;
     protected $shutdown;
     /** @var \Threaded */
     protected $externalQueue;
