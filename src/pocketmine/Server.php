@@ -2096,7 +2096,7 @@ class Server{
 		if($this->isRunning){
 			$killer = new ServerKiller(90);
 			$killer->start();
-			$killer->detach();
+#			$killer->detach();
 		}
 		$this->isRunning = false;
 	}
