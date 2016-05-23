@@ -6,7 +6,7 @@
 ####  [Українська мова](#UKR)  
 
 # <a name="ENG"></a>English  
-# We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP5) 
+# We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean feels and stable features. It was initially designed for production servers.
 
 **TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
@@ -23,9 +23,6 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
  - You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - You can get an optimized PHP enviroment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
-
-## Is there / will there be a PHP7 version?
- - Yes. But we planned to make features being stable first, then upgrading to PHP7
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
@@ -157,7 +154,7 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 
 
 # <a name="JAPANESE"></a>クリアスカイ
-# あなたにあげます: クリアスカイ-あけぼの ~ PMMP(https://github.com/PocketMine/PocketMine-MP) のフォーク (PHP5) 
+# あなたにあげます: クリアスカイ-あけぼの ~ PMMP(https://github.com/PocketMine/PocketMine-MP) のフォーク (PHP7+5) 
 クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初は商用サーバー用に設計されました。<br>
 
 **TravisCIのビルドの状況** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCIのビルドの状況")
