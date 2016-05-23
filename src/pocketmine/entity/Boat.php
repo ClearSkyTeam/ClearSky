@@ -7,8 +7,8 @@ use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ByteTag;
 
 class Boat extends Vehicle{
 	const NETWORK_ID = 90;

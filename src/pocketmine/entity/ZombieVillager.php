@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 
 class ZombieVillager extends Zombie{
 	const NETWORK_ID = 44;

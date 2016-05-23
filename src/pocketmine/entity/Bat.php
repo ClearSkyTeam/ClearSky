@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 
 class Bat extends Animal{
 	const NETWORK_ID = 19;

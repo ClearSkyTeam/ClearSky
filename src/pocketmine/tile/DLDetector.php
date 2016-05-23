@@ -13,9 +13,9 @@ namespace pocketmine\tile;
 use pocketmine\block\Block;
 use pocketmine\block\DaylightDetector;
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\level\Level;
 
 class DLDetector extends Spawnable{

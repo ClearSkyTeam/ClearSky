@@ -5,7 +5,7 @@ namespace pocketmine\entity;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 
 class Zombie extends Monster{
 	const NETWORK_ID = 32;

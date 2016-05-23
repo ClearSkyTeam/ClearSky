@@ -5,11 +5,11 @@ use pocketmine\block\Block;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\entity\Painting as PaintingEntity;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\FloatTag;
 
 class Painting extends Item{
 	public function __construct($meta = 0, $count = 1){

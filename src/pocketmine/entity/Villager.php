@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\Player;
 
 class Villager extends Creature implements NPC, Ageable{

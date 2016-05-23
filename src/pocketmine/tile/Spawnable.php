@@ -3,7 +3,7 @@ namespace pocketmine\tile;
 
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 
 use pocketmine\network\protocol\BlockEntityDataPacket;
 use pocketmine\Player;

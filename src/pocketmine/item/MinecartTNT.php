@@ -5,10 +5,10 @@ namespace pocketmine\item;
 use pocketmine\level\Level;
 use pocketmine\block\Block;
 use pocketmine\Player;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\FloatTag;
 use pocketmine\entity\MinecartTNT as MinecartTNTEntity;
 
 class MinecartTNT extends Item{

@@ -3,12 +3,12 @@ namespace pocketmine\tile;
 
 use pocketmine\item\Item;
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\Byte;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Int;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Short;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\ShortTag;
 
 class ItemFrame extends Spawnable{
 

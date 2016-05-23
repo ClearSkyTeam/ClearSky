@@ -3,7 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\Player;
 use pocketmine\item\Item as ItemItem;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 
 class Enderman extends Monster{
 	const NETWORK_ID = 38;

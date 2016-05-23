@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine\level\format\anvil;
 
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 
 class ChunkSection implements \pocketmine\level\format\ChunkSection{
 
