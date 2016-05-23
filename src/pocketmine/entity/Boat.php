@@ -20,7 +20,7 @@ class Boat extends Vehicle{
 	
 	public function __construct(FullChunk $chunk, Compound $nbt){
 		if(!isset($nbt->woodID)){
-			$nbt->woodID = new Byte("woodID", 0);
+			$nbt->woodID = new ByteTag("woodID", 0);
 		}
 		parent::__construct($chunk, $nbt);
 		$this->setDataProperty(self::DATA_BOAT_COLOR, self::DATA_TYPE_BYTE, $this->getWoodID());

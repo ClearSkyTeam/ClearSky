@@ -38,7 +38,7 @@ class Sheep extends Animal implements Colorable{
     }
 
     public function setVariant($value){
-        $this->namedtag->Color = new Int("Color", $value);
+        $this->namedtag->Color = new IntTag("Color", $value);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $value);
     }
 

@@ -39,7 +39,7 @@ class Creeper extends Monster implements Explosive{
     }
 
     public function setPowered($value){
-        $this->namedtag->Powered = new Int("Powered", $value);
+        $this->namedtag->Powered = new IntTag("Powered", $value);
 		$this->setDataProperty(19, self::DATA_TYPE_BYTE, $value);
     }
 

@@ -101,12 +101,12 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 		for($i = 0; $i < $size and !$nbt->feof(); ++$i){
 			switch($this->tagType){
 				case NBT::TAG_Byte:
-					$tag = new ByteTag("");
+					$tag = new ByteArrayTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Short:
-					$tag = new ShortTag("");
+					$tag = new ShortTagTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
@@ -116,17 +116,17 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Long:
-					$tag = new LongTag("");
+					$tag = new LongTagTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Float:
-					$tag = new FloatTag("");
+					$tag = new FloatTagTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Double:
-					$tag = new DoubleTag("");
+					$tag = new DoubleTagTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
@@ -136,7 +136,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_String:
-					$tag = new StringTag("");
+					$tag = new StringTagTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
@@ -146,7 +146,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Compound:
-					$tag = new CompoundTag("");
+					$tag = new CompoundTagTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;

@@ -37,22 +37,22 @@ class Boat extends Item{
 
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		$realPos = $target->getSide($face)->add(0.5, 0.4, 0.5);
-		$boat = new BoatEntity($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new Compound("", [
-			"Pos" => new Enum("Pos", [
-				new Double("", $realPos->getX()),
-				new Double("", $realPos->getY()),
-				new Double("", $realPos->getZ())
+		$boat = new BoatEntity($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new CompoundTag("", [
+			"Pos" => new ListTag("Pos", [
+				new DoubleTag("", $realPos->getX()),
+				new DoubleTag("", $realPos->getY()),
+				new DoubleTag("", $realPos->getZ())
 			]),
-			"Motion" => new Enum("Motion", [
-				new Double("", 0),
-				new Double("", 0),
-				new Double("", 0)
+			"Motion" => new ListTag("Motion", [
+				new DoubleTag("", 0),
+				new DoubleTag("", 0),
+				new DoubleTag("", 0)
 			]),
-			"Rotation" => new Enum("Rotation", [
-				new Float("", 0),
-				new Float("", 0)
+			"Rotation" => new ListTag("Rotation", [
+				new FloatTag("", 0),
+				new FloatTag("", 0)
 			]),
-			"woodID" => new Byte("woodID",$this->getDamage()),
+			"woodID" => new ByteTag("woodID",$this->getDamage()),
 		]));
 		$boat->spawnToAll();
 		if($player->isSurvival()){

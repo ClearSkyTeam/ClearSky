@@ -103,11 +103,11 @@ class DLDetector extends Spawnable{
 	}
 
 	public function getSpawnCompound(){
-		return new Compound("", [
-			new String("id", Tile::DAY_LIGHT_DETECTOR),
-			new Int("x", (int) $this->x),
-			new Int("y", (int) $this->y),
-			new Int("z", (int) $this->z),
+		return new CompoundTag("", [
+			new StringTag("id", Tile::DAY_LIGHT_DETECTOR),
+			new IntTag("x", (int) $this->x),
+			new IntTag("y", (int) $this->y),
+			new IntTag("z", (int) $this->z),
 		]);
 	}
 }

@@ -46,7 +46,7 @@ class Enderman extends Monster{
 	}*/
 	
 	public function setAngry($angry = true){
-		$this->namedtag->Angry = new Int("Angry", $angry);
+		$this->namedtag->Angry = new IntTag("Angry", $angry);
 		$this->setDataProperty(18, self::DATA_TYPE_BYTE, $angry);
 	}
 

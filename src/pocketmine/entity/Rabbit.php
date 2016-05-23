@@ -46,7 +46,7 @@ class Rabbit extends Animal{
     }
 
     public function setVariant($type){
-        $this->namedtag->Type = new Int("Type", $type);
+        $this->namedtag->Type = new IntTag("Type", $type);
 		$this->setDataProperty(18, self::DATA_TYPE_BYTE, $type);
     }
 

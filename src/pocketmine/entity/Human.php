@@ -131,7 +131,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function saveNBT(){
 		parent::saveNBT();
-		$this->namedtag->Inventory = new Enum("Inventory", []);
+		$this->namedtag->Inventory = new ListTag("Inventory", []);
 		$this->namedtag->Inventory->setTagType(NBT::TAG_Compound);
 		if($this->inventory !== null){
 			for($slot = 0; $slot < 9; ++$slot){
@@ -140,19 +140,19 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 					$item = $this->inventory->getItem($hotbarSlot);
 					if($item->getId() !== 0 and $item->getCount() > 0){
 						$tag = NBT::putItemHelper($item, $slot);
-						$tag->TrueSlot = new Byte("TrueSlot", $hotbarSlot);
+						$tag->TrueSlot = new ByteTag("TrueSlot", $hotbarSlot);
 						$this->namedtag->Inventory[$slot] = $tag;
 
 						continue;
 					}
 				}
 
-				$this->namedtag->Inventory[$slot] = new Compound("", [
-					new Byte("Count", 0),
-					new Short("Damage", 0),
-					new Byte("Slot", $slot),
-					new Byte("TrueSlot", -1),
-					new Short("id", 0),
+				$this->namedtag->Inventory[$slot] = new CompoundTag("", [
+					new ByteTag("Count", 0),
+					new ShortTag("Damage", 0),
+					new ByteTag("Slot", $slot),
+					new ByteTag("TrueSlot", -1),
+					new ShortTag("id", 0),
 				]);
 			}
 
@@ -174,9 +174,9 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		}
 
 		if(strlen($this->getSkinData()) > 0){
-			$this->namedtag->Skin = new Compound("Skin", [
-				"Data" => new String("Data", $this->getSkinData()),
-				"Name" => new String("Name", $this->getSkinName())
+			$this->namedtag->Skin = new CompoundTag("Skin", [
+				"Data" => new StringTag("Data", $this->getSkinData()),
+				"Name" => new StringTag("Name", $this->getSkinName())
 			]);
 		}
 	}

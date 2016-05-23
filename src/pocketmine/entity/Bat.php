@@ -37,7 +37,7 @@ class Bat extends Animal{
 	}
 	
 	public function setVariant($type){
-		$this->namedtag->Variant = new Int("Variant", $type);
+		$this->namedtag->Variant = new IntTag("Variant", $type);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $type);
 	}
 

@@ -47,13 +47,13 @@ class FlowerPot extends Flowable{
 		$down = $block->getSide(0);
 		if($down->isTransparent() === false || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
 			$this->getLevel()->setBlock($block, $this, true, true);
-			$nbt = new Compound("", [
-				new String("id", Tile::FLOWER_POT),
-				new Int("x", $block->x),
-				new Int("y", $block->y),
-				new Int("z", $block->z),
-				new Short("item", 0),
-				new Int("mData", 0)
+			$nbt = new CompoundTag("", [
+				new StringTag("id", Tile::FLOWER_POT),
+				new IntTag("x", $block->x),
+				new IntTag("y", $block->y),
+				new IntTag("z", $block->z),
+				new ShortTag("item", 0),
+				new IntTag("mData", 0)
 			]);
 		
 			if($item->hasCustomBlockData()){

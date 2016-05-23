@@ -65,7 +65,7 @@ class Ozelot extends Animal implements Tameable{
 	}
 
     public function setVariant($value){
-        $this->namedtag->Color = new Int("Type", $value);
+        $this->namedtag->Color = new IntTag("Type", $value);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $value);
     }
 

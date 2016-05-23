@@ -61,14 +61,14 @@ class NBT{
 	 * @return CompoundTag
 	 */
 	public static function putItemHelper(Item $item, $slot = null){
-		$tag = new CompoundTag(null, [
-			"id" => new ShortTag("id", $item->getId()),
-			"Count" => new ByteTag("Count", $item->getCount()),
-			"Damage" => new ShortTag("Damage", $item->getDamage())
+		$tag = new CompoundTagTag(null, [
+			"id" => new ShortTagTag("id", $item->getId()),
+			"Count" => new ByteArrayTag("Count", $item->getCount()),
+			"Damage" => new ShortTagTag("Damage", $item->getDamage())
 		]);
 
 		if($slot !== null){
-			$tag->Slot = new ByteTag("Slot", (int) $slot);
+			$tag->Slot = new ByteArrayTag("Slot", (int) $slot);
 		}
 
 		if($item->hasCompoundTag()){
@@ -168,7 +168,7 @@ class NBT{
 			if($c === "{"){
 				++$offset;
 				$data = self::parseCompound($data, $offset);
-				return new CompoundTag("", $data);
+				return new CompoundTagTag("", $data);
 			}elseif($c !== " " and $c !== "\r" and $c !== "\n" and $c !== "\t"){
 				throw new \Exception("Syntax error: unexpected '$c' at offset $offset");
 			}
@@ -198,34 +198,34 @@ class NBT{
 
 			switch($type){
 				case NBT::TAG_Byte:
-					$data[$key] = new ByteTag($key, $value);
+					$data[$key] = new ByteArrayTag($key, $value);
 					break;
 				case NBT::TAG_Short:
-					$data[$key] = new ShortTag($key, $value);
+					$data[$key] = new ShortTagTag($key, $value);
 					break;
 				case NBT::TAG_Int:
 					$data[$key] = new IntTag($key, $value);
 					break;
 				case NBT::TAG_Long:
-					$data[$key] = new LongTag($key, $value);
+					$data[$key] = new LongTagTag($key, $value);
 					break;
 				case NBT::TAG_Float:
-					$data[$key] = new FloatTag($key, $value);
+					$data[$key] = new FloatTagTag($key, $value);
 					break;
 				case NBT::TAG_Double:
-					$data[$key] = new DoubleTag($key, $value);
+					$data[$key] = new DoubleTagTag($key, $value);
 					break;
 				case NBT::TAG_ByteArray:
 					$data[$key] = new ByteArrayTag($key, $value);
 					break;
 				case NBT::TAG_String:
-					$data[$key] = new ByteTag($key, $value);
+					$data[$key] = new ByteArrayTag($key, $value);
 					break;
 				case NBT::TAG_List:
 					$data[$key] = new ListTag($key, $value);
 					break;
 				case NBT::TAG_Compound:
-					$data[$key] = new CompoundTag($key, $value);
+					$data[$key] = new CompoundTagTag($key, $value);
 					break;
 				case NBT::TAG_IntArray:
 					$data[$key] = new IntArrayTag($key, $value);
@@ -256,34 +256,34 @@ class NBT{
 
 			switch($type){
 				case NBT::TAG_Byte:
-					$data[$key] = new ByteTag($key, $value);
+					$data[$key] = new ByteArrayTag($key, $value);
 					break;
 				case NBT::TAG_Short:
-					$data[$key] = new ShortTag($key, $value);
+					$data[$key] = new ShortTagTag($key, $value);
 					break;
 				case NBT::TAG_Int:
 					$data[$key] = new IntTag($key, $value);
 					break;
 				case NBT::TAG_Long:
-					$data[$key] = new LongTag($key, $value);
+					$data[$key] = new LongTagTag($key, $value);
 					break;
 				case NBT::TAG_Float:
-					$data[$key] = new FloatTag($key, $value);
+					$data[$key] = new FloatTagTag($key, $value);
 					break;
 				case NBT::TAG_Double:
-					$data[$key] = new DoubleTag($key, $value);
+					$data[$key] = new DoubleTagTag($key, $value);
 					break;
 				case NBT::TAG_ByteArray:
 					$data[$key] = new ByteArrayTag($key, $value);
 					break;
 				case NBT::TAG_String:
-					$data[$key] = new StringTag($key, $value);
+					$data[$key] = new StringTagTag($key, $value);
 					break;
 				case NBT::TAG_List:
 					$data[$key] = new ListTag($key, $value);
 					break;
 				case NBT::TAG_Compound:
-					$data[$key] = new CompoundTag($key, $value);
+					$data[$key] = new CompoundTagTag($key, $value);
 					break;
 				case NBT::TAG_IntArray:
 					$data[$key] = new IntArrayTag($key, $value);
@@ -485,11 +485,11 @@ class NBT{
 	public function readTag(){
 		switch($this->getByte()){
 			case NBT::TAG_Byte:
-				$tag = new ByteTag($this->getString());
+				$tag = new ByteArrayTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_Short:
-				$tag = new ShortTag($this->getString());
+				$tag = new ShortTagTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_Int:
@@ -497,15 +497,15 @@ class NBT{
 				$tag->read($this);
 				break;
 			case NBT::TAG_Long:
-				$tag = new LongTag($this->getString());
+				$tag = new LongTagTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_Float:
-				$tag = new FloatTag($this->getString());
+				$tag = new FloatTagTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_Double:
-				$tag = new DoubleTag($this->getString());
+				$tag = new DoubleTagTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_ByteArray:
@@ -513,7 +513,7 @@ class NBT{
 				$tag->read($this);
 				break;
 			case NBT::TAG_String:
-				$tag = new StringTag($this->getString());
+				$tag = new StringTagTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_List:
@@ -521,7 +521,7 @@ class NBT{
 				$tag->read($this);
 				break;
 			case NBT::TAG_Compound:
-				$tag = new CompoundTag($this->getString());
+				$tag = new CompoundTagTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_IntArray:
@@ -531,7 +531,7 @@ class NBT{
 
 			case NBT::TAG_End: //No named tag
 			default:
-				$tag = new EndTag;
+				$tag = new EndTagTag;
 				break;
 		}
 		return $tag;
@@ -623,11 +623,11 @@ class NBT{
 		if(is_int($value)){
 			return new IntTag($key, $value);
 		}elseif(is_float($value)){
-			return new FloatTag($key, $value);
+			return new FloatTagTag($key, $value);
 		}elseif(is_string($value)){
-			return new StringTag($key, $value);
+			return new StringTagTag($key, $value);
 		}elseif(is_bool($value)){
-			return new ByteTag($key, $value ? 1 : 0);
+			return new ByteArrayTag($key, $value ? 1 : 0);
 		}
 
 		return null;
@@ -646,7 +646,7 @@ class NBT{
 						$isIntArray = false;
 					}
 				}
-				$tag{$key} = $isNumeric ? ($isIntArray ? new IntArrayTag($key, []) : new ListTag($key, [])) : new CompoundTag($key, []);
+				$tag{$key} = $isNumeric ? ($isIntArray ? new IntArrayTag($key, []) : new ListTag($key, [])) : new CompoundTagTag($key, []);
 				self::fromArray($tag->{$key}, $value, $guesser);
 			}else{
 				$v = call_user_func($guesser, $key, $value);
@@ -658,7 +658,7 @@ class NBT{
 	}
 
 	public function setArray(array $data, callable $guesser = null){
-		$this->data = new CompoundTag("", []);
+		$this->data = new CompoundTagTag("", []);
 		self::fromArray($this->data, $data, $guesser === null ? [self::class, "fromArrayGuesser"] : $guesser);
 	}
 

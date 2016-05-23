@@ -526,22 +526,22 @@ class Item{
 	}
 	
 	public function Launch(Player $player){
- 		$nbt = new Compound("", [
-			"Pos" => new Enum("Pos", [
-				new Double("", $player->x),
-				new Double("", $player->y + $player->getEyeHeight()),
-				new Double("", $player->z)
+ 		$nbt = new CompoundTag("", [
+			"Pos" => new ListTag("Pos", [
+				new DoubleTag("", $player->x),
+				new DoubleTag("", $player->y + $player->getEyeHeight()),
+				new DoubleTag("", $player->z)
 			]),
- 			"Motion" => new Enum("Motion", [
-				new Double("", -sin($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI)),
-				new Double("", -sin($player->pitch / 180 * M_PI)),
-				new Double("", cos($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI))
+ 			"Motion" => new ListTag("Motion", [
+				new DoubleTag("", -sin($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI)),
+				new DoubleTag("", -sin($player->pitch / 180 * M_PI)),
+				new DoubleTag("", cos($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI))
 			]),
-			"Rotation" => new Enum("Rotation", [
-				new Float("", $player->yaw),
-				new Float("", $player->pitch)
+			"Rotation" => new ListTag("Rotation", [
+				new FloatTag("", $player->yaw),
+				new FloatTag("", $player->pitch)
 			]),
-			"Data" => new Byte("Data", $this->getDamage()),
+			"Data" => new ByteTag("Data", $this->getDamage()),
 		]);
 		$f = $this->f;
 		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt, $player);
@@ -1503,7 +1503,7 @@ class Item{
 		$tags->setName("BlockEntityTag");
 
 		if(!$this->hasCompoundTag()){
-			$tag = new Compound("", []);
+			$tag = new CompoundTag("", []);
 		}else{
 			$tag = $this->getNamedTag();
 		}
@@ -1568,13 +1568,13 @@ class Item{
 	 */
 	public function addEnchantment(Enchantment $ench){
 		if(!$this->hasCompoundTag()){
-			$tag = new Compound("", []);
+			$tag = new CompoundTag("", []);
 		}else{
 			$tag = $this->getNamedTag();
 		}
 
 		if(!isset($tag->ench)){
-			$tag->ench = new Enum("ench", []);
+			$tag->ench = new ListTag("ench", []);
 			$tag->ench->setTagType(NBT::TAG_Compound);
 		}
 
@@ -1582,9 +1582,9 @@ class Item{
 
 		foreach($tag->ench as $k => $entry){
 			if($entry["id"] === $ench->getId()){
-				$tag->ench->{$k} = new Compound("", [
-					"id" => new Short("id", $ench->getId()),
-					"lvl" => new Short("lvl", $ench->getLevel())
+				$tag->ench->{$k} = new CompoundTag("", [
+					"id" => new ShortTag("id", $ench->getId()),
+					"lvl" => new ShortTag("lvl", $ench->getLevel())
 				]);
 				$found = true;
 				break;
@@ -1592,9 +1592,9 @@ class Item{
 		}
 
 		if(!$found){
-			$tag->ench->{count($tag->ench) + 1} = new Compound("", [
-				"id" => new Short("id", $ench->getId()),
-				"lvl" => new Short("lvl", $ench->getLevel())
+			$tag->ench->{count($tag->ench) + 1} = new CompoundTag("", [
+				"id" => new ShortTag("id", $ench->getId()),
+				"lvl" => new ShortTag("lvl", $ench->getLevel())
 			]);
 		}
 
@@ -1658,15 +1658,15 @@ class Item{
 		}
 		
 		if(!($hadCompoundTag = $this->hasCompoundTag())){
-			$tag = new Compound("", []);
+			$tag = new CompoundTag("", []);
 		}else{
 			$tag = $this->getNamedTag();
 		}
 		
 		if(isset($tag->display) and $tag->display instanceof Compound){
-			$tag->display->Name = new String("Name", $name);
+			$tag->display->Name = new StringTag("Name", $name);
 		}else{
-			$tag->display = new Compound("display", ["Name" => new String("Name", $name)]);
+			$tag->display = new CompoundTag("display", ["Name" => new StringTag("Name", $name)]);
 		}
 		
 		if(!$hadCompoundTag){

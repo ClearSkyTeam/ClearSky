@@ -23,7 +23,7 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 		$this->inventory = new BrewingInventory($this);
 
 		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof Enum)){
-			$this->namedtag->Items = new Enum("Items", []);
+			$this->namedtag->Items = new ListTag("Items", []);
 			$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		}
 
@@ -50,7 +50,7 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 			return;
 		}
 
-		$this->namedtag->CustomName = new String("CustomName", $str);
+		$this->namedtag->CustomName = new StringTag("CustomName", $str);
 	}
 
 	public function close(){
@@ -63,7 +63,7 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 	}
 
 	public function saveNBT(){
-		$this->namedtag->Items = new Enum("Items", []);
+		$this->namedtag->Items = new ListTag("Items", []);
 		$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		for($index = 0; $index < $this->getSize(); ++$index){
 			$this->setItem($index, $this->inventory->getItem($index));
@@ -160,8 +160,8 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 		$brew = $this->server->getCraftingManager()->matchBrewingRecipe($ingredient);
 		$canbrew = ($brew instanceof BrewingRecipe and $ingredient->getCount() > 0 and (($brew->getResult()->equals($product) and $product->getCount() < $product->getMaxStackSize()) or $product->getId() === Item::AIR));
 
-		$this->namedtag->BrewTime = new Short("BrewTime", $this->namedtag["BrewTime"] - 1);
-		$this->namedtag->BrewTicks = new Short("BrewTicks", 0);
+		$this->namedtag->BrewTime = new ShortTag("BrewTime", $this->namedtag["BrewTime"] - 1);
+		$this->namedtag->BrewTicks = new ShortTag("BrewTicks", 0);
 
 		if($brew instanceof BrewingRecipe and $canbrew){
 			
@@ -208,12 +208,12 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 	}
 	
 	public function getSpawnCompound(){
-		$nbt = new CompoundTag("", [
-			new StringTag("id", Tile::BREWING_STAND),
+		$nbt = new CompoundTagTag("", [
+			new StringTagTag("id", Tile::BREWING_STAND),
 			new IntTag("x", (int) $this->x),
 			new IntTag("y", (int) $this->y),
 			new IntTag("z", (int) $this->z),
-			new ShortTag("CookTime", self::MAX_BREW_TIME),
+			new ShortTagTag("CookTime", self::MAX_BREW_TIME),
 		]);
 		if($this->hasName()){
 			$nbt->CustomName = $this->namedtag->CustomName;

@@ -66,21 +66,21 @@ class Painting extends Item{
 				"Motive" => $motive[0],
 			];
 			
-			$nbt = new Compound("", [
-				"Motive" => new String("Motive", $data["Motive"]),
-				"Pos" => new Enum("Pos", [
-					new Double("", $data["x"]),
-					new Double("", $data["y"]),
-					new Double("", $data["z"])
+			$nbt = new CompoundTag("", [
+				"Motive" => new StringTag("Motive", $data["Motive"]),
+				"Pos" => new ListTag("Pos", [
+					new DoubleTag("", $data["x"]),
+					new DoubleTag("", $data["y"]),
+					new DoubleTag("", $data["z"])
 				]),
-				"Motion" => new Enum("Motion", [
-					new Double("", 0),
-					new Double("", 0),
-					new Double("", 0)
+				"Motion" => new ListTag("Motion", [
+					new DoubleTag("", 0),
+					new DoubleTag("", 0),
+					new DoubleTag("", 0)
 				]),
-				"Rotation" => new Enum("Rotation", [
-					new Float("", $data["yaw"]),
-					new Float("", 0)
+				"Rotation" => new ListTag("Rotation", [
+					new FloatTag("", $data["yaw"]),
+					new FloatTag("", 0)
 				]),
 			]);
 			

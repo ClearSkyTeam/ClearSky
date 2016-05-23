@@ -1638,25 +1638,25 @@ class Level implements ChunkManager, Metadatable{
 		$itemTag->setName("Item");
 
 		if($item->getId() > 0 and $item->getCount() > 0){
-			$itemEntity = Entity::createEntity("Item", $this->getChunk($source->getX() >> 4, $source->getZ() >> 4, true), new Compound("", [
-				"Pos" => new Enum("Pos", [
-					new Double("", $source->getX()),
-					new Double("", $source->getY()),
-					new Double("", $source->getZ())
+			$itemEntity = Entity::createEntity("Item", $this->getChunk($source->getX() >> 4, $source->getZ() >> 4, true), new CompoundTag("", [
+				"Pos" => new ListTag("Pos", [
+					new DoubleTag("", $source->getX()),
+					new DoubleTag("", $source->getY()),
+					new DoubleTag("", $source->getZ())
 				]),
 
-				"Motion" => new Enum("Motion", [
-					new Double("", $motion->x),
-					new Double("", $motion->y),
-					new Double("", $motion->z)
+				"Motion" => new ListTag("Motion", [
+					new DoubleTag("", $motion->x),
+					new DoubleTag("", $motion->y),
+					new DoubleTag("", $motion->z)
 				]),
-				"Rotation" => new Enum("Rotation", [
-					new Float("", lcg_value() * 360),
-					new Float("", 0)
+				"Rotation" => new ListTag("Rotation", [
+					new FloatTag("", lcg_value() * 360),
+					new FloatTag("", 0)
 				]),
-				"Health" => new Short("Health", 5),
+				"Health" => new ShortTag("Health", 5),
 				"Item" => $itemTag,
-				"PickupDelay" => new Short("PickupDelay", $delay)
+				"PickupDelay" => new ShortTag("PickupDelay", $delay)
 			]));
 
 			$itemEntity->spawnToAll();
@@ -2454,22 +2454,22 @@ class Level implements ChunkManager, Metadatable{
 		}
 		$ExpPerBall = mt_rand(5,10);
 		while($exp  >= $ExpPerBall){
-				$nbt = new Compound("", [
-				"Pos" => new Enum("Pos", [
-					new Double("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
-					new Double("", $pos->getY()),
-					new Double("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
+				$nbt = new CompoundTag("", [
+				"Pos" => new ListTag("Pos", [
+					new DoubleTag("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
+					new DoubleTag("", $pos->getY()),
+					new DoubleTag("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
 				]),
-				"Motion" => new Enum("Motion", [
-					new Double("", 0),
-					new Double("", 0),
-					new Double("", 0)
+				"Motion" => new ListTag("Motion", [
+					new DoubleTag("", 0),
+					new DoubleTag("", 0),
+					new DoubleTag("", 0)
 				]),
-				"Rotation" => new Enum("Rotation", [
-					new Float("", 0),
-					new Float("", 0)
+				"Rotation" => new ListTag("Rotation", [
+					new FloatTag("", 0),
+					new FloatTag("", 0)
 				]),
-				"Experience" => new Long("Experience", $exp),
+				"Experience" => new LongTag("Experience", $exp),
 			]);
 			$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
 			$expOrb = new ExperienceOrb($chunk, $nbt);
@@ -2478,22 +2478,22 @@ class Level implements ChunkManager, Metadatable{
 			$ExpPerBall = mt_rand(5,10);
 		}
 		if($exp > 0){
-			$nbt = new Compound("", [
-				"Pos" => new Enum("Pos", [
-					new Double("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
-					new Double("", $pos->getY()),
-					new Double("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
+			$nbt = new CompoundTag("", [
+				"Pos" => new ListTag("Pos", [
+					new DoubleTag("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
+					new DoubleTag("", $pos->getY()),
+					new DoubleTag("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
 				]),
-				"Motion" => new Enum("Motion", [
-					new Double("", 0),
-					new Double("", 0),
-					new Double("", 0)
+				"Motion" => new ListTag("Motion", [
+					new DoubleTag("", 0),
+					new DoubleTag("", 0),
+					new DoubleTag("", 0)
 				]),
-				"Rotation" => new Enum("Rotation", [
-					new Float("", 0),
-					new Float("", 0)
+				"Rotation" => new ListTag("Rotation", [
+					new FloatTag("", 0),
+					new FloatTag("", 0)
 				]),
-				"Experience" => new Long("Experience", $exp),
+				"Experience" => new LongTag("Experience", $exp),
 			]);
 			$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
 			$expOrb = new ExperienceOrb($chunk, $nbt);

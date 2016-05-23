@@ -39,7 +39,7 @@ class Skeleton extends Monster implements ProjectileSource{
     }
 
     public function setSkeletonType($type){
-        $this->namedtag->SkeletonType = new Int("SkeletonType", $type);
+        $this->namedtag->SkeletonType = new IntTag("SkeletonType", $type);
     }
 
     public function getSkeletonType(){

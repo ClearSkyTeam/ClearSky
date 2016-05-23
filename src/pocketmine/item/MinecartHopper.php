@@ -28,20 +28,20 @@ class MinecartHopper extends Item{
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		if(!in_array($target->getId(),array(Block::RAIL, Block::ACTIVATOR_RAIL, Block::DETECTOR_RAIL, Block::POWERED_RAIL))) return false;
 		$realPos = $target->add(0.5, 0, 0.5);
-		$cart = new MinecartHopperEntity($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new Compound("", [
-			"Pos" => new Enum("Pos", [
-				new Double("", $realPos->getX()),
-				new Double("", $realPos->getY()),
-				new Double("", $realPos->getZ())
+		$cart = new MinecartHopperEntity($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new CompoundTag("", [
+			"Pos" => new ListTag("Pos", [
+				new DoubleTag("", $realPos->getX()),
+				new DoubleTag("", $realPos->getY()),
+				new DoubleTag("", $realPos->getZ())
 			]),
-			"Motion" => new Enum("Motion", [
-				new Double("", 0),
-				new Double("", 0),
-				new Double("", 0)
+			"Motion" => new ListTag("Motion", [
+				new DoubleTag("", 0),
+				new DoubleTag("", 0),
+				new DoubleTag("", 0)
 			]),
-			"Rotation" => new Enum("Rotation", [
-				new Float("", 0),
-				new Float("", 0)
+			"Rotation" => new ListTag("Rotation", [
+				new FloatTag("", 0),
+				new FloatTag("", 0)
 			]),
 		]));
 		$cart->spawnToAll();

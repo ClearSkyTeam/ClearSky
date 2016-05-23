@@ -42,9 +42,9 @@ class Egg extends Projectile{
 					return false;
 				}
 				
-				$nbt = new Compound("", ["Pos" => new Enum("Pos", [new Double("", $this->getX()),new Double("", $this->getY()),new Double("", $this->getZ())]),
-						"Motion" => new Enum("Motion", [new Double("", 0),new Double("", 0),new Double("", 0)]),"Rotation" => new Enum("Rotation", [new Float("", mt_rand(0, 360)),new Float("", 0)])]);
-				$nbt->Age = new String("Age", 0);
+				$nbt = new CompoundTag("", ["Pos" => new ListTag("Pos", [new DoubleTag("", $this->getX()),new DoubleTag("", $this->getY()),new DoubleTag("", $this->getZ())]),
+						"Motion" => new ListTag("Motion", [new DoubleTag("", 0),new DoubleTag("", 0),new DoubleTag("", 0)]),"Rotation" => new ListTag("Rotation", [new FloatTag("", mt_rand(0, 360)),new FloatTag("", 0)])]);
+				$nbt->Age = new StringTag("Age", 0);
 				$chicken = Entity::createEntity("Chicken", $chunk, $nbt);
 				if($chicken instanceof Entity){
 					$chicken->setDataProperty(14, self::DATA_TYPE_BYTE, 0);

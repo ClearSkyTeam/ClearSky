@@ -31,7 +31,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 		$this->inventory = new DispenserInventory($this);
 
 		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof Enum)){
-			$this->namedtag->Items = new Enum("Items", []);
+			$this->namedtag->Items = new ListTag("Items", []);
 			$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		}
 
@@ -52,7 +52,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	}
 
 	public function saveNBT(){
-		$this->namedtag->Items = new Enum("Items", []);
+		$this->namedtag->Items = new ListTag("Items", []);
 		$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		for($index = 0; $index < $this->getSize(); ++$index){
 			$this->setItem($index, $this->inventory->getItem($index));
@@ -149,7 +149,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 			return;
 		}
 
-		$this->namedtag->CustomName = new String("CustomName", $str);
+		$this->namedtag->CustomName = new StringTag("CustomName", $str);
 	}
 
 	public function getMotion(){
@@ -194,20 +194,20 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 			$needItem = Item::get($item->getId(), $item->getDamage());
 			$f = 1.5;
 			if($needItem instanceof Launchable){
-				$nbt = new Compound("", [
-					"Pos" => new Enum("Pos", [
-						new Double("", $this->x + $motion[0] * 2 + 0.5),
-						new Double("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
-						new Double("", $this->z + $motion[2] * 2 + 0.5)
+				$nbt = new CompoundTag("", [
+					"Pos" => new ListTag("Pos", [
+						new DoubleTag("", $this->x + $motion[0] * 2 + 0.5),
+						new DoubleTag("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
+						new DoubleTag("", $this->z + $motion[2] * 2 + 0.5)
 					]),
-					"Motion" => new Enum("Motion", [
-						new Double("", $motion[0]),
-						new Double("", $motion[1]),
-						new Double("", $motion[2])
+					"Motion" => new ListTag("Motion", [
+						new DoubleTag("", $motion[0]),
+						new DoubleTag("", $motion[1]),
+						new DoubleTag("", $motion[2])
 					]),
-					"Rotation" => new Enum("Rotation", [
-						new Float("", lcg_value() * 360),
-						new Float("", 0)
+					"Rotation" => new ListTag("Rotation", [
+						new FloatTag("", lcg_value() * 360),
+						new FloatTag("", 0)
 					])
 				]);
 				$thrownEntity = Entity::createEntity($needItem->entityname, $this->chunk, $nbt);
@@ -222,24 +222,24 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 			else{
 				$item = NBT::putItemHelper($needItem);
 				$item->setName("Item");
-					$nbt = new Compound("", [
-					"Pos" => new Enum("Pos", [
-						new Double("", $this->x + $motion[0] * 2 + 0.5),
-						new Double("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
-						new Double("", $this->z + $motion[2] * 2 + 0.5)
+					$nbt = new CompoundTag("", [
+					"Pos" => new ListTag("Pos", [
+						new DoubleTag("", $this->x + $motion[0] * 2 + 0.5),
+						new DoubleTag("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
+						new DoubleTag("", $this->z + $motion[2] * 2 + 0.5)
 					]),
-					"Motion" => new Enum("Motion", [
-						new Double("", $motion[0]),
-						new Double("", $motion[1]),
-						new Double("", $motion[2])
+					"Motion" => new ListTag("Motion", [
+						new DoubleTag("", $motion[0]),
+						new DoubleTag("", $motion[1]),
+						new DoubleTag("", $motion[2])
 					]),
-					"Rotation" => new Enum("Rotation", [
-						new Float("", lcg_value() * 360),
-						new Float("", 0)
+					"Rotation" => new ListTag("Rotation", [
+						new FloatTag("", lcg_value() * 360),
+						new FloatTag("", 0)
 					]),
-					"Health" => new Short("Health", 5),
+					"Health" => new ShortTag("Health", 5),
 					"Item" => $item,
-					"PickupDelay" => new Short("PickupDelay", 10)
+					"PickupDelay" => new ShortTag("PickupDelay", 10)
 				]);
 				$f = 0.3;
 				$itemEntity = new ItemEntity($this->chunk, $nbt, $this);
@@ -254,11 +254,11 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	}
 
 	public function getSpawnCompound(){
-		$c = new Compound("", [
-			new String("id", Tile::DISPENSER),
-			new Int("x", (int) $this->x),
-			new Int("y", (int) $this->y),
-			new Int("z", (int) $this->z)
+		$c = new CompoundTag("", [
+			new StringTag("id", Tile::DISPENSER),
+			new IntTag("x", (int) $this->x),
+			new IntTag("y", (int) $this->y),
+			new IntTag("z", (int) $this->z)
 		]);
 
 		if($this->hasName()){

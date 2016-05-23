@@ -38,7 +38,7 @@ class ZombieVillager extends Zombie{
 	 * @param $profession
 	 */
 	public function setVariant($type){
-		$this->namedtag->Profession = new Int("Profession", $type);
+		$this->namedtag->Profession = new IntTag("Profession", $type);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $type);
 	}
 

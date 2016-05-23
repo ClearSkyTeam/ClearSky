@@ -30,25 +30,25 @@ class SpawnEgg extends Item{
 			return false;
 		}
 
-		$nbt = new Compound("", [
-			"Pos" => new Enum("Pos", [
-				new Double("", $block->getX() + 0.5),
-				new Double("", $block->getY()),
-				new Double("", $block->getZ() + 0.5)
+		$nbt = new CompoundTag("", [
+			"Pos" => new ListTag("Pos", [
+				new DoubleTag("", $block->getX() + 0.5),
+				new DoubleTag("", $block->getY()),
+				new DoubleTag("", $block->getZ() + 0.5)
 			]),
-			"Motion" => new Enum("Motion", [
-				new Double("", 0),
-				new Double("", 0),
-				new Double("", 0)
+			"Motion" => new ListTag("Motion", [
+				new DoubleTag("", 0),
+				new DoubleTag("", 0),
+				new DoubleTag("", 0)
 			]),
-			"Rotation" => new Enum("Rotation", [
-				new Float("", lcg_value() * 360),
-				new Float("", 0)
+			"Rotation" => new ListTag("Rotation", [
+				new FloatTag("", lcg_value() * 360),
+				new FloatTag("", 0)
 			]),
 		]);
 
 		if($this->hasCustomName()){
-			$nbt->CustomName = new String("CustomName", $this->getCustomName());
+			$nbt->CustomName = new StringTag("CustomName", $this->getCustomName());
 		}
 
 		$entity = Entity::createEntity($this->meta, $chunk, $nbt);

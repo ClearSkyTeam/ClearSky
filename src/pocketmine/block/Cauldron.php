@@ -49,14 +49,14 @@ class Cauldron extends Solid {
 
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$nbt = new Compound("", [
-				new String("id", Tile::CAULDRON),
-				new Int("x", $block->x),
-				new Int("y", $block->y),
-				new Int("z", $block->z),
-				new Short("PotionId", 0xffff),
-				new Byte("SplashPotion", 0),
-				new Enum("Items", [])
+		$nbt = new CompoundTag("", [
+				new StringTag("id", Tile::CAULDRON),
+				new IntTag("x", $block->x),
+				new IntTag("y", $block->y),
+				new IntTag("z", $block->z),
+				new ShortTag("PotionId", 0xffff),
+				new ByteTag("SplashPotion", 0),
+				new ListTag("Items", [])
 		]);
 		
 		if($item->hasCustomBlockData()){

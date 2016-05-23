@@ -24,38 +24,38 @@ class Chunk extends BaseChunk{
 	public function __construct($level, Compound $nbt = null){
 		if($nbt === null){
 			$this->provider = $level;
-			$this->nbt = new Compound("Level", []);
+			$this->nbt = new CompoundTag("Level", []);
 			return;
 		}
 
 		$this->nbt = $nbt;
 
 		if(!isset($this->nbt->Entities) or !($this->nbt->Entities instanceof Enum)){
-			$this->nbt->Entities = new Enum("Entities", []);
+			$this->nbt->Entities = new ListTag("Entities", []);
 			$this->nbt->Entities->setTagType(NBT::TAG_Compound);
 		}
 
 		if(!isset($this->nbt->TileEntities) or !($this->nbt->TileEntities instanceof Enum)){
-			$this->nbt->TileEntities = new Enum("TileEntities", []);
+			$this->nbt->TileEntities = new ListTag("TileEntities", []);
 			$this->nbt->TileEntities->setTagType(NBT::TAG_Compound);
 		}
 
 		if(!isset($this->nbt->TileTicks) or !($this->nbt->TileTicks instanceof Enum)){
-			$this->nbt->TileTicks = new Enum("TileTicks", []);
+			$this->nbt->TileTicks = new ListTag("TileTicks", []);
 			$this->nbt->TileTicks->setTagType(NBT::TAG_Compound);
 		}
 
 		if(!isset($this->nbt->Sections) or !($this->nbt->Sections instanceof Enum)){
-			$this->nbt->Sections = new Enum("Sections", []);
+			$this->nbt->Sections = new ListTag("Sections", []);
 			$this->nbt->Sections->setTagType(NBT::TAG_Compound);
 		}
 
 		if(!isset($this->nbt->BiomeColors) or !($this->nbt->BiomeColors instanceof IntArray)){
-			$this->nbt->BiomeColors = new IntArray("BiomeColors", array_fill(0, 256, 0));
+			$this->nbt->BiomeColors = new IntTagArray("BiomeColors", array_fill(0, 256, 0));
 		}
 
 		if(!isset($this->nbt->HeightMap) or !($this->nbt->HeightMap instanceof IntArray)){
-			$this->nbt->HeightMap = new IntArray("HeightMap", array_fill(0, 256, 0));
+			$this->nbt->HeightMap = new IntTagArray("HeightMap", array_fill(0, 256, 0));
 		}
 
 		$sections = [];
@@ -76,7 +76,7 @@ class Chunk extends BaseChunk{
 		$extraData = [];
 
 		if(!isset($this->nbt->ExtraData) or !($this->nbt->ExtraData instanceof ByteArray)){
-			$this->nbt->ExtraData = new ByteArray("ExtraData", Binary::writeInt(0));
+			$this->nbt->ExtraData = new ByteArrayTag("ExtraData", Binary::writeInt(0));
 		}else{
 			$stream = new BinaryStream($this->nbt->ExtraData->getValue());
 			$count = $stream->getInt();
@@ -101,7 +101,7 @@ class Chunk extends BaseChunk{
 	}
 
 	public function setLightPopulated($value = 1){
-		$this->nbt->LightPopulated = new Byte("LightPopulated", $value);
+		$this->nbt->LightPopulated = new ByteTag("LightPopulated", $value);
 		$this->hasChanged = true;
 	}
 
@@ -116,7 +116,7 @@ class Chunk extends BaseChunk{
 	 * @param int $value
 	 */
 	public function setPopulated($value = 1){
-		$this->nbt->TerrainPopulated = new Byte("TerrainPopulated", $value);
+		$this->nbt->TerrainPopulated = new ByteTag("TerrainPopulated", $value);
 		$this->hasChanged = true;
 	}
 
@@ -131,7 +131,7 @@ class Chunk extends BaseChunk{
 	 * @param int $value
 	 */
 	public function setGenerated($value = 1){
-		$this->nbt->TerrainGenerated = new Byte("TerrainGenerated", $value);
+		$this->nbt->TerrainGenerated = new ByteTag("TerrainGenerated", $value);
 		$this->hasChanged = true;
 	}
 
@@ -191,27 +191,27 @@ class Chunk extends BaseChunk{
 	public function toFastBinary(){
 		$nbt = clone $this->getNBT();
 
-		$nbt->xPos = new Int("xPos", $this->x);
-		$nbt->zPos = new Int("zPos", $this->z);
+		$nbt->xPos = new IntTag("xPos", $this->x);
+		$nbt->zPos = new IntTag("zPos", $this->z);
 
-		$nbt->Sections = new Enum("Sections", []);
+		$nbt->Sections = new ListTag("Sections", []);
 		$nbt->Sections->setTagType(NBT::TAG_Compound);
 		foreach($this->getSections() as $section){
 			if($section instanceof EmptyChunkSection){
 				continue;
 			}
-			$nbt->Sections[$section->getY()] = new Compound(null, [
-				"Y" => new Byte("Y", $section->getY()),
-				"Blocks" => new ByteArray("Blocks", $section->getIdArray()),
-				"Data" => new ByteArray("Data", $section->getDataArray()),
-				"BlockLight" => new ByteArray("BlockLight", $section->getLightArray()),
-				"SkyLight" => new ByteArray("SkyLight", $section->getSkyLightArray())
+			$nbt->Sections[$section->getY()] = new CompoundTag(null, [
+				"Y" => new ByteTag("Y", $section->getY()),
+				"Blocks" => new ByteArrayTag("Blocks", $section->getIdArray()),
+				"Data" => new ByteArrayTag("Data", $section->getDataArray()),
+				"BlockLight" => new ByteArrayTag("BlockLight", $section->getLightArray()),
+				"SkyLight" => new ByteArrayTag("SkyLight", $section->getSkyLightArray())
 			]);
 		}
 
-		$nbt->BiomeColors = new IntArray("BiomeColors", $this->getBiomeColorArray());
+		$nbt->BiomeColors = new IntTagArray("BiomeColors", $this->getBiomeColorArray());
 
-		$nbt->HeightMap = new IntArray("HeightMap", $this->getHeightMapArray());
+		$nbt->HeightMap = new IntTagArray("HeightMap", $this->getHeightMapArray());
 
 		$entities = [];
 
@@ -222,7 +222,7 @@ class Chunk extends BaseChunk{
 			}
 		}
 
-		$nbt->Entities = new Enum("Entities", $entities);
+		$nbt->Entities = new ListTag("Entities", $entities);
 		$nbt->Entities->setTagType(NBT::TAG_Compound);
 
 
@@ -232,7 +232,7 @@ class Chunk extends BaseChunk{
 			$tiles[] = $tile->namedtag;
 		}
 
-		$nbt->TileEntities = new Enum("TileEntities", $tiles);
+		$nbt->TileEntities = new ListTag("TileEntities", $tiles);
 		$nbt->TileEntities->setTagType(NBT::TAG_Compound);
 
 		$extraData = new BinaryStream();
@@ -242,11 +242,11 @@ class Chunk extends BaseChunk{
 			$extraData->putShort($value);
 		}
 
-		$nbt->ExtraData = new ByteArray("ExtraData", $extraData->getBuffer());
+		$nbt->ExtraData = new ByteArrayTag("ExtraData", $extraData->getBuffer());
 
 		$writer = new NBT(NBT::BIG_ENDIAN);
 		$nbt->setName("Level");
-		$writer->setData(new Compound("", ["Level" => $nbt]));
+		$writer->setData(new CompoundTag("", ["Level" => $nbt]));
 
 		return $writer->write();
 	}
@@ -254,27 +254,27 @@ class Chunk extends BaseChunk{
 	public function toBinary(){
 		$nbt = clone $this->getNBT();
 
-		$nbt->xPos = new Int("xPos", $this->x);
-		$nbt->zPos = new Int("zPos", $this->z);
+		$nbt->xPos = new IntTag("xPos", $this->x);
+		$nbt->zPos = new IntTag("zPos", $this->z);
 
-		$nbt->Sections = new Enum("Sections", []);
+		$nbt->Sections = new ListTag("Sections", []);
 		$nbt->Sections->setTagType(NBT::TAG_Compound);
 		foreach($this->getSections() as $section){
 			if($section instanceof EmptyChunkSection){
 				continue;
 			}
-			$nbt->Sections[$section->getY()] = new Compound(null, [
-				"Y" => new Byte("Y", $section->getY()),
-				"Blocks" => new ByteArray("Blocks", $section->getIdArray()),
-				"Data" => new ByteArray("Data", $section->getDataArray()),
-				"BlockLight" => new ByteArray("BlockLight", $section->getLightArray()),
-				"SkyLight" => new ByteArray("SkyLight", $section->getSkyLightArray())
+			$nbt->Sections[$section->getY()] = new CompoundTag(null, [
+				"Y" => new ByteTag("Y", $section->getY()),
+				"Blocks" => new ByteArrayTag("Blocks", $section->getIdArray()),
+				"Data" => new ByteArrayTag("Data", $section->getDataArray()),
+				"BlockLight" => new ByteArrayTag("BlockLight", $section->getLightArray()),
+				"SkyLight" => new ByteArrayTag("SkyLight", $section->getSkyLightArray())
 			]);
 		}
 
-		$nbt->BiomeColors = new IntArray("BiomeColors", $this->getBiomeColorArray());
+		$nbt->BiomeColors = new IntTagArray("BiomeColors", $this->getBiomeColorArray());
 
-		$nbt->HeightMap = new IntArray("HeightMap", $this->getHeightMapArray());
+		$nbt->HeightMap = new IntTagArray("HeightMap", $this->getHeightMapArray());
 
 		$entities = [];
 
@@ -285,7 +285,7 @@ class Chunk extends BaseChunk{
 			}
 		}
 
-		$nbt->Entities = new Enum("Entities", $entities);
+		$nbt->Entities = new ListTag("Entities", $entities);
 		$nbt->Entities->setTagType(NBT::TAG_Compound);
 
 
@@ -295,7 +295,7 @@ class Chunk extends BaseChunk{
 			$tiles[] = $tile->namedtag;
 		}
 
-		$nbt->TileEntities = new Enum("TileEntities", $tiles);
+		$nbt->TileEntities = new ListTag("TileEntities", $tiles);
 		$nbt->TileEntities->setTagType(NBT::TAG_Compound);
 
 		$extraData = new BinaryStream();
@@ -305,11 +305,11 @@ class Chunk extends BaseChunk{
 			$extraData->putShort($value);
 		}
 
-		$nbt->ExtraData = new ByteArray("ExtraData", $extraData->getBuffer());
+		$nbt->ExtraData = new ByteArrayTag("ExtraData", $extraData->getBuffer());
 
 		$writer = new NBT(NBT::BIG_ENDIAN);
 		$nbt->setName("Level");
-		$writer->setData(new Compound("", ["Level" => $nbt]));
+		$writer->setData(new CompoundTag("", ["Level" => $nbt]));
 
 		return $writer->writeCompressed(ZLIB_ENCODING_DEFLATE, RegionLoader::$COMPRESSION_LEVEL);
 	}
@@ -334,11 +334,11 @@ class Chunk extends BaseChunk{
 			$chunk->heightMap = array_fill(0, 256, 0);
 			$chunk->biomeColors = array_fill(0, 256, 0);
 
-			$chunk->nbt->V = new Byte("V", 1);
-			$chunk->nbt->InhabitedTime = new Long("InhabitedTime", 0);
-			$chunk->nbt->TerrainGenerated = new Byte("TerrainGenerated", 0);
-			$chunk->nbt->TerrainPopulated = new Byte("TerrainPopulated", 0);
-			$chunk->nbt->LightPopulated = new Byte("LightPopulated", 0);
+			$chunk->nbt->V = new ByteTag("V", 1);
+			$chunk->nbt->InhabitedTime = new LongTag("InhabitedTime", 0);
+			$chunk->nbt->TerrainGenerated = new ByteTag("TerrainGenerated", 0);
+			$chunk->nbt->TerrainPopulated = new ByteTag("TerrainPopulated", 0);
+			$chunk->nbt->LightPopulated = new ByteTag("LightPopulated", 0);
 
 			return $chunk;
 		}catch(\Exception $e){

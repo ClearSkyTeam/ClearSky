@@ -20,22 +20,22 @@ class MobSpawner extends Spawnable{
 	public function __construct(FullChunk $chunk, Compound $nbt){
 		parent::__construct($chunk, $nbt);
 		if(!isset($nbt->EntityId)){
-			$nbt->EntityId = new Int("EntityId", 0);
+			$nbt->EntityId = new IntTag("EntityId", 0);
 		}
 		if(!isset($nbt->SpawnCount)){
-			$nbt->SpawnCount = new Int("SpawnCount", 4);
+			$nbt->SpawnCount = new IntTag("SpawnCount", 4);
 		}
 		if(!isset($nbt->SpawnRange)){
-			$nbt->SpawnRange = new Int("SpawnRange", 4);
+			$nbt->SpawnRange = new IntTag("SpawnRange", 4);
 		}
 		if(!isset($nbt->MinSpawnDelay)){
-			$nbt->MinSpawnDelay = new Int("MinSpawnDelay", 200);
+			$nbt->MinSpawnDelay = new IntTag("MinSpawnDelay", 200);
 		}
 		if(!isset($nbt->MaxSpawnDelay)){
-			$nbt->MaxSpawnDelay = new Int("MaxSpawnDelay", 799);
+			$nbt->MaxSpawnDelay = new IntTag("MaxSpawnDelay", 799);
 		}
 		if(!isset($nbt->Delay)){
-			$nbt->Delay = new Int("Delay", mt_rand($nbt->MinSpawnDelay->getValue(), $nbt->MaxSpawnDelay->getValue()));
+			$nbt->Delay = new IntTag("Delay", mt_rand($nbt->MinSpawnDelay->getValue(), $nbt->MaxSpawnDelay->getValue()));
 		}
 
 		if($this->getEntityId() > 0){
@@ -140,20 +140,20 @@ class MobSpawner extends Spawnable{
 						$success++;
 						$this->getLevel()->getServer()->getPluginManager()->callEvent($ev = new EntityGenerateEvent($pos, $this->getEntityId(), EntityGenerateEvent::CAUSE_MOB_SPAWNER));
 						if(!$ev->isCancelled()){
-							$nbt = new Compound("", [
-								"Pos" => new Enum("Pos", [
-									new Double("", $pos->x),
-									new Double("", $pos->y),
-									new Double("", $pos->z)
+							$nbt = new CompoundTag("", [
+								"Pos" => new ListTag("Pos", [
+									new DoubleTag("", $pos->x),
+									new DoubleTag("", $pos->y),
+									new DoubleTag("", $pos->z)
 								]),
-								"Motion" => new Enum("Motion", [
-									new Double("", 0),
-									new Double("", 0),
-									new Double("", 0)
+								"Motion" => new ListTag("Motion", [
+									new DoubleTag("", 0),
+									new DoubleTag("", 0),
+									new DoubleTag("", 0)
 								]),
-								"Rotation" => new Enum("Rotation", [
-									new Float("", mt_rand() / mt_getrandmax() * 360),
-									new Float("", 0)
+								"Rotation" => new ListTag("Rotation", [
+									new FloatTag("", mt_rand() / mt_getrandmax() * 360),
+									new FloatTag("", 0)
 								]),
 							]);
 							$entity = Entity::createEntity($this->getEntityId(), $this->chunk, $nbt);
@@ -173,12 +173,12 @@ class MobSpawner extends Spawnable{
 	}*/
 
 	public function getSpawnCompound(){
-		$c = new Compound("", [
-			new String("id", Tile::MOB_SPAWNER),
-			new Int("x", (int) $this->x),
-			new Int("y", (int) $this->y),
-			new Int("z", (int) $this->z),
-			new Int("EntityId", (int) $this->getEntityId())
+		$c = new CompoundTag("", [
+			new StringTag("id", Tile::MOB_SPAWNER),
+			new IntTag("x", (int) $this->x),
+			new IntTag("y", (int) $this->y),
+			new IntTag("z", (int) $this->z),
+			new IntTag("EntityId", (int) $this->getEntityId())
 		]);
 
 		return $c;
