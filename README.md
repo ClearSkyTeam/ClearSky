@@ -157,13 +157,23 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 
 
 # <a name="JAPANESE"></a>クリアスカイ
+# あなたにあげます: クリアスカイ-あけぼの ~ PMMP(https://github.com/PocketMine/PocketMine-MP) のフォーク (PHP5) 
 クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初は商用サーバー用に設計されました。<br>
+
+**TravisCIのビルドの状況** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCIのビルドの状況")
+**Jenkinsのビルドの状況** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkinsのビルドの状況")
+
+
  - 他のGPLライセンスプロジェクトのコードを使用している部分もありますが、殆どはClearSkyによって書き換えられた物です。
+  -Genisys,Nukkit,IM.からコードをもらいますが、コミットの詳細で必ず（使用したことを)公開します!
  - ここで私たちとコミュニケーションを取ることができます: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA)(英語)
 [ClearSkyロビ] (https://lobi.co/invite/mKWL)(日本語)
  - [ここを見て 70個のプラグイン・20個のワールド と共に、早いClearSkyを始めましょう！(動画)](http://wolvesfortress.de/ezgif-1446650535.gif)
  - 公式テストサーバー: Creative (IP: WolvesFortress.de, Port: **19134**) *基本的にはオフラインですが、もしオンラインの場合は最新バージョンです。*
 
+## PHP7版はある、または今後作りますか?
+ - はい. しかし、先に安定板の機能を作り, PHP7にアップデートします。
+ 
 ## どこで私はpharを手に入れれますか？
  - 自動でビルドされたphar: [Jenkins CI](http://jenkins.clearskyteam.org/).
  - 最適化されたPHP環境(bin): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
