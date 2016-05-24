@@ -5,7 +5,7 @@ namespace pocketmine\level\generator\hell;
 use pocketmine\block\Block;
 use pocketmine\block\Gravel;
 use pocketmine\block\Lava;
-use pocketmine\block\NetherQuartzOre;
+use pocketmine\block\QuartzOre;
 use pocketmine\block\SoulSand;
 use pocketmine\level\ChunkManager;
 use pocketmine\level\generator\biome\Biome;
@@ -93,7 +93,7 @@ class Nether extends Generator{
 
 		$ores = new NetherOre();
 		$ores->setOreTypes([
-			new OreType(new NetherQuartzOre(), 20, 16, 0, 128),
+			new OreType(new QuartzOre(), 20, 16, 0, 128),
 			new OreType(new SoulSand(), 5, 64, 0, 128),
 			new OreType(new Gravel(), 5, 64, 0, 128),
 			new OreType(new Lava(), 1, 16, 0, $this->waterHeight),
