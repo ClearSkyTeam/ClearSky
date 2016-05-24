@@ -208,14 +208,14 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 		$this->namedtag->BrewTicks = new ShortTag("BrewTicks", 0);
 
 		if($brew instanceof BrewingRecipe and $canbrew){
-			
-			
+
+
 				$product = Item::get($brew->getResult()->getId(), $brew->getResult()->getDamage(), $product->getCount() + 1);
 
 				$this->server->getPluginManager()->callEvent($ev = new BrewingStandBrewEvent($this, $ingredient, $product));
 
 				if(!$ev->isCancelled()){
-					
+
 					$this->inventory->setResult($ev->getResult());
 					$ingredient->setCount($ingredient->getCount() - 1);
 					if($ingredient->getCount() === 0){
@@ -223,7 +223,6 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 					}
 					$canBrew = false;
 				}
-			}
 		}else{
 			$canBrew = false;
 		}
