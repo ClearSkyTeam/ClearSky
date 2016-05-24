@@ -200,7 +200,6 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 		$ret = false;
 
 		$ingredient = $this->inventory->getIngredient();
-<<<<<<< HEAD
 		$product = $this->inventory->getResult();
 		$brew = $this->server->getCraftingManager()->matchBrewingRecipe($ingredient);
 		$canbrew = ($brew instanceof BrewingRecipe and $ingredient->getCount() > 0 and (($brew->getResult()->equals($product) and $product->getCount() < $product->getMaxStackSize()) or $product->getId() === Item::AIR));
@@ -221,32 +220,6 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 					$ingredient->setCount($ingredient->getCount() - 1);
 					if($ingredient->getCount() === 0){
 						$ingredient = Item::get(Item::AIR, 0, 0);
-=======
-		$canBrew = false;
-
-		for($i = 1; $i <= 3; $i++){
-			if($this->inventory->getItem($i)->getId() === Item::POTION or
-				$this->inventory->getItem($i)->getId() === Item::SPLASH_POTION
-			){
-				$canBrew = true;
-			}
-		}
-
-		if($ingredient->getId() !== Item::AIR and $ingredient->getCount() > 0){
-			if($canBrew){
-				if(!$this->checkIngredient($ingredient)){
-					$canBrew = false;
-				}
-			}
-
-			if($canBrew){
-				for($i = 1; $i <= 3; $i++){
-					$potion = $this->inventory->getItem($i);
-					$recipe = Server::getInstance()->getCraftingManager()->matchBrewingRecipe($ingredient, $potion);
-					if($recipe !== null){
-						$canBrew = true;
-						break;
->>>>>>> refs/remotes/origin/master
 					}
 					$canBrew = false;
 				}
@@ -306,22 +279,13 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 	}
 
 	public function getSpawnCompound(){
-<<<<<<< HEAD
 		$nbt = new CompoundTag("", [
 			new StringTagTag("id", Tile::BREWING_STAND),
 			new IntTag("x", (int) $this->x),
 			new IntTag("y", (int) $this->y),
 			new IntTag("z", (int) $this->z),
 			new ShortTagTag("CookTime", self::MAX_BREW_TIME),
-=======
-		$nbt = new Compound("", [
-			new String("id", Tile::BREWING_STAND),
-			new Int("x", (int) $this->x),
-			new Int("y", (int) $this->y),
-			new Int("z", (int) $this->z),
-			new Short("CookTime", self::MAX_BREW_TIME),
 			$this->namedtag->Items,
->>>>>>> refs/remotes/origin/master
 		]);
 
 		if($this->hasName()){
