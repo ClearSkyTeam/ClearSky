@@ -2060,11 +2060,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 			return;
 		}
-
-		if($this->isCreative()){
-			$this->inventory->setHeldItemSlot(0);
-		}else{
-			$this->inventory->setHeldItemSlot($this->inventory->getHotbarSlotIndex(0));
+		if($this->isOnline()){
+			if($this->isCreative()){
+				$this->inventory->setHeldItemSlot(0);
+			}else{
+				$this->inventory->setHeldItemSlot($this->inventory->getHotbarSlotIndex(0));
+			}
 		}
 
 		$pk = new PlayStatusPacket();
@@ -3049,12 +3050,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					if($packet->slot >= $this->inventory->getSize()){
 						break;
 					}
-					if($this->isCreative()){
-						if(Item::getCreativeItemIndex($packet->item) !== -1){
-							$this->inventory->setItem($packet->slot, $packet->item);
-							$this->inventory->setHotbarSlotIndex($packet->slot, $packet->slot); //links $hotbar[$packet->slot] to $slots[$packet->slot]
-						}
-					}
 					$transaction = new BaseTransaction($this->inventory, $packet->slot, $this->inventory->getItem($packet->slot), $packet->item);
 				}elseif($packet->windowid === ContainerSetContentPacket::SPECIAL_ARMOR){ //Our armor
 					if($packet->slot >= 4){
@@ -3238,6 +3233,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public function sendTip($message){
 		$pk = new TextPacket();
 		$pk->type = TextPacket::TYPE_TIP;
+        $pk->source = ""; //0.14.2 fix
 		$pk->message = $message;
 		$this->dataPacket($pk);
 	}
@@ -3558,13 +3554,22 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}elseif($this->allowFlight and $source->getCause() === EntityDamageEvent::CAUSE_FALL){
 			$source->setCancelled();
 		}elseif($source->getCause() === EntityDamageEvent::CAUSE_FALL){
-			if($this->getLevel()->getBlock($this->getPosition()->floor()->add(0.5, -0.5, 0.5))->getId() == Item::SLIME_BLOCK){
+			if($this->getLevel()->getBlock($this->getPosition()->add(0, -1, 0))->getId() == Item::SLIME_BLOCK){
 				if(!$this->isSneaking()){
 					$source->setCancelled();
 					$this->resetFallDistance();
 				}
 				if(!$this->isSneaking() && !$this->getPosition()->distanceSquared($this->getPosition()->subtract(0, 1)) > 0.1){
 					$this->setMotion($this->getMotion()->add(0, (($this->getMotion()->getY() * 2) * 0.88), 0));
+				}
+				if ($this->motionY < 0)
+				{
+					$this->motionY = -$this->motionY;
+				
+					if (!($this instanceof Living))
+					{
+						$this->motionY *= 0.8;
+					}
 				}
 			}
 		}

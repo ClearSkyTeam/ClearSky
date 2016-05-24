@@ -1,22 +1,44 @@
 <?php
+
 namespace pocketmine\tile;
 
-use pocketmine\event\inventory\BrewingStandBrewEvent;
 use pocketmine\inventory\BrewingInventory;
-use pocketmine\inventory\BrewingRecipe;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\item\Item;
+use pocketmine\item\Fish;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Short;
 use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\Int;
 use pocketmine\network\protocol\ContainerSetDataPacket;
+use pocketmine\Server;
 
-class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
+class BrewingStand extends Spawnable implements InventoryHolder, Container, Nameable{
+	const MAX_BREW_TIME = 400;
 	/** @var BrewingInventory */
 	protected $inventory;
+
+	public static $ingredients = [
+		Item::NETHER_WART => 0,
+		Item::GLOWSTONE_DUST => 0,
+		Item::REDSTONE => 0,
+		Item::FERMENTED_SPIDER_EYE => 0,
+
+		Item::MAGMA_CREAM => 0,
+		Item::SUGAR => 0,
+		Item::GLISTERING_MELON => 0,
+		Item::SPIDER_EYE => 0,
+		Item::GHAST_TEAR => 0,
+		Item::BLAZE_POWDER => 0,
+		Item::GOLDEN_CARROT => 0,
+		Item::PUFFERFISH => 0,
+		Item::RABBIT_FOOT => 0,
+
+		Item::GUNPOWDER => 0,
+	];
 
 	public function __construct(FullChunk $chunk, Compound $nbt){
 		parent::__construct($chunk, $nbt);
@@ -30,10 +52,14 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 		for($i = 0; $i < $this->getSize(); ++$i){
 			$this->inventory->setItem($i, $this->getItem($i));
 		}
-	}
-	
-	public function getServer(){
-		return $this->server;
+
+		if(!isset($this->namedtag->CookedTime)){
+			$this->namedtag->CookedTime = new Short("CookedTime", 0);
+		}
+
+		/*if($this->namedtag["CookTime"] < self::MAX_BREW_TIME){
+			$this->scheduleUpdate();
+		}*/
 	}
 
 	public function getName(){
@@ -146,6 +172,24 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 		return $this->inventory;
 	}
 
+	public function checkIngredient(Item $item){
+		if(isset(self::$ingredients[$item->getId()])){
+			if(self::$ingredients[$item->getId()] === $item->getDamage()){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function updateSurface(){
+		$this->saveNBT();
+		$this->spawnToAll();
+		if($this->chunk){
+			$this->chunk->setChanged();
+			$this->level->clearChunkCache($this->chunk->getX(), $this->chunk->getZ());
+		}
+	}
+
 	public function onUpdate(){
 		if($this->closed === true){
 			return false;
@@ -156,65 +200,98 @@ class BrewingStand extends Tile implements InventoryHolder, Container, Nameable{
 		$ret = false;
 
 		$ingredient = $this->inventory->getIngredient();
-		$product = $this->inventory->getResult();
-		$brew = $this->server->getCraftingManager()->matchBrewingRecipe($ingredient);
-		$canbrew = ($brew instanceof BrewingRecipe and $ingredient->getCount() > 0 and (($brew->getResult()->equals($product) and $product->getCount() < $product->getMaxStackSize()) or $product->getId() === Item::AIR));
+		$canBrew = false;
 
-		$this->namedtag->BrewTime = new Short("BrewTime", $this->namedtag["BrewTime"] - 1);
-		$this->namedtag->BrewTicks = new Short("BrewTicks", 0);
-
-		if($brew instanceof BrewingRecipe and $canbrew){
-			
-			
-				$product = Item::get($brew->getResult()->getId(), $brew->getResult()->getDamage(), $product->getCount() + 1);
-
-				$this->server->getPluginManager()->callEvent($ev = new BrewingStandBrewEvent($this, $ingredient, $product));
-
-				if(!$ev->isCancelled()){
-					
-					$this->inventory->setResult($ev->getResult());
-					$ingredient->setCount($ingredient->getCount() - 1);
-					if($ingredient->getCount() === 0){
-						$ingredient = Item::get(Item::AIR, 0, 0);
-					}
-					$this->inventory->setbrewing($ingredient);
-				}
-			
+		for($i = 1; $i <= 3; $i++){
+			if($this->inventory->getItem($i)->getId() === Item::POTION or
+				$this->inventory->getItem($i)->getId() === Item::SPLASH_POTION
+			){
+				$canBrew = true;
+			}
 		}
-		$ret = true;
 
-
-		foreach($this->getInventory()->getViewers() as $player){
-			$windowId = $player->getWindowId($this->getInventory());
-			if($windowId > 0){
-				$pk = new ContainerSetDataPacket();
-				$pk->windowid = $windowId;
-				$pk->property = 0; //Brew
-				$player->dataPacket($pk);
-
-				$pk = new ContainerSetDataPacket();
-				$pk->windowid = $windowId;
-				$pk->property = 1; //Bubble Icon
-				$player->dataPacket($pk);
+		if($ingredient->getId() !== Item::AIR and $ingredient->getCount() > 0){
+			if($canBrew){
+				if(!$this->checkIngredient($ingredient)){
+					$canBrew = false;
+				}
 			}
 
+			if($canBrew){
+				for($i = 1; $i <= 3; $i++){
+					$potion = $this->inventory->getItem($i);
+					$recipe = Server::getInstance()->getCraftingManager()->matchBrewingRecipe($ingredient, $potion);
+					if($recipe !== null){
+						$canBrew = true;
+						break;
+					}
+					$canBrew = false;
+				}
+			}
+		}else{
+			$canBrew = false;
 		}
 
+		if($canBrew){
+			$this->namedtag->CookTime = new Short("CookTime", $this->namedtag["CookTime"] - 1);
+
+			foreach($this->getInventory()->getViewers() as $player){
+				$windowId = $player->getWindowId($this->getInventory());
+				if($windowId > 0){
+					$pk = new ContainerSetDataPacket();
+					$pk->windowid = $windowId;
+					$pk->property = 0; //Brew
+					$pk->value = $this->namedtag["CookTime"];
+					$player->dataPacket($pk);
+				}
+			}
+
+			if($this->namedtag["CookTime"] <= 0){
+				$this->namedtag->CookTime = new Short("CookTime", self::MAX_BREW_TIME);
+				for($i = 1; $i <= 3; $i++){
+					$potion = $this->inventory->getItem($i);
+					$recipe = Server::getInstance()->getCraftingManager()->matchBrewingRecipe($ingredient, $potion);
+					if($recipe != null and $potion->getId() !== Item::AIR){
+						$this->inventory->setItem($i, $recipe->getResult());
+					}
+				}
+
+				$ingredient->count--;
+				if($ingredient->getCount() <= 0) $ingredient = Item::get(Item::AIR);
+				$this->inventory->setIngredient($ingredient);
+			}
+
+			$ret = true;
+		}else{
+			$this->namedtag->CookTime = new Short("CookTime", self::MAX_BREW_TIME);
+			foreach($this->getInventory()->getViewers() as $player){
+				$windowId = $player->getWindowId($this->getInventory());
+				if($windowId > 0){
+					$pk = new ContainerSetDataPacket();
+					$pk->windowid = $windowId;
+					$pk->property = 0; //Brew
+					$pk->value = 0;
+					$player->dataPacket($pk);
+				}
+			}
+		}
 		$this->lastUpdate = microtime(true);
 
 		$this->timings->stopTiming();
 
 		return $ret;
 	}
-	
+
 	public function getSpawnCompound(){
-		$nbt = new CompoundTag("", [
-			new StringTag("id", Tile::BREWING_STAND),
-			new IntTag("x", (int) $this->x),
-			new IntTag("y", (int) $this->y),
-			new IntTag("z", (int) $this->z),
-			new ShortTag("CookTime", self::MAX_BREW_TIME),
+		$nbt = new Compound("", [
+			new String("id", Tile::BREWING_STAND),
+			new Int("x", (int) $this->x),
+			new Int("y", (int) $this->y),
+			new Int("z", (int) $this->z),
+			new Short("CookTime", self::MAX_BREW_TIME),
+			$this->namedtag->Items,
 		]);
+
 		if($this->hasName()){
 			$nbt->CustomName = $this->namedtag->CustomName;
 		}
