@@ -50,7 +50,7 @@ interface ChunkManager{
 	 * @param int $chunkX
 	 * @param int $chunkZ
 	 *
-	 * @return FullChunk
+	 * @return FullChunk|null
 	 */
 	public function getChunk($chunkX, $chunkZ);
 

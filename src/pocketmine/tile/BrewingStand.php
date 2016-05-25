@@ -279,11 +279,11 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 
 	public function getSpawnCompound(){
 		$nbt = new CompoundTag("", [
-			new StringTagTag("id", Tile::BREWING_STAND),
+			new StringTag("id", Tile::BREWING_STAND),
 			new IntTag("x", (int) $this->x),
 			new IntTag("y", (int) $this->y),
 			new IntTag("z", (int) $this->z),
-			new ShortTagTag("CookTime", self::MAX_BREW_TIME),
+			new ShortTag("CookTime", self::MAX_BREW_TIME),
 			$this->namedtag->Items,
 		]);
 

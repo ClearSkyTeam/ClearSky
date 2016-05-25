@@ -106,7 +106,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Short:
-					$tag = new ShortTagTag("");
+					$tag = new ShortTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
@@ -116,17 +116,17 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Long:
-					$tag = new LongTagTag("");
+					$tag = new LongTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Float:
-					$tag = new FloatTagTag("");
+					$tag = new FloatTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_Double:
-					$tag = new DoubleTagTag("");
+					$tag = new DoubleTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;
@@ -136,7 +136,7 @@ class ListTag extends NamedTag implements \ArrayAccess, \Countable{
 					$this->{$i} = $tag;
 					break;
 				case NBT::TAG_String:
-					$tag = new StringTagTag("");
+					$tag = new StringTag("");
 					$tag->read($nbt);
 					$this->{$i} = $tag;
 					break;

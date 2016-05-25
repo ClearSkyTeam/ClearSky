@@ -410,7 +410,7 @@ class Chunk extends BaseFullChunk{
 	}
 
 	/**
-	 * @return Compound
+	 * @return CompoundTag
 	 */
 	public function getNBT(){
 		return $this->nbt;

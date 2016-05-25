@@ -57,12 +57,12 @@ abstract class Tile extends Position{
 	/**
 	 * @param string    $type
 	 * @param FullChunk $chunk
-	 * @param Compound  $nbt
+	 * @param CompoundTag  $nbt
 	 * @param           $args
 	 *
 	 * @return Tile
 	 */
-	public static function createTile($type, FullChunk $chunk, Compound $nbt, ...$args){
+	public static function createTile($type, FullChunk $chunk, CompoundTag $nbt, ...$args){
 		if(isset(self::$knownTiles[$type])){
 			$class = self::$knownTiles[$type];
 			return new $class($chunk, $nbt, ...$args);
@@ -96,10 +96,8 @@ abstract class Tile extends Position{
 		return self::$shortNames[static::class];
 	}
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
-		if($chunk === null or $chunk->getProvider() === null){
-			throw new ChunkException("Invalid garbage Chunk given to Tile");
-		}
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
+		assert($chunk !== null and $chunk->getProvider() !== null);
 
 		$this->timings = Timings::getTileEntityTimings($this);
 

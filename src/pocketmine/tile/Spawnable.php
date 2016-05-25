@@ -28,11 +28,11 @@ abstract class Spawnable extends Tile{
 	}
 
 	/**
-	 * @return Compound
+	 * @return CompoundTag
 	 */
 	public abstract function getSpawnCompound();
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->spawnToAll();
 	}
