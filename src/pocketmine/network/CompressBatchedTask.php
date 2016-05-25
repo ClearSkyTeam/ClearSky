@@ -21,7 +21,7 @@ class CompressBatchedTask extends AsyncTask{
 		try{
 			$this->final = zlib_encode($this->data, ZLIB_ENCODING_DEFLATE, $this->level);
 			$this->data = null;
-		}catch(\Exception $e){
+		}catch(\Throwable $e){
 
 		}
 	}

@@ -19,12 +19,12 @@ class RakLibServer extends \Thread{
 	 * @param int             $port
 	 * @param string          $interface
 	 *
-	 * @throws \Exception
+	 * @throws \Throwable
 	 */
     public function __construct(\ThreadedLogger $logger, \ClassLoader $loader, $port, $interface = "0.0.0.0"){
         $this->port = (int) $port;
         if($port < 1 or $port > 65536){
-            throw new \Exception("Invalid port range");
+            throw new \Throwable("Invalid port range");
         }
         $this->interface = $interface;
         $this->logger = $logger;
@@ -159,7 +159,7 @@ class RakLibServer extends \Thread{
 			if(function_exists("xdebug_get_function_stack")){
 				$trace = array_reverse(xdebug_get_function_stack());
 			}else{
-				$e = new \Exception();
+				$e = new \Throwable();
 				$trace = $e->getTrace();
 			}
 		}

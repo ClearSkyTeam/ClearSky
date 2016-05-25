@@ -322,7 +322,7 @@ namespace pocketmine {
 			if(function_exists("xdebug_get_function_stack")){
 				$trace = array_reverse(xdebug_get_function_stack());
 			}else{
-				$e = new \Exception();
+				$e = new \Throwable();
 				$trace = $e->getTrace();
 			}
 		}
@@ -351,7 +351,7 @@ namespace pocketmine {
 		return rtrim(str_replace(["\\", ".php", "phar://", rtrim(str_replace(["\\", "phar://"], ["/", ""], \pocketmine\PATH), "/"), rtrim(str_replace(["\\", "phar://"], ["/", ""], \pocketmine\PLUGIN_PATH), "/")], ["/", "", "", "", ""], $path), "/");
 	}
 
-	set_error_handler([\ExceptionHandler::class, "handler"], -1);
+	set_error_handler([\ThrowableHandler::class, "handler"], -1);
 
 	$errors = 0;
 
