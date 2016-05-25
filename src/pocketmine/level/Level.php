@@ -187,7 +187,6 @@ class Level implements ChunkManager, Metadatable{
 
 	private $time;
 	public $stopTime;
-	public $dimension = 0;
 
 	private $folderName;
 
