@@ -7,6 +7,7 @@ use pocketmine\level\Level;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\level\Explosion;
 
 class Bed extends Transparent{
 
@@ -40,6 +41,11 @@ class Bed extends Transparent{
 	}
 
 	public function onActivate(Item $item, Player $player = null){
+		if($this->getLevel()->getDimension() == Level::DIMENSION_NETHER){
+			$explosion = new Explosion($this, 6, $this);
+			$explosion->explode();
+			return true;
+		}
 
 		$time = $this->getLevel()->getTime() % Level::TIME_FULL;
 
