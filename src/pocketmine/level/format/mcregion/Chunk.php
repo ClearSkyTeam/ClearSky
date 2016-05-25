@@ -9,7 +9,7 @@ use pocketmine\nbt\tag\ByteArrayTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\IntTag;
-use pocketmine\nbt\tag\IntTagArray;
+use pocketmine\nbt\tag\IntArrayTag;
 use pocketmine\nbt\tag\LongTag;
 use pocketmine\Player;
 use pocketmine\utils\Binary;
@@ -50,12 +50,12 @@ class Chunk extends BaseFullChunk{
 			$this->nbt->TileTicks->setTagType(NBT::TAG_Compound);
 		}
 
-		if(!isset($this->nbt->BiomeColors) or !($this->nbt->BiomeColors instanceof IntTagArray)){
-			$this->nbt->BiomeColors = new IntTagArray("BiomeColors", array_fill(0, 256, 0));
+		if(!isset($this->nbt->BiomeColors) or !($this->nbt->BiomeColors instanceof IntArrayTag)){
+			$this->nbt->BiomeColors = new IntArrayTag("BiomeColors", array_fill(0, 256, 0));
 		}
 
-		if(!isset($this->nbt->HeightMap) or !($this->nbt->HeightMap instanceof IntTagArray)){
-			$this->nbt->HeightMap = new IntTagArray("HeightMap", array_fill(0, 256, 0));
+		if(!isset($this->nbt->HeightMap) or !($this->nbt->HeightMap instanceof IntArrayTag)){
+			$this->nbt->HeightMap = new IntArrayTag("HeightMap", array_fill(0, 256, 0));
 		}
 
 		if(!isset($this->nbt->Blocks)){
@@ -366,9 +366,9 @@ class Chunk extends BaseFullChunk{
 			$nbt->SkyLight = new ByteArrayTag("SkyLight", $this->getBlockSkyLightArray());
 			$nbt->BlockLight = new ByteArrayTag("BlockLight", $this->getBlockLightArray());
 
-			$nbt->BiomeColors = new IntTagArray("BiomeColors", $this->getBiomeColorArray());
+			$nbt->BiomeColors = new IntArrayTag("BiomeColors", $this->getBiomeColorArray());
 
-			$nbt->HeightMap = new IntTagArray("HeightMap", $this->getHeightMapArray());
+			$nbt->HeightMap = new IntArrayTag("HeightMap", $this->getHeightMapArray());
 		}
 
 		$entities = [];
