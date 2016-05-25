@@ -70,7 +70,7 @@ class Chunk extends BaseFullChunk{
 
 		$extraData = [];
 
-		if(!isset($this->nbt->ExtraData) or !($this->nbt->ExtraData instanceof ByteTagArray)){
+		if(!isset($this->nbt->ExtraData) or !($this->nbt->ExtraData instanceof ByteArrayTag)){
 			$this->nbt->ExtraData = new ByteArrayTag("ExtraData", Binary::writeInt(0));
 		}else{
 			$stream = new BinaryStream($this->nbt->ExtraData->getValue());
