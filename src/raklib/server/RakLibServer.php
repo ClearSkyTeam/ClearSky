@@ -6,13 +6,18 @@ class RakLibServer extends \Thread{
     /** @var \ThreadedLogger */
     protected $logger;
     protected $loader;
-    public $loadPaths;
+
+    public $loadPaths = [];
+
     protected $shutdown;
+
     /** @var \Threaded */
     protected $externalQueue;
     /** @var \Threaded */
     protected $internalQueue;
+
 	protected $mainPath;
+
 	/**
 	 * @param \ThreadedLogger $logger
 	 * @param \ClassLoader    $loader
@@ -113,7 +118,7 @@ class RakLibServer extends \Thread{
 
 	public function shutdownHandler(){
 		if($this->shutdown !== true){
-			$this->getLogger()->emergency("RakLib crashed!");
+			$this->getLogger()->emergency("[RakLib Thread #". \Thread::getCurrentThreadId() ."] RakLib crashed!");
 		}
 	}
 
@@ -145,7 +150,7 @@ class RakLibServer extends \Thread{
 		$oldFile = $errfile;
 		$errfile = $this->cleanPath($errfile);
 
-		$this->getLogger()->debug("An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
+		$this->getLogger()->debug("[RakLib Thread #". \Thread::getCurrentThreadId() ."] An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
 
 		foreach(($trace = $this->getTrace($trace === null ? 3 : 0, $trace)) as $i => $line){
 			$this->getLogger()->debug($line);

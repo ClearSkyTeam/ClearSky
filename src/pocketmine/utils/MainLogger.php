@@ -31,7 +31,7 @@ class MainLogger extends \AttachableThreadedLogger{
 		file_put_contents($logFile, "", FILE_APPEND);
 		$this->logFile = $logFile;
 		$this->logDebug = (bool) $logDebug;
-		$this->logStream = \ThreadedFactory::create();
+		$this->logStream = new \Threaded;
 		$this->start();
 	}
 
@@ -50,39 +50,39 @@ class MainLogger extends \AttachableThreadedLogger{
 		return static::$logger;
 	}
 
-	public function emergency($message, $name = "EMERGENCY"){
-		$this->send($message, \LogLevel::EMERGENCY, $name, TextFormat::RED);
+	public function emergency($message){
+		$this->send($message, \LogLevel::EMERGENCY, "EMERGENCY", TextFormat::RED);
 	}
 
-	public function alert($message, $name = "ALERT"){
-		$this->send($message, \LogLevel::ALERT, $name, TextFormat::RED);
+	public function alert($message){
+		$this->send($message, \LogLevel::ALERT, "ALERT", TextFormat::RED);
 	}
 
-	public function critical($message, $name = "CRITICAL"){
-		$this->send($message, \LogLevel::CRITICAL, $name, TextFormat::RED);
+	public function critical($message){
+		$this->send($message, \LogLevel::CRITICAL, "CRITICAL", TextFormat::RED);
 	}
 
-	public function error($message, $name = "ERROR"){
-		$this->send($message, \LogLevel::ERROR, $name, TextFormat::DARK_RED);
+	public function error($message){
+		$this->send($message, \LogLevel::ERROR, "ERROR", TextFormat::DARK_RED);
 	}
 
-	public function warning($message, $name = "WARNING"){
-		$this->send($message, \LogLevel::WARNING, $name, TextFormat::YELLOW);
+	public function warning($message){
+		$this->send($message, \LogLevel::WARNING, "WARNING", TextFormat::YELLOW);
 	}
 
-	public function notice($message, $name = "NOTICE"){
-		$this->send($message, \LogLevel::NOTICE, $name, TextFormat::AQUA);
+	public function notice($message){
+		$this->send($message, \LogLevel::NOTICE, "NOTICE", TextFormat::AQUA);
 	}
 
-	public function info($message, $name = "INFO"){
-		$this->send($message, \LogLevel::INFO, $name, TextFormat::WHITE);
+	public function info($message){
+		$this->send($message, \LogLevel::INFO, "INFO", TextFormat::WHITE);
 	}
 
-	public function debug($message, $name = "DEBUG"){
+	public function debug($message){
 		if($this->logDebug === false){
 			return;
 		}
-		$this->send($message, \LogLevel::DEBUG, $name, TextFormat::GRAY);
+		$this->send($message, \LogLevel::DEBUG, "DEBUG", TextFormat::GRAY);
 	}
 
 	/**
@@ -181,7 +181,6 @@ class MainLogger extends \AttachableThreadedLogger{
 		}
 
 		$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s", $now) . "] ". TextFormat::RESET . $color ."[" . $threadName . "/" . $prefix . "]:" . " " . $message . TextFormat::RESET);
-		//$message = TextFormat::toANSI(TextFormat::AQUA . "[" . date("H:i:s") . "] ". TextFormat::RESET . $color ."<".$prefix . ">" . " " . $message . TextFormat::RESET);
 		$cleanMessage = TextFormat::clean($message);
 
 		if(!Terminal::hasFormattingCodes()){

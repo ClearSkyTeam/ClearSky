@@ -63,12 +63,12 @@ class NBT{
 	public static function putItemHelper(Item $item, $slot = null){
 		$tag = new CompoundTag(null, [
 			"id" => new ShortTag("id", $item->getId()),
-			"Count" => new ByteArrayTag("Count", $item->getCount()),
+			"Count" => new ByteTag("Count", $item->getCount()),
 			"Damage" => new ShortTag("Damage", $item->getDamage())
 		]);
 
 		if($slot !== null){
-			$tag->Slot = new ByteArrayTag("Slot", (int) $slot);
+			$tag->Slot = new ByteTag("Slot", (int) $slot);
 		}
 
 		if($item->hasCompoundTag()){
@@ -198,7 +198,7 @@ class NBT{
 
 			switch($type){
 				case NBT::TAG_Byte:
-					$data[$key] = new ByteArrayTag($key, $value);
+					$data[$key] = new ByteTag($key, $value);
 					break;
 				case NBT::TAG_Short:
 					$data[$key] = new ShortTag($key, $value);
@@ -219,7 +219,7 @@ class NBT{
 					$data[$key] = new ByteArrayTag($key, $value);
 					break;
 				case NBT::TAG_String:
-					$data[$key] = new ByteArrayTag($key, $value);
+					$data[$key] = new ByteTag($key, $value);
 					break;
 				case NBT::TAG_List:
 					$data[$key] = new ListTag($key, $value);
@@ -256,7 +256,7 @@ class NBT{
 
 			switch($type){
 				case NBT::TAG_Byte:
-					$data[$key] = new ByteArrayTag($key, $value);
+					$data[$key] = new ByteTag($key, $value);
 					break;
 				case NBT::TAG_Short:
 					$data[$key] = new ShortTag($key, $value);
@@ -485,7 +485,7 @@ class NBT{
 	public function readTag(){
 		switch($this->getByte()){
 			case NBT::TAG_Byte:
-				$tag = new ByteArrayTag($this->getString());
+				$tag = new ByteTag($this->getString());
 				$tag->read($this);
 				break;
 			case NBT::TAG_Short:
@@ -627,7 +627,7 @@ class NBT{
 		}elseif(is_string($value)){
 			return new StringTag($key, $value);
 		}elseif(is_bool($value)){
-			return new ByteArrayTag($key, $value ? 1 : 0);
+			return new ByteTag($key, $value ? 1 : 0);
 		}
 
 		return null;
