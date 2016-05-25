@@ -131,6 +131,9 @@ class Level implements ChunkManager, Metadatable{
 	const TIME_SUNRISE = 23000;
 
 	const TIME_FULL = 24000;
+	
+	const DIMENSION_NORMAL = 0;
+	const DIMENSION_NETHER = 1;
 
 	/** @var Tile[] */
 	private $tiles = [];
@@ -184,6 +187,7 @@ class Level implements ChunkManager, Metadatable{
 
 	private $time;
 	public $stopTime;
+	public $dimension = 0;
 
 	private $folderName;
 
@@ -273,37 +277,39 @@ class Level implements ChunkManager, Metadatable{
 	/** @var Generator */
 	private $generatorInstance;
 	
+	public $dimension = self::DIMENSION_NORMAL;
+	
 	/** Weather **/
 	const WEATHER_CLEARSKY = 0;//Project Name , Have fun~
 	const WEATHER_RAIN = 1;
 	const WEATHER_THUNDER = 2;
 	
-	private $weather = Level::WEATHER_CLEARSKY;
+	private $weather = self::WEATHER_CLEARSKY;
 	private $rainprob = 0;
 	private $raintime = [];
 	private $rainfall = [];
 	private $weatherexectick = 0;
 
 	private function generateWeather(){
-		if($this->getServer()->getProperty("level-settings.weather.enable", true)){
-			if($this->getWeather() === Level::WEATHER_CLEARSKY){
+		if($this->getServer()->getProperty("level-settings.weather.enable", true) && $this->getDimension() == self::DIMENSION_NORMAL){
+			if($this->getWeather() === self::WEATHER_CLEARSKY){
 				$random = mt_rand(1, 1000000);
 				if($random <= $this->rainprob){
-					Server::getInstance()->getPluginManager()->callEvent($ev = new WeatherChangeEvent($this, Level::WEATHER_CLEARSKY));
+					Server::getInstance()->getPluginManager()->callEvent($ev = new WeatherChangeEvent($this, self::WEATHER_CLEARSKY));
 					if(!$ev->isCancelled()){
 						$this->setWeatherExecTick(mt_rand($this->raintime[0], $this->raintime[1]));
-						$this->setWeather(Level::WEATHER_RAIN);
+						$this->setWeather(self::WEATHER_RAIN);
 					}
 				}
 				return;
 			}
 			
-			if($this->getWeather() === Level::WEATHER_RAIN){
+			if($this->getWeather() === self::WEATHER_RAIN){
 				if($this->weatherexectick <= 0){
-					Server::getInstance()->getPluginManager()->callEvent($ev = new WeatherChangeEvent($this, Level::WEATHER_RAIN));
+					Server::getInstance()->getPluginManager()->callEvent($ev = new WeatherChangeEvent($this, self::WEATHER_RAIN));
 					if(!$ev->isCancelled()){
 						$this->weatherexectick = 0;
-						$this->setWeather(Level::WEATHER_CLEARSKY);
+						$this->setWeather(self::WEATHER_CLEARSKY);
 						return;
 					}
 				}
@@ -314,13 +320,13 @@ class Level implements ChunkManager, Metadatable{
 		// Weather TODO : Thunder
 	}
 	
-	public function broadcastWeather($weather = Level::WEATHER_CLEARSKY,Player $player=null){
+	public function broadcastWeather($weather = self::WEATHER_CLEARSKY,Player $player=null){
 		$pk = new LevelEventPacket();
 		switch($weather){
-			case Level::WEATHER_CLEARSKY :
+			case self::WEATHER_CLEARSKY :
 				$pk->evid = LevelEventPacket::EVENT_STOP_RAIN;
 				break;
-			case Level::WEATHER_RAIN :
+			case self::WEATHER_RAIN :
 				$pk->evid = LevelEventPacket::EVENT_START_RAIN;
 				$pk->data = mt_rand($this->rainfall[0],$this->rainfall[1]);
 				break;
@@ -346,7 +352,7 @@ class Level implements ChunkManager, Metadatable{
 		return;
 	}
 	
-	public function setWeather($weather = Level::WEATHER_CLEARSKY,$time = null){
+	public function setWeather($weather = self::WEATHER_CLEARSKY,$time = null){
 		if($time !== null){
 			$this->setWeatherExecTick($time);
 		}
@@ -429,8 +435,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->blockMetadata = new BlockMetadataStore($this);
 		$this->server = $server;
 		$this->autoSave = $server->getAutoSave();
-		
-		/** Weather Config Loader **/
+		/** Weather Config Loader */
 		$this->rainprob = $this->getServer()->getProperty("level-settings.weather.rain.possibility", 10);
 		$this->raintime[] = $this->getServer()->getProperty("level-settings.weather.rain.time.min", 30);
 		$this->raintime[] = $this->getServer()->getProperty("level-settings.weather.rain.time.max", 120);
@@ -454,7 +459,13 @@ class Level implements ChunkManager, Metadatable{
 		$this->updateQueue = new ReversePriorityQueue();
 		$this->updateQueue->setExtractFlags(\SplPriorityQueue::EXTR_BOTH);
 		$this->time = (int) $this->provider->getTime();
-
+		
+		/** Set dimension */
+		if($server->netherName == $this->folderName) $this->setDimension(self::DIMENSION_NETHER);
+		//elseif($server->endName == $this->folderName) $this->setDimension(self::DIMENSION_END);
+		else $this->setDimension(self::DIMENSION_NORMAL);
+		
+		/** Random ticking */
 		foreach($this->getServer()->getProperty("chunk-ticking.disabled-randomly-ticking-blocks", []) as $id){
 			$ticked = isset($this->randomTickBlocks[$id]);
 			if($ticked === true) unset($this->randomTickBlocks[$id]);
@@ -2969,6 +2980,24 @@ class Level implements ChunkManager, Metadatable{
 			return false;
 		}
 		return $this->provider->getName();
+	}
+
+	/**
+	 * Sets the Level dimension
+	 *
+	 * @return int
+	 */
+	public function setDimension($dimension){
+		$this->dimension = $dimension;
+	}
+
+	/**
+	 * Returns the Level dimension
+	 *
+	 * @return int
+	 */
+	public function getDimension(){
+		return $this->dimension;
 	}
 
 	/**
