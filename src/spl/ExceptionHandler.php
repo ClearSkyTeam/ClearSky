@@ -20,9 +20,9 @@ abstract class ExceptionHandler{
 		}elseif(self::errorStarts($errstr, "Undefined index: ")){
 			$exception = new ArrayOutOfBoundsException($errstr, $errno);
 		}elseif(self::errorStarts($errstr, "Uninitialized string offset: ")){
-			$exception = new StringTagOutOfBoundsException($errstr, $errno);
+			$exception = new StringOutOfBoundsException($errstr, $errno);
 		}elseif(self::errorStarts($errstr, "Uninitialized string offset: ")){
-			$exception = new StringTagOutOfBoundsException($errstr, $errno);
+			$exception = new StringOutOfBoundsException($errstr, $errno);
 		}elseif(self::errorStarts($errstr, "Undefined variable: ")){
 			$exception = new UndefinedVariableException($errstr, $errno);
 		}elseif(self::errorStarts($errstr, "Undefined property: ")){
