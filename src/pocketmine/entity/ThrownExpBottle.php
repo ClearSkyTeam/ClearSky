@@ -15,7 +15,7 @@ class ThrownExpBottle extends Projectile{
 	protected $gravity = 0.1;
 	protected $drag = 0.05;
 
-	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 

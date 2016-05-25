@@ -40,7 +40,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 		Item::GUNPOWDER => 0,
 	];
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new BrewingInventory($this);
 

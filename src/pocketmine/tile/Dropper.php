@@ -16,7 +16,7 @@ class Dropper extends Spawnable implements InventoryHolder, Container, Nameable{
 	/** @var DropperInventory */
 	protected $inventory;
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new DropperInventory($this);
 

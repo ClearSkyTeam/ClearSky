@@ -18,7 +18,7 @@ class Boat extends Vehicle{
 	public $gravity = 0.5;
 	public $drag = 0.1;
 	
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		if(!isset($nbt->woodID)){
 			$nbt->woodID = new ByteTag("woodID", 0);
 		}

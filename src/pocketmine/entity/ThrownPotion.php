@@ -32,7 +32,7 @@ class ThrownPotion extends Projectile{
 		$this->setDataProperty(self::DATA_POTION_AMBIENT, Entity::DATA_TYPE_BYTE, 0);
 	}
 
-	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 	

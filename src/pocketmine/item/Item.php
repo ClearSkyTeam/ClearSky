@@ -46,7 +46,7 @@ class Item{
 	}
 
 	/**
-	 * @param Compound $tag
+	 * @param CompoundTag $tag
 	 * @return string
 	 */
 	private static function writeCompoundTag(CompoundTag $tag){
@@ -1498,7 +1498,7 @@ class Item{
 		return $this;
 	}
 
-	public function setCustomBlockData(Compound $compound){
+	public function setCustomBlockData(CompoundTag $compound){
 		$tags = clone $compound;
 		$tags->setName("BlockEntityTag");
 
@@ -1666,7 +1666,9 @@ class Item{
 		if(isset($tag->display) and $tag->display instanceof CompoundTag){
 			$tag->display->Name = new StringTag("Name", $name);
 		}else{
-			$tag->display = new CompoundTag("display", ["Name" => new StringTag("Name", $name)]);
+			$tag->display = new CompoundTag("display", [
+				"Name" => new StringTag("Name", $name)
+			]);
 		}
 		
 		if(!$hadCompoundTag){

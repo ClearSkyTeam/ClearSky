@@ -255,7 +255,7 @@ class PlayerInventory extends BaseInventory{
 			if($item->getId() !== Item::AIR){
 				$this->slots[$index] = clone $item;
 			}else{
-				$this->slots[$index] = Item::get(Item::AIR, null, 0); // set 0 instead of unset and messing up everything
+				unset($this->slots[$index]);
 			}
 
 			$this->onSlotChange($index, $old);
@@ -395,21 +395,6 @@ class PlayerInventory extends BaseInventory{
 		}
 	}
 
-	public function addItem(...$slots) {
-		$result = parent::addItem(...$slots);
-		if($this->getHolder() instanceof Player){
-			/*if($this->getHolder()->isSurvival())*/ $this->sendContents($this->getHolder()); //creative also, just test
-		}
-		return $result;
-	}
-	
-	public function removeItem(...$slots){
-		$result = parent::removeItem(...$slots);
-		if($this->getHolder() instanceof Player){
-			/*if($this->getHolder()->isSurvival())*/ $this->sendContents($this->getHolder());
-		}
-		return $result;
-	}
 	/**
 	 * @param int             $index
 	 * @param Player|Player[] $target

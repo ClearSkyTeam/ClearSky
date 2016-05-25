@@ -8,6 +8,7 @@ use pocketmine\math\Vector3;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\LongTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\utils\LevelException;
 
@@ -16,7 +17,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 	protected $level;
 	/** @var string */
 	protected $path;
-	/** @var Compound */
+	/** @var CompoundTag */
 	protected $levelData;
 
 	public function __construct(Level $level, $path){
@@ -56,8 +57,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 	}
 
 	public function getName(){
-		//return $this->levelData["LevelName"];
-		return "world";
+		return $this->levelData["LevelName"];
 	}
 
 	public function getTime(){
@@ -76,7 +76,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 	}
 
 	public function setSeed($value){
-		$this->levelData->RandomSeed = new IntTag("RandomSeed", (int) $value);
+		$this->levelData->RandomSeed = new LongTag("RandomSeed", $value);
 	}
 
 	public function getSpawn(){
@@ -94,7 +94,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 	}
 
 	/**
-	 * @return Compound
+	 * @return CompoundTag
 	 */
 	public function getLevelData(){
 		return $this->levelData;

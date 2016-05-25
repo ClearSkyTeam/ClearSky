@@ -21,7 +21,7 @@ use pocketmine\level\Level;
 class DLDetector extends Spawnable{
 	private $lastType = 0;
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->scheduleUpdate();
 	}

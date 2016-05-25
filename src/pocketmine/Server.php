@@ -852,10 +852,10 @@ class Server{
 
 	/**
 	 * @param string   $name
-	 * @param Compound $nbtTag
+	 * @param CompoundTag $nbtTag
 	 * @param bool     $async
 	 */
-	public function saveOfflinePlayerData($name, Compound $nbtTag, $async = false){
+	public function saveOfflinePlayerData($name, CompoundTag $nbtTag, $async = false){
 		$nbt = new NBT(NBT::BIG_ENDIAN);
 		try{
 			$nbt->setData($nbtTag);

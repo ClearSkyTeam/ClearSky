@@ -319,7 +319,7 @@ class NBT{
 				++$offset;
 			}elseif($c === "{" and !$inQuotes){
 				if($value !== ""){
-					throw new \Throwable("Syntax error: invalid compound start at offset $offset");
+					throw new \Throwable("Syntax error: invalid CompoundTag start at offset $offset");
 				}
 				++$offset;
 				$value = self::parseCompound($data, $offset);

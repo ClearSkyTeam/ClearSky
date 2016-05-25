@@ -17,7 +17,7 @@ use pocketmine\Player;
 
 class MobSpawner extends Spawnable{
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		if(!isset($nbt->EntityId)){
 			$nbt->EntityId = new IntTag("EntityId", 0);

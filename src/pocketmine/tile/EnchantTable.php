@@ -16,7 +16,7 @@ class EnchantTable extends Spawnable implements InventoryHolder, Container, Name
 	/** @var DispenserInventory */
 	protected $inventory;
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new EnchantInventory($this);
 

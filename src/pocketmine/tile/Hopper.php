@@ -15,7 +15,7 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
 	/** @var HopperInventory */
 	protected $inventory;
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new HopperInventory($this);
 

@@ -192,7 +192,7 @@ abstract class BaseInventory implements Inventory{
 	}
 
 	public function firstEmpty(){
-		for($i = 0; $i < $this->getSize(); ++$i){
+		for($i = 0; $i < $this->size; ++$i){
 			if($this->getItem($i)->getId() === Item::AIR){
 				return $i;
 			}

@@ -21,8 +21,9 @@ class ShapedRecipe implements Recipe{
 	private $shapeItems = [];
 
 	/**
-	 * @param Item     $result
-	 * @param string[] $shape
+	 * @param Item $result
+	 * @param int  $height
+	 * @param int  $width
 	 *
 	 * @throws \Throwable
 	 */
@@ -75,6 +76,11 @@ class ShapedRecipe implements Recipe{
 		}
 
 		$this->id = $id;
+	}
+
+	public function addIngredient($x, $y, Item $item){
+		$this->ingredients[$y][$x] = clone $item;
+		return $this;
 	}
 
 	/**

@@ -11,6 +11,7 @@ class EntityRegainHealthEvent extends EntityEvent implements Cancellable{
 	const CAUSE_EATING = 1;
 	const CAUSE_MAGIC = 2;
 	const CAUSE_CUSTOM = 3;
+	const CAUSE_SATURATION = 4;
 
 	private $amount;
 	private $reason;

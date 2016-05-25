@@ -18,10 +18,10 @@ use pocketmine\utils\BinaryStream;
 
 class Chunk extends BaseChunk{
 
-	/** @var Compound */
+	/** @var CompoundTag */
 	protected $nbt;
 
-	public function __construct($level, Compound $nbt = null){
+	public function __construct($level, CompoundTag $nbt = null){
 		if($nbt === null){
 			$this->provider = $level;
 			$this->nbt = new CompoundTag("Level", []);
@@ -136,7 +136,7 @@ class Chunk extends BaseChunk{
 	}
 
 	/**
-	 * @return Compound
+	 * @return CompoundTag
 	 */
 	public function getNBT(){
 		return $this->nbt;
