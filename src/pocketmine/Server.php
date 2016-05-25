@@ -405,13 +405,6 @@ class Server{
 		return $this->getConfigString("server-ip", "0.0.0.0");
 	}
 
-	/**
-	 * @deprecated
-	 */
-	public function getServerName(){
-		return $this->getConfigString("motd", "Minecraft: PE Server");
-	}
-
 	public function getServerUniqueId(){
 		return $this->serverID;
 	}
@@ -702,56 +695,6 @@ class Server{
 		return round((array_sum($this->useAverage) / count($this->useAverage)) * 100, 2);
 	}
 
-
-	/**
-	 * @deprecated
-	 *
-	 * @param     $address
-	 * @param int $timeout
-	 */
-	public function blockAddress($address, $timeout = 300){
-		$this->network->blockAddress($address, $timeout);
-	}
-
-	/**
-	 * @deprecated
-	 *
-	 * @param $address
-	 * @param $port
-	 * @param $payload
-	 */
-	public function sendPacket($address, $port, $payload){
-		$this->network->sendPacket($address, $port, $payload);
-	}
-
-	/**
-	 * @deprecated
-	 *
-	 * @return SourceInterface[]
-	 */
-	public function getInterfaces(){
-		return $this->network->getInterfaces();
-	}
-
-	/**
-	 * @deprecated
-	 *
-	 * @param SourceInterface $interface
-	 */
-	public function addInterface(SourceInterface $interface){
-		$this->network->registerInterface($interface);
-	}
-
-	/**
-	 * @deprecated
-	 *
-	 * @param SourceInterface $interface
-	 */
-	public function removeInterface(SourceInterface $interface){
-		$interface->shutdown();
-		$this->network->unregisterInterface($interface);
-	}
-
 	/**
 	 * @return SimpleCommandMap
 	 */
@@ -789,7 +732,7 @@ class Server{
 	/**
 	 * @param string $name
 	 *
-	 * @return Compound
+	 * @return CompoundTag
 	 */
 	public function getOfflinePlayerData($name){
 		$name = strtolower($name);
@@ -1080,6 +1023,8 @@ class Server{
 	 * @param bool  $forceUnload
 	 *
 	 * @return bool
+	 *
+	 * @throws \InvalidStateException
 	 */
 	public function unloadLevel(Level $level, $forceUnload = false){
 		if($level === $this->getDefaultLevel() and !$forceUnload){
@@ -1134,9 +1079,7 @@ class Server{
 		}catch(\Throwable $e){
 
 			$this->logger->error($this->getLanguage()->translateString("pocketmine.level.loadError", [$name, $e->getMessage()]));
-			if($this->logger instanceof MainLogger){
-				$this->logger->logException($e);
-			}
+			$this->logger->logException($e);
 			return false;
 		}
 
@@ -1193,9 +1136,7 @@ class Server{
 			$level->setTickRate($this->baseTickRate);
 		}catch(\Throwable $e){
 			$this->logger->error($this->getLanguage()->translateString("pocketmine.level.generateError", [$name, $e->getMessage()]));
-			if($this->logger instanceof MainLogger){
-				$this->logger->logException($e);
-			}
+			$this->logger->logException($e);
 			return false;
 		}
 
@@ -1515,6 +1456,12 @@ class Server{
 		return $translatedConfig;
 	}
 	
+	public static function microSleep(int $microseconds){
+		Server::$sleeper->synchronized(function(int $ms){
+			Server::$sleeper->wait($ms);
+		}, $microseconds);
+	}
+	
 	/**
 	 * @param \ClassLoader    $autoloader
 	 * @param \ThreadedLogger $logger
@@ -1524,9 +1471,10 @@ class Server{
 	 */
 	public function __construct(\ClassLoader $autoloader, \ThreadedLogger $logger, $filePath, $dataPath, $pluginPath){
 		self::$instance = $this;
-
+		self::$sleeper = new \Threaded;
 		$this->autoloader = $autoloader;
 		$this->logger = $logger;
+		try{
 		$this->filePath = $filePath;
 		
 		if(!file_exists($dataPath . "crashdumps/")){
@@ -1628,7 +1576,7 @@ class Server{
 
 		if(($poolSize = $this->getProperty("settings.async-workers", "auto")) === "auto"){
 			$poolSize = ServerScheduler::$WORKERS;
-			$processors = Utils::getCoreCount() - 4;
+			$processors = Utils::getCoreCount() - 2;
 
 			if($processors > 0){
 				$poolSize = max(1, $processors);
@@ -1679,7 +1627,10 @@ class Server{
 			$this->setConfigInt("difficulty", 3);
 		}
 
-		define("pocketmine\\DEBUG", (int) $this->getProperty("debug.level", 1));
+			define('pocketmine\DEBUG', (int) $this->getProperty("debug.level", 1));
+
+			ini_set('assert.exception', 1);
+
 		if($this->logger instanceof MainLogger){
 			$this->logger->setLogDebug(\pocketmine\DEBUG > 1);
 		}
@@ -1721,8 +1672,6 @@ class Server{
 		Effect::init();
 		Enchantment::init();
 		Attribute::init();
-		/** TODO: @deprecated */
-		TextWrapper::init();
 		$this->craftingManager = new CraftingManager();
 
 		$this->pluginManager = new PluginManager($this, $this->commandMap);
@@ -1732,7 +1681,6 @@ class Server{
 		$this->pluginManager->registerInterface(PharPluginLoader::class);
 		$this->pluginManager->registerInterface(ScriptPluginLoader::class);
 
-		set_exception_handler([$this, "exceptionHandler"]);
 		register_shutdown_function([$this, "crashDump"]);
 
 		$this->queryRegenerateTask = new QueryRegenerateEvent($this, 5);
@@ -1783,7 +1731,12 @@ class Server{
 				$this->setConfigString("level-name", "world");
 			}
 			if($this->loadLevel($default) === false){
-				$seed = $this->getConfigInt("level-seed", time());
+				$seed = getopt("", ["level-seed::"])["level-seed"] ?? $this->properties->get("level-seed", time());
+				if(!is_numeric($seed) or bccomp($seed, "9223372036854775807") > 0){
+					$seed = Utils::javaStringHash($seed);
+				}elseif(PHP_INT_SIZE === 8){
+					$seed = (int) $seed;
+				}
 				$this->generateLevel($default, $seed === 0 ? time() : $seed);
 			}
 
@@ -1807,6 +1760,9 @@ class Server{
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 
 		$this->start();
+		}catch(\Throwable $e){
+			$this->exceptionHandler($e);
+		}
 	}
 
 	/**
@@ -2002,15 +1958,6 @@ class Server{
 		$this->pluginManager->enablePlugin($plugin);
 	}
 
-	/**
-	 * @param Plugin $plugin
-	 *
-	 * @deprecated
-	 */
-	public function loadPlugin(Plugin $plugin){
-		$this->enablePlugin($plugin);
-	}
-
 	public function disablePlugins(){
 		$this->pluginManager->disablePlugins();
 	}
@@ -2037,10 +1984,6 @@ class Server{
 	 * @throws \Throwable
 	 */
 	public function dispatchCommand(CommandSender $sender, $commandLine){
-		if(!($sender instanceof CommandSender)){
-			throw new ServerException("CommandSender is not valid");
-		}
-
 		if($this->commandMap->dispatch($sender, $commandLine)){
 			return true;
 		}
@@ -2075,7 +2018,7 @@ class Server{
 		$this->reloadWhitelist();
 		$this->operators->reload();
 
-		$this->memoryManager->doObjectCleanup();
+		#$this->memoryManager->doObjectCleanup();
 
 		foreach($this->getIPBans()->getEntries() as $entry){
 			$this->getNetwork()->blockAddress($entry->getName(), -1);
@@ -2154,7 +2097,8 @@ class Server{
 			$this->properties->save();
 
 			$this->getLogger()->debug("Closing console");
-			$this->console->kill();
+			$this->console->shutdown();
+			$this->console->notify();
 
 			$this->getLogger()->debug("Stopping network interfaces");
 			foreach($this->network->getInterfaces() as $interface){
@@ -2167,6 +2111,7 @@ class Server{
 			gc_collect_cycles();
 		}catch(\Throwable $e){
 			$this->logger->emergency("Crashed while crashing, killing process");
+			$this->logger->emergency(get_class($e) . ": ". $e->getMessage());
 			@kill(getmypid());
 		}
 
@@ -2177,7 +2122,7 @@ class Server{
 	}
 
 	/**
-	 * Starts the PocketMine server and starts processing ticks and packets
+	 * Starts the PocketMine-MP server and starts processing ticks and packets
 	 */
 	public function start(){
 		if($this->getConfigBoolean("enable-query", true) === true){
@@ -2467,9 +2412,7 @@ class Server{
 				}
 			}catch(\Throwable $e){
 				$this->logger->critical($this->getLanguage()->translateString("pocketmine.level.tickError", [$level->getName(), $e->getMessage()]));
-				if(\pocketmine\DEBUG > 1 and $this->logger instanceof MainLogger){
-					$this->logger->logException($e);
-				}
+				$this->logger->logException($e);
 			}
 		}
 	}
@@ -2565,9 +2508,7 @@ class Server{
 			}
 		}catch(\Throwable $e){
 			if(\pocketmine\DEBUG > 1){
-				if($this->logger instanceof MainLogger){
-					$this->logger->logException($e);
-				}
+				$this->logger->logException($e);
 			}
 
 			$this->getNetwork()->blockAddress($address, 600);
@@ -2621,9 +2562,7 @@ class Server{
 						$this->queryHandler->regenerateInfo();
 					}
 				}catch(\Throwable $e){
-					if($this->logger instanceof MainLogger){
-						$this->logger->logException($e);
-					}
+					$this->logger->logException($e);
 				}
 			}
 
