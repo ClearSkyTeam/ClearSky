@@ -296,6 +296,9 @@ class Server{
 
 	/** @var Level */
 	private $levelDefault = null;
+	
+	/** Name of nether world */
+	public $netherName = "nether";
 
 	/**
 	 * @return string
