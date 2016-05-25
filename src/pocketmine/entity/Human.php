@@ -1,19 +1,24 @@
 <?php
 namespace pocketmine\entity;
 
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\event\entity\EntityRegainHealthEvent;
+use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\inventory\PlayerInventory;
 use pocketmine\item\Item as ItemItem;
-use pocketmine\utils\UUID;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\RemovePlayerPacket;
 use pocketmine\Player;
+use pocketmine\utils\UUID;
 
 class Human extends Creature implements ProjectileSource, InventoryHolder{
 
@@ -64,8 +69,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	/**
 	 * @param string $str
-	 * @param bool   $skinName
-	 * @param bool   $skinTransparency
+	 * @param string $skinName
 	 */
 	public function setSkin($str, $skinName){
 		$this->skin = $str;
@@ -84,10 +88,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		$this->inventory = new PlayerInventory($this);
 		if($this instanceof Player){
 			$this->addWindow($this->inventory, 0);
-		}
-
-
-		if(!($this instanceof Player)){
+		}else{
 			if(isset($this->namedtag->NameTag)){
 				$this->setNameTag($this->namedtag["NameTag"]);
 			}

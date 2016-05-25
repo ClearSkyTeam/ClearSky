@@ -23,7 +23,7 @@ abstract class Projectile extends Entity{
 
 	public $hadCollision = false;
 
-	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
 		$this->shootingEntity = $shootingEntity;
 		if($shootingEntity !== null){
 			$this->setDataProperty(self::DATA_SHOOTER_ID, self::DATA_TYPE_LONG, $shootingEntity->getId());
