@@ -1528,7 +1528,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 			if($entity instanceof Arrow and $entity->hadCollision){
 				$item = Item::get(Item::ARROW, 0, 1);
-				if($this->isSurvival() and !$this->inventory->canAddItem($item)){
+				if(($this->isSurvival() || $this->isAdventure() || $this->isCreative()) and !$this->inventory->canAddItem($item)){
 					continue;
 				}
 
@@ -1554,7 +1554,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$item = $entity->getItem();
 
 					if($item instanceof Item){
-						if($this->isSurvival() and !$this->inventory->canAddItem($item)){
+						if(($this->isSurvival() || $this->isAdventure() || $this->isCreative()) and !$this->inventory->canAddItem($item)){
 							continue;
 						}
 
@@ -2404,7 +2404,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					/** New Launchable Class **/
 					if($item instanceof Launchable){
 						$item->Launch($this);
-						if($this->isSurvival()){
+						if($this->isSurvival() || $this->isAdventure()){
 							$item->setCount($item->getCount() - 1);
 							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
 						}
