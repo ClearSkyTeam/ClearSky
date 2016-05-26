@@ -283,9 +283,8 @@ abstract class Entity extends Location implements Metadatable{
 	}
 	
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
+
 		assert($chunk !== null and $chunk->getProvider() !== null);
-			throw new ChunkException("Invalid garbage Chunk given to Entity");
-		}
 
 		$this->timings = Timings::getEntityTimings($this);
 

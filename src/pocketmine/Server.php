@@ -157,6 +157,9 @@ class Server{
 	/** @var Server */
 	private static $instance = null;
 
+	/** @var \Threaded */
+	private static $sleeper = null;
+
 	/** @var BanList */
 	private $banByName = null;
 
