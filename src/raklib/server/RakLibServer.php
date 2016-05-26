@@ -1,5 +1,7 @@
 <?php
 namespace raklib\server;
+
+
 class RakLibServer extends \Thread{
     protected $port;
     protected $interface;
@@ -7,7 +9,7 @@ class RakLibServer extends \Thread{
     protected $logger;
     protected $loader;
 
-    public $loadPaths = [];
+    public $loadPaths;
 
     protected $shutdown;
 
@@ -31,6 +33,7 @@ class RakLibServer extends \Thread{
         if($port < 1 or $port > 65536){
             throw new \Exception("Invalid port range");
         }
+
         $this->interface = $interface;
         $this->logger = $logger;
         $this->loader = $loader;
@@ -39,13 +42,16 @@ class RakLibServer extends \Thread{
         $this->addDependency($loadPaths, new \ReflectionClass($loader));
         $this->loadPaths = array_reverse($loadPaths);
         $this->shutdown = false;
-        $this->externalQueue = \ThreadedFactory::create();
-        $this->internalQueue = \ThreadedFactory::create();
+
+        $this->externalQueue = new \Threaded;
+        $this->internalQueue = new \Threaded;
+
 	    if(\Phar::running(true) !== ""){
 		    $this->mainPath = \Phar::running(true);
 	    }else{
 		    $this->mainPath = \getcwd() . DIRECTORY_SEPARATOR;
 	    }
+
         $this->start(PTHREADS_INHERIT_NONE);
     }
 

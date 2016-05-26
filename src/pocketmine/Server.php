@@ -870,9 +870,7 @@ class Server{
 			}
 		}catch(\Throwable $e){
 			$this->logger->critical($this->getLanguage()->translateString("pocketmine.data.saveError", [$name, $e->getMessage()]));
-			if(\pocketmine\DEBUG > 1 and $this->logger instanceof MainLogger){
-				$this->logger->logException($e);
-			}
+			$this->logger->logException($e);
 		}
 	}
 
@@ -2020,8 +2018,6 @@ class Server{
 		$this->banByName->load();
 		$this->reloadWhitelist();
 		$this->operators->reload();
-
-		#$this->memoryManager->doObjectCleanup();
 
 		foreach($this->getIPBans()->getEntries() as $entry){
 			$this->getNetwork()->blockAddress($entry->getName(), -1);
