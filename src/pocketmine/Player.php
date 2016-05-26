@@ -2766,13 +2766,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						break;
 					}
 
-					if($this->isSurvival()){
-						if($item->isTool()){
-							if($item->useOn($target) and $item->getDamage() >= $item->getMaxDurability()){
-								$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 1));
-							}else{
-								$this->inventory->setItemInHand($item);
-							}
+					if($item->isTool() and $this->isSurvival()){
+						if($item->useOn($target) and $item->getDamage() >= $item->getMaxDurability()){
+							$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 1));
+						}else{
+							$this->inventory->setItemInHand($item);
 						}
 
 //TODO:						$this->exhaust(0.3, PlayerExhaustEvent::CAUSE_ATTACK);
