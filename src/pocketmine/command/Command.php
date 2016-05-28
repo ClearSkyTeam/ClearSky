@@ -179,7 +179,7 @@ abstract class Command{
 			$this->commandMap = null;
 			$this->activeAliases = $this->aliases;
 			$this->label = $this->nextLabel;
-			unset($commandMap->knownCommands[$this->getLabel()]);
+			$commandMap->clearCommand($this->getLabel());
 
 			return true;
 		}
