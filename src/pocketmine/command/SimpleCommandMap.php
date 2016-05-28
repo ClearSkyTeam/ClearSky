@@ -53,7 +53,7 @@ class SimpleCommandMap implements CommandMap{
 	/**
 	 * @var Command[]
 	 */
-	protected $knownCommands = [];
+	public $knownCommands = [];
 
 	/** @var Server */
 	private $server;
