@@ -5,7 +5,6 @@ namespace pocketmine\entity;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\Compound;
 use pocketmine\Player;
-use pocketmine\level\particle\SplashParticle;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\Server;

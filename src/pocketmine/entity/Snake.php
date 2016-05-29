@@ -8,7 +8,6 @@ use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\Server;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\network\protocol\AnimatePacket;
-use pocketmine\Player;
 
 class Snake extends Entity{
 	// Have fun guessing why
