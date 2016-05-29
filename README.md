@@ -14,7 +14,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
 
 ## Where can I get a phar?
  - You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).
- - You can get an optimized PHP enviroment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
+ - You can get an optimized PHP environment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## Is there a PHP7 version?
