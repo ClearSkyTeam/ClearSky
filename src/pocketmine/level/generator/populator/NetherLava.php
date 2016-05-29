@@ -30,7 +30,7 @@ class NetherLava extends Populator{
 				$y = $this->getHighestWorkableBlock($x, $z);
 				if($y !== -1 and $this->canNetherLavaStay($x, $y, $z)){
 					$this->level->setBlockIdAt($x, $y, $z, Block::LAVA);
-					$this->level->updateBlockLight($x, $y, $z);
+					//$this->level->updateBlockLight($x, $y, $z);
 					$this->lavaSpread($x, $y, $z);
 				}
 			}
@@ -84,7 +84,7 @@ class NetherLava extends Populator{
 				}else{
 					$this->level->setBlockIdAt($x, $y, $z, Block::LAVA);
 					$this->level->setBlockDataAt($x, $y, $z, $decay);
-					$this->level->updateBlockLight($x, $y, $z);
+					//$this->level->updateBlockLight($x, $y, $z);
 					$this->lavaSpread($x, $y, $z);
 					return;
 				}
@@ -132,7 +132,7 @@ class NetherLava extends Populator{
 		if($this->level->getBlockIdAt($x, $y, $z) === Block::AIR){
 			$this->level->setBlockIdAt($x, $y, $z, Block::LAVA);
 			$this->level->setBlockDataAt($x, $y, $z, $newFlowDecay);
-			$this->level->updateBlockLight($x, $y, $z);
+			//$this->level->updateBlockLight($x, $y, $z);
 			$this->lavaSpread($x, $y, $z);
 		}
 	}
