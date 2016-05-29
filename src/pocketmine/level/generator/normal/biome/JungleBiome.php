@@ -38,4 +38,7 @@ class JungleBiome extends NormalBiome{
 	public function getName(){
 		return "Jungle";
 	}
+	public function getColor(){
+		return 0x2c4205;
+	}
 }
