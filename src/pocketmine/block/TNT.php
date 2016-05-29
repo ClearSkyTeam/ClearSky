@@ -9,7 +9,6 @@ use pocketmine\nbt\tag\Double;
 use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Float;
 use pocketmine\Player;
-use pocketmine\level\Level;
 use pocketmine\utils\Random;
 use pocketmine\item\FlintSteel;
 

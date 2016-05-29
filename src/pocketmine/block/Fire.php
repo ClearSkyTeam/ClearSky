@@ -10,7 +10,6 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Server;
 use pocketmine\Player;
-use pocketmine\level\sound\FizzSound;
 
 class Fire extends Flowable implements LightSource{
 

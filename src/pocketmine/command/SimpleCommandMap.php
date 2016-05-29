@@ -192,6 +192,10 @@ class SimpleCommandMap implements CommandMap{
 		return true;
 	}
 
+	public function clearCommand($label){
+		unset($this->knownCommands[$label]);
+	}
+	
 	public function clearCommands(){
 		foreach($this->knownCommands as $command){
 			$command->unregister($this);
