@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\level\generator\populator;
 
 use pocketmine\block\Water;

@@ -6,13 +6,14 @@ use pocketmine\block\Sapling;
 use pocketmine\block\Block;
 use pocketmine\level\generator\populator\MossStone;
 use pocketmine\level\generator\populator\Tree;
+use pocketmine\level\generator\object\BigTree;
 
-class TaigaBiome extends SnowyBiome{
+class MegaTaigaBiome extends NormalBiome{
 
 	public function __construct(){
 		parent::__construct();
 
-		$trees = new Tree(Sapling::SPRUCE);
+		$trees = new BigTree(Sapling::SPRUCE);
 		$trees->setBaseAmount(10);
 		$this->addPopulator($trees);
 
@@ -36,6 +37,6 @@ class TaigaBiome extends SnowyBiome{
 	}
 
 	public function getName(){
-		return "Taiga";
+		return "MegaTaiga";
 	}
 }

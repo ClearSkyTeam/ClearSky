@@ -7,12 +7,12 @@ use pocketmine\block\Block;
 use pocketmine\level\generator\populator\MossStone;
 use pocketmine\level\generator\populator\Tree;
 
-class TaigaBiome extends SnowyBiome{
+class JungleBiome extends NormalBiome{
 
 	public function __construct(){
 		parent::__construct();
 
-		$trees = new Tree(Sapling::SPRUCE);
+		$trees = new Tree(Sapling::JUNGLE);
 		$trees->setBaseAmount(10);
 		$this->addPopulator($trees);
 
@@ -36,6 +36,9 @@ class TaigaBiome extends SnowyBiome{
 	}
 
 	public function getName(){
-		return "Taiga";
+		return "Jungle";
+	}
+	public function getColor(){
+		return 0x2c4205;
 	}
 }

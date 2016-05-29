@@ -109,4 +109,9 @@ class SimpleChunkManager implements ChunkManager{
 	public function getSeed(){
 		return $this->seed;
 	}
+	
+	/** needs to be enhanced */
+	public function getWaterHeight(){
+		return 64;
+	}
 }

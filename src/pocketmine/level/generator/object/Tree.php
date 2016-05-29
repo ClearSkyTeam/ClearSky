@@ -1,4 +1,5 @@
 <?php
+
 namespace pocketmine\level\generator\object;
 
 use pocketmine\block\Block;

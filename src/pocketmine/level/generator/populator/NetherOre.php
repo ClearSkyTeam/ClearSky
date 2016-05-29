@@ -3,10 +3,10 @@
 namespace pocketmine\level\generator\populator;
 
 use pocketmine\level\ChunkManager;
-use pocketmine\level\generator\object\Ore as ObjectOre;
+use pocketmine\level\generator\object\NetherOre as ObjectOre;
 use pocketmine\utils\Random;
 
-class Ore extends Populator{
+class NetherOre extends Populator{
 	private $oreTypes = [];
 
 	public function populate(ChunkManager $level, $chunkX, $chunkZ, Random $random){

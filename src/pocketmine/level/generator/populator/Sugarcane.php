@@ -6,7 +6,7 @@ use pocketmine\block\Block;
 use pocketmine\level\ChunkManager;
 use pocketmine\utils\Random;
 
-class TallGrass extends Populator{
+class Sugarcane extends Populator{
 	/** @var ChunkManager */
 	private $level;
 	private $randomAmount;
@@ -28,22 +28,40 @@ class TallGrass extends Populator{
 			$z = $random->nextRange($chunkZ * 16, $chunkZ * 16 + 15);
 			$y = $this->getHighestWorkableBlock($x, $z);
 
-			if($y !== -1 and $this->canTallGrassStay($x, $y, $z)){
-				$this->level->setBlockIdAt($x, $y, $z, Block::TALL_GRASS);
+			if($y !== -1 and $this->canSugarcaneStay($x, $y, $z)){
+				$this->level->setBlockIdAt($x, $y, $z, Block::SUGARCANE_BLOCK);
 				$this->level->setBlockDataAt($x, $y, $z, 1);
 			}
 		}
 	}
 
-	private function canTallGrassStay($x, $y, $z){
+	private function findWater($x, $y, $z){
+		$count = 0;
+		for($i = $x - 4; $i < ($x + 4); $i++){
+			for($j = $z - 4; $j < ($z + 4); $j++){
+				$b = $this->level->getBlockIdAt($i, $y, $j);
+				//echo "$i $y $j $b $count \n";
+				if($b === Block::WATER or $b === Block::STILL_WATER){
+					$count++;
+				}
+				if($count > 10){
+					return true;
+				}
+			}
+		}
+		return ($count > 10);
+	}
+
+	private function canSugarcaneStay($x, $y, $z){
 		$b = $this->level->getBlockIdAt($x, $y, $z);
-		return ($b === Block::AIR or $b === Block::SNOW_LAYER) and $this->level->getBlockIdAt($x, $y - 1, $z) === Block::GRASS;
+		$below = $this->level->getBlockIdAt($x, $y - 1, $z);
+		return ($b === Block::AIR) and ($below === Block::SAND or $below === Block::GRASS) and $this->findWater($x, $y - 1, $z);
 	}
 
 	private function getHighestWorkableBlock($x, $z){
 		for($y = 127; $y >= 0; --$y){
 			$b = $this->level->getBlockIdAt($x, $y, $z);
-			if($b !== Block::AIR and $b !== Block::LEAVES and $b !== Block::LEAVES2 and $b !== Block::SNOW_LAYER){
+			if($b !== Block::AIR and $b !== Block::LEAVES and $b !== Block::LEAVES2){
 				break;
 			}
 		}
