@@ -5,6 +5,14 @@ use pocketmine\Worker;
 
 class AsyncWorker extends Worker{
 
+	private $logger;
+	private $id;
+
+	public function __construct(\ThreadedLogger $logger, $id){
+		$this->logger = $logger;
+		$this->id = $id;
+	}
+
 	public function run(){
 		$this->registerClassLoader();
 		gc_enable();
@@ -15,11 +23,11 @@ class AsyncWorker extends Worker{
 
 	}
 
-	public function start(int $options = PTHREADS_INHERIT_NONE){
-		parent::start(PTHREADS_INHERIT_CONSTANTS | PTHREADS_INHERIT_FUNCTIONS);
+	public function handleException(\Throwable $e){
+		$this->logger->logException($e);
 	}
 
 	public function getThreadName(){
-		return "Asynchronous Worker";
+		return "Asynchronous Worker #" . $this->id;
 	}
 }
