@@ -19,6 +19,7 @@ class AcaciaTree extends Tree{
 		$this->trunkBlock = Block::LOG;
 		$this->leafBlock = Block::LEAVES;
 		$this->type = Wood2::ACACIA;
+		$this->treeHeight = 8;
 	}
 
 	public function placeObject(ChunkManager $level, $x, $y, $z, Random $random){// ChunkManager -> Level
@@ -127,8 +128,8 @@ class AcaciaTree extends Tree{
 						for((int) $l4 = $l3; $l4 < $i && $k4 > 0; --$k4){
 							if($l4 >= 1){
 								(int) $j2 = $y + $l4;
-								$i3 += $enumfacing1->getFrontOffsetX(); // ?
-								$j1 += $enumfacing1->getFrontOffsetZ(); // ?
+								//$i3 += $enumfacing1->getFrontOffsetX(); // ?
+								//$j1 += $enumfacing1->getFrontOffsetZ(); // ?
 								$blockpos1 = new Vector3($i3, $j2, $j1);
 								$state = Block::get($level->getBlockIdAt($blockpos1->x, $blockpos1->y, $blockpos1->z), $level->getBlockDataAt($blockpos1->x, $blockpos1->y, $blockpos1->z));
 								

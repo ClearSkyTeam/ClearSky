@@ -6,8 +6,10 @@ use pocketmine\block\Block;
 use pocketmine\block\Sapling;
 use pocketmine\level\ChunkManager;
 use pocketmine\utils\Random;
+use pocketmine\block\RedMushroom;
+use pocketmine\block\BrownMushroom;
 
-abstract class Tree{
+abstract class Mushroom{
 	public $overridable = [
 		Block::AIR => true,
 		6 => true,
@@ -19,37 +21,20 @@ abstract class Tree{
 	];
 
 	public $type = 0;
-	public $trunkBlock = Block::LOG;
-	public $leafBlock = Block::LEAVES;
+	public $trunkBlock = Block::BROWN_MUSHROOM_BLOCK;
+	public $leafBlock = Block::BROWN_MUSHROOM_BLOCK;
 	public $treeHeight = 7;
 
 	public static function growTree(ChunkManager $level, $x, $y, $z, Random $random, $type = 0){
 		switch($type){
-			case Sapling::SPRUCE:
-				$tree = new SpruceTree();
+			case Block::BROWN_MUSHROOM:
+				$tree = new BrownMushroomTree();
 				break;
-			case Sapling::BIRCH:
-				if($random->nextBoundedInt(39) === 0){
-					$tree = new BirchTree(true);
-				}else{
-					$tree = new BirchTree();
-				}
+			case Block::RED_MUSHROOM:
+				$tree = new RedMushroomTree();
 				break;
-			case Sapling::JUNGLE:
-				$tree = new JungleTree();
-				break;
-			case Sapling::ACACIA:
-				$tree = new AcaciaTree();
-				break;
-			case Sapling::OAK:
 			default:
-				$tree = new OakTree();
-				/*if($random->nextRange(0, 9) === 0){
-					$tree = new BigTree();
-				}else{*/
-
-				//}
-				break;
+				return false;
 		}
 		if($tree->canPlaceObject($level, $x, $y, $z, $random)){
 			$tree->placeObject($level, $x, $y, $z, $random);
