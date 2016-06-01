@@ -18,7 +18,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean f
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## Is there a PHP7 version?
- - Yes, allthough it is in beta you can check it out in the [php7-0.14.0](https://github.com/ClearSkyTeam/ClearSky/tree/php7-0.14.0) branch!
+ - Yes, although it is in beta you can check it out in the [php7-0.14.0](https://github.com/ClearSkyTeam/ClearSky/tree/php7-0.14.0) branch!
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
