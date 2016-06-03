@@ -2038,11 +2038,6 @@ class Server{
 	 * Shutdowns the server correctly
 	 */
 	public function shutdown(){
-		if($this->isRunning){
-			$killer = new ServerKiller(90);
-			$killer->start();
-#			$killer->detach();
-		}
 		$this->isRunning = false;
 	}
 
