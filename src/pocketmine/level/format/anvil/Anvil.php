@@ -4,15 +4,10 @@ namespace pocketmine\level\format\anvil;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\format\mcregion\McRegion;
 use pocketmine\level\Level;
-use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\Byte;
 use pocketmine\nbt\tag\ByteArray;
 use pocketmine\nbt\tag\Compound;
-use pocketmine\network\protocol\FullChunkDataPacket;
-use pocketmine\tile\Spawnable;
-use pocketmine\utils\BinaryStream;
 use pocketmine\utils\ChunkException;
-
 
 class Anvil extends McRegion{
 
