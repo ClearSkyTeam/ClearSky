@@ -9,7 +9,6 @@ use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\Player;
-use pocketmine\level\Level;
 use pocketmine\utils\Random;
 use pocketmine\item\FlintSteel;
 

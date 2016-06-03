@@ -12,7 +12,6 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 use pocketmine\tile\Hopper as HopperTile;
 use pocketmine\tile\Tile;
-use pocketmine\inventory\HopperInventory;
 
 class Hopper extends Solid{
 

@@ -16,7 +16,6 @@ use pocketmine\entity\Wolf;
 use pocketmine\event\entity\ProjectileLaunchEvent;
 use pocketmine\inventory\Fuel;
 use pocketmine\item\enchantment\Enchantment;
-use pocketmine\level\format\anvil\Anvil;
 use pocketmine\level\Level;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\ByteTag;

@@ -11,8 +11,6 @@ use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\LongTag;
 use pocketmine\nbt\tag\StringTag;
-use pocketmine\tile\Spawnable;
-
 use pocketmine\utils\BinaryStream;
 use pocketmine\utils\ChunkException;
 

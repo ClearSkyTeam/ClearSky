@@ -2,16 +2,8 @@
 namespace pocketmine\entity;
 
 use pocketmine\network\protocol\PlayerActionPacket;
-
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
-use pocketmine\event\entity\EntityDamageEvent;
-use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\item\Item as ItemItem;
-use pocketmine\event\entity\EntityDamageByChildEntityEvent;
-use pocketmine\event\entity\ProjectileHitEvent;
-use pocketmine\event\entity\EntityDamageByBlockEvent;
-use pocketmine\block\Cactus;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 
 class Minecart extends Vehicle{
