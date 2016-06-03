@@ -32,6 +32,13 @@ class MemoryManager{
 	private $chunkCollect;
 	private $chunkTrigger;
 
+	/** @var \WeakRef[] */
+	private $leakWatch = [];
+
+	private $leakInfo = [];
+
+	private $leakSeed = 0;
+
 	private $chunkCache;
 	private $cacheTrigger;
 
