@@ -10,6 +10,7 @@ use pocketmine\item\Item as ItemItem;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\tag\Byte;
 use pocketmine\nbt\tag\Int;
+use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
 class FallingSand extends Entity{

@@ -5,6 +5,8 @@ use pocketmine\level\sound\Sound;
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\LevelEventPacket;
 
+use beito\FlowerPot\MainClass;
+
 class SpellSound extends Sound{
 
 	private $id;

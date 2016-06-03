@@ -13,6 +13,7 @@ use pocketmine\Player;
 use pocketmine\tile\Dispenser as DispenserTile;
 use pocketmine\tile\Tile;
 use pocketmine\entity\ProjectileSource;
+use pocketmine\inventory\DispenserInventory;
 
 class Dispenser extends Solid implements ProjectileSource{
 

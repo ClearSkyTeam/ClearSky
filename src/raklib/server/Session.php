@@ -1,6 +1,7 @@
 <?php
 namespace raklib\server;
 
+use raklib\Binary;
 use raklib\protocol\ACK;
 use raklib\protocol\CLIENT_CONNECT_DataPacket;
 use raklib\protocol\CLIENT_DISCONNECT_DataPacket;
@@ -18,6 +19,8 @@ use raklib\protocol\Packet;
 use raklib\protocol\PING_DataPacket;
 use raklib\protocol\PONG_DataPacket;
 use raklib\protocol\SERVER_HANDSHAKE_DataPacket;
+use raklib\protocol\UNCONNECTED_PING;
+use raklib\protocol\UNCONNECTED_PONG;
 use raklib\RakLib;
 
 class Session{

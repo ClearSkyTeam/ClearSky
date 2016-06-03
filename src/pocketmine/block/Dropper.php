@@ -12,6 +12,7 @@ use pocketmine\nbt\tag\String;
 use pocketmine\Player;
 use pocketmine\tile\Dropper as DropperTile;
 use pocketmine\tile\Tile;
+use pocketmine\inventory\DropperInventory;
 
 class Dropper extends Solid implements RedstoneConsumer{
 	protected $id = self::DROPPER;

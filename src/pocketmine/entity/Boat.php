@@ -2,6 +2,8 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
+use pocketmine\event\entity\EntityDamageEvent;
+use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\level\format\FullChunk;

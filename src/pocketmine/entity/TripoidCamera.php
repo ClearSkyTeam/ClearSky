@@ -3,6 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
+use pocketmine\nbt\tag\Int;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\Compound;
 

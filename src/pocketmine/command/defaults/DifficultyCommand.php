@@ -4,8 +4,10 @@ namespace pocketmine\command\defaults;
 use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\TranslationContainer;
+use pocketmine\network\Network;
 use pocketmine\network\protocol\SetDifficultyPacket;
 use pocketmine\Server;
+
 
 class DifficultyCommand extends VanillaCommand{
 
