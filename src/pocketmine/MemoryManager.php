@@ -32,15 +32,15 @@ class MemoryManager{
 	private $chunkCollect;
 	private $chunkTrigger;
 
-	private $chunkCache;
-	private $cacheTrigger;
-
 	/** @var \WeakRef[] */
 	private $leakWatch = [];
 
 	private $leakInfo = [];
 
 	private $leakSeed = 0;
+
+	private $chunkCache;
+	private $cacheTrigger;
 
 	public function __construct(Server $server){
 		$this->server = $server;
