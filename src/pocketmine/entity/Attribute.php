@@ -166,4 +166,14 @@ class Attribute{
 	public function markSynchronized(bool $synced = true){
 		$this->desynchronized = !$synced;
 	}
+	  public function send(){
+		$pk = new UpdateAttributePacket();
+            	$pk->maxValue = $this->getMaxValue();
+            	$pk->minValue = $this->getMinValue();
+            	$pk->value = $this->currentValue;
+            	$pk->name = $this->getName();
+            	$pk->entityId = 0;
+            	$pk->encode();
+            	$this->player->dataPacket($pk);
+        }
 }
