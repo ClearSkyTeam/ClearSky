@@ -1,5 +1,4 @@
 <?php
-
 namespace pocketmine\plugin;
 
 use pocketmine\command\defaults\TimingsCommand;
