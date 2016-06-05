@@ -6,23 +6,23 @@ settings:
  #Three-letter language code for server-side localization
  #Check your language code on https://en.wikipedia.org/wiki/List_of_ISO_639-2_codes
  language: "eng"
- force-language: false
  #Whether to send all strings translated to server locale or let the device handle them
+ force-language: false
  shutdown-message: "Server closed"
- whitelist-message: "Server is whitelisted"
- query-plugins: true
  #Allow listing plugins via Query
- deprecated-verbose: true
+ query-plugins: true
  #Show a console message when a plugin uses deprecated API methods
+ deprecated-verbose: true
+ #Enable plugin and core profiling by default
  enable-profiling: false
- profile-report-trigger: 20
  #Will only add results when tick measurement is below or equal to given value (default 20)
- async-workers: 1
+ profile-report-trigger: 20
  #Number of AsyncTask workers.
- #Used for plugin asynchronous tasks, world generation, compression and web communication
- #Set this approximately to your number of cores
- #If set to auto, the server will try to detect the number of cores (or use 2)
-  #Load plugins with incompatible API versions
+ #Used for plugin asynchronous tasks, world generation, compression and web communication.
+ #Set this approximately to your number of cores.
+ #If set to auto, it'll try to detect the number of cores (or use 2)
+ async-workers: auto
+ #Load plugins with incompatible API versions
  #Enabling these options may result in the server loading plugins that are incompatible, hence crashing the server or causing other issues
  incompatible-plugins:
   plugin-too-new:
@@ -32,6 +32,7 @@ settings:
    minor: true
   #Load plugins whose major API version is too old
   plugin-too-old: true
+
 
  config-update: true
  #Whether the server should "try" to add new configs automatically here
