@@ -27,11 +27,11 @@ settings:
  incompatible-plugins:
   plugin-too-new:
    #Load plugins whose major API version is too new
-   major: false
+   major: true
    #Load plugins whose minor API version is too new
-   minor: false
+   minor: true
   #Load plugins whose major API version is too old
-  plugin-too-old: false
+  plugin-too-old: true
 
  config-update: true
  #Whether the server should "try" to add new configs automatically here
