@@ -13,7 +13,7 @@ interface ChunkManager{
 	 *
 	 * @return int 0-255
 	 */
-	public function getBlockIdAt(int $x, int $y, int $z);
+	public function getBlockIdAt($x, $y, $z);
 
 	/**
 	 * Sets the raw block id.
@@ -23,7 +23,7 @@ interface ChunkManager{
 	 * @param int $z
 	 * @param int $id 0-255
 	 */
-	public function setBlockIdAt(int $x, int $y, int $z, int $id);
+	public function setBlockIdAt($x, $y, $z, $id);
 
 	/**
 	 * Gets the raw block metadata
@@ -34,7 +34,7 @@ interface ChunkManager{
 	 *
 	 * @return int 0-15
 	 */
-	public function getBlockDataAt(int $x, int $y, int $z);
+	public function getBlockDataAt($x, $y, $z);
 
 	/**
 	 * Sets the raw block metadata.
@@ -44,7 +44,7 @@ interface ChunkManager{
 	 * @param int $z
 	 * @param int $data 0-15
 	 */
-	public function setBlockDataAt(int $x, int $y, int $z, int $data);
+	public function setBlockDataAt($x, $y, $z, $data);
 
 	/**
 	 * @param int $chunkX
@@ -52,14 +52,14 @@ interface ChunkManager{
 	 *
 	 * @return FullChunk|null
 	 */
-	public function getChunk(int $chunkX, int $chunkZ);
+	public function getChunk($chunkX, $chunkZ);
 
 	/**
 	 * @param int $chunkX
 	 * @param int $chunkZ
 	 * @param FullChunk $chunk
 	 */
-	public function setChunk(int $chunkX, int $chunkZ, FullChunk $chunk = null);
+	public function setChunk($chunkX, $chunkZ, FullChunk $chunk = null);
 
 	/**
 	 * Gets the level seed
