@@ -937,56 +937,86 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 			++$count;
 
-			unset($this->loadQueue[$index]);
 			$this->usedChunks[$index] = false;
+			$this->level->registerChunkLoader($this, $X, $Z, false);
 
-			$this->level->useChunk($X, $Z, $this);
-			$this->level->requestChunk($X, $Z, $this, LevelProvider::ORDER_ZXY);
-		}
-
-		if($this->chunkLoadCount >= 56 and $this->spawned === false){
-			$this->spawned = true;
-
-			$this->sendSettings();
-			$this->sendPotionEffects($this);
-			$this->sendData($this);
-			$this->inventory->sendContents($this);
-			$this->inventory->sendArmorContents($this);
-
-			$pk = new SetTimePacket();
-			$pk->time = $this->level->getTime();
-			$pk->started = $this->level->stopTime == false;
-			$this->dataPacket($pk);
-
-			$pk = new PlayStatusPacket();
-			$pk->status = PlayStatusPacket::PLAYER_SPAWN;
-			$this->dataPacket($pk);
-
-			$pos = $this->level->getSafeSpawn($this);
-
-			$this->server->getPluginManager()->callEvent($ev = new PlayerRespawnEvent($this, $pos));
-
-			$pos = $ev->getRespawnPosition();
-			$pk = new RespawnPacket();
-			$pk->x = $pos->x;
-			$pk->y = $pos->y;
-			$pk->z = $pos->z;
-			$this->dataPacket($pk);
-
-			$this->noDamageTicks = 60;
-
-			foreach($this->usedChunks as $index => $c){
-				Level::getXZ($index, $chunkX, $chunkZ);
-				foreach($this->level->getChunkEntities($chunkX, $chunkZ) as $entity){
-				if($entity !== $this and !$entity->closed and $entity->isAlive()){
-						$entity->spawnTo($this);
-					}
+			if(!$this->level->populateChunk($X, $Z)){
+				if($this->spawned and $this->teleportPosition === null){
+					continue;
+				}else{
+					break;
 				}
 			}
 
-			$this->teleport($pos);
+			unset($this->loadQueue[$index]);
+			$this->level->requestChunk($X, $Z, $this);
+		}
 
-			$this->spawnToAll();
+		if($this->chunkLoadCount >= $this->spawnThreshold and $this->spawned === false and $this->teleportPosition === null){
+			$this->doFirstSpawn();
+		}
+
+		Timings::$playerChunkSendTimer->stopTiming();
+	}
+
+	protected function doFirstSpawn(){
+		$this->spawned = true;
+
+		$this->sendSettings();
+		$this->setMovementSpeed(0.1);
+		$this->sendPotionEffects($this);
+		$this->sendData($this);
+		$this->inventory->sendContents($this);
+		$this->inventory->sendArmorContents($this);
+
+		$pk = new SetTimePacket();
+		$pk->time = $this->level->getTime();
+		$pk->started = $this->level->stopTime == false;
+		$this->dataPacket($pk);
+
+		$pos = $this->level->getSafeSpawn($this);
+
+		$this->server->getPluginManager()->callEvent($ev = new PlayerRespawnEvent($this, $pos));
+
+		$pos = $ev->getRespawnPosition();
+
+		$pk = new RespawnPacket();
+		$pk->x = $pos->x;
+		$pk->y = $pos->y;
+		$pk->z = $pos->z;
+		$this->dataPacket($pk);
+
+		$pk = new PlayStatusPacket();
+		$pk->status = PlayStatusPacket::PLAYER_SPAWN;
+		$this->dataPacket($pk);
+
+		$this->server->getPluginManager()->callEvent($ev = new PlayerJoinEvent($this,
+			new TranslationContainer(TextFormat::YELLOW . "%multiplayer.player.joined", [
+				$this->getDisplayName()
+			])
+		));
+		if(strlen(trim($ev->getJoinMessage())) > 0){
+			$this->server->broadcastMessage($ev->getJoinMessage());
+		}
+
+		$this->noDamageTicks = 60;
+
+		foreach($this->usedChunks as $index => $c){
+			Level::getXZ($index, $chunkX, $chunkZ);
+			foreach($this->level->getChunkEntities($chunkX, $chunkZ) as $entity){
+				if($entity !== $this and !$entity->closed and $entity->isAlive()){
+					$entity->spawnTo($this);
+				}
+			}
+		}
+
+		$this->teleport($pos);
+
+		$this->spawnToAll();
+
+		if($this->server->getUpdater()->hasUpdate() and $this->hasPermission(Server::BROADCAST_CHANNEL_ADMINISTRATIVE)){
+			$this->server->getUpdater()->showPlayerUpdate($this);
+		}
 
 		if($this->getHealth() <= 0){
 			$pk = new RespawnPacket();
@@ -1002,9 +1032,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->setHealth($this->getHealth());
 		$this->setFood($this->getFood());
 		$this->getLevel()->broadcastWeather($this->getLevel()->getWeather(),$this);
-		
-		$this->server->getPluginManager()->callEvent($ev = new PlayerJoinEvent($this, ""));
-		}
+
 	}
 
 	protected function orderChunks(){
