@@ -22,6 +22,17 @@ settings:
  #Used for plugin asynchronous tasks, world generation, compression and web communication
  #Set this approximately to your number of cores
  #If set to auto, the server will try to detect the number of cores (or use 2)
+  #Load plugins with incompatible API versions
+ #Enabling these options may result in the server loading plugins that are incompatible, hence crashing the server or causing other issues
+ incompatible-plugins:
+  plugin-too-new:
+   #Load plugins whose major API version is too new
+   major: false
+   #Load plugins whose minor API version is too new
+   minor: false
+  #Load plugins whose major API version is too old
+  plugin-too-old: false
+
  config-update: true
  #Whether the server should "try" to add new configs automatically here
 
