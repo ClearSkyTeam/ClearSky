@@ -2,6 +2,7 @@
 namespace pocketmine\level\format\anvil;
 
 use pocketmine\level\format\FullChunk;
+use pocketmine\network\protocol\FullChunkDataPacket;
 use pocketmine\level\format\mcregion\McRegion;
 use pocketmine\level\Level;
 use pocketmine\nbt\NBT;
