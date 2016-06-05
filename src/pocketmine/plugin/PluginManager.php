@@ -1,5 +1,6 @@
 <?php
 namespace pocketmine\plugin;
+
 use pocketmine\command\defaults\TimingsCommand;
 use pocketmine\command\PluginCommand;
 use pocketmine\command\SimpleCommandMap;
