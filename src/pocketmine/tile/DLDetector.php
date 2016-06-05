@@ -73,7 +73,7 @@ class DLDetector extends Spawnable{
 	}
 
 	public function isActivated(){
-		if($this->getType() == Block::DAYLIGHT_SENSOR) {
+		if($this->getType() == Block::DAYLIGHT_DETECTOR) {
 			if($this->getLightByTime() == 15) return true;
 			return false;
 		}else{
