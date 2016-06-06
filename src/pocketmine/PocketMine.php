@@ -448,18 +448,20 @@ namespace pocketmine {
 	$logger->info("Stopping other threads");
 
 	foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
-		$logger->debug("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
+		echo("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
 		$thread->quit();
+		echo("Finished LINE 453".$id);
 	}
-	echo("I'm stuck at 455");
+	echo("I'm stuck at 456");
 	$killer = new ServerKiller(8);
-	echo("I'm stuck at 457");
+	echo("I'm stuck at 458");
 	$killer->start();
-	echo("I'm stuck at 459");
+	echo("I'm stuck at 460");
 	$logger->shutdown();
-	echo("I'm stuck at 461");
+	echo("I'm stuck at 462");
 	$logger->quit();
-	#$logger->join();
+	echo("I'm stuck at 464");
+	$logger->join();
 	echo("I'm definetly not stuck here");
 	echo Terminal::$FORMAT_RESET . "\n";
 
