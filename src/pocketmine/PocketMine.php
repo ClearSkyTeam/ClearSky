@@ -446,7 +446,7 @@ namespace pocketmine {
 	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
 
 	$logger->info("Stopping other threads");
-
+	echo("????")
 	foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
 		echo("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
 		$thread->quit();
