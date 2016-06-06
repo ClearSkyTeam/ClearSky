@@ -451,7 +451,7 @@ namespace pocketmine {
 		$logger->debug("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
 		$thread->quit();
 	}
-	echo("I'm stuck at 455")
+	echo("I'm stuck at 455");
 	$killer = new ServerKiller(8);
 	echo("I'm stuck at 457");
 	$killer->start();
