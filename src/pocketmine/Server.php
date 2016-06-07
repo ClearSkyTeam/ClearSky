@@ -98,6 +98,7 @@ use pocketmine\network\protocol\PlayerListPacket;
 use pocketmine\network\query\QueryHandler;
 use pocketmine\network\RakLibInterface;
 use pocketmine\network\rcon\RCON;
+use pocketmine\network\SourceInterface;
 use pocketmine\network\upnp\UPnP;
 use pocketmine\permission\BanList;
 use pocketmine\permission\DefaultPermissions;
@@ -122,6 +123,8 @@ use pocketmine\utils\Binary;
 use pocketmine\utils\Config;
 use pocketmine\utils\LevelException;
 use pocketmine\utils\MainLogger;
+use pocketmine\utils\ServerException;
+use pocketmine\utils\ServerKiller;
 use pocketmine\utils\Terminal;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\TextWrapper;
@@ -1472,9 +1475,9 @@ class Server{
 		self::$sleeper = new \Threaded;
 		$this->autoloader = $autoloader;
 		$this->logger = $logger;
-		try{
 		$this->filePath = $filePath;
 		
+		try{
 		if(!file_exists($dataPath . "crashdumps/")){
 			mkdir($dataPath . "crashdumps/", 0777);
 		}
@@ -1494,7 +1497,7 @@ class Server{
 		$this->dataPath = realpath($dataPath) . DIRECTORY_SEPARATOR;
 		$this->pluginPath = realpath($pluginPath) . DIRECTORY_SEPARATOR;
 
-		$this->console = new CommandReader();
+		$this->console = new CommandReader($logger);
 
 		$version = new VersionString($this->getPocketMineVersion());
 		$reloadpreConfig = false;
@@ -1626,8 +1629,6 @@ class Server{
 		}
 
 			define('pocketmine\DEBUG', (int) $this->getProperty("debug.level", 1));
-
-			ini_set('assert.exception', 1);
 
 		if($this->logger instanceof MainLogger){
 			$this->logger->setLogDebug(\pocketmine\DEBUG > 1);
@@ -1956,6 +1957,15 @@ class Server{
 		$this->pluginManager->enablePlugin($plugin);
 	}
 
+	/**
+	 * @param Plugin $plugin
+	 *
+	 * @deprecated
+	 */
+	public function loadPlugin(Plugin $plugin){
+		$this->enablePlugin($plugin);
+	}
+
 	public function disablePlugins(){
 		$this->pluginManager->disablePlugins();
 	}
@@ -1982,6 +1992,10 @@ class Server{
 	 * @throws \Throwable
 	 */
 	public function dispatchCommand(CommandSender $sender, $commandLine){
+		if(!($sender instanceof CommandSender)){
+			throw new ServerException("CommandSender is not valid");
+		}
+
 		if($this->commandMap->dispatch($sender, $commandLine)){
 			return true;
 		}
@@ -2101,8 +2115,8 @@ class Server{
 
 			gc_collect_cycles();
 		}catch(\Throwable $e){
+			$this->logger->logException($e);
 			$this->logger->emergency("Crashed while crashing, killing process");
-			$this->logger->emergency(get_class($e) . ": ". $e->getMessage());
 			@kill(getmypid());
 		}
 
@@ -2183,7 +2197,9 @@ class Server{
 
 		$errfile = cleanPath($errfile);
 
+		if($this->logger instanceof MainLogger){
 			$this->logger->logException($e, $trace);
+		}
 
 		$lastError = [
 			"type" => $type,
@@ -2403,7 +2419,9 @@ class Server{
 				}
 			}catch(\Throwable $e){
 				$this->logger->critical($this->getLanguage()->translateString("pocketmine.level.tickError", [$level->getName(), $e->getMessage()]));
-				$this->logger->logException($e);
+				if(\pocketmine\DEBUG > 1 and $this->logger instanceof MainLogger){
+					$this->logger->logException($e);
+				}
 			}
 		}
 	}
@@ -2499,7 +2517,9 @@ class Server{
 			}
 		}catch(\Throwable $e){
 			if(\pocketmine\DEBUG > 1){
-				$this->logger->logException($e);
+				if($this->logger instanceof MainLogger){
+					$this->logger->logException($e);
+				}
 			}
 
 			$this->getNetwork()->blockAddress($address, 600);
