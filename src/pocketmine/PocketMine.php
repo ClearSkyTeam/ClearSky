@@ -449,14 +449,13 @@ namespace pocketmine {
 		$logger->debug("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
 		$thread->quit();
 	}
-
 	$killer = new ServerKiller(8);
 	$killer->start();
 
 	$logger->shutdown();
 	$logger->join();
 
-	echo "Server has stopped" . Terminal::$FORMAT_RESET . "\n";
+//	echo Terminal::$FORMAT_RESET . "\n";
 
 	exit(0);
 
