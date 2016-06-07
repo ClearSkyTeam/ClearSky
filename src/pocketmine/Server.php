@@ -266,7 +266,7 @@ class Server{
 	private $filePath;
 	private $dataPath;
 	private $pluginPath;
-	
+
 	/** Additional **/
 	private $shutdownreason;
 
@@ -299,7 +299,7 @@ class Server{
 
 	/** @var Level */
 	private $levelDefault = null;
-	
+
 	/** Name of nether world */
 	public $netherName = "nether";
 
@@ -323,7 +323,7 @@ class Server{
 	public function getPocketMineBuild(){
 		return \pocketmine\BUILD;
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -355,6 +355,13 @@ class Server{
 	/**
 	 * @return string
 	 */
+	public function getPHP5_ApiVersion(){
+		return \pocketmine\PHP5_API_VERSION;
+	}
+
+	/**
+	 * @return string
+	 */
 	public function getFilePath(){
 		return $this->filePath;
 	}
@@ -365,7 +372,7 @@ class Server{
 	public function getDataPath(){
 		return $this->dataPath;
 	}
-	
+
 	/**
 	 * @return string
 	 */
@@ -1431,7 +1438,7 @@ class Server{
 	public static function getInstance(){
 		return self::$instance;
 	}
-	
+
 	/**
 	 * ClearSky internal use
 	 */
@@ -1450,19 +1457,19 @@ class Server{
 			}else{
 				$translateValue[$key]=$value;
 			}
-			
+
 		}
 		unset($translateJson);
 		$translatedConfig = str_replace($translateKeys, $translateValue, $config);
 		return $translatedConfig;
 	}
-	
+
 	public static function microSleep(int $microseconds){
 		Server::$sleeper->synchronized(function(int $ms){
 			Server::$sleeper->wait($ms);
 		}, $microseconds);
 	}
-	
+
 	/**
 	 * @param \ClassLoader    $autoloader
 	 * @param \ThreadedLogger $logger
@@ -1477,11 +1484,11 @@ class Server{
 		$this->logger = $logger;
 		try{
 		$this->filePath = $filePath;
-		
+
 		if(!file_exists($dataPath . "crashdumps/")){
 			mkdir($dataPath . "crashdumps/", 0777);
 		}
-		
+
 		if(!file_exists($dataPath . "worlds/")){
 			mkdir($dataPath . "worlds/", 0777);
 		}
@@ -1551,7 +1558,7 @@ class Server{
 			"rcon.password" => substr(base64_encode(@Utils::getRandomBytes(20, false)), 3, 10),
 			"auto-save" => true,
 		]);
-		
+
 		if(extension_loaded("xdebug")){
 			if(!$this->getProperty("debug.allow-xdebug", false)){
 				$this->logger->critical("Please REMOVE xdebug in production server");
@@ -2030,7 +2037,7 @@ class Server{
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 		TimingsHandler::reload();
 	}
-	
+
 	public function setshutdownreason($reason){
 		$this->shutdownreason = $reason;
 	}
@@ -2467,7 +2474,7 @@ class Server{
 		if(!Terminal::hasFormattingCodes()){
 			return;
 		}
-		
+
 		if($this->getProperty("I/O.title-usage", true)){
 			$d = Utils::getRealMemoryUsage();
 
