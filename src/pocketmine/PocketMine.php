@@ -460,7 +460,7 @@ namespace pocketmine {
 	$logger->shutdown();
 	$logger->join();
 
-	echo Terminal::$FORMAT_RESET . "\n"; #I don't want all coloured Terminal
+	echo Terminal::$FORMAT_RESET . "\n";
 
 	exit(0);
 
