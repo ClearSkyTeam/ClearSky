@@ -25,6 +25,14 @@ class Position extends Vector3{
 	public static function fromObject(Vector3 $pos, Level $level = null){
 		return new Position($pos->x, $pos->y, $pos->z, $level);
 	}
+	
+	public function add($x, $y = 0, $z = 0){
+		if($x instanceof Vector3){
+			return new Position($this->x + $x->x, $this->y + $x->y, $this->z + $x->z, $this->level);
+		}else{
+			return new Position($this->x + $x, $this->y + $y, $this->z + $z, $this->level);
+		}
+	}
 
 	/**
 	 * @return Level
