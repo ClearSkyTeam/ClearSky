@@ -198,13 +198,12 @@ class PluginManager{
 								//Format: majorVersion.minorVersion.patch
 								$version = array_map("intval", explode(".", $version));
 								$apiVersion = array_map("intval", explode(".", $this->server->getApiVersion()));
-								$PHP5_apiVersion = array_map("intval", explode(".", $this->server->getPHP5_ApiVersion()));
 								//Completely different API version
-								if($version[0] !== $apiVersion[0] and $version[0] !== $PHP5_apiVersion[0]){
+								if($version[0] !== $apiVersion[0]){
 									continue;
 								}
-
-								if(($version[0] == $apiVersion[0] and $version[1] > $apiVersion[1]) || ($version[0] == $PHP5_apiVersion[0] and $version[1] > $PHP5_apiVersion[1])){
+								//If the plugin requires new API features, being backwards compatible
+								if($version[1] > $apiVersion[1]){
 									continue;
 								}
 
