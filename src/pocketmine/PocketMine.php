@@ -78,6 +78,11 @@ namespace pocketmine {
 		exit(1);
 	}
 
+	if(!extension_loaded("Weakref") and !extension_loaded("weakref")){
+		$logger->critical("Unable to find the Weakref extension.");
+		++$errors;
+	}
+	
 	if(!extension_loaded("pthreads")){
 		echo "[CRITICAL] Unable to find the pthreads extension." . PHP_EOL;
 		echo "[CRITICAL] Please use the installer provided on the homepage." . PHP_EOL;
