@@ -4,8 +4,8 @@ namespace pocketmine\scheduler;
 use pocketmine\network\protocol\Info;
 use pocketmine\Server;
 use pocketmine\utils\Utils;
-use pocketmine\utils\VersionString;
 use pocketmine\utils\UUID;
+use pocketmine\utils\VersionString;
 
 class SendUsageTask extends AsyncTask{
 
