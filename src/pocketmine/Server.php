@@ -121,6 +121,7 @@ use pocketmine\tile\Sign;
 use pocketmine\tile\Tile;
 use pocketmine\updater\AutoUpdater;
 use pocketmine\utils\Binary;
+use pocketmine\utils\Color;
 use pocketmine\utils\Config;
 use pocketmine\utils\LevelException;
 use pocketmine\utils\MainLogger;
@@ -1673,6 +1674,7 @@ class Server{
 		Enchantment::init();
 		Attribute::init();
 		EnchantmentLevelTable::init();
+		Color::init();
 		$this->craftingManager = new CraftingManager();
 
 		$this->pluginManager = new PluginManager($this, $this->commandMap);
