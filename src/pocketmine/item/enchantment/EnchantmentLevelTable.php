@@ -12,154 +12,154 @@ class EnchantmentLevelTable{
 	public static function init(){
 		self::$map = [
 			Enchantment::TYPE_ARMOR_PROTECTION => [
-				new Array(1, 21),
-				new Array(12, 32),
-				new Array(23, 43),
-				new Array(34, 54)
+				Array(1, 21),
+				Array(12, 32),
+				Array(23, 43),
+				Array(34, 54)
 			],
 
 			Enchantment::TYPE_ARMOR_FIRE_PROTECTION => [
-				new Array(10, 22),
-				new Array(18, 30),
-				new Array(26, 38),
-				new Array(34, 46)],
+				Array(10, 22),
+				Array(18, 30),
+				Array(26, 38),
+				Array(34, 46)],
 
 			Enchantment::TYPE_ARMOR_FALL_PROTECTION => [
-				new Array(5, 12),
-				new Array(11, 21),
-				new Array(17, 27),
-				new Array(23, 33)
+				Array(5, 12),
+				Array(11, 21),
+				Array(17, 27),
+				Array(23, 33)
 			],
 
 			Enchantment::TYPE_ARMOR_EXPLOSION_PROTECTION => [
-				new Array(5, 17),
-				new Array(13, 25),
-				new Array(21, 33),
-				new Array(29, 41)
+				Array(5, 17),
+				Array(13, 25),
+				Array(21, 33),
+				Array(29, 41)
 			],
 
 			Enchantment::TYPE_ARMOR_PROJECTILE_PROTECTION => [
-				new Array(3, 18),
-				new Array(9, 24),
-				new Array(15, 30),
-				new Array(21, 36)
+				Array(3, 18),
+				Array(9, 24),
+				Array(15, 30),
+				Array(21, 36)
 			],
 
 			Enchantment::TYPE_WATER_BREATHING => [
-				new Array(10, 40),
-				new Array(20, 50),
-				new Array(30, 60)
+				Array(10, 40),
+				Array(20, 50),
+				Array(30, 60)
 			],
 
 			Enchantment::TYPE_WATER_AFFINITY => [
-				new Array(10, 41)
+				Array(10, 41)
 			],
 
 			Enchantment::TYPE_ARMOR_THORNS => [
-				new Array(10, 60),
-				new Array(30, 80),
-				new Array(50, 100)
+				Array(10, 60),
+				Array(30, 80),
+				Array(50, 100)
 			],
 
 			//Weapon
 			Enchantment::TYPE_WEAPON_SHARPNESS => [
-				new Array(1, 21),
-				new Array(12, 32),
-				new Array(23, 43),
-				new Array(34, 54),
-				new Array(45, 65)
+				Array(1, 21),
+				Array(12, 32),
+				Array(23, 43),
+				Array(34, 54),
+				Array(45, 65)
 			],
 
 			Enchantment::TYPE_WEAPON_SMITE => [
-				new Array(5, 25),
-				new Array(13, 33),
-				new Array(21, 41),
-				new Array(29, 49),
-				new Array(37, 57)
+				Array(5, 25),
+				Array(13, 33),
+				Array(21, 41),
+				Array(29, 49),
+				Array(37, 57)
 			],
 
 			Enchantment::TYPE_WEAPON_ARTHROPODS => [
-				new Array(5, 25),
-				new Array(13, 33),
-				new Array(21, 41),
-				new Array(29, 49),
-				new Array(37, 57)
+				Array(5, 25),
+				Array(13, 33),
+				Array(21, 41),
+				Array(29, 49),
+				Array(37, 57)
 			],
 
 			Enchantment::TYPE_WEAPON_KNOCKBACK => [
-				new Array(5, 55),
-				new Array(25, 75)
+				Array(5, 55),
+				Array(25, 75)
 			],
 
 			Enchantment::TYPE_WEAPON_FIRE_ASPECT => [
-				new Array(10, 60),
-				new Array(30, 80)
+				Array(10, 60),
+				Array(30, 80)
 			],
 
 			Enchantment::TYPE_WEAPON_LOOTING => [
-				new Array(15, 65),
-				new Array(24, 74),
-				new Array(33, 83)
+				Array(15, 65),
+				Array(24, 74),
+				Array(33, 83)
 			],
 
 			//Bow
 			Enchantment::TYPE_BOW_POWER => [
-				new Array(1, 16),
-				new Array(11, 26),
-				new Array(21, 36),
-				new Array(31, 46),
-				new Array(41, 56)
+				Array(1, 16),
+				Array(11, 26),
+				Array(21, 36),
+				Array(31, 46),
+				Array(41, 56)
 			],
 
 			Enchantment::TYPE_BOW_KNOCKBACK => [
-				new Array(12, 37),
-				new Array(32, 57)
+				Array(12, 37),
+				Array(32, 57)
 			],
 
 			Enchantment::TYPE_BOW_FLAME => [
-				new Array(20, 50)
+				Array(20, 50)
 			],
 
 			Enchantment::TYPE_BOW_INFINITY => [
-				new Array(20, 50)
+				Array(20, 50)
 			],
 
 			//Mining
 			Enchantment::TYPE_MINING_EFFICIENCY => [
-				new Array(1, 51),
-				new Array(11, 61),
-				new Array(21, 71),
-				new Array(31, 81),
-				new Array(41, 91)
+				Array(1, 51),
+				Array(11, 61),
+				Array(21, 71),
+				Array(31, 81),
+				Array(41, 91)
 			],
 
 			Enchantment::TYPE_MINING_SILK_TOUCH => [
-				new Array(15, 65)
+				Array(15, 65)
 			],
 
 			Enchantment::TYPE_MINING_DURABILITY => [
-				new Array(5, 55),
-				new Array(13, 63),
-				new Array(21, 71)
+				Array(5, 55),
+				Array(13, 63),
+				Array(21, 71)
 			],
 
 			Enchantment::TYPE_MINING_FORTUNE => [
-				new Array(15, 55),
-				new Array(24, 74),
-				new Array(33, 83)
+				Array(15, 55),
+				Array(24, 74),
+				Array(33, 83)
 			],
 
 			//Fishing
 			Enchantment::TYPE_FISHING_FORTUNE => [
-				new Array(15, 65),
-				new Array(24, 74),
-				new Array(33, 83)
+				Array(15, 65),
+				Array(24, 74),
+				Array(33, 83)
 			],
 
 			Enchantment::TYPE_FISHING_LURE => [
-				new Array(15, 65),
-				new Array(24, 74),
-				new Array(33, 83)
+				Array(15, 65),
+				Array(24, 74),
+				Array(33, 83)
 			]
 		];
 	}
