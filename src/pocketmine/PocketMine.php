@@ -373,6 +373,11 @@ namespace pocketmine {
 		++$errors;
 	}
 
+	if(!extension_loaded("Weakref") and !extension_loaded("weakref")){
+		$logger->critical("Unable to find the Weakref extension."); #Yep, we do use it.
+		++$errors;
+	}
+
 	$pthreads_version = phpversion("pthreads");
 	if(substr_count($pthreads_version, ".") < 2){
 		$pthreads_version = "0.$pthreads_version";
@@ -387,11 +392,11 @@ namespace pocketmine {
 	}
 	if(extension_loaded("pocketmine")){
 		if(version_compare(phpversion("pocketmine"), "0.0.1") < 0){
-			$logger->critical("You have the native ClearSky extension, but your version is lower than 0.0.1.");
+			$logger->critical("You have the native PocketMine extension, but your version is lower than 0.0.1."); #Who mass replaced that?
 			++$errors;
 		}elseif(version_compare(phpversion("pocketmine"), "0.0.4") > 0){
-			$logger->critical("You have the native ClearSky extension, but your version is higher than 0.0.4.");
-			++$errors;
+			$logger->critical("You have the native PocketMine extension, but your version is higher than 0.0.4."); #Who mass replaced that?
+			++$errors; 
 		}
 	}
 
