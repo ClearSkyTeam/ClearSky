@@ -66,14 +66,14 @@ class SignPost extends Transparent{
 				}
 			}
 
-			if(!isset($faces[$face])){
+			if($face === 1){
 				$this->meta = floor((($player->yaw + 180) * 16 / 360) + 0.5) & 0x0F;
 				$this->getLevel()->setBlock($block, Block::get(Item::SIGN_POST, $this->meta), true);
 				Tile::createTile(Tile::SIGN, $this->getLevel()->getChunk($block->x >> 4, $block->z >> 4), $nbt);
 
 				return true;
 			}else{
-				$this->meta = $faces[$face];
+				$this->meta = $face;
 				$this->getLevel()->setBlock($block, Block::get(Item::WALL_SIGN, $this->meta), true);
 				Tile::createTile(Tile::SIGN, $this->getLevel()->getChunk($block->x >> 4, $block->z >> 4), $nbt);
 
@@ -88,9 +88,11 @@ class SignPost extends Transparent{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(Vector3::SIDE_DOWN)->getId() === Block::AIR){
 				$this->getLevel()->useBreakOn($this);
+
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
+
 		return false;
 	}
 

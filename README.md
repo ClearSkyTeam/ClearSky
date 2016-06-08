@@ -7,10 +7,10 @@
 
 # <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP5+7) 
-** PHP5 will be continued to be supported in 0.15 but, only that version. We'll drop support as soon as 0.16 comes out! **
+** PHP5 support may be dropped soon! **
 An ultra fast PocketMine based Minecraft:PE 0.14.3 multiplayer software with stable features, designed for high performance gaming experience
 
-**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 **Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
 
 ## Where can I get a phar?
@@ -19,7 +19,7 @@ An ultra fast PocketMine based Minecraft:PE 0.14.3 multiplayer software with sta
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## Is there a PHP7 version?
- - Yes, although it is in beta you can check it out in the [php7-0.14.0](https://github.com/ClearSkyTeam/ClearSky/tree/php7-0.14.0) branch!
+ - Yes, although it is in beta you can check it out at the [php7](https://github.com/ClearSkyTeam/ClearSky/tree/php7) branch!
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
