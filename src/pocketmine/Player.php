@@ -2743,7 +2743,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$extraItem = $this->inventory->addItem($recipe->getResult());
 				if(count($extraItem) > 0){
 					foreach($extraItem as $item){
-						$this->level->dropItem($this, $item);
+					//	$this->level->dropItem($this, $item);
 					}
 				}
 				switch($recipe->getResult()->getId()){
