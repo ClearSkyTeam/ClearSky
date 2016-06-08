@@ -250,4 +250,12 @@ class Potion extends Food{
 	public function getResidue(){
 		return Item::get(Item::GLASS_BOTTLE);
 	}
+
+	public function getFoodRestore(){
+		return 0;
+	}
+
+	public function getSaturationRestore(){
+		return 0.0;
+	}
 }

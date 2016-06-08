@@ -743,10 +743,10 @@ class Item{
 			self::$list[self::BEETROOT] = Beetroot::class;
 			self::$list[self::BEETROOT_SEEDS] = BeetrootSeeds::class;
 			self::$list[self::BEETROOT_SOUP] = BeetrootSoup::class;
-			self::$list[self::RAW_SALMON] = RawSalmon::class;
-			self::$list[self::CLOWNFISH] = Clownfish::class;
-			self::$list[self::PUFFERFISH] = Pufferfish::class;
-			self::$list[self::COOKED_SALMON] = CookedSalmon::class;
+			//self::$list[self::RAW_SALMON] = RawSalmon::class;
+			//self::$list[self::CLOWNFISH] = Clownfish::class;
+			//self::$list[self::PUFFERFISH] = Pufferfish::class;
+			//self::$list[self::COOKED_SALMON] = CookedSalmon::class;
 			self::$list[self::ENCHANTED_GOLDEN_APPLE] = EnchantedGoldenApple::class;
 
 			for($i = 0; $i < 256; ++$i){
@@ -1749,6 +1749,7 @@ class Item{
 	}
 	final public function isPlaceable(){
 		$this->canBePlaced();
+	}
 	
 
 	public function canBeConsumed(){
