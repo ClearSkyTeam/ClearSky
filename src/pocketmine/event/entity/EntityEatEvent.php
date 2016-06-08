@@ -52,7 +52,7 @@ class EntityEatEvent extends EntityEvent implements Cancellable{
 		return $this->foodSource;
 	}
 
-	public function getFoodRestore() : int{
+	public function getFoodRestore(){
 		return $this->foodRestore;
 	}
 
@@ -60,7 +60,7 @@ class EntityEatEvent extends EntityEvent implements Cancellable{
 		$this->foodRestore = $foodRestore;
 	}
 
-	public function getSaturationRestore() : float{
+	public function getSaturationRestore(){
 		return $this->saturationRestore;
 	}
 

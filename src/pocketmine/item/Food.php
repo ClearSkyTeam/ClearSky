@@ -1,49 +1,53 @@
 <?php
 namespace pocketmine\item;
 
+use pocketmine\entity\Entity;
+use pocketmine\entity\Human;
+use pocketmine\event\entity\EntityEatItemEvent;
+use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\Player;
-abstract class Food extends Item{
-	public $saturation = 0;
+use pocketmine\Server;
 
-	public function getSaturation(){
-		return $this->saturation;
+abstract class Food extends Item implements FoodSource{
+	public function canBeConsumed(){
+		return true;
 	}
 
-	/**
-	 *
-	 * @param
-	 *        	saturation (float) $float
-	 */
-	public function setSaturation($float){
-		return $this->saturation = $float;
+	public function canBeConsumedBy(Entity $entity){
+		return $entity instanceof Human and $entity->getFood() < $entity->getMaxFood();
 	}
 
-	/**
-	 *
-	 * @param
-	 *        	array([Effect, chance])
-	 */
-	public function getEffects(){
+	public function getResidue(){
+		if($this->getCount() === 1){
+			return Item::get(0);
+		}else{
+			$new = clone $this;
+			$new->count--;
+			return $new;
+		}
+	}
+
+	public function getAdditionalEffects(){
 		return [];
 	}
 
-	/**
-	 *
-	 * @param
-	 *        	Effects (array) $effects
-	 */
-	public function setEffects($effects){
-		return $this->effects = $effects;
-	}
-
-	/**
-	 *
-	 * @param Player $player        	
-	 */
-	public function giveEffects(Player $player){
-		$effects = $this->getEffects();
-		foreach ($effects as $effect){
-			$player->addEffect($effect);
+	public function onConsume(Entity $human){
+		$pk = new EntityEventPacket();
+		$pk->eid = $human->getId();
+		$pk->event = EntityEventPacket::USE_ITEM;
+		if($human instanceof Player){
+			$human->dataPacket($pk);
 		}
+		Server::broadcastPacket($human->getViewers(), $pk);
+
+		$ev = new EntityEatItemEvent($human, $this);
+
+		$human->addSaturation($ev->getSaturationRestore());
+		$human->addFood($ev->getFoodRestore());
+		foreach($ev->getAdditionalEffects() as $effect){
+			$human->addEffect($effect);
+		}
+
+		$human->getInventory()->setItemInHand($ev->getResidue());
 	}
 }

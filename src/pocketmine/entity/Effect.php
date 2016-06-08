@@ -3,6 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
+use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\network\protocol\MobEffectPacket;
 use pocketmine\Player;
 
@@ -173,12 +174,12 @@ class Effect{
 				}
 				return true;
 			case Effect::WITHER:
-				if(($interval = (40 >> $this->amplifier)) > 0){
+				if(($interval = (50 >> $this->amplifier)) > 0){
 					return ($this->duration % $interval) === 0;
 				}
 				return true;
 			case Effect::REGENERATION:
-				if(($interval = (50 >> $this->amplifier)) > 0){
+				if(($interval = (40 >> $this->amplifier)) > 0){
 					return ($this->duration % $interval) === 0;
 				}
 				return true;
@@ -217,25 +218,13 @@ class Effect{
 				}
 				break;
 			case Effect::HUNGER:
-				if($entity instanceof Player){
-				        if($entity->getFood() > 0){;
-					        if($entity->getFood() - 0.025 * ($this->getAmplifier() + 1) > 0){
-					        	$entity->setFood($entity->getFood() - 0.025 * ($this->getAmplifier() + 1));
-					        }else{
-					        	$entity->setFood(0);
-					        }
-				        }
+				if($entity instanceof Human){
+					$entity->exhaust(0.5 * $this->amplifier, PlayerExhaustEvent::CAUSE_POTION);
 				}
 				break;
 			case Effect::SATURATION:
-				if($entity instanceof Player){
-				        if($entity->getFood() < 20){;
-					        if($entity->getFood() + 1 * ($this->getAmplifier() + 1) > 20){
-					        	$entity->setFood(20);
-					        }else{
-					        	$entity->setFood($entity->getFood() + 1 * ($this->getAmplifier() + 1));
-					        }
-				        }
+				if($entity instanceof Human){
+					$entity->addSaturation($this->amplifier);
 				}
 				break;
 			case Effect::SPEED:

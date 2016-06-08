@@ -1749,6 +1749,17 @@ class Item{
 	}
 	final public function isPlaceable(){
 		$this->canBePlaced();
+	
+
+	public function canBeConsumed(){
+		return false;
+	}
+
+	public function canBeConsumedBy(Entity $entity){
+		return $this->canBeConsumed();
+	}
+
+	public function onConsume(Entity $entity){
 	}
 
 	public function getBlock(){

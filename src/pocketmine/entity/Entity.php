@@ -34,11 +34,9 @@ use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
-use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\network\protocol\MobEffectPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
 use pocketmine\network\protocol\SetEntityDataPacket;
-use pocketmine\network\protocol\SetEntityLinkPacket;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use pocketmine\Server;
@@ -67,7 +65,7 @@ abstract class Entity extends Location implements Metadatable{
 	const DATA_SILENT = 4;
 	const DATA_POTION_COLOR = 7;
 	const DATA_POTION_AMBIENT = 8;
-    const DATA_NO_AI = 15;
+	const DATA_NO_AI = 15;
 	const DATA_BOAT_COLOR = 20;
 
 	const DATA_FLAG_ONFIRE = 0;
@@ -406,7 +404,7 @@ abstract class Entity extends Location implements Metadatable{
 		if($value !== $this->isSprinting()){
 			$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_SPRINTING, (bool) $value);
 			$attr = $this->attributeMap->getAttribute(Attribute::MOVEMENT_SPEED);
-			$attr !== null ? ($attr->setValue($value ? ($attr->getValue() * 1.3) : ($attr->getValue() / 1.3))):null;
+			$attr->setValue($value ? ($attr->getValue() * 1.3) : ($attr->getValue() / 1.3));
 		}
 	}
 
@@ -451,7 +449,7 @@ abstract class Entity extends Location implements Metadatable{
 			){
 				return;
 			}
-			$effect->add($this, true);
+			$effect->add($this, true, $oldEffect);
 		}else{
 			$effect->add($this, false);
 		}
@@ -637,19 +635,10 @@ abstract class Entity extends Location implements Metadatable{
 				$this->addEffect($effect);
 			}
 		}
-
-
-		if(isset($this->namedtag->CustomName)){
-			$this->setNameTag($this->namedtag["CustomName"]);
-			if(isset($this->namedtag->CustomNameVisible)){
-				$this->setNameTagVisible($this->namedtag["CustomNameVisible"] > 0);
-			}
-		}
-
-		$this->scheduleUpdate();
 	}
 
-	protected function addAttributes(){}
+	protected function addAttributes(){
+	}
 
 	/**
 	 * @return Player[]
@@ -730,8 +719,8 @@ abstract class Entity extends Location implements Metadatable{
 		}
 
 		$this->setLastDamageCause($source);
-		
-		($this->getHealth() - $source->getFinalDamage() <= 0)?$this->setHealth(0):$this->setHealth($this->getHealth() - $source->getFinalDamage());
+
+		$this->setHealth($this->getHealth() - $source->getFinalDamage());
 	}
 
 	/**
@@ -956,7 +945,7 @@ abstract class Entity extends Location implements Metadatable{
 					$this->fireTicks = 0;
 				}
 			}else{
-				if(!$this->hasEffect(Effect::FIRE_RESISTANCE) and (($this->fireTicks % 20) === 0 or $tickDiff > 20)){
+				if(!$this->hasEffect(Effect::FIRE_RESISTANCE) and ($this->fireTicks % 20) === 0 or $tickDiff > 20){
 					$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_FIRE_TICK, 1);
 					$this->attack($ev->getFinalDamage(), $ev);
 				}
@@ -1419,10 +1408,9 @@ abstract class Entity extends Location implements Metadatable{
 
 	public function getBlocksAround(){
 		if($this->blocksAround === null){
-			//print_r($this->boundingBox);
-			$minX = Math::floorFloat($this->boundingBox->minX - 1);
-			$minY = Math::floorFloat($this->boundingBox->minY - 1);
-			$minZ = Math::floorFloat($this->boundingBox->minZ - 1);
+			$minX = Math::floorFloat($this->boundingBox->minX);
+			$minY = Math::floorFloat($this->boundingBox->minY);
+			$minZ = Math::floorFloat($this->boundingBox->minZ);
 			$maxX = Math::ceilFloat($this->boundingBox->maxX);
 			$maxY = Math::ceilFloat($this->boundingBox->maxY);
 			$maxZ = Math::ceilFloat($this->boundingBox->maxZ);
@@ -1433,7 +1421,6 @@ abstract class Entity extends Location implements Metadatable{
 				for($x = $minX; $x <= $maxX; ++$x){
 					for($y = $minY; $y <= $maxY; ++$y){
 						$block = $this->level->getBlock($this->temporalVector->setComponents($x, $y, $z));
-						//if($block->getId() !== 0)print_r($block);
 						if($block->hasEntityCollision()){
 							$this->blocksAround[] = $block;
 						}
@@ -1447,9 +1434,8 @@ abstract class Entity extends Location implements Metadatable{
 
 	protected function checkBlockCollision(){
 		$vector = new Vector3(0, 0, 0);
+
 		foreach($this->getBlocksAround() as $block){
-			//echo "From Entity";
-			//print_r($block);
 			$block->onEntityCollide($this);
 			$block->addVelocityToEntity($this, $vector);
 		}
