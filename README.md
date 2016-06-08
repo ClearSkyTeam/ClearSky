@@ -7,7 +7,8 @@
 
 # <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP5+7) 
-An ultra fast PocketMine based Minecraft:PE 0.14.2 multiplayer software with stable features, designed for high performance gaming experience
+** PHP5 will be continued to be supported in 0.15 but, only that version. We'll drop support as soon as 0.16 comes out! **
+An ultra fast PocketMine based Minecraft:PE 0.14.3 multiplayer software with stable features, designed for high performance gaming experience
 
 **TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 **Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
