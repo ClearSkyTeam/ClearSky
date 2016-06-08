@@ -23,6 +23,9 @@ abstract class Living extends Entity implements Damageable{
 	protected $attackTime = 0;
 
 	protected $invisible = false;
+	
+	protected $exp_min = 0;
+	protected $exp_max = 0;
 
 	protected function initEntity(){
 		parent::initEntity();
