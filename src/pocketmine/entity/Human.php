@@ -314,11 +314,11 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	protected function addAttributes(){
 		parent::addAttributes();
 
-		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::SATURATION));
-		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::EXHAUSTION));
-		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::HUNGER));
-		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::EXPERIENCE_LEVEL));
-		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::EXPERIENCE));
+		if(is_null($this->attributeMap->getAttribute(Attribute::SATURATION)))$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::SATURATION));
+		if(is_null($this->attributeMap->getAttribute(Attribute::EXHAUSTION)))$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::EXHAUSTION));
+		if(is_null($this->attributeMap->getAttribute(Attribute::HUNGER)))$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::HUNGER));
+		if(is_null($this->attributeMap->getAttribute(Attribute::EXPERIENCE_LEVEL)))$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::EXPERIENCE_LEVEL));
+		if(is_null($this->attributeMap->getAttribute(Attribute::EXPERIENCE)))$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::EXPERIENCE));
 	}
 
 	public function entityBaseTick($tickDiff = 1){
