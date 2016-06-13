@@ -244,20 +244,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public function setHook(Entity $entity = null){
 		$this->hook = $entity;
 	}
-
-	/** Hunger **/
-	public function setFood($amount){
-		$this->attributeMap->getAttribute(Attribute::HUNGER)->setValue($amount);
-		$this->attributeMap->getAttribute(Attribute::SATURATION)->setValue($this->attributeMap->getAttribute(Attribute::SATURATION)->getMaxValue());
-	}
-	
-	public function getFood(){
-		return $this->attributeMap->getAttribute(Attribute::HUNGER)->getValue();
-	}
-
-	/**
-	 * Hunger End *
-	 */
 	
 	/**
 	 * Experience *
