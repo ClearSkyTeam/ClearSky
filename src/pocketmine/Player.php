@@ -4,12 +4,17 @@ namespace pocketmine;
 use pocketmine\block\Block;
 use pocketmine\command\CommandSender;
 use pocketmine\entity\Arrow;
+use pocketmine\entity\Attribute;
+use pocketmine\entity\Colorable;
 use pocketmine\entity\Effect;
 use pocketmine\entity\Entity;
+use pocketmine\entity\Explosive;
+use pocketmine\entity\FishingHook;
 use pocketmine\entity\Human;
 use pocketmine\entity\Item as DroppedItem;
 use pocketmine\entity\Living;
 use pocketmine\entity\Projectile;
+use pocketmine\entity\Tameable;
 use pocketmine\event\block\SignChangeEvent;
 use pocketmine\event\entity\EntityDamageByBlockEvent;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
@@ -119,10 +124,6 @@ use pocketmine\utils\TextFormat;
 use raklib\Binary;
 use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
-use pocketmine\entity\Colorable;
-use pocketmine\entity\Tameable;
-use pocketmine\entity\Explosive;
-use pocketmine\entity\FishingHook;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -243,6 +244,79 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public function setHook(Entity $entity = null){
 		$this->hook = $entity;
 	}
+
+	/** Hunger **/
+	public function setFood($amount){
+		$this->attributeMap->getAttribute(Attribute::HUNGER)->setValue($amount);
+		$this->attributeMap->getAttribute(Attribute::SATURATION)->setValue($this->attributeMap->getAttribute(Attribute::SATURATION)->getMaxValue());
+	}
+	
+	public function getFood(){
+		return $this->attributeMap->getAttribute(Attribute::HUNGER)->getValue();
+	}
+
+	/**
+	 * Hunger End *
+	 */
+	
+	/**
+	 * Experience *
+	 */
+		/*
+	 * public function ExperienceLevelUpCalculater($oldlevel ,$newlevel = null){
+	 * if($newlevel === null){
+	 * $newlevel = $oldlevel+1;
+	 * }
+	 * $oldlevelSquared = $oldlevel ** 2;
+	 * if($oldlevel < 16){
+	 * $oldlevel = $oldlevelSquared + 6 * $oldlevel;
+	 * }elseif($oldlevel < 31){
+	 * $oldlevel = 2.5 * $oldlevelSquared - 40.5 * $oldlevel + 360;
+	 * }else{
+	 * $oldlevel = 4.5 * $oldlevelSquared - 162.5 * $oldlevel + 2220;
+	 * }
+	 *
+	 * $newlevelSquared = $newlevel ** 2;
+	 * if($newlevel < 16){
+	 * $newlevel = $newlevelSquared + 6 * $newlevel;
+	 * }elseif($newlevel < 31){
+	 * $newlevel = 2.5 * $newlevelSquared - 40.5 * $newlevel + 360;
+	 * }else{
+	 * $newlevel = 4.5 * $newlevelSquared - 162.5 * $newlevel + 2220;
+	 * }
+	 *
+	 * return $newlevel - $oldlevel;
+	 * }
+	 */
+	public function getExp(){
+		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue();
+		// TODO: add ExperienceLevelUpCalculater back.
+	}
+
+	public function setExp($exp){
+		$this->server->getPluginManager()->callEvent($ev = new PlayerExperienceChangeEvent($this, $exp));
+		if(!$ev->isCancelled()){
+			$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($amount);
+		}
+		// TODO: add ExperienceLevelUpCalculater back.
+	}
+
+	public function addExp($exp){
+		$this->server->getPluginManager()->callEvent($ev = new PlayerExperienceChangeEvent($this, $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue() + $exp));
+		if(!$ev->isCancelled()){
+			$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue() + $exp);
+		}
+	}
+
+	public function getExpLevel(){
+		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE_LEVEL)->getValue();
+	}
+
+	public function setExpLevel($level){
+		$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($level);
+	}
+//TODO: maybe add getexplevel etc back.
+	/** Experience End **/
 	
 	public function getLeaveMessage(){
 		return new TranslationContainer(TextFormat::YELLOW . "%multiplayer.player.left", [
