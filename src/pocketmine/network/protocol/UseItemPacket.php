@@ -31,14 +31,10 @@ class UseItemPacket extends DataPacket{
 		$this->posX = $this->getFloat();
 		$this->posY = $this->getFloat();
 		$this->posZ = $this->getFloat();
-		
-		$this->unknown = $this->getShort();
-		$this->slot = $this->getShort();
+		$this->slot = $this->getInt();
 		$this->item = $this->getSlot();
 	}
 
 	public function encode(){
-
 	}
-
 }
