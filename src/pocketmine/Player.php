@@ -1725,7 +1725,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$this->allowFlight = $this->isCreative();
 
-		if(($level = $this->server->getLevelByName($nbt["Level"])) === null or !$alive){
+		if(($level = $this->server->getLevelByName($nbt["Level"])) === null or $this->isAlive()){
 			$this->setLevel($this->server->getDefaultLevel());
 			$nbt["Level"] = $this->level->getName();
 			$nbt["Pos"][0] = $this->level->getSpawnLocation()->x;
