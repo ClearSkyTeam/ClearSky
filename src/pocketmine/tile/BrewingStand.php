@@ -53,8 +53,8 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 			$this->inventory->setItem($i, $this->getItem($i));
 		}
 
-		if(!isset($this->namedtag->CookedTime)){
-			$this->namedtag->CookedTime = new ShortTag("CookedTime", 0);
+		if(!isset($this->namedtag->BrewTime)){
+			$this->namedtag->BrewTime = new ShortTag("BrewTime", 0);
 		}
 
 		/*if($this->namedtag["BrewTime"] < self::MAX_BREW_TIME){
