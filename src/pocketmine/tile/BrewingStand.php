@@ -57,7 +57,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 			$this->namedtag->CookedTime = new ShortTag("CookedTime", 0);
 		}
 
-		/*if($this->namedtag["CookTime"] < self::MAX_BREW_TIME){
+		/*if($this->namedtag["BrewTime"] < self::MAX_BREW_TIME){
 			$this->scheduleUpdate();
 		}*/
 	}
@@ -228,7 +228,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 		}
 
 		if($canBrew){
-			$this->namedtag->CookTime = new ShortTag("CookTime", $this->namedtag["CookTime"] - 1);
+			$this->namedtag->BrewTime = new ShortTag("BrewTime", $this->namedtag["BrewTime"] - 1);
 
 			foreach($this->getInventory()->getViewers() as $player){
 				$windowId = $player->getWindowId($this->getInventory());
@@ -236,13 +236,13 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 					$pk = new ContainerSetDataPacket();
 					$pk->windowid = $windowId;
 					$pk->property = 0; //Brew
-					$pk->value = $this->namedtag["CookTime"];
+					$pk->value = $this->namedtag["BrewTime"];
 					$player->dataPacket($pk);
 				}
 			}
 
-			if($this->namedtag["CookTime"] <= 0){
-				$this->namedtag->CookTime = new ShortTag("CookTime", self::MAX_BREW_TIME);
+			if($this->namedtag["BrewTime"] <= 0){
+				$this->namedtag->BrewTime = new ShortTag("BrewTime", self::MAX_BREW_TIME);
 				for($i = 1; $i <= 3; $i++){
 					$potion = $this->inventory->getItem($i);
 					$recipe = Server::getInstance()->getCraftingManager()->matchBrewingRecipe($ingredient, $potion);
@@ -258,7 +258,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 
 			$ret = true;
 		}else{
-			$this->namedtag->CookTime = new ShortTag("CookTime", self::MAX_BREW_TIME);
+			$this->namedtag->BrewTime = new ShortTag("BrewTime", self::MAX_BREW_TIME);
 			foreach($this->getInventory()->getViewers() as $player){
 				$windowId = $player->getWindowId($this->getInventory());
 				if($windowId > 0){
@@ -283,7 +283,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 			new IntTag("x", (int) $this->x),
 			new IntTag("y", (int) $this->y),
 			new IntTag("z", (int) $this->z),
-			new ShortTag("CookTime", self::MAX_BREW_TIME),
+			new ShortTag("BrewTime", self::MAX_BREW_TIME),
 			$this->namedtag->Items,
 		]);
 
