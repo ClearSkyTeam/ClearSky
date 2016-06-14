@@ -53,11 +53,11 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 			$this->inventory->setItem($i, $this->getItem($i));
 		}
 
-		if(!isset($this->namedtag->BrewTime)){
-			$this->namedtag->BrewTime = new ShortTag("BrewTime", 0);
+		if(!isset($this->namedtag->CookedTime)){
+			$this->namedtag->CookedTime = new ShortTag("CookedTime", 0);
 		}
 
-		/*if($this->namedtag["BrewTime"] < self::MAX_BREW_TIME){
+		/*if($this->namedtag["CookTime"] < self::MAX_BREW_TIME){
 			$this->scheduleUpdate();
 		}*/
 	}
@@ -200,35 +200,40 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 		$ret = false;
 
 		$ingredient = $this->inventory->getIngredient();
-		$product = $this->inventory->getResult();
-		$brew = $this->server->getCraftingManager()->matchBrewingRecipe($ingredient);
-		$canbrew = ($brew instanceof BrewingRecipe and $ingredient->getCount() > 0 and (($brew->getResult()->equals($product) and $product->getCount() < $product->getMaxStackSize()) or $product->getId() === Item::AIR));
+		$canBrew = false;
 
-		$this->namedtag->BrewTime = new ShortTag("BrewTime", $this->namedtag["BrewTime"] - 1);
-		$this->namedtag->BrewTicks = new ShortTag("BrewTicks", 0);
+		for($i = 1; $i <= 3; $i++){
+			if($this->inventory->getItem($i)->getId() === Item::POTION or
+				$this->inventory->getItem($i)->getId() === Item::SPLASH_POTION
+			){
+				$canBrew = true;
+			}
+		}
 
-		if($brew instanceof BrewingRecipe and $canbrew){
+		if($ingredient->getId() !== Item::AIR and $ingredient->getCount() > 0){
+			if($canBrew){
+				if(!$this->checkIngredient($ingredient)){
+					$canBrew = false;
+				}
+			}
 
-
-				$product = Item::get($brew->getResult()->getId(), $brew->getResult()->getDamage(), $product->getCount() + 1);
-
-				$this->server->getPluginManager()->callEvent($ev = new BrewingStandBrewEvent($this, $ingredient, $product));
-
-				if(!$ev->isCancelled()){
-
-					$this->inventory->setResult($ev->getResult());
-					$ingredient->setCount($ingredient->getCount() - 1);
-					if($ingredient->getCount() === 0){
-						$ingredient = Item::get(Item::AIR, 0, 0);
+			if($canBrew){
+				for($i = 1; $i <= 3; $i++){
+					$potion = $this->inventory->getItem($i);
+					$recipe = Server::getInstance()->getCraftingManager()->matchBrewingRecipe($ingredient, $potion);
+					if($recipe !== null){
+						$canBrew = true;
+						break;
 					}
 					$canBrew = false;
 				}
+			}
 		}else{
 			$canBrew = false;
 		}
 
 		if($canBrew){
-			$this->namedtag->BrewTime = new ShortTag("BrewTime", $this->namedtag["BrewTime"] - 1);
+			$this->namedtag->CookTime = new ShortTag("CookTime", $this->namedtag["CookTime"] - 1);
 
 			foreach($this->getInventory()->getViewers() as $player){
 				$windowId = $player->getWindowId($this->getInventory());
@@ -236,13 +241,13 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 					$pk = new ContainerSetDataPacket();
 					$pk->windowid = $windowId;
 					$pk->property = 0; //Brew
-					$pk->value = $this->namedtag["BrewTime"];
+					$pk->value = $this->namedtag["CookTime"];
 					$player->dataPacket($pk);
 				}
 			}
 
-			if($this->namedtag["BrewTime"] <= 0){
-				$this->namedtag->BrewTime = new ShortTag("BrewTime", self::MAX_BREW_TIME);
+			if($this->namedtag["CookTime"] <= 0){
+				$this->namedtag->CookTime = new ShortTag("CookTime", self::MAX_BREW_TIME);
 				for($i = 1; $i <= 3; $i++){
 					$potion = $this->inventory->getItem($i);
 					$recipe = Server::getInstance()->getCraftingManager()->matchBrewingRecipe($ingredient, $potion);
@@ -258,7 +263,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 
 			$ret = true;
 		}else{
-			$this->namedtag->BrewTime = new ShortTag("BrewTime", self::MAX_BREW_TIME);
+			$this->namedtag->CookTime = new ShortTag("CookTime", self::MAX_BREW_TIME);
 			foreach($this->getInventory()->getViewers() as $player){
 				$windowId = $player->getWindowId($this->getInventory());
 				if($windowId > 0){
@@ -283,7 +288,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 			new IntTag("x", (int) $this->x),
 			new IntTag("y", (int) $this->y),
 			new IntTag("z", (int) $this->z),
-			new ShortTag("BrewTime", self::MAX_BREW_TIME),
+			new ShortTag("CookTime", self::MAX_BREW_TIME),
 			$this->namedtag->Items,
 		]);
 
