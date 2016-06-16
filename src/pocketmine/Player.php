@@ -124,7 +124,6 @@ use pocketmine\utils\TextFormat;
 use raklib\Binary;
 use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
-use pocketmine\network\protocol\Info;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -1974,12 +1973,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				if(!in_array($packet->protocol1,ProtocolInfo::ACCEPT_PROTOCOL)){
 					if($packet->protocol1 < ProtocolInfo::CURRENT_PROTOCOL){
-						$message = "disconnectionScreen.outdatedClient" . "Get " . Info::CURRENT_VERSION;
+						$message = "disconnectionScreen.outdatedClient";
 						$pk = new PlayStatusPacket();
 						$pk->status = PlayStatusPacket::LOGIN_FAILED_CLIENT;
 						$this->directDataPacket($pk);
 					}else{
-						$message = "disconnectionScreen.outdatedServer" . "Get " . Info::CURRENT_VERSION;
+						$message = "disconnectionScreen.outdatedServer";
 						$pk = new PlayStatusPacket();
 						$pk->status = PlayStatusPacket::LOGIN_FAILED_SERVER;
 						$this->directDataPacket($pk);
