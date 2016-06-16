@@ -170,7 +170,7 @@ class Attribute{
 
 	public function setValue($value, $fit = false){
 		if($value > $this->getMaxValue() or $value < $this->getMinValue()){
-			if(!$fit){
+			if($fit){
 				throw new \InvalidArgumentException("Value $value exceeds the range!");
 			}
 			$value = min(max($value, $this->getMinValue()), $this->getMaxValue());

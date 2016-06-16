@@ -1,13 +1,4 @@
 <?php
-/**
- * Author: PeratX
- * QQ: 1215714524
- * Time: 2016/2/5 15:10
-
-
- *
- * OpenGenisys Project
- */
 namespace pocketmine\tile;
 
 use pocketmine\block\Block;
@@ -18,6 +9,7 @@ use pocketmine\nbt\tag\IntTag;
 
 class DLDetector extends Spawnable{
 	private $lastType = 0;
+	const SUNNY = 0;
 
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
@@ -27,9 +19,9 @@ class DLDetector extends Spawnable{
 		$strength = 1;
 		$time = $this->getLevel()->getTime();
 		//if(WeatherManager::isRegistered($this->getLevel())) $weather = $this->getLevel()->getWeather()->getWeather();
-		/*else */$weather = Weather::SUNNY;
+		/*else */$weather = self::SUNNY;
 		switch($weather){
-			case Weather::SUNNY:
+			case self::SUNNY:
 				if($time <= 22340 and $time >= 13680) $strength = 1;
 				if($time <= 22800 and $time >= 13220) $strength = 2;
 				if($time <= 23080 and $time >= 12940) $strength = 3;
@@ -46,8 +38,8 @@ class DLDetector extends Spawnable{
 				if($time >= 3180 and $time <= 8840) $strength = 14;
 				if($time >= 4300 and $time <= 7720) $strength = 15;
 				break;
-			case Weather::RAINY_THUNDER:
-			case Weather::RAINY:
+			case self::RAINY_THUNDER:
+			case self::RAINY:
 				if($time <= 22340 and $time >= 13680) $strength = 1;
 				if($time <= 22800 and $time >= 13220) $strength = 2;
 				if($time <= 23240 and $time >= 12780) $strength = 3;
