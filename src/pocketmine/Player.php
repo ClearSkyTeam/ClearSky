@@ -88,7 +88,7 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\network\protocol\AdventureSettingsPacket;
 use pocketmine\network\protocol\AnimatePacket;
 use pocketmine\network\protocol\BatchPacket;
-use pocketmine\network\protocol\ChunkRadiusUpdatePacket;
+use pocketmine\network\protocol\ChunkRadiusUpdatedPacket;
 use pocketmine\network\protocol\ContainerClosePacket;
 use pocketmine\network\protocol\ContainerSetContentPacket;
 use pocketmine\network\protocol\ChangeDimensionPacket;
@@ -121,6 +121,7 @@ use pocketmine\tile\Sign;
 use pocketmine\tile\Spawnable;
 use pocketmine\tile\Tile;
 use pocketmine\utils\TextFormat;
+use pocketmine\utils\UUID;
 use raklib\Binary;
 use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
@@ -1725,7 +1726,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	public function tryAuthenticate(){
-		// TODO: implement authentication after it is available
+		$pk = new PlayStatusPacket();
+		$pk->status = PlayStatusPacket::LOGIN_SUCCESS;
+		$this->dataPacket($pk);
+		//TODO: implement authentication after it is available
 		$this->authenticateCallback(true);
 	}
 
@@ -1771,7 +1775,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 			}
 		}
-
+		$this->setNameTag($this->username);
+		
 		$nbt = $this->server->getOfflinePlayerData($this->username);
 		if(!isset($nbt->NameTag)){
 			$nbt->NameTag = new StringTag("NameTag", $this->username);
@@ -1953,7 +1958,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->spawned){
 					$this->viewDistance = $packet->radius ** 2;
 				}
-				$pk = new ChunkRadiusUpdatePacket();
+				$pk = new ChunkRadiusUpdatedPacket();
 				$pk->radius = $packet->radius;
 				$this->dataPacket($pk);
 				break;
@@ -1965,7 +1970,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				$this->username = TextFormat::clean($packet->username);
 				$this->displayName = $this->username;
-				$this->setNameTag($this->username);
 				$this->iusername = strtolower($this->username);
 				if($this->server->getMaxPlayers() !== -1){
 					if(count($this->server->getOnlinePlayers()) >= $this->server->getMaxPlayers() and $this->kick("disconnectionScreen.serverFull", false)){
@@ -1988,11 +1992,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					break;
 				}
 				$this->randomClientId = $packet->clientId;
-				$this->loginData = ["clientId" => $packet->clientId, "loginData" => null];
 
-				$this->uuid = $packet->clientUUID;
+				$this->uuid = UUID::fromString($packet->clientUUID);
 				$this->rawUUID = $this->uuid->toBinary();
-				$this->clientSecret = $packet->clientSecret;
+
 				$valid = true;
 				$len = strlen($packet->username);
 				if($len > 16 or $len < 3){
@@ -2017,7 +2020,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->close("", "disconnectionScreen.invalidSkin");
 					break;
 				}
-				$this->setSkin($packet->skin, $packet->skinName);
+
+				$this->setSkin($packet->skin, $packet->skinID);
+
 				$this->server->getPluginManager()->callEvent($ev = new PlayerPreLoginEvent($this, "Plugin reason"));
 				if($ev->isCancelled()){
 					$this->close("", $ev->getKickMessage());
