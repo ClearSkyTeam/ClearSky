@@ -1954,14 +1954,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 				}
 				break;
-			case ProtocolInfo::REQUEST_CHUNK_RADIUS_PACKET:
-				if($this->spawned){
-					$this->viewDistance = $packet->radius ** 2;
-				}
-				$pk = new ChunkRadiusUpdatedPacket();
-				$pk->radius = $packet->radius;
-				$this->dataPacket($pk);
-				break;
 			case ProtocolInfo::PLAYER_INPUT_PACKET:
 				break;
 			case ProtocolInfo::LOGIN_PACKET:
@@ -1976,7 +1968,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						break;
 					}
 				}
-				if(!in_array($packet->protocol,ProtocolInfo::ACCEPT_PROTOCOL)){
+				if(!in_array($packet->protocol, ProtocolInfo::ACCEPT_PROTOCOL)){
 					if($packet->protocol < ProtocolInfo::CURRENT_PROTOCOL){
 						$message = "disconnectionScreen.outdatedClient";
 
@@ -1990,7 +1982,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$pk->status = PlayStatusPacket::LOGIN_FAILED_SERVER;
 						$this->directDataPacket($pk);
 					}
-					$this->close("", $message, false);
+					$this->close("This server is running with ClearSky " . Info::CURRENT_VERSION, $message, false);
+					
 					break;
 				}
 				$this->randomClientId = $packet->clientId;
@@ -2046,7 +2039,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->forceMovement = new Vector3($this->x, $this->y, $this->z);
 				}
 				if($this->teleportPosition !== null or ($this->forceMovement instanceof Vector3 and (($dist = $newPos->distanceSquared($this->forceMovement)) > 0.1 or $revert))){
-					if($this->forceMovement instanceof Vector3) $this->sendPosition($this->forceMovement, $packet->yaw, $packet->pitch);
+					// if($this->forceMovement instanceof Vector3) $this->sendPosition($this->forceMovement, $packet->yaw, $packet->pitch);
+					$this->sendPosition($this->teleportPosition === null ? $this->forceMovement : $this->teleportPosition, $packet->yaw, $packet->pitch);
 				}else{
 					$packet->yaw %= 360;
 					$packet->pitch %= 360;
@@ -2146,9 +2140,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							break;
 						}
 					}
-                    if($this->isOnline()) {
-                        $this->inventory->sendHeldItem($this);
-                    }
+
+					$this->inventory->sendHeldItem($this);
+
 					if($blockVector->distanceSquared($this) > 10000){
 						break;
 					}
@@ -2713,24 +2707,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 				}
 				$canCraft = true;
-				if($recipe instanceof ShapedRecipe && !$win10){
-					for($x = 0;$x < 3 and $canCraft;++$x){
-						for($y = 0;$y < 3;++$y){
+
+				if($recipe instanceof ShapedRecipe){
+					for($x = 0; $x < 3 and $canCraft; ++$x){
+						for($y = 0; $y < 3; ++$y){
 							$item = $packet->input[$y * 3 + $x];
 							$ingredient = $recipe->getIngredient($x, $y);
-							if($item->getCount() > 0 and $item->getId() > 0){
-								if($ingredient == null){
+							if($item->getCount() > 0){
+								if($ingredient === null or !$ingredient->deepEquals($item, $ingredient->getDamage() !== null, $ingredient->getCompoundTag() !== null)){
 									$canCraft = false;
 									break;
 								}
-								if($ingredient->getId() != 0 and !$ingredient->deepEquals($item, $ingredient->getDamage() !== null, $ingredient->getCompoundTag() !== null)){
-									$canCraft = false;
-									break;
-								}
-
-							}elseif($ingredient !== null and $item->getId() !== 0){
-								$canCraft = false;
-								break;
 							}
 						}
 					}
@@ -2942,7 +2929,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							$ev->setCancelled();
 						}else{
 							foreach($ev->getLines() as $line){
-								if(mb_strlen(TextFormat::clean($line), "UTF-8") > 20){ // temp fix for despawn of text
+								if(mb_strlen(TextFormat::clean($line), "UTF-8") > 20){ // TODO: Add pixel width calculation like MiNET
 									$ev->setCancelled();
 								}
 							}
@@ -2955,6 +2942,14 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}
 					}
 				}
+				break;
+			case ProtocolInfo::REQUEST_CHUNK_RADIUS_PACKET:
+				if($this->spawned){
+					$this->viewDistance = $packet->radius ** 2;
+				}
+				$pk = new ChunkRadiusUpdatedPacket();
+				$pk->radius = $packet->radius;
+				$this->dataPacket($pk);
 				break;
 			default:
 				break;
