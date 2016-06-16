@@ -16,7 +16,7 @@ class PlayerQuitEvent extends PlayerEvent{
 	public function __construct(Player $player, $quitMessage, $autoSave = true){
 		$this->player = $player;
 		$this->quitMessage = $quitMessage;
-		$this->autoSave = $autoSave;
+		$this->autoSave = true;
 	}
 
 	public function setQuitMessage($quitMessage){

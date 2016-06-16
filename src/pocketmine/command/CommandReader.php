@@ -2,52 +2,29 @@
 namespace pocketmine\command;
 
 use pocketmine\Thread;
-use pocketmine\utils\MainLogger;
-use pocketmine\utils\Utils;
 
 class CommandReader extends Thread{
 	private $readline;
 
 	/** @var \Threaded */
 	protected $buffer;
-	private $shutdown = false;
-	private $stdin;
-	/** @var MainLogger */
-	private $logger;
 
-	public function __construct($logger){
-		$this->stdin = fopen("php://stdin", "r");
-		$opts = getopt("", ["disable-readline"]);
-		if(extension_loaded("readline") && !isset($opts["disable-readline"]) && (!function_exists("posix_isatty") || posix_isatty($this->stdin))){
-			$this->readline = true;
-		}else{
-			$this->readline = false;
-		}
-		$this->logger = $logger;
-		$this->buffer = new \Threaded;
+	public function __construct(){
+		$this->buffer = \ThreadedFactory::create();
 		$this->start();
-	}
-
-	public function shutdown(){
-		$this->shutdown = true;
-	}
-
-	private function readline_callback($line){
-		if($line !== ""){
-			$this->buffer[] = $line;
-			readline_add_history($line);
-		}
 	}
 
 	private function readLine(){
 		if(!$this->readline){
-			$line = trim(fgets($this->stdin));
-			if($line !== ""){
-				$this->buffer[] = $line;
-			}
+			$line = trim(fgets(fopen("php://stdin", "r")));
 		}else{
-			readline_callback_read_char();
+			$line = trim(readline("> "));
+			if($line != ""){
+				readline_add_history($line);
+			}
 		}
+
+		return $line;
 	}
 
 	/**
@@ -63,43 +40,23 @@ class CommandReader extends Thread{
 		return null;
 	}
 
-	public function quit(){
-		$this->shutdown();
-		// Windows sucks
-		if(Utils::getOS() != "win"){
-			parent::quit();
-		}
-	}
-
 	public function run(){
-		if($this->readline){
-			readline_callback_handler_install("Genisys> ", [$this, "readline_callback"]);
-			$this->logger->setConsoleCallback("readline_redisplay");
+		$opts = getopt("", ["disable-readline"]);
+		if(extension_loaded("readline") and !isset($opts["disable-readline"])){
+			$this->readline = true;
+		}else{
+			$this->readline = false;
 		}
 
-		while(!$this->shutdown){
-			$r = [$this->stdin];
-			$w = null;
-			$e = null;
-			if(stream_select($r, $w, $e, 0, 200000) > 0){
-				// PHP on Windows sucks
-				if(feof($this->stdin)){
-					if(Utils::getOS() == "win"){
-						$this->stdin = fopen("php://stdin", "r");
-						if(!is_resource($this->stdin)){
-							break;
-						}
-					}else{
-						break;
-					}
-				}
-				$this->readLine();
+		$lastLine = microtime(true);
+		while(true){
+			if(($line = $this->readLine()) !== ""){
+				$this->buffer[] = preg_replace("#\\x1b\\x5b([^\\x1b]*\\x7e|[\\x40-\\x50])#", "", $line);
+			}elseif((microtime(true) - $lastLine) <= 0.1){ //Non blocking! Sleep to save CPU
+				usleep(40000);
 			}
-		}
 
-		if($this->readline){
-			$this->logger->setConsoleCallback(null);
-			readline_callback_handler_remove();
+			$lastLine = microtime(true);
 		}
 	}
 

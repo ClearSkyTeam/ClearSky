@@ -4,7 +4,7 @@ namespace pocketmine\entity;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\item\Item as ItemItem;
-use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\Int;
 use pocketmine\Player;
 
 class Skeleton extends Monster implements ProjectileSource{
@@ -39,7 +39,7 @@ class Skeleton extends Monster implements ProjectileSource{
     }
 
     public function setSkeletonType($type){
-        $this->namedtag->SkeletonType = new IntTag("SkeletonType", $type);
+        $this->namedtag->SkeletonType = new Int("SkeletonType", $type);
     }
 
     public function getSkeletonType(){

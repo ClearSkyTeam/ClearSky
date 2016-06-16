@@ -6,12 +6,6 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\math\AxisAlignedBB;
-use pocketmine\tile\DLDetector;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\ListTag;
-use pocketmine\nbt\tag\StringTag;
-use pocketmine\nbt\tag\IntTag;
-use pocketmine\tile\Tile;
 
 class DaylightDetector extends Transparent implements Redstone, RedstoneSwitch{
 	protected $id = self::DAYLIGHT_DETECTOR;
@@ -29,21 +23,6 @@ class DaylightDetector extends Transparent implements Redstone, RedstoneSwitch{
 	}
 
 	public function canBeActivated(){
-		return true;
-	}
-	
-	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$this->getLevel()->setBlock($block, $this, true);
-		$nbt = new CompoundTag("", [
-				new StringTag("id", Tile::DAY_LIGHT_DETECTOR),
-				new IntTag("x", $this->x),
-				new IntTag("y", $this->y),
-				new IntTag("z", $this->z)
-		]);
-	
-		Tile::createTile(Tile::DAY_LIGHT_DETECTOR, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-		$this->getLevel()->scheduleUpdate($this, 50);
-		
 		return true;
 	}
 
@@ -67,7 +46,13 @@ class DaylightDetector extends Transparent implements Redstone, RedstoneSwitch{
 	}
 
 	public function getPower(){
-		return $this->getLevel()->getTile($this) instanceof DLDetector ? $this->getLevel()->getTile($this)->getPower() : 0;
+		$fulltime = Level::TIME_FULL;
+		$time = ($fulltime + ((3000 - $this->getLevel()->getTime())) * 2);
+		if($time < 0 || $time > $fulltime) $time *= -1;
+		if($time < 0) $time += $fulltime * 2;
+		$power = (floor($time / $fulltime * 15) + 1) - (15 - $this->getLightLevel());
+		if($power < 0) $power = 0;
+		return $power;
 	}
 
 	protected function recalculateBoundingBox(){

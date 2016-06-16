@@ -1,5 +1,4 @@
 <?php
-declare(strict_types=1);
 namespace pocketmine\level;
 
 use pocketmine\level\format\FullChunk;
@@ -79,7 +78,7 @@ class SimpleChunkManager implements ChunkManager{
 	 * @param int $chunkX
 	 * @param int $chunkZ
 	 *
-	 * @return FullChunk|null
+	 * @return FullChunk
 	 */
 	public function getChunk($chunkX, $chunkZ){
 		return isset($this->chunks[$index = Level::chunkHash($chunkX, $chunkZ)]) ? $this->chunks[$index] : null;

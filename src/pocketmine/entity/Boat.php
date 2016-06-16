@@ -5,8 +5,8 @@ use pocketmine\Player;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Byte;
 
 class Boat extends Vehicle{
 	const NETWORK_ID = 90;
@@ -16,9 +16,9 @@ class Boat extends Vehicle{
 	public $gravity = 0.5;
 	public $drag = 0.1;
 	
-	public function __construct(FullChunk $chunk, CompoundTag $nbt){
+	public function __construct(FullChunk $chunk, Compound $nbt){
 		if(!isset($nbt->woodID)){
-			$nbt->woodID = new ByteTag("woodID", 0);
+			$nbt->woodID = new Byte("woodID", 0);
 		}
 		parent::__construct($chunk, $nbt);
 		$this->setDataProperty(self::DATA_BOAT_COLOR, self::DATA_TYPE_BYTE, $this->getWoodID());

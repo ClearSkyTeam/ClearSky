@@ -5,7 +5,7 @@ use pocketmine\nbt\NBT;
 
 #include <rules/NBT.h>
 
-class CompoundTag extends NamedTag implements \ArrayAccess{
+class Compound extends NamedTag implements \ArrayAccess{
 
 	/**
 	 * @param string     $name
@@ -42,7 +42,6 @@ class CompoundTag extends NamedTag implements \ArrayAccess{
 			}
 		}
 
-		assert(false, "Offset $offset not found");
 		return null;
 	}
 
@@ -69,16 +68,16 @@ class CompoundTag extends NamedTag implements \ArrayAccess{
 			if($tag instanceof NamedTag and $tag->getName() !== ""){
 				$this->{$tag->getName()} = $tag;
 			}
-		}while(!($tag instanceof EndTag) and !$nbt->feof());
+		}while(!($tag instanceof End) and !$nbt->feof());
 	}
 
 	public function write(NBT $nbt){
 		foreach($this as $tag){
-			if($tag instanceof Tag and !($tag instanceof EndTag)){
+			if($tag instanceof Tag and !($tag instanceof End)){
 				$nbt->writeTag($tag);
 			}
 		}
-		$nbt->writeTag(new EndTag);
+		$nbt->writeTag(new End);
 	}
 
 	public function __toString(){

@@ -2,14 +2,13 @@
 namespace pocketmine\scheduler;
 
 use pocketmine\Server;
-use pocketmine\Collectable;
 
 /**
  * Class used to run async tasks in other threads.
  *
  * WARNING: Do not call PocketMine-MP API methods, or save objects from/on other Threads!!
  */
-abstract class AsyncTask extends Collectable{
+abstract class AsyncTask extends \Collectable{
 
 	/** @var AsyncWorker $worker */
 	public $worker = null;
@@ -20,25 +19,23 @@ abstract class AsyncTask extends Collectable{
 	/** @var int */
 	private $taskId = null;
 
-	private $crashed = false;
-
 	public function run(){
 		$this->result = null;
 
 		if($this->cancelRun !== true){
-			try{
-				$this->onRun();
-			}catch(\Throwable $e){
-				$this->crashed = true;
-				$this->worker->handleException($e);
-			}
+			$this->onRun();
 		}
 
 		$this->setGarbage();
 	}
 
-	public function isCrashed(){
-		return $this->crashed;
+	/**
+	 * @deprecated
+	 *
+	 * @return bool
+	 */
+	public function isFinished(){
+		return $this->isGarbage();
 	}
 
 	/**
@@ -127,9 +124,7 @@ abstract class AsyncTask extends Collectable{
 
 	public function cleanObject(){
 		foreach($this as $p => $v){
-			if(!($v instanceof \Threaded)){
-				$this->{$p} = null;
-			}
+			$this->{$p} = null;
 		}
 	}
 

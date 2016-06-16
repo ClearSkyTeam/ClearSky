@@ -35,7 +35,7 @@ class CrashDump{
 
 		$this->extraData();
 
-		$this->encodeData();
+
 	}
 
 	public function getPath(){

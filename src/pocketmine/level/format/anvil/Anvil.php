@@ -4,13 +4,9 @@ namespace pocketmine\level\format\anvil;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\format\mcregion\McRegion;
 use pocketmine\level\Level;
-use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\ByteTag;
-use pocketmine\nbt\tag\ByteArrayTag;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\network\protocol\FullChunkDataPacket;
-use pocketmine\tile\Spawnable;
-use pocketmine\utils\BinaryStream;
+use pocketmine\nbt\tag\Byte;
+use pocketmine\nbt\tag\ByteArray;
+use pocketmine\nbt\tag\Compound;
 use pocketmine\utils\ChunkException;
 
 class Anvil extends McRegion{
@@ -54,39 +50,7 @@ class Anvil extends McRegion{
 		if(!($chunk instanceof Chunk)){
 			throw new ChunkException("Invalid Chunk sent");
 		}
-
-		$tiles = "";
-
-		if(count($chunk->getTiles()) > 0){
-			$nbt = new NBT(NBT::LITTLE_ENDIAN);
-			$list = [];
-			foreach($chunk->getTiles() as $tile){
-				if($tile instanceof Spawnable){
-					$list[] = $tile->getSpawnCompound();
-				}
-			}
-			$nbt->setData($list);
-			$tiles = $nbt->write();
-		}
-
-		$extraData = new BinaryStream();
-		$extraData->putLInt(count($chunk->getBlockExtraDataArray()));
-		foreach($chunk->getBlockExtraDataArray() as $key => $value){
-			$extraData->putLInt($key);
-			$extraData->putLShort($value);
-		}
-
-		$ordered = $chunk->getBlockIdArray() .
-			$chunk->getBlockDataArray() .
-			$chunk->getBlockSkyLightArray() .
-			$chunk->getBlockLightArray() .
-			pack("C*", ...$chunk->getHeightMapArray()) .
-			pack("N*", ...$chunk->getBiomeColorArray()) .
-			$extraData->getBuffer() .
-			$tiles;
-
-		$this->getLevel()->chunkRequestCallback($x, $z, $ordered, FullChunkDataPacket::ORDER_LAYERED);
-
+		$this->getServer()->getScheduler()->scheduleAsyncTask(new ChunkRequestTask($this->getLevel(), $chunk));
 		return null;
 	}
 
@@ -131,12 +95,12 @@ class Anvil extends McRegion{
 	}
 
 	public static function createChunkSection($Y){
-		return new ChunkSection(new CompoundTag("", [
-			"Y" => new ByteTag("Y", $Y),
-			"Blocks" => new ByteArrayTag("Blocks", str_repeat("\x00", 4096)),
-			"Data" => new ByteArrayTag("Data", str_repeat("\x00", 2048)),
-			"SkyLight" => new ByteArrayTag("SkyLight", str_repeat("\xff", 2048)),
-			"BlockLight" => new ByteArrayTag("BlockLight", str_repeat("\x00", 2048))
+		return new ChunkSection(new Compound("", [
+			"Y" => new Byte("Y", $Y),
+			"Blocks" => new ByteArray("Blocks", str_repeat("\x00", 4096)),
+			"Data" => new ByteArray("Data", str_repeat("\x00", 2048)),
+			"SkyLight" => new ByteArray("SkyLight", str_repeat("\xff", 2048)),
+			"BlockLight" => new ByteArray("BlockLight", str_repeat("\x00", 2048))
 		]));
 	}
 

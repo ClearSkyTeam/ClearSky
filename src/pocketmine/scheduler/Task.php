@@ -1,9 +1,6 @@
 <?php
 namespace pocketmine\scheduler;
 
-/**
- * WARNING! Plugins that create tasks MUST extend PluginTask
- */
 abstract class Task{
 
 	/** @var TaskHandler */

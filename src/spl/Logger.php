@@ -68,12 +68,4 @@ interface Logger{
      * @param string $message
      */
     public function log($level, $message);
-
-    /**
-     * Logs a Throwable object
-     *
-     * @param Throwable $e
-     * @param $trace
-     */
-    public function logException(\Throwable $e, $trace = null);
 }

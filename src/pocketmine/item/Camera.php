@@ -5,10 +5,10 @@ use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\block\Block;
 use pocketmine\entity\TripoidCamera;
-use pocketmine\nbt\tag\CompoundTag;
-use pocketmine\nbt\tag\ListTag;
-use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\Enum;
+use pocketmine\nbt\tag\Double;
+use pocketmine\nbt\tag\Float;
 
 class Camera extends Item{
 	public function __construct($meta = 0, $count = 1){
@@ -21,20 +21,20 @@ class Camera extends Item{
 	
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		$realPos = $target->getSide($face)->add(0.5, 0.4, 0.5);
-		$camera = new TripoidCamera($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new CompoundTag("", [
-				"Pos" => new ListTag("Pos", [
-						new DoubleTag("", $realPos->getX()),
-						new DoubleTag("", $realPos->getY()),
-						new DoubleTag("", $realPos->getZ())
+		$camera = new TripoidCamera($player->getLevel()->getChunk($realPos->getX() >> 4, $realPos->getZ() >> 4), new Compound("", [
+				"Pos" => new Enum("Pos", [
+						new Double("", $realPos->getX()),
+						new Double("", $realPos->getY()),
+						new Double("", $realPos->getZ())
 				]),
-				"Motion" => new ListTag("Motion", [
-						new DoubleTag("", 0),
-						new DoubleTag("", 0),
-						new DoubleTag("", 0)
+				"Motion" => new Enum("Motion", [
+						new Double("", 0),
+						new Double("", 0),
+						new Double("", 0)
 				]),
-				"Rotation" => new ListTag("Rotation", [
-						new FloatTag("", 0),
-						new FloatTag("", 0)
+				"Rotation" => new Enum("Rotation", [
+						new Float("", 0),
+						new Float("", 0)
 				]),
 		]));
 		$camera->spawnToAll();

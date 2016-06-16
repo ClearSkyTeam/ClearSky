@@ -1,25 +1,18 @@
 <?php
 namespace raklib\server;
-
-
 class RakLibServer extends \Thread{
     protected $port;
     protected $interface;
     /** @var \ThreadedLogger */
     protected $logger;
     protected $loader;
-
-    public $loadPaths;
-
+    public $loadPaths = [];
     protected $shutdown;
-
     /** @var \Threaded */
     protected $externalQueue;
     /** @var \Threaded */
     protected $internalQueue;
-
 	protected $mainPath;
-
 	/**
 	 * @param \ThreadedLogger $logger
 	 * @param \ClassLoader    $loader
@@ -33,7 +26,6 @@ class RakLibServer extends \Thread{
         if($port < 1 or $port > 65536){
             throw new \Exception("Invalid port range");
         }
-
         $this->interface = $interface;
         $this->logger = $logger;
         $this->loader = $loader;
@@ -42,16 +34,13 @@ class RakLibServer extends \Thread{
         $this->addDependency($loadPaths, new \ReflectionClass($loader));
         $this->loadPaths = array_reverse($loadPaths);
         $this->shutdown = false;
-
-        $this->externalQueue = new \Threaded;
-        $this->internalQueue = new \Threaded;
-
+        $this->externalQueue = \ThreadedFactory::create();
+        $this->internalQueue = \ThreadedFactory::create();
 	    if(\Phar::running(true) !== ""){
 		    $this->mainPath = \Phar::running(true);
 	    }else{
 		    $this->mainPath = \getcwd() . DIRECTORY_SEPARATOR;
 	    }
-
         $this->start(PTHREADS_INHERIT_NONE);
     }
 
@@ -124,7 +113,7 @@ class RakLibServer extends \Thread{
 
 	public function shutdownHandler(){
 		if($this->shutdown !== true){
-			$this->getLogger()->emergency("[RakLib Thread #". \Thread::getCurrentThreadId() ."] RakLib crashed!");
+			$this->getLogger()->emergency("RakLib crashed!");
 		}
 	}
 
@@ -156,7 +145,7 @@ class RakLibServer extends \Thread{
 		$oldFile = $errfile;
 		$errfile = $this->cleanPath($errfile);
 
-		$this->getLogger()->debug("[RakLib Thread #". \Thread::getCurrentThreadId() ."] An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
+		$this->getLogger()->debug("An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
 
 		foreach(($trace = $this->getTrace($trace === null ? 3 : 0, $trace)) as $i => $line){
 			$this->getLogger()->debug($line);

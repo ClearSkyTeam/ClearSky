@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
-use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\Int;
 
 class ZombieVillager extends Zombie{
 	const NETWORK_ID = 44;
@@ -38,7 +38,7 @@ class ZombieVillager extends Zombie{
 	 * @param $profession
 	 */
 	public function setVariant($type){
-		$this->namedtag->Profession = new IntTag("Profession", $type);
+		$this->namedtag->Profession = new Int("Profession", $type);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $type);
 	}
 

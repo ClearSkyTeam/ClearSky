@@ -52,7 +52,7 @@ class PermissibleBase implements Permissible{
 	/**
 	 * @param bool $value
 	 *
-	 * @throws \Throwable
+	 * @throws \Exception
 	 */
 	public function setOp($value){
 		if($this->opable === null){
@@ -127,7 +127,7 @@ class PermissibleBase implements Permissible{
 	/**
 	 * @param PermissionAttachment $attachment
 	 *
-	 * @throws \Throwable
+	 * @throws \Exception
 	 */
 	public function removeAttachment(PermissionAttachment $attachment){
 		if($attachment === null){

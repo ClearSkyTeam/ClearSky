@@ -26,12 +26,15 @@ class FormattedCommandAlias extends Command{
 		foreach($this->formatStrings as $formatString){
 			try{
 				$commands[] = $this->buildCommand($formatString, $args);
-			}catch(\Throwable $e){
+			}catch(\Exception $e){
 				if($e instanceof \InvalidArgumentException){
 					$sender->sendMessage(TextFormat::RED . $e->getMessage());
 				}else{
 					$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.exception"));
-					$sender->getServer()->getLogger()->logException($e);
+					$logger = $sender->getServer()->getLogger();
+					if($logger instanceof MainLogger){
+						$logger->logException($e);
+					}
 				}
 
 				return false;

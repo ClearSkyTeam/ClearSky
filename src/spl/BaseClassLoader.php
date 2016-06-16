@@ -14,8 +14,8 @@ class BaseClassLoader extends \Threaded implements ClassLoader{
      */
     public function __construct(ClassLoader $parent = null){
         $this->parent = $parent;
-        $this->lookup = new \Threaded;
-        $this->classes = new \Threaded;
+        $this->lookup = \ThreadedFactory::create();
+        $this->classes = \ThreadedFactory::create();
     }
 
     /**

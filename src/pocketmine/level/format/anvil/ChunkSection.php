@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine\level\format\anvil;
 
-use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\Compound;
 
 class ChunkSection implements \pocketmine\level\format\ChunkSection{
 
@@ -11,7 +11,7 @@ class ChunkSection implements \pocketmine\level\format\ChunkSection{
 	private $blockLight;
 	private $skyLight;
 
-	public function __construct(CompoundTag $nbt){
+	public function __construct(Compound $nbt){
 		$this->y = (int) $nbt["Y"];
 		$this->blocks = (string) $nbt["Blocks"];
 		$this->data = (string) $nbt["Data"];
@@ -48,6 +48,12 @@ class ChunkSection implements \pocketmine\level\format\ChunkSection{
 		}else{
 			$this->data{$i} = chr((($data & 0x0f) << 4) | ($old_m & 0x0f));
 		}
+	}
+
+	public function getBlock($x, $y, $z, &$blockId, &$meta = null){
+		$full = $this->getFullBlock($x, $y, $z);
+		$blockId = $full >> 4;
+		$meta = $full & 0x0f;
 	}
 
 	public function getFullBlock($x, $y, $z){

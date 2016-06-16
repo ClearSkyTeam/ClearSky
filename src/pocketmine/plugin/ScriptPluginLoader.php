@@ -29,7 +29,7 @@ class ScriptPluginLoader implements PluginLoader{
 	 *
 	 * @return Plugin
 	 *
-	 * @throws \Throwable
+	 * @throws \Exception
 	 */
 	public function loadPlugin($file){
 		if(($description = $this->getPluginDescription($file)) instanceof PluginDescription){

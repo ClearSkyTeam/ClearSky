@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine;
 
-class ThreadManager extends \Volatile{
+class ThreadManager extends \Threaded{
 
 	/** @var ThreadManager */
 	private static $instance = null;

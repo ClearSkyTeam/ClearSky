@@ -2,7 +2,7 @@
 namespace pocketmine\entity;
 
 use pocketmine\Player;
-use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\Int;
 
 class Ozelot extends Animal implements Tameable{
 	const NETWORK_ID = 22;
@@ -65,7 +65,7 @@ class Ozelot extends Animal implements Tameable{
 	}
 
     public function setVariant($value){
-        $this->namedtag->Color = new IntTag("Type", $value);
+        $this->namedtag->Color = new Int("Type", $value);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $value);
     }
 

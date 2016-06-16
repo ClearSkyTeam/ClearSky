@@ -83,8 +83,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 		if($this->rakLib->isTerminated()){
 			$info = $this->rakLib->getTerminationInfo();
 			$this->network->unregisterInterface($this);
-
-			throw new \Exception("RakLib Thread crashed");
+			\ExceptionHandler::handler(E_ERROR, "RakLib Thread crashed [".$info["scope"]."]: " . (isset($info["message"]) ? $info["message"] : ""), $info["file"], $info["line"]);
 		}
 
 		return $work;
@@ -139,11 +138,13 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 						$this->players[$identifier]->handleDataPacket($pk);
 					}
 				}
-			}catch(\Throwable $e){
+			}catch(\Exception $e){
 				if(\pocketmine\DEBUG > 1 and isset($pk)){
 					$logger = $this->server->getLogger();
-					$logger->debug("Packet " . get_class($pk) . " 0x" . bin2hex($packet->buffer));
-					$logger->logException($e);
+					if($logger instanceof MainLogger){
+						$logger->debug("Packet " . get_class($pk) . " 0x" . bin2hex($packet->buffer));
+						$logger->logException($e);
+					}
 				}
 
 				if(isset($this->players[$identifier])){
@@ -202,7 +203,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 				if(!isset($packet->__encapsulatedPacket)){
 					$packet->__encapsulatedPacket = new CachedEncapsulatedPacket;
 					$packet->__encapsulatedPacket->identifierACK = null;
-					$packet->__encapsulatedPacket->buffer = chr(0x8e) . $packet->buffer; // #blameshoghi
+					$packet->__encapsulatedPacket->buffer = chr(0x8e) . $packet->buffer;
 					$packet->__encapsulatedPacket->reliability = 3;
 					$packet->__encapsulatedPacket->orderChannel = 0;
 				}
@@ -218,7 +219,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 			if($pk === null){
 				$pk = new EncapsulatedPacket();
-				$pk->buffer = chr(0x8e) . $packet->buffer; // #blameshoghi
+				$pk->buffer = chr(0x8e) .  $packet->buffer;
 				$packet->reliability = 3;
 				$packet->orderChannel = 0;
 
@@ -236,12 +237,12 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 	}
 
 	private function getPacket($buffer){
-		$pid = ord($buffer{1}); // #blameshoghi
+		$pid = ord($buffer{1});
 
 		if(($data = $this->network->getPacket($pid)) === null){
 			return null;
 		}
-		$data->setBuffer($buffer, 2); // #blameshoghi
+		$data->setBuffer($buffer, 2);
 
 		return $data;
 	}

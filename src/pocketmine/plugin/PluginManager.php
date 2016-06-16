@@ -48,7 +48,7 @@ class PluginManager{
 	protected $defaultPermsOp = [];
 
 	/**
-	 * @var Permissible[][]
+	 * @var Permissible[]
 	 */
 	protected $permSubs = [];
 
@@ -229,9 +229,12 @@ class PluginManager{
 								}
 							}
 						}
-					}catch(\Throwable $e){
+					}catch(\Exception $e){
 						$this->server->getLogger()->error($this->server->getLanguage()->translateString("pocketmine.plugin.fileError", [$file, $directory, $e->getMessage()]));
-						$this->server->getLogger()->logException($e);
+						$logger = $this->server->getLogger();
+						if($logger instanceof MainLogger){
+							$logger->logException($e);
+						}
 					}
 				}
 			}
@@ -410,7 +413,7 @@ class PluginManager{
 		if(!isset($this->permSubs[$permission])){
 			$this->permSubs[$permission] = [];
 		}
-		$this->permSubs[$permission][spl_object_hash($permissible)] = $permissible;
+		$this->permSubs[$permission][spl_object_hash($permissible)] = new \WeakRef($permissible);
 	}
 
 	/**
@@ -433,7 +436,6 @@ class PluginManager{
 	 */
 	public function getPermissionSubscriptions($permission){
 		if(isset($this->permSubs[$permission])){
-			return $this->permSubs[$permission];
 			$subs = [];
 			foreach($this->permSubs[$permission] as $k => $perm){
 				/** @var \WeakRef $perm */
@@ -457,9 +459,9 @@ class PluginManager{
 	 */
 	public function subscribeToDefaultPerms($op, Permissible $permissible){
 		if($op === true){
-			$this->defSubsOp[spl_object_hash($permissible)] = $permissible;
+			$this->defSubsOp[spl_object_hash($permissible)] = new \WeakRef($permissible);
 		}else{
-			$this->defSubs[spl_object_hash($permissible)] = $permissible;
+			$this->defSubs[spl_object_hash($permissible)] = new \WeakRef($permissible);
 		}
 	}
 
@@ -484,7 +486,6 @@ class PluginManager{
 		$subs = [];
 
 		if($op === true){
-			return $this->defSubsOp;
 			foreach($this->defSubsOp as $k => $perm){
 				/** @var \WeakRef $perm */
 				if($perm->acquire()){
@@ -495,7 +496,6 @@ class PluginManager{
 				}
 			}
 		}else{
-			return $this->defSubs;
 			foreach($this->defSubs as $k => $perm){
 				/** @var \WeakRef $perm */
 				if($perm->acquire()){
@@ -540,8 +540,11 @@ class PluginManager{
 					$this->addPermission($perm);
 				}
 				$plugin->getPluginLoader()->enablePlugin($plugin);
-			}catch(\Throwable $e){
-				$this->server->getLogger()->logException($e);
+			}catch(\Exception $e){
+				$logger = Server::getInstance()->getLogger();
+				if($logger instanceof MainLogger){
+					$logger->logException($e);
+				}
 				$this->disablePlugin($plugin);
 			}
 		}
@@ -611,8 +614,11 @@ class PluginManager{
 		if($plugin->isEnabled()){
 			try{
 				$plugin->getPluginLoader()->disablePlugin($plugin);
-			}catch(\Throwable $e){
-				$this->server->getLogger()->logException($e);
+			}catch(\Exception $e){
+				$logger = Server::getInstance()->getLogger();
+				if($logger instanceof MainLogger){
+					$logger->logException($e);
+				}
 			}
 
 			$this->server->getScheduler()->cancelTasks($plugin);
@@ -645,7 +651,7 @@ class PluginManager{
 
 			try{
 				$registration->callEvent($event);
-			}catch(\Throwable $e){
+			}catch(\Exception $e){
 				$this->server->getLogger()->critical(
 					$this->server->getLanguage()->translateString("pocketmine.plugin.eventError", [
 						$event->getEventName(),
@@ -653,7 +659,10 @@ class PluginManager{
 						$e->getMessage(),
 						get_class($registration->getListener())
 					]));
-				$this->server->getLogger()->logException($e);
+				$logger = $this->server->getLogger();
+				if($logger instanceof MainLogger){
+					$logger->logException($e);
+				}
 			}
 		}
 	}

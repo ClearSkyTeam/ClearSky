@@ -21,9 +21,8 @@ class ShapedRecipe implements Recipe{
 	private $shapeItems = [];
 
 	/**
-	 * @param Item $result
-	 * @param int  $height
-	 * @param int  $width
+	 * @param Item     $result
+	 * @param string[] $shape
 	 *
 	 * @throws \Throwable
 	 */
@@ -78,21 +77,16 @@ class ShapedRecipe implements Recipe{
 		$this->id = $id;
 	}
 
-	public function addIngredient($x, $y, Item $item){
-		$this->ingredients[$y][$x] = clone $item;
-		return $this;
-	}
-
 	/**
 	 * @param string $key
 	 * @param Item   $item
 	 *
 	 * @return $this
-	 * @throws \Throwable
+	 * @throws \Exception
 	 */
 	public function setIngredient($key, Item $item){
 		if(!array_key_exists($key, $this->shape)){
-			throw new \Throwable("Symbol does not appear in the shape: " . $key);
+			throw new \Exception("Symbol does not appear in the shape: " . $key);
 		}
 
 		$this->fixRecipe($key, $item);

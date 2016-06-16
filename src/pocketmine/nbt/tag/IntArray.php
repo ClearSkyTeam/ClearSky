@@ -5,7 +5,7 @@ use pocketmine\nbt\NBT;
 
 #include <rules/NBT.h>
 
-class IntArrayTag extends NamedTag{
+class IntArray extends NamedTag{
 
 	public function getType(){
 		return NBT::TAG_IntArray;

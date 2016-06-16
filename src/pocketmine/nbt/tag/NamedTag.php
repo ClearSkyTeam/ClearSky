@@ -8,7 +8,7 @@ abstract class NamedTag extends Tag{
 
 	/**
 	 * @param string                                                      $name
-	 * @param bool|float|double|int|ByteTag|ShortTag|array|CompoundTag|ListTag|string $value
+	 * @param bool|float|double|int|byte|short|array|Compound|Enum|string $value
 	 */
 	public function __construct($name = "", $value = null){
 		$this->__name = ($name === null or $name === false) ? "" : $name;
@@ -23,5 +23,11 @@ abstract class NamedTag extends Tag{
 
 	public function setName($name){
 		$this->__name = $name;
+	}
+	
+	public function __destruct(){
+		foreach (get_class_vars(__CLASS__) as $clsVar => $_){
+			unset($this->$clsVar);
+		}
 	}
 }
