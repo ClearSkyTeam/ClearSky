@@ -1970,20 +1970,19 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				if(!in_array($packet->protocol, ProtocolInfo::ACCEPT_PROTOCOL)){
 					if($packet->protocol < ProtocolInfo::CURRENT_PROTOCOL){
-						$message = "disconnectionScreen.outdatedClient";
+						$message = "disconnectionScreen.outdatedClient"; //THIS IS THE CLIENT MESSAGE BUT DO N O T CHANGE THIS, IT'S AN MCPE CLIENT TRANSLATION CONTAINER
 
 						$pk = new PlayStatusPacket();
 						$pk->status = PlayStatusPacket::LOGIN_FAILED_CLIENT;
 						$this->directDataPacket($pk);
 					}else{
-						$message = "disconnectionScreen.outdatedServer";
+						$message = "disconnectionScreen.outdatedServer"; //THIS IS THE CLIENT MESSAGE BUT DO N O T CHANGE THIS, IT'S AN MCPE CLIENT TRANSLATION CONTAINER
 
 						$pk = new PlayStatusPacket();
 						$pk->status = PlayStatusPacket::LOGIN_FAILED_SERVER;
 						$this->directDataPacket($pk);
 					}
-					$this->close("This server is running with ClearSky " . Info::CURRENT_VERSION, $message, false);
-					
+					$this->close("", $message, false);
 					break;
 				}
 				$this->randomClientId = $packet->clientId;
@@ -2140,8 +2139,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							break;
 						}
 					}
-
-					$this->inventory->sendHeldItem($this);
+					if($this->isOnline()){
+						$this->inventory->sendHeldItem($this);	
+					}
 
 					if($blockVector->distanceSquared($this) > 10000){
 						break;
