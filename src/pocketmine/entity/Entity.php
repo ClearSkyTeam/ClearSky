@@ -102,6 +102,7 @@ abstract class Entity extends Location implements Metadatable{
 		self::DATA_SILENT => [self::DATA_TYPE_BYTE, 0],
 		self::DATA_NO_AI => [self::DATA_TYPE_BYTE, 0],
 		self::DATA_LEAD_HOLDER => [self::DATA_TYPE_LONG, -1],
+		self::DATA_LEAD => [self::DATA_TYPE_BYTE, 0],
 	];
 
 	public $passenger = null;
