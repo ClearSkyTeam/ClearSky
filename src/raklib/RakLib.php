@@ -4,8 +4,8 @@ namespace raklib;
 
 //Dependencies check
 $errors = 0;
-if(version_compare("5.6.0", PHP_VERSION) > 0){
-    echo "[CRITICAL] Use PHP >= 5.6.0" . PHP_EOL;
+if(version_compare("7.0", PHP_VERSION) > 0){
+    echo "[CRITICAL] Use PHP >= 7.0" . PHP_EOL;
     ++$errors;
 }
 
@@ -23,8 +23,8 @@ if(!extension_loaded("pthreads")){
         $pthreads_version = "0.$pthreads_version";
     }
 
-    if(version_compare($pthreads_version, "2.0.8") < 0){
-        echo "[CRITICAL] pthreads >= 2.0.8 is required, while you have $pthreads_version.";
+    if(version_compare($pthreads_version, "3.0.0") < 0){
+        echo "[CRITICAL] pthreads >= 3.0.0 is required, while you have $pthreads_version.";
         ++$errors;
     }
 }

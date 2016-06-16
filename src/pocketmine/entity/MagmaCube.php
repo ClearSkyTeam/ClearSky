@@ -3,7 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 
 class MagmaCube extends Living{
 	const NETWORK_ID = 42;
@@ -45,7 +45,7 @@ class MagmaCube extends Living{
 	}
 
     public function setSize($value){
-        $this->namedtag->Size = new Int("Size", $value);
+        $this->namedtag->Size = new IntTag("Size", $value);
 		$this->setDataProperty(self::DATA_SIZE, self::DATA_TYPE_BYTE, $value);
     }
 

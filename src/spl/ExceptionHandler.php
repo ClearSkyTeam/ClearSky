@@ -6,7 +6,7 @@ abstract class ExceptionHandler{
 	 * @param $errfile
 	 * @param $errline
 	 *
-	 * @return \Exception
+	 * @return \Throwable
 	 */
 	public static function handler($errno, $errstr, $errfile, $errline){
 		if(error_reporting() === 0){

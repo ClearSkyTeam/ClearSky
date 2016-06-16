@@ -3,11 +3,9 @@ namespace pocketmine\level\format\anvil;
 
 use pocketmine\level\Level;
 use pocketmine\nbt\NBT;
-use pocketmine\network\protocol\FullChunkDataPacket;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\Server;
 use pocketmine\tile\Spawnable;
-use pocketmine\utils\BinaryStream;
 
 
 class ChunkRequestTask extends AsyncTask{
@@ -42,33 +40,65 @@ class ChunkRequestTask extends AsyncTask{
 	public function onRun(){
 
 		$chunk = Chunk::fromFastBinary($this->chunk);
-		$extraData = new BinaryStream();
-		$extraData->putLInt(count($chunk->getBlockExtraDataArray()));
-		foreach($chunk->getBlockExtraDataArray() as $key => $value){
-			$extraData->putLInt($key);
-			$extraData->putLShort($value);
-			}
+		$ids = $chunk->getBlockIdArray();
+		$meta = $chunk->getBlockDataArray();
+		$blockLight = $chunk->getBlockLightArray();
+		$skyLight = $chunk->getBlockSkyLightArray();
 
-		$ordered = $chunk->getBlockIdArray() .
-			$chunk->getBlockDataArray() .
-			$chunk->getBlockSkyLightArray() .
-			$chunk->getBlockLightArray() .
-			pack("C*", ...$chunk->getHeightMapArray()) .
-			pack("N*", ...$chunk->getBiomeColorArray()) .
-			$extraData->getBuffer() .
-			$this->tiles;
+
+		$orderedIds = "";
+		$orderedData = "";
+		$orderedSkyLight = "";
+		$orderedLight = "";
+
+
+		for($x = 0; $x < 16; ++$x){
+			for($z = 0; $z < 16; ++$z){
+				$orderedIds .= $this->getColumn($ids, $x, $z);
+				$orderedData .= $this->getHalfColumn($meta, $x, $z);
+				$orderedSkyLight .= $this->getHalfColumn($skyLight, $x, $z);
+				$orderedLight .= $this->getHalfColumn($blockLight, $x, $z);
+			}
+		}
+
+		$heightmap = pack("C*", ...$chunk->getHeightMapArray());
+		$biomeColors = pack("N*", ...$chunk->getBiomeColorArray());
+
+		$ordered = $orderedIds . $orderedData . $orderedSkyLight . $orderedLight . $heightmap . $biomeColors . $this->tiles;
 
 		$this->setResult($ordered, false);
 	}
 
+	public function getColumn($data, $x, $z){
+		$column = "";
+		$i = ($z << 4) + $x;
+		for($y = 0; $y < 128; ++$y){
+			$column .= $data{($y << 8) + $i};
+		}
 
+		return $column;
+	}
 
+	public function getHalfColumn($data, $x, $z){
+		$column = "";
+		$i = ($z << 3) + ($x >> 1);
+		if(($x & 1) === 0){
+			for($y = 0; $y < 128; $y += 2){
+				$column .= ($data{($y << 7) + $i} & "\x0f") | chr((ord($data{(($y + 1) << 7) + $i}) & 0x0f) << 4);
+			}
+		}else{
+			for($y = 0; $y < 128; $y += 2){
+				$column .= chr((ord($data{($y << 7) + $i}) & 0xf0) >> 4) | ($data{(($y + 1) << 7) + $i} & "\xf0");
+			}
+		}
 
+		return $column;
+	}
 
 	public function onCompletion(Server $server){
 		$level = $server->getLevel($this->levelId);
 		if($level instanceof Level and $this->hasResult()){
-			$level->chunkRequestCallback($this->chunkX, $this->chunkZ, $this->getResult(), FullChunkDataPacket::ORDER_LAYERED);
+			$level->chunkRequestCallback($this->chunkX, $this->chunkZ, $this->getResult());
 		}
 	}
 

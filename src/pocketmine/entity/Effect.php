@@ -3,6 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
+use pocketmine\event\player\PlayerExhaustEvent;
 use pocketmine\network\protocol\MobEffectPacket;
 use pocketmine\Player;
 
@@ -68,6 +69,7 @@ class Effect{
 
 	/**
 	 * @param int $id
+	 *
 	 * @return $this
 	 */
 	public static function getEffect($id){
@@ -172,12 +174,12 @@ class Effect{
 				}
 				return true;
 			case Effect::WITHER:
-				if(($interval = (40 >> $this->amplifier)) > 0){
+				if(($interval = (50 >> $this->amplifier)) > 0){
 					return ($this->duration % $interval) === 0;
 				}
 				return true;
 			case Effect::REGENERATION:
-				if(($interval = (50 >> $this->amplifier)) > 0){
+				if(($interval = (40 >> $this->amplifier)) > 0){
 					return ($this->duration % $interval) === 0;
 				}
 				return true;
@@ -191,9 +193,6 @@ class Effect{
 					return ($this->duration % $interval) === 0;
 				}
 				return true;
-			case Effect::SPEED:
-			case Effect::SLOWNESS:
-			    return true;
 		}
 		return false;
 	}
@@ -219,25 +218,13 @@ class Effect{
 				}
 				break;
 			case Effect::HUNGER:
-				if($entity instanceof Player){
-				        if($entity->getFood() > 0){;
-					        if($entity->getFood() - 0.025 * ($this->getAmplifier() + 1) > 0){
-					        	$entity->setFood($entity->getFood() - 0.025 * ($this->getAmplifier() + 1));
-					        }else{
-					        	$entity->setFood(0);
-					        }
-				        }
+				if($entity instanceof Human){
+					$entity->exhaust(0.5 * $this->amplifier, PlayerExhaustEvent::CAUSE_POTION);
 				}
 				break;
 			case Effect::SATURATION:
-				if($entity instanceof Player){
-				        if($entity->getFood() < 20){;
-					        if($entity->getFood() + 1 * ($this->getAmplifier() + 1) > 20){
-					        	$entity->setFood(20);
-					        }else{
-					        	$entity->setFood($entity->getFood() + 1 * ($this->getAmplifier() + 1));
-					        }
-				        }
+				if($entity instanceof Human){
+					$entity->addSaturation($this->amplifier);
 				}
 				break;
 			case Effect::SPEED:
@@ -257,7 +244,7 @@ class Effect{
 		$this->color = (($r & 0xff) << 16) + (($g & 0xff) << 8) + ($b & 0xff);
 	}
 
-	public function add(Entity $entity, $modify = false){
+	public function add(Entity $entity, $modify = false, Effect $oldEffect = null){
 		if($entity instanceof Player){
 			$pk = new MobEffectPacket();
 			$pk->eid = 0;
@@ -277,6 +264,24 @@ class Effect{
 		if($this->id === Effect::INVISIBILITY){
 			$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, true);
 			$entity->setDataProperty(Entity::DATA_SHOW_NAMETAG, Entity::DATA_TYPE_BYTE, 0);
+		}elseif($this->id === Effect::SPEED){
+			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
+			if($modify and $oldEffect !== null){
+				$speed = $attr->getValue() / (1 + 0.2 * $oldEffect->getAmplifier());
+			}else{
+				$speed = $attr->getValue();
+			}
+			$speed *= (1 + 0.2 * $this->amplifier);
+			$attr->setValue($speed);
+		}elseif($this->id === Effect::SLOWNESS){
+			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
+			if($modify and $oldEffect !== null){
+				$speed = $attr->getValue() / (1 - 0.15 * $oldEffect->getAmplifier());
+			}else{
+				$speed = $attr->getValue();
+			}
+			$speed *= (1 - 0.15 * $this->amplifier);
+			$attr->setValue($speed);
 		}
 	}
 
@@ -293,6 +298,12 @@ class Effect{
 		if($this->id === Effect::INVISIBILITY){
 			$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, false);
 			$entity->setDataProperty(Entity::DATA_SHOW_NAMETAG, Entity::DATA_TYPE_BYTE, 1);
+		}elseif($this->id === Effect::SPEED){
+			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
+			$attr->setValue($attr->getValue() / (1 + 0.2 * $this->amplifier));
+		}elseif($this->id === Effect::SLOWNESS){
+			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
+			$attr->setValue($attr->getValue() / (1 - 0.15 * $this->amplifier));
 		}
 	}
 }

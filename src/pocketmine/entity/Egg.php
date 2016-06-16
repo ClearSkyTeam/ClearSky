@@ -3,12 +3,12 @@
 namespace pocketmine\entity;
 
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\StringTag;
 
 class Egg extends Projectile{
 	const NETWORK_ID = 82;
@@ -18,7 +18,7 @@ class Egg extends Projectile{
 	protected $gravity = 0.03;
 	protected $drag = 0.01;
 
-	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
 
@@ -42,9 +42,9 @@ class Egg extends Projectile{
 					return false;
 				}
 				
-				$nbt = new Compound("", ["Pos" => new Enum("Pos", [new Double("", $this->getX()),new Double("", $this->getY()),new Double("", $this->getZ())]),
-						"Motion" => new Enum("Motion", [new Double("", 0),new Double("", 0),new Double("", 0)]),"Rotation" => new Enum("Rotation", [new Float("", mt_rand(0, 360)),new Float("", 0)])]);
-				$nbt->Age = new String("Age", 0);
+				$nbt = new CompoundTag("", ["Pos" => new ListTag("Pos", [new DoubleTag("", $this->getX()),new DoubleTag("", $this->getY()),new DoubleTag("", $this->getZ())]),
+						"Motion" => new ListTag("Motion", [new DoubleTag("", 0),new DoubleTag("", 0),new DoubleTag("", 0)]),"Rotation" => new ListTag("Rotation", [new FloatTag("", mt_rand(0, 360)),new FloatTag("", 0)])]);
+				$nbt->Age = new StringTag("Age", 0);
 				$chicken = Entity::createEntity("Chicken", $chunk, $nbt);
 				if($chicken instanceof Entity){
 					$chicken->setDataProperty(14, self::DATA_TYPE_BYTE, 0);

@@ -68,14 +68,13 @@ use pocketmine\metadata\BlockMetadataStore;
 use pocketmine\metadata\Metadatable;
 use pocketmine\metadata\MetadataValue;
 use pocketmine\nbt\NBT;
-
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Short;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Long;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\LongTag;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\FullChunkDataPacket;
 use pocketmine\network\protocol\LevelEventPacket;
@@ -90,7 +89,6 @@ use pocketmine\Server;
 use pocketmine\tile\Chest;
 use pocketmine\tile\Tile;
 use pocketmine\utils\LevelException;
-use pocketmine\utils\MainLogger;
 use pocketmine\utils\Random;
 use pocketmine\utils\ReversePriorityQueue;
 use pocketmine\level\particle\Particle;
@@ -423,7 +421,7 @@ class Level implements ChunkManager, Metadatable{
 	 * @param string $path
 	 * @param string $provider Class that extends LevelProvider
 	 *
-	 * @throws \Exception
+	 * @throws \Throwable
 	 */
 	public function __construct(Server $server, $name, $path, $provider){
 		$this->blockStates = Block::$fullList;
@@ -1645,25 +1643,25 @@ class Level implements ChunkManager, Metadatable{
 		$itemTag->setName("Item");
 
 		if($item->getId() > 0 and $item->getCount() > 0){
-			$itemEntity = Entity::createEntity("Item", $this->getChunk($source->getX() >> 4, $source->getZ() >> 4, true), new Compound("", [
-				"Pos" => new Enum("Pos", [
-					new Double("", $source->getX()),
-					new Double("", $source->getY()),
-					new Double("", $source->getZ())
+			$itemEntity = Entity::createEntity("Item", $this->getChunk($source->getX() >> 4, $source->getZ() >> 4, true), new CompoundTag("", [
+				"Pos" => new ListTag("Pos", [
+					new DoubleTag("", $source->getX()),
+					new DoubleTag("", $source->getY()),
+					new DoubleTag("", $source->getZ())
 				]),
 
-				"Motion" => new Enum("Motion", [
-					new Double("", $motion->x),
-					new Double("", $motion->y),
-					new Double("", $motion->z)
+				"Motion" => new ListTag("Motion", [
+					new DoubleTag("", $motion->x),
+					new DoubleTag("", $motion->y),
+					new DoubleTag("", $motion->z)
 				]),
-				"Rotation" => new Enum("Rotation", [
-					new Float("", lcg_value() * 360),
-					new Float("", 0)
+				"Rotation" => new ListTag("Rotation", [
+					new FloatTag("", lcg_value() * 360),
+					new FloatTag("", 0)
 				]),
-				"Health" => new Short("Health", 5),
+				"Health" => new ShortTag("Health", 5),
 				"Item" => $itemTag,
-				"PickupDelay" => new Short("PickupDelay", $delay)
+				"PickupDelay" => new ShortTag("PickupDelay", $delay)
 			]));
 
 			$itemEntity->spawnToAll();
@@ -1760,10 +1758,10 @@ class Level implements ChunkManager, Metadatable{
 		}
 
 		$tag = $item->getNamedTagEntry("CanDestroy");
-		if($tag instanceof Enum){
+		if($tag instanceof ListTag){
 			$canBreak = false;
 			foreach($tag as $v){
-				if($v instanceof String){
+				if($v instanceof StringTag){
 					$entry = Item::fromString($v->getValue());
 					if($entry->getId() > 0 and $entry->getBlock() !== null and $entry->getBlock()->getId() === $target->getId()){
 						$canBreak = true;
@@ -1925,10 +1923,10 @@ class Level implements ChunkManager, Metadatable{
 		}
 
 		$tag = $item->getNamedTagEntry("CanPlaceOn");
-		if($tag instanceof Enum){
+		if($tag instanceof ListTag){
 			$canPlace = false;
 			foreach($tag as $v){
-				if($v instanceof String){
+				if($v instanceof StringTag){
 					$entry = Item::fromString($v->getValue());
 					if($entry->getId() > 0 and $entry->getBlock() !== null and $entry->getBlock()->getId() === $target->getId()){
 						$canPlace = true;
@@ -2461,22 +2459,22 @@ class Level implements ChunkManager, Metadatable{
 		}
 		$ExpPerBall = mt_rand(5,10);
 		while($exp  >= $ExpPerBall){
-				$nbt = new Compound("", [
-				"Pos" => new Enum("Pos", [
-					new Double("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
-					new Double("", $pos->getY()),
-					new Double("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
+				$nbt = new CompoundTag("", [
+				"Pos" => new ListTag("Pos", [
+					new DoubleTag("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
+					new DoubleTag("", $pos->getY()),
+					new DoubleTag("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
 				]),
-				"Motion" => new Enum("Motion", [
-					new Double("", 0),
-					new Double("", 0),
-					new Double("", 0)
+				"Motion" => new ListTag("Motion", [
+					new DoubleTag("", 0),
+					new DoubleTag("", 0),
+					new DoubleTag("", 0)
 				]),
-				"Rotation" => new Enum("Rotation", [
-					new Float("", 0),
-					new Float("", 0)
+				"Rotation" => new ListTag("Rotation", [
+					new FloatTag("", 0),
+					new FloatTag("", 0)
 				]),
-				"Experience" => new Long("Experience", $exp),
+				"Experience" => new LongTag("Experience", $exp),
 			]);
 			$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
 			$expOrb = new ExperienceOrb($chunk, $nbt);
@@ -2485,22 +2483,22 @@ class Level implements ChunkManager, Metadatable{
 			$ExpPerBall = mt_rand(5,10);
 		}
 		if($exp > 0){
-			$nbt = new Compound("", [
-				"Pos" => new Enum("Pos", [
-					new Double("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
-					new Double("", $pos->getY()),
-					new Double("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
+			$nbt = new CompoundTag("", [
+				"Pos" => new ListTag("Pos", [
+					new DoubleTag("", $pos->getX()+ mt_rand(-1,1) + mt_rand(100,999)/1000),
+					new DoubleTag("", $pos->getY()),
+					new DoubleTag("", $pos->getZ()+ mt_rand(-1,1) + mt_rand(100,999)/1000)
 				]),
-				"Motion" => new Enum("Motion", [
-					new Double("", 0),
-					new Double("", 0),
-					new Double("", 0)
+				"Motion" => new ListTag("Motion", [
+					new DoubleTag("", 0),
+					new DoubleTag("", 0),
+					new DoubleTag("", 0)
 				]),
-				"Rotation" => new Enum("Rotation", [
-					new Float("", 0),
-					new Float("", 0)
+				"Rotation" => new ListTag("Rotation", [
+					new FloatTag("", 0),
+					new FloatTag("", 0)
 				]),
-				"Experience" => new Long("Experience", $exp),
+				"Experience" => new LongTag("Experience", $exp),
 			]);
 			$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
 			$expOrb = new ExperienceOrb($chunk, $nbt);
@@ -2730,6 +2728,8 @@ class Level implements ChunkManager, Metadatable{
 	 * @param bool $generate
 	 *
 	 * @return bool
+	 *
+	 * @throws \InvalidStateException
 	 */
 	public function loadChunk($x, $z, $generate = true){
 		if(isset($this->chunks[$index = Level::chunkHash($x, $z)])){
@@ -2852,12 +2852,10 @@ class Level implements ChunkManager, Metadatable{
 				}
 			}
 			$this->provider->unloadChunk($x, $z, $safe);
-		}catch(\Exception $e){
+		}catch(\Throwable $e){
 			$logger = $this->server->getLogger();
 			$logger->error($this->server->getLanguage()->translateString("pocketmine.level.chunkUnloadError", [$e->getMessage()]));
-			if($logger instanceof MainLogger){
-				$logger->logException($e);
-			}
+			$logger->logException($e);
 		}
 
 		unset($this->chunks[$index]);
