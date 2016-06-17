@@ -1,13 +1,6 @@
 <?php
 namespace pocketmine\network\protocol;
 
-#include <rules/DataPacket.h>
-
-#ifndef COMPILE
-
-#endif
-
-
 use pocketmine\utils\BinaryStream;
 use pocketmine\utils\Utils;
 
@@ -17,6 +10,7 @@ abstract class DataPacket extends BinaryStream{
 	const NETWORK_ID = 0;
 
 	public $isEncoded = false;
+	private $channel = 0;
 
 	public function pid(){
 		return $this::NETWORK_ID;
@@ -34,15 +28,14 @@ abstract class DataPacket extends BinaryStream{
 	/**
 	 * @deprecated This adds extra overhead on the network, so its usage is now discouraged. It was a test for the viability of this.
 	 */
-	 
 	public function setChannel($channel){
+		$this->channel = (int) $channel;
 		return $this;
 	}
 
 	public function getChannel(){
-		return 0;
+		return $this->channel;
 	}
-	
 
 	public function clean(){
 		$this->buffer = null;
@@ -64,5 +57,14 @@ abstract class DataPacket extends BinaryStream{
 		}
 
 		return $data;
+	}
+	
+	public function updateBuffer($addChar) {
+		if($addChar == chr(0xfe)) {
+			$pkId = ord($this->buffer{0});
+			if(isset(self::$pkKeysRev[$pkId])) {
+				$this->buffer{0} = chr(self::$pkKeysRev[$pkId]);
+			}
+		}
 	}
 }
