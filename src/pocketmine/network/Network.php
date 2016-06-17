@@ -200,25 +200,19 @@ class Network{
 		$offset = 0;
 		try{
 			while($offset < $len){
-				$updatetedPid = false;
 				$pkLen = Binary::readInt(substr($str, $offset, 4));
 				$offset += 4;
+
 				$buf = substr($str, $offset, $pkLen);
 				$offset += $pkLen;
-				$pid = ord($buf{0});
-				if(isset(DataPacket::$pkKeys[$pid])) {
-					$pid = DataPacket::$pkKeys[$pid];
-					$updatetedPid = true;
-				}
-				$buf = substr($buf, 1);                           
-				if(($pk = $this->getPacket($pid)) !== null){
+
+				if(($pk = $this->getPacket(ord($buf{0}))) !== null){
 					if($pk::NETWORK_ID === Info::BATCH_PACKET){
 						throw new \InvalidStateException("Invalid BatchPacket inside BatchPacket");
 					}
-					if($updatetedPid && $pid == 0x8f) {
-						$buf = chr(0xfe) . $buf;
-					}
-					$pk->setBuffer($buf);
+
+					$pk->setBuffer($buf, 1);
+
 					$pk->decode();
 					$p->handleDataPacket($pk);
 

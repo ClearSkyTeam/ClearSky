@@ -7,8 +7,8 @@ namespace pocketmine\network\protocol;
 
 class SetEntityMotionPacket extends DataPacket{
 	const NETWORK_ID = Info::SET_ENTITY_MOTION_PACKET;
-
-
+	
+	
 	// eid, motX, motY, motZ
 	/** @var array[] */
 	public $entities = [];
@@ -18,16 +18,16 @@ class SetEntityMotionPacket extends DataPacket{
 		$this->addChar = $addChar;
 		parent::__construct("", 0);
 	}
-
+	
 	public function clean(){
 		$this->entities = [];
 		return parent::clean();
 	}
-
+	
 	public function decode(){
-
+	
 	}
-
+	
 	public function encode(){
 		$this->reset();
 		if($this->addChar != chr(0xfe)) {
