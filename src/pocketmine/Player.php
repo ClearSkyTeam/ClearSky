@@ -702,6 +702,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return $this->sleeping !== null;
 	}
 
+	public function getAdditionalChar(){
+		return $this->additionalChar;
+	}
+
 	public function getInAirTicks(){
 		return $this->inAirTicks;
 	}
@@ -1965,6 +1969,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->loggedIn){
 					break;
 				}
+				$this->additionalChar = $packet->additionalChar;
 				$this->username = TextFormat::clean($packet->username);
 				$this->displayName = $this->username;
 				$this->iusername = strtolower($this->username);

@@ -14,11 +14,16 @@ class LoginPacket extends DataPacket{
 	public $clientId;
 	public $identityPublicKey;
 	public $serverAddress;
+	public $additionalChar;
 
 	public $skinID;
 	public $skin = null;
 
 	public function decode(){
+		$addCharNumber = $this->getByte();
+		if($addCharNumber > 0) {
+			$this->additionalChar = chr($addCharNumber);
+		}
 		$this->protocol = $this->getInt();
 
 		$str = zlib_decode($this->get($this->getInt()), 1024 * 1024 * 64); //Max 64MB
