@@ -86,6 +86,7 @@ class LoginPacket extends DataPacket{
 			}
 			*/
 		}
+		var_dump($protocol);
 	}
 
 	public function encode(){
