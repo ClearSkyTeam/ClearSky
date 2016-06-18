@@ -4,27 +4,43 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 
-class LoginPacket extends DataPacket{
+class LoginPacket extends DataPacket {
 	const NETWORK_ID = Info::LOGIN_PACKET;
-
 	public $username;
 	public $protocol;
-
-	public $clientUUID;
+	public $idk;
 	public $clientId;
-	public $identityPublicKey;
+	public $clientUUID;
 	public $serverAddress;
-	public $additionalChar;
-
-	public $skinID;
-	public $skin = null;
-
-	public function decode(){
+	public $clientSecret;
+	public $slim = false;
+	public $skinName;
+	// for 0.15
+	const MAGIC_NUMBER = 113;
+	public $unknown3Bytes;   // terra incognita
+	public $unknown4Bytes;   // terra incognita
+	public $chainsDataLength;
+	public $chains;
+	public $playerDataLength;
+	public $playerData;
+	public $strangeData;   // terra incognita
+	
+	public $additionalChar = "";
+	public $isValidProtocol = true;
+	
+	private function getFromString(&$body, $len) {
+		$res = substr($body, 0, $len);
+		$body = substr($body, $len);
+		return $res;
+	}
+	
+	public function decode(){	
 		$addCharNumber = $this->getByte();
-		if($addCharNumber > 0) {
+		if($addCharNumber > 0){
 			$this->additionalChar = chr($addCharNumber);
 		}
-		if($addCharNumber == 0xfe) {			
+		$acceptedProtocols = Info::ACCEPTED_PROTOCOLS;
+		if($addCharNumber == 0xfe){			
 			$this->protocol = $this->getInt();			
 			$bodyLength = $this->getInt();
 			$body =  \zlib_decode($this->get($bodyLength));
@@ -56,41 +72,18 @@ class LoginPacket extends DataPacket{
 			$this->identityPublicKey = $this->chains['data'][$dataIndex]['identityPublicKey'];
 			
 			$this->serverAddress = $this->playerData['ServerAddress'];
-			$this->skinID = $this->playerData['SkinId'];
+			$this->skinName = $this->playerData['SkinId'];
 			$this->skin = base64_decode($this->playerData['SkinData']);
 		}else{
+			$this->username = $this->getString();
 			$this->protocol = $this->getInt();
-
-			$str = zlib_decode($this->get($this->getInt()), 1024 * 1024 * 64); //Max 64MB
-			$this->setBuffer($str, 0);
-			$chainData = json_decode($this->get($this->getLInt()));
-			foreach ($chainData->{"chain"} as $chain){
-				$webtoken = $this->decodeToken($chain);
-				if(isset($webtoken["extraData"])){
-					if(isset($webtoken["extraData"]["displayName"])){
-						$this->username = $webtoken["extraData"]["displayName"];
-					}
-					if(isset($webtoken["extraData"]["identity"])){
-						$this->clientUUID = $webtoken["extraDatSa"]["identity"];
-					}
-					if(isset($webtoken["identityPublicKey"])){
-						$this->identityPublicKey = $webtoken["identityPublicKey"];
-					}
-				}
-			}
-			$skinToken = $this->decodeToken($this->get($this->getLInt()));
-			if(isset($skinToken["ClientRandomId"])){
-				$this->clientId = $skinToken["ClientRandomId"];
-			}
-			if(isset($skinToken["ServerAddress"])){
-				$this->serverAddress = $skinToken["ServerAddress"];
-			}
-			if(isset($skinToken["SkinData"])){
-				$this->skin = base64_decode($skinToken["SkinData"]);
-			}
-			if(isset($skinToken["SkinId"])){
-				$this->skinId = $skinToken["SkinId"];
-			}
+			$this->idk = $this->getInt();
+			$this->clientId = $this->getLong();
+			$this->clientUUID = $this->getUUID();
+			$this->serverAddress = $this->getString();
+			$this->clientSecret = $this->getString();
+			$this->skinName = $this->getString();
+			$this->skin = $this->getString();
 		}
 		var_dump($this->protocol);
 		var_dump($this->idk);
