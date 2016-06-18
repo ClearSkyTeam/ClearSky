@@ -60,7 +60,7 @@ class LoginPacket extends DataPacket{
 			$this->skin = base64_decode($this->playerData['SkinData']);
 		}else{
 			$this->username = $this->getString();
-			$this->protocol1 = $this->getInt();
+			$this->protocol = $this->getInt();
 			$this->idk = $this->getInt();
 
 			$this->clientId = $this->getLong();
