@@ -702,8 +702,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return $this->sleeping !== null;
 	}
 
+	/**
+	*
+	* @deprecated
+	*/
 	public function getAdditionalChar(){
-		return $this->additionalChar;
+		return NULL;
 	}
 
 	public function getInAirTicks(){
@@ -1969,7 +1973,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->loggedIn){
 					break;
 				}
-				$this->additionalChar = $packet->additionalChar;
 				$this->username = TextFormat::clean($packet->username);
 				$this->displayName = $this->username;
 				$this->iusername = strtolower($this->username);
@@ -1978,7 +1981,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						break;
 					}
 				}
-				/*
+
 				if(!in_array($packet->protocol, ProtocolInfo::ACCEPT_PROTOCOL)){
 					if($packet->protocol < ProtocolInfo::CURRENT_PROTOCOL){
 						$message = "disconnectionScreen.outdatedClient"; //THIS IS THE CLIENT MESSAGE BUT DO N O T CHANGE THIS, IT'S AN MCPE CLIENT TRANSLATION CONTAINER
@@ -1996,7 +1999,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->close("", $message, false);
 					break;
 				}
-				*/
+				
 				$this->randomClientId = $packet->clientId;
 
 				$this->uuid = UUID::fromString($packet->clientUUID);
