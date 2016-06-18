@@ -59,27 +59,18 @@ class LoginPacket extends DataPacket{
 			$this->skinID = $this->playerData['SkinId'];
 			$this->skin = base64_decode($this->playerData['SkinData']);
 		}else{
-			$this->protocol = $this->getInt();
+			$this->username = $this->getString();
+			$this->protocol1 = $this->getInt();
+			$this->idk = $this->getInt();
 
-			$str = zlib_decode($this->get($this->getInt()), 1024 * 1024 * 64); //Max 64MB
-			$this->setBuffer($str, 0);
+			$this->clientId = $this->getLong();
+			$this->clientUUID = $this->getUUID();
+			$this->serverAddress = $this->getString();
+			$this->clientSecret = $this->getString();
 
-			$chainData = json_decode($this->get($this->getLInt()));
-			foreach ($chainData->{"chain"} as $chain){
-				$webtoken = $this->decodeToken($chain);
-				if(isset($webtoken["extraData"])){
-					if(isset($webtoken["extraData"]["displayName"])){
-						$this->username = $webtoken["extraData"]["displayName"];
-					}
-					if(isset($webtoken["extraData"]["identity"])){
-						$this->clientUUID = $webtoken["extraData"]["identity"];
-					}
-					if(isset($webtoken["identityPublicKey"])){
-						$this->identityPublicKey = $webtoken["identityPublicKey"];
-					}
-				}
-			}
-
+			$this->skinId = $this->getString();
+			$this->skin = $this->getString();
+			/*
 			$skinToken = $this->decodeToken($this->get($this->getLInt()));
 			if(isset($skinToken["ClientRandomId"])){
 				$this->clientId = $skinToken["ClientRandomId"];
@@ -93,6 +84,7 @@ class LoginPacket extends DataPacket{
 			if(isset($skinToken["SkinId"])){
 				$this->skinId = $skinToken["SkinId"];
 			}
+			*/
 		}
 	}
 
