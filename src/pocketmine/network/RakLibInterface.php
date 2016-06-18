@@ -4,6 +4,7 @@ namespace pocketmine\network;
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\Info as ProtocolInfo;
+use pocketmine\network\protocol\Info;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\MainLogger;
@@ -174,8 +175,8 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 		$this->interface->sendOption("name",
 			"MCPE;".addcslashes($name, ";") .";".
-			$this->currentprotocol.";".
-			$this->networkversion.";".
+			Info::CURRENT_PROTOCOL.";".
+			\pocketmine\MINECRAFT_VERSION_NETWORK.";".
 			$info->getPlayerCount().";".
 			$info->getMaxPlayerCount()
 		);
@@ -202,7 +203,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 				if(!isset($packet->__encapsulatedPacket)){
 					$packet->__encapsulatedPacket = new CachedEncapsulatedPacket;
 					$packet->__encapsulatedPacket->identifierACK = null;
-					$packet->__encapsulatedPacket->buffer = chr(0x8e) . $packet->buffer; // #blameshoghi
+					$packet->__encapsulatedPacket->buffer = chr(0xfe) . $packet->buffer; // #blameshoghi
 					$packet->__encapsulatedPacket->reliability = 3;
 					$packet->__encapsulatedPacket->orderChannel = 0;
 				}
@@ -218,7 +219,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 			if($pk === null){
 				$pk = new EncapsulatedPacket();
-				$pk->buffer = chr(0x8e) . $packet->buffer; // #blameshoghi
+				$pk->buffer = chr(0xfe) . $packet->buffer; // #blameshoghi
 				$packet->reliability = 3;
 				$packet->orderChannel = 0;
 
@@ -236,12 +237,16 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 	}
 
 	private function getPacket($buffer){
-		$pid = ord($buffer{1}); // #blameshoghi
-
+		$pid = ord($buffer{0});
+		$start = 1;
+		if($pid == 0xfe){
+			$pid = ord($buffer{1});
+			$start++;
+		}
 		if(($data = $this->network->getPacket($pid)) === null){
 			return null;
 		}
-		$data->setBuffer($buffer, 2); // #blameshoghi
+		$data->setBuffer($buffer, $start);
 
 		return $data;
 	}
