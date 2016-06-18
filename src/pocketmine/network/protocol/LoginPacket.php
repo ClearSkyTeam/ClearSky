@@ -86,7 +86,8 @@ class LoginPacket extends DataPacket{
 			}
 			*/
 		}
-		var_dump($protocol);
+		var_dump($this->protocol);
+		var_dump($this->idk);
 	}
 
 	public function encode(){
