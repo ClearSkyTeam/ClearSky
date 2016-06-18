@@ -56,6 +56,7 @@ class LoginPacket extends DataPacket{
 			$this->identityPublicKey = $this->chains['data'][$dataIndex]['identityPublicKey'];
 			
 			$this->serverAddress = $this->playerData['ServerAddress'];
+			$this->skinID = $this->playerData['SkinId'];
 			$this->skin = base64_decode($this->playerData['SkinData']);
 		}else{
 			$this->protocol = $this->getInt();
