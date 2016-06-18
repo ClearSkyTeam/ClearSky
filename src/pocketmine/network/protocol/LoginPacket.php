@@ -39,7 +39,6 @@ class LoginPacket extends DataPacket {
 		if($addCharNumber > 0){
 			$this->additionalChar = chr($addCharNumber);
 		}
-		$acceptedProtocols = Info::ACCEPTED_PROTOCOLS;
 		if($addCharNumber == 0xfe){			
 			$this->protocol = $this->getInt();			
 			$bodyLength = $this->getInt();
