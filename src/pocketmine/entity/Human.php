@@ -12,7 +12,7 @@ use pocketmine\nbt\tag\Enum;
 use pocketmine\nbt\tag\Short;
 use pocketmine\nbt\tag\String;
 use pocketmine\network\protocol\AddPlayerPacket;
-use pocketmine\network\protocol\RemovePlayerPacket;
+use pocketmine\network\protocol\RemoveEntityPacket;
 use pocketmine\Player;
 
 class Human extends Creature implements ProjectileSource, InventoryHolder{
@@ -221,9 +221,9 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 	public function despawnFrom(Player $player){
 		if(isset($this->hasSpawned[$player->getLoaderId()])){
 
-			$pk = new RemovePlayerPacket();
+			$pk = new RemoveEntityPacket();
 			$pk->eid = $this->getId();
-			$pk->clientId = $this->getUniqueId();
+
 			$player->dataPacket($pk);
 			unset($this->hasSpawned[$player->getLoaderId()]);
 		}
