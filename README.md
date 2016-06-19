@@ -5,6 +5,11 @@
 ####  [日本語](#JAPANESE)
 ####  [Українська мова](#UKR)  
 
+## Gimme 0.15
+- [PHP7](https://github.com/ClearSkyTeam/ClearSky/tree/php7-0.15)
+- [PHP5](https://github.com/ClearSkyTeam/ClearSky/tree/php5-0.15)
+- Phar: Compile it yourself. (Our jenkins is broken @Aodzip go fix it.)
+
 # <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP5+7) 
 ** PHP5 support may be dropped soon! **

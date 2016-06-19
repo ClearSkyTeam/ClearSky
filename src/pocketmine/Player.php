@@ -120,10 +120,6 @@ use pocketmine\utils\TextFormat;
 use raklib\Binary;
 use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
-use pocketmine\entity\Colorable;
-use pocketmine\entity\Tameable;
-use pocketmine\entity\Explosive;
-use pocketmine\entity\FishingHook;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
