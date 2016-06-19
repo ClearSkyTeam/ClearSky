@@ -482,12 +482,7 @@ class Server{
 	}
 
 	public static function checkIfKnownBlock($blockId){
-		foreach(Block::$list as $id => $class){
-			if($id == $blockId){
-				return true;
-			}
-		}
-		return false;
+		return isset(Block::$list[$blockID]);
 	}
 
 	/**
