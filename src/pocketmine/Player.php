@@ -98,7 +98,6 @@ use pocketmine\network\protocol\Info as ProtocolInfo;
 use pocketmine\network\protocol\PlayerActionPacket;
 use pocketmine\network\protocol\PlayStatusPacket;
 use pocketmine\network\protocol\RespawnPacket;
-use pocketmine\network\protocol\SetPlayerGameTypePacket;
 use pocketmine\network\protocol\TextPacket;
 use pocketmine\network\protocol\MovePlayerPacket;
 use pocketmine\network\protocol\SetDifficultyPacket;
