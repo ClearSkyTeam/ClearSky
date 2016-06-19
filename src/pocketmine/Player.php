@@ -2068,16 +2068,19 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$item = $this->inventory->getItem($packet->slot);
 					$slot = $packet->slot;
 				}
+				
 				if($packet->slot === -1){ //Air
 					if($this->isCreative()){
 						$found = false;
-						for($i = 0;$i < $this->inventory->getHotbarSize();++$i){
+						for($i = 0; $i < $this->inventory->getHotbarSize(); ++$i){
 							if($this->inventory->getHotbarSlotIndex($i) === -1){
 								$this->inventory->setHeldItemIndex($i);
+								$this->inventory->sendHeldItem($this->getViewers());
 								$found = true;
 								break;
 							}
 						}
+				
 						if(!$found){ //couldn't find a empty slot (error)
 							$this->inventory->sendContents($this);
 							break;
@@ -2107,7 +2110,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						break;
 					}
 				}
-				$this->inventory->sendHeldItem($this->hasSpawned);
+				
 				$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, false);
 				break;
 			case ProtocolInfo::USE_ITEM_PACKET:

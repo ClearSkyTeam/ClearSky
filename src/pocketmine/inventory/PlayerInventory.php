@@ -47,7 +47,7 @@ class PlayerInventory extends BaseInventory{
 
 	public function setHotbarSlotIndex($index, $slot){
 		if($index >= 0 and $index < $this->getHotbarSize() and $slot >= -1 and $slot < $this->getSize()){
-			$this->hotbar[$index] = $slot;//rewrite? useless?!
+			$this->hotbar[$index] = $slot;
 		}
 	}
 
@@ -55,17 +55,11 @@ class PlayerInventory extends BaseInventory{
 		return $this->itemInHandIndex;
 	}
 
-	public function setHeldItemIndex($index){
-		if($index >= 0 and $index < $this->getHotbarSize()){
-			$this->itemInHandIndex = $index;
-
-			if($this->getHolder() instanceof Player){
-				$this->sendHeldItem($this->getHolder());
-			}
-
-			$this->sendHeldItem($this->getHolder()->getViewers());
-		}
-	}
+ 	public function setHeldItemIndex($index){
+  		if($index >= 0 and $index < $this->getHotbarSize()){
+  			$this->itemInHandIndex = $index;
+  		}
+  	}
 
 	public function getItemInHand(){
 		$item = $this->getItem($this->getHeldItemSlot());
@@ -89,23 +83,24 @@ class PlayerInventory extends BaseInventory{
 		return $this->getHotbarSlotIndex($this->itemInHandIndex);
 	}
 
-	public function setHeldItemSlot($slot){
-		if($slot >= -1 and $slot < $this->getSize()){
-			$item = $this->getItem($slot);
-
-			$itemIndex = $this->getHeldItemIndex();
-
-			if($this->getHolder() instanceof Player){
-				Server::getInstance()->getPluginManager()->callEvent($ev = new PlayerItemHeldEvent($this->getHolder(), $item, $slot, $itemIndex));
-				if($ev->isCancelled()){
-					$this->sendContents($this->getHolder());
-					return;
-				}
-			}
-
-			$this->setHotbarSlotIndex($itemIndex, $slot);
-		}
-	}
+ 	public function setHeldItemSlot($slot){
+ 		if($slot >= -1 and $slot < $this->getSize()){
+ 			$item = $this->getItem($slot);
+ 
+ 			$itemIndex = $this->getHeldItemIndex();
+ 
+ 			if($this->getHolder() instanceof Player){
+ 				Server::getInstance()->getPluginManager()->callEvent($ev = new PlayerItemHeldEvent($this->getHolder(), $item, $slot, $itemIndex));
+ 				if($ev->isCancelled()){
+ 					$this->sendContents($this->getHolder());
+ 					return;
+ 				}
+  			}
+  
+  			$this->setHotbarSlotIndex($itemIndex, $slot);
+			$this->sendHeldItem($this->getHolder()->getViewers());
+  		}
+  	}
 
 	/**
 	 * @param Player|Player[] $target
