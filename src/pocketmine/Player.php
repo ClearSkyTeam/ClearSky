@@ -2270,7 +2270,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					//$this->setSkin("", "Standard_Steve");
 				}
 
-				$this->setSkin($packet->skin, $packet->skinID);
+				$this->setSkin($packet->skin, $packet->skinId);
 
 				$this->server->getPluginManager()->callEvent($ev = new PlayerPreLoginEvent($this, "Plugin reason"));
 				if($ev->isCancelled()){
