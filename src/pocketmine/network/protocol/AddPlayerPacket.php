@@ -8,6 +8,7 @@ use pocketmine\utils\Binary;
 
 #endif
 
+
 class AddPlayerPacket extends DataPacket{
 	const NETWORK_ID = Info::ADD_PLAYER_PACKET;
 
@@ -48,5 +49,4 @@ class AddPlayerPacket extends DataPacket{
 		$meta = Binary::writeMetadata($this->metadata);
 		$this->put($meta);
 	}
-
 }
