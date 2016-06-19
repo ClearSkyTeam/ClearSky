@@ -2222,8 +2222,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 				}
 
-				if(!in_array($packet->protocol1,ProtocolInfo::ACCEPT_PROTOCOL)){
-					if($packet->protocol1 < ProtocolInfo::CURRENT_PROTOCOL){
+				if(!in_array($packet->protocol,ProtocolInfo::ACCEPT_PROTOCOL)){
+					if($packet->protocol < ProtocolInfo::CURRENT_PROTOCOL){
 						$message = "disconnectionScreen.outdatedClient";
 						$pk = new PlayStatusPacket();
 						$pk->status = PlayStatusPacket::LOGIN_FAILED_CLIENT;
