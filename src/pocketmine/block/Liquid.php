@@ -437,9 +437,10 @@ abstract class Liquid extends Transparent{
     
     private function doHarden(){
         if($this instanceof Lava){
-            echo("doHarden()\n");
+            #echo("doHarden()\n");
             //echo("Damage of Lava Block:");
             //var_dump($this->getDamage());
+            $obsidian = false;
             if($this->getSide(Vector3::SIDE_DOWN) instanceof Water){
                 //echo("Damage of Water Block:");
                 //var_dump($this->getSide(Vector3::SIDE_DOWN)->getDamage());
@@ -458,6 +459,7 @@ abstract class Liquid extends Transparent{
             if($this->getSide(Vector3::SIDE_UP) instanceof Water){
                 if($this->getDamage() === 0){
                     $this->getLevel()->setBlock($this, Block::get(Item::OBSIDIAN), true);
+                    $obsidian = true;
                     #echo("setObsidian()\n");
                 }elseif($this->getDamage() <= 1){
                     $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
@@ -484,12 +486,14 @@ abstract class Liquid extends Transparent{
                 }
             }
             //#########
-            $colliding = false;
-            for($side = 0; $side <= 5 and !$colliding; ++$side){
-                $colliding = $this->getSide($side) instanceof Water;
-            }
-            if($colliding){
-                        echo("Calculation ERROR::TYPE 0\n");
+            if(!$obsidian){
+                $colliding = false;
+                for($side = 0; $side <= 5 and !$colliding; ++$side){
+                    $colliding = $this->getSide($side) instanceof Water;
+                }
+                if($colliding){
+                    echo("Calculation ERROR::TYPE 0\n");
+                }
             }
             //#########
         }
