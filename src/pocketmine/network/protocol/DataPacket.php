@@ -10,6 +10,7 @@ namespace pocketmine\network\protocol;
 
 use pocketmine\utils\BinaryStream;
 use pocketmine\utils\Utils;
+use pocketmine\Server;
 
 
 abstract class DataPacket extends BinaryStream{

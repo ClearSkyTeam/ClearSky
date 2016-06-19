@@ -29,7 +29,12 @@ class UpdateBlockPacket extends DataPacket{
 			$this->putInt($r[0]);
 			$this->putInt($r[1]);
 			$this->putByte($r[2]);
-			$this->putByte($r[3]);
+			if(Server::checkIfKnownBlock($r[3])){
+				$blockId = $r[3];
+			}else{
+				$blockId = 0;
+			}
+			$this->putByte($blockId);
 			$this->putByte(($r[5] << 4) | $r[4]);
 		}
 	}

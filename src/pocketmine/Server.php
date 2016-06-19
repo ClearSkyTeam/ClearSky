@@ -481,6 +481,15 @@ class Server{
 		return "UNKNOWN";
 	}
 
+	public static function checkIfKnownBlock($blockId){
+		foreach(Block::$list as $id => $class){
+			if($id == $blockId){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	/**
 	 * Parses a string and returns a gamemode integer, -1 if not found
 	 *
