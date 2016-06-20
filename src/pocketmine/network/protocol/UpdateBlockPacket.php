@@ -1,6 +1,8 @@
 <?php
 namespace pocketmine\network\protocol;
 
+use pocketmine\Server;
+
 #include <rules/DataPacket.h>
 
 
