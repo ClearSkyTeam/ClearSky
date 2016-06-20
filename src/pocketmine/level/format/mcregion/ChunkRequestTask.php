@@ -48,8 +48,24 @@ class ChunkRequestTask extends AsyncTask{
 			$extraData->putLShort($value);
 		}
 
-		var_dump($chunk->getBlockIdArray());
-		var_dump($chunk->getBlockDataArray());
+		$index = 0;
+		foreach($chunk->getBlockIdArray() as $sth => $anotherSth){
+			var_dump($sth);
+			var_dump($anotherSth);
+			$index++
+			if($index == 10){
+				return;
+			}
+		}
+		$index = 0;
+		foreach($chunk->getBlockDataArray() as $sth => $anotherSth){
+			var_dump($sth);
+			var_dump($anotherSth);
+			$index++
+			if($index == 10){
+				return;
+			}
+		}
 
 		$ordered = $chunk->getBlockIdArray() .
 			$chunk->getBlockDataArray() .
