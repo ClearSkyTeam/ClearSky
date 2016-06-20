@@ -49,7 +49,7 @@ class PlayerFishEvent extends PlayerEvent implements Cancellable{
 	public function __construct(Player $player, Item $item, $fishingHook = null){
 		$this->player = $player;
 		$this->item = $item;
-		$this->hook = $fishingHook;
+		$this->fishEntity = $fishingHook;
 	}
 
 	/**
@@ -59,7 +59,7 @@ class PlayerFishEvent extends PlayerEvent implements Cancellable{
 		return clone $this->item;
 	}
 
-	public function getHook(){
-		return $this->hook;
+	public function getfishEntity(){
+		return $this->fishEntity;
 	}
 }
