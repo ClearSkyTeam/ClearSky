@@ -1,6 +1,8 @@
 <?php
 namespace pocketmine\network\protocol;
 
+use pocketmine\Server;
+
 #include <rules/DataPacket.h>
 
 
@@ -9,7 +11,7 @@ class UpdateBlockPacket extends DataPacket{
 
 	const FLAG_NONE      = 0b0000;
 	const FLAG_NEIGHBORS = 0b0001;
-    const FLAG_NETWORK   = 0b0010;
+    	const FLAG_NETWORK   = 0b0010;
 	const FLAG_NOGRAPHIC = 0b0100;
 	const FLAG_PRIORITY  = 0b1000;
 
