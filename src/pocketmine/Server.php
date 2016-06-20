@@ -482,7 +482,7 @@ class Server{
 	}
 
 	public static function checkIfKnownBlock($blockId){
-		return isset(Block::$list[$blockID]);
+		return isset(Block::$list[$blockId]);
 	}
 
 	/**
