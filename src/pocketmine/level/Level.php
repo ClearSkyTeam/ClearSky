@@ -1582,6 +1582,8 @@ class Level implements ChunkManager, Metadatable{
 	 * @return bool Whether the block has been updated or not
 	 */
 	public function setBlock(Vector3 $pos, Block $block, $direct = false, $update = true){
+		$direct = true; //0.15 HACK! DO REVERT THIS, MASSIVE NETWORK OVERLOAD.
+
 		if($pos->y < 0 or $pos->y >= 128){
 			return false;
 		}
