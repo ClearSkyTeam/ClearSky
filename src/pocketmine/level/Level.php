@@ -872,9 +872,7 @@ class Level implements ChunkManager, Metadatable{
 							$p->onChunkChanged($chunk);
 						}
 					}else{
-						foreach($blocks as $block){
-							$this->sendBlocks($this->getChunkPlayers($chunkX, $chunkZ), [$block], UpdateBlockPacket::FLAG_ALL_PRIORITY);
-						}
+						$this->sendBlocks($this->getChunkPlayers($chunkX, $chunkZ), $blocks, UpdateBlockPacket::FLAG_ALL);
 					}
 				}
 			}else{
@@ -1570,7 +1568,8 @@ class Level implements ChunkManager, Metadatable{
 	 * does block updates and puts the changes to the send queue.
 	 *
 	 * If $direct is true, it'll send changes directly to players. if false, it'll be queued
-	 * and they will be send in thousend packets in the next Tick. #0.15
+	 * and the best way to send queued changes will be done in the next tick.
+	 * This way big changes can be sent on a single chunk update packet instead of thousands of packets.
 	 *
 	 * If $update is true, it'll get the neighbour blocks (6 sides) and update them.
 	 * If you are doing big changes, you might want to set this to false, then update manually.
