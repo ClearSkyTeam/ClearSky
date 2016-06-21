@@ -493,7 +493,7 @@ class Item{
 	const IRON_HORSE_ARMOR = 417;
 	const GOLDEN_HORSE_ARMOR = 418;
 	const DIAMOND_HORSE_ARMOR = 419;
-	const LEAD = 420;
+	const LEASH = 420;
 	const NAME_TAG = 421;
 	const SPRUCE_DOOR = 427;
 	const BIRCH_DOOR = 428;
@@ -1054,7 +1054,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::BUCKET, 8)); // water
 		Item::addCreativeItem(Item::get(Item::BUCKET, 10)); // lava
 		Item::addCreativeItem(Item::get(Item::TNT, 0)); 
-		Item::addCreativeItem(Item::get(Item::LEAD, 0)); 
+		Item::addCreativeItem(Item::get(Item::LEASH, 0)); 
 		Item::addCreativeItem(Item::get(Item::NAME_TAG, 0)); 
 		Item::addCreativeItem(Item::get(Item::REDSTONE, 0));
 		Item::addCreativeItem(Item::get(Item::BOW, 0));
