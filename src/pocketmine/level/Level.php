@@ -1005,13 +1005,13 @@ class Level implements ChunkManager, Metadatable{
 					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $b->getId(), $b->getDamage(), $flags];
 				}else{
 					$fullBlock = $this->getFullBlock($b->x, $b->y, $b->z);
-					$$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $fullBlock >> 4, $fullBlock & 0xf, $flags];
+					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $fullBlock >> 4, $fullBlock & 0xf, $flags];
 				}
 			}
 		}
 
 
-		Server::broadcastPacket($target, $pk);
+		$this->server->batchPackets($target, $batchPacketContents);
 	}
 
 	public function clearCache($full = false){
