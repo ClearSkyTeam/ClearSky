@@ -5,17 +5,12 @@
 ####  [日本語](#JAPANESE)
 ####  [Українська мова](#UKR)  
 
-## Gimme 0.15
-- [PHP7](https://github.com/ClearSkyTeam/ClearSky/tree/php7-0.15)
-- [PHP5](https://github.com/ClearSkyTeam/ClearSky/tree/php5-0.15)
-- Phar: Compile it yourself. (Our jenkins is broken @Aodzip go fix it.)
-
 # <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP5+7) 
 ** PHP5 support may be dropped soon! **
-An ultra fast PocketMine based Minecraft:PE 0.14.3 multiplayer software with stable features, designed for high performance gaming experience
+An ultra fast PocketMine based Minecraft:PE 0.15.0 multiplayer software with stable features, designed for high performance gaming experience
 
-**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5-0.15)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 **Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
 
 ## Where can I get a phar?
@@ -40,7 +35,7 @@ An ultra fast PocketMine based Minecraft:PE 0.14.3 multiplayer software with sta
 ## Advanced Features
 All features can be configed in pocketmine.yml.<br>
  - About 20 times faster than offical PM repo
- - Universal Client version join (e.g. 0.14.0 and builds for 0.14.0 can join together)(note¹)
+ - Universal Client version join (e.g. 0.15.0 and builds for 0.15.0 can join together)(note¹)
  - Unlimited player join (set max-players to -1 in server.properties)(note²)
  - Modified Version color and string freely (set network.protocol,version in pocketmine.yml)
  - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network (network section in pocketmine.yml) 
@@ -71,7 +66,7 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 # Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PM](https://github.com/PocketMine/PocketMine-MP) (PHP5+7) 
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
-**Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5-0.15)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 **Estado de la compilación de Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
 
 
@@ -97,7 +92,7 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
 ## Caracteristicas Advanzadas
 Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
  - Es alrededor 20 veces mas rapido que PocketMine!
- - Soporte universal de clientes (Todas las versiones 0.14.* Pueden entrar!)(nota¹)
+ - Soporte universal de clientes (Todas las versiones 0.15.* Pueden entrar!)(nota¹)
  - Capacidad de jugadores ilimitada (pon max-players a -1 en server.properties)(nota²)
  - Color de la versión modificada libremente (cambia network.protocol, version en pocketmine.yml)
  - Puede aumentar la pérdida de paquetes aceptable y desactivar el anti-trampas cuando su servidor este en una red mala (Sección de red en pocketmine.yml) 
