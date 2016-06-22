@@ -127,6 +127,7 @@ use raklib\Binary;
 use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
 use pocketmine\network\protocol\Info;
+use pocketmine\block\Air;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
