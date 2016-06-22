@@ -968,7 +968,8 @@ class Level implements ChunkManager, Metadatable{
 	 * @param bool     $optimizeRebuilds
 	 */
 	public function sendBlocks(array $target, array $blocks, $flags = UpdateBlockPacket::FLAG_NONE, $optimizeRebuilds = false){
-		$pk = new UpdateBlockPacket();
+		$batchPacketContents = [];
+		$index = -1; //0
 
 		if($optimizeRebuilds){
 			$chunks = [];
@@ -976,6 +977,9 @@ class Level implements ChunkManager, Metadatable{
 				if($b === null){
 					continue;
 				}
+				$packetIndex++;
+
+				$batchPacketContents[$packetIndex] = new UpdateBlockPacket();
 
 				$first = false;
 				if(!isset($chunks[$index = Level::chunkHash($b->x >> 4, $b->z >> 4)])){
@@ -984,10 +988,10 @@ class Level implements ChunkManager, Metadatable{
 				}
 
 				if($b instanceof Block){
-					$pk->records[] = [$b->x, $b->z, $b->y, $b->getId(), $b->getDamage(), $first ? $flags : UpdateBlockPacket::FLAG_NONE];
+					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $b->getId(), $b->getDamage(), $first ? $flags : UpdateBlockPacket::FLAG_NONE];
 				}else{
 					$fullBlock = $this->getFullBlock($b->x, $b->y, $b->z);
-					$pk->records[] = [$b->x, $b->z, $b->y, $fullBlock >> 4, $fullBlock & 0xf, $first ? $flags : UpdateBlockPacket::FLAG_NONE];
+					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $fullBlock >> 4, $fullBlock & 0xf, $first ? $flags : UpdateBlockPacket::FLAG_NONE];
 				}
 			}
 		}else{
@@ -995,17 +999,21 @@ class Level implements ChunkManager, Metadatable{
 				if($b === null){
 					continue;
 				}
+				$packetIndex++;
+
+				$batchPacketContents[$packetIndex] = new UpdateBlockPacket();
+
 				if($b instanceof Block){
-					$pk->records[] = [$b->x, $b->z, $b->y, $b->getId(), $b->getDamage(), $flags];
+					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $b->getId(), $b->getDamage(), $flags];
 				}else{
 					$fullBlock = $this->getFullBlock($b->x, $b->y, $b->z);
-					$pk->records[] = [$b->x, $b->z, $b->y, $fullBlock >> 4, $fullBlock & 0xf, $flags];
+					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $fullBlock >> 4, $fullBlock & 0xf, $flags];
 				}
 			}
 		}
 
 
-		Server::broadcastPacket($target, $pk);
+		$this->server->batchPackets($target, $batchPacketContents);
 	}
 
 	public function clearCache($full = false){

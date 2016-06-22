@@ -8,6 +8,7 @@ use pocketmine\utils\Binary;
 
 #endif
 
+
 class AddPlayerPacket extends DataPacket{
 	const NETWORK_ID = Info::ADD_PLAYER_PACKET;
 
@@ -40,13 +41,12 @@ class AddPlayerPacket extends DataPacket{
 		$this->putFloat($this->speedX);
 		$this->putFloat($this->speedY);
 		$this->putFloat($this->speedZ);
-		$this->putFloat($this->yaw);
-		$this->putFloat($this->yaw); //TODO headrot
-		$this->putFloat($this->pitch);
+		$this->putFloat($this->yaw * 0.71111);
+		$this->putFloat($this->yaw * 0.71111); //TODO headrot
+		$this->putFloat($this->pitch * 0.7111);
 		$this->putSlot($this->item);
 
 		$meta = Binary::writeMetadata($this->metadata);
 		$this->put($meta);
 	}
-
 }
