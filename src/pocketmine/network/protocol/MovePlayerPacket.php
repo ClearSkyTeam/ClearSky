@@ -31,9 +31,9 @@ class MovePlayerPacket extends DataPacket{
 		$this->x = $this->getFloat();
 		$this->y = $this->getFloat();
 		$this->z = $this->getFloat();
-		$this->yaw = $this->getFloat() * 0.71111;
-		$this->bodyYaw = $this->getFloat() * 0.71111;
-		$this->pitch = $this->getFloat() * 0.71111;
+		$this->yaw = $this->getFloat();
+		$this->bodyYaw = $this->getFloat();
+		$this->pitch = $this->getFloat();
 		$this->mode = $this->getByte();
 		$this->onGround = $this->getByte() > 0;
 	}
@@ -44,9 +44,9 @@ class MovePlayerPacket extends DataPacket{
 		$this->putFloat($this->x);
 		$this->putFloat($this->y);
 		$this->putFloat($this->z);
-		$this->putFloat($this->yaw * 0.71111);
-		$this->putFloat($this->bodyYaw * 0.71111); //TODO
-		$this->putFloat($this->pitch * 0.71111);
+		$this->putFloat($this->yaw);
+		$this->putFloat($this->bodyYaw); //TODO
+		$this->putFloat($this->pitch);
 		$this->putByte($this->mode);
 		$this->putByte($this->onGround > 0);
 	}
