@@ -2,6 +2,7 @@
 namespace pocketmine\level\particle;
 
 use pocketmine\entity\Entity;
+use pocketmine\item\Item;
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
@@ -68,6 +69,7 @@ class FloatingTextParticle extends Particle{
 			$pk->yaw = 0;
 			$pk->pitch = 0;
 			$pk->meta = 0;
+			$pk->item = Item::get(0);
 			$pk->metadata = [
 				Entity::DATA_FLAGS => [Entity::DATA_TYPE_BYTE, 1 << Entity::DATA_FLAG_INVISIBLE],
 				Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . ($this->text !== "" ? "\n" . $this->text : "")],
