@@ -20,10 +20,6 @@ class Skeleton extends Monster implements ProjectileSource{
     public function initEntity(){
         $this->setMaxHealth(20);
         parent::initEntity();
-
-        if(!isset($this->namedtag->Profession)){
-            $this->setSkeletonType(1);
-        }
     }
 
  	public function getName(){
@@ -36,14 +32,6 @@ class Skeleton extends Monster implements ProjectileSource{
 
         $player->dataPacket($pk);
         parent::spawnTo($player);
-    }
-
-    public function setSkeletonType($type){
-        $this->namedtag->SkeletonType = new IntTag("SkeletonType", $type);
-    }
-
-    public function getSkeletonType(){
-        return $this->namedtag["SkeletonType"];
     }
 
     public function getDrops(){

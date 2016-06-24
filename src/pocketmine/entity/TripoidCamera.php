@@ -8,7 +8,7 @@ use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\CompoundTag;
 
 class TripoidCamera extends Snake{
-    const NETWORK_ID = 95;
+    const NETWORK_ID = 62;
 
     public $height = 1;
     public $width = 1;
