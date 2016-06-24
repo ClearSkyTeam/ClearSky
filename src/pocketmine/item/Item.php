@@ -501,7 +501,6 @@ class Item{
 	const ACACIA_DOOR = 430;
 	const DARK_OAK_DOOR = 431;
 	const SPLASH_POTION = 438;
-	const CAMERA = 439;
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
 	const BEETROOT_SEED = 458;
@@ -511,6 +510,7 @@ class Item{
 	const PUFFERFISH = 462;
 	const COOKED_SALMON = 463;
 	const ENCHANTED_GOLDEN_APPLE = 466;
+	const CAMERA = 498;
 
 
 	/** @var \SplFixedArray */
