@@ -493,6 +493,7 @@ class Item{
 	const IRON_HORSE_ARMOR = 417;
 	const GOLDEN_HORSE_ARMOR = 418;
 	const DIAMOND_HORSE_ARMOR = 419;
+	const LEAD = 420;
 	const LEASH = 420;
 	const NAME_TAG = 421;
 	const SPRUCE_DOOR = 427;
@@ -501,7 +502,6 @@ class Item{
 	const ACACIA_DOOR = 430;
 	const DARK_OAK_DOOR = 431;
 	const SPLASH_POTION = 438;
-	const CAMERA = 439;
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
 	const BEETROOT_SEED = 458;
@@ -511,6 +511,7 @@ class Item{
 	const PUFFERFISH = 462;
 	const COOKED_SALMON = 463;
 	const ENCHANTED_GOLDEN_APPLE = 466;
+	const CAMERA = 498;
 
 
 	/** @var \SplFixedArray */
@@ -1054,7 +1055,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::BUCKET, 8)); // water
 		Item::addCreativeItem(Item::get(Item::BUCKET, 10)); // lava
 		Item::addCreativeItem(Item::get(Item::TNT, 0)); 
-		Item::addCreativeItem(Item::get(Item::LEASH, 0)); 
+		Item::addCreativeItem(Item::get(Item::LEAD, 0)); 
 		Item::addCreativeItem(Item::get(Item::NAME_TAG, 0)); 
 		Item::addCreativeItem(Item::get(Item::REDSTONE, 0));
 		Item::addCreativeItem(Item::get(Item::BOW, 0));
@@ -1821,6 +1822,15 @@ class Item{
 	 * @return bool
 	 */
 	public function useOn($object){
+		return false;
+	}
+
+	/**
+	 * @param Entity $entity, Entity $origin (who uses it)
+	 *
+	 * @return bool
+	 */
+	public function useOnEntity(Entity $entity, Entity $origin){
 		return false;
 	}
 

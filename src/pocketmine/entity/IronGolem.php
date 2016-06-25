@@ -35,4 +35,7 @@ class IronGolem extends Animal{
         ];
     }
 
+	public function isLeashableType(){
+		return false;
+	}
 }

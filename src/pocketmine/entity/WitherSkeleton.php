@@ -2,13 +2,17 @@
 namespace pocketmine\entity;
 
 use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\item\Item as ItemItem;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\Player;
 
-class WitherSkeleton extends Skeleton{
-    public $height = 2.39;
-    public $width = 0.938;
-    public $lenght = 1.312;
+class WitherSkeleton extends Monster implements ProjectileSource{
+    const NETWORK_ID = 48;
+
+    public $height = 2;
+    public $width = 0.781;
+    public $lenght = 0.875;
 	
 	protected $exp_min = 5;
 	protected $exp_max = 5;
@@ -18,13 +22,13 @@ class WitherSkeleton extends Skeleton{
         parent::initEntity();
     }
 
-    public function getName(){
+ 	public function getName(){
         return "Wither Skeleton";
     }
 
     public function spawnTo(Player $player){
         $pk = $this->addEntityDataPacket($player);
-        $pk->type = Skeleton::NETWORK_ID;
+        $pk->type = self::NETWORK_ID;
 
         $player->dataPacket($pk);
         parent::spawnTo($player);
@@ -47,6 +51,4 @@ class WitherSkeleton extends Skeleton{
 
         return $drops;
     }
-
-
 }

@@ -4,11 +4,11 @@ namespace pocketmine\entity;
 use pocketmine\event\entity\EntityDamageByEntityEvent;
 use pocketmine\event\entity\EntityExplodeEvent;
 use pocketmine\item\Item as ItemItem;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\Player;
 
-class Skeleton extends Monster implements ProjectileSource{
-    const NETWORK_ID = 34;
+class Stray extends Monster implements ProjectileSource{
+    const NETWORK_ID = 46;
 
     public $height = 2;
     public $width = 0.781;
@@ -23,7 +23,7 @@ class Skeleton extends Monster implements ProjectileSource{
     }
 
  	public function getName(){
-        return "Skeleton";
+        return "Stray";
     }
 
     public function spawnTo(Player $player){
@@ -34,14 +34,6 @@ class Skeleton extends Monster implements ProjectileSource{
         parent::spawnTo($player);
     }
 
-    public function setSkeletonType($type){
-        $this->namedtag->SkeletonType = new Int("SkeletonType", $type);
-    }
-
-    public function getSkeletonType(){
-        return $this->namedtag["SkeletonType"];
-    }
-    
     public function getDrops(){
         $drops = [
             ItemItem::get(ItemItem::ARROW, 0, mt_rand(0, 2)),

@@ -22,6 +22,7 @@ class AutoUpdater{
 			$this->showCuttingEdge();
 			$this->hasUpdate = false;
 		}else{
+			/*
 			if($server->getProperty("auto-updater.enabled", true)){
 				$this->check();
 				if($this->hasUpdate()){
@@ -30,6 +31,7 @@ class AutoUpdater{
 					}
 				}
 			}
+			*/
 		}
 	}
 
@@ -114,7 +116,7 @@ class AutoUpdater{
 		}
 		$logger->warning("Download: " . $this->updateInfo["download_url"]);
 		$logger->warning("Fingerprint: " . $this->updateInfo["fingerprint"]);
-		$logger->warning("You can run /dist-upgrade to update ClearSky");
+		#$logger->warning("You can run /dist-upgrade to update ClearSky");
 		$logger->warning("----- -------------------------- -----");
 	}
 
