@@ -202,10 +202,10 @@ spawn-limits:
 #NOT IMPLEMENTED YET
 
 auto-updater:
- enabled: true
+ enabled: false
  on-update:
-  warn-console: true
-  warn-ops: true
+  warn-console: false
+  warn-ops: false
  preferred-channel: Stable
  #Stable or DEV
  host: jenkins.clearskyteam.org
