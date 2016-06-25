@@ -42,7 +42,12 @@ class Mooshroom extends Animal{
 		}else{
 			$drops[] = ItemItem::get(ItemItem::RAW_BEEF, 0, mt_rand(1, 3));
 		}
-		//TODO Add shearing drop red mushrooms
 		return $drops;
+	}
+
+	public function sheer(){
+		for($i = 0; $i <= mt_rand(0, 2); $i++){
+			$this->getLevel()->dropItem($this, new ItemItem(ItemItem::RED_MUSHROOM));//TODO: check amount
+		}
 	}
 }
