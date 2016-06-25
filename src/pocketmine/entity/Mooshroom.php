@@ -47,7 +47,7 @@ class Mooshroom extends Animal{
 
 	public function sheer(){
 		for($i = 0; $i <= mt_rand(0, 2); $i++){
-			$this->getLevel()->dropItem($this, new ItemItem(ItemItem::RED_MUSHROOM));//TODO: check amount
+			$this->getLevel()->dropItem($this, new ItemItem(ItemItem::RED_MUSHROOM));//TODO: check amount, remove Mooshroom and make cow
 		}
 	}
 }
