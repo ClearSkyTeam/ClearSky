@@ -128,7 +128,6 @@ class Attribute{
 
 	public function send(){
 		if(isset($this->player->isFirstPacket)){
-			var_dump($this);
 			$pk = new UpdateAttributesPacket();
 			$pk->entries[0] = $this;
 			$pk->entityId = 0;
