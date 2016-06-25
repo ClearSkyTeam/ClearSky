@@ -126,17 +126,16 @@ class Attribute{
             return $this->shouldSend;
         }
 
-        public function send(){
-			if(isset($this->player->isFirstPacket)){
-				var_dump($this);
-				$pk = new UpdateAttributesPacket();
-				$pk->entries[0] = $this;
-	            $pk->entityId = 0;
-	            $pk->encode();
-	            $this->player->dataPacket($pk);
-			}else{
-				echo "FirstPacketInterrupted";
-				$this->player->isFirstPacket = false;			
-			}
-        }
+	public function send(){
+		if(isset($this->player->isFirstPacket)){
+			var_dump($this);
+			$pk = new UpdateAttributesPacket();
+			$pk->entries[0] = $this;
+			$pk->entityId = 0;
+			$pk->encode();
+			$this->player->dataPacket($pk);
+		}else{
+			$this->player->isFirstPacket = false;			
+		}
+	}
 }
