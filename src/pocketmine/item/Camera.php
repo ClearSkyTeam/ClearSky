@@ -17,7 +17,7 @@ class Camera extends Item{
 	
 	public function canBeActivated(){
 		return false;
-	}/*
+	}
 	
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		$realPos = $target->getSide($face)->add(0.5, 0.4, 0.5);
@@ -43,6 +43,6 @@ class Camera extends Item{
 		}
 	
 		return true;
-	}*/
+	}
 }
 

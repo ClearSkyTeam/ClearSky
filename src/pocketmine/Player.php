@@ -280,7 +280,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 */
 	public function getExp(){
 		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue();
-		// TODO: add ExperienceLevelUpCalculater back.
+		// TODO: add ExperienceLevelUpCalculater back. (Wait.. its in Human.php but under a new name)
 	}
 
 	public function setExp($exp){

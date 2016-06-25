@@ -15,6 +15,7 @@ use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\event\entity\EntitySpawnEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Timings;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\Level;
@@ -198,6 +199,9 @@ abstract class Entity extends Location implements Metadatable{
 	protected $linkedTarget = null;
 	protected $islinked = false;
 	
+	protected $isLeashed = false;
+	protected $leadHolder = null;
+	
 	public function linkEntity(Entity $entity = null){
 		if($entity !== null and $entity->getlinkType() == Entity::LINK_EMPTY and $entity->isAlive()){
 			$this->linkedTarget = $entity;
@@ -357,7 +361,37 @@ abstract class Entity extends Location implements Metadatable{
 		$this->scheduleUpdate();
 
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isLeashed(){
+		return $this->isLeashed;
+	}
+	
+	public function setLeashHolder(Entity $entity){
+		$pk = new SetEntityDataPacket();
+		$pk->eid = $entity->getId();
+		$pk->metadata = [self::DATA_LEAD_HOLDER => [self::DATA_TYPE_LONG, $entity->getId()],
+		self::DATA_LEAD => [self::DATA_TYPE_BYTE, 1]];
+		foreach ($this->getLevel()->getChunkPlayers($this->x >> 4, $this->z >> 4) as $player);
+			$player->dataPacket($pk);
+		$this->leashHolder = $entity->id;
+	}
 
+	public function dropLeash(){
+		$pk = new SetEntityDataPacket();
+		$pk->eid = $this->leashHolder->getId();
+		$pk->metadata = [self::DATA_LEAD_HOLDER => [self::DATA_TYPE_LONG, -1],
+		self::DATA_LEAD => [self::DATA_TYPE_BYTE, 0]];
+		foreach ($this->getLevel()->getChunkPlayers($this->x >> 4, $this->z >> 4) as $player);
+			$player->dataPacket($pk);
+		$this->leashHolder = null;
+		$this->getLevel()->dropItem($this, new ItemItem(ItemItem::LEAD));
+	}
+
+	public function tickLeash(){}
+	
 	/**
 	 * @return string
 	 */

@@ -42,4 +42,8 @@ class Horse extends Animal implements Rideable{
 
         return $drops;
     }
+    
+    public function canBeLeashed() {
+    	return true; //TODO: distance check, already leashed check
+    }
 }
