@@ -60,7 +60,7 @@ class FloatingTextParticle extends Particle{
 			$pk->eid = $this->entityId;
 			$pk->uuid = UUID::fromRandom();
 			$pk->x = $this->x;
-			$pk->y = $this->y - 0.75;
+			$pk->y = $this->y - 1.75;
 			$pk->z = $this->z;
 			$pk->speedX = 0;
 			$pk->speedY = 0;
