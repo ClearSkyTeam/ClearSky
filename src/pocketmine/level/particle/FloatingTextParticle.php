@@ -56,7 +56,6 @@ class FloatingTextParticle extends Particle{
 		}
 
 		if(!$this->invisible){
-			
 			$pk = new AddPlayerPacket();
 			$pk->eid = $this->entityId;
 			$pk->uuid = UUID::fromRandom();
@@ -77,7 +76,7 @@ class FloatingTextParticle extends Particle{
 				Entity::DATA_NO_AI => [Entity::DATA_TYPE_BYTE, 1],
  				Entity::DATA_LEAD_HOLDER => [Entity::DATA_TYPE_LONG, -1],
  				Entity::DATA_LEAD => [Entity::DATA_TYPE_BYTE, 0]
-            ];
+            			];
 
 			$p[] = $pk;
 		}
