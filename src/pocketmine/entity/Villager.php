@@ -26,7 +26,7 @@ class Villager extends Animal implements NPC, Ageable{
 		return "Villager";
 	}
 
-	protected function initEntity(){
+	public function initEntity(){
 		$this->setMaxHealth(20);
 		parent::initEntity();
 
