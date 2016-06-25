@@ -2,9 +2,10 @@
 
 namespace pocketmine\entity;
 
-use pocketmine\item\Item as Item;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 use pocketmine\nbt\tag\IntTag;
+use pocketmine\item\Item;
 
 class Sheep extends Animal implements Colorable{
 	const NETWORK_ID = 13;
@@ -46,12 +47,12 @@ class Sheep extends Animal implements Colorable{
 	}
 
 	public function getDrops(){
-		return [Item::get(Item::WOOL, $this->getVariant(), 1)];
+		return [ItemItem::get(ItemItem::WOOL, $this->getVariant(), 1)];
 	}
 
 	public function sheer(){
 		for($i = 0; $i <= mt_rand(0, 2); $i++){
-			$this->getLevel()->dropItem($this, new Item(Item::WOOL, $this->getVariant()));//TODO: check amount
+			$this->getLevel()->dropItem($this, new ItemItem(ItemItem::WOOL, $this->getVariant()));//TODO: check amount
 		}
 	}
 }
