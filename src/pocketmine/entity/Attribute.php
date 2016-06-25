@@ -1,7 +1,7 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\network\protocol\UpdateAttributePacket;
+use pocketmine\network\protocol\UpdateAttributesPacket;
 use pocketmine\Player;
 use pocketmine\entity\AttributeManager;
 
@@ -127,11 +127,8 @@ class Attribute{
         }
 
         public function send(){
-		$pk = new UpdateAttributePacket();
-            $pk->maxValue = $this->getMaxValue();
-            $pk->minValue = $this->getMinValue();
-            $pk->value = $this->currentValue;
-            $pk->name = $this->getName();
+			$pk = new UpdateAttributesPacket();
+			$pk->entries[0] = $this;
             $pk->entityId = 0;
             $pk->encode();
             $this->player->dataPacket($pk);
