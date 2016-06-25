@@ -1840,6 +1840,15 @@ class Item{
 	}
 
 	/**
+	 * @param Entity $entity, Entity $origin (who uses it)
+	 *
+	 * @return bool
+	 */
+	public function useOnEntity(Entity $entity, Entity $origin){
+		return false;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isTool(){
