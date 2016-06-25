@@ -30,7 +30,7 @@ use pocketmine\entity\Husk;
 use pocketmine\entity\IronGolem;
 use pocketmine\entity\Item as DroppedItem;
 use pocketmine\entity\LargeFireball;
-use pocketmine\entity\LeashKnod;
+use pocketmine\entity\LeashKnot;
 use pocketmine\entity\Lightning;
 use pocketmine\entity\MagmaCube;
 use pocketmine\entity\Minecart;
@@ -2673,7 +2673,7 @@ class Server{
 		Entity::registerEntity(Husk::class);
 		Entity::registerEntity(IronGolem::class);
 		Entity::registerEntity(LargeFireball::class);
-		Entity::registerEntity(LeashKnod::class);
+		Entity::registerEntity(LeashKnot::class);
 		Entity::registerEntity(Lightning::class);
 		Entity::registerEntity(MagmaCube::class);
 		Entity::registerEntity(Minecart::class);
