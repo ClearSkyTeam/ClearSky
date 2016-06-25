@@ -269,7 +269,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->fishEntity = $entity;
 	}
 	
-<<<<<<< HEAD
 	/** Additional API **/
 	
 	/** Attribute **/
@@ -308,40 +307,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->food = $amount;
 		if($amount > 20) $amount = 20; //changing this lines may cause issues.. or not.
 		$this->getAttribute()->getAttribute(AttributeManager::MAX_HUNGER)->setValue($amount);
-=======
-	/**
-	 * Experience *
-	 */
-		/*
-	 * public function ExperienceLevelUpCalculater($oldlevel ,$newlevel = null){
-	 * if($newlevel === null){
-	 * $newlevel = $oldlevel+1;
-	 * }
-	 * $oldlevelSquared = $oldlevel ** 2;
-	 * if($oldlevel < 16){
-	 * $oldlevel = $oldlevelSquared + 6 * $oldlevel;
-	 * }elseif($oldlevel < 31){
-	 * $oldlevel = 2.5 * $oldlevelSquared - 40.5 * $oldlevel + 360;
-	 * }else{
-	 * $oldlevel = 4.5 * $oldlevelSquared - 162.5 * $oldlevel + 2220;
-	 * }
-	 *
-	 * $newlevelSquared = $newlevel ** 2;
-	 * if($newlevel < 16){
-	 * $newlevel = $newlevelSquared + 6 * $newlevel;
-	 * }elseif($newlevel < 31){
-	 * $newlevel = 2.5 * $newlevelSquared - 40.5 * $newlevel + 360;
-	 * }else{
-	 * $newlevel = 4.5 * $newlevelSquared - 162.5 * $newlevel + 2220;
-	 * }
-	 *
-	 * return $newlevel - $oldlevel;
-	 * }
-	 */
-	public function getExp(){
-		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue();
-		// TODO: add ExperienceLevelUpCalculater back. (Wait.. its in Human.php but under a new name)
->>>>>>> php7-0.15
 	}
 
 	public function getFood(){
