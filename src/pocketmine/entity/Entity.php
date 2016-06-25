@@ -199,8 +199,8 @@ abstract class Entity extends Location implements Metadatable{
 	protected $linkedTarget = null;
 	protected $islinked = false;
 	
-	protected $isLeashed = false;
-	protected $leadHolder = null;
+	public $isLeashed = false;
+	public $leadHolder = null;
 	
 	public function linkEntity(Entity $entity = null){
 		if($entity !== null and $entity->getlinkType() == Entity::LINK_EMPTY and $entity->isAlive()){
@@ -377,6 +377,7 @@ abstract class Entity extends Location implements Metadatable{
 		foreach ($this->getLevel()->getChunkPlayers($this->x >> 4, $this->z >> 4) as $player);
 			$player->dataPacket($pk);
 		$this->leashHolder = $entity->id;
+		$this->isLeashed = true;
 	}
 
 	public function dropLeash(){
@@ -387,6 +388,7 @@ abstract class Entity extends Location implements Metadatable{
 		foreach ($this->getLevel()->getChunkPlayers($this->x >> 4, $this->z >> 4) as $player);
 			$player->dataPacket($pk);
 		$this->leashHolder = null;
+		$this->isLeashed = false;
 		$this->getLevel()->dropItem($this, new ItemItem(ItemItem::LEAD));
 	}
 
