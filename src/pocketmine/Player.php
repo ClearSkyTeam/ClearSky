@@ -372,7 +372,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 	
 	public function addExp($exp){
-		$this->addExp($exp);
+		$this->addExperience($exp);
 	}
 	
 	public function addExperience($exp){
