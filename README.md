@@ -266,7 +266,7 @@ ClearSky - це досконала, високоякісна база коду. 
 ClearSky призначений не тільки для звичайних кориcтувачів - він також для розробників!<br>
 
 
-# <a name="ENG"></a>English  
+# <a name="IDN"></a>Bahasa Indonesia
 # Kami mempersembahkan: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
 ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket Edition server dengan kode-kode yang ditata sangaaat rapih dan memiliki fitur-fitur yang juga sangaat stabil. ini tuh awalnya didesain buat server produksi. (Diterjemahkan oleh Darrell)
 
