@@ -249,35 +249,52 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->fishEntity = $entity;
 	}
 	
+	/*
+	public function ExperienceLevelUpCalculater($oldlevel ,$newlevel = null){
+		if($newlevel === null){
+			$newlevel = $oldlevel+1;
+		}
+		$oldlevelSquared = $oldlevel ** 2;
+		if($oldlevel < 16){
+			$oldlevel = $oldlevelSquared + 6 * $oldlevel;
+		}elseif($oldlevel < 31){
+			$oldlevel = 2.5 * $oldlevelSquared - 40.5 * $oldlevel + 360;
+		}else{
+			$oldlevel = 4.5 * $oldlevelSquared - 162.5 * $oldlevel + 2220;
+		}
+	 
+		$newlevelSquared = $newlevel ** 2;
+		if($newlevel < 16){
+			$newlevel = $newlevelSquared + 6 * $newlevel;
+		}elseif($newlevel < 31){
+			$newlevel = 2.5 * $newlevelSquared - 40.5 * $newlevel + 360;
+		}else{
+			$newlevel = 4.5 * $newlevelSquared - 162.5 * $newlevel + 2220;
+		}
+	 
+		return $newlevel - $oldlevel;
+	}
+	*/
+	
 	/**
-	 * Experience *
-	 */
-		/*
-	 * public function ExperienceLevelUpCalculater($oldlevel ,$newlevel = null){
-	 * if($newlevel === null){
-	 * $newlevel = $oldlevel+1;
-	 * }
-	 * $oldlevelSquared = $oldlevel ** 2;
-	 * if($oldlevel < 16){
-	 * $oldlevel = $oldlevelSquared + 6 * $oldlevel;
-	 * }elseif($oldlevel < 31){
-	 * $oldlevel = 2.5 * $oldlevelSquared - 40.5 * $oldlevel + 360;
-	 * }else{
-	 * $oldlevel = 4.5 * $oldlevelSquared - 162.5 * $oldlevel + 2220;
-	 * }
-	 *
-	 * $newlevelSquared = $newlevel ** 2;
-	 * if($newlevel < 16){
-	 * $newlevel = $newlevelSquared + 6 * $newlevel;
-	 * }elseif($newlevel < 31){
-	 * $newlevel = 2.5 * $newlevelSquared - 40.5 * $newlevel + 360;
-	 * }else{
-	 * $newlevel = 4.5 * $newlevelSquared - 162.5 * $newlevel + 2220;
-	 * }
-	 *
-	 * return $newlevel - $oldlevel;
-	 * }
-	 */
+	* @deprecated
+	*/
+	public function getExperience(){
+		return $this->getExp();
+	}
+	/**
+	* @deprecated
+	*/
+	public function setExperience($exp){
+		$this->setExp($exp);
+	}
+	/**
+	* @deprecated
+	*/
+	public function addExperience($exp){
+		$this->addExp($exp);
+	}
+	
 	public function getExp(){
 		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue();
 		// TODO: add ExperienceLevelUpCalculater back. (Wait.. its in Human.php but under a new name)
