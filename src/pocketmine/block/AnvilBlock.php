@@ -5,6 +5,7 @@ use pocketmine\inventory\AnvilInventory;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\Player;
+use pocketmine\level\sound\AnvilFallSound;
 
 class AnvilBlock extends Fallable{
     const TYPE_ANVIL = 0;
@@ -82,7 +83,8 @@ class AnvilBlock extends Fallable{
     }
 
     public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-        if ($target->isTransparent() === false){
+        $this->getLevel()->addSound(new AnvilFallSound($this));
+        if($target->isTransparent() === false){
             $faces = [
                 0 => 0,
                 1 => 1,
