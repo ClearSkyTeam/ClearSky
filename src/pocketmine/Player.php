@@ -125,6 +125,7 @@ use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
 use pocketmine\network\protocol\Info;
 use pocketmine\block\Air;
+use pocketmine\math\Math;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -1532,8 +1533,35 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->isCollided = $this->onGround;
 	}
 
-	protected function checkBlockCollision(){
-		foreach($this->getBlocksAround() as $block){
+	protected function checkBlockCollision(){ 
+        $minX = Math::ceilFloat($this->boundingBox->minX);
+        $minY = Math::ceilFloat($this->boundingBox->minY);
+        $minZ = Math::ceilFloat($this->boundingBox->minZ);
+        $maxX = Math::floorFloat($this->boundingBox->maxX);
+        $maxY = Math::floorFloat($this->boundingBox->maxY);
+        $maxZ = Math::floorFloat($this->boundingBox->maxZ);
+
+        $blocksInside = [];
+
+        for($z = $minZ; $z <= $maxZ; ++$z){
+            for($x = $minX; $x <= $maxX; ++$x){
+                for($y = $minY; $y <= $maxY; ++$y){
+                    $block = $this->level->getBlock($this->temporalVector->setComponents($x, $y, $z));
+                    if($block->hasEntityCollision()){
+                        $blocksInside[Level::blockHash($block->x, $block->y, $block->z)] = $block;
+                    }
+                }
+            }
+        }
+
+		foreach($blocksInside as $block){
+			/*
+			if($block instanceof Liquid){
+				if($block->round() != $this->round()){
+					return;
+				}
+			}
+			*/
 			$block->onEntityCollide($this);
 		}
 	}
