@@ -268,55 +268,54 @@ ClearSky призначений не тільки для звичайних ко
 
 # <a name="IDN"></a>Bahasa Indonesia
 # Kami mempersembahkan: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
-ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket Edition server dengan kode-kode yang ditata sangaaat rapih dan memiliki fitur-fitur yang juga sangaat stabil. ini tuh awalnya didesain buat server produksi. (Diterjemahkan oleh Darrell)
+ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket Edition server dengan kode-kode yang ditata sangat rapih dan memiliki fitur-fitur yang juga sangat stabil. pada awalnya proyek ini dibuat untuk server produksi. (Diterjemahkan kedalam Bahasa Indonesia oleh Darrell @da123rrell dan disunting oleh Kennan @KennanFatt)
 
-**Status Pembuatan di TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php7)](https://travis-ci.org/ClearSkyTeam/ClearSky "Status Pembuatan di TravisCI")
-**Status Pembuatan di Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky-php7)](http://jenkins.clearskyteam.org/job/ClearSky/ "Status Pembuatan di Jenkins")
+**Status Pembuatan di TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php7)](https://travis-ci.org/ClearSkyTeam/ClearSky "Status pembuatan di TravisCI")
+**Status Pembuatan di Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky-php7)](http://jenkins.clearskyteam.org/job/ClearSky/ "Status pembuatan di Jenkins")
 
 
- - Kami mungkin mengambil beberapa kode dari proyek-proyek berlisensi GPL yang lain, tapi kebanyakan sih udah ditulis ulang sepenuhnya buat ClearSky.
-  - Kita ngambil kodenya dari sini nih [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). setiap kali kita ngambil kode dari proyek yang lain tuh kita selalu menuliskannya di refrensi pada waktu kita mengumpulkan "comit"-nya, kita biasanya sih tulis kalo ngga di judul, di deskripsi
- - Nih, ada group telegram kita, kalian bisa ngomong ke kita lewat ini: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
- - [Liat betapa cepatnya ClearSky mulai dengan 70 plugin sama 20 dunia!](http://wolvesfortress.de/ezgif-1446650535.gif)
- - Test server yang ngga resmi : Creative IP: WolvesFortress.de Port: **19134** *sering mati, tapi kalo online, pasti terbaru*
+ - Kami mungkin mengambil beberapa kode dari proyek-proyek berlisensi GPL yang lain, tetapi sebagian besar telah ditulis kembali oleh ClearSky.
+  - Kami menggunakan kode dari beberapa proyek lainya  [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Setiap kami menggunakan kode dari proyek lain, kami selalu memberikan refrensi nama proyek pada setiap komit. Kami akan tulis nama proyek dari kode yang kami gunakan pada judul atau deskripsi.
+ - Kami memiliki grup komunikasi di Telegram. Anda dapat menghubungi kami melalui : [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
+ - [Liat betapa cepatnya ClearSky menjalankan server dengan 70 plugin dan 20 dunia!](http://wolvesfortress.de/ezgif-1446650535.gif)
+ - Server uji coba tidak resmi : Creative IP: WolvesFortress.de Port: **19134** *terkadang offline namun jika online pasti menggunakan versi terbaru*
 
-## Woy, gue dapet file pharnya dari mana?
- - loe bisa dapetin dari sini nih [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
+## Dimana Saya bisa mendapatkan file phar?
+ - Anda bisa mendapatkanya, disini [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
 
-[//]: # (kamu bisa dapetin phar yang udah secara otomatis dibuat disini: [Jenkins CI](http://jenkins.clearskyteam.org/).)
+[//]: # (Anda juga bisa mendapatkan file Phar yang telah dibuat automatis, disini : [Jenkins CI](http://jenkins.clearskyteam.org/).)
 
- - kamu bisa mendapatkan "PHP enviroment" yang sudah di optimalkan, disini (bukan pemberi harapan palsu): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/ClearSkyPhar#BIN).
- - kamu bisa ngedapetin config Multicraft demo disini: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+ - Anda bisa mendapatkan PHP Environment yang telah di optimalkan, disini : [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/ClearSkyPhar#BIN).
+ - Anda bisa mendapatkan pengaturan Multicraft Demo, disini : [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
-## [KRITIS]: Tolong ILANGIN xdebug kalo mau buat server produksi!
- - kamu bisa tambahkan ";" didepan "zend_extension=php_xdebug" di file php.ini kamu atau bisa nge-recompile atau mengepak ulang PHPnya tanpa xdebug.
- - Ada juga tombol dibawah debug di dalem pocketmine.yml buat maksa nyalain xdebug.
-## Fitur Paling Keren
-Semua fitur yang bisa di config di pocketmine.yml.<br>
- - 20 kali lebih cepet dari PocketMine (perkiraannya sih)
- - Yang join bisa UNLIMITED! (atur max-players jadi -1 di server.properties)(note²)
- - Kliennya universal bisa join (e.g. 0.14.0 dan "builds" buat 0.14.0 bisa masuk barengan)(note¹)
- - Modifikasi warna versi dan "string" secara bebas (atur network.protocol,version di pocketmine.yml)
- - Kau bisa juga naikin packetlost yang bisa diterima dan matiin anti-cheat kalo servernya koneksinya lagi "nyebelin" (sektor network di pocketmine.yml) 
- - Redstonenya cepet bro, Kalkulasinya hampir ngga ada serangga (error) 
- - Sistem Experiencenya berfungsi, termasuk keterikatannya dengan blok/pemain/entity/botol/tungku .
- - Bisa makan dan laper, dan terikat juga dengan game-difficulty.
- - Cuacanya jaga berfungsi
- - Ada juga kapal
- - Chunknya cepet loading sama ngirimnya.
- - Loggernya cepet, bisa dimati-nyalain juga!
- - Translasinya hampir sempurna (kayak ini)
- - Ramuan ajaib (Bisaa tapi pas di Kreatif doang.)
- - Ngebuat lebih keren (Musti pake perintah)
- - Variasi makhluk hidup (Kelinci, Orang Kampung, dll.)
- - Ngebetulin serangga (error)
+## [PENTING]: Tolong HILANGKAN xdebug pada server produksi!
+ - Anda bisa menambahkan ";" di depan "zend_extension=php_xdebug" pada file php.ini atau bisa membuat ulang PHP Binary tanpa xdebug.
+ - Tersedia juga pengaturan untuk menyalakan debug pada file pocketmine.yml untuk mengatur xdebug.
+## Fitur Fitur Menarik
+Semua fitur yang dapat diatur pada pocketmine.yml.<br>
+ - Performa 20 kali lebih cepet dari PocketMine
+ - Jumlah pemain keseluruhan dapat TAK TERBATAS! (tetapkan max-players menjadi -1 pada server.properties)(catatan²)
+ - Pemain universal dapat bergabung (contoh: 0.14.0 dan "builds" untuk 0.14.0 dapat bergabung bersama)(catatan¹)
+ - Modifikasi warna versi dan "string" secara bebas (tetapkan network.protocol,version pada pocketmine.yml)
+ - Anda dapat mengatur packetlost yang akan diterima Pemain dan Anti-Cheat saat Server Anda memiliki koneksi yang buruk (sektor network pada pocketmine.yml) 
+ - Redstone dengan perhitungan yang cepat dan tidak ada kerusakan (error/bug) 
+ - Sistem Experience berfungsi, termasuk keterikatannya dengan blok/pemain/entity/botol/tungku
+ - Dapat melakukan makan atau kelaparan, dan terikat juga dengan game-difficulty.
+ - Cuaca berfungsi dengan baik
+ - Tersedia juga Boat / Perahu yang bekerja dengan baik
+ - Chunk dimuat dan diterima dengan cepat
+ - Logger cepat dan dapat diatur untuk aktif atau tidak
+ - Translasinya hampir sempurna
+ - Ramuan / Potion yang bekerja dengan baik (Bisa digunakan pada mode Creative saja)
+ - Enchanting / Menempa (Menggunakan perintah)
+ - Variasi makhluk hidup (Kelinci, Orang Kampung, dll)
+ - Membersihkan bug/serangga (error)
 
-Note¹ - Tolong atur pesan 'Outdated Server' jadi 'false' di plugin custom alert atau yang semacamnya kalo pluginnya nge-edit *Outdated server*
+Catatan¹ - Mohon tetapkan pesan 'Outdated Server' menjadi 'false' pada Plugin CustomAlert atau semacamnya jika plugin memodifikasi pesan *Outdated Server*
 
-Note² - Tolong atur pesan 'Full server' ke 'false' di plugin custom alert atau yang semacamnya kalo pluginnya nge-edit  *Full server*
+Catatan² - Mohon tetapkan pesan 'Full Server' menjadi 'false' pada Plugin CustomAlert atau semacamnya jika plugin memodifikasi pesan *Full Server*
 
-## Buat Pengelola
-Software ini memiliki kode dasar yang sangat bersih dan berkualitas, soalnya kita ingin menyimpan kualitas bagus kode dari pocketmine
-Mengelolah/Memodifikasi software itu mudah.<br>
-Kami masih menulis ulang kode dasar untuk memastikan ClearSky memiliki rasa pengelolahan yang baik.<br>
+## Untuk Pengembang atau Pengelola
+Prroyek ini bersih, menggunakan kode dengan kualtias terbaik, karena Kami ingin menjaga kode asli PocketMine yang baik. Mengembangkan/Memodifikasi proyek ini sangat mudah.<br>
+Kami tetap menulis ulang kode dasar untuk memastikan ClearSky memiliki rasa pengelolahan yang baik.<br>
 ClearSky bukan hanya untuk memberi rasa lancar untuk pengguna, tetapi para pengelola juga!<br>
