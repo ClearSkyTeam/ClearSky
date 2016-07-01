@@ -7,8 +7,8 @@ use pocketmine\item\Item as ItemItem;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\Player;
 
-class WitherSkeleton extends Monster implements ProjectileSource{
-    const NETWORK_ID = 48;
+class Stray extends Monster implements ProjectileSource{
+    const NETWORK_ID = 46;
 
     public $height = 2;
     public $width = 0.781;
@@ -23,7 +23,7 @@ class WitherSkeleton extends Monster implements ProjectileSource{
     }
 
  	public function getName(){
-        return "Wither Skeleton";
+        return "Stray";
     }
 
     public function spawnTo(Player $player){
@@ -35,18 +35,19 @@ class WitherSkeleton extends Monster implements ProjectileSource{
     }
 
     public function getDrops(){
-        $drops = [];
+        $drops = [
+            ItemItem::get(ItemItem::ARROW, 0, mt_rand(0, 2)),
+            ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))
+        ];
+
         if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof Player){
-            $drops = [
-                ItemItem::get(ItemItem::COAL, 0, mt_rand(0, 1)),
-                ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))
-            ];
+            if(mt_rand(0, 199) < 5){
+                $drops[] = ItemItem::get(ItemItem::BOW, 0, 1);
+            }
         }
 
-        if($this->lastDamageCause instanceof EntityDamageByEntityEvent and $this->lastDamageCause->getEntity() instanceof Creeper && $this->lastDamageCause->getEntity()->isPowered()){
-            $drops = [
-                ItemItem::get(ItemItem::SKULL, 1, 1)
-            ];
+        if($this->lastDamageCause instanceof EntityExplodeEvent and $this->lastDamageCause->getEntity() instanceof Creeper && $this->lastDamageCause->getEntity()->isPowered()){
+            $drops[] = ItemItem::get(ItemItem::SKULL, 0, 1);
         }
 
         return $drops;

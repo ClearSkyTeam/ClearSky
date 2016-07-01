@@ -155,6 +155,7 @@ class Attribute{
 	public function setDefaultValue($defaultValue){
 		if($defaultValue > $this->getMaxValue() or $defaultValue < $this->getMinValue()){
 			throw new \InvalidArgumentException("Value $defaultValue exceeds the range!");
+			
 		}
 
 		if($this->defaultValue !== $defaultValue){
@@ -180,7 +181,7 @@ class Attribute{
 			$this->desynchronized = true;
 			$this->currentValue = $value;
 		}
-		return $this;
+		return $value;
 	}
 
 	public function getName(){

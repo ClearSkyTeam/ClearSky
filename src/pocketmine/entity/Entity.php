@@ -15,6 +15,7 @@ use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\event\entity\EntitySpawnEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
 use pocketmine\event\Timings;
+use pocketmine\item\Item as ItemItem;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\Level;
@@ -57,8 +58,7 @@ abstract class Entity extends Location implements Metadatable{
 	const DATA_TYPE_STRING = 4;
 	const DATA_TYPE_SLOT = 5;
 	const DATA_TYPE_POS = 6;
-	const DATA_TYPE_ROTATION = 7;
-	const DATA_TYPE_LONG = 8;
+	const DATA_TYPE_LONG = 7;
 
 	const DATA_FLAGS = 0;
 	const DATA_AIR = 1;
@@ -69,6 +69,8 @@ abstract class Entity extends Location implements Metadatable{
 	const DATA_POTION_AMBIENT = 8;
 	const DATA_NO_AI = 15;
 	const DATA_BOAT_COLOR = 20;
+	const DATA_LEAD_HOLDER = 23;
+	const DATA_LEAD = 24;
 
 	const DATA_FLAG_ONFIRE = 0;
 	const DATA_FLAG_SNEAKING = 1;
@@ -100,6 +102,8 @@ abstract class Entity extends Location implements Metadatable{
 		self::DATA_SHOW_NAMETAG => [self::DATA_TYPE_BYTE, 1],
 		self::DATA_SILENT => [self::DATA_TYPE_BYTE, 0],
 		self::DATA_NO_AI => [self::DATA_TYPE_BYTE, 0],
+		self::DATA_LEAD_HOLDER => [self::DATA_TYPE_LONG, -1],
+		self::DATA_LEAD => [self::DATA_TYPE_BYTE, 0],
 	];
 
 	public $passenger = null;
@@ -194,6 +198,9 @@ abstract class Entity extends Location implements Metadatable{
 	
 	protected $linkedTarget = null;
 	protected $islinked = false;
+	
+	public $isLeashed = false;
+	public $leadHolder = null;
 	
 	public function linkEntity(Entity $entity = null){
 		if($entity !== null and $entity->getlinkType() == Entity::LINK_EMPTY and $entity->isAlive()){
@@ -354,7 +361,39 @@ abstract class Entity extends Location implements Metadatable{
 		$this->scheduleUpdate();
 
 	}
+	
+	/**
+	 * @return boolean
+	 */
+	public function isLeashed(){
+		return $this->isLeashed;
+	}
+	
+	public function setLeashHolder(Entity $entity){
+		$pk = new SetEntityDataPacket();
+		$pk->eid = $entity->getId();
+		$pk->metadata = [self::DATA_LEAD_HOLDER => [self::DATA_TYPE_LONG, $entity->getId()],
+		self::DATA_LEAD => [self::DATA_TYPE_BYTE, 1]];
+		foreach ($this->getLevel()->getChunkPlayers($this->x >> 4, $this->z >> 4) as $player);
+			$player->dataPacket($pk);
+		$this->leashHolder = $entity->id;
+		$this->isLeashed = true;
+	}
 
+	public function dropLeash(){
+		$pk = new SetEntityDataPacket();
+		$pk->eid = $this->leashHolder->getId();
+		$pk->metadata = [self::DATA_LEAD_HOLDER => [self::DATA_TYPE_LONG, -1],
+		self::DATA_LEAD => [self::DATA_TYPE_BYTE, 0]];
+		foreach ($this->getLevel()->getChunkPlayers($this->x >> 4, $this->z >> 4) as $player);
+			$player->dataPacket($pk);
+		$this->leashHolder = null;
+		$this->isLeashed = false;
+		$this->getLevel()->dropItem($this, new ItemItem(ItemItem::LEAD));
+	}
+
+	public function tickLeash(){}
+	
 	/**
 	 * @return string
 	 */
