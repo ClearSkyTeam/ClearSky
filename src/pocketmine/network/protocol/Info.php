@@ -12,7 +12,7 @@ interface Info{
 	 */
 	const CURRENT_PROTOCOL = 81;
 	const ACCEPT_PROTOCOL = [81];
-	const CURRENT_VERSION = "0.15.0";
+	const CURRENT_VERSION = "0.15.x";
 	
 	const LOGIN_PACKET = 0x01;
 	const PLAY_STATUS_PACKET = 0x02;
