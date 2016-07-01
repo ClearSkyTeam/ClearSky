@@ -275,7 +275,7 @@ ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket
 
 
  - Kami mungkin mengambil beberapa kode dari proyek-proyek berlisensi GPL yang lain, tetapi sebagian besar telah ditulis kembali oleh ClearSky.
-  - Kami menggunakan kode dari beberapa proyek lainya  [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Setiap kami menggunakan kode dari proyek lain, kami selalu memberikan refrensi nama proyek pada setiap komit. Kami akan tulis nama proyek dari kode yang kami gunakan pada judul atau deskripsi.
+  - Kami menggunakan kode dari beberapa proyek lainya  [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Setiap kami menggunakan kode dari proyek lain, kami selalu memberikan refrensi nama proyek pada setiap komit. Kami akan tulis nama proyek dari kode yang kami gunakan pada judul atau deskripsi di komit.
  - Kami memiliki grup komunikasi di Telegram. Anda dapat menghubungi kami melalui : [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
  - [Liat betapa cepatnya ClearSky menjalankan server dengan 70 plugin dan 20 dunia!](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Server uji coba tidak resmi : Creative IP: WolvesFortress.de Port: **19134** *terkadang offline namun jika online pasti menggunakan versi terbaru*
@@ -283,7 +283,7 @@ ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket
 ## Dimana Saya bisa mendapatkan file phar?
  - Anda bisa mendapatkanya, disini [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
 
-[//]: # (Anda juga bisa mendapatkan file Phar yang telah dibuat automatis, disini : [Jenkins CI](http://jenkins.clearskyteam.org/).)
+[//]: # (Anda juga bisa mendapatkan file Phar yang telah dibuat otomatis, disini : [Jenkins CI](http://jenkins.clearskyteam.org/).)
 
  - Anda bisa mendapatkan PHP Environment yang telah di optimalkan, disini : [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/ClearSkyPhar#BIN).
  - Anda bisa mendapatkan pengaturan Multicraft Demo, disini : [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
@@ -294,14 +294,14 @@ ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket
 ## Fitur Fitur Menarik
 Semua fitur yang dapat diatur pada pocketmine.yml.<br>
  - Performa 20 kali lebih cepet dari PocketMine
- - Jumlah pemain keseluruhan dapat TAK TERBATAS! (tetapkan max-players menjadi -1 pada server.properties)(catatan²)
+ - Jumlah pemain keseluruhan dapat disetel TAK TERBATAS! (tetapkan max-players menjadi -1 pada server.properties)(catatan²)
  - Pemain universal dapat bergabung (contoh: 0.14.0 dan "builds" untuk 0.14.0 dapat bergabung bersama)(catatan¹)
  - Modifikasi warna versi dan "string" secara bebas (tetapkan network.protocol,version pada pocketmine.yml)
  - Anda dapat mengatur packetlost yang akan diterima Pemain dan Anti-Cheat saat Server Anda memiliki koneksi yang buruk (sektor network pada pocketmine.yml) 
  - Redstone dengan perhitungan yang cepat dan tidak ada kerusakan (error/bug) 
  - Sistem Experience berfungsi, termasuk keterikatannya dengan blok/pemain/entity/botol/tungku
- - Dapat melakukan makan atau kelaparan, dan terikat juga dengan game-difficulty.
- - Cuaca berfungsi dengan baik
+ - Dapat makan dan juga lapar, dan terikat juga dengan game-difficulty.
+ - Cuaca yang berfungsi dengan baik
  - Tersedia juga Boat / Perahu yang bekerja dengan baik
  - Chunk dimuat dan diterima dengan cepat
  - Logger cepat dan dapat diatur untuk aktif atau tidak
@@ -316,6 +316,6 @@ Catatan¹ - Mohon tetapkan pesan 'Outdated Server' menjadi 'false' pada Plugin C
 Catatan² - Mohon tetapkan pesan 'Full Server' menjadi 'false' pada Plugin CustomAlert atau semacamnya jika plugin memodifikasi pesan *Full Server*
 
 ## Untuk Pengembang atau Pengelola
-Prroyek ini bersih, menggunakan kode dengan kualtias terbaik, karena Kami ingin menjaga kode asli PocketMine yang baik. Mengembangkan/Memodifikasi proyek ini sangat mudah.<br>
+Proyek ini bersih, menggunakan kode dengan kualtias terbaik, karena Kami ingin menjaga kode asli PocketMine yang baik. Mengembangkan/Memodifikasi proyek ini sangat mudah.<br>
 Kami tetap menulis ulang kode dasar untuk memastikan ClearSky memiliki rasa pengelolahan yang baik.<br>
-ClearSky bukan hanya untuk memberi rasa lancar untuk pengguna, tetapi para pengelola juga!<br>
+ClearSky bukan hanya dibuat untuk memberi rasa lancar untuk pengguna, tetapi para pengelola juga!<br>
