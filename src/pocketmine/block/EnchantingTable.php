@@ -1,23 +1,43 @@
 <?php
 namespace pocketmine\block;
 
+use pocketmine\inventory\EnchantInventory;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
+
+use pocketmine\math\AxisAlignedBB;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
-use pocketmine\tile\Tile;
-use pocketmine\nbt\tag\ListTag;
 use pocketmine\tile\EnchantTable;
-use pocketmine\math\AxisAlignedBB;
+use pocketmine\tile\Tile;
 
-class EnchantingTable extends Transparent{
+class EnchantingTable extends Transparent implements LightSource{
 
 	protected $id = self::ENCHANTING_TABLE;
 
 	public function __construct(){
 
+	}
+
+	public function getLightLevel(){
+		return 12;
+	}
+
+	public function isLightSource(){
+		return true;
+	}
+
+	public function getBoundingBox(){
+		return new AxisAlignedBB(
+			$this->x,
+			$this->y,
+			$this->z,
+			$this->x + 1,
+			$this->y + 0.75,
+			$this->z + 1
+		);
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
@@ -66,52 +86,47 @@ class EnchantingTable extends Transparent{
 
 	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
-
-			$t = $this->getLevel()->getTile($this);
-			$table = null;
-			if($t instanceof EnchantTable){
-				$table = $t;
+			$tile = $this->getLevel()->getTile($this);
+			$enchantTable = null;
+			if($tile instanceof EnchantTable){
+				$enchantTable = $tile;
 			}else{
+				$this->getLevel()->setBlock($this, $this, true, true);
 				$nbt = new CompoundTag("", [
-					new ListTag("Items", []),
 					new StringTag("id", Tile::ENCHANT_TABLE),
 					new IntTag("x", $this->x),
 					new IntTag("y", $this->y),
 					new IntTag("z", $this->z)
 				]);
-				$nbt->Items->setTagType(NBT::TAG_Compound);
-				$table = Tile::createTile("EnchantTable", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-			}
 
-			if(isset($table->namedtag->Lock) and $table->namedtag->Lock instanceof StringTag){
-				if($table->namedtag->Lock->getValue() !== $item->getCustomName()){
-					return true;
+				if($item->hasCustomName()){
+					$nbt->CustomName = new StringTag("CustomName", $item->getCustomName());
 				}
+
+				if($item->hasCustomBlockData()){
+					foreach($item->getCustomBlockData() as $key => $v){
+						$nbt->{$key} = $v;
+					}
+				}
+
+				/** @var EnchantTable $enchantTable */
+				$enchantTable = Tile::createTile(Tile::ENCHANT_TABLE, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
-			$player->addWindow($table->getInventory());
+			$player->addWindow(new EnchantInventory($this));
+			$player->craftingType = Player::CRAFTING_ENCHANT;
 		}
+
 
 		return true;
 	}
 
 	public function getDrops(Item $item){
-		if($item->isPickaxe() >= Tool::TIER_WOODEN){
+		if($item->isPickaxe() >= 1){
 			return [
 				[$this->id, 0, 1],
 			];
 		}else{
 			return [];
 		}
-	}
-
-	protected function recalculateBoundingBox(){
-		return new AxisAlignedBB(
-			$this->x,
-			$this->y,
-			$this->z,
-			$this->x + 0.9375,
-			$this->y + 0.75,
-			$this->z + 0.9375
-		);
 	}
 }

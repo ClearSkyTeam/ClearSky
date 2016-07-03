@@ -500,7 +500,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::POTATO_BLOCK] = Potato::class;
 			self::$list[self::WOODEN_BUTTON] = WoodenButton::class;
 			self::$list[self::SKULL_BLOCK] = SkullBlock::class;
-			self::$list[self::ANVIL_BLOCK] = AnvilBlock::class;
+			self::$list[self::ANVIL_BLOCK] = Anvil::class;
 			self::$list[self::TRAPPED_CHEST] = TrappedChest::class;
 			self::$list[self::LIGHT_WEIGHTED_PRESSURE_PLATE] = LightWeightedPressurePlate::class;
 			self::$list[self::HEAVY_WEIGHTED_PRESSURE_PLATE] = HeavyWeightedPressurePlate::class;

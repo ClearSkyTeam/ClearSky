@@ -42,10 +42,11 @@ abstract class Armor extends Item{
 			2 => 73,
 			3 => 70
 		];
-		$unbreakingl = $this->getEnchantmentLevel(Enchantment::TYPE_MINING_DURABILITY);
-		if(mt_rand(1, 100) > $unbreakings[$unbreakingl]){
-			return true;
-		}
+		#$unbreakingl = $this->getEnchantmentLevel(Enchantment::TYPE_MINING_DURABILITY);
+		#if(mt_rand(1, 100) > $unbreakings[$unbreakingl]){
+			#return true;
+		#}
+
 		$this->setDamage($this->getDamage() + $cost);
 		if($this->getDamage() >= $this->getMaxDurability()){
 			$this->setCount(0);

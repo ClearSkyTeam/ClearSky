@@ -337,14 +337,14 @@ class Server{
 	public function getPocketMineBuild(){
 		return \pocketmine\BUILD;
 	}
-	
+
 	/**
 	 * @return string
 	 */
 	public function getPocketMineVersion(){
 		return \pocketmine\VERSION;
 	}
-
+	
 	/**
 	 * @return string
 	 */
@@ -582,6 +582,13 @@ class Server{
 	 */
 	public function getAllowFlight(){
 		return $this->getConfigBoolean("allow-flight", false);
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function getAllowInvCheats(){
+		return $this->getProperty("player.inventory.allow-cheats", false);
 	}
 
 
@@ -1677,7 +1684,7 @@ class Server{
 		$this->registerEntities();
 		$this->registerTiles();
 
-		InventoryType::init($this->getProperty("player.inventory.slot", 36));
+		InventoryType::init(); //TODO::REMOVE OUT OF POCKETMINE.yml **CSONLY**
 		Block::init();
 		Item::init();
 		Biome::init();

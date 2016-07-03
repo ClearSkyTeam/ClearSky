@@ -39,8 +39,8 @@ settings:
 
 player:
  inventory:
-  slot: 36
-  #The inventory slot a player can have
+  allow-cheats: false
+  #Choose whether to allow inventory cheats (required for Win10 anvils/enchanting tables to work)
  hunger:
   enable: true
   #Whether hunger should be calculated or not
