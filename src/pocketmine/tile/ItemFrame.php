@@ -22,6 +22,9 @@ class ItemFrame extends Spawnable{
 		if(!isset($nbt->ItemDropChance)){
 			$nbt->ItemDropChance = new Float("ItemDropChance", 1.0);
 		}
+		if(!isset($this->namedtag->Item)){
+			$this->setItem(Item::get(Item::AIR), false);
+		}
 
 		parent::__construct($chunk, $nbt);
 	}
@@ -69,14 +72,25 @@ class ItemFrame extends Spawnable{
 	}
 
 	public function getSpawnCompound(){
-		return new Compound("", [
-			new String("id", Tile::ITEM_FRAME),
-			new Int("x", (int) $this->x),
-			new Int("y", (int) $this->y),
-			new Int("z", (int) $this->z),
-			new Short("Item", $this->getItem()),
-			new Byte("ItemRotation", $this->getItemRotation()),
-			new Float("ItemDropChance", $this->getItemDropChance())
-		]);
+		if($this->getItem()["id"] == 0){
+			return new CompoundTag("", [
+				new StringTag("id", Tile::ITEM_FRAME),
+				new IntTag("x", (int) $this->x),
+				new IntTag("y", (int) $this->y),
+				new IntTag("z", (int) $this->z),
+				new ByteTag("ItemRotation", 0),
+				new FloatTag("ItemDropChance", (float) $this->getItemDropChance())
+			]);
+		}else{
+			return new CompoundTag("", [
+				new StringTag("id", Tile::ITEM_FRAME),
+				new IntTag("x", (int) $this->x),
+				new IntTag("y", (int) $this->y),
+				new IntTag("z", (int) $this->z),
+				new ShortTag("Item", Item::get($this->getItem()["id"])),
+				new ByteTag("ItemRotation", (int) $this->getItemRotation()),
+				new FloatTag("ItemDropChance", (float) $this->getItemDropChance())
+			]);
+		}
 	}
 }
