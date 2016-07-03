@@ -5,16 +5,15 @@ use pocketmine\command\Command;
 use pocketmine\command\CommandSender;
 use pocketmine\event\TranslationContainer;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
 use pocketmine\entity\Entity;
 use pocketmine\level\Position;
-use pocketmine\entity\Wolf;
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Float;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\FloatTag;
 
 class SummonCommand extends VanillaCommand{
 
@@ -52,20 +51,20 @@ class SummonCommand extends VanillaCommand{
 		if(!($chunk instanceof FullChunk)){
 			return false;
 		}
-		$nbt = new Compound("", [
-			"Pos" => new Enum("Pos", [
-				new Double("", $position->getX() + 0.5),
-				new Double("", $position->getY()),
-				new Double("", $position->getZ() + 0.5)
+		$nbt = new CompoundTag("", [
+			"Pos" => new ListTag("Pos", [
+				new DoubleTag("", $position->getX() + 0.5),
+				new DoubleTag("", $position->getY()),
+				new DoubleTag("", $position->getZ() + 0.5)
 			]),
-			"Motion" => new Enum("Motion", [
-				new Double("", 0),
-				new Double("", 0),
-				new Double("", 0)
+			"Motion" => new ListTag("Motion", [
+				new DoubleTag("", 0),
+				new DoubleTag("", 0),
+				new DoubleTag("", 0)
 			]),
-			"Rotation" => new Enum("Rotation", [
-				new Float("", lcg_value() * 360),
-				new Float("", 0)
+			"Rotation" => new ListTag("Rotation", [
+				new FloatTag("", lcg_value() * 360),
+				new FloatTag("", 0)
 			]),
 		]);
 		$entity = Entity::createEntity($entitytype, $chunk, $nbt);
@@ -79,7 +78,7 @@ class SummonCommand extends VanillaCommand{
 				$exception = $ex;
 			}
 
-			if(!($tags instanceof Compound) or $exception !== null){
+			if(!($tags instanceof CompoundTag) or $exception !== null){
 				$sender->sendMessage(new TranslationContainer("commands.give.tagError", [$exception !== null ? $exception->getMessage() : "Invalid tag conversion"]));
 				return true;
 			}
