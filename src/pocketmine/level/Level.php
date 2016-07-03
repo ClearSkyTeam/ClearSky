@@ -49,6 +49,7 @@ use pocketmine\event\weather\WeatherChangeEvent;
 use pocketmine\inventory\InventoryHolder;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
+use pocketmine\level\ai\AI;
 use pocketmine\level\format\Chunk;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\format\generic\BaseLevelProvider;
@@ -289,6 +290,9 @@ class Level implements ChunkManager, Metadatable{
 	/** @var GameRules */
 	public $gamerules;
 
+	/** AI **/
+	private $AI;
+
 	private function generateWeather(){
 		if($this->getServer()->getProperty("level-settings.weather.enable", true) && $this->getDimension() == self::DIMENSION_NORMAL){
 			if($this->getWeather() === self::WEATHER_CLEARSKY){
@@ -507,6 +511,8 @@ class Level implements ChunkManager, Metadatable{
 		$this->temporalPosition = new Position(0, 0, 0, $this);
 		$this->temporalVector = new Vector3(0, 0, 0);
 		$this->tickRate = 1;
+	
+		$this->AI = new AI($this);
 	}
 
 	public function getTickRate(){
@@ -571,6 +577,13 @@ class Level implements ChunkManager, Metadatable{
 	 */
 	final public function getId(){
 		return $this->levelId;
+	}
+
+	/**
+	 * Return Level AI
+	 */
+	final public function getAI(){
+		return $this->AI;
 	}
 
 	public function close(){
