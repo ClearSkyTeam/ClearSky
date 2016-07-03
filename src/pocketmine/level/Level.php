@@ -100,6 +100,7 @@ use pocketmine\entity\Effect;
 use pocketmine\level\particle\DestroyBlockParticle;
 
 use pocketmine\entity\ExperienceOrb;
+use pocketmine\entity\ai\AIManager;
 
 #include <rules/Level.h>
 
@@ -511,7 +512,8 @@ class Level implements ChunkManager, Metadatable{
 		$this->temporalPosition = new Position(0, 0, 0, $this);
 		$this->temporalVector = new Vector3(0, 0, 0);
 		$this->tickRate = 1;
-	
+
+		AIManager::startAllAIs($this->getServer());
 		$this->AI = new AI($this);
 	}
 
