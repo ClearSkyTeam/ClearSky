@@ -42,11 +42,9 @@ class MoveCalculaterTask extends AsyncTask{
 		$level = $server->getLevel($this->getResult()["LevelId"]);
 		$entity = $level->getEntity($this->getResult()["EntityId"]);
 		if($entity != null){
-			$server->broadcastTip(var_export($this->getResult(), true));
-			$entity->setRotation($this->getResult()["yaw"], $entity->pitch);
-			#$level->addEntityMovement($entity->chunk->getX() >> 4, $entity->chunk->getZ() >> 4, $entity->id, $entity->x, $entity->y + $entity->getEyeHeight(), $entity->z, $entity->yaw, $entity->pitch, $entity->yaw);
-			$entity->setMotion($entity->getMotion()->add(0));
-			
+			#$server->broadcastTip(var_export($this->getResult(), true));
+			$server->getLogger()->info($this->getResult()["yaw"]);
+			$entity->setPositionAndRotation($entity->getPosition(), $this->getResult()["yaw"], $entity->pitch);
 		}
 	}
 }
