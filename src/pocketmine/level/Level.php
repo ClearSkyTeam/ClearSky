@@ -957,6 +957,8 @@ class Level implements ChunkManager, Metadatable{
 		$this->chunkPackets = [];
 		
 		$this->generateWeather();
+
+		$this->AI->tickMobs();
 		
 		$this->timings->doTick->stopTiming();
 	}
