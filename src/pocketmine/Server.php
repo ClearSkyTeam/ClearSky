@@ -160,6 +160,8 @@ use pocketmine\tile\Cauldron;
 use pocketmine\tile\ItemFrame;
 use pocketmine\tile\MobSpawner;
 use pocketmine\tile\Piston;
+use pocketmine\entity\ai\AIManager;
+use pocketmine\entity\ai\SnowGolemAI;
 
 /**
  * The class that manages everything
@@ -1676,6 +1678,7 @@ class Server{
 
 		$this->registerEntities();
 		$this->registerTiles();
+		$this->registerAIs();
 
 		InventoryType::init($this->getProperty("player.inventory.slot", 36));
 		Block::init();
@@ -2720,6 +2723,10 @@ class Server{
 		Tile::registerTile(Sign::class);
 		Tile::registerTile(Skull::class);
 		// Tile::registerTile(TrappedChest::class);
+	}
+
+	private function registerAIs(){
+		AIManager::registerAIs(SnowGolem::class, SnowGolemAI::class, $this);
 	}
 
 }
