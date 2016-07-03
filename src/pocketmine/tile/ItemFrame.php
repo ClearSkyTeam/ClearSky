@@ -69,7 +69,8 @@ class ItemFrame extends Spawnable{
 	}
 
 	public function getSpawnCompound(){
-		return new CompoundTag("", [
+		if($this->getItem() != NULL){
+			return new CompoundTag("", [
 			new StringTag("id", Tile::ITEM_FRAME),
 			new IntTag("x", (int) $this->x),
 			new IntTag("y", (int) $this->y),
@@ -77,6 +78,16 @@ class ItemFrame extends Spawnable{
 			new ShortTag("Item", $this->getItem()),
 			new ByteTag("ItemRotation", $this->getItemRotation()),
 			new FloatTag("ItemDropChance", $this->getItemDropChance())
-		]);
+		]);	
+		}else{
+			return new CompoundTag("", [
+			new StringTag("id", Tile::ITEM_FRAME),
+			new IntTag("x", (int) $this->x),
+			new IntTag("y", (int) $this->y),
+			new IntTag("z", (int) $this->z),
+			new ByteTag("ItemRotation", $this->getItemRotation()),
+			new FloatTag("ItemDropChance", $this->getItemDropChance())
+		}
+
 	}
 }
