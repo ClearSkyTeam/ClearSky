@@ -3,65 +3,50 @@
 namespace pocketmine\level\ai;
 
 use pocketmine\Server;
-use pocketmine\level\Level;
 use pocketmine\scheduler\AsyncTask;
 use pocketmine\entity\ai\AIManager;
+use pocketmine\network\protocol\MoveEntityPacket;
 
 class MoveCalculaterTask extends AsyncTask{
-	#private $server;
-	private $level;
+	// private $server;
+	private $yaw;
 	private $levelId;
 	private $entityId;
 	private $entityType;
-
 	private $result = null;
 	private $serialized = false;
 	private $cancelRun = false;
 	/** @var int */
 	private $taskId = null;
 
-	public function __construct(Level $level, $levelId, $entityId, $entityType){
-		$this->level = $level;
+	public function __construct($levelId, $entityId, $entityType, $yaw){
 		$this->levelId = $levelId;
-		#$this->server = $level->getServer();
+		// $this->server = $level->getServer();
 		$this->entityId = $entityId;
 		$this->entityType = $entityType;
-		print("construct succeed\n");
+		$this->yaw = $yaw;
 	}
 
 	public function onRun(){
-		/*#$rs = "LevelId: ".$this->levelId." EntityId: ".$this->entityId." EntityType: ".$this->entityType;
-		#$entity = $this->level->getEntity($this->entityId);
-		#print_r($entity);
+		// $rs = ["LevelId" => $this->levelId, "EntityId" => $this->entityId, "EntityType" => $this->entityType, "yaw" => $this->yaw];
 		// AIManager::calculateMovement($entity);
-		#$x = $entity->x + 1;
-		#$y = $entity->y + 1;
-		#$z = $entity->z + 1;
-		$x = 0;
-		$y = 0;
-		$z = 0;
-		$id = $this->entityId;
-		$rs = ['id' => $id, 'x' => $x, 'y' => $y, 'z' => $z];
-		#$this->setResult($rs, false);
-		print_r($rs);*/
-		print("Calculating\n");
-		$this->setResult(array('test' => 'bla'), false);
+		$yaw = $this->yaw;
+		$yaw++;
+		if($yaw >= 360) $yaw = 0;
+		// $rs = ['id' => $id, 'x' => $x, 'y' => $y, 'z' => $z];
+		$rs = ["LevelId" => $this->levelId, "EntityId" => $this->entityId, "EntityType" => $this->entityType, "yaw" => $yaw];
+		$this->setResult($rs);
 	}
 
 	public function onCompletion(Server $server){
-		/*
-		 * $ai = $this->level->getAI();
-		 * if($ai instanceof AI and $this->hasResult()){
-		 * $ai->moveCalculationCallback($this->getResult());
-		 * }
-		 */
-		if($this->hasResult()){
-			$this->level->getServer()->broadcastMessage($this->getResult()['test'] . "\n");
-			#$entity = $this->level->getEntity($this->entityId);
-			#if($entity->onUpdate($currentTick)) $entity->scheduleUpdate();
-		}
-		else{
-			print($this->hasResult() . "\n");
+		$level = $server->getLevel($this->getResult()["LevelId"]);
+		$entity = $level->getEntity($this->getResult()["EntityId"]);
+		if($entity != null){
+			$server->broadcastTip(var_export($this->getResult(), true));
+			$entity->setRotation($this->getResult()["yaw"], $entity->pitch);
+			#$level->addEntityMovement($entity->chunk->getX() >> 4, $entity->chunk->getZ() >> 4, $entity->id, $entity->x, $entity->y + $entity->getEyeHeight(), $entity->z, $entity->yaw, $entity->pitch, $entity->yaw);
+			$entity->setMotion($entity->getMotion()->add(0));
+			
 		}
 	}
 }

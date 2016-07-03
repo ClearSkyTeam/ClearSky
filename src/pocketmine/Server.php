@@ -162,6 +162,7 @@ use pocketmine\tile\MobSpawner;
 use pocketmine\tile\Piston;
 use pocketmine\entity\ai\AIManager;
 use pocketmine\entity\ai\SnowGolemAI;
+use pocketmine\entity\ai\ZombieHorseAI;
 
 /**
  * The class that manages everything
@@ -2726,7 +2727,7 @@ class Server{
 	}
 
 	private function registerAIs(){
-		AIManager::registerAIs(SnowGolem::class, SnowGolemAI::class, $this);
+		AIManager::registerAIs(ZombieHorse::class, ZombieHorseAI::class, $this);
 	}
 
 }

@@ -6,7 +6,7 @@ use pocketmine\entity\Entity;
 use pocketmine\math\Vector3;
 use pocketmine\block\Block;
 
-class SnowGolemAI{
+class ZombieHorseAI{
 
 	/*public function calculateMovement(Entity $entity){
 		$entity->yaw++;

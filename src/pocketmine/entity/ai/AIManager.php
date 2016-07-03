@@ -17,7 +17,7 @@ abstract class AIManager{
 			foreach($level->getEntities() as $entity){
 				if($entity instanceof $classname){
 					print("Entity of type $classname found!");
-					$entity->setDataProperty(Entity::DATA_NO_AI, Entity::DATA_TYPE_BYTE, 1);
+					#$entity->setDataProperty(Entity::DATA_NO_AI, Entity::DATA_TYPE_BYTE, 1);
 					$level->getAI()->registerAI($entity);
 				}
 			}

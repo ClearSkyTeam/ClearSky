@@ -2553,9 +2553,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				if($packet->action === InteractPacket::ACTION_RIGHT_CLICK && $target instanceof Entity){
 					$this->getInventory()->getItemInHand()->useOnEntity($target, $this); // this is beta. Should return false anyways
-
-					$target->getLevel()->getAI()->unregisterAI($target);
-					$target->getLevel()->getAI()->registerAI($target);
 					break;
 				}
 				if(
