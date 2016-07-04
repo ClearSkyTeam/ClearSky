@@ -103,7 +103,6 @@ class Item{
 	const PISTON = 33;
 	const PISTON_HEAD = 34;
 	const WOOL = 35;
-	const PISTON_EXTENSION = 35;
 	const DANDELION = 37;
 	const POPPY = 38;
 	const ROSE = 38;
@@ -116,6 +115,7 @@ class Item{
 	const DOUBLE_SLABS = 43;
 	const SLAB = 44;
 	const SLABS = 44;
+	const STONE_SLAB = 44;
 	const BRICKS = 45;
 	const BRICKS_BLOCK = 45;
 	const TNT = 46;
@@ -143,12 +143,12 @@ class Item{
 	const LIT_FURNACE = 62;
 	const SIGN_POST = 63;
 	const DOOR_BLOCK = 64;
-	const OAK_DOOR_BLOCK = 64;
+	const WOODEN_DOOR_BLOCK = 64;
 	const WOOD_DOOR_BLOCK = 64;
 	const LADDER = 65;
 	const RAIL = 66;
-	const COBBLE_STAIRS = 67;
 	const COBBLESTONE_STAIRS = 67;
+	const COBBLE_STAIRS = 67;
 	const WALL_SIGN = 68;
 	const LEVER = 69;
 	const STONE_PRESSURE_PLATE = 70;
@@ -158,8 +158,8 @@ class Item{
 	const GLOWING_REDSTONE_ORE = 74;
 	const LIT_REDSTONE_ORE = 74;
 	const UNLIT_REDSTONE_TORCH = 75;
-	const LIT_REDSTONE_TORCH = 76;
 	const REDSTONE_TORCH = 76;
+	const LIT_REDSTONE_TORCH = 76;
 	const STONE_BUTTON = 77;
 	const SNOW = 78;
 	const SNOW_LAYER = 78;
@@ -169,43 +169,53 @@ class Item{
 	const CLAY_BLOCK = 82;
 	const REEDS = 83;
 	const SUGARCANE_BLOCK = 83;
-	const JUKEBOX = 83;
 	const FENCE = 85;
 	const PUMPKIN = 86;
 	const NETHERRACK = 87;
 	const SOUL_SAND = 88;
 	const GLOWSTONE = 89;
 	const GLOWSTONE_BLOCK = 89;
-	const LIT_PUMPKIN = 91;
+	const PORTAL_BLOCK = 90;
+	const PORTAL = 90;
 	const JACK_O_LANTERN = 91;
+	const LIT_PUMPKIN = 91;
 	const CAKE_BLOCK = 92;
-	const UNPOWERED_REPEATER = 93;
-	const POWERED_REPEATER = 94;
-	const STAINED_GLASS = 95; // INVISIBLE BEDROCK ID
+	const REPEATER_BLOCK = 93;
+	const UNPOWERED_REPEATER_BLOCK = 93;
+	const POWERED_REPEATER_BLOCK = 94;
+	const INVISIBLE_BEDROCK = 95;
+	/**
+	* @deprecated
+	* Use INVISIBLE_BEDROCK instead
+	*/
+	const STAINED_GLASS = 95; //Well, plugin compatibility...
 	const TRAPDOOR = 96;
-	const MONSTER_EGG = 97;
+	const WOODEN_TRAPDOOR = 96;
+	const MONSTER_EGG_BLOCK = 97;
 	const STONE_BRICKS = 98;
 	const STONE_BRICK = 98;
 	const BROWN_MUSHROOM_BLOCK = 99;
 	const RED_MUSHROOM_BLOCK = 100;
-	const IRON_BAR = 101;
 	const IRON_BARS = 101;
+	const IRON_BAR = 101;
 	const GLASS_PANE = 102;
 	const GLASS_PANEL = 102;
 	const MELON_BLOCK = 103;
 	const PUMPKIN_STEM = 104;
 	const MELON_STEM = 105;
-	const VINE = 106;
 	const VINES = 106;
+	const VINE = 106;
 	const FENCE_GATE = 107;
+	const OAK_FENCE_GATE = 107;
 	const BRICK_STAIRS = 108;
 	const STONE_BRICK_STAIRS = 109;
 	const MYCELIUM = 110;
-	const WATER_LILY = 111;
 	const LILY_PAD = 111;
+	const WATER_LILY = 111;
 	const NETHER_BRICKS = 112;
 	const NETHER_BRICK_BLOCK = 112;
 	const NETHER_BRICK_FENCE = 113;
+	const NETHER_BRICK_STAIRS = 114;
 	const NETHER_BRICKS_STAIRS = 114;
 	const NETHER_WART_BLOCK = 115;
 	const ENCHANTING_TABLE = 116;
@@ -213,19 +223,19 @@ class Item{
 	const ENCHANTMENT_TABLE = 116;
 	const BREWING_STAND_BLOCK = 117;
 	const CAULDRON_BLOCK = 118;
-	const END_PORTAL = 119;
 	const END_PORTAL_FRAME = 120;
+	const END_PORTAL = 120;
 	const END_STONE = 121;
-	const DRAGON_EGG = 122;
 	const REDSTONE_LAMP = 123;
+	const INACTIVE_REDSTONE_LAMP = 123;
 	const LIT_REDSTONE_LAMP = 124;
+	const ACTIVE_REDSTONE_LAMP = 124;
 	const DROPPER = 125;
 	const ACTIVATOR_RAIL = 126;
-	const COCOA_POD = 127;
-	const COCOA_BEANS = 127;
+	const COCOA_BLOCK = 127;
+	const COCOA_PODS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
-	const ENDERCHEST = 130;
 	const TRIPWIRE_HOOK = 131;
 	const TRIPWIRE = 132;
 	const EMERALD_BLOCK = 133;
@@ -235,28 +245,29 @@ class Item{
 	const BIRCH_WOODEN_STAIRS = 135;
 	const JUNGLE_WOOD_STAIRS = 136;
 	const JUNGLE_WOODEN_STAIRS = 136;
-	const COMMAND_BLOCK = 136;
-	const BEACON = 136;
+	const COBBLESTONE_WALL = 139;
 	const COBBLE_WALL = 139;
 	const STONE_WALL = 139;
-	const COBBLESTONE_WALL = 139;
 	const FLOWER_POT_BLOCK = 140;
 	const CARROT_BLOCK = 141;
 	const POTATO_BLOCK = 142;
 	const WOODEN_BUTTON = 143;
-	const SKULL_BLOCK = 144;
-	const HEAD_BLOCK = 144;
 	const MOB_HEAD_BLOCK = 144;
-	const ANVIL_BLOCK = 145;
+	const SKULL_BLOCK = 144;
+	const ANVIL = 145;
 	const TRAPPED_CHEST = 146;
+	const WEIGHTED_PRESSURE_PLATE_LIGHT = 147;
 	const LIGHT_WEIGHTED_PRESSURE_PLATE = 147;
+	const GOLD_PRESSURE_PLATE = 147;
+	const WEIGHTED_PRESSURE_PLATE_HEAVY = 148;
 	const HEAVY_WEIGHTED_PRESSURE_PLATE = 148;
-	const UNPOWERED_COMPARATOR = 149;
-	const POWERED_COMPARATOR = 150;
-	const DAYLIGHT_DETECTOR = 151;
+	const IRON_PRESSURE_PLATE = 148;
+	const COMPARATOR_BLOCK = 149;
+	const UNPOWERED_COMPARATOR_BLOCK = 149;
+	const POWERED_COMPARATOR_BLOCK = 150;
+	const DAYLIGHT_SENSOR = 151;
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
-	const QUARTZ_ORE = 153;
 	const HOPPER_BLOCK = 154;
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
@@ -270,7 +281,7 @@ class Item{
 	const WOODEN_SLABS = 158;
 	const STAINED_CLAY = 159;
 	const STAINED_HARDENED_CLAY = 159;
-	const STAINED_GLASS_PANE = 160;
+	
 	const LEAVES2 = 161;
 	const LEAVE2 = 161;
 	const WOOD2 = 162;
@@ -281,29 +292,37 @@ class Item{
 	const DARK_OAK_WOOD_STAIRS = 164;
 	const DARK_OAK_WOODEN_STAIRS = 164;
 	const SLIME_BLOCK = 165;
-	const SLIMEBLOCK = 165;
+	/**
+	* @deprecated
+	*/
 	const BARRIER = 166;
+
 	const IRON_TRAPDOOR = 167;
-	const PRISMARINE = 168;
-	const SEA_LANTERN = 169;
+	
 	const HAY_BALE = 170;
 	const CARPET = 171;
 	const HARDENED_CLAY = 172;
 	const COAL_BLOCK = 173;
 	const PACKED_ICE = 174;
 	const DOUBLE_PLANT = 175;
-	const STANDING_BANNER = 176;
-	const WALL_BANNER = 177;
-	const DAYLIGHT_DETECTOR_INVERTED = 178;
+	
+	const INVERTED_DAYLIGHT_SENSOR = 178;
+	const DAYLIGHT_SENSOR_INVERTED = 178;
 	const RED_SANDSTONE = 179;
 	const RED_SANDSTONE_STAIRS = 180;
-	const DOUBLE_STONE_SLAB2 = 181;
-	const STONE_SLAB2 = 182;
+	const DOUBLE_RED_SANDSTONE_SLAB = 181;
+	const RED_SANDSTONE_SLAB = 182;
+	const SPRUCE_FENCE_GATE = 183;
 	const FENCE_GATE_SPRUCE = 183;
+	const BIRCH_FENCE_GATE = 184; 
 	const FENCE_GATE_BIRCH = 184;
+	const JUNGLE_FENCE_GATE = 185;
 	const FENCE_GATE_JUNGLE = 185;
+	const DARK_OAK_FENCE_GATE = 186;
 	const FENCE_GATE_DARK_OAK = 186;
+	const ACACIA_FENCE_GATE = 187;
 	const FENCE_GATE_ACACIA = 187;
+	
 	const SPRUCE_DOOR_BLOCK = 193;
 	const BIRCH_DOOR_BLOCK = 194;
 	const JUNGLE_DOOR_BLOCK = 195;
@@ -311,21 +330,23 @@ class Item{
 	const DARK_OAK_DOOR_BLOCK = 197;
 	const GRASS_PATH = 198;
 	const ITEM_FRAME_BLOCK = 199;
+	
 	const PODZOL = 243;
 	const BEETROOT_BLOCK = 244;
 	const STONECUTTER = 245;
 	const GLOWING_OBSIDIAN = 246;
 	const NETHER_REACTOR = 247;
+	const UPDATE_BLOCK = 248;
+	const ATEUPD_BLOCK = 249;
+	const BLOCK_MOVED_BY_PISTON = 250;
 	const OBSERVER = 251;
 	const RESERVED = 255;
-
 	//Normal Item IDs
-
-	const IRON_SHOVEL= 256;
+	const IRON_SHOVEL = 256;
 	const IRON_PICKAXE = 257;
 	const IRON_AXE = 258;
-	const FLINT_STEEL = 259;
 	const FLINT_AND_STEEL = 259;
+	const FLINT_STEEL = 259;
 	const APPLE = 260;
 	const BOW = 261;
 	const ARROW = 262;
@@ -351,12 +372,12 @@ class Item{
 	const BOWL = 281;
 	const MUSHROOM_STEW = 282;
 	const GOLD_SWORD = 283;
-	const GOLD_SHOVEL = 284;
-	const GOLD_PICKAXE = 285;
-	const GOLD_AXE = 286;
 	const GOLDEN_SWORD = 283;
+	const GOLD_SHOVEL = 284;
 	const GOLDEN_SHOVEL = 284;
+	const GOLD_PICKAXE = 285;
 	const GOLDEN_PICKAXE = 285;
+	const GOLD_AXE = 286;
 	const GOLDEN_AXE = 286;
 	const STRING = 287;
 	const FEATHER = 288;
@@ -397,6 +418,7 @@ class Item{
 	const PAINTING = 321;
 	const GOLDEN_APPLE = 322;
 	const SIGN = 323;
+	const WOODEN_DOOR = 324;
 	const OAK_DOOR = 324;
 	const BUCKET = 325;
 	const MINECART = 328;
@@ -407,15 +429,17 @@ class Item{
 	const SNOWBALL = 332;
 	const BOAT = 333;
 	const LEATHER = 334;
+	
 	const BRICK = 336;
 	const CLAY = 337;
 	const SUGARCANE = 338;
-	const SUGAR_CANE = 338;
+	const SUGAR_CANE = 338; 
 	const SUGAR_CANES = 338;
 	const PAPER = 339;
 	const BOOK = 340;
 	const SLIMEBALL = 341;
-	const CHEST_MINECART = 342;
+	const MINECART_WITH_CHEST = 342;
+	
 	const EGG = 344;
 	const COMPASS = 345;
 	const FISHING_ROD = 346;
@@ -428,10 +452,9 @@ class Item{
 	const SUGAR = 353;
 	const CAKE = 354;
 	const BED = 355;
-	const REDSTONE_REPEATER = 356;
 	const REPEATER = 356;
 	const COOKIE = 357;
-	const WRITTEN_MAP = 358;
+	const FILLED_MAP = 358;
 	const SHEARS = 359;
 	const MELON = 360;
 	const MELON_SLICE = 360;
@@ -443,7 +466,7 @@ class Item{
 	const RAW_CHICKEN = 365;
 	const COOKED_CHICKEN = 366;
 	const ROTTEN_FLESH = 367;
-	// const ENDERPEARL = 368;
+	//const ENDERPEARL = 368;
 	const BLAZE_ROD = 369;
 	const GHAST_TEAR = 370;
 	const GOLD_NUGGET = 371;
@@ -459,7 +482,10 @@ class Item{
 	const CAULDRON = 380;
 	const GLISTERING_MELON = 382;
 	const SPAWN_EGG = 383;
-	const EXP_BOTTLE = 384;
+	const BOTTLE_O_ENCHANTING = 384;
+	const ENCHANTING_BOTTLE = 384;
+	const FIRE_CHARGE = 385;
+	
 	const EMERALD = 388;
 	const ITEM_FRAME = 389;
 	const FLOWER_POT = 390;
@@ -470,19 +496,22 @@ class Item{
 	const BAKED_POTATO = 393;
 	const BAKED_POTATOES = 393;
 	const POISONOUS_POTATO = 394;
+	const MAP = 395;
 	const EMPTY_MAP = 395;
 	const GOLDEN_CARROT = 396;
 	const MOB_HEAD = 397;
-	const CARROT_ON_A_STICK = 398;
 	const SKULL = 397;
+	const CARROT_ON_A_STICK = 398;
+	
 	const PUMPKIN_PIE = 400;
 	const ENCHANTED_BOOK = 403;
 	const COMPARATOR = 404;
 	const NETHER_BRICK = 405;
 	const QUARTZ = 406;
 	const NETHER_QUARTZ = 406;
-	const TNT_MINECART = 407;
-	const HOPPER_MINECART = 408;
+	const MINECART_WITH_TNT = 407;
+	const MINECART_WITH_HOPPER = 408;
+	
 	const HOPPER = 410;
 	const RAW_RABBIT = 411;
 	const COOKED_RABBIT = 412;
@@ -491,24 +520,29 @@ class Item{
 	const RABBIT_HIDE = 415;
 	const LEATHER_HORSE_ARMOR = 416;
 	const IRON_HORSE_ARMOR = 417;
-	const GOLDEN_HORSE_ARMOR = 418;
+	const GOLD_HORSE_ARMOR = 418;
 	const DIAMOND_HORSE_ARMOR = 419;
-	const LEAD = 420;
-	const LEASH = 420;
-	const NAME_TAG = 421;
+	const LEAD = 420; const LEASH = 420;
+	const NAMETAG = 421;
+	
+	const RAW_MUTTON = 423;
+	const COOKED_MUTTON = 424;
+	
 	const SPRUCE_DOOR = 427;
 	const BIRCH_DOOR = 428;
 	const JUNGLE_DOOR = 429;
 	const ACACIA_DOOR = 430;
 	const DARK_OAK_DOOR = 431;
+	
 	const SPLASH_POTION = 438;
+	
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
 	const BEETROOT_SEED = 458;
 	const BEETROOT_SOUP = 459;
 	const RAW_SALMON = 460;
-	const CLOWNFISH = 461;
-	const PUFFERFISH = 462;
+	const CLOWN_FISH = 461;
+	const PUFFER_FISH = 462;
 	const COOKED_SALMON = 463;
 	const ENCHANTED_GOLDEN_APPLE = 466;
 	const CAMERA = 498;
