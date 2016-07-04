@@ -254,6 +254,7 @@ class Item{
 	const WOODEN_BUTTON = 143;
 	const MOB_HEAD_BLOCK = 144;
 	const SKULL_BLOCK = 144;
+	const ANVIL_BLOCK = 145;
 	const ANVIL = 145;
 	const TRAPPED_CHEST = 146;
 	const WEIGHTED_PRESSURE_PLATE_LIGHT = 147;
