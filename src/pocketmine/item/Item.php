@@ -102,6 +102,7 @@ class Item{
 	const DEAD_BUSH = 32;
 	const PISTON = 33;
 	const PISTON_HEAD = 34;
+	const PISTON_EXTENSION = 34;
 	const WOOL = 35;
 	const DANDELION = 37;
 	const POPPY = 38;
@@ -145,6 +146,7 @@ class Item{
 	const DOOR_BLOCK = 64;
 	const WOODEN_DOOR_BLOCK = 64;
 	const WOOD_DOOR_BLOCK = 64;
+	const OAK_DOOR_BLOCK = 64;
 	const LADDER = 65;
 	const RAIL = 66;
 	const COBBLESTONE_STAIRS = 67;
@@ -180,9 +182,11 @@ class Item{
 	const JACK_O_LANTERN = 91;
 	const LIT_PUMPKIN = 91;
 	const CAKE_BLOCK = 92;
+	const UNPOWERED_REPEATER = 93;
 	const REPEATER_BLOCK = 93;
 	const UNPOWERED_REPEATER_BLOCK = 93;
 	const POWERED_REPEATER_BLOCK = 94;
+	const POWERED_REPEATER = 94;
 	const INVISIBLE_BEDROCK = 95;
 	/**
 	* @deprecated
@@ -233,6 +237,8 @@ class Item{
 	const DROPPER = 125;
 	const ACTIVATOR_RAIL = 126;
 	const COCOA_BLOCK = 127;
+	const COCOA_BEANS = 127;
+	const COCOA_POD = 127;
 	const COCOA_PODS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
@@ -267,6 +273,7 @@ class Item{
 	const UNPOWERED_COMPARATOR_BLOCK = 149;
 	const POWERED_COMPARATOR_BLOCK = 150;
 	const DAYLIGHT_SENSOR = 151;
+	const DAYLIGHT_DETECTOR = 151;
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
 	const HOPPER_BLOCK = 154;
@@ -434,11 +441,12 @@ class Item{
 	const BRICK = 336;
 	const CLAY = 337;
 	const SUGARCANE = 338;
-	const SUGAR_CANE = 338; 
+	const SUGAR_CANE = 338;
 	const SUGAR_CANES = 338;
 	const PAPER = 339;
 	const BOOK = 340;
 	const SLIMEBALL = 341;
+	const CHEST_MINECART = 342;
 	const MINECART_WITH_CHEST = 342;
 	
 	const EGG = 344;
@@ -485,6 +493,7 @@ class Item{
 	const SPAWN_EGG = 383;
 	const BOTTLE_O_ENCHANTING = 384;
 	const ENCHANTING_BOTTLE = 384;
+	const EXP_BOTTLE = 384;
 	const FIRE_CHARGE = 385;
 	
 	const EMERALD = 388;
@@ -510,7 +519,9 @@ class Item{
 	const NETHER_BRICK = 405;
 	const QUARTZ = 406;
 	const NETHER_QUARTZ = 406;
+	const TNT_MINECART = 407;
 	const MINECART_WITH_TNT = 407;
+	const HOPPER_MINECART = 408;
 	const MINECART_WITH_HOPPER = 408;
 	
 	const HOPPER = 410;
@@ -522,9 +533,11 @@ class Item{
 	const LEATHER_HORSE_ARMOR = 416;
 	const IRON_HORSE_ARMOR = 417;
 	const GOLD_HORSE_ARMOR = 418;
+	const GOLDEN_HORSE_ARMOR = 418;
 	const DIAMOND_HORSE_ARMOR = 419;
-	const LEAD = 420; const LEASH = 420;
-	const NAMETAG = 421;
+	const LEAD = 420;
+	const LEASH = 420;
+	const NAME_TAG = 421;
 	
 	const RAW_MUTTON = 423;
 	const COOKED_MUTTON = 424;
@@ -543,7 +556,7 @@ class Item{
 	const BEETROOT_SOUP = 459;
 	const RAW_SALMON = 460;
 	const CLOWN_FISH = 461;
-	const PUFFER_FISH = 462;
+	const PUFFERFISH = 462;
 	const COOKED_SALMON = 463;
 	const ENCHANTED_GOLDEN_APPLE = 466;
 	const CAMERA = 498;
@@ -705,7 +718,7 @@ class Item{
 			self::$list[self::PAPER] = Paper::class;
 			self::$list[self::BOOK] = Book::class;
 			self::$list[self::SLIMEBALL] = Slimeball::class;
-			self::$list[self::CHEST_MINECART] = MinecartChest::class;
+			self::$list[self::MINECART_WITH_CHEST] = MinecartChest::class;
 			
 			self::$list[self::EGG] = Egg::class;
 			self::$list[self::COMPASS] = Compass::class;
@@ -720,7 +733,7 @@ class Item{
 			self::$list[self::SUGAR] = Sugar::class;
 			self::$list[self::CAKE] = Cake::class;
 			self::$list[self::BED] = Bed::class;
-			self::$list[self::REDSTONE_REPEATER] = RedstoneRepeater::class;
+			self::$list[self::REPEATER_BLOCK] = RedstoneRepeater::class;
 			
 			self::$list[self::COOKIE] = Cookie::class;
 			self::$list[self::EMPTY_MAP] = EmptyMap::class;
@@ -761,7 +774,7 @@ class Item{
 			self::$list[self::POTATO] = Potato::class;
 			self::$list[self::BAKED_POTATO] = BakedPotato::class;
 			self::$list[self::POISONOUS_POTATO] = PoisonousPotato::class;
-			self::$list[self::WRITTEN_MAP] = WrittenMap::class;
+			self::$list[self::FILLED_MAP] = FILLED_MAP::class;
 			self::$list[self::GOLDEN_CARROT] = GoldenCarrot::class;
 			self::$list[self::SKULL] = Skull::class;
 			
@@ -772,8 +785,8 @@ class Item{
 			
 			self::$list[self::NETHER_BRICK] = NetherBrick::class;
 			self::$list[self::QUARTZ] = NetherQuartz::class;
-			self::$list[self::TNT_MINECART] = MinecartTNT::class;
-			self::$list[self::HOPPER_MINECART] = MinecartHopper::class;
+			self::$list[self::MINECART_WITH_TNT] = MinecartTNT::class;
+			self::$list[self::MINECART_WITH_HOPPER] = MinecartHopper::class;
 			self::$list[self::HOPPER] = Hopper::class;
 
 			self::$list[self::RAW_RABBIT] = RawRabbit::class;
@@ -788,7 +801,7 @@ class Item{
 			self::$list[self::BEETROOT_SEEDS] = BeetrootSeeds::class;
 			self::$list[self::BEETROOT_SOUP] = BeetrootSoup::class;
 			//self::$list[self::RAW_SALMON] = RawSalmon::class;
-			//self::$list[self::CLOWNFISH] = Clownfish::class;
+			//self::$list[self::CLOWN_FISH] = CLOWN_FISH::class;
 			//self::$list[self::PUFFERFISH] = Pufferfish::class;
 			//self::$list[self::COOKED_SALMON] = CookedSalmon::class;
 			self::$list[self::ENCHANTED_GOLDEN_APPLE] = EnchantedGoldenApple::class;
@@ -899,7 +912,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::WOODEN_SLAB, 5));
 		Item::addCreativeItem(Item::get(Item::SLAB, 4));
 		Item::addCreativeItem(Item::get(Item::SLAB, 1));
-		Item::addCreativeItem(Item::get(Item::STONE_SLAB2, 0));
+		Item::addCreativeItem(Item::get(Item::RED_SANDSTONE_SLAB, 0));
 		Item::addCreativeItem(Item::get(Item::SLAB, 5));
 		Item::addCreativeItem(Item::get(Item::SLAB, 6));
 		Item::addCreativeItem(Item::get(Item::SLAB, 7));
@@ -1100,9 +1113,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::CLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::COMPASS, 0));
 		Item::addCreativeItem(Item::get(Item::MINECART, 0));
-		Item::addCreativeItem(Item::get(Item::CHEST_MINECART, 0));
-		Item::addCreativeItem(Item::get(Item::HOPPER_MINECART, 0));
-		Item::addCreativeItem(Item::get(Item::TNT_MINECART, 0));
+		Item::addCreativeItem(Item::get(Item::MINECART_WITH_CHEST, 0));
+		Item::addCreativeItem(Item::get(Item::MINECART_WITH_HOPPER, 0));
+		Item::addCreativeItem(Item::get(Item::MINECART_WITH_TNT, 0));
 		// Item::addCreativeItem(Item::get(Item::CAMERA, 0)); // Crashes client
 		Item::addCreativeItem(Item::get(Item::BOAT, 0)); // Oak
 		Item::addCreativeItem(Item::get(Item::BOAT, 1)); // Spruce
@@ -1266,7 +1279,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::ENCHANTED_GOLDEN_APPLE, 0)); // Enchanted golden apple
 		Item::addCreativeItem(Item::get(Item::RAW_FISH, 0)); 
 		Item::addCreativeItem(Item::get(Item::RAW_SALMON, 0)); // Salmon
-		Item::addCreativeItem(Item::get(Item::CLOWNFISH, 0)); // Clownfish
+		Item::addCreativeItem(Item::get(Item::CLOWN_FISH, 0)); // CLOWN_FISH
 		Item::addCreativeItem(Item::get(Item::PUFFERFISH, 0)); // Pufferfish
 		Item::addCreativeItem(Item::get(Item::COOKED_FISH, 0));
 		Item::addCreativeItem(Item::get(Item::COOKED_SALMON, 0)); // Salmon
