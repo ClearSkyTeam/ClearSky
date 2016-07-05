@@ -722,14 +722,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return $this->sleeping !== null;
 	}
 
-	/**
-	*
-	* @deprecated
-	*/
-	public function getAdditionalChar(){
-		return NULL;
-	}
-
 	public function getInAirTicks(){
 		return $this->inAirTicks;
 	}
