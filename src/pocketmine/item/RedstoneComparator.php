@@ -5,7 +5,7 @@ use pocketmine\block\Block;
 
 class RedstoneComparator extends Item{
 	public function __construct($meta = 0, $count = 1){
-		$this->block = Block::get(Item::UNPOWERED_COMPARATOR);
+		$this->block = Block::get(Item::UNPOWERED_COMPARATOR_BLOCK);
 		parent::__construct(self::COMPARATOR, 0, $count, "Comparator");
 	}
 
