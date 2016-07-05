@@ -242,6 +242,7 @@ class Item{
 	const COCOA_PODS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
+	#const ENDERCHEST = 130;
 	const TRIPWIRE_HOOK = 131;
 	const TRIPWIRE = 132;
 	const EMERALD_BLOCK = 133;
@@ -249,6 +250,9 @@ class Item{
 	const SPRUCE_WOODEN_STAIRS = 134;
 	const BIRCH_WOOD_STAIRS = 135;
 	const BIRCH_WOODEN_STAIRS = 135;
+	#wtf ids?
+	#const COMMAND_BLOCK = 136;
+	#const BEACON = 136;
 	const JUNGLE_WOOD_STAIRS = 136;
 	const JUNGLE_WOODEN_STAIRS = 136;
 	const COBBLESTONE_WALL = 139;
