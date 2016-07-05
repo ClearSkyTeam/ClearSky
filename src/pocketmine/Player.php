@@ -2234,15 +2234,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							$item->setCount($item->getCount() - 1);
 							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
 						}
-					}
-					elseif($item->getId() === Item::FISHING_ROD){
+					}elseif($item->getId() === Item::FISHING_ROD){
+						if($this->getHook()->closed){
+							$this->setHook();
+						}
 						if ($this->getHook() !== null && $this->getHook() instanceof FishingHook){
 							$this->server->getPluginManager()->callEvent($fish = new PlayerFishEvent($this, $item, $this->getHook()));
 							if (!$ev->isCancelled()){
 								$damageRod = $this->getHook()->reelLine();
 								#$this->unlinkHookFromPlayer($this);
 							}
-						} else {
+						}else{
 							$f = 0.6;
 							$nbt = new CompoundTag("", [
 								"Pos" => new ListTag("Pos", [
