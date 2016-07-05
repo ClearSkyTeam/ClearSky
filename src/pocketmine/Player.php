@@ -323,8 +323,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public function setExpLevel($level){
 		$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($level);
 	}
-//TODO: maybe add getexplevel etc back.
-	/** Experience End **/
 	
 	public function getLeaveMessage(){
 		return new TranslationContainer(TextFormat::YELLOW . "%multiplayer.player.left", [
@@ -1430,13 +1428,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
         }
 
 		foreach($blocksInside as $block){
-			/*
-			if($block instanceof Liquid){
-				if($block->round() != $this->round()){
-					return;
-				}
-			}
-			*/
 			$block->onEntityCollide($this);
 		}
 	}
