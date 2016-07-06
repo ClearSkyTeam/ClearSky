@@ -1,27 +1,28 @@
 <?php
+
 namespace pocketmine\tile;
 
-use pocketmine\block\Block;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\nbt\tag\IntTag;
+use pocketmine\level\Level;
 
 class DLDetector extends Spawnable{
-	private $lastType = 0;
-	const SUNNY = 0;
 
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
+		$this->getLevel()->scheduleUpdate($this, 0);
 	}
 
 	public function getLightByTime(){
-		$strength = 1;
-		$time = $this->getLevel()->getTime();
-		//if(WeatherManager::isRegistered($this->getLevel())) $weather = $this->getLevel()->getWeather()->getWeather();
-		/*else */$weather = self::SUNNY;
-		switch($weather){
-			case self::SUNNY:
+		$strength = 0;
+		$time = $this->getLevel()->getTime() % Level::TIME_FULL;
+		// if(WeatherManager::isRegistered($this->getLevel())) $weather = $this->getLevel()->getWeather()->getWeather();
+		/* else */
+		$a = 1;
+		switch($a){
+			case $a:
 				if($time <= 22340 and $time >= 13680) $strength = 1;
 				if($time <= 22800 and $time >= 13220) $strength = 2;
 				if($time <= 23080 and $time >= 12940) $strength = 3;
@@ -56,21 +57,12 @@ class DLDetector extends Spawnable{
 		}
 		return $strength;
 	}
-	
-	public function getPower(){
-		return $this->getType() === Block::DAYLIGHT_DETECTOR ? $this->getLightByTime() : 16 - $this->getLightByTime();
-	}
 
-	private function getType(){
-		return $this->getBlock()->getId();
+	public function getPower(){
+		return $this->getLightByTime() + 1;
 	}
 
 	public function getSpawnCompound(){
-		return new CompoundTag("", [
-			new StringTag("id", Tile::DAY_LIGHT_DETECTOR),
-			new IntTag("x", (int) $this->x),
-			new IntTag("y", (int) $this->y),
-			new IntTag("z", (int) $this->z),
-		]);
+		return new CompoundTag("", [new StringTag("id", Tile::DAY_LIGHT_DETECTOR), new IntTag("x", (int) $this->x), new IntTag("y", (int) $this->y), new IntTag("z", (int) $this->z)]);
 	}
 }
