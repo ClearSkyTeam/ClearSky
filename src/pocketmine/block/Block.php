@@ -508,7 +508,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::DAYLIGHT_DETECTOR] = DaylightDetector::class;
 			self::$list[self::REDSTONE_BLOCK] = RedstoneBlock::class;
 			self::$list[self::QUARTZ_ORE] = QuartzOre::class;
-			//self::$list[self::HOPPER] = Hopper::class;
+			self::$list[self::HOPPER] = Hopper::class;
 			self::$list[self::QUARTZ_BLOCK] = Quartz::class;
 			self::$list[self::QUARTZ_STAIRS] = QuartzStairs::class;
 			self::$list[self::DOUBLE_WOOD_SLAB] = DoubleWoodSlab::class;
