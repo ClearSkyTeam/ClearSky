@@ -389,7 +389,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::COBWEB] = Cobweb::class;
 			self::$list[self::TALL_GRASS] = TallGrass::class;
 			self::$list[self::DEAD_BUSH] = DeadBush::class;
-			//self::$list[self::PISTON] = Piston::class;
+			self::$list[self::PISTON] = Piston::class;
 			//self::$list[self::PISTON_HEAD] = PistonHead::class;
 			self::$list[self::WOOL] = Wool::class;
 			//self::$list[self::PISTON_EXTENSION] = PistonExtension::class;

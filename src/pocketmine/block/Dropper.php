@@ -37,26 +37,18 @@ class Dropper extends Solid implements RedstoneConsumer{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$dropper = null;
 		if($player instanceof Player){
 			$pitch = $player->getPitch();
 			if(abs($pitch) >= 45){
-				if($pitch < 0) $f = 4;
-				else $f = 5;
+				if($pitch < 0) $f = 0;
+				else $f = 1;
 			}
 			else
-				$f = $player->getDirection();
+				$f = $player->getDirection() + 2;
 		}
 		else
 			$f = 0;
-		$faces = [
-			3 => 3,
-			0 => 4,
-			2 => 5,
-			1 => 2,
-			4 => 0,
-			5 => 1
-		];
+		$faces = [0 => 0, 1 => 1, 2 => 4, 3 => 2, 4 => 5, 5 => 3];
 		$this->meta = $faces[$f];
 		$this->getLevel()->setBlock($block, $this, true, true);
 		$nbt = new CompoundTag("", [
