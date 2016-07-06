@@ -4,8 +4,6 @@ namespace pocketmine\level\ai;
 
 use pocketmine\level\Level;
 use pocketmine\entity\Entity;
-use pocketmine\network\protocol\MoveEntityPacket;
-use pocketmine\network\protocol\SetEntityMotionPacket;
 use pocketmine\entity\ZombieHorse;
 
 class AI{
