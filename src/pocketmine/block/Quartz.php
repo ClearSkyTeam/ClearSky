@@ -32,7 +32,7 @@ class Quartz extends Solid{
 	}
 	
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if($this->meta === 3){
+		if($this->meta === 1 or $this->meta === 2){
 			$faces = [
 				0 => 0,
 				1 => 0,
