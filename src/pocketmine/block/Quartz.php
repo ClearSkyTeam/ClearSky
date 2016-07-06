@@ -11,7 +11,6 @@ class Quartz extends Solid{
 	const QUARTZ_NORMAL = 0;
 	const QUARTZ_CHISELED = 1;
 	const QUARTZ_PILLAR = 2;
-	const QUARTZ_PILLAR2 = 3;
     
 	protected $id = self::QUARTZ_BLOCK;
 
@@ -28,22 +27,23 @@ class Quartz extends Solid{
 			self::QUARTZ_NORMAL => "Quartz Block",
 			self::QUARTZ_CHISELED => "Chiseled Quartz Block",
 			self::QUARTZ_PILLAR => "Quartz Pillar",
-			self::QUARTZ_PILLAR2 => "Quartz Pillar",
 		];
 		return $names[$this->meta & 0x03];
 	}
 	
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$faces = [
-			0 => 0,
-			1 => 0,
-			2 => 0b1000,
-			3 => 0b1000,
-			4 => 0b0100,
-			5 => 0b0100,
-		];
-
-		$this->meta = ($this->meta & 0x03) | $faces[$face];
+		if($this->meta === 3){
+			$faces = [
+				0 => 0,
+				1 => 0,
+				2 => 0b1000,
+				3 => 0b1000,
+				4 => 0b0100,
+				5 => 0b0100,
+			];
+	
+			$this->meta = ($this->meta & 0x03) | $faces[$face];
+		}
 		$this->getLevel()->setBlock($block, $this, true, true);
 
 		return true;
