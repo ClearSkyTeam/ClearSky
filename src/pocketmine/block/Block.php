@@ -277,6 +277,7 @@ class Block extends Position implements Metadatable{
 	const STONECUTTER = 245;
 	const GLOWING_OBSIDIAN = 246;
 	const NETHER_REACTOR = 247;
+	const OBSERVER = 251;
 	const RESERVED = 255;
 
 	const REDSTONEDELAY = 1;
@@ -553,6 +554,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::STONECUTTER] = Stonecutter::class;
 			self::$list[self::GLOWING_OBSIDIAN] = GlowingObsidian::class;
 			self::$list[self::NETHER_REACTOR] = NetherReactor::class;
+			self::$list[self::OBSERVER] = Observer::class;
 		//	self::$list[self::RESERVED] = Reserved::class;
 
 			foreach(self::$list as $id => $class){
