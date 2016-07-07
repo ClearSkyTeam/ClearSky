@@ -281,67 +281,39 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	* @deprecated
 	*/
 	public function getExperience(){
-		return $this->getExp();
+		return $this->getXpProgress();
 	}
 	/**
 	* @deprecated
 	*/
 	public function setExperience($exp){
-		$this->setExp($exp);
+		$this->setXpProgress($exp);
 	}
 	/**
 	* @deprecated
 	*/
 	public function addExperience($exp){
-		$this->addExp($exp);
+		$this->setXpProgress($this->getXpProgress() + $exp);
 	}
-	
-	public function getExperience(){
-		return $this->getExp();
+	/**
+	* @deprecated
+	*/
+	public function getTotalExperience(){
+		return $this->getTotalXp();
 	}
-	
-	public function getExp(){
-		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue();
-		// TODO: add ExperienceLevelUpCalculater back. (Wait.. its in Human.php but under a new name)
-	}
-	
-	public function setExperience($exp){
-		$this->setExp($exp);
-	}
-
-	public function setExp($exp){
-		$this->server->getPluginManager()->callEvent($ev = new PlayerExperienceChangeEvent($this, $exp));
-		if(!$ev->isCancelled()){
-			$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($exp);
-		}
-		// TODO: add ExperienceLevelUpCalculater back.
-	}
-	
-	public function getExperience($exp){
-		$this->addExp($exp);
-	}
-
-	public function addExp($exp){
-		$this->server->getPluginManager()->callEvent($ev = new PlayerExperienceChangeEvent($this, $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue() + $exp));
-		if(!$ev->isCancelled()){
-			$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue() + $exp);
-		}
+	/**
+	* @deprecated
+	*/
+	public function getTotalExp(){
+		return $this->getTotalXp();
 	}
 	
 	public function getExperienceLevel(){
-		return $this->getExpLevel();
-	}
-
-	public function getExpLevel(){
-		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE_LEVEL)->getValue();
+		return $this->getXpLevel();
 	}
 	
 	public function setExperienceLevel($level){
-		return $this->setExpLevel($level);
-	}
-
-	public function setExpLevel($level){
-		$this->attributeMap->getAttribute(Attribute::EXPERIENCE_LEVEL)->setValue($level);
+		return $this->setXpLevel($level);
 	}
 	
 	public function getLeaveMessage(){
