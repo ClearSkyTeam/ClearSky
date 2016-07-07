@@ -296,9 +296,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->addExp($exp);
 	}
 	
+	public function getExperience(){
+		return $this->getExp();
+	}
+	
 	public function getExp(){
 		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue();
 		// TODO: add ExperienceLevelUpCalculater back. (Wait.. its in Human.php but under a new name)
+	}
+	
+	public function setExperience($exp){
+		$this->setExp($exp);
 	}
 
 	public function setExp($exp){
@@ -308,6 +316,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 		// TODO: add ExperienceLevelUpCalculater back.
 	}
+	
+	public function getExperience($exp){
+		$this->addExp($exp);
+	}
 
 	public function addExp($exp){
 		$this->server->getPluginManager()->callEvent($ev = new PlayerExperienceChangeEvent($this, $this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue() + $exp));
@@ -315,9 +327,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($this->attributeMap->getAttribute(Attribute::EXPERIENCE)->getValue() + $exp);
 		}
 	}
+	
+	public function getExperienceLevel(){
+		return $this->getExpLevel();
+	}
 
 	public function getExpLevel(){
 		return $this->attributeMap->getAttribute(Attribute::EXPERIENCE_LEVEL)->getValue();
+	}
+	
+	public function setExperienceLevel($level){
+		return $this->setExpLevel($level);
 	}
 
 	public function setExpLevel($level){
