@@ -153,7 +153,7 @@ use pocketmine\entity\TripoidCamera;
 use pocketmine\entity\ThrownEnderPearl;
 use pocketmine\tile\Dispenser;
 use pocketmine\tile\Dropper;
-use pocketmine\block\Hopper;
+use pocketmine\tile\Hopper;
 use pocketmine\tile\Music;
 use pocketmine\tile\DLDetector;
 use pocketmine\tile\Cauldron;
