@@ -178,10 +178,10 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 		$itemArr = [];
 		for($i = 0; $i < $this->getInventory()->getSize(); $i++){
 			$slot = $this->getInventory()->getItem($i);
-			if(!is_null($slot) && $slot->getId() != 0 && $slot instanceof Item) $itemArr[] = $slot;
+			if($slot instanceof Item && $slot->getId() != 0) $itemArr[] = $slot;
 		}
 
-		if(is_array($itemArr)){
+		if(!empty($itemArr)){
 			/** @var Item $item */
 			$itema = $itemArr[array_rand($itemArr)];
 			$this->getLevel()->getServer()->broadcastTip($itema);
