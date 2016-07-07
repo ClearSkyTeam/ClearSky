@@ -135,7 +135,9 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function addSaturation(float $amount){
 		$attr = $this->attributeMap->getAttribute(Attribute::SATURATION);
-		$attr->setValue($attr->getValue() + $amount, true);
+		$amount += $attr->getValue();
+		$amount = max(min($amount, $attr->getMaxValue()), $attr->getMinValue());
+		$this->setSaturation($amount);
 	}
 
 	public function getExhaustion(){
