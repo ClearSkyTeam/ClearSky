@@ -14,7 +14,7 @@ use pocketmine\tile\Dispenser as DispenserTile;
 use pocketmine\tile\Tile;
 use pocketmine\entity\ProjectileSource;
 
-class Dispenser extends Solid implements ProjectileSource{
+class Dispenser extends Solid implements ProjectileSource, RedstoneConsumer{
 
 	protected $id = self::DISPENSER;
 
@@ -113,6 +113,13 @@ class Dispenser extends Solid implements ProjectileSource{
 		}
 
 		return $drops;
+	}
+	
+	public function onRedstoneUpdate($type, $power){
+		if($this->isPowered()){
+			$this->activate();
+			return;
+		}
 	}
 
 	public function activate(){
