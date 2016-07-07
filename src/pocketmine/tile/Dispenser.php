@@ -184,9 +184,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 		if(!empty($itemArr)){
 			/** @var Item $item */
 			$itema = $itemArr[array_rand($itemArr)];
-			$this->getLevel()->getServer()->broadcastTip($itema);
 			$item = Item::get($itema->getId(), $itema->getDamage(), 1, $itema->getCompoundTag());
-			$this->getLevel()->getServer()->broadcastPopup($item);
 			$this->getInventory()->removeItem($item);
 			$motion = $this->getMotion();
 			$needItem = Item::get($item->getId(), $item->getDamage());
