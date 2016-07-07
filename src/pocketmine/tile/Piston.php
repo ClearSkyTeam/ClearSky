@@ -34,6 +34,11 @@ class Piston extends Spawnable{
 			new IntTag("x", (int) $this->x),
 			new IntTag("y", (int) $this->y),
 			new IntTag("z", (int) $this->z),
+			new IntTag("blockData", 0),
+			new IntTag("blockId", 0),
+			new ByteTag("extending", 0),
+			new IntTag("facing", 0),
+			new FloatTag("progress", 0.0),
 		]);
 	}
 }

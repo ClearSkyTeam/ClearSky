@@ -13,6 +13,8 @@ use pocketmine\Player;
 use pocketmine\tile\Piston as PistonTile;
 use pocketmine\tile\Tile;
 use pocketmine\math\Vector3;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\FloatTag;
 
 class Piston extends Solid implements RedstoneConsumer{
 
@@ -57,7 +59,12 @@ class Piston extends Solid implements RedstoneConsumer{
 			new StringTag("id", Tile::PISTON),
 			new IntTag("x", $this->x),
 			new IntTag("y", $this->y),
-			new IntTag("z", $this->z)
+			new IntTag("z", $this->z),
+			new IntTag("blockData", 0),
+			new IntTag("blockId", 0),
+			new ByteTag("extending", 0),
+			new IntTag("facing", $faces[$f]),
+			new FloatTag("progress", 0.0),
 		]);
 
 		$tile = Tile::createTile("Piston", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
