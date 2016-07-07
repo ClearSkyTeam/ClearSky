@@ -5,6 +5,8 @@ use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\FloatTag;
 
 class Piston extends Spawnable{
 
