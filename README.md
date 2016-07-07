@@ -11,11 +11,11 @@
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean code and stable features. It was initially designed for production servers.
 
 **TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php7-0.15)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
-**Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky-php7)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
+**Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky-php7)](http://jenkins.clearskyteam.org/job/ClearSky-php7/ "Jenkins Build Status")
 
 
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
-  - The projects we took code from [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Everytime we take code from other projects we reference the commit in the commit title or description!
+ - The projects we took code from [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Everytime we take code from other projects we reference the commit in the commit title or description!
  - Here is an Telegram group, where you can communicate with us: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
  - [Look here how fast ClearSky starts with 70 plugins and 20 worlds!](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
@@ -65,11 +65,11 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
 **Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
-**Estado de la compilación de Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
+**Estado de la compilación de Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky-php7/ "Jenkins Build Status")
 
 
  - Tomamos codigo de otros proyectos pero la mayoria de las caracteristicas las reescribimos para ClearSky.
-  - Lista de proyectos de los que tomamos codigo [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Cada vez que tomememos codigo de algún proyecto lo pondremos en la descripción o en el titulo del cambio!
+ - Lista de proyectos de los que tomamos codigo [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Cada vez que tomememos codigo de algún proyecto lo pondremos en la descripción o en el titulo del cambio!
  - Nuestro grupo de Telegram, para que hables con nosotros: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
  - [Mira como ClearSky abre así de rapido con con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Servidor de pruebas no oficial : IP: WolvesFortress.de Puerto: **19134** *A menudo fuera de línea, pero si lo esta posee la última versión de ClearSky.*
@@ -160,7 +160,7 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初は商用サーバー用に設計されました。<br>
 
 **TravisCIのビルドの状況** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCIのビルドの状況")
-**Jenkinsのビルドの状況** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkinsのビルドの状況")
+**Jenkinsのビルドの状況** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky-php7/ "Jenkinsのビルドの状況")
 
 
  - 他のGPLライセンスプロジェクトのコードを使用している部分もありますが、殆どはClearSkyによって書き換えられた物です。
@@ -264,7 +264,7 @@ ClearSky призначений не тільки для звичайних ко
 ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket Edition server dengan kode-kode yang ditata sangat rapih dan memiliki fitur-fitur yang juga sangat stabil. pada awalnya proyek ini dibuat untuk server produksi. (Diterjemahkan kedalam Bahasa Indonesia oleh Darrell @da123rrell dan disunting oleh Kennan @KennanFatt)
 
 **Status Pembuatan di TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php7)](https://travis-ci.org/ClearSkyTeam/ClearSky "Status pembuatan di TravisCI")
-**Status Pembuatan di Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky-php7)](http://jenkins.clearskyteam.org/job/ClearSky/ "Status pembuatan di Jenkins")
+**Status Pembuatan di Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky-php7)](http://jenkins.clearskyteam.org/job/ClearSky-php7/ "Status pembuatan di Jenkins")
 
 
  - Kami mungkin mengambil beberapa kode dari proyek-proyek berlisensi GPL yang lain, tetapi sebagian besar telah ditulis kembali oleh ClearSky.
