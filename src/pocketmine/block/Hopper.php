@@ -39,12 +39,14 @@ class Hopper extends Solid{
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$faces = [
-			0 => 4,
-			1 => 2,
-			2 => 5,
-			3 => 3,
+			0 => 0,
+			1 => 0,
+			2 => 3,
+			3 => 2,
+			4 => 5,
+			5 => 4,
 		];
-		$this->meta = $faces[$player instanceof Player ? $player->getDirection() : 0];
+		$this->meta = $faces[$face];
 		$this->getLevel()->setBlock($block, $this, true, true);
 		$nbt = new Compound("", [
 			new Enum("Items", []),
@@ -65,7 +67,7 @@ class Hopper extends Solid{
 			}
 		}
 
-		Tile::createTile("Hopper", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+		Tile::createTile(Tile::HOPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 
 		return true;
 	}
@@ -73,9 +75,9 @@ class Hopper extends Solid{
 	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
-			$furnace = false;
+			$hopper = null;
 			if($t instanceof HopperTile){
-				$furnace = $t;
+				$hopper = $t;
 			}else{
 				$nbt = new Compound("", [
 					new Enum("Items", []),
@@ -85,16 +87,15 @@ class Hopper extends Solid{
 					new Int("z", $this->z)
 				]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
-				$furnace = Tile::createTile("Hopper", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
+				$hopper = Tile::createTile(Tile::HOPPER, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($furnace->namedtag->Lock) and $furnace->namedtag->Lock instanceof String){
-				if($furnace->namedtag->Lock->getValue() !== $item->getCustomName()){
+			if(isset($hopper->namedtag->Lock) and $hopper->namedtag->Lock instanceof StringTag){
+				if($hopper->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}
 			}
-
-			$player->addWindow($furnace->getInventory());
+			$player->addWindow($hopper->getInventory());
 		}
 
 		return true;

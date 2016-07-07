@@ -1,13 +1,8 @@
 <?php
 namespace pocketmine\network\protocol;
 
-#include <rules/DataPacket.h>
-
-#ifndef COMPILE
 use pocketmine\utils\Binary;
 use pocketmine\entity\Entity;
-
-#endif
 
 class AddEntityPacket extends DataPacket{
 	const NETWORK_ID = Info::ADD_ENTITY_PACKET;

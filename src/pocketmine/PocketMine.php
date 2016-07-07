@@ -57,7 +57,7 @@ namespace pocketmine {
 	const API_VERSION = "1.13.1";
 	const CODENAME = "Sunrise";
 	const MINECRAFT_VERSION = "v0.15.x beta";
-	const MINECRAFT_VERSION_NETWORK = "0.15.x";
+	const MINECRAFT_VERSION_NETWORK = "0.15";
 
 	/*
 	 * Startup code. Do not look at it, it may harm you.

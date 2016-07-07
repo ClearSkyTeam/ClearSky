@@ -20,6 +20,8 @@ use pocketmine\nbt\tag\Int;
 use pocketmine\item\Launchable;
 use pocketmine\item\Dye;
 use pocketmine\block\Crops;
+use pocketmine\block\Fire;
+use pocketmine\block\Air;
 
 class Dispenser extends Spawnable implements InventoryHolder, Container, Nameable{
 
@@ -173,23 +175,19 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	}
 
 	public function activate(){
-		$itemIndex = [];
-		for($i = 0; $i < $this->getSize(); $i++){
-			$item = $this->getInventory()->getItem($i);
-			if($item->getId() != Item::AIR){
-				$itemIndex[] = [$i, $item];
-			}
+		$itemArr = [];
+		for($i = 0; $i < $this->getInventory()->getSize(); $i++){
+			$slot = $this->getInventory()->getItem($i);
+			if($slot instanceof Item && $slot->getId() != 0) $itemArr[] = $slot;
 		}
-		$max = count($itemIndex) - 1;
-		if($max < 0) $itemArr = null;
-		elseif($max == 0) $itemArr = $itemIndex[0];
-		else $itemArr = $itemIndex[mt_rand(0, $max)];
 
-		if(is_array($itemArr)){
+		if(!empty($itemArr)){
 			/** @var Item $item */
-			$item = $itemArr[1];
-			$item->setCount($item->getCount() - 1);
-			$this->getInventory()->setItem($itemArr[0], $item->getCount() > 0 ? $item : Item::get(Item::AIR));
+			$itema = $itemArr[array_rand($itemArr)];
+			$this->getLevel()->getServer()->broadcastTip($itema);
+			$item = Item::get($itema->getId(), $itema->getDamage(), 1, $itema->getCompoundTag());
+			$this->getLevel()->getServer()->broadcastPopup($item);
+			$this->getInventory()->removeItem($item);
 			$motion = $this->getMotion();
 			$needItem = Item::get($item->getId(), $item->getDamage());
 			$f = 1.5;
@@ -211,13 +209,18 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 					])
 				]);
 				$thrownEntity = Entity::createEntity($needItem->entityname, $this->chunk, $nbt);
-				$thrownEntity->setMotion($thrownExpBottle->getMotion()->multiply($f));
+				$thrownEntity->setMotion($thrownEntity->getMotion()->multiply($f));
 				$thrownEntity->spawnToAll();
 			}elseif($needItem->getId() === Item::DYE && $needItem->getDamage() === Dye::BONEMEAL){// Add instanceof Dispenseable + switch function
 				$dispenseto = $this->getLevel()->getBlock($this->add($motion[0],$motion[1],$motion[2]));
 				if($dispenseto instanceof Crops){
 					$needItem->useOn($dispenseto);
 				}
+			}elseif($needItem->getId() === Item::FLINT_AND_STEEL){// Add instanceof Dispenseable + switch function
+				$dispenseto = $this->getLevel()->getBlock($this->add($motion[0],$motion[1],$motion[2]));
+				$this->getLevel()->setBlock($dispenseto, new Fire());
+				$damage = $item->getDamage();
+				$item->setDamage($damage + 1);
 			}
 			else{
 				$item = NBT::putItemHelper($needItem);

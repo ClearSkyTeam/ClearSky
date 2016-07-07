@@ -277,6 +277,7 @@ class Block extends Position implements Metadatable{
 	const STONECUTTER = 245;
 	const GLOWING_OBSIDIAN = 246;
 	const NETHER_REACTOR = 247;
+	const OBSERVER = 251;
 	const RESERVED = 255;
 
 	const REDSTONEDELAY = 1;
@@ -388,7 +389,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::COBWEB] = Cobweb::class;
 			self::$list[self::TALL_GRASS] = TallGrass::class;
 			self::$list[self::DEAD_BUSH] = DeadBush::class;
-			//self::$list[self::PISTON] = Piston::class;
+			self::$list[self::PISTON] = Piston::class;
 			//self::$list[self::PISTON_HEAD] = PistonHead::class;
 			self::$list[self::WOOL] = Wool::class;
 			//self::$list[self::PISTON_EXTENSION] = PistonExtension::class;
@@ -507,7 +508,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::DAYLIGHT_DETECTOR] = DaylightDetector::class;
 			self::$list[self::REDSTONE_BLOCK] = RedstoneBlock::class;
 			self::$list[self::QUARTZ_ORE] = QuartzOre::class;
-			//self::$list[self::HOPPER] = Hopper::class;
+			self::$list[self::HOPPER] = Hopper::class;
 			self::$list[self::QUARTZ_BLOCK] = Quartz::class;
 			self::$list[self::QUARTZ_STAIRS] = QuartzStairs::class;
 			self::$list[self::DOUBLE_WOOD_SLAB] = DoubleWoodSlab::class;
@@ -553,6 +554,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::STONECUTTER] = Stonecutter::class;
 			self::$list[self::GLOWING_OBSIDIAN] = GlowingObsidian::class;
 			self::$list[self::NETHER_REACTOR] = NetherReactor::class;
+			self::$list[self::OBSERVER] = Observer::class;
 		//	self::$list[self::RESERVED] = Reserved::class;
 
 			foreach(self::$list as $id => $class){

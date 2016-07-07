@@ -12,6 +12,7 @@ use pocketmine\nbt\tag\String;
 use pocketmine\nbt\tag\Int;
 
 class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
+
 	/** @var HopperInventory */
 	protected $inventory;
 
@@ -43,7 +44,9 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
 			return;
 		}
 
-		$this->namedtag->CustomName = new String("CustomName", $str);
+		$this->namedtag->CustomName = new StringTag("CustomName", $str);
+		
+		$this->scheduleUpdate();
 	}
 
 	public function close(){
@@ -77,8 +80,8 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
 	 */
 	protected function getSlotIndex($index){
 		foreach($this->namedtag->Items as $i => $slot){
-			if($slot["Slot"] === $index){
-				return $i;
+			if((int) $slot["Slot"] === (int) $index){
+				return (int) $i;
 			}
 		}
 
@@ -133,12 +136,29 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
 	}
 
 	/**
-	 * @return FurnaceInventory
+	 * @return HopperInventory
 	 */
 	public function getInventory(){
 		return $this->inventory;
 	}
-	
+
+	public function getName(){
+		return isset($this->namedtag->CustomName) ? $this->namedtag->CustomName->getValue() : "Hopper";
+	}
+
+	public function hasName(){
+		return isset($this->namedtag->CustomName);
+	}
+
+	public function setName($str){
+		if($str === ""){
+			unset($this->namedtag->CustomName);
+			return;
+		}
+
+		$this->namedtag->CustomName = new StringTag("CustomName", $str);
+	}
+
 	public function getSpawnCompound(){
         $nbt = new Compound("", [
             new String("id", Tile::HOPPER),
@@ -153,3 +173,4 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
         return $nbt;
     }
 }
+

@@ -6,29 +6,20 @@
 ####  [Українська мова](#UKR)  
 ####  [Bahasa Indonesia](#IDN) 
 
-## Gimme 0.15
-- [PHP7branch](https://github.com/ClearSkyTeam/ClearSky/tree/php7-0.15)
-- [PHP5branch](https://github.com/ClearSkyTeam/ClearSky/tree/php5-0.15)
-- Phar: [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
-
 # <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP5+7) 
 ** PHP5 support may be dropped soon! **
 An ultra fast PocketMine based Minecraft:PE 0.15.0 multiplayer software with stable features, designed for high performance gaming experience
 
-**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5-0.15)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
-**Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
+**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 
 ## Where can I get a phar?
- - You can get some phars from here [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
-
-[//]: # (You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).)
-
+ - You can get some phars from here [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar).
  - You can get an optimized PHP environment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/ClearSkyPhar#BIN).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## Is there a PHP7 version?
- - Yes, although it is in beta you can check it out at the [php7](https://github.com/ClearSkyTeam/ClearSky/tree/php7) branch!
+ - Yes, and you should check it out at the [php7](https://github.com/ClearSkyTeam/ClearSky/tree/php7) branch!
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
@@ -75,12 +66,10 @@ ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 # Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PM](https://github.com/PocketMine/PocketMine-MP) (PHP5+7) 
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
-**Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5-0.15)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
-**Estado de la compilación de Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
-
+**Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 
  - Tomamos codigo de otros proyectos pero la mayoria de las caracteristicas las reescribimos para ClearSky.
-  - Lista de proyectos de los que tomamos codigo [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Cada vez que tomememos codigo de algún proyecto lo pondremos en la descripción o en el titulo del cambio!
+ - Lista de proyectos de los que tomamos codigo [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Cada vez que tomememos codigo de algún proyecto lo pondremos en la descripción o en el titulo del cambio!
  - Nuestro grupo de Telegram, para que hables con nosotros: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
  - [Mira como ClearSky abre así de rapido con con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Servidor de pruebas no oficial : IP: WolvesFortress.de Puerto: **19134** *A menudo fuera de línea, pero si lo esta posee la última versión de ClearSky.*
@@ -171,7 +160,7 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初は商用サーバー用に設計されました。<br>
 
 **TravisCIのビルドの状況** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCIのビルドの状況")
-**Jenkinsのビルドの状況** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkinsのビルドの状況")
+**Jenkinsのビルドの状況** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky-php7/ "Jenkinsのビルドの状況")
 
 
  - 他のGPLライセンスプロジェクトのコードを使用している部分もありますが、殆どはClearSkyによって書き換えられた物です。
@@ -275,8 +264,8 @@ ClearSky призначений не тільки для звичайних ко
 # Kami mempersembahkan: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
 ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket Edition server dengan kode-kode yang ditata sangat rapih dan memiliki fitur-fitur yang juga sangat stabil. pada awalnya proyek ini dibuat untuk server produksi. (Diterjemahkan kedalam Bahasa Indonesia oleh Darrell @da123rrell dan disunting oleh Kennan @KennanFatt)
 
-**Status Pembuatan di TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php7)](https://travis-ci.org/ClearSkyTeam/ClearSky "Status pembuatan di TravisCI")
-**Status Pembuatan di Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky-php7)](http://jenkins.clearskyteam.org/job/ClearSky/ "Status pembuatan di Jenkins")
+**Status Pembuatan di TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php5)](https://travis-ci.org/ClearSkyTeam/ClearSky "Status pembuatan di TravisCI")
+**Status Pembuatan di Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky-php5)](http://jenkins.clearskyteam.org/job/ClearSky-php5/ "Status pembuatan di Jenkins")
 
 
  - Kami mungkin mengambil beberapa kode dari proyek-proyek berlisensi GPL yang lain, tetapi sebagian besar telah ditulis kembali oleh ClearSky.

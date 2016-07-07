@@ -415,7 +415,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->getAttribute()->getAttribute(AttributeManager::EXPERIENCE)->setValue($this->getCurrentExperience()/$this->ExperienceLevelUpCalculater($this->getExperienceLevel()));
 		$this->getAttribute()->getAttribute(AttributeManager::EXPERIENCE_LEVEL)->setValue($this->getExperienceLevel());
 	}
-	/** Experience End **/
 	
 	public function getLeaveMessage(){
 		return new TranslationContainer(TextFormat::YELLOW . "%multiplayer.player.left", [
@@ -1547,13 +1546,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
         }
 
 		foreach($blocksInside as $block){
-			/*
-			if($block instanceof Liquid){
-				if($block->round() != $this->round()){
-					return;
-				}
-			}
-			*/
 			$block->onEntityCollide($this);
 		}
 	}
@@ -3399,8 +3391,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		parent::saveNBT();
 		if($this->level instanceof Level){
-			$this->namedtag->Level = new String("Level", $this->level->getName());
-			if($this->spawnPosition instanceof Position and $this->spawnPosition->getLevel() instanceof Level){
+			$this->namedtag->Level = new StringTag("Level", $this->level->getName());
+			if($this->spawnPosition instanceof Position and $this->spawnPosition->getLevel() instanceof Level and $this->spawnPosition->getLevel()->getProvider() !== null){
 				$this->namedtag["SpawnLevel"] = $this->spawnPosition->getLevel()->getName();
 				$this->namedtag["SpawnX"] = (int) $this->spawnPosition->x;
 				$this->namedtag["SpawnY"] = (int) $this->spawnPosition->y;

@@ -14,7 +14,7 @@ use pocketmine\Player;
 use pocketmine\tile\Chest as TileChest;
 use pocketmine\tile\Tile;
 
-class TrappedChest extends Transparent implements Redstone{
+class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 
 	protected $id = self::TRAPPED_CHEST;
 
@@ -22,12 +22,39 @@ class TrappedChest extends Transparent implements Redstone{
 		$this->meta = $meta;
 	}
 	
+	public function isRedstoneSource(){
+		return true;
+	}
+
 	public function canBeActivated(){
 		return true;
 	}
 
 	public function getHardness(){
 		return 2.5;
+	}
+
+	public function isChestOpen(){
+		$chestTile = $this->getLevel()->getTile($this);
+		if($chestTile instanceof TileChest){
+			if($chestTile->getInventory()->getViewers() == []){
+				return false;
+			}else{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function getPower(){
+		if($this->isChestOpen()){
+			return Block::REDSTONESOURCEPOWER;
+		}
+		return 0;
+	}
+
+	public function isCharged($hash){
+		return $this->isChestOpen();
 	}
 
 	public function getName(){
@@ -37,13 +64,30 @@ class TrappedChest extends Transparent implements Redstone{
 	public function getToolType(){
 		return Tool::TYPE_AXE;
 	}
-	
-	/*public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_SCHEDULED){
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+	public function BroadcastRedstoneUpdate($type,$power){
+		for($side = 0; $side <= 5; $side++){
+			$around=$this->getSide($side);
+			$this->getLevel()->setRedstoneUpdate($around,Block::REDSTONEDELAY,$type,$power);
 		}
-		return;
-	}*/
+	}
+
+	public function onRedstoneUpdate($type,$power){
+		if($type == Level::REDSTONE_UPDATE_PLACE or $type == Level::REDSTONE_UPDATE_LOSTPOWER){
+			if($this->isChestOpen()){
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
+			}
+		}
+	}
+
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_SCHEDULED){
+			if($this->isChestOpen()){
+				$this->getLevel()->scheduleUpdate($this, 1);
+			}else{
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+			}
+		}
+	}
 	
 	protected function recalculateBoundingBox(){
 		return new AxisAlignedBB(
@@ -118,6 +162,7 @@ class TrappedChest extends Transparent implements Redstone{
 		if($t instanceof TileChest){
 			$t->unpair();
 		}
+		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
 		$this->getLevel()->setBlock($this, new Air(), true, true);
 
 		return true;
@@ -154,6 +199,9 @@ class TrappedChest extends Transparent implements Redstone{
 			}
 			
 				$player->addWindow($chest->getInventory());
+				if($chest->getInventory()->getViewers() == []){
+					echo("WTF?");
+				}
 			}
 
 		return true;
