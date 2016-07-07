@@ -56,7 +56,7 @@ class FishingHook extends Projectile{
 		
 		$hasUpdate = parent::onUpdate($currentTick);
 		
-		if(!$this->isInsideOfWater()){
+		if(($this->isCollided || $this->isCollidedVertically) && !$this->isInsideOfWater()){
 			$this->kill();
 			$this->close(); //Is this needed?
 		}
@@ -117,7 +117,7 @@ class FishingHook extends Projectile{
 	public function reelLine(){
 		$this->damageRod = false;
 		if($this->shootingEntity instanceof Player && $this->coughtTimer > 0){
-			$fishs = array(ItemItem::RAW_FISH,ItemItem::RAW_SALMON,ItemItem::CLOWNFISH,ItemItem::PUFFERFISH);
+			$fishs = array(ItemItem::RAW_FISH,ItemItem::RAW_SALMON,ItemItem::CLOWN_FISH,ItemItem::PUFFERFISH);
 			$fish = array_rand($fishs, 1);
 			$fish = $fishs[$fish];
 			$this->shootingEntity->getInventory()->addItem(ItemItem::get($fish));
