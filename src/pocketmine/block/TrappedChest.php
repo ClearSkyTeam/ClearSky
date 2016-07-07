@@ -14,21 +14,15 @@ use pocketmine\Player;
 use pocketmine\tile\Chest as TileChest;
 use pocketmine\tile\Tile;
 
-class TrappedChest extends Transparent implements Redstone, RedstoneSwitch, RedstoneSource{
+class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 
 	protected $id = self::TRAPPED_CHEST;
-
-	protected $redstoneSignalIsActive = false;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
 	
 	public function isRedstoneSource(){
-		return true;
-	}
-
-	public function isRedstoneSwitch(){
 		return true;
 	}
 
@@ -40,6 +34,40 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSwitch, Reds
 		return 2.5;
 	}
 
+	/*
+	public function isChestOpen(){
+		$chestTile = $this->getLevel()->getTile($this);
+		if($chestTile instanceof TileChest){
+			if($chestTile->getInventory()->getViewers() == []){
+				return false;
+			}else{
+				return true;
+			}
+		}
+		return false;
+	}
+	*/
+
+	public function getPower(){
+		$chestTile = $this->getLevel()->getTile($this);
+		if($chestTile instanceof TileChest){
+			if($chestTile->getInventory()->getViewers() != []){
+				return Block::REDSTONESOURCEPOWER;
+			}
+		}
+		return 0;
+	}
+
+	public function isCharged($hash){
+		$chestTile = $this->getLevel()->getTile($this);
+		if($chestTile instanceof TileChest){
+			if($chestTile->getInventory()->getViewers() != []){
+				return true;
+			}
+		}
+		return false;
+	}
+
 	public function getName(){
 		return "Trapped Chest";
 	}
@@ -47,7 +75,7 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSwitch, Reds
 	public function getToolType(){
 		return Tool::TYPE_AXE;
 	}
-	
+
 	//TODO::checkIf_REDSTONEDELAY_shouldBeActuallyUsed
 	public function BroadcastRedstoneUpdate($type,$power){
 		for($side = 0; $side <= 5; $side++){
@@ -56,12 +84,26 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSwitch, Reds
 		}
 	}
 
+	public function onRedstoneUpdate($type,$power){
+		if($type == Level::REDSTONE_UPDATE_PLACE or $type == Level::REDSTONE_UPDATE_LOSTPOWER){
+			$chestTile = $this->getLevel()->getTile($this);
+			if($chestTile instanceof TileChest){
+				if($chestTile->getInventory()->getViewers() != []){
+					$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
+				}
+			}
+		}
+	}
+
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED){
-			echo("BlockUpdate");
-			if($this->redstoneSignalIsActive){
-				echo("Deactivating");
-				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+			$chestTile = $this->getLevel()->getTile($this);
+			if($chestTile instanceof TileChest){
+				if($chestTile->getInventory()->getViewers() == []){
+					$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+				}else{
+					$this->getLevel()->scheduleUpdate($this, 1); #TODO:changeThisToSthBetter (Redstone should manage scheuldedRedstoneUpdates [Especially for repeaters])
+				}
 			}
 		}
 	}
@@ -139,6 +181,7 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSwitch, Reds
 		if($t instanceof TileChest){
 			$t->unpair();
 		}
+		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
 		$this->getLevel()->setBlock($this, new Air(), true, true);
 
 		return true;
@@ -150,10 +193,8 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSwitch, Reds
 			if($top->isTransparent() !== true){
 				return true;
 			}
-			echo("ActivatingRedstone");
 			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
-			$this->getLevel()->scheduleUpdate($this, 2); #TODO:changeThisToSthBetter (Redstone should manage scheuldedRedstoneUpdates [Especially for repeaters])
-			$this->redstoneSignalIsActive = true;
+			$this->getLevel()->scheduleUpdate($this, 5); #TODO:changeThisToSthBetter (Redstone should manage scheuldedRedstoneUpdates [Especially for repeaters])
 			$t = $this->getLevel()->getTile($this);
 			$chest = null;
 			if($t instanceof TileChest){
@@ -177,6 +218,9 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSwitch, Reds
 			}
 			
 				$player->addWindow($chest->getInventory());
+				if($chest->getInventory()->getViewers() == []){
+					echo("WTF?");
+				}
 			}
 
 		return true;
