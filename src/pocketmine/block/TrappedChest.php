@@ -14,14 +14,24 @@ use pocketmine\Player;
 use pocketmine\tile\Chest as TileChest;
 use pocketmine\tile\Tile;
 
-class TrappedChest extends Transparent implements Redstone{
+class TrappedChest extends Transparent implements Redstone, RedstoneSwitch, RedstoneSource{
 
 	protected $id = self::TRAPPED_CHEST;
+
+	protected $redstoneSignalIsActive = false;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
 	
+	public function isRedstoneSource(){
+		return true;
+	}
+
+	public function isRedstoneSwitch(){
+		return true;
+	}
+
 	public function canBeActivated(){
 		return true;
 	}
@@ -38,12 +48,23 @@ class TrappedChest extends Transparent implements Redstone{
 		return Tool::TYPE_AXE;
 	}
 	
-	/*public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_SCHEDULED){
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+	//TODO::checkIf_REDSTONEDELAY_shouldBeActuallyUsed
+	public function BroadcastRedstoneUpdate($type,$power){
+		for($side = 0; $side <= 5; $side++){
+			$around=$this->getSide($side);
+			$this->getLevel()->setRedstoneUpdate($around,Block::REDSTONEDELAY,$type,$power);
 		}
-		return;
-	}*/
+	}
+
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_SCHEDULED){
+			echo("BlockUpdate");
+			if($this->redstoneSignalIsActive){
+				echo("Deactivating");
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+			}
+		}
+	}
 	
 	protected function recalculateBoundingBox(){
 		return new AxisAlignedBB(
@@ -129,8 +150,10 @@ class TrappedChest extends Transparent implements Redstone{
 			if($top->isTransparent() !== true){
 				return true;
 			}
+			echo("ActivatingRedstone");
 			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
-			$this->getLevel()->scheduleUpdate($this, 2);
+			$this->getLevel()->scheduleUpdate($this, 2); #TODO:changeThisToSthBetter (Redstone should manage scheuldedRedstoneUpdates [Especially for repeaters])
+			$this->redstoneSignalIsActive = true;
 			$t = $this->getLevel()->getTile($this);
 			$chest = null;
 			if($t instanceof TileChest){
