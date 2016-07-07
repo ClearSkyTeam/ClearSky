@@ -61,7 +61,7 @@ class Piston extends Solid implements RedstoneConsumer{
 			new IntTag("y", $this->y),
 			new IntTag("z", $this->z),
 			new IntTag("blockData", 0),
-			new IntTag("blockId", 0),
+			new IntTag("blockId", Item::PISTON_HEAD),
 			new ByteTag("extending", 0),
 			new IntTag("facing", $faces[$f]),
 			new FloatTag("progress", 0.0),
