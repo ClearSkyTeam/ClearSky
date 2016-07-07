@@ -321,7 +321,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	public function setExpLevel($level){
-		$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($level);
+		$this->attributeMap->getAttribute(Attribute::EXPERIENCE_LEVEL)->setValue($level);
 	}
 	
 	public function getLeaveMessage(){
