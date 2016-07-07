@@ -13,6 +13,7 @@ use pocketmine\Player;
 use pocketmine\tile\Dispenser as DispenserTile;
 use pocketmine\tile\Tile;
 use pocketmine\entity\ProjectileSource;
+use pocketmine\level\Level;
 
 class Dispenser extends Solid implements ProjectileSource, RedstoneConsumer{
 
@@ -116,6 +117,7 @@ class Dispenser extends Solid implements ProjectileSource, RedstoneConsumer{
 	}
 	
 	public function onRedstoneUpdate($type, $power){
+		if($type !== Level::REDSTONE_UPDATE_REPOWER && $type !== Level::REDSTONE_UPDATE_PLACE) return;
 		if($this->isPowered()){
 			$this->activate();
 			return;

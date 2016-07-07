@@ -12,6 +12,7 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 use pocketmine\tile\Dropper as DropperTile;
 use pocketmine\tile\Tile;
+use pocketmine\level\Level;
 
 class Dropper extends Solid implements RedstoneConsumer{
 	protected $id = self::DROPPER;
@@ -71,13 +72,6 @@ class Dropper extends Solid implements RedstoneConsumer{
 		return true;
 	}
 
-	/*public function activate(){
-		$tile = $this->getLevel()->getTile($this);
-		if($tile instanceof DropperTile){
-			$tile->activate();
-		}
-	}*/
-
 	public function onActivate(Item $item, Player $player = null){
 		if($player instanceof Player){
 			$t = $this->getLevel()->getTile($this);
@@ -109,5 +103,20 @@ class Dropper extends Solid implements RedstoneConsumer{
 
 	public function getDrops(Item $item){
 		return [[$this->id,0,1]];
+	}
+	
+	public function onRedstoneUpdate($type, $power){
+		if($type !== Level::REDSTONE_UPDATE_REPOWER && $type !== Level::REDSTONE_UPDATE_PLACE) return;
+		if($this->isPowered()){
+			$this->activate();
+			return;
+		}
+	}
+
+	public function activate(){
+		$tile = $this->getLevel()->getTile($this);
+		if($tile instanceof DropperTile){
+			$tile->activate();
+		}
 	}
 }
