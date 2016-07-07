@@ -34,7 +34,6 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 		return 2.5;
 	}
 
-	/*
 	public function isChestOpen(){
 		$chestTile = $this->getLevel()->getTile($this);
 		if($chestTile instanceof TileChest){
@@ -46,26 +45,16 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 		}
 		return false;
 	}
-	*/
 
 	public function getPower(){
-		$chestTile = $this->getLevel()->getTile($this);
-		if($chestTile instanceof TileChest){
-			if($chestTile->getInventory()->getViewers() != []){
-				return Block::REDSTONESOURCEPOWER;
-			}
+		if($this->isChestOpen()){
+			return Block::REDSTONESOURCEPOWER;
 		}
 		return 0;
 	}
 
 	public function isCharged($hash){
-		$chestTile = $this->getLevel()->getTile($this);
-		if($chestTile instanceof TileChest){
-			if($chestTile->getInventory()->getViewers() != []){
-				return true;
-			}
-		}
-		return false;
+		return $this->isChestOpen();
 	}
 
 	public function getName(){
@@ -75,8 +64,6 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 	public function getToolType(){
 		return Tool::TYPE_AXE;
 	}
-
-	//TODO::checkIf_REDSTONEDELAY_shouldBeActuallyUsed
 	public function BroadcastRedstoneUpdate($type,$power){
 		for($side = 0; $side <= 5; $side++){
 			$around=$this->getSide($side);
@@ -86,24 +73,18 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 
 	public function onRedstoneUpdate($type,$power){
 		if($type == Level::REDSTONE_UPDATE_PLACE or $type == Level::REDSTONE_UPDATE_LOSTPOWER){
-			$chestTile = $this->getLevel()->getTile($this);
-			if($chestTile instanceof TileChest){
-				if($chestTile->getInventory()->getViewers() != []){
-					$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
-				}
+			if($this->isChestOpen()){
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
 			}
 		}
 	}
 
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED){
-			$chestTile = $this->getLevel()->getTile($this);
-			if($chestTile instanceof TileChest){
-				if($chestTile->getInventory()->getViewers() == []){
-					$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
-				}else{
-					$this->getLevel()->scheduleUpdate($this, 1); #TODO:changeThisToSthBetter (Redstone should manage scheuldedRedstoneUpdates [Especially for repeaters])
-				}
+			if($this->isChestOpen()){
+				$this->getLevel()->scheduleUpdate($this, 1);
+			}else{
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
 			}
 		}
 	}
@@ -194,7 +175,7 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 				return true;
 			}
 			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
-			$this->getLevel()->scheduleUpdate($this, 5); #TODO:changeThisToSthBetter (Redstone should manage scheuldedRedstoneUpdates [Especially for repeaters])
+			$this->getLevel()->scheduleUpdate($this, 2);
 			$t = $this->getLevel()->getTile($this);
 			$chest = null;
 			if($t instanceof TileChest){
