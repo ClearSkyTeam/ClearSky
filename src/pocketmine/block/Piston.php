@@ -61,7 +61,6 @@ class Piston extends Solid implements RedstoneConsumer{
 		]);
 
 		$tile = Tile::createTile("Piston", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
-		print_r($tile);
 
 		return true;
 	}

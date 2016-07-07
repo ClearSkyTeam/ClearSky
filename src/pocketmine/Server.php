@@ -159,6 +159,7 @@ use pocketmine\tile\DLDetector;
 use pocketmine\tile\Cauldron;
 use pocketmine\tile\ItemFrame;
 use pocketmine\tile\MobSpawner;
+use pocketmine\tile\Piston;
 
 /**
  * The class that manages everything
@@ -2727,6 +2728,7 @@ class Server{
 		Tile::registerTile(ItemFrame::class);
 		Tile::registerTile(MobSpawner::class);
 		Tile::registerTile(Music::class);
+		Tile::registerTile(Piston::class);
 		Tile::registerTile(Sign::class);
 		Tile::registerTile(Skull::class);
 		// Tile::registerTile(TrappedChest::class);
