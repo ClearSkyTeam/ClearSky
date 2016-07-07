@@ -304,7 +304,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public function setExp($exp){
 		$this->server->getPluginManager()->callEvent($ev = new PlayerExperienceChangeEvent($this, $exp));
 		if(!$ev->isCancelled()){
-			$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($amount);
+			$this->attributeMap->getAttribute(Attribute::EXPERIENCE)->setValue($exp);
 		}
 		// TODO: add ExperienceLevelUpCalculater back.
 	}
