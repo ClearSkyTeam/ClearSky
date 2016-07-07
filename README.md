@@ -6,11 +6,6 @@
 ####  [Українська мова](#UKR)  
 ####  [Bahasa Indonesia](#IDN) 
 
-## Gimme 0.15
-- [PHP7branch](https://github.com/ClearSkyTeam/ClearSky/tree/php7-0.15)
-- [PHP5branch](https://github.com/ClearSkyTeam/ClearSky/tree/php5-0.15)
-- Phar: [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
-
 # <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
 ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean code and stable features. It was initially designed for production servers.
@@ -26,9 +21,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean c
  - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
 
 ## Where can I get a phar?
- - You can get some phars from here [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
-
-[//]: # (You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).)
+ - You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).
 
  - You can get an optimized PHP environment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/ClearSkyPhar#BIN).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
