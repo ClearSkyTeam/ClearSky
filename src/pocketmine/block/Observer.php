@@ -18,6 +18,9 @@ class Observer extends Solid implements RedstoneSource{
 	const STATUS_ACTIVATED_TIMER = 1;
 	const TICKS_ACTIVATED = 5;
 
+	const TYPE_BLOCK_HASH = 0;
+	const TYPE_BLOCK_OBJECT = 1; #Vector3/Position/Block instance
+
 	public function __construct($meta = 0){
 		$this->meta = $meta;
 	}
@@ -47,7 +50,7 @@ class Observer extends Solid implements RedstoneSource{
 	}
 
 	public function isCharged($hash){
-		if($this->getPower() == Block::REDSTONESOURCEPOWER && $this->getWatchBlock()->getHash() == $hash){
+		if($this->getPower() == Block::REDSTONESOURCEPOWER && $this->getOutputBlock()->getHash() == $hash){
 			return true;
 		}
 		return false;
@@ -60,39 +63,62 @@ class Observer extends Solid implements RedstoneSource{
 		return 0;
 	}
 
-	public function onUpdate($type){
+	public function onUpdate($type, $fromBlock = NULL){
 		if($type == Level::BLOCK_UPDATE_NORMAL){
-			$this->onUpdateRecieve(true); #TODO::getTheBlockWichCausedTheUpdate
+			if($fromBlock != NULL){
+				echo("onUpdate");
+				$this->onUpdateRecieve(self::TYPE_BLOCK_OBJECT, $fromBlock);
+			}
 		}
 		if($type === Level::BLOCK_UPDATE_SCHEDULED){
-			if($this->currentStatus[self::STATUS_IS_ACTIVATED] == true){
+			if($this->currentStatus[self::STATUS_IS_ACTIVATED]){
 				if($this->currentStatus[self::STATUS_ACTIVATED_TIMER] >= self::TICKS_ACTIVATED){
 					$this->currentStatus[self::STATUS_IS_ACTIVATED] = false;
 					$this->getLevel()->setRedstoneUpdate($this->getOutputBlock(),Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+					$this->getLevel()->setRedstoneUpdate($this->getOutputBlock(),Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_BLOCK,0);
 				}else{
 					$this->currentStatus[self::STATUS_ACTIVATED_TIMER]++;
+					for($side = 0; $side <= 5; $side++){
+						$block = $this->getSide($side);
+						if($block != $this->getOutputBlock){
+							$this->getLevel()->setRedstoneUpdate($block,Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+						}
+					}
 					$this->getLevel()->scheduleUpdate($this, 1);
 				}
 			}
 		}
 	}
 
-	public function onRedstoneUpdate($type,$power){
-		$this->onUpdateAround(true); #TODO::getTheBlockWichCausedTheUpdate
+	public function onRedstoneUpdate($type,$power,$hash = NULL){
+		if($hash != NULL){
+			echo("onRedstoneUpdate");
+			$this->onUpdateRecieve(self::TYPE_BLOCK_HASH, $hash);
+		}
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		$this->meta = Vector3::getOppositeSide($face);
 		$this->getLevel()->setBlock($block, $this, true, true);
+		$this->getLevel()->setBlockIdAt($this->getWatchBlock()->x,$this->getWatchBlock()->y,$this->getWatchBlock()->z, 1);
+		$this->getLevel()->setBlockIdAt($this->getOutputBlock()->x,$this->getOutputBlock()->y,$this->getOutputBlock()->z, 2);
 		return true;
 	}
 
-	public function onUpdateRecieve($block){
-		if($block == $this->getWatchBlock() || $block == true){
-			$this->getLevel()->setRedstoneUpdate($this->getOutputBlock(),Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
-			$this->currentStatus[self::STATUS_IS_ACTIVATED] = true;
-			$this->currentStatus[self::STATUS_ACTIVATED_TIMER] = 0;
-			$this->getLevel()->scheduleUpdate($this, 1);
+	private function onUpdateRecieve($type = NULL, $data = NULL){
+		if($type === self::TYPE_BLOCK_HASH && ($data != $this->getWatchBlock()->getHash())){
+			var_dump($data);
+			var_dump($this->getWatchBlock()->getHash());
+			echo("nope\n");
+			return;
 		}
+		if($type === self::TYPE_BLOCK_OBJECT && ([$data->x, $data->y, $data->z] != [$this->getWatchBlock()->x, $this->getWatchBlock()->y, $this->getWatchBlock()->z])){
+			echo("nope\n");
+			return;
+		}
+		$this->getLevel()->setRedstoneUpdate($this->getOutputBlock(),Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
+		$this->currentStatus[self::STATUS_IS_ACTIVATED] = true;
+		$this->currentStatus[self::STATUS_ACTIVATED_TIMER] = 0;
+		$this->getLevel()->scheduleUpdate($this, 1);
 	}
 }

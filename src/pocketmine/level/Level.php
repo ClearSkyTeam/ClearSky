@@ -825,7 +825,12 @@ class Level implements ChunkManager, Metadatable{
 					$power = $this->updateRedstoneQueueIndex[$hash][0]['power'];
 					unset($this->updateRedstoneQueueIndex[$hash][0]);
 				}
-				$block->onRedstoneUpdate($type,$power);
+				if($block->getId() == Block::OBSERVER){ #ToDo:AddAInterfaceForThis
+					$block->onRedstoneUpdate($type,$power,$hash);
+				}else{
+					$block->onRedstoneUpdate($type,$power);
+				}
+				
 				if($Counter >= $this->server->getProperty("redstone.tick-limit", 2048)){
 					break;
 				}
@@ -1175,6 +1180,18 @@ class Level implements ChunkManager, Metadatable{
 			}
 		}
 	}
+
+	/**
+	* @param Block $block
+	* @param Vector3/Position/Block $fromBlock
+	*/
+	public function doNormalBlockUpdate($block, $fromBlock){
+		if($block->getId() == Block::OBSERVER){ #ToDo:AddAInterfaceForThis
+			$block->onUpdate(self::BLOCK_UPDATE_NORMAL, $fromBlock);
+		}else{
+			$block->onUpdate(self::BLOCK_UPDATE_NORMAL);
+		}
+	}
 	/**
 	 * @param Vector3 $pos
 	 */
@@ -1182,32 +1199,32 @@ class Level implements ChunkManager, Metadatable{
 		$this->server->getPluginManager()->callEvent($ev = new BlockUpdateEvent($this->getBlock($this->temporalVector->setComponents($pos->x, $pos->y - 1, $pos->z))));
 		
 		if(!$ev->isCancelled()){
-			$ev->getBlock()->onUpdate(self::BLOCK_UPDATE_NORMAL);
+			$this->doNormalBlockUpdate($ev->getBlock(), $pos);
 		}
 
 		$this->server->getPluginManager()->callEvent($ev = new BlockUpdateEvent($this->getBlock($this->temporalVector->setComponents($pos->x, $pos->y + 1, $pos->z))));
 		if(!$ev->isCancelled()){
-			$ev->getBlock()->onUpdate(self::BLOCK_UPDATE_NORMAL);
+			$this->doNormalBlockUpdate($ev->getBlock(), $pos);
 		}
 
 		$this->server->getPluginManager()->callEvent($ev = new BlockUpdateEvent($this->getBlock($this->temporalVector->setComponents($pos->x - 1, $pos->y, $pos->z))));
 		if(!$ev->isCancelled()){
-			$ev->getBlock()->onUpdate(self::BLOCK_UPDATE_NORMAL);
+			$this->doNormalBlockUpdate($ev->getBlock(), $pos);
 		}
 
 		$this->server->getPluginManager()->callEvent($ev = new BlockUpdateEvent($this->getBlock($this->temporalVector->setComponents($pos->x + 1, $pos->y, $pos->z))));
 		if(!$ev->isCancelled()){
-			$ev->getBlock()->onUpdate(self::BLOCK_UPDATE_NORMAL);
+			$this->doNormalBlockUpdate($ev->getBlock(), $pos);
 		}
 
 		$this->server->getPluginManager()->callEvent($ev = new BlockUpdateEvent($this->getBlock($this->temporalVector->setComponents($pos->x, $pos->y, $pos->z - 1))));
 		if(!$ev->isCancelled()){
-			$ev->getBlock()->onUpdate(self::BLOCK_UPDATE_NORMAL);
+			$this->doNormalBlockUpdate($ev->getBlock(), $pos);
 		}
 
 		$this->server->getPluginManager()->callEvent($ev = new BlockUpdateEvent($this->getBlock($this->temporalVector->setComponents($pos->x, $pos->y, $pos->z + 1))));
 		if(!$ev->isCancelled()){
-			$ev->getBlock()->onUpdate(self::BLOCK_UPDATE_NORMAL);
+			$this->doNormalBlockUpdate($ev->getBlock(), $pos);
 		}
 	}
 
@@ -1242,7 +1259,7 @@ class Level implements ChunkManager, Metadatable{
 	 * @param Vector3 $pos
 	 * @param int     $delay
 	 */
-	public function setRedstoneUpdate(Vector3 $pos, $delay, $type , $power){
+	public function setRedstoneUpdate(Vector3 $pos, $delay, $type, $power){
 		if($this->server->getProperty("redstone.enable", true)){
 			$hash = Level::blockHash($pos->x, $pos->y, $pos->z);
 			if(isset($this->updateRedstoneQueueIndex[$hash])){

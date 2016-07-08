@@ -324,15 +324,15 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 		}
 		
 		if($type == Level::REDSTONE_UPDATE_BLOCK){
-			$FMP = $this->fetchMaxPower();
-			if($this->fetchMaxPower() > $this->getPower() + 1){
+			$mP = $this->fetchMaxPower();
+			if($mP > $this->getPower() + 1){
 				$this->setRedstoneUpdateList(Level::REDSTONE_UPDATE_NORMAL, $power);
 				return;
 			}
-			if($this->fetchMaxPower() == $this->getPower() + 1){
+			if($mP == $this->getPower() + 1){
 				return;
 			}
-			if($this->fetchMaxPower() < $this->getPower() + 1){
+			if($mP < $this->getPower() + 1){
 				$this->setRedstoneUpdateList(Level::REDSTONE_UPDATE_LOSTPOWER, $power);
 				return;
 			}
