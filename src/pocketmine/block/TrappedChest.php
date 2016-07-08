@@ -199,9 +199,6 @@ class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 			}
 			
 				$player->addWindow($chest->getInventory());
-				if($chest->getInventory()->getViewers() == []){
-					echo("WTF?");
-				}
 			}
 
 		return true;
