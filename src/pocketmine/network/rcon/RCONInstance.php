@@ -137,7 +137,7 @@ class RCONInstance extends Thread{
 									$this->synchronized(function(){
 										$this->waiting = true;
  										$this->wait();
- 									})
+ 									});
  									$this->waiting = false;
 									$this->writePacket($client, $requestID, 0, str_replace("\n", "\r\n", trim($this->response)));
 									$this->response = "";
