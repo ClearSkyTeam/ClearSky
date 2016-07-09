@@ -29,6 +29,10 @@ class RCONInstance extends Thread{
 		$this->start();
 	}
 
+	 public function isWaiting(){
+		return $this->waiting === true;
+	}
+
 	private function writePacket($client, $requestID, $packetType, $payload){
 		$pk = Binary::writeLInt((int) $requestID)
 			. Binary::writeLInt((int) $packetType)
@@ -114,9 +118,6 @@ class RCONInstance extends Thread{
 								if($payload === $this->password){
 									socket_getpeername($client, $addr, $port);
 									$this->response = "[INFO] Successful Rcon connection from: /$addr:$port";
-									$this->synchronized(function (){
-										$this->wait();
-									});
 									$this->response = "";
 									$this->writePacket($client, $requestID, 2, "");
 									$this->{"status" . $n} = 1;
@@ -133,16 +134,17 @@ class RCONInstance extends Thread{
 								}
 								if(strlen($payload) > 0){
 									$this->cmd = ltrim($payload);
-									$this->synchronized(function (){
-										$this->wait();
-									});
+									$this->synchronized(function(){
+										$this->waiting = true;
+ 										$this->wait();
+ 									})
+ 									$this->waiting = false;
 									$this->writePacket($client, $requestID, 0, str_replace("\n", "\r\n", trim($this->response)));
 									$this->response = "";
 									$this->cmd = "";
 								}
 								break;
 						}
-						usleep(1);
 					}else{
 						@socket_set_option($client, SOL_SOCKET, SO_LINGER, ["l_onoff" => 1, "l_linger" => 1]);
 						@socket_shutdown($client, 2);
