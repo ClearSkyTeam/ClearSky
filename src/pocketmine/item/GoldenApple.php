@@ -2,6 +2,8 @@
 namespace pocketmine\item;
 
 use pocketmine\entity\Effect;
+use pocketmine\entity\Entity;
+use pocketmine\entity\Human;
 
 class GoldenApple extends Food{
 	public function __construct($meta = 0, $count = 1){
@@ -21,6 +23,10 @@ class GoldenApple extends Food{
 			Effect::getEffect(Effect::REGENERATION)->setDuration(100)->setAmplifier(1),
 			Effect::getEffect(Effect::ABSORPTION)->setDuration(2400)
 		];
+	}
+
+	public function canBeConsumedBy(Entity $entity){
+		return $entity instanceof Human;
 	}
 }
 

@@ -2,6 +2,8 @@
 namespace pocketmine\item;
 
 use pocketmine\entity\Effect;
+use pocketmine\entity\Entity;
+use pocketmine\entity\Human;
 
 class EnchantedGoldenApple extends Food{
 	
@@ -17,12 +19,16 @@ class EnchantedGoldenApple extends Food{
 		return 9.6;
 	}
 	
-	public function getEffects(){
+	public function getAdditionalEffects(){
 		return [
 			Effect::getEffect(Effect::REGENERATION)->setDuration(600)->setAmplifier(4),
 			Effect::getEffect(Effect::ABSORPTION)->setDuration(2400),
 			Effect::getEffect(Effect::DAMAGE_RESISTANCE)->setDuration(6000),
-			Effect::getEffect(Effect::FIRE_RESISTANCE)->setDuration(6000),
+			Effect::getEffect(Effect::FIRE_RESISTANCE)->setDuration(6000)
 		];
+	}
+
+	public function canBeConsumedBy(Entity $entity){
+		return $entity instanceof Human;
 	}
 }

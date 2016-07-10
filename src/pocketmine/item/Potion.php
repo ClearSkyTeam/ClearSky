@@ -2,6 +2,8 @@
 namespace pocketmine\item;
 
 use pocketmine\entity\Effect;
+use pocketmine\entity\Entity;
+use pocketmine\entity\Human;
 class Potion extends Food{
 	const WATER_BOTTLE = 0;
 	const AWKWARD = 4;
@@ -144,97 +146,97 @@ class Potion extends Food{
 		$effect = [];
 		switch($this->meta){
 			case Potion::NIGHT_VISION:
-				$effect = Effect::getEffect(Effect::NIGHT_VISION)->setAmplifier(0)->setDuration(3 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::NIGHT_VISION)->setAmplifier(0)->setDuration(3 * 60 * 20);
 				break;
 			case Potion::NIGHT_VISION_T:
-				$effect = Effect::getEffect(Effect::NIGHT_VISION)->setAmplifier(0)->setDuration(8 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::NIGHT_VISION)->setAmplifier(0)->setDuration(8 * 60 * 20);
 				break;
 			case Potion::INVISIBILITY:
-				$effect = Effect::getEffect(Effect::INVISIBILITY)->setAmplifier(0)->setDuration(3 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::INVISIBILITY)->setAmplifier(0)->setDuration(3 * 60 * 20);
 				break;
 			case Potion::INVISIBILITY_T:
-				$effect = Effect::getEffect(Effect::INVISIBILITY)->setAmplifier(0)->setDuration(8 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::INVISIBILITY)->setAmplifier(0)->setDuration(8 * 60 * 20);
 				break;
 			case Potion::LEAPING:
-				$effect = Effect::getEffect(Effect::JUMP)->setAmplifier(0)->setDuration(3 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::JUMP)->setAmplifier(0)->setDuration(3 * 60 * 20);
 				break;
 			case Potion::LEAPING_T:
-				$effect = Effect::getEffect(Effect::JUMP)->setAmplifier(0)->setDuration(8 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::JUMP)->setAmplifier(0)->setDuration(8 * 60 * 20);
 				break;
 			case Potion::LEAPING_TWO:
-				$effect = Effect::getEffect(Effect::JUMP)->setAmplifier(1)->setDuration(1.5 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::JUMP)->setAmplifier(1)->setDuration(1.5 * 60 * 20);
 				break;
 			case Potion::FIRE_RESISTANCE:
-				$effect = Effect::getEffect(Effect::FIRE_RESISTANCE)->setAmplifier(0)->setDuration(3 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::FIRE_RESISTANCE)->setAmplifier(0)->setDuration(3 * 60 * 20);
 				break;
 			case Potion::FIRE_RESISTANCE_T:
-				$effect = Effect::getEffect(Effect::FIRE_RESISTANCE)->setAmplifier(0)->setDuration(8 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::FIRE_RESISTANCE)->setAmplifier(0)->setDuration(8 * 60 * 20);
 				break;
 			case Potion::SPEED:
-				$effect = Effect::getEffect(Effect::SPEED)->setAmplifier(0)->setDuration(3 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::SPEED)->setAmplifier(0)->setDuration(3 * 60 * 20);
 				break;
 			case Potion::SPEED_T:
-				$effect = Effect::getEffect(Effect::SPEED)->setAmplifier(0)->setDuration(8 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::SPEED)->setAmplifier(0)->setDuration(8 * 60 * 20);
 				break;
 			case Potion::SPEED_TWO:
-				$effect = Effect::getEffect(Effect::SPEED)->setAmplifier(1)->setDuration(1.5 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::SPEED)->setAmplifier(1)->setDuration(1.5 * 60 * 20);
 				break;
 			case Potion::SLOWNESS:
-				$effect = Effect::getEffect(Effect::SLOWNESS)->setAmplifier(0)->setDuration(1 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::SLOWNESS)->setAmplifier(0)->setDuration(1 * 60 * 20);
 				break;
 			case Potion::SLOWNESS_T:
-				$effect = Effect::getEffect(Effect::SLOWNESS)->setAmplifier(0)->setDuration(4 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::SLOWNESS)->setAmplifier(0)->setDuration(4 * 60 * 20);
 				break;
 			case Potion::WATER_BREATHING:
-				$effect = Effect::getEffect(Effect::WATER_BREATHING)->setAmplifier(0)->setDuration(3 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::WATER_BREATHING)->setAmplifier(0)->setDuration(3 * 60 * 20);
 				break;
 			case Potion::WATER_BREATHING_T:
-				$effect = Effect::getEffect(Effect::WATER_BREATHING)->setAmplifier(0)->setDuration(8 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::WATER_BREATHING)->setAmplifier(0)->setDuration(8 * 60 * 20);
 				break;
 			case Potion::POISON:
-				$effect = Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(45 * 20);
+				$effect[] = Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(45 * 20);
 				break;
 			case Potion::POISON_T:
-				$effect = Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(2 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(2 * 60 * 20);
 				break;
 			case Potion::POISON_TWO:
-				$effect = Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(22 * 20);
+				$effect[] = Effect::getEffect(Effect::POISON)->setAmplifier(0)->setDuration(22 * 20);
 				break;
 			case Potion::REGENERATION:
-				$effect = Effect::getEffect(Effect::REGENERATION)->setAmplifier(0)->setDuration(45 * 20);
+				$effect[] = Effect::getEffect(Effect::REGENERATION)->setAmplifier(0)->setDuration(45 * 20);
 				break;
 			case Potion::REGENERATION_T:
-				$effect = Effect::getEffect(Effect::REGENERATION)->setAmplifier(0)->setDuration(2 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::REGENERATION)->setAmplifier(0)->setDuration(2 * 60 * 20);
 				break;
 			case Potion::REGENERATION_TWO:
-				$effect = Effect::getEffect(Effect::REGENERATION)->setAmplifier(1)->setDuration(22 * 20);
+				$effect[] = Effect::getEffect(Effect::REGENERATION)->setAmplifier(1)->setDuration(22 * 20);
 				break;
 			case Potion::STRENGTH:
-				$effect = Effect::getEffect(Effect::STRENGTH)->setAmplifier(0)->setDuration(3 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::STRENGTH)->setAmplifier(0)->setDuration(3 * 60 * 20);
 				break;
 			case Potion::STRENGTH_T:
-				$effect = Effect::getEffect(Effect::STRENGTH)->setAmplifier(0)->setDuration(8 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::STRENGTH)->setAmplifier(0)->setDuration(8 * 60 * 20);
 				break;
 			case Potion::STRENGTH_TWO:
-				$effect = Effect::getEffect(Effect::STRENGTH)->setAmplifier(1)->setDuration(1.5 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::STRENGTH)->setAmplifier(1)->setDuration(1.5 * 60 * 20);
 				break;
 			case Potion::WEAKNESS:
-				$effect = Effect::getEffect(Effect::WEAKNESS)->setAmplifier(0)->setDuration(1.5 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::WEAKNESS)->setAmplifier(0)->setDuration(1.5 * 60 * 20);
 				break;
 			case Potion::WEAKNESS_T:
-				$effect = Effect::getEffect(Effect::WEAKNESS)->setAmplifier(0)->setDuration(4 * 60 * 20);
+				$effect[] = Effect::getEffect(Effect::WEAKNESS)->setAmplifier(0)->setDuration(4 * 60 * 20);
 				break;
 			case Potion::HEALING:
-				$effect = Effect::getEffect(Effect::HEALING)->setAmplifier(0)->setDuration(1);
+				$effect[] = Effect::getEffect(Effect::HEALING)->setAmplifier(0)->setDuration(1);
 				break;
 			case Potion::HEALING_TWO:
-				$effect = Effect::getEffect(Effect::HEALING)->setAmplifier(1)->setDuration(1);
+				$effect[] = Effect::getEffect(Effect::HEALING)->setAmplifier(1)->setDuration(1);
 				break;
 			case Potion::HARMING:
-				$effect = Effect::getEffect(Effect::HARMING)->setAmplifier(0)->setDuration(1);
+				$effect[] = Effect::getEffect(Effect::HARMING)->setAmplifier(0)->setDuration(1);
 				break;
 			case Potion::HARMING_TWO:
-				$effect = Effect::getEffect(Effect::HARMING)->setAmplifier(1)->setDuration(1);
+				$effect[] = Effect::getEffect(Effect::HARMING)->setAmplifier(1)->setDuration(1);
 				break;
 			default:
 				$effect = [];
@@ -257,5 +259,13 @@ class Potion extends Food{
 
 	public function getSaturationRestore(){
 		return 0.0;
+	}
+
+	public function canBeConsumedBy(Entity $entity){
+		return $entity instanceof Human;
+	}
+	
+	public function getMaxStackSize() {
+		return 1;
 	}
 }
