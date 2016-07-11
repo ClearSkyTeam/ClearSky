@@ -17,7 +17,7 @@ before_script:
 
 # PROJECT BUILDING WITH DEVTOOLS
 script:
-- php CI-Test/TravisTest.php
+- php CI-Test/Travis.php
 
 # UPLOADING TO RELEASES WEBSITE
 after_success:
