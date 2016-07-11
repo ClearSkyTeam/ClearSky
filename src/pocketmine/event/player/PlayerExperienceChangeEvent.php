@@ -15,6 +15,7 @@ class PlayerExperienceChangeEvent extends PlayerEvent implements Cancellable{
 		$this->expTotal = $Total;
 		$this->expCurrent = $Current;
 		$this->expLevel = $Level;
+		$this->player = $player;
 	}
 	
 	public function getExperience(){
