@@ -1,33 +1,51 @@
-#Travis CI
-
+# PROJECT SPECIFICATIONS
 language: php
-
 php:
- - 7.0.6
+- 7.0
+branches:
+  except:
+  - "/^*-v[0-9]/"
+
+# WORKSPACE CONFIGURATION
+before_script:
+- phpenv config-rm xdebug.ini
+- mkdir plugins
+- wget -O plugins/DevTools.phar https://github.com/PocketMine/DevTools/releases/download/v1.11.0/DevTools_v1.11.0.phar
+- pecl install channel://pecl.php.net/pthreads-3.1.5
+- pecl install channel://pecl.php.net/weakref-0.3.1
+- echo | pecl install channel://pecl.php.net/yaml-2.0.0RC7
+
+# PROJECT BUILDING WITH DEVTOOLS
+script:
+- php extra/TravisTest.php
+
+# UPLOADING TO RELEASES WEBSITE
+after_success:
+- cd /home/travis/build
+- git config --global user.email "$PUSH_REPO_ESUER"
+- git config --global user.name "$PUSH_REPO_USER"
+- mv $REPO_OWNER artifacts
+- git clone --branch=$PUSH_REPO_BRANCH https://github.com/$PUSH_REPO_OWNER/$PUSH_REPO_NAME
+# Artifacts upload starts here
+- cd $PUSH_REPO_NAME
+- git add $REPO_NAME-$TRAVIS_JOB_ID.phar
+- git add service-download/$REPO_NAME.phar
+# Adds directory listing
+- ls > list.txt
+- echo >> list.txt
+- echo "This is a directory listing of the root directory of the release download website. Copy the file name and paste it in the URL bar after deleting \"list.txt\". You can also alternatively download files using a shell script by downloading the file from $DIRECT_DL_URI. The latest phar built is located at $DOWNLOAD_URI" >> list.txt
+- git commit -am "$COMMIT_MESSAGE"
+- git push https://$PUSH_REPO_USER/$GITHUB_API_KEY@github.com/$PUSH_REPO_OWNER/$PUSH_REPO_NAME $PUSH_REPO_BRANCH &>secret
 
 env:
-  global:
-    - "FTP_USER=travis"
-    - "FTP_PASSWORD=travis"
-
-branches:
- - master
- - php7
-
-before_script:
- - phpenv config-rm xdebug.ini
- - mkdir plugins
- - wget -O plugins/DevTools.phar https://github.com/PocketMine/DevTools/releases/download/v1.11.0/DevTools_v1.11.0.phar
- - pecl install channel://pecl.php.net/pthreads-3.1.6
- - pecl install channel://pecl.php.net/weakref-0.3.2
- - echo | pecl install channel://pecl.php.net/yaml-2.0.0RC7
- - git clone https://github.com/ClearSkyTeam/CI-Test
-
-script:
- - php CI-Test/Travis.php
- 
-notifications:
- email: false
-
-after_success:
- - ls plugins/DevTools
+ global:
+  - REPO_OWNER="github" # Building repository owner, e.g. github in github/dmca
+  - REPO_NAME="dmca" # Building repository name, e.g. dmca in github/dmca
+  - PUSH_REPO_OWNER="github" # Pushing repository owner, e.g. github in github/push
+  - PUSH_REPO_NAME="push" # Pushing repository name, e.g. push in github/push
+  - PUSH_REPO_BRANCH="gh-pages" # Pushing repository branch, e.g. gh-pages in github/push(use gh-pages if you want something similiar to http://github.github.io/push)
+  - COMMIT_MESSAGE="Added latest build" # Commit message to push built artifacts
+  - DATA_TYPE="phar"
+  - DIRECT_DL_URI="http://$PUSH_REPO_OWNER.github.io/$PUSH_REPO_NAME/service-download/$PUSH_REPO_NAME.$DATA_TYPE" # Direct download URI for reference
+  - DOWNLOAD_URI="http://$PUSH_REPO_OWNER.github.io/$PUSH_REPO_NAME/$PUSH_REPO_NAME-$TRAVIS_JOB_ID.$DATA_TYPE" # Latest download URI for reference
+  # The variable $GITHUB_API_KEY must be set as an environment variable of your project at travis-ci.org/repo-owner-here/repo-name-here/settings to avoid exposing the personal access token of the pushing repository GitHub user being exposed to the console and in the file as plain text.
