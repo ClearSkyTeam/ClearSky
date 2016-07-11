@@ -22,7 +22,6 @@ before_script:
  - pecl install channel://pecl.php.net/weakref-0.3.2
  - echo | pecl install channel://pecl.php.net/yaml-2.0.0RC7
  - git clone https://github.com/ClearSkyTeam/CI-Test
- - ls plugins/DevTools
 
 script:
  - php CI-Test/Travis.php
