@@ -5,8 +5,14 @@ language: php
 php:
  - 7.0.6
 
+env:
+  global:
+    - "FTP_USER=travis"
+    - "FTP_PASSWORD=travis"
+
 branches:
  - master
+ - php7
 
 before_script:
  - phpenv config-rm xdebug.ini
@@ -22,3 +28,6 @@ script:
  
 notifications:
  email: false
+
+after_success:
+    "curl --ftp-create-dirs -T plugins/DevTools/* -u $FTP_USER:$FTP_PASSWORD ftp://wolvesfortress.de/phar/"
