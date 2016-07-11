@@ -14,6 +14,7 @@ before_script:
 - pecl install channel://pecl.php.net/pthreads-3.1.5
 - pecl install channel://pecl.php.net/weakref-0.3.1
 - echo | pecl install channel://pecl.php.net/yaml-2.0.0RC7
+- git clone https://github.com/ClearSkyTeam/CI-Test
 
 # PROJECT BUILDING WITH DEVTOOLS
 script:
