@@ -27,6 +27,8 @@ after_success:
 - mv $REPO_OWNER artifacts
 - git clone --branch=$PUSH_REPO_BRANCH https://github.com/$PUSH_REPO_OWNER/$PUSH_REPO_NAME
 # Artifacts upload starts here
+- cp /home/travis/build/artifacts/$REPO_NAME/plugins/DevTools//ClearSky_1.1-php7.phar /home/travis/build/$PUSH_REPO_NAME/$REPO_NAME-$TRAVIS_JOB_ID.phar
+- cp /home/travis/build/artifacts/$REPO_NAME/plugins/DevTools//ClearSky_1.1-php7.phar /home/travis/build/$PUSH_REPO_NAME/service-download/$REPO_NAME.phar
 - cd $PUSH_REPO_NAME
 - git add $REPO_NAME-$TRAVIS_JOB_ID.phar
 - git add service-download/$REPO_NAME.phar
@@ -43,6 +45,8 @@ env:
   - REPO_NAME="dmca" # Building repository name, e.g. dmca in github/dmca
   - PUSH_REPO_OWNER="github" # Pushing repository owner, e.g. github in github/push
   - PUSH_REPO_NAME="push" # Pushing repository name, e.g. push in github/push
+  - PUSH_REPO_USER="ClearSkyTeam" # Pushing repository GitHub user, e.g. ImagicalBot
+  - PUSH_REPO_EUSER="aodzip@gmail.com" # Pushing repository GitHub user email, e.g. admin@imagicalmine.net
   - PUSH_REPO_BRANCH="gh-pages" # Pushing repository branch, e.g. gh-pages in github/push(use gh-pages if you want something similiar to http://github.github.io/push)
   - COMMIT_MESSAGE="Added latest build" # Commit message to push built artifacts
   - DATA_TYPE="phar"
