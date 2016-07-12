@@ -1,0 +1,19 @@
+#Circle-CI
+
+checkout:
+ post:
+   - git clone https://github.com/ClearSkyTeam/CI-Test
+
+dependencies:
+ override:
+  - apt-get install php7
+  - phpenv config-rm xdebug.ini
+  - mkdir plugins
+  - wget -O plugins/DevTools.phar https://github.com/PocketMine/DevTools/releases/download/v1.11.0/DevTools_v1.11.0.phar
+  - pecl install channel://pecl.php.net/pthreads-3.1.6
+  - pecl install channel://pecl.php.net/weakref-0.3.2
+  - pecl install channel://pecl.php.net/yaml-2.0.0RC7
+
+test:
+ override:
+  - php CI-Test/Travis.php
