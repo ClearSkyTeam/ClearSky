@@ -219,24 +219,20 @@ class EnchantInventory extends ContainerInventory{
 	}
 
 	public function countBookshelf(){
-		if($this->getHolder()->getLevel()->getServer()->countBookshelf){
-			$count = 0;
-			$pos = $this->getHolder();
-			$offsets = [[2, 0], [-2, 0], [0, 2], [0, -2], [2, 1], [2, -1], [-2, 1], [-2, 1], [1, 2], [-1, 2], [1, -2], [-1, -2]];
-			for($i = 0; $i < 3; $i++){
-				foreach($offsets as $offset){
-					if($pos->getLevel()->getBlockIdAt($pos->x + $offset[0], $pos->y + $i, $pos->z + $offset[1]) == Block::BOOKSHELF){
-						$count++;
-					}
-					if($count >= 15){
-						break 2;
-					}
+		$count = 0;
+		$pos = $this->getHolder();
+		$offsets = [[2, 0], [-2, 0], [0, 2], [0, -2], [2, 1], [2, -1], [-2, 1], [-2, 1], [1, 2], [-1, 2], [1, -2], [-1, -2]];
+		for($i = 0; $i < 3; $i++){
+			foreach($offsets as $offset){
+				if($pos->getLevel()->getBlockIdAt($pos->x + $offset[0], $pos->y + $i, $pos->z + $offset[1]) == Block::BOOKSHELF){
+					$count++;
+				}
+				if($count >= 15){
+					break 2;
 				}
 			}
-			return $count;
-		}else{
-			return mt_rand(0, 15);
 		}
+		return $count;
 	}
 
 	public function sendEnchantmentList(){
