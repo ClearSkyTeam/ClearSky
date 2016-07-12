@@ -15,10 +15,9 @@ class EnchantmentEntry{
 	 * @param number        $cost
 	 * @param string        $randomName
 	 */
-	public function __construct(array $enchantments, $cost, $randomName){
+	public function __construct(array $enchantments, $cost){
 		$this->enchantments = $enchantments;
 		$this->cost = (int) $cost;
-		$this->randomName = $randomName;
 	}
 
 	public function getEnchantments(){
@@ -28,9 +27,4 @@ class EnchantmentEntry{
 	public function getCost(){
 		return $this->cost;
 	}
-
-	public function getRandomName(){
-		return $this->randomName;
-	}
-
 }

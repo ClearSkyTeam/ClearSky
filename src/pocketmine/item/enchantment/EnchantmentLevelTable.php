@@ -171,27 +171,22 @@ class EnchantmentLevelTable{
 	 */
 	public static function getPossibleEnchantments(Item $item, int $modifiedLevel){
 		$result = [];
-
 		$enchantmentIds = [];
-
 		if($item->getId() == Item::BOOK){
-			$enchantmentIds = self::$map;
+			$enchantmentIds = array_keys(self::$map);
 		}elseif($item->isArmor()){
 			$enchantmentIds[] = Enchantment::TYPE_ARMOR_PROTECTION; 
 			$enchantmentIds[] = Enchantment::TYPE_ARMOR_FIRE_PROTECTION; 
 			$enchantmentIds[] = Enchantment::TYPE_ARMOR_EXPLOSION_PROTECTION; 
 			$enchantmentIds[] = Enchantment::TYPE_ARMOR_PROJECTILE_PROTECTION; 
 			$enchantmentIds[] = Enchantment::TYPE_ARMOR_THORNS; 
-
 			if($item->isBoots()){
 				$enchantmentIds[] = Enchantment::TYPE_ARMOR_FALL_PROTECTION; 
 			}
-
 			if($item->isHelmet()){
 				$enchantmentIds[] = Enchantment::TYPE_WATER_BREATHING; 
 				$enchantmentIds[] = Enchantment::TYPE_WATER_AFFINITY; 
 			}
-
 		}elseif($item->isSword()){
 			$enchantmentIds[] = Enchantment::TYPE_WEAPON_SHARPNESS; 
 			$enchantmentIds[] = Enchantment::TYPE_WEAPON_SMITE; 
@@ -199,24 +194,19 @@ class EnchantmentLevelTable{
 			$enchantmentIds[] = Enchantment::TYPE_WEAPON_KNOCKBACK; 
 			$enchantmentIds[] = Enchantment::TYPE_WEAPON_FIRE_ASPECT; 
 			$enchantmentIds[] = Enchantment::TYPE_WEAPON_LOOTING; 
-
 		}elseif($item->isTool()){
 			$enchantmentIds[] = Enchantment::TYPE_MINING_EFFICIENCY; 
 			$enchantmentIds[] = Enchantment::TYPE_MINING_SILK_TOUCH; 
 			$enchantmentIds[] = Enchantment::TYPE_MINING_FORTUNE; 
-
 		}elseif($item->getId() == Item::BOW){
 			$enchantmentIds[] = Enchantment::TYPE_BOW_POWER; 
 			$enchantmentIds[] = Enchantment::TYPE_BOW_KNOCKBACK; 
 			$enchantmentIds[] = Enchantment::TYPE_BOW_FLAME; 
 			$enchantmentIds[] = Enchantment::TYPE_BOW_INFINITY; 
-
 		}elseif($item->getId() == Item::FISHING_ROD){
 			$enchantmentIds[] = Enchantment::TYPE_FISHING_FORTUNE; 
 			$enchantmentIds[] = Enchantment::TYPE_FISHING_LURE; 
-
 		}
-
 		if($item->isTool() || $item->isArmor()){
 			$enchantmentIds[] = Enchantment::TYPE_MINING_DURABILITY; 
 		}

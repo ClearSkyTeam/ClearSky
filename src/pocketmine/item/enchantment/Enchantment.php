@@ -107,6 +107,11 @@ class Enchantment{
 	const SLOT_SHOVEL = 0b10000000000;
 	const SLOT_FISHING_ROD = 0b100000000000;
 	const SLOT_CARROT_STICK = 0b1000000000000;
+ 
+ 	public static $words = ["the", "elder", "scrolls", "klaatu", "berata", "niktu", "xyzzy", "bless", "curse", "light", "darkness", "fire", "air",
+ 		"earth", "water", "hot", "dry", "cold", "wet", "ignite", "snuff", "embiggen", "twist", "shorten", "stretch", "fiddle", "destroy", "imbue", "galvanize",
+ 		"enchant", "free", "limited", "range", "of", "towards", "inside", "sphere", "cube", "self", "other", "ball", "mental", "physical", "grow", "shrink",
+ 		"demon", "elemental", "spirit", "animal", "creature", "beast", "humanoid", "undead", "fresh", "stale"];
 
 	/** @var Enchantment[] */
 	protected static $enchantments;
@@ -335,4 +340,13 @@ class Enchantment{
 		}
 		return false;
 	}
+
+	public static function getRandomName(){
+  		$count = mt_rand(3, 6);
+  		$set = [];
+  		while(count($set) < $count){
+ 			$set[] = self::$words[mt_rand(0, count(self::$words) - 1)];
+ 		}
+ 		return implode(" ", $set);
+ 	}
 }
