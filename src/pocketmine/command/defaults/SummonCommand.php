@@ -20,10 +20,10 @@ class SummonCommand extends VanillaCommand{
 	public function __construct($name){
 		parent::__construct(
 			$name,
-			"%pocketmine.command.give.description",
-			"%pocketmine.command.give.usage"
+			"%pocketmine.command.summon.description",
+			"%pocketmine.command.summon.usage"
 		);
-		$this->setPermission("pocketmine.command.give");
+		$this->setPermission("pocketmine.command.summon");
 	}
 
 	public function execute(CommandSender $sender, $currentAlias, array $args){
@@ -48,7 +48,8 @@ class SummonCommand extends VanillaCommand{
 
 		$chunk = $position->getLevel()->getChunk($position->getX() >> 4, $position->getZ() >> 4, true);
 
-		if(!($chunk instanceof FullChunk)){
+		if(!($chunk instanceof FullChunk) || $args[2] < 0 || $args[2] > 128){
+			$sender->sendMessage(new TranslationContainer("%commands.summon.outOfWorld"));
 			return false;
 		}
 		$nbt = new CompoundTag("", [
@@ -79,7 +80,7 @@ class SummonCommand extends VanillaCommand{
 			}
 
 			if(!($tags instanceof CompoundTag) or $exception !== null){
-				$sender->sendMessage(new TranslationContainer("commands.give.tagError", [$exception !== null ? $exception->getMessage() : "Invalid tag conversion"]));
+				$sender->sendMessage(new TranslationContainer("%commands.summon.tagError", [$exception !== null ? $exception->getMessage() : "Invalid tag conversion"]));
 				return true;
 			}
 			$entity->setNameTag($tags);
@@ -87,7 +88,7 @@ class SummonCommand extends VanillaCommand{
 
 		if($player instanceof Player){
 			if($entity === null){
-				$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.give.item.notFound", [$entitytype]));
+				$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.summon.failed"));
 
 				return true;
 			}
@@ -101,7 +102,7 @@ class SummonCommand extends VanillaCommand{
 			return true;
 		}
 
-		Command::broadcastCommandMessage($sender, new TranslationContainer("%commands.give.success", [
+		Command::broadcastCommandMessage($sender, new TranslationContainer("%commands.summon.success", [
 			$entity->getName() . " (" . $entity->getId() . ":" . $entity->getName() . ")",
 			$entity->getNameTag(),
 			$player->getName()
