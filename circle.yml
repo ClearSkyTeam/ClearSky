@@ -10,7 +10,6 @@ checkout:
 
 dependencies:
  override:
-  - sed 'xdebug' /etc/php7/cli/conf.d
   - mkdir plugins
   - wget -O plugins/DevTools.phar https://github.com/PocketMine/DevTools/releases/download/v1.11.0/DevTools_v1.11.0.phar
   - pecl install channel://pecl.php.net/pthreads-3.1.6
