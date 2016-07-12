@@ -298,14 +298,45 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/**
 	* @deprecated
 	*/
-	public function getTotalExperience(){
+	public function getTotalExp(){
 		return $this->getTotalXp();
+	}
+	
+	/**
+	* @deprecated
+	*/
+	public function getExp(){
+		return $this->getXpProgress();
+	}
+	/**
+	* @deprecated
+	*/
+	public function setExp($exp){
+		$this->setXpProgress($exp);
+	}
+	/**
+	* @deprecated
+	*/
+	public function addExp($exp){
+		$this->addExperience($exp);
 	}
 	/**
 	* @deprecated
 	*/
 	public function getTotalExp(){
 		return $this->getTotalXp();
+	}
+	/**
+	* @deprecated
+	*/
+	public function getExpLevel(){
+		return $this->getXpLevel();
+	}
+	/**
+	* @deprecated
+	*/
+	public function setExpLevel($level){
+		return $this->setXpLevel($level);
 	}
 	
 	public function getExperienceLevel(){
