@@ -362,6 +362,7 @@ class Item{
 	const APPLE = 260;
 	const BOW = 261;
 	const ARROW = 262;
+	const TIPPED_ARROW = 262;
 	const COAL = 263;
 	const DIAMOND = 264;
 	const IRON_INGOT = 265;
@@ -1273,6 +1274,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::EMPTY_MAP, 0));
 		Item::addCreativeItem(Item::get(Item::SUGARCANE, 0));
 		Item::addCreativeItem(Item::get(Item::WHEAT, 0));
+		for($i = 0; $i <= 30; $i++){
+			Item::addCreativeItem(Item::get(Item::TIPPED_ARROW, $i + 6));
+		}
 		Item::addCreativeItem(Item::get(Item::SEEDS, 0));
 		Item::addCreativeItem(Item::get(Item::PUMPKIN_SEEDS, 0));
 		Item::addCreativeItem(Item::get(Item::MELON_SEEDS, 0));
@@ -1327,7 +1331,7 @@ class Item{
 		// TODO: Enchantments
 		for($i = 0; $i < 79; $i++){
 			$item = Item::get(Item::ENCHANTED_BOOK)->addEnchantment(Enchantment::getEnchantment($i));
-			if($item !== null) Item::addCreativeItem();
+			if($item !== null) Item::addCreativeItem($item);
 			else Item::addCreativeItem(Item::get(Item::ENCHANTED_BOOK));
 		}
 		Item::addCreativeItem(Item::get(Item::DYE, 0));

@@ -142,9 +142,10 @@ class Potion extends Food{
 		}
 	}
 
-	public function getAdditionalEffects(){
+	public function getAdditionalEffects($meta = null){
 		$effect = [];
-		switch($this->meta){
+		if(is_null($meta)) $meta = $this->meta;
+		switch($meta){
 			case Potion::NIGHT_VISION:
 				$effect[] = Effect::getEffect(Effect::NIGHT_VISION)->setAmplifier(0)->setDuration(3 * 60 * 20);
 				break;
