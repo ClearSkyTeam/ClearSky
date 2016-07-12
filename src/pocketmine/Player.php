@@ -129,6 +129,8 @@ use pocketmine\network\protocol\InteractPacket;
 use pocketmine\network\protocol\Info;
 use pocketmine\block\Air;
 use pocketmine\math\Math;
+use pocketmine\inventory\EnchantInventory;
+use pocketmine\inventory\AnvilInventory;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -214,6 +216,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	/** @var PermissibleBase */
 	private $perm = null;
+
+	/** @var Item */
+	private $anvilItem;
 	
 	/** Fishing **/
 	protected $isFishing = false;
@@ -2734,9 +2739,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				$this->craftingType = 0;
 				$this->currentTransaction = null;
-				if(isset($this->windowIndex[$packet->windowid])){
-					$this->server->getPluginManager()->callEvent(new InventoryCloseEvent($this->windowIndex[$packet->windowid], $this));
-					$this->removeWindow($this->windowIndex[$packet->windowid]);
+  				if(isset($this->windowIndex[$packet->windowid])){
+					if($this->windowIndex[$packet->windowid] instanceof EnchantInventory or $this->windowIndex[$packet->windowid] instanceof AnvilInventory){
+  						$this->recalculateXpProgress();
+  					}
+					if($this->windowIndex[$packet->windowid] instanceof AnvilInventory){
+						$this->anvilItem = null;
+					}
+  					$this->server->getPluginManager()->callEvent(new InventoryCloseEvent($this->windowIndex[$packet->windowid], $this));
+  					$this->removeWindow($this->windowIndex[$packet->windowid]);
 				}else{
 					unset($this->windowIndex[$packet->windowid]);
 				}
@@ -2938,10 +2949,28 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 					$transaction = new BaseTransaction($this->inventory, $packet->slot + $this->inventory->getSize(), $this->inventory->getArmorItem($packet->slot), $packet->item);
 				}elseif(isset($this->windowIndex[$packet->windowid])){
-					$this->craftingType = 0;
-					$inv = $this->windowIndex[$packet->windowid];
-					$transaction = new BaseTransaction($inv, $packet->slot, $inv->getItem($packet->slot), $packet->item);
-				}else{
+ 					$this->craftingType = 0;
+ 					$inv = $this->windowIndex[$packet->windowid];
+ 
+ 					/** @var $packet \pocketmine\network\protocol\ContainerSetSlotPacket */
+ 					if($inv instanceof EnchantInventory and $packet->item->hasEnchantments()){
+						$inv->onEnchant($this, $inv->getItem($packet->slot), $packet->item);
+					}
+
+					if($inv instanceof AnvilInventory){
+						if($packet->slot == 2){
+							if($packet->item->getId() != Item::AIR){
+								$this->anvilItem = $packet->item;
+							}elseif($this->anvilItem != null){
+								$cost = $this->anvilItem->getRepairCost();
+								$this->setXpLevel($this->getXpLevel() - $cost);
+								$this->anvilItem = null;
+							}
+						}
+  					}
+  
+  					$transaction = new BaseTransaction($inv, $packet->slot, $inv->getItem($packet->slot), $packet->item);
+ 				}else{
 					break;
 				}
 				if($transaction->getSourceItem()->deepEquals($transaction->getTargetItem()) and $transaction->getTargetItem()->getCount() === $transaction->getSourceItem()->getCount()){ //No changes!

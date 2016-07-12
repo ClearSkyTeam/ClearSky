@@ -56,14 +56,12 @@ class AnvilBlock extends Fallable{
         return Tool::TYPE_PICKAXE;
     }
 
-    public function onActivate(Item $item, Player $player = null){
-        if($player instanceof Player){
-
-            $player->addWindow(new AnvilInventory($this));
-        }
-
-        return true;
-    }
+	public function onActivate(Item $item, Player $player = null){
+		if($player instanceof Player){
+			$player->addWindow(new AnvilInventory($this));
+		}
+		return true;
+	}
 
     public function getDrops(Item $item){
         $damage = $this->getDamage();

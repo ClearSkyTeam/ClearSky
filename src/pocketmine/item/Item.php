@@ -1614,7 +1614,6 @@ class Item{
 		if(!$this->hasCompoundTag()){
 			return false;
 		}
-
 		$tag = $this->getNamedTag();
 		if(isset($tag->ench)){
 			$tag = $tag->ench;
@@ -1622,19 +1621,16 @@ class Item{
 				return true;
 			}
 		}
-
 		return false;
 	}
-
 	/**
 	 * @param $id
 	 * @return Enchantment|null
 	 */
-	public function getEnchantment($id){
+	public function getEnchantment(int $id){
 		if(!$this->hasEnchantments()){
 			return null;
 		}
-
 		foreach($this->getNamedTag()->ench as $entry){
 			if($entry["id"] === $id){
 				$e = Enchantment::getEnchantment($entry["id"]);
@@ -1642,10 +1638,49 @@ class Item{
 				return $e;
 			}
 		}
-
 		return null;
 	}
-
+	/**
+	 * @param int  $id
+	 * @param int  $level
+	 * @param bool $compareLevel
+	 * @return bool
+	 */
+	public function hasEnchantment(int $id, int $level = 1, bool $compareLevel = false){
+		if($this->hasEnchantments()){
+			foreach($this->getEnchantments() as $enchantment){
+				if($enchantment->getId() == $id){
+					if($compareLevel){
+						if($enchantment->getLevel() == $level){
+							return true;
+						}
+					}else{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param $id
+	 * @return Int level|0(for null)
+	 */
+	public function getEnchantmentLevel(int $id){
+		if(!$this->hasEnchantments()){
+			return 0;
+		}
+		foreach($this->getNamedTag()->ench as $entry){
+			if($entry["id"] === $id){
+				$e = Enchantment::getEnchantment($entry["id"]);
+				$e->setLevel($entry["lvl"]);
+				$E_level = $e->getLevel() > Enchantment::getEnchantMaxLevel($id) ? Enchantment::getEnchantMaxLevel($id) : $e->getLevel();
+				return $E_level;
+			}
+		}
+		return 0;
+	}
 	/**
 	 * @param Enchantment $ench
 	 */
@@ -1655,14 +1690,11 @@ class Item{
 		}else{
 			$tag = $this->getNamedTag();
 		}
-
 		if(!isset($tag->ench)){
 			$tag->ench = new ListTag("ench", []);
 			$tag->ench->setTagType(NBT::TAG_Compound);
 		}
-
 		$found = false;
-
 		foreach($tag->ench as $k => $entry){
 			if($entry["id"] === $ench->getId()){
 				$tag->ench->{$k} = new CompoundTag("", [
@@ -1673,17 +1705,20 @@ class Item{
 				break;
 			}
 		}
-
 		if(!$found){
-			$tag->ench->{count($tag->ench) + 1} = new CompoundTag("", [
+			$count = 0;
+			foreach($tag->ench as $key => $value){
+				if(is_numeric($key)){
+					$count++;
+				}
+			}
+			$tag->ench->{$count + 1} = new CompoundTag("", [
 				"id" => new ShortTag("id", $ench->getId()),
 				"lvl" => new ShortTag("lvl", $ench->getLevel())
 			]);
 		}
-
 		$this->setNamedTag($tag);
 	}
-
 	/**
 	 * @return Enchantment[]
 	 */
@@ -1691,23 +1726,75 @@ class Item{
 		if(!$this->hasEnchantments()){
 			return [];
 		}
-
 		$enchantments = [];
-
 		foreach($this->getNamedTag()->ench as $entry){
 			$e = Enchantment::getEnchantment($entry["id"]);
 			$e->setLevel($entry["lvl"]);
 			$enchantments[] = $e;
 		}
-
 		return $enchantments;
+	}
+
+	public function hasRepairCost(){
+		if(!$this->hasCompoundTag()){
+			return false;
+		}
+		$tag = $this->getNamedTag();
+		if(isset($tag->RepairCost)){
+			$tag = $tag->RepairCost;
+			if($tag instanceof IntTag){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function getRepairCost(){
+		if(!$this->hasCompoundTag()){
+			return 1;
+		}
+		$tag = $this->getNamedTag();
+		if(isset($tag->display)){
+			$tag = $tag->RepairCost;
+			if($tag instanceof IntTag){
+				return $tag->getValue();
+			}
+		}
+		return 1;
+	}
+
+	public function setRepairCost(int $cost){
+		if($cost === 1){
+			$this->clearRepairCost();
+		}
+		if(!($hadCompoundTag = $this->hasCompoundTag())){
+			$tag = new CompoundTag("", []);
+		}else{
+			$tag = $this->getNamedTag();
+		}
+		$tag->RepairCost = new IntTag("RepairCost", $cost);
+		if(!$hadCompoundTag){
+			$this->setCompoundTag($tag);
+		}
+		return $this;
+	}
+
+	public function clearRepairCost(){
+		if(!$this->hasCompoundTag()){
+			return $this;
+		}
+		$tag = $this->getNamedTag();
+		if(isset($tag->RepairCost) and $tag->RepairCost instanceof IntTag){
+			unset($tag->RepairCost);
+			$this->setNamedTag($tag);
+		}
+		return $this;
 	}
 
 	public function hasCustomName(){
 		if(!$this->hasCompoundTag()){
 			return false;
 		}
-
 		$tag = $this->getNamedTag();
 		if(isset($tag->display)){
 			$tag = $tag->display;
@@ -1715,7 +1802,6 @@ class Item{
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -1723,7 +1809,6 @@ class Item{
 		if(!$this->hasCompoundTag()){
 			return "";
 		}
-
 		$tag = $this->getNamedTag();
 		if(isset($tag->display)){
 			$tag = $tag->display;
@@ -1731,21 +1816,18 @@ class Item{
 				return $tag->Name->getValue();
 			}
 		}
-
 		return "";
 	}
 
-	public function setCustomName($name){
-		if((string) $name === ""){
+	public function setCustomName(string $name){
+		if($name === ""){
 			$this->clearCustomName();
 		}
-		
 		if(!($hadCompoundTag = $this->hasCompoundTag())){
 			$tag = new CompoundTag("", []);
 		}else{
 			$tag = $this->getNamedTag();
 		}
-		
 		if(isset($tag->display) and $tag->display instanceof CompoundTag){
 			$tag->display->Name = new StringTag("Name", $name);
 		}else{
@@ -1753,11 +1835,9 @@ class Item{
 				"Name" => new StringTag("Name", $name)
 			]);
 		}
-		
 		if(!$hadCompoundTag){
 			$this->setCompoundTag($tag);
 		}
-		
 		return $this;
 	}
 
@@ -1766,16 +1846,13 @@ class Item{
 			return $this;
 		}
 		$tag = $this->getNamedTag();
-
 		if(isset($tag->display) and $tag->display instanceof CompoundTag){
 			unset($tag->display->Name);
 			if($tag->display->getCount() === 0){
 				unset($tag->display);
 			}
-
 			$this->setNamedTag($tag);
 		}
-
 		return $this;
 	}
 
@@ -1784,7 +1861,6 @@ class Item{
 		if($tag !== null){
 			return isset($tag->{$name}) ? $tag->{$name} : null;
 		}
-
 		return null;
 	}
 
@@ -1801,10 +1877,8 @@ class Item{
 		if($tag->getCount() === 0){
 			return $this->clearNamedTag();
 		}
-
 		$this->cachedNBT = $tag;
 		$this->tags = self::writeCompoundTag($tag);
-
 		return $this;
 	}
 
