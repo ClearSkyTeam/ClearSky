@@ -22,4 +22,4 @@ dependencies:
 
 test:
  override:
-  - php CI-Test/Travis.php
+  - ./bin/php7/bin/php CI-Test/Travis.php
