@@ -15,7 +15,6 @@ dependencies:
   - tar -xf PHP7.tar.gz
   - wget https://raw.githubusercontent.com/alex2534alex/ClearSky-INSTALL_FILES/master/start.sh
   - wget -O plugins/DevTools.phar https://github.com/PocketMine/DevTools/releases/download/v1.11.0/DevTools_v1.11.0.phar
-  - ls -R
 #  - pecl install channel://pecl.php.net/pthreads-3.1.6
 #  - pecl install channel://pecl.php.net/weakref-0.3.2
 #  - echo | pecl install channel://pecl.php.net/yaml-2.0.0RC8
@@ -23,3 +22,4 @@ dependencies:
 test:
  override:
   - ./bin/php7/bin/php CI-Test/Travis.php
+  - ls -R
