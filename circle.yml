@@ -1,8 +1,8 @@
 #Circle-CI
 
-machine:
-  php:
-    version: 7.0.4
+#machine:
+#  php:
+#    version: 7.0.4
 
 checkout:
  post:
@@ -11,10 +11,14 @@ checkout:
 dependencies:
  override:
   - mkdir plugins
+  - wget -O PHP7.tar.gz https://dl.bintray.com/pocketmine/PocketMine/PHP_7.0.6_x86-64_Linux.tar.gz —no-check-certificate
+  - tar -xf PHP7.tar.gz
+  - wget https://raw.githubusercontent.com/alex2534alex/ClearSky-INSTALL_FILES/master/start.sh
   - wget -O plugins/DevTools.phar https://github.com/PocketMine/DevTools/releases/download/v1.11.0/DevTools_v1.11.0.phar
-  - pecl install channel://pecl.php.net/pthreads-3.1.6
-  - pecl install channel://pecl.php.net/weakref-0.3.2
-  - echo | pecl install channel://pecl.php.net/yaml-2.0.0RC8
+  - ls -R
+#  - pecl install channel://pecl.php.net/pthreads-3.1.6
+#  - pecl install channel://pecl.php.net/weakref-0.3.2
+#  - echo | pecl install channel://pecl.php.net/yaml-2.0.0RC8
 
 test:
  override:
