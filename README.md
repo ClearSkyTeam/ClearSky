@@ -21,7 +21,7 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean c
  - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
 
 ## Where can I get a phar?
- - You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - You can get the latest auto build phar here: [CircleCI](http://wolvesfortress.de/circleci.php).
 
  - You can get an optimized PHP environment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
@@ -74,7 +74,7 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
  - Servidor de pruebas no oficial : IP: WolvesFortress.de Puerto: **19134** *A menudo fuera de línea, pero si lo esta posee la última versión de ClearSky.*
 
 ## Donde consigo una compilacion (Phar)?
- - Consiguelo aqui: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - Consiguelo aqui: [CircleCI](http://wolvesfortress.de/circleci.php).
  - Consigue un tiempo de ejecución de PHP optimizado: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Consigue una prueba de Multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
  - O usa el instalador en: [ClearSkyTeam/Installer](https://github.com/ClearSkyTeam/Installer)
@@ -122,7 +122,7 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 
 ## 在哪里可以下载到打包好的phar?
  - **注意：在运行晴空之前，请删除pocketmine.yml以便于晴空优化您的配置**
- - 你可以在这里获取一个自动打包的phar: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - 你可以在这里获取一个自动打包的phar: [CircleCI](http://wolvesfortress.de/circleci.php).
  - 你可以在这里获取一个优化的PHP运行环境: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - 你可以在这里获得一个Multicraft配置文件样例: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
@@ -173,7 +173,7 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
  - はい. しかし、先に安定板の機能を作り, PHP7にアップデートします。
  
 ## どこで私はpharを手に入れれますか？
- - 自動でビルドされたphar: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - 自動でビルドされたphar: [CircleCI](http://wolvesfortress.de/circleci.php).
  - 最適化されたPHP環境(bin): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Multicraftの設定例: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
@@ -220,7 +220,7 @@ ClearSky є ультра-швидким програмним забезпече�
 
 ## Де я можу отримати phar?
  - **Перед першим запуском або оновленням ClearSky видаліть pocketmine.yml для оновленя налаштувань.**
- - Ви можете отримати авто-генерований phar тут: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - Ви можете отримати авто-генерований phar тут: [CircleCI](http://wolvesfortress.de/circleci.php).
  - Ви можете отримати PHP каталог тут: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Ви можете отримати демо версію конфігурації для Multicraft тут: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
@@ -275,7 +275,7 @@ ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket
 ## Dimana Saya bisa mendapatkan file phar?
  - Anda bisa mendapatkanya, disini [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
 
-[//]: # (Anda juga bisa mendapatkan file Phar yang telah dibuat otomatis, disini : [Jenkins CI](http://jenkins.clearskyteam.org/).)
+[//]: # (Anda juga bisa mendapatkan file Phar yang telah dibuat otomatis, disini : [CircleCI](http://wolvesfortress.de/circleci.php).
 
  - Anda bisa mendapatkan PHP Environment yang telah di optimalkan, disini : [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/ClearSkyPhar#BIN).
  - Anda bisa mendapatkan pengaturan Multicraft Demo, disini : [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
