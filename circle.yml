@@ -22,4 +22,5 @@ dependencies:
 test:
  override:
   - ./bin/php7/bin/php CI-Test/Travis.php
-  - ls -R
+#  - ls -R
+  - cp -rv ./plugins/DevTools/ $CIRCLE_ARTIFACTS
