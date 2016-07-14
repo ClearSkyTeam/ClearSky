@@ -37,13 +37,20 @@ class Dropper extends Solid implements RedstoneConsumer{
 		return Tool::TYPE_PICKAXE;
 	}
 
+	public function BroadcastRedstoneUpdate($type,$power){
+		for($side = 0; $side <= 5; $side++){
+			$currentBlock = $this->getSide($side);
+			$this->getLevel()->setRedstoneUpdate($currentBlock,Block::REDSTONEDELAY,$type,$power);
+		}
+	}
+
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_SCHEDULED){
 			if($this->isPowered()){
-				$this->getLevel()->setRedstoneUpdate($this->getOutputBlock(),Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_BLOCK,Block::REDSTONESOURCEPOWER);
-				$this->scheduleUpdate($this,1);
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK,Block::REDSTONESOURCEPOWER);
+				$this->getLevel()->scheduleUpdate($this, 1);
 			}else{
-				$this->getLevel()->setRedstoneUpdate($this->getOutputBlock(),Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_BLOCK,0);
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK,0);
 			}
 		}
 	}
@@ -120,7 +127,8 @@ class Dropper extends Solid implements RedstoneConsumer{
 		if($type !== Level::REDSTONE_UPDATE_REPOWER && $type !== Level::REDSTONE_UPDATE_PLACE) return;
 		if($this->isPowered()){
 			$this->activate();
-			$this->scheduleUpdate($this, 1);
+			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK,Block::REDSTONESOURCEPOWER);
+			$this->getLevel()->scheduleUpdate($this, 1);
 		}
 	}
 
