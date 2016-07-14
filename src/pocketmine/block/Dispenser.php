@@ -39,6 +39,17 @@ class Dispenser extends Solid implements ProjectileSource, RedstoneConsumer{
 		return Tool::TYPE_PICKAXE;
 	}
 
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_SCHEDULED){
+			if($this->isPowered()){
+				$this->getLevel()->setRedstoneUpdate($this->getOutputBlock(),Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_BLOCK,Block::REDSTONESOURCEPOWER);
+				$this->scheduleUpdate($this, 1);
+			}else{
+				$this->getLevel()->setRedstoneUpdate($this->getOutputBlock(),Block::REDSTONEDELAY,Level::REDSTONE_UPDATE_BLOCK,0);
+			}
+		}
+	}
+
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		if($player instanceof Player){
 			$pitch = $player->getPitch();
@@ -120,7 +131,7 @@ class Dispenser extends Solid implements ProjectileSource, RedstoneConsumer{
 		if($type !== Level::REDSTONE_UPDATE_REPOWER && $type !== Level::REDSTONE_UPDATE_PLACE) return;
 		if($this->isPowered()){
 			$this->activate();
-			return;
+			$this->scheduleUpdate($this, 1);
 		}
 	}
 
