@@ -975,6 +975,37 @@ class Level implements ChunkManager, Metadatable{
 
 		$this->AI->tickMobs();
 		
+		$spawnLimit = $this->getServer()->getProperty("spawn-limits", ["animals" => 15])["animals"];
+		
+		$registered = AIManager::getKnownAIs();
+		
+		if($spawnLimit >= count($this->entities)){
+			$players = $this->getPlayers();
+			if(count($players) > 0){
+				$player = $players[array_rand($players)];
+				$x = $player->getX() + mt_rand(-50, 50);
+				$z = $player->getZ() + mt_rand(-50, 50);
+				$y = $this->getHighestBlockAt($x, $z) + 1;
+				$spawned = Entity::createEntity($registered[array_rand($registered)]::NETWORK_ID, $player->getLevel()->getChunk($x >> 4, $z >> 4), new CompoundTag("", [
+						"Pos" => new ListTag("Pos", [
+								new DoubleTag("", $x),
+								new DoubleTag("", $y),
+								new DoubleTag("", $z)
+						]),
+						"Motion" => new ListTag("Motion", [
+								new DoubleTag("", 0),
+								new DoubleTag("", 0),
+								new DoubleTag("", 0)
+						]),
+						"Rotation" => new ListTag("Rotation", [
+								new FloatTag("", 0),
+								new FloatTag("", 0)
+						]),
+				]));
+				$spawned->spawnToAll();
+			}
+		}
+		
 		$this->timings->doTick->stopTiming();
 	}
 

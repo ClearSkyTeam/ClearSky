@@ -61,4 +61,8 @@ abstract class AIManager{
 		$ai = self::getAI($entity->getName());
 		return $ai->calculateMovement();
 	}
+
+	public static function getKnownAIs(){
+		return self::$knownAIs;
+	}
 }
