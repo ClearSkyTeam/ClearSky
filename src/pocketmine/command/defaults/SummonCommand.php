@@ -68,45 +68,31 @@ class SummonCommand extends VanillaCommand{
 				new FloatTag("", 0)
 			]),
 		]);
-		$entity = Entity::createEntity($entitytype, $chunk, $nbt);
-		
-		if(isset($args[4])){
-			$tags = $exception = null;
-			$data = implode(" ", array_slice($args, 4));
-			try{
-				$tags = NBT::parseJSON($data);
-			}catch (\Exception $ex){
-				$exception = $ex;
-			}
-
-			if(!($tags instanceof CompoundTag) or $exception !== null){
-				$sender->sendMessage(new TranslationContainer("%commands.summon.tagError", [$exception !== null ? $exception->getMessage() : "Invalid tag conversion"]));
-				return true;
-			}
-			$entity->setNameTag($tags);
+		if(count($args) == 5 and $args[4]{0} == "{"){//Tags are found
+			$nbtExtra = NBT::parseJSON($args[4]);
+			$nbt = NBT::combineCompoundTags($nbt, $nbtExtra, true);
 		}
-
+		$entity = Entity::createEntity($entitytype, $chunk, $nbt);
+		if($entity instanceof Entity){
+			Command::broadcastCommandMessage($sender, new TranslationContainer("%commands.summon.success", [
+				$entity->getName() . " (" . $entity->getId() . ":" . $entity->getName() . ")",
+				$entity->getNameTag(),
+				$player->getName()
+			]));
+			$entity->spawnToAll();
+			return true;
+		}
 		if($player instanceof Player){
 			if($entity === null){
 				$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.summon.failed"));
 
 				return true;
 			}
-
-			//TODO: overflow
-			$position->getLevel()->addEntity(clone $entity);
-			$entity->spawnToAll();
 		}else{
 			$sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.player.notFound"));
 
 			return true;
 		}
-
-		Command::broadcastCommandMessage($sender, new TranslationContainer("%commands.summon.success", [
-			$entity->getName() . " (" . $entity->getId() . ":" . $entity->getName() . ")",
-			$entity->getNameTag(),
-			$player->getName()
-		]));
 		return true;
 	}
 }
