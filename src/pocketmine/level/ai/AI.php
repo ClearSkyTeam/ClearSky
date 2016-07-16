@@ -27,12 +27,13 @@ class AI{
 	public function registerAI(Entity $entity){
 		if($entity instanceof ZombieHorse){
 			$this->mobs[$entity->getId()] = $entity->getName();
-			$this->getServer()->broadcastMessage("AI ticking for " . $entity->getName() . ": " . $entity->getId());
+			$this->getServer()->broadcastTip("AI started ticking for " . $entity->getName() . ": " . $entity->getId());
 		}
 	}
 
 	public function unregisterAI(Entity $entity){
 		unset($this->mobs[$entity->getId()]);
+		$this->getServer()->broadcastTip("AI stopped ticking for " . $entity->getName() . ": " . $entity->getId());
 	}
 
 	public function tickMobs(){
