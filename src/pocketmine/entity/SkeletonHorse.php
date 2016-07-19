@@ -37,7 +37,7 @@ class SkeletonHorse extends Animal /*implements Rideable*/{
 
     public function getDrops(){
         $drops = [
-            ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))//TODO
+            ItemItem::get(ItemItem::BONE, 0, mt_rand(0, 2))
         ];
 
         return $drops;
