@@ -3413,19 +3413,21 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			}
 		}
 		
-		/*if(!$ev->getKeepExperience()){
-			$DropExp = $this->getExperience();
+		if(!$ev->getKeepExperience()){
+			$DropExp = $this->getTotalXp();
 			$this->getLevel()->spawnExperienceOrb($this,$DropExp);
-			$this->setExperience(0);
+			$this->setXpLevel(0);
+			$this->setXpProgress(0);
 		}
 		
-		/*if($this->server->getProperty("player.experience.enable", true)
+		if($this->server->getProperty("player.experience.enable", true)
 		and $this->server->getProperty("experience.player-drop", true)){
-			$DropExp = $this->getExperience();
+			$DropExp = $this->getTotalXp();
 			$vector = new Vector3(ceil($this->x),ceil($this->y),ceil($this->z));
 			$this->getLevel()->spawnExperienceOrb($vector,$DropExp);
-			$this->setExperience(0);
-		}**///TODO: add this back
+			$this->setXpLevel(0);
+			$this->setXpProgress(0);
+		}
 		
 		if($ev->getDeathMessage() != ""){
 			$this->server->broadcast($ev->getDeathMessage(), Server::BROADCAST_CHANNEL_USERS);
