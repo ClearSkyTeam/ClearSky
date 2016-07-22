@@ -2244,12 +2244,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							$this->inventory->setItemInHand($item->getCount() > 0 ? $item : Item::get(Item::AIR));
 						}
 					}elseif($item->getId() === Item::FISHING_ROD){
-						if($this->getHook()->closed){
-							$this->setHook();
+						if($this->getHook() !== null){
+							if($this->getHook()->closed){
+								$this->setHook();
+								return;
+							}
 						}
-						if ($this->getHook() !== null && $this->getHook() instanceof FishingHook){
+						if($this->getHook() instanceof FishingHook){
 							$this->server->getPluginManager()->callEvent($fish = new PlayerFishEvent($this, $item, $this->getHook()));
-							if (!$ev->isCancelled()){
+							if(!$ev->isCancelled()){
 								$damageRod = $this->getHook()->reelLine();
 								#$this->unlinkHookFromPlayer($this);
 							}
@@ -2281,7 +2284,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							}
 						}
 					}
-					
 					$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, true);
 					$this->startAction = $this->server->getTick();
 				}
