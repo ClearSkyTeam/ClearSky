@@ -20,6 +20,10 @@ class Painting extends Item{
 		return true;
 	}
 
+	public function getMaxStackSize(){
+		return 1;
+	}
+
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		if($target->isTransparent() === false and $face !== 0 and $face !== 1 and $block->isSolid() === false){
 			$faces = [
