@@ -354,8 +354,10 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			}
 		}
 		if($food <= 6){
-			if($this->isSprinting()){
-				$this->setSprinting(false);
+			if($this->isSurvival()){
+				if($this->isSprinting()){
+					$this->setSprinting(false);
+				}
 			}
 		}
 
