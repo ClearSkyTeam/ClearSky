@@ -135,7 +135,7 @@ debug:
  #Enables /status, /gc
 
 level-settings:
- default-format: mcregion
+ default-format: anvil
  #The default format that levels will use when created
  convert-format: false 
  #WIP
