@@ -43,6 +43,7 @@ class MoveCalculaterTask extends AsyncTask{
 		$level = $server->getLevel($this->getResult()["LevelId"]);
 		$entity = $level->getEntity($this->getResult()["EntityId"]);
 		if($entity != null){
+			AIManager::calculateMovement($entity);
 			$entity->yaw = $this->getResult()["yaw"];
 			$entity->move($entity->motionX, $entity->motionY, $entity->motionZ);
 			$entity->getLevel()->addEntityMovement($entity->chunk->getX(), $entity->chunk->getZ(), $entity->getId(), $entity->x, $entity->y, $entity->z, $entity->yaw, $entity->pitch);

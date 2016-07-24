@@ -6,7 +6,7 @@ use pocketmine\Server;
 use pocketmine\entity\Entity;
 
 abstract class AIManager{
-	private static $knownAIs = [];
+	public static $knownAIs = [];
 	private static $server = null;
 
 	public function __construct(){}
@@ -49,17 +49,19 @@ abstract class AIManager{
 		return true;
 	}
 
-	public function isAIRegistered($classname){
+	public static function isAIRegistered($classname){
 		return (in_array($classname, array_flip(self::$knownAIs)));
 	}
 
-	public function getAI($classname){
+	public static function getAI($classname){
 		return (self::isAIRegistered($classname)?array_flip(self::$knownAIs)[$classname]:null);
 	}
 
 	public static function calculateMovement(Entity $entity){
-		$ai = self::getAI($entity->getName());
-		return $ai->calculateMovement();
+		print self::isAIRegistered($entity->getName());
+		#$ai = self::getAI($entity->getName());
+		#return $ai->calculateMovement();
+		#print $ai;
 	}
 
 	public static function getKnownAIs(){

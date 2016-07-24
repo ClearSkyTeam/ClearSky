@@ -163,6 +163,7 @@ use pocketmine\tile\Piston;
 use pocketmine\entity\ai\AIManager;
 use pocketmine\entity\ai\SnowGolemAI;
 use pocketmine\entity\ai\ZombieHorseAI;
+use pocketmine\entity\ai\HorseAI;
 
 /**
  * The class that manages everything
@@ -2727,7 +2728,7 @@ class Server{
 	}
 
 	private function registerAIs(){
-		AIManager::registerAIs(ZombieHorse::class, ZombieHorseAI::class, $this);
+		AIManager::registerAIs(Horse::class, HorseAI::class, $this);
 	}
 
 }
