@@ -9,7 +9,7 @@ class InstallerLang{
 		"zhs" => "中文",
 		"jpn" => "日本語",
 		//"ru" => "Pyccĸий",
-		//"de" => "Deutsch",
+		"deu" => "Deutsch",
 		//"vi" => "Tiếng Việt",
 		//"ko" => "한국어",
 		//"nl" => "Nederlands",
