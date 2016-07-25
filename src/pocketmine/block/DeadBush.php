@@ -31,7 +31,7 @@ class DeadBush extends Flowable{
 	
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){ 
  		$down = $this->getSide(0); 
- 		if($down->getId() === self::SAND or $down->getId() === self::HARDENED_CLAY or $down->getId() === self::STAINED_CLAY or $down->getId() === self::STAINED_HARDENED_CLAY or $down->getId() === self::PODZOL){ 
+ 		if($down->getId() === self::SAND or $down->getId() === self::HARDENED_CLAY or $down->getId() === self::STAINED_HARDENED_CLAY or $down->getId() === self::PODZOL){ 
  			$this->getLevel()->setBlock($block, $this, true, true); 
   
  			return true; 
