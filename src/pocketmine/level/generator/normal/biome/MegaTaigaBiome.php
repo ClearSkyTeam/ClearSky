@@ -30,9 +30,6 @@ class MegaTaigaBiome extends NormalBiome{
 		$this->setGroundCover([
 			Block::get(Block::PODZOL, 0),
 			Block::get(Block::PODZOL, 0),
-			Block::get(Block::MOSS_STONE, 0),
-			Block::get(Block::MOSS_STONE, 0),
-			Block::get(Block::MOSS_STONE, 0),
 		]);
 	}
 
