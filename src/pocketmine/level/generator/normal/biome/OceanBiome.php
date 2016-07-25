@@ -6,7 +6,7 @@ use pocketmine\level\generator\populator\Sugarcane;
 use pocketmine\level\generator\populator\TallGrass;
 use pocketmine\level\generator\populator\TallSugarcane;
 
-class OceanBiome extends GrassyBiome{
+class OceanBiome extends WaterBiome{
 
 	public function __construct(){
 		parent::__construct();
