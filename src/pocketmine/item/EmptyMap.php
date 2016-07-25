@@ -4,6 +4,7 @@ namespace pocketmine\item;
 
 use pocketmine\level\Level;
 use pocketmine\Player;
+use pocketmine\block\Block;
 
 class EmptyMap extends Item{
 
@@ -11,7 +12,7 @@ class EmptyMap extends Item{
 		parent::__construct(self::EMPTY_MAP, $meta, $count, "Empty Map");
 	}
 
-	public function onActivate(Level $level, Player $player, $block, $target, $face, $fx, $fy, $fz){
+	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		$player->getInventory()->remove(Item::get($player->getInventory()->getItemInHand()->getId(), 0, 1));
 		$player->getInventory()->addItem(Item::get(Item::WRITTEN_MAP));
 	}

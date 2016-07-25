@@ -37,4 +37,7 @@ class SnowGolem extends Animal{
         ];
     }
 
+    public function isLeashableType() {
+    	return false;
+    }
 }

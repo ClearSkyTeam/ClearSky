@@ -1,9 +1,13 @@
 <?php
 namespace pocketmine\entity;
 
+use pocketmine\item\Potion;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\particle\CriticalParticle;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\level\particle\MobSpellParticle;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\Player;
 
 class Arrow extends Projectile{
@@ -19,10 +23,19 @@ class Arrow extends Projectile{
 	protected $damage = 2;
 
 	protected $isCritical;
+	protected $potionId;
 
-	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null, $critical = false){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null, $critical = false){
 		$this->isCritical = (bool) $critical;
+		if(!isset($nbt->Potion)){
+			$nbt->Potion = new ShortTag("Potion", 0);
+		}
 		parent::__construct($chunk, $nbt, $shootingEntity);
+		$this->potionId = $this->namedtag["Potion"];
+	}
+
+	public function getPotionId(){
+		return $this->potionId;
 	}
 
 	public function onUpdate($currentTick){
@@ -43,6 +56,17 @@ class Arrow extends Projectile{
 			$this->isCritical = false;
 		}
 
+		if($this->potionId != 0){
+			if(!$this->onGround or ($this->onGround and ($currentTick % 4) == 0)){
+				$color = Potion::getColor($this->potionId - 1);
+				$this->level->addParticle(new MobSpellParticle($this->add(
+					$this->width / 2 + mt_rand(-100, 100) / 500,
+					$this->height / 2 + mt_rand(-100, 100) / 500,
+					$this->width / 2 + mt_rand(-100, 100) / 500), $color[0], $color[1], $color[2]));
+			}
+			$hasUpdate = true;
+		}
+
 		if($this->age > 1200){
 			$this->kill();
 			$hasUpdate = true;
@@ -54,10 +78,18 @@ class Arrow extends Projectile{
 	}
 
 	public function spawnTo(Player $player){
-		$pk = $this->addEntityDataPacket($player);
-		$pk->type = self::NETWORK_ID;
-		
+		$pk = new AddEntityPacket();
+		$pk->type = Arrow::NETWORK_ID;
+		$pk->eid = $this->getId();
+		$pk->x = $this->x;
+		$pk->y = $this->y;
+		$pk->z = $this->z;
+		$pk->speedX = $this->motionX;
+		$pk->speedY = $this->motionY;
+		$pk->speedZ = $this->motionZ;
+		$pk->metadata = $this->dataProperties;
 		$player->dataPacket($pk);
+
 		parent::spawnTo($player);
 	}
 }

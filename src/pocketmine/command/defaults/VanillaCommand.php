@@ -25,7 +25,7 @@ abstract class VanillaCommand extends Command{
 	}
 
 	protected function getRelativeDouble($original, CommandSender $sender, $input, $min = self::MIN_COORD, $max = self::MAX_COORD){
-		if(!empty($input{0}) && $input{0} === "~"){
+		if($input{0} === "~"){
 			$value = $this->getDouble($sender, substr($input, 1));
 
 			return $original + $value;

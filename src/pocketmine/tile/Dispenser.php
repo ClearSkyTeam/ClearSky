@@ -9,29 +9,31 @@ use pocketmine\level\format\FullChunk;
 use pocketmine\level\particle\SmokeParticle;
 use pocketmine\math\Vector3;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Short;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\ShortTag;
 use pocketmine\entity\Item as ItemEntity;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\item\Launchable;
 use pocketmine\item\Dye;
 use pocketmine\block\Crops;
+use pocketmine\block\Fire;
+use pocketmine\block\Air;
 
 class Dispenser extends Spawnable implements InventoryHolder, Container, Nameable{
 
 	/** @var DispenserInventory */
 	protected $inventory;
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new DispenserInventory($this);
 
-		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof Enum)){
-			$this->namedtag->Items = new Enum("Items", []);
+		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof ListTag)){
+			$this->namedtag->Items = new ListTag("Items", []);
 			$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		}
 
@@ -52,7 +54,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	}
 
 	public function saveNBT(){
-		$this->namedtag->Items = new Enum("Items", []);
+		$this->namedtag->Items = new ListTag("Items", []);
 		$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		for($index = 0; $index < $this->getSize(); ++$index){
 			$this->setItem($index, $this->inventory->getItem($index));
@@ -149,7 +151,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 			return;
 		}
 
-		$this->namedtag->CustomName = new String("CustomName", $str);
+		$this->namedtag->CustomName = new StringTag("CustomName", $str);
 	}
 
 	public function getMotion(){
@@ -173,73 +175,72 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	}
 
 	public function activate(){
-		$itemIndex = [];
-		for($i = 0; $i < $this->getSize(); $i++){
-			$item = $this->getInventory()->getItem($i);
-			if($item->getId() != Item::AIR){
-				$itemIndex[] = [$i, $item];
-			}
+		$itemArr = [];
+		for($i = 0; $i < $this->getInventory()->getSize(); $i++){
+			$slot = $this->getInventory()->getItem($i);
+			if($slot instanceof Item && $slot->getId() != 0) $itemArr[] = $slot;
 		}
-		$max = count($itemIndex) - 1;
-		if($max < 0) $itemArr = null;
-		elseif($max == 0) $itemArr = $itemIndex[0];
-		else $itemArr = $itemIndex[mt_rand(0, $max)];
 
-		if(is_array($itemArr)){
+		if(!empty($itemArr)){
 			/** @var Item $item */
-			$item = $itemArr[1];
-			$item->setCount($item->getCount() - 1);
-			$this->getInventory()->setItem($itemArr[0], $item->getCount() > 0 ? $item : Item::get(Item::AIR));
+			$itema = $itemArr[array_rand($itemArr)];
+			$item = Item::get($itema->getId(), $itema->getDamage(), 1, $itema->getCompoundTag());
+			$this->getInventory()->removeItem($item);
 			$motion = $this->getMotion();
 			$needItem = Item::get($item->getId(), $item->getDamage());
 			$f = 1.5;
 			if($needItem instanceof Launchable){
-				$nbt = new Compound("", [
-					"Pos" => new Enum("Pos", [
-						new Double("", $this->x + $motion[0] * 2 + 0.5),
-						new Double("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
-						new Double("", $this->z + $motion[2] * 2 + 0.5)
+				$nbt = new CompoundTag("", [
+					"Pos" => new ListTag("Pos", [
+						new DoubleTag("", $this->x + $motion[0] * 2 + 0.5),
+						new DoubleTag("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
+						new DoubleTag("", $this->z + $motion[2] * 2 + 0.5)
 					]),
-					"Motion" => new Enum("Motion", [
-						new Double("", $motion[0]),
-						new Double("", $motion[1]),
-						new Double("", $motion[2])
+					"Motion" => new ListTag("Motion", [
+						new DoubleTag("", $motion[0]),
+						new DoubleTag("", $motion[1]),
+						new DoubleTag("", $motion[2])
 					]),
-					"Rotation" => new Enum("Rotation", [
-						new Float("", lcg_value() * 360),
-						new Float("", 0)
+					"Rotation" => new ListTag("Rotation", [
+						new FloatTag("", lcg_value() * 360),
+						new FloatTag("", 0)
 					])
 				]);
 				$thrownEntity = Entity::createEntity($needItem->entityname, $this->chunk, $nbt);
-				$thrownEntity->setMotion($thrownExpBottle->getMotion()->multiply($f));
+				$thrownEntity->setMotion($thrownEntity->getMotion()->multiply($f));
 				$thrownEntity->spawnToAll();
 			}elseif($needItem->getId() === Item::DYE && $needItem->getDamage() === Dye::BONEMEAL){// Add instanceof Dispenseable + switch function
 				$dispenseto = $this->getLevel()->getBlock($this->add($motion[0],$motion[1],$motion[2]));
 				if($dispenseto instanceof Crops){
 					$needItem->useOn($dispenseto);
 				}
+			}elseif($needItem->getId() === Item::FLINT_AND_STEEL){// Add instanceof Dispenseable + switch function
+				$dispenseto = $this->getLevel()->getBlock($this->add($motion[0],$motion[1],$motion[2]));
+				$this->getLevel()->setBlock($dispenseto, new Fire());
+				$damage = $item->getDamage();
+				$item->setDamage($damage + 1);
 			}
 			else{
 				$item = NBT::putItemHelper($needItem);
 				$item->setName("Item");
-					$nbt = new Compound("", [
-					"Pos" => new Enum("Pos", [
-						new Double("", $this->x + $motion[0] * 2 + 0.5),
-						new Double("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
-						new Double("", $this->z + $motion[2] * 2 + 0.5)
+					$nbt = new CompoundTag("", [
+					"Pos" => new ListTag("Pos", [
+						new DoubleTag("", $this->x + $motion[0] * 2 + 0.5),
+						new DoubleTag("", $this->y + ($motion[1] > 0 ? $motion[1] : 0.5)),
+						new DoubleTag("", $this->z + $motion[2] * 2 + 0.5)
 					]),
-					"Motion" => new Enum("Motion", [
-						new Double("", $motion[0]),
-						new Double("", $motion[1]),
-						new Double("", $motion[2])
+					"Motion" => new ListTag("Motion", [
+						new DoubleTag("", $motion[0]),
+						new DoubleTag("", $motion[1]),
+						new DoubleTag("", $motion[2])
 					]),
-					"Rotation" => new Enum("Rotation", [
-						new Float("", lcg_value() * 360),
-						new Float("", 0)
+					"Rotation" => new ListTag("Rotation", [
+						new FloatTag("", lcg_value() * 360),
+						new FloatTag("", 0)
 					]),
-					"Health" => new Short("Health", 5),
+					"Health" => new ShortTag("Health", 5),
 					"Item" => $item,
-					"PickupDelay" => new Short("PickupDelay", 10)
+					"PickupDelay" => new ShortTag("PickupDelay", 10)
 				]);
 				$f = 0.3;
 				$itemEntity = new ItemEntity($this->chunk, $nbt, $this);
@@ -254,11 +255,11 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 	}
 
 	public function getSpawnCompound(){
-		$c = new Compound("", [
-			new String("id", Tile::DISPENSER),
-			new Int("x", (int) $this->x),
-			new Int("y", (int) $this->y),
-			new Int("z", (int) $this->z)
+		$c = new CompoundTag("", [
+			new StringTag("id", Tile::DISPENSER),
+			new IntTag("x", (int) $this->x),
+			new IntTag("y", (int) $this->y),
+			new IntTag("z", (int) $this->z)
 		]);
 
 		if($this->hasName()){

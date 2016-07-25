@@ -49,7 +49,7 @@ class CraftItemEvent extends Event implements Cancellable{
 	}
 
 	/**
-	 * @return \pocktemine\Player
+	 * @return \pocketmine\Player
 	 */
 	public function getPlayer(){
 		return $this->player;

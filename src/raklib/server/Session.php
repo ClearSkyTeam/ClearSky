@@ -39,7 +39,7 @@ class Session{
     private $address;
     private $port;
     private $state = self::STATE_UNCONNECTED;
-    private $mtuSize = 548; //Min size
+    private $mtuSize = 508; //(Max IP Header Size) — (UDP Header Size) = 576 — 60 — 8 = 508
     private $id = 0;
     private $splitID = 0;
 
@@ -501,7 +501,7 @@ class Session{
             }elseif($this->state === self::STATE_CONNECTING_1 and $packet instanceof OPEN_CONNECTION_REQUEST_2){
                 $this->id = $packet->clientID;
                 if($packet->serverPort === $this->sessionManager->getPort() or !$this->sessionManager->portChecking){
-                    $this->mtuSize = min(abs($packet->mtuSize), 1464); //Max size, do not allow creating large buffers to fill server memory
+                  $this->mtuSize = min(abs($packet->mtuSize), 1432);  //MTU — (Max IP Header Size) — (UDP Header Size) = 1500 — 60 — 8 = 1432
                     $pk = new OPEN_CONNECTION_REPLY_2();
                     $pk->mtuSize = $this->mtuSize;
                     $pk->serverID = $this->sessionManager->getID();

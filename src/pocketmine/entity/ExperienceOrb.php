@@ -27,12 +27,10 @@ class ExperienceOrb extends Entity{
 	public function FetchNearbyPlayer($DistanceRange){
 		$MinDistance = $DistanceRange;
 		$Target = null;
-		foreach($this->getLevel()->getEntities() as $Entity){
-			if($Entity instanceof Player){
-				if($Entity->isAlive() and $MinDistance >= $Distance = $Entity->distance($this)){
-					$Target = $Entity;
-					$MinDistance = $Distance;
-				}
+		foreach($this->getLevel()->getPlayers() as $player){
+			if($player->isAlive() and $MinDistance >= $Distance = $player->distance($this)){
+				$Target = $player;
+				$MinDistance = $Distance;
 			}
 		}
 		return $Target;
@@ -63,7 +61,7 @@ class ExperienceOrb extends Entity{
 		}
 		
 		$Target = $this->FetchNearbyPlayer($this->followrange);
-		if ($Target !== null){
+		if ($Target instanceof Player){
 			$moveSpeed = 0.5;
 			$motX = ($Target->getX() - $this->x) / 8;
 			$motY = ($Target->getY()/* + $Target->getEyeHeight() */- $this->y) / 8;
@@ -82,7 +80,7 @@ class ExperienceOrb extends Entity{
 				$this->timings->stopTiming();
 				$this->close();
 				if($this->getExperience() > 0){
-					$Target->addExperience($this->getExperience());
+					$Target->addExp($this->getExperience());
 				}
 				return true;
 			}

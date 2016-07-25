@@ -48,7 +48,7 @@ class PluginManager{
 	protected $defaultPermsOp = [];
 
 	/**
-	 * @var Permissible[]
+	 * @var Permissible[][]
 	 */
 	protected $permSubs = [];
 
@@ -192,28 +192,60 @@ class PluginManager{
 								continue;
 							}
 
-							$compatible = false;
+							//1=outdated plugin, 2=outdated server, 4=minor, 8=normal
+							$compatibility = 0;
 							//Check multiple dependencies
-							foreach($description->getCompatibleApis() as $version){
+							foreach($description->getCompatibleApis() as $versionString){
 								//Format: majorVersion.minorVersion.patch
-								$version = array_map("intval", explode(".", $version));
+								$version = array_map("intval", explode(".", $versionString));
 								$apiVersion = array_map("intval", explode(".", $this->server->getApiVersion()));
-								//Completely different API version
-								if($version[0] !== $apiVersion[0]){
+								//Completely different API version: too old
+								if($version[0] < $apiVersion[0]){
+									$compatibility |= 1;
+									continue;
+								}
+								//Completely different API version: too new
+								if($version[0] > $apiVersion[0]){
+									$compatibility |= 2;
 									continue;
 								}
 								//If the plugin requires new API features, being backwards compatible
 								if($version[1] > $apiVersion[1]){
+									$compatibility |= 4;
 									continue;
 								}
-
-								$compatible = true;
+								$compatibility |= 8;
 								break;
 							}
-
-							if($compatible === false){
-								$this->server->getLogger()->error($this->server->getLanguage()->translateString("pocketmine.plugin.loadError", [$name, "%pocketmine.plugin.incompatibleAPI"]));
-								continue;
+							if(($compatibility & 8) === 0){
+								$accept1 = $this->server->getProperty("settings.incompatible-plugins.plugin-too-old", false);
+								$accept2 = $this->server->getProperty("settings.incompatible-plugins.plugin-too-new.major", false);
+								$accept4 = $this->server->getProperty("settings.incompatible-plugins.plugin-too-new.minor", false);
+								if(!$accept1){
+									$compatibility &= ~1;
+								}
+								if(!$accept2){
+									$compatibility &= ~2;
+								}
+								if(!$accept4){
+									$compatibility &= ~4;
+								}
+								if($compatibility === 0){
+									if(($compatibility & 4) === 0){
+										$this->server->getLogger()->error($this->server->getLanguage()->translateString("pocketmine.plugin.loadError", [$name, "%pocketmine.plugin.incompatibleAPI.minorTooNew"]));
+									}elseif(($compatibility & 2) === 0){
+										$this->server->getLogger()->error($this->server->getLanguage()->translateString("pocketmine.plugin.loadError", [$name, "%pocketmine.plugin.incompatibleAPI.majortooNew"]));
+									}else{
+										$this->server->getLogger()->error($this->server->getLanguage()->translateString("pocketmine.plugin.loadError", [$name, "%pocketmine.plugin.incompatibleAPI.majorTooOld"]));
+									}
+									continue; #Abort loading of this plugin, move on to the next
+								}elseif($compatibility & 4){
+									$this->server->getLogger()->warning($this->server->getLanguage()->translateString("pocketmine.plugin.incompatibleAPIWarning.minorTooNew", [$name]));
+								}elseif($compatibility & 2){
+									$this->server->getLogger()->warning($this->server->getLanguage()->translateString("pocketmine.plugin.incompatibleAPIWarning.majorTooNew", [$name]));
+								}elseif($compatibility & 1){
+									$this->server->getLogger()->warning($this->server->getLanguage()->translateString("pocketmine.plugin.incompatibleAPIWarning.majorTooOld", [$name]));
+								}
 							}
 
 							$plugins[$name] = $file;
@@ -229,12 +261,9 @@ class PluginManager{
 								}
 							}
 						}
-					}catch(\Exception $e){
+					}catch(\Throwable $e){
 						$this->server->getLogger()->error($this->server->getLanguage()->translateString("pocketmine.plugin.fileError", [$file, $directory, $e->getMessage()]));
-						$logger = $this->server->getLogger();
-						if($logger instanceof MainLogger){
-							$logger->logException($e);
-						}
+						$this->server->getLogger()->logException($e);
 					}
 				}
 			}
@@ -413,7 +442,7 @@ class PluginManager{
 		if(!isset($this->permSubs[$permission])){
 			$this->permSubs[$permission] = [];
 		}
-		$this->permSubs[$permission][spl_object_hash($permissible)] = new \WeakRef($permissible);
+		$this->permSubs[$permission][spl_object_hash($permissible)] = $permissible;
 	}
 
 	/**
@@ -436,6 +465,7 @@ class PluginManager{
 	 */
 	public function getPermissionSubscriptions($permission){
 		if(isset($this->permSubs[$permission])){
+			return $this->permSubs[$permission];
 			$subs = [];
 			foreach($this->permSubs[$permission] as $k => $perm){
 				/** @var \WeakRef $perm */
@@ -459,9 +489,9 @@ class PluginManager{
 	 */
 	public function subscribeToDefaultPerms($op, Permissible $permissible){
 		if($op === true){
-			$this->defSubsOp[spl_object_hash($permissible)] = new \WeakRef($permissible);
+			$this->defSubsOp[spl_object_hash($permissible)] = $permissible;
 		}else{
-			$this->defSubs[spl_object_hash($permissible)] = new \WeakRef($permissible);
+			$this->defSubs[spl_object_hash($permissible)] = $permissible;
 		}
 	}
 
@@ -486,6 +516,7 @@ class PluginManager{
 		$subs = [];
 
 		if($op === true){
+			return $this->defSubsOp;
 			foreach($this->defSubsOp as $k => $perm){
 				/** @var \WeakRef $perm */
 				if($perm->acquire()){
@@ -496,6 +527,7 @@ class PluginManager{
 				}
 			}
 		}else{
+			return $this->defSubs;
 			foreach($this->defSubs as $k => $perm){
 				/** @var \WeakRef $perm */
 				if($perm->acquire()){
@@ -540,11 +572,8 @@ class PluginManager{
 					$this->addPermission($perm);
 				}
 				$plugin->getPluginLoader()->enablePlugin($plugin);
-			}catch(\Exception $e){
-				$logger = Server::getInstance()->getLogger();
-				if($logger instanceof MainLogger){
-					$logger->logException($e);
-				}
+			}catch(\Throwable $e){
+				$this->server->getLogger()->logException($e);
 				$this->disablePlugin($plugin);
 			}
 		}
@@ -614,11 +643,8 @@ class PluginManager{
 		if($plugin->isEnabled()){
 			try{
 				$plugin->getPluginLoader()->disablePlugin($plugin);
-			}catch(\Exception $e){
-				$logger = Server::getInstance()->getLogger();
-				if($logger instanceof MainLogger){
-					$logger->logException($e);
-				}
+			}catch(\Throwable $e){
+				$this->server->getLogger()->logException($e);
 			}
 
 			$this->server->getScheduler()->cancelTasks($plugin);
@@ -651,7 +677,7 @@ class PluginManager{
 
 			try{
 				$registration->callEvent($event);
-			}catch(\Exception $e){
+			}catch(\Throwable $e){
 				$this->server->getLogger()->critical(
 					$this->server->getLanguage()->translateString("pocketmine.plugin.eventError", [
 						$event->getEventName(),
@@ -659,10 +685,7 @@ class PluginManager{
 						$e->getMessage(),
 						get_class($registration->getListener())
 					]));
-				$logger = $this->server->getLogger();
-				if($logger instanceof MainLogger){
-					$logger->logException($e);
-				}
+				$this->server->getLogger()->logException($e);
 			}
 		}
 	}

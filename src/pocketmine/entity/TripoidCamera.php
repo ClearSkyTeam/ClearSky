@@ -3,17 +3,18 @@ namespace pocketmine\entity;
 
 use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\CompoundTag;
 
 class TripoidCamera extends Snake{
-    const NETWORK_ID = 95;
+    const NETWORK_ID = 62;
 
     public $height = 1;
     public $width = 1;
     public $lenght = 1;//TODO: Size
 	
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 	}
 

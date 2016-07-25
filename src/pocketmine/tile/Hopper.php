@@ -6,44 +6,30 @@ use pocketmine\inventory\InventoryHolder;
 use pocketmine\item\Item;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\IntTag;
 
 class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
+
 	/** @var HopperInventory */
 	protected $inventory;
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		parent::__construct($chunk, $nbt);
 		$this->inventory = new HopperInventory($this);
 
-		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof Enum)){
-			$this->namedtag->Items = new Enum("Items", []);
+		if(!isset($this->namedtag->Items) or !($this->namedtag->Items instanceof ListTag)){
+			$this->namedtag->Items = new ListTag("Items", []);
 			$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		}
 
 		for($i = 0; $i < $this->getSize(); ++$i){
 			$this->inventory->setItem($i, $this->getItem($i));
 		}
-	}
-
-	public function getName(){
-		return isset($this->namedtag->CustomName) ? $this->namedtag->CustomName->getValue() : "Hopper";
-	}
-
-	public function hasName(){
-		return isset($this->namedtag->CustomName);
-	}
-
-	public function setName($str){
-		if($str === ""){
-			unset($this->namedtag->CustomName);
-			return;
-		}
-
-		$this->namedtag->CustomName = new String("CustomName", $str);
+		
+		$this->scheduleUpdate();
 	}
 
 	public function close(){
@@ -56,7 +42,7 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
 	}
 
 	public function saveNBT(){
-		$this->namedtag->Items = new Enum("Items", []);
+		$this->namedtag->Items = new ListTag("Items", []);
 		$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		for($index = 0; $index < $this->getSize(); ++$index){
 			$this->setItem($index, $this->inventory->getItem($index));
@@ -77,8 +63,8 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
 	 */
 	protected function getSlotIndex($index){
 		foreach($this->namedtag->Items as $i => $slot){
-			if($slot["Slot"] === $index){
-				return $i;
+			if((int) $slot["Slot"] === (int) $index){
+				return (int) $i;
 			}
 		}
 
@@ -133,23 +119,41 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
 	}
 
 	/**
-	 * @return FurnaceInventory
+	 * @return HopperInventory
 	 */
 	public function getInventory(){
 		return $this->inventory;
 	}
-	
+
+	public function getName(){
+		return isset($this->namedtag->CustomName) ? $this->namedtag->CustomName->getValue() : "Hopper";
+	}
+
+	public function hasName(){
+		return isset($this->namedtag->CustomName);
+	}
+
+	public function setName($str){
+		if($str === ""){
+			unset($this->namedtag->CustomName);
+			return;
+		}
+
+		$this->namedtag->CustomName = new StringTag("CustomName", $str);
+	}
+
 	public function getSpawnCompound(){
-        $nbt = new Compound("", [
-            new String("id", Tile::HOPPER),
-            new Int("x", (int) $this->x),
-            new Int("y", (int) $this->y),
-            new Int("z", (int) $this->z)
-        ]);
-        
-        if($this->hasName()){
-            $nbt->CustomName = $this->namedtag->CustomName;
-        }
-        return $nbt;
-    }
+		$c = new CompoundTag("", [
+			new StringTag("id", Tile::HOPPER),
+			new IntTag("x", (int) $this->x),
+			new IntTag("y", (int) $this->y),
+			new IntTag("z", (int) $this->z)
+		]);
+
+		if($this->hasName()){
+			$c->CustomName = $this->namedtag->CustomName;
+		}
+
+		return $c;
+	}
 }

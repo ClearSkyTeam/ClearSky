@@ -17,13 +17,13 @@ use pocketmine\event\entity\ProjectileLaunchEvent;
 use pocketmine\inventory\Fuel;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\level\Level;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Byte;
-use pocketmine\nbt\tag\Short;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Double;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Compound;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\tag\DoubleTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
 use pocketmine\nbt\NBT;
 
@@ -45,10 +45,10 @@ class Item{
 	}
 
 	/**
-	 * @param Compound $tag
+	 * @param CompoundTag $tag
 	 * @return string
 	 */
-	private static function writeCompoundTag(Compound $tag){
+	private static function writeCompoundTag(CompoundTag $tag){
 		if(self::$cachedParser === null){
 			self::$cachedParser = new NBT(NBT::LITTLE_ENDIAN);
 		}
@@ -95,15 +95,15 @@ class Item{
 	const BED_BLOCK = 26;
 	const POWERED_RAIL = 27;
 	const DETECTOR_RAIL = 28;
-	// const STICKY_PISTON = 27;
+	const STICKY_PISTON = 29;
 	const COBWEB = 30;
 	const TALL_GRASS = 31;
 	const BUSH = 32;
 	const DEAD_BUSH = 32;
 	const PISTON = 33;
 	const PISTON_HEAD = 34;
+	const PISTON_EXTENSION = 34;
 	const WOOL = 35;
-	const PISTON_EXTENSION = 35;
 	const DANDELION = 37;
 	const POPPY = 38;
 	const ROSE = 38;
@@ -116,6 +116,7 @@ class Item{
 	const DOUBLE_SLABS = 43;
 	const SLAB = 44;
 	const SLABS = 44;
+	const STONE_SLAB = 44;
 	const BRICKS = 45;
 	const BRICKS_BLOCK = 45;
 	const TNT = 46;
@@ -143,12 +144,13 @@ class Item{
 	const LIT_FURNACE = 62;
 	const SIGN_POST = 63;
 	const DOOR_BLOCK = 64;
-	const OAK_DOOR_BLOCK = 64;
+	const WOODEN_DOOR_BLOCK = 64;
 	const WOOD_DOOR_BLOCK = 64;
+	const OAK_DOOR_BLOCK = 64;
 	const LADDER = 65;
 	const RAIL = 66;
-	const COBBLE_STAIRS = 67;
 	const COBBLESTONE_STAIRS = 67;
+	const COBBLE_STAIRS = 67;
 	const WALL_SIGN = 68;
 	const LEVER = 69;
 	const STONE_PRESSURE_PLATE = 70;
@@ -158,8 +160,8 @@ class Item{
 	const GLOWING_REDSTONE_ORE = 74;
 	const LIT_REDSTONE_ORE = 74;
 	const UNLIT_REDSTONE_TORCH = 75;
-	const LIT_REDSTONE_TORCH = 76;
 	const REDSTONE_TORCH = 76;
+	const LIT_REDSTONE_TORCH = 76;
 	const STONE_BUTTON = 77;
 	const SNOW = 78;
 	const SNOW_LAYER = 78;
@@ -169,43 +171,55 @@ class Item{
 	const CLAY_BLOCK = 82;
 	const REEDS = 83;
 	const SUGARCANE_BLOCK = 83;
-	const JUKEBOX = 83;
 	const FENCE = 85;
 	const PUMPKIN = 86;
 	const NETHERRACK = 87;
 	const SOUL_SAND = 88;
 	const GLOWSTONE = 89;
 	const GLOWSTONE_BLOCK = 89;
-	const LIT_PUMPKIN = 91;
+	const PORTAL_BLOCK = 90;
+	const PORTAL = 90;
 	const JACK_O_LANTERN = 91;
+	const LIT_PUMPKIN = 91;
 	const CAKE_BLOCK = 92;
 	const UNPOWERED_REPEATER = 93;
+	const REPEATER_BLOCK = 93;
+	const UNPOWERED_REPEATER_BLOCK = 93;
+	const POWERED_REPEATER_BLOCK = 94;
 	const POWERED_REPEATER = 94;
-	const STAINED_GLASS = 95; // INVISIBLE BEDROCK ID
+	const INVISIBLE_BEDROCK = 95;
+	/**
+	* @deprecated
+	* Use INVISIBLE_BEDROCK instead
+	*/
+	const STAINED_GLASS = 95; //Well, plugin compatibility...
 	const TRAPDOOR = 96;
-	const MONSTER_EGG = 97;
+	const WOODEN_TRAPDOOR = 96;
+	const MONSTER_EGG_BLOCK = 97;
 	const STONE_BRICKS = 98;
 	const STONE_BRICK = 98;
 	const BROWN_MUSHROOM_BLOCK = 99;
 	const RED_MUSHROOM_BLOCK = 100;
-	const IRON_BAR = 101;
 	const IRON_BARS = 101;
+	const IRON_BAR = 101;
 	const GLASS_PANE = 102;
 	const GLASS_PANEL = 102;
 	const MELON_BLOCK = 103;
 	const PUMPKIN_STEM = 104;
 	const MELON_STEM = 105;
-	const VINE = 106;
 	const VINES = 106;
+	const VINE = 106;
 	const FENCE_GATE = 107;
+	const OAK_FENCE_GATE = 107;
 	const BRICK_STAIRS = 108;
 	const STONE_BRICK_STAIRS = 109;
 	const MYCELIUM = 110;
-	const WATER_LILY = 111;
 	const LILY_PAD = 111;
+	const WATER_LILY = 111;
 	const NETHER_BRICKS = 112;
 	const NETHER_BRICK_BLOCK = 112;
 	const NETHER_BRICK_FENCE = 113;
+	const NETHER_BRICK_STAIRS = 114;
 	const NETHER_BRICKS_STAIRS = 114;
 	const NETHER_WART_BLOCK = 115;
 	const ENCHANTING_TABLE = 116;
@@ -213,19 +227,22 @@ class Item{
 	const ENCHANTMENT_TABLE = 116;
 	const BREWING_STAND_BLOCK = 117;
 	const CAULDRON_BLOCK = 118;
-	const END_PORTAL = 119;
 	const END_PORTAL_FRAME = 120;
+	const END_PORTAL = 120;
 	const END_STONE = 121;
-	const DRAGON_EGG = 122;
 	const REDSTONE_LAMP = 123;
+	const INACTIVE_REDSTONE_LAMP = 123;
 	const LIT_REDSTONE_LAMP = 124;
+	const ACTIVE_REDSTONE_LAMP = 124;
 	const DROPPER = 125;
 	const ACTIVATOR_RAIL = 126;
-	const COCOA_POD = 127;
+	const COCOA_BLOCK = 127;
 	const COCOA_BEANS = 127;
+	const COCOA_POD = 127;
+	const COCOA_PODS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
-	const ENDERCHEST = 130;
+	#const ENDERCHEST = 130;
 	const TRIPWIRE_HOOK = 131;
 	const TRIPWIRE = 132;
 	const EMERALD_BLOCK = 133;
@@ -233,30 +250,36 @@ class Item{
 	const SPRUCE_WOODEN_STAIRS = 134;
 	const BIRCH_WOOD_STAIRS = 135;
 	const BIRCH_WOODEN_STAIRS = 135;
+	#wtf ids?
+	#const COMMAND_BLOCK = 136;
+	#const BEACON = 136;
 	const JUNGLE_WOOD_STAIRS = 136;
 	const JUNGLE_WOODEN_STAIRS = 136;
-	const COMMAND_BLOCK = 136;
-	const BEACON = 136;
+	const COBBLESTONE_WALL = 139;
 	const COBBLE_WALL = 139;
 	const STONE_WALL = 139;
-	const COBBLESTONE_WALL = 139;
 	const FLOWER_POT_BLOCK = 140;
 	const CARROT_BLOCK = 141;
 	const POTATO_BLOCK = 142;
 	const WOODEN_BUTTON = 143;
-	const SKULL_BLOCK = 144;
-	const HEAD_BLOCK = 144;
 	const MOB_HEAD_BLOCK = 144;
+	const SKULL_BLOCK = 144;
 	const ANVIL_BLOCK = 145;
+	const ANVIL = 145;
 	const TRAPPED_CHEST = 146;
+	const WEIGHTED_PRESSURE_PLATE_LIGHT = 147;
 	const LIGHT_WEIGHTED_PRESSURE_PLATE = 147;
+	const GOLD_PRESSURE_PLATE = 147;
+	const WEIGHTED_PRESSURE_PLATE_HEAVY = 148;
 	const HEAVY_WEIGHTED_PRESSURE_PLATE = 148;
-	const UNPOWERED_COMPARATOR = 149;
-	const POWERED_COMPARATOR = 150;
+	const IRON_PRESSURE_PLATE = 148;
+	const COMPARATOR_BLOCK = 149;
+	const UNPOWERED_COMPARATOR_BLOCK = 149;
+	const POWERED_COMPARATOR_BLOCK = 150;
+	const DAYLIGHT_SENSOR = 151;
 	const DAYLIGHT_DETECTOR = 151;
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
-	const QUARTZ_ORE = 153;
 	const HOPPER_BLOCK = 154;
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
@@ -270,7 +293,7 @@ class Item{
 	const WOODEN_SLABS = 158;
 	const STAINED_CLAY = 159;
 	const STAINED_HARDENED_CLAY = 159;
-	const STAINED_GLASS_PANE = 160;
+	
 	const LEAVES2 = 161;
 	const LEAVE2 = 161;
 	const WOOD2 = 162;
@@ -281,29 +304,37 @@ class Item{
 	const DARK_OAK_WOOD_STAIRS = 164;
 	const DARK_OAK_WOODEN_STAIRS = 164;
 	const SLIME_BLOCK = 165;
-	const SLIMEBLOCK = 165;
+	/**
+	* @deprecated
+	*/
 	const BARRIER = 166;
+
 	const IRON_TRAPDOOR = 167;
-	const PRISMARINE = 168;
-	const SEA_LANTERN = 169;
+	
 	const HAY_BALE = 170;
 	const CARPET = 171;
 	const HARDENED_CLAY = 172;
 	const COAL_BLOCK = 173;
 	const PACKED_ICE = 174;
 	const DOUBLE_PLANT = 175;
-	const STANDING_BANNER = 176;
-	const WALL_BANNER = 177;
-	const DAYLIGHT_DETECTOR_INVERTED = 178;
+	
+	const INVERTED_DAYLIGHT_SENSOR = 178;
+	const DAYLIGHT_SENSOR_INVERTED = 178;
 	const RED_SANDSTONE = 179;
 	const RED_SANDSTONE_STAIRS = 180;
-	const DOUBLE_STONE_SLAB2 = 181;
-	const STONE_SLAB2 = 182;
+	const DOUBLE_RED_SANDSTONE_SLAB = 181;
+	const RED_SANDSTONE_SLAB = 182;
+	const SPRUCE_FENCE_GATE = 183;
 	const FENCE_GATE_SPRUCE = 183;
+	const BIRCH_FENCE_GATE = 184; 
 	const FENCE_GATE_BIRCH = 184;
+	const JUNGLE_FENCE_GATE = 185;
 	const FENCE_GATE_JUNGLE = 185;
+	const DARK_OAK_FENCE_GATE = 186;
 	const FENCE_GATE_DARK_OAK = 186;
+	const ACACIA_FENCE_GATE = 187;
 	const FENCE_GATE_ACACIA = 187;
+	
 	const SPRUCE_DOOR_BLOCK = 193;
 	const BIRCH_DOOR_BLOCK = 194;
 	const JUNGLE_DOOR_BLOCK = 195;
@@ -311,23 +342,27 @@ class Item{
 	const DARK_OAK_DOOR_BLOCK = 197;
 	const GRASS_PATH = 198;
 	const ITEM_FRAME_BLOCK = 199;
+	
 	const PODZOL = 243;
 	const BEETROOT_BLOCK = 244;
 	const STONECUTTER = 245;
 	const GLOWING_OBSIDIAN = 246;
 	const NETHER_REACTOR = 247;
+	const UPDATE_BLOCK = 248;
+	const ATEUPD_BLOCK = 249;
+	const BLOCK_MOVED_BY_PISTON = 250;
+	const OBSERVER = 251;
 	const RESERVED = 255;
-
 	//Normal Item IDs
-
-	const IRON_SHOVEL= 256;
+	const IRON_SHOVEL = 256;
 	const IRON_PICKAXE = 257;
 	const IRON_AXE = 258;
-	const FLINT_STEEL = 259;
 	const FLINT_AND_STEEL = 259;
+	const FLINT_STEEL = 259;
 	const APPLE = 260;
 	const BOW = 261;
 	const ARROW = 262;
+	const TIPPED_ARROW = 262;
 	const COAL = 263;
 	const DIAMOND = 264;
 	const IRON_INGOT = 265;
@@ -350,12 +385,12 @@ class Item{
 	const BOWL = 281;
 	const MUSHROOM_STEW = 282;
 	const GOLD_SWORD = 283;
-	const GOLD_SHOVEL = 284;
-	const GOLD_PICKAXE = 285;
-	const GOLD_AXE = 286;
 	const GOLDEN_SWORD = 283;
+	const GOLD_SHOVEL = 284;
 	const GOLDEN_SHOVEL = 284;
+	const GOLD_PICKAXE = 285;
 	const GOLDEN_PICKAXE = 285;
+	const GOLD_AXE = 286;
 	const GOLDEN_AXE = 286;
 	const STRING = 287;
 	const FEATHER = 288;
@@ -396,6 +431,7 @@ class Item{
 	const PAINTING = 321;
 	const GOLDEN_APPLE = 322;
 	const SIGN = 323;
+	const WOODEN_DOOR = 324;
 	const OAK_DOOR = 324;
 	const BUCKET = 325;
 	const MINECART = 328;
@@ -406,6 +442,7 @@ class Item{
 	const SNOWBALL = 332;
 	const BOAT = 333;
 	const LEATHER = 334;
+	
 	const BRICK = 336;
 	const CLAY = 337;
 	const SUGARCANE = 338;
@@ -415,6 +452,8 @@ class Item{
 	const BOOK = 340;
 	const SLIMEBALL = 341;
 	const CHEST_MINECART = 342;
+	const MINECART_WITH_CHEST = 342;
+	
 	const EGG = 344;
 	const COMPASS = 345;
 	const FISHING_ROD = 346;
@@ -427,10 +466,9 @@ class Item{
 	const SUGAR = 353;
 	const CAKE = 354;
 	const BED = 355;
-	const REDSTONE_REPEATER = 356;
 	const REPEATER = 356;
 	const COOKIE = 357;
-	const WRITTEN_MAP = 358;
+	const FILLED_MAP = 358;
 	const SHEARS = 359;
 	const MELON = 360;
 	const MELON_SLICE = 360;
@@ -442,7 +480,7 @@ class Item{
 	const RAW_CHICKEN = 365;
 	const COOKED_CHICKEN = 366;
 	const ROTTEN_FLESH = 367;
-	// const ENDERPEARL = 368;
+	//const ENDERPEARL = 368;
 	const BLAZE_ROD = 369;
 	const GHAST_TEAR = 370;
 	const GOLD_NUGGET = 371;
@@ -458,7 +496,11 @@ class Item{
 	const CAULDRON = 380;
 	const GLISTERING_MELON = 382;
 	const SPAWN_EGG = 383;
+	const BOTTLE_O_ENCHANTING = 384;
+	const ENCHANTING_BOTTLE = 384;
 	const EXP_BOTTLE = 384;
+	const FIRE_CHARGE = 385;
+	
 	const EMERALD = 388;
 	const ITEM_FRAME = 389;
 	const FLOWER_POT = 390;
@@ -469,10 +511,13 @@ class Item{
 	const BAKED_POTATO = 393;
 	const BAKED_POTATOES = 393;
 	const POISONOUS_POTATO = 394;
+	const MAP = 395;
 	const EMPTY_MAP = 395;
 	const GOLDEN_CARROT = 396;
 	const MOB_HEAD = 397;
 	const SKULL = 397;
+	const CARROT_ON_A_STICK = 398;
+	
 	const PUMPKIN_PIE = 400;
 	const ENCHANTED_BOOK = 403;
 	const COMPARATOR = 404;
@@ -480,29 +525,46 @@ class Item{
 	const QUARTZ = 406;
 	const NETHER_QUARTZ = 406;
 	const TNT_MINECART = 407;
+	const MINECART_WITH_TNT = 407;
 	const HOPPER_MINECART = 408;
+	const MINECART_WITH_HOPPER = 408;
+	
 	const HOPPER = 410;
 	const RAW_RABBIT = 411;
 	const COOKED_RABBIT = 412;
 	const RABBIT_STEW = 413;
 	const RABBIT_FOOT = 414;
 	const RABBIT_HIDE = 415;
+	const LEATHER_HORSE_ARMOR = 416;
+	const IRON_HORSE_ARMOR = 417;
+	const GOLD_HORSE_ARMOR = 418;
+	const GOLDEN_HORSE_ARMOR = 418;
+	const DIAMOND_HORSE_ARMOR = 419;
+	const LEAD = 420;
+	const LEASH = 420;
+	const NAME_TAG = 421;
+	
+	const RAW_MUTTON = 423;
+	const COOKED_MUTTON = 424;
+	
 	const SPRUCE_DOOR = 427;
 	const BIRCH_DOOR = 428;
 	const JUNGLE_DOOR = 429;
 	const ACACIA_DOOR = 430;
 	const DARK_OAK_DOOR = 431;
+	
 	const SPLASH_POTION = 438;
-	const CAMERA = 439;
+	
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
 	const BEETROOT_SEED = 458;
 	const BEETROOT_SOUP = 459;
 	const RAW_SALMON = 460;
-	const CLOWNFISH = 461;
+	const CLOWN_FISH = 461;
 	const PUFFERFISH = 462;
 	const COOKED_SALMON = 463;
 	const ENCHANTED_GOLDEN_APPLE = 466;
+	const CAMERA = 498;
 
 
 	/** @var \SplFixedArray */
@@ -525,22 +587,22 @@ class Item{
 	}
 	
 	public function Launch(Player $player){
- 		$nbt = new Compound("", [
-			"Pos" => new Enum("Pos", [
-				new Double("", $player->x),
-				new Double("", $player->y + $player->getEyeHeight()),
-				new Double("", $player->z)
+ 		$nbt = new CompoundTag("", [
+			"Pos" => new ListTag("Pos", [
+				new DoubleTag("", $player->x),
+				new DoubleTag("", $player->y + $player->getEyeHeight()),
+				new DoubleTag("", $player->z)
 			]),
- 			"Motion" => new Enum("Motion", [
-				new Double("", -sin($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI)),
-				new Double("", -sin($player->pitch / 180 * M_PI)),
-				new Double("", cos($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI))
+ 			"Motion" => new ListTag("Motion", [
+				new DoubleTag("", -sin($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI)),
+				new DoubleTag("", -sin($player->pitch / 180 * M_PI)),
+				new DoubleTag("", cos($player->yaw / 180 * M_PI) * cos($player->pitch / 180 * M_PI))
 			]),
-			"Rotation" => new Enum("Rotation", [
-				new Float("", $player->yaw),
-				new Float("", $player->pitch)
+			"Rotation" => new ListTag("Rotation", [
+				new FloatTag("", $player->yaw),
+				new FloatTag("", $player->pitch)
 			]),
-			"Data" => new Byte("Data", $this->getDamage()),
+			"Data" => new ByteTag("Data", $this->getDamage()),
 		]);
 		$f = $this->f;
 		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt, $player);
@@ -661,7 +723,7 @@ class Item{
 			self::$list[self::PAPER] = Paper::class;
 			self::$list[self::BOOK] = Book::class;
 			self::$list[self::SLIMEBALL] = Slimeball::class;
-			self::$list[self::CHEST_MINECART] = MinecartChest::class;
+			self::$list[self::MINECART_WITH_CHEST] = MinecartChest::class;
 			
 			self::$list[self::EGG] = Egg::class;
 			self::$list[self::COMPASS] = Compass::class;
@@ -676,7 +738,7 @@ class Item{
 			self::$list[self::SUGAR] = Sugar::class;
 			self::$list[self::CAKE] = Cake::class;
 			self::$list[self::BED] = Bed::class;
-			self::$list[self::REDSTONE_REPEATER] = RedstoneRepeater::class;
+			self::$list[self::REPEATER_BLOCK] = RedstoneRepeater::class;
 			
 			self::$list[self::COOKIE] = Cookie::class;
 			self::$list[self::EMPTY_MAP] = EmptyMap::class;
@@ -717,7 +779,7 @@ class Item{
 			self::$list[self::POTATO] = Potato::class;
 			self::$list[self::BAKED_POTATO] = BakedPotato::class;
 			self::$list[self::POISONOUS_POTATO] = PoisonousPotato::class;
-			self::$list[self::WRITTEN_MAP] = WrittenMap::class;
+			self::$list[self::FILLED_MAP] = FILLED_MAP::class;
 			self::$list[self::GOLDEN_CARROT] = GoldenCarrot::class;
 			self::$list[self::SKULL] = Skull::class;
 			
@@ -728,8 +790,8 @@ class Item{
 			
 			self::$list[self::NETHER_BRICK] = NetherBrick::class;
 			self::$list[self::QUARTZ] = NetherQuartz::class;
-			self::$list[self::TNT_MINECART] = MinecartTNT::class;
-			self::$list[self::HOPPER_MINECART] = MinecartHopper::class;
+			self::$list[self::MINECART_WITH_TNT] = MinecartTNT::class;
+			self::$list[self::MINECART_WITH_HOPPER] = MinecartHopper::class;
 			self::$list[self::HOPPER] = Hopper::class;
 
 			self::$list[self::RAW_RABBIT] = RawRabbit::class;
@@ -743,10 +805,10 @@ class Item{
 			self::$list[self::BEETROOT] = Beetroot::class;
 			self::$list[self::BEETROOT_SEEDS] = BeetrootSeeds::class;
 			self::$list[self::BEETROOT_SOUP] = BeetrootSoup::class;
-			self::$list[self::RAW_SALMON] = RawSalmon::class;
-			self::$list[self::CLOWNFISH] = Clownfish::class;
-			self::$list[self::PUFFERFISH] = Pufferfish::class;
-			self::$list[self::COOKED_SALMON] = CookedSalmon::class;
+			//self::$list[self::RAW_SALMON] = RawSalmon::class;
+			//self::$list[self::CLOWN_FISH] = CLOWN_FISH::class;
+			//self::$list[self::PUFFERFISH] = Pufferfish::class;
+			//self::$list[self::COOKED_SALMON] = CookedSalmon::class;
 			self::$list[self::ENCHANTED_GOLDEN_APPLE] = EnchantedGoldenApple::class;
 
 			for($i = 0; $i < 256; ++$i){
@@ -855,7 +917,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::WOODEN_SLAB, 5));
 		Item::addCreativeItem(Item::get(Item::SLAB, 4));
 		Item::addCreativeItem(Item::get(Item::SLAB, 1));
-		Item::addCreativeItem(Item::get(Item::STONE_SLAB2, 0));
+		Item::addCreativeItem(Item::get(Item::RED_SANDSTONE_SLAB, 0));
 		Item::addCreativeItem(Item::get(Item::SLAB, 5));
 		Item::addCreativeItem(Item::get(Item::SLAB, 6));
 		Item::addCreativeItem(Item::get(Item::SLAB, 7));
@@ -1046,6 +1108,8 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::BUCKET, 8)); // water
 		Item::addCreativeItem(Item::get(Item::BUCKET, 10)); // lava
 		Item::addCreativeItem(Item::get(Item::TNT, 0)); 
+		Item::addCreativeItem(Item::get(Item::LEAD, 0)); 
+		Item::addCreativeItem(Item::get(Item::NAME_TAG, 0)); 
 		Item::addCreativeItem(Item::get(Item::REDSTONE, 0));
 		Item::addCreativeItem(Item::get(Item::BOW, 0));
 		Item::addCreativeItem(Item::get(Item::FISHING_ROD, 0));
@@ -1054,9 +1118,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::CLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::COMPASS, 0));
 		Item::addCreativeItem(Item::get(Item::MINECART, 0));
-		Item::addCreativeItem(Item::get(Item::CHEST_MINECART, 0));
-		Item::addCreativeItem(Item::get(Item::HOPPER_MINECART, 0));
-		Item::addCreativeItem(Item::get(Item::TNT_MINECART, 0));
+		Item::addCreativeItem(Item::get(Item::MINECART_WITH_CHEST, 0));
+		Item::addCreativeItem(Item::get(Item::MINECART_WITH_HOPPER, 0));
+		Item::addCreativeItem(Item::get(Item::MINECART_WITH_TNT, 0));
 		// Item::addCreativeItem(Item::get(Item::CAMERA, 0)); // Crashes client
 		Item::addCreativeItem(Item::get(Item::BOAT, 0)); // Oak
 		Item::addCreativeItem(Item::get(Item::BOAT, 1)); // Spruce
@@ -1064,6 +1128,11 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::BOAT, 3)); // Jungle
 		Item::addCreativeItem(Item::get(Item::BOAT, 4)); // Acacia
 		Item::addCreativeItem(Item::get(Item::BOAT, 5)); // Dark Oak
+		Item::addCreativeItem(Item::get(Item::SADDLE, 0)); 
+		Item::addCreativeItem(Item::get(Item::LEATHER_HORSE_ARMOR, 0)); 
+		Item::addCreativeItem(Item::get(Item::IRON_HORSE_ARMOR, 0)); 
+		Item::addCreativeItem(Item::get(Item::GOLDEN_HORSE_ARMOR, 0)); 
+		Item::addCreativeItem(Item::get(Item::DIAMOND_HORSE_ARMOR, 0)); 
 
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 15)); //Villager
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 10)); //Chicken
@@ -1075,14 +1144,22 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 16)); //Mooshroom
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 19)); //Bat
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 18)); //Rabbit
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 23)); //Horse
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 24)); //Donkey
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 25)); //Mule
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 26)); //Skeleton Horse
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 27)); //Zombie Horse
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 33)); //Creeper
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 38)); //Enderman
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 39)); //Silverfish
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 34)); //Skeleton
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 48)); //Wither Skeleton
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 46)); //Stray
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 37)); //Slime
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 35)); //Spider
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 32)); //Zombie
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 36)); //Zombie Pigman
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 47)); //Husk
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 17)); //Squid
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 40)); //Cave spider
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 42)); //Magma Cube
@@ -1162,6 +1239,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::DISPENSER, 3));
 		Item::addCreativeItem(Item::get(Item::DROPPER, 3));
 		Item::addCreativeItem(Item::get(Item::HOPPER));
+		Item::addCreativeItem(Item::get(Item::PISTON));
+		Item::addCreativeItem(Item::get(Item::STICKY_PISTON));
+		Item::addCreativeItem(Item::get(Item::OBSERVER));
 		Item::addCreativeItem(Item::get(Item::SNOWBALL));
 	}
 	
@@ -1194,6 +1274,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::EMPTY_MAP, 0));
 		Item::addCreativeItem(Item::get(Item::SUGARCANE, 0));
 		Item::addCreativeItem(Item::get(Item::WHEAT, 0));
+		for($i = 0; $i <= 30; $i++){
+			Item::addCreativeItem(Item::get(Item::TIPPED_ARROW, $i + 6));
+		}
 		Item::addCreativeItem(Item::get(Item::SEEDS, 0));
 		Item::addCreativeItem(Item::get(Item::PUMPKIN_SEEDS, 0));
 		Item::addCreativeItem(Item::get(Item::MELON_SEEDS, 0));
@@ -1204,7 +1287,7 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::ENCHANTED_GOLDEN_APPLE, 0)); // Enchanted golden apple
 		Item::addCreativeItem(Item::get(Item::RAW_FISH, 0)); 
 		Item::addCreativeItem(Item::get(Item::RAW_SALMON, 0)); // Salmon
-		Item::addCreativeItem(Item::get(Item::CLOWNFISH, 0)); // Clownfish
+		Item::addCreativeItem(Item::get(Item::CLOWN_FISH, 0)); // CLOWN_FISH
 		Item::addCreativeItem(Item::get(Item::PUFFERFISH, 0)); // Pufferfish
 		Item::addCreativeItem(Item::get(Item::COOKED_FISH, 0));
 		Item::addCreativeItem(Item::get(Item::COOKED_SALMON, 0)); // Salmon
@@ -1243,11 +1326,12 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::GLOWSTONE_DUST, 0));
 		Item::addCreativeItem(Item::get(Item::SPIDER_EYE, 0));
 		Item::addCreativeItem(Item::get(Item::FERMENTED_SPIDER_EYE, 0));
+		Item::addCreativeItem(Item::get(Item::CARROT_ON_A_STICK, 0));
 		Item::addCreativeItem(Item::get(Item::EXP_BOTTLE, 0));
 		// TODO: Enchantments
 		for($i = 0; $i < 79; $i++){
 			$item = Item::get(Item::ENCHANTED_BOOK)->addEnchantment(Enchantment::getEnchantment($i));
-			if($item !== null) Item::addCreativeItem();
+			if($item !== null) Item::addCreativeItem($item);
 			else Item::addCreativeItem(Item::get(Item::ENCHANTED_BOOK));
 		}
 		Item::addCreativeItem(Item::get(Item::DYE, 0));
@@ -1449,7 +1533,7 @@ class Item{
 	}
 
 	public function setCompoundTag($tags){
-		if($tags instanceof Compound){
+		if($tags instanceof CompoundTag){
 			$this->setNamedTag($tags);
 		}else{
 			$this->tags = $tags;
@@ -1476,7 +1560,7 @@ class Item{
 		}
 
 		$tag = $this->getNamedTag();
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof Compound){
+		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
 			return true;
 		}
 
@@ -1489,7 +1573,7 @@ class Item{
 		}
 		$tag = $this->getNamedTag();
 
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof Compound){
+		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
 			unset($tag->display->BlockEntityTag);
 			$this->setNamedTag($tag);
 		}
@@ -1497,12 +1581,12 @@ class Item{
 		return $this;
 	}
 
-	public function setCustomBlockData(Compound $compound){
+	public function setCustomBlockData(CompoundTag $compound){
 		$tags = clone $compound;
 		$tags->setName("BlockEntityTag");
 
 		if(!$this->hasCompoundTag()){
-			$tag = new Compound("", []);
+			$tag = new CompoundTag("", []);
 		}else{
 			$tag = $this->getNamedTag();
 		}
@@ -1519,7 +1603,7 @@ class Item{
 		}
 
 		$tag = $this->getNamedTag();
-		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof Compound){
+		if(isset($tag->BlockEntityTag) and $tag->BlockEntityTag instanceof CompoundTag){
 			return $tag->BlockEntityTag;
 		}
 
@@ -1530,27 +1614,23 @@ class Item{
 		if(!$this->hasCompoundTag()){
 			return false;
 		}
-
 		$tag = $this->getNamedTag();
 		if(isset($tag->ench)){
 			$tag = $tag->ench;
-			if($tag instanceof Enum){
+			if($tag instanceof ListTag){
 				return true;
 			}
 		}
-
 		return false;
 	}
-
 	/**
 	 * @param $id
 	 * @return Enchantment|null
 	 */
-	public function getEnchantment($id){
+	public function getEnchantment(int $id){
 		if(!$this->hasEnchantments()){
 			return null;
 		}
-
 		foreach($this->getNamedTag()->ench as $entry){
 			if($entry["id"] === $id){
 				$e = Enchantment::getEnchantment($entry["id"]);
@@ -1558,48 +1638,87 @@ class Item{
 				return $e;
 			}
 		}
-
 		return null;
 	}
-
+	/**
+	 * @param int  $id
+	 * @param int  $level
+	 * @param bool $compareLevel
+	 * @return bool
+	 */
+	public function hasEnchantment(int $id, int $level = 1, bool $compareLevel = false){
+		if($this->hasEnchantments()){
+			foreach($this->getEnchantments() as $enchantment){
+				if($enchantment->getId() == $id){
+					if($compareLevel){
+						if($enchantment->getLevel() == $level){
+							return true;
+						}
+					}else{
+						return true;
+					}
+				}
+			}
+		}
+		return false;
+	}
+	
+	/**
+	 * @param $id
+	 * @return Int level|0(for null)
+	 */
+	public function getEnchantmentLevel(int $id){
+		if(!$this->hasEnchantments()){
+			return 0;
+		}
+		foreach($this->getNamedTag()->ench as $entry){
+			if($entry["id"] === $id){
+				$e = Enchantment::getEnchantment($entry["id"]);
+				$e->setLevel($entry["lvl"]);
+				$E_level = $e->getLevel() > Enchantment::getEnchantMaxLevel($id) ? Enchantment::getEnchantMaxLevel($id) : $e->getLevel();
+				return $E_level;
+			}
+		}
+		return 0;
+	}
 	/**
 	 * @param Enchantment $ench
 	 */
 	public function addEnchantment(Enchantment $ench){
 		if(!$this->hasCompoundTag()){
-			$tag = new Compound("", []);
+			$tag = new CompoundTag("", []);
 		}else{
 			$tag = $this->getNamedTag();
 		}
-
 		if(!isset($tag->ench)){
-			$tag->ench = new Enum("ench", []);
+			$tag->ench = new ListTag("ench", []);
 			$tag->ench->setTagType(NBT::TAG_Compound);
 		}
-
 		$found = false;
-
 		foreach($tag->ench as $k => $entry){
 			if($entry["id"] === $ench->getId()){
-				$tag->ench->{$k} = new Compound("", [
-					"id" => new Short("id", $ench->getId()),
-					"lvl" => new Short("lvl", $ench->getLevel())
+				$tag->ench->{$k} = new CompoundTag("", [
+					"id" => new ShortTag("id", $ench->getId()),
+					"lvl" => new ShortTag("lvl", $ench->getLevel())
 				]);
 				$found = true;
 				break;
 			}
 		}
-
 		if(!$found){
-			$tag->ench->{count($tag->ench) + 1} = new Compound("", [
-				"id" => new Short("id", $ench->getId()),
-				"lvl" => new Short("lvl", $ench->getLevel())
+			$count = 0;
+			foreach($tag->ench as $key => $value){
+				if(is_numeric($key)){
+					$count++;
+				}
+			}
+			$tag->ench->{$count + 1} = new CompoundTag("", [
+				"id" => new ShortTag("id", $ench->getId()),
+				"lvl" => new ShortTag("lvl", $ench->getLevel())
 			]);
 		}
-
 		$this->setNamedTag($tag);
 	}
-
 	/**
 	 * @return Enchantment[]
 	 */
@@ -1607,31 +1726,82 @@ class Item{
 		if(!$this->hasEnchantments()){
 			return [];
 		}
-
 		$enchantments = [];
-
 		foreach($this->getNamedTag()->ench as $entry){
 			$e = Enchantment::getEnchantment($entry["id"]);
 			$e->setLevel($entry["lvl"]);
 			$enchantments[] = $e;
 		}
-
 		return $enchantments;
+	}
+
+	public function hasRepairCost(){
+		if(!$this->hasCompoundTag()){
+			return false;
+		}
+		$tag = $this->getNamedTag();
+		if(isset($tag->RepairCost)){
+			$tag = $tag->RepairCost;
+			if($tag instanceof IntTag){
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function getRepairCost(){
+		if(!$this->hasCompoundTag()){
+			return 1;
+		}
+		$tag = $this->getNamedTag();
+		if(isset($tag->display)){
+			$tag = $tag->RepairCost;
+			if($tag instanceof IntTag){
+				return $tag->getValue();
+			}
+		}
+		return 1;
+	}
+
+	public function setRepairCost(int $cost){
+		if($cost === 1){
+			$this->clearRepairCost();
+		}
+		if(!($hadCompoundTag = $this->hasCompoundTag())){
+			$tag = new CompoundTag("", []);
+		}else{
+			$tag = $this->getNamedTag();
+		}
+		$tag->RepairCost = new IntTag("RepairCost", $cost);
+		if(!$hadCompoundTag){
+			$this->setCompoundTag($tag);
+		}
+		return $this;
+	}
+
+	public function clearRepairCost(){
+		if(!$this->hasCompoundTag()){
+			return $this;
+		}
+		$tag = $this->getNamedTag();
+		if(isset($tag->RepairCost) and $tag->RepairCost instanceof IntTag){
+			unset($tag->RepairCost);
+			$this->setNamedTag($tag);
+		}
+		return $this;
 	}
 
 	public function hasCustomName(){
 		if(!$this->hasCompoundTag()){
 			return false;
 		}
-
 		$tag = $this->getNamedTag();
 		if(isset($tag->display)){
 			$tag = $tag->display;
-			if($tag instanceof Compound and isset($tag->Name) and $tag->Name instanceof String){
+			if($tag instanceof CompoundTag and isset($tag->Name) and $tag->Name instanceof StringTag){
 				return true;
 			}
 		}
-
 		return false;
 	}
 
@@ -1639,39 +1809,35 @@ class Item{
 		if(!$this->hasCompoundTag()){
 			return "";
 		}
-
 		$tag = $this->getNamedTag();
 		if(isset($tag->display)){
 			$tag = $tag->display;
-			if($tag instanceof Compound and isset($tag->Name) and $tag->Name instanceof String){
+			if($tag instanceof CompoundTag and isset($tag->Name) and $tag->Name instanceof StringTag){
 				return $tag->Name->getValue();
 			}
 		}
-
 		return "";
 	}
 
-	public function setCustomName($name){
-		if((string) $name === ""){
+	public function setCustomName(string $name){
+		if($name === ""){
 			$this->clearCustomName();
 		}
-		
 		if(!($hadCompoundTag = $this->hasCompoundTag())){
-			$tag = new Compound("", []);
+			$tag = new CompoundTag("", []);
 		}else{
 			$tag = $this->getNamedTag();
 		}
-		
-		if(isset($tag->display) and $tag->display instanceof Compound){
-			$tag->display->Name = new String("Name", $name);
+		if(isset($tag->display) and $tag->display instanceof CompoundTag){
+			$tag->display->Name = new StringTag("Name", $name);
 		}else{
-			$tag->display = new Compound("display", ["Name" => new String("Name", $name)]);
+			$tag->display = new CompoundTag("display", [
+				"Name" => new StringTag("Name", $name)
+			]);
 		}
-		
 		if(!$hadCompoundTag){
 			$this->setCompoundTag($tag);
 		}
-		
 		return $this;
 	}
 
@@ -1680,16 +1846,13 @@ class Item{
 			return $this;
 		}
 		$tag = $this->getNamedTag();
-
-		if(isset($tag->display) and $tag->display instanceof Compound){
+		if(isset($tag->display) and $tag->display instanceof CompoundTag){
 			unset($tag->display->Name);
 			if($tag->display->getCount() === 0){
 				unset($tag->display);
 			}
-
 			$this->setNamedTag($tag);
 		}
-
 		return $this;
 	}
 
@@ -1698,7 +1861,6 @@ class Item{
 		if($tag !== null){
 			return isset($tag->{$name}) ? $tag->{$name} : null;
 		}
-
 		return null;
 	}
 
@@ -1711,14 +1873,12 @@ class Item{
 		return $this->cachedNBT = self::parseCompoundTag($this->tags);
 	}
 
-	public function setNamedTag(Compound $tag){
+	public function setNamedTag(CompoundTag $tag){
 		if($tag->getCount() === 0){
 			return $this->clearNamedTag();
 		}
-
 		$this->cachedNBT = $tag;
 		$this->tags = self::writeCompoundTag($tag);
-
 		return $this;
 	}
 
@@ -1747,6 +1907,18 @@ class Item{
 	}
 	final public function isPlaceable(){
 		$this->canBePlaced();
+	}
+	
+
+	public function canBeConsumed(){
+		return false;
+	}
+
+	public function canBeConsumedBy(Entity $entity){
+		return $this->canBeConsumed();
+	}
+
+	public function onConsume(Entity $entity){
 	}
 
 	public function getBlock(){
@@ -1798,6 +1970,15 @@ class Item{
 	}
 
 	/**
+	 * @param Entity $entity, Entity $origin (who uses it)
+	 *
+	 * @return bool
+	 */
+	public function useOnEntity(Entity $entity, Entity $origin){
+		return false;
+	}
+
+	/**
 	 * @return bool
 	 */
 	public function isTool(){
@@ -1836,6 +2017,22 @@ class Item{
 	}
 
 	public function isArmor(){
+		return false;
+	}
+
+	public function isBoots(){
+		return false;
+	}
+
+	public function isHelmet(){
+		return false;
+	}
+
+	public function isLegging(){
+		return false;
+	}
+
+	public function isChestplate(){
 		return false;
 	}
 

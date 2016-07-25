@@ -4,6 +4,7 @@ namespace pocketmine\network;
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\network\protocol\DataPacket;
 use pocketmine\network\protocol\Info as ProtocolInfo;
+use pocketmine\network\protocol\Info;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\MainLogger;
@@ -83,7 +84,8 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 		if($this->rakLib->isTerminated()){
 			$info = $this->rakLib->getTerminationInfo();
 			$this->network->unregisterInterface($this);
-			\ExceptionHandler::handler(E_ERROR, "RakLib Thread crashed [".$info["scope"]."]: " . (isset($info["message"]) ? $info["message"] : ""), $info["file"], $info["line"]);
+
+			throw new \Exception("RakLib Thread crashed [".$info["scope"]."]: " . (isset($info["message"]) ? $info["message"] : "") . " File: ". $info["file"] . " Line: " . $info["line"]);
 		}
 
 		return $work;
@@ -138,13 +140,11 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 						$this->players[$identifier]->handleDataPacket($pk);
 					}
 				}
-			}catch(\Exception $e){
+			}catch(\Throwable $e){
 				if(\pocketmine\DEBUG > 1 and isset($pk)){
 					$logger = $this->server->getLogger();
-					if($logger instanceof MainLogger){
-						$logger->debug("Packet " . get_class($pk) . " 0x" . bin2hex($packet->buffer));
-						$logger->logException($e);
-					}
+					$logger->debug("Packet " . get_class($pk) . " 0x" . bin2hex($packet->buffer));
+					$logger->logException($e);
 				}
 
 				if(isset($this->players[$identifier])){
@@ -175,8 +175,8 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 		$this->interface->sendOption("name",
 			"MCPE;".addcslashes($name, ";") .";".
-			$this->currentprotocol.";".
-			$this->networkversion.";".
+			Info::CURRENT_PROTOCOL.";".
+			\pocketmine\MINECRAFT_VERSION_NETWORK.";".
 			$info->getPlayerCount().";".
 			$info->getMaxPlayerCount()
 		);
@@ -203,7 +203,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 				if(!isset($packet->__encapsulatedPacket)){
 					$packet->__encapsulatedPacket = new CachedEncapsulatedPacket;
 					$packet->__encapsulatedPacket->identifierACK = null;
-					$packet->__encapsulatedPacket->buffer = chr(0x8e) . $packet->buffer;
+					$packet->__encapsulatedPacket->buffer = chr(0xfe) . $packet->buffer; // #blameshoghi
 					$packet->__encapsulatedPacket->reliability = 3;
 					$packet->__encapsulatedPacket->orderChannel = 0;
 				}
@@ -219,7 +219,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 			if($pk === null){
 				$pk = new EncapsulatedPacket();
-				$pk->buffer = chr(0x8e) .  $packet->buffer;
+				$pk->buffer = chr(0xfe) . $packet->buffer; // #blameshoghi
 				$packet->reliability = 3;
 				$packet->orderChannel = 0;
 
@@ -237,12 +237,16 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 	}
 
 	private function getPacket($buffer){
-		$pid = ord($buffer{1});
-
+		$pid = ord($buffer{0});
+		$start = 1;
+		if($pid == 0xfe){
+			$pid = ord($buffer{1});
+			$start++;
+		}
 		if(($data = $this->network->getPacket($pid)) === null){
 			return null;
 		}
-		$data->setBuffer($buffer, 2);
+		$data->setBuffer($buffer, $start);
 
 		return $data;
 	}

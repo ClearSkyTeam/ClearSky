@@ -2,10 +2,10 @@
 namespace pocketmine\entity;
 
 
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\Player;
 
-class Villager extends Creature implements NPC, Ageable{
+class Villager extends Animal implements NPC, Ageable{
 	const NETWORK_ID = 15;
 
 	const PROFESSION_FARMER = 0;
@@ -26,7 +26,7 @@ class Villager extends Creature implements NPC, Ageable{
 		return "Villager";
 	}
 
-	protected function initEntity(){
+	public function initEntity(){
 		$this->setMaxHealth(20);
 		parent::initEntity();
 
@@ -50,7 +50,7 @@ class Villager extends Creature implements NPC, Ageable{
 	 * @param $profession
 	 */
 	public function setVariant($type){
-		$this->namedtag->Profession = new Int("Profession", $type);
+		$this->namedtag->Profession = new IntTag("Profession", $type);
 		$this->setDataProperty(16, self::DATA_TYPE_BYTE, $type);
 	}
 
@@ -60,5 +60,9 @@ class Villager extends Creature implements NPC, Ageable{
 
 	public function isBaby(){
 		return $this->getDataFlag(self::DATA_AGEABLE_FLAGS, self::DATA_FLAG_BABY);
+	}
+	
+	public function isLeashableType(){
+		return false;
 	}
 }

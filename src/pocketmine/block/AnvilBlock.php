@@ -5,6 +5,7 @@ use pocketmine\inventory\AnvilInventory;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\Player;
+use pocketmine\level\sound\AnvilFallSound;
 
 class AnvilBlock extends Fallable{
     const TYPE_ANVIL = 0;
@@ -55,14 +56,12 @@ class AnvilBlock extends Fallable{
         return Tool::TYPE_PICKAXE;
     }
 
-    public function onActivate(Item $item, Player $player = null){
-        if($player instanceof Player){
-
-            $player->addWindow(new AnvilInventory($this));
-        }
-
-        return true;
-    }
+	public function onActivate(Item $item, Player $player = null){
+		if($player instanceof Player){
+			$player->addWindow(new AnvilInventory($this));
+		}
+		return true;
+	}
 
     public function getDrops(Item $item){
         $damage = $this->getDamage();
@@ -82,7 +81,8 @@ class AnvilBlock extends Fallable{
     }
 
     public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-        if ($target->isTransparent() === false){
+        $this->getLevel()->addSound(new AnvilFallSound($this));
+        if($target->isTransparent() === false){
             $faces = [
                 0 => 0,
                 1 => 1,

@@ -3,31 +3,30 @@ namespace pocketmine\tile;
 
 use pocketmine\item\Item;
 use pocketmine\level\format\FullChunk;
-use pocketmine\nbt\tag\Byte;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Float;
-use pocketmine\nbt\tag\Int;
-use pocketmine\nbt\tag\String;
-use pocketmine\nbt\tag\Short;
+use pocketmine\nbt\tag\ByteTag;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\FloatTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
+use pocketmine\nbt\NBT;
 
 class ItemFrame extends Spawnable{
 
-	public function __construct(FullChunk $chunk, Compound $nbt){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
 		if(!isset($nbt->Item)){
-			$nbt->Item = new Short("Item", 0);
+			$nbt->Item = NBT::putItemHelper(Item::get(Item::AIR));
+			$nbt->Item->setName("Item");
 		}
+
 		if(!isset($nbt->ItemRotation)){
-			$nbt->ItemRotation = new Byte("ItemRotation", 0);
+			$nbt->ItemRotation = new ByteTag("ItemRotation", 0);
 		}
+
 		if(!isset($nbt->ItemDropChance)){
-			$nbt->ItemDropChance = new Float("ItemDropChance", 1.0);
+			$nbt->ItemDropChance = new FloatTag("ItemDropChance", 1.0);
 		}
 
 		parent::__construct($chunk, $nbt);
-	}
-
-	public function saveNBT(){
-		parent::saveNBT();
 	}
 
 	public function getName(){
@@ -38,17 +37,19 @@ class ItemFrame extends Spawnable{
 		return $this->namedtag["ItemRotation"];
 	}
 
-	public function setItemRotation($itemRotation){
-		$this->namedtag->ItemRotation = new Byte("ItemRotation", $itemRotation);
+	public function setItemRotation(int $itemRotation){
+		$this->namedtag->ItemRotation = new ByteTag("ItemRotation", $itemRotation);
 		$this->setChanged();
 	}
 
 	public function getItem(){
-		return $this->namedtag->Item;
+		return NBT::getItemHelper($this->namedtag->Item);
 	}
 
-	public function setItem(Item $item, $setChanged = true){
-		$this->namedtag->Item = $item;
+	public function setItem(Item $item, bool $setChanged = true){
+		$nbtItem = NBT::putItemHelper($item);
+		$nbtItem->setName("Item");
+		$this->namedtag->Item = $nbtItem;
 		if($setChanged) $this->setChanged();
 	}
 
@@ -57,7 +58,7 @@ class ItemFrame extends Spawnable{
 	}
 
 	public function setItemDropChance($chance = 1.0){
-		$this->namedtag->ItemDropChance = new Float("ItemDropChance", $chance);
+		$this->namedtag->ItemDropChance = new FloatTag("ItemDropChance", $chance);
 	}
 
 	private function setChanged(){
@@ -69,14 +70,29 @@ class ItemFrame extends Spawnable{
 	}
 
 	public function getSpawnCompound(){
-		return new Compound("", [
-			new String("id", Tile::ITEM_FRAME),
-			new Int("x", (int) $this->x),
-			new Int("y", (int) $this->y),
-			new Int("z", (int) $this->z),
-			new Short("Item", $this->getItem()),
-			new Byte("ItemRotation", $this->getItemRotation()),
-			new Float("ItemDropChance", $this->getItemDropChance())
-		]);
+		if(!isset($this->namedtag->Item)) $this->setItem(Item::get(Item::AIR), false);
+		/** @var CompoundTag $nbtItem */
+		$nbtItem = clone $this->namedtag->Item;
+		$nbtItem->setName("Item");
+		if($nbtItem["id"] == 0){
+			return new CompoundTag("", [
+				new StringTag("id", Tile::ITEM_FRAME),
+				new IntTag("x", (int) $this->x),
+				new IntTag("y", (int) $this->y),
+				new IntTag("z", (int) $this->z),
+				new ByteTag("ItemRotation", 0),
+				new FloatTag("ItemDropChance", (float) $this->getItemDropChance())
+			]);
+		}else{
+			return new CompoundTag("", [
+				new StringTag("id", Tile::ITEM_FRAME),
+				new IntTag("x", (int) $this->x),
+				new IntTag("y", (int) $this->y),
+				new IntTag("z", (int) $this->z),
+				$nbtItem,
+				new ByteTag("ItemRotation", (int) $this->getItemRotation()),
+				new FloatTag("ItemDropChance", (float) $this->getItemDropChance())
+			]);
+		}
 	}
 }

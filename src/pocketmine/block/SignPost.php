@@ -6,10 +6,10 @@ use pocketmine\item\Tool;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\math\Vector3;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\tile\Tile;
-use pocketmine\nbt\tag\Int;
+use pocketmine\nbt\tag\IntTag;
 use pocketmine\tile\Sign;
 
 class SignPost extends Transparent{
@@ -39,25 +39,19 @@ class SignPost extends Transparent{
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
 		if($face !== 0){
-			$faces = [
-				2 => 2,
-				3 => 3,
-				4 => 4,
-				5 => 5,
-			];
-			$nbt = new Compound("", [
-				"id" => new String("id", Tile::SIGN),
-				"x" => new Int("x", $block->x),
-				"y" => new Int("y", $block->y),
-				"z" => new Int("z", $block->z),
-				"Text1" => new String("Text1", ""),
-				"Text2" => new String("Text2", ""),
-				"Text3" => new String("Text3", ""),
-				"Text4" => new String("Text4", "")
+			$nbt = new CompoundTag("", [
+				"id" => new StringTag("id", Tile::SIGN),
+				"x" => new IntTag("x", $block->x),
+				"y" => new IntTag("y", $block->y),
+				"z" => new IntTag("z", $block->z),
+				"Text1" => new StringTag("Text1", ""),
+				"Text2" => new StringTag("Text2", ""),
+				"Text3" => new StringTag("Text3", ""),
+				"Text4" => new StringTag("Text4", "")
 			]);
 
 			if($player !== null){
-				$nbt->Creator = new String("Creator", $player->getRawUniqueId());
+				$nbt->Creator = new StringTag("Creator", $player->getRawUniqueId());
 			}
 
 			if($item->hasCustomBlockData()){
@@ -66,14 +60,14 @@ class SignPost extends Transparent{
 				}
 			}
 
-			if(!isset($faces[$face])){
+			if($face === 1){
 				$this->meta = floor((($player->yaw + 180) * 16 / 360) + 0.5) & 0x0F;
 				$this->getLevel()->setBlock($block, Block::get(Item::SIGN_POST, $this->meta), true);
 				Tile::createTile(Tile::SIGN, $this->getLevel()->getChunk($block->x >> 4, $block->z >> 4), $nbt);
 
 				return true;
 			}else{
-				$this->meta = $faces[$face];
+				$this->meta = $face;
 				$this->getLevel()->setBlock($block, Block::get(Item::WALL_SIGN, $this->meta), true);
 				Tile::createTile(Tile::SIGN, $this->getLevel()->getChunk($block->x >> 4, $block->z >> 4), $nbt);
 
@@ -88,9 +82,11 @@ class SignPost extends Transparent{
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			if($this->getSide(Vector3::SIDE_DOWN)->getId() === Block::AIR){
 				$this->getLevel()->useBreakOn($this);
+
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}
+
 		return false;
 	}
 

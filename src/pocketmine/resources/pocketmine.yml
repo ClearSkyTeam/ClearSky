@@ -24,6 +24,17 @@ settings:
  #If set to auto, the server will try to detect the number of cores (or use 2)
  config-update: true
  #Whether the server should "try" to add new configs automatically here
+ #Load plugins with incompatible API versions
+ #Do NOT report any bugs if any of these options is set to true.
+ #Some plugins may crash the server, or do strange things to your savefiles.
+ incompatible-plugins:
+  plugin-too-new:
+   #Load plugins whose major API version is too new
+   major: false
+   #Load plugins whose minor API version is too new
+   minor: false
+  #Load plugins whose major API version is too old
+  plugin-too-old: false
 
 player:
  inventory:
@@ -106,12 +117,12 @@ network:
  anti-cheat: false
  #Prevent cheating , but consider turn it off when have a bad network connection
  acceptable-packetlost: 2
- #If your server have a bad network connection , increase this
+ #If your server have a bad network connection, increase this
  timeout: 1
  #Interrupt Raklib after reach timeout, save CPU usage, may cause packet lost.(-1 for disable , all pkt will send)
- protocol: 70
+ protocol: 81
  #MCPE Protocol Version, it will affect the color of version string.
- version: "0.14.3"
+ version: "0.15"
  #MCPE Version string shown in server list, number and dot(.) allowed
  upnp-forwarding: false
  #Experimental, only for Windows. Tries to use UPnP to automatically port forward
@@ -191,10 +202,10 @@ spawn-limits:
 #NOT IMPLEMENTED YET
 
 auto-updater:
- enabled: true
+ enabled: false
  on-update:
-  warn-console: true
-  warn-ops: true
+  warn-console: false
+  warn-ops: false
  preferred-channel: Stable
  #Stable or DEV
  host: jenkins.clearskyteam.org
@@ -217,7 +228,7 @@ anonymous-statistics:
  host: stats.pocketmine.net
  
 #!DO NOT EDIT below this line!
-version: 24
+version: 25
 # This is for internal use, changing this will reset your whole pocketmine.yml!
 
 auto-report:

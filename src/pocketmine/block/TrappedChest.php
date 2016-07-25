@@ -6,15 +6,15 @@ use pocketmine\item\Tool;
 use pocketmine\level\Level;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\nbt\NBT;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Enum;
-use pocketmine\nbt\tag\Int;
-use pocketmine\nbt\tag\String;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ListTag;
+use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\StringTag;
 use pocketmine\Player;
 use pocketmine\tile\Chest as TileChest;
 use pocketmine\tile\Tile;
 
-class TrappedChest extends Transparent implements Redstone{
+class TrappedChest extends Transparent implements Redstone, RedstoneSource{
 
 	protected $id = self::TRAPPED_CHEST;
 
@@ -22,12 +22,39 @@ class TrappedChest extends Transparent implements Redstone{
 		$this->meta = $meta;
 	}
 	
+	public function isRedstoneSource(){
+		return true;
+	}
+
 	public function canBeActivated(){
 		return true;
 	}
 
 	public function getHardness(){
 		return 2.5;
+	}
+
+	public function isChestOpen(){
+		$chestTile = $this->getLevel()->getTile($this);
+		if($chestTile instanceof TileChest){
+			if($chestTile->getInventory()->getViewers() == []){
+				return false;
+			}else{
+				return true;
+			}
+		}
+		return false;
+	}
+
+	public function getPower(){
+		if($this->isChestOpen()){
+			return Block::REDSTONESOURCEPOWER;
+		}
+		return 0;
+	}
+
+	public function isCharged($hash){
+		return $this->isChestOpen();
 	}
 
 	public function getName(){
@@ -37,13 +64,30 @@ class TrappedChest extends Transparent implements Redstone{
 	public function getToolType(){
 		return Tool::TYPE_AXE;
 	}
-	
-	/*public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_SCHEDULED){
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+	public function BroadcastRedstoneUpdate($type,$power){
+		for($side = 0; $side <= 5; $side++){
+			$around=$this->getSide($side);
+			$this->getLevel()->setRedstoneUpdate($around,Block::REDSTONEDELAY,$type,$power);
 		}
-		return;
-	}*/
+	}
+
+	public function onRedstoneUpdate($type,$power){
+		if($type == Level::REDSTONE_UPDATE_PLACE or $type == Level::REDSTONE_UPDATE_LOSTPOWER){
+			if($this->isChestOpen()){
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_PLACE,Block::REDSTONESOURCEPOWER);
+			}
+		}
+	}
+
+	public function onUpdate($type){
+		if($type === Level::BLOCK_UPDATE_SCHEDULED){
+			if($this->isChestOpen()){
+				$this->getLevel()->scheduleUpdate($this, 1);
+			}else{
+				$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
+			}
+		}
+	}
 	
 	protected function recalculateBoundingBox(){
 		return new AxisAlignedBB(
@@ -84,17 +128,17 @@ class TrappedChest extends Transparent implements Redstone{
 		}
 
 		$this->getLevel()->setBlock($block, $this, true, true);
-		$nbt = new Compound("", [
-			new Enum("Items", []),
-				new String("id", Tile::CHEST),
-			new Int("x", $this->x),
-			new Int("y", $this->y),
-			new Int("z", $this->z)
+		$nbt = new CompoundTag("", [
+			new ListTag("Items", []),
+				new StringTag("id", Tile::CHEST),
+			new IntTag("x", $this->x),
+			new IntTag("y", $this->y),
+			new IntTag("z", $this->z)
 		]);
 		$nbt->Items->setTagType(NBT::TAG_Compound);
 
 		if($item->hasCustomName()){
-			$nbt->CustomName = new String("CustomName", $item->getCustomName());
+			$nbt->CustomName = new StringTag("CustomName", $item->getCustomName());
 		}
 
 		if($item->hasCustomBlockData()){
@@ -118,6 +162,7 @@ class TrappedChest extends Transparent implements Redstone{
 		if($t instanceof TileChest){
 			$t->unpair();
 		}
+		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,Block::REDSTONESOURCEPOWER);
 		$this->getLevel()->setBlock($this, new Air(), true, true);
 
 		return true;
@@ -136,18 +181,18 @@ class TrappedChest extends Transparent implements Redstone{
 			if($t instanceof TileChest){
 				$chest = $t;
 			}else{
-				$nbt = new Compound("", [
-					new Enum("Items", []),
-						new String("id", Tile::CHEST),
-					new Int("x", $this->x),
-					new Int("y", $this->y),
-					new Int("z", $this->z)
+				$nbt = new CompoundTag("", [
+					new ListTag("Items", []),
+						new StringTag("id", Tile::CHEST),
+					new IntTag("x", $this->x),
+					new IntTag("y", $this->y),
+					new IntTag("z", $this->z)
 				]);
 				$nbt->Items->setTagType(NBT::TAG_Compound);
 				$chest = Tile::createTile("Chest", $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 			}
 
-			if(isset($chest->namedtag->Lock) and $chest->namedtag->Lock instanceof String){
+			if(isset($chest->namedtag->Lock) and $chest->namedtag->Lock instanceof StringTag){
 				if($chest->namedtag->Lock->getValue() !== $item->getCustomName()){
 					return true;
 				}

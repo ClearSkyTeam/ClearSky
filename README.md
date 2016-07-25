@@ -1,40 +1,44 @@
+#WHY YOU SHOULD NOT USE GENISYS:
+##Because of all their hate and dumbness:
+##"You have been blocked from that repo" @iTXTech @ishitatsuyuki
+
+##I don't understand why you don't want to recive any help and encounter almost everything as wrong, hateful, and shit. Thats the reason they (Genisys) are the worst fork. Don't use Genisys. They are mean and won't support you. They have their own non-clean and non-PocketMine conform API, making them incompatible with most plugins. They say "don't copy from our repo", but have a Open Source license. They insult people. They mess things up. Genisys serversoftware lags alot. Synaptic is useless for joining and packet handling. They add commands that bug and should not exist. They implement plugins into their core. OVER ALL. DON'T USE GENISYS.
+
 ## Choose Language:   
 ####  [English](#ENG)
 ####  [Español](#SPA)  
 ####  [中国](#CHINESE_1)  
 ####  [日本語](#JAPANESE)
 ####  [Українська мова](#UKR)  
+####  [Bahasa Indonesia](#IDN) 
 
 # <a name="ENG"></a>English  
-# We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP5+7) 
-An ultra fast PocketMine based Minecraft:PE 0.14.2 multiplayer software with stable features, designed for high performance gaming experience
+# We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
+ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean code and stable features. It was initially designed for production servers.
 
-**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
-**Jenkins Build Status** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
+**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**CircleCI Build Status** [![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield)](https://circleci.com/gh/ClearSkyTeam/ClearSky "CircleCI Build Status")
+
+
+ - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
+ - The projects we take some code from are [Genisys](https://github.com/iTXTech/Genisys), [Nukkit](https://github.com/Nukkit/Nukkit) and [IM](https://github.com/ImagicalCorp/ImagicalMine) (last one is dead). Everytime we take code from other projects we reference the commit in the commit title or description!
+ - Here is an Telegram group, where you can communicate with us: [Telegram/ClearSky](https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
+ - [Look here how fast ClearSky starts with 70 plugins and 20 worlds!](http://wolvesfortress.de/ezgif-1446650535.gif)
+ - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
 
 ## Where can I get a phar?
- - You can get an auto build phar here: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - You can get the latest auto build phar here: [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php).
  - You can get an optimized PHP environment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
-
-## Is there a PHP7 version?
- - Yes, although it is in beta you can check it out in the [php7-0.14.0](https://github.com/ClearSkyTeam/ClearSky/tree/php7-0.14.0) branch!
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
  - There is also a switch under debug in pocketmine.yml to force enable xdebug.
 
-## Some Info:
- - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
-  - The projects we took code from [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Everytime we take code from other projects we reference the commit in the commit title or description!
- - Here is an Telegram group, where you can communicate with us: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
- - [Look here how fast ClearSky starts with 70 plugins and 20 worlds!](http://wolvesfortress.de/ezgif-1446650535.gif)
- - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
-
 ## Advanced Features
 All features can be configed in pocketmine.yml.<br>
  - About 20 times faster than offical PM repo
- - Universal Client version join (e.g. 0.14.0 and builds for 0.14.0 can join together)(note¹)
+ - Universal Client version join (e.g. 0.15.0 and builds for 0.15.0 can join together)(note¹)
  - Unlimited player join (set max-players to -1 in server.properties)(note²)
  - Modified Version color and string freely (set network.protocol,version in pocketmine.yml)
  - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network (network section in pocketmine.yml) 
@@ -62,21 +66,20 @@ We are still rewriting the base to make sure ClearSky has the best developing fe
 ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
 # <a name="SPA"></a>Español
-# Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PM](https://github.com/PocketMine/PocketMine-MP) (PHP5+7) 
+# Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PocketMine](https://github.com/PocketMine/PocketMine-MP) (PHP5) 
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
-**Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.14.0)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
-**Estado de la compilación de Jenkins** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkins Build Status")
-
+**Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**Estado de la compilación de CircleCI** [![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield)](https://circleci.com/gh/ClearSkyTeam/ClearSky "CircleCI Build Status")
 
  - Tomamos codigo de otros proyectos pero la mayoria de las caracteristicas las reescribimos para ClearSky.
-  - Lista de proyectos de los que tomamos codigo [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Cada vez que tomememos codigo de algún proyecto lo pondremos en la descripción o en el titulo del cambio!
- - Nuestro grupo de Telegram, para que hables con nosotros: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
+ - Lista de proyectos de los que tomamos codigo [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Cada vez que tomememos codigo de algún proyecto lo pondremos en la descripción o en el titulo del cambio!
+ - Nuestro grupo de Telegram, para que hables con nosotros: [Telegram/ClearSky](https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
  - [Mira como ClearSky abre así de rapido con con 70 plugins y 20 mundos](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Servidor de pruebas no oficial : IP: WolvesFortress.de Puerto: **19134** *A menudo fuera de línea, pero si lo esta posee la última versión de ClearSky.*
 
 ## Donde consigo una compilacion (Phar)?
- - Consiguelo aqui: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - Consiguelo aqui: [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php).
  - Consigue un tiempo de ejecución de PHP optimizado: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Consigue una prueba de Multicraft aqui: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
  - O usa el instalador en: [ClearSkyTeam/Installer](https://github.com/ClearSkyTeam/Installer)
@@ -91,7 +94,7 @@ ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio
 ## Caracteristicas Advanzadas
 Todas las caracteristicas pueden ser configuradas en pocketmine.yml.<br>
  - Es alrededor 20 veces mas rapido que PocketMine!
- - Soporte universal de clientes (Todas las versiones 0.14.* Pueden entrar!)(nota¹)
+ - Soporte universal de clientes (Todas las versiones 0.15.* Pueden entrar!)(nota¹)
  - Capacidad de jugadores ilimitada (pon max-players a -1 en server.properties)(nota²)
  - Color de la versión modificada libremente (cambia network.protocol, version en pocketmine.yml)
  - Puede aumentar la pérdida de paquetes aceptable y desactivar el anti-trampas cuando su servidor este en una red mala (Sección de red en pocketmine.yml) 
@@ -124,7 +127,7 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 
 ## 在哪里可以下载到打包好的phar?
  - **注意：在运行晴空之前，请删除pocketmine.yml以便于晴空优化您的配置**
- - 你可以在这里获取一个自动打包的phar: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - 你可以在这里获取一个自动打包的phar: [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php).
  - 你可以在这里获取一个优化的PHP运行环境: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - 你可以在这里获得一个Multicraft配置文件样例: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
@@ -157,11 +160,11 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 
 
 # <a name="JAPANESE"></a>クリアスカイ
-# あなたにあげます: クリアスカイ-あけぼの ~ [PM](https://github.com/PocketMine/PocketMine-MP) のフォーク (PHP5+7) 
+# あなたにあげます: クリアスカイ-あけぼの ~ PMMP(https://github.com/PocketMine/PocketMine-MP) のフォーク (PHP7+5) 
 クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初は商用サーバー用に設計されました。<br>
 
 **TravisCIのビルドの状況** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCIのビルドの状況")
-**Jenkinsのビルドの状況** [![Build Status](http://jenkins.clearskyteam.org/buildStatus/icon?job=ClearSky)](http://jenkins.clearskyteam.org/job/ClearSky/ "Jenkinsのビルドの状況")
+**CircleCIのビルドの状況**[![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield)](https://circleci.com/gh/ClearSkyTeam/ClearSky "CircleCIのビルドの状況")
 
 
  - 他のGPLライセンスプロジェクトのコードを使用している部分もありますが、殆どはClearSkyによって書き換えられた物です。
@@ -175,7 +178,7 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
  - はい. しかし、先に安定板の機能を作り, PHP7にアップデートします。
  
 ## どこで私はpharを手に入れれますか？
- - 自動でビルドされたphar: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - 自動でビルドされたphar: [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php).
  - 最適化されたPHP環境(bin): [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Multicraftの設定例: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
@@ -214,7 +217,6 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 
 
 # <a name="UKR"></a>Українська мова
-# Ми представляємо вам : ClearSky - Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) вилка (PHP5 + 7)
 ClearSky є ультра-швидким програмним забезпеченням для сервера Minecraft: Pocket Edition з багатьма можливостями.
  - Ми можемо брати код з інших GPL ліцензованих проектів, але більшість функцій були повністю перероблені для ClearSky.
  - Це наша Telegram група, де ви можете спілкуватися з нами: [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxAY3tx0MPBGYuGtpDA).
@@ -223,7 +225,7 @@ ClearSky є ультра-швидким програмним забезпече�
 
 ## Де я можу отримати phar?
  - **Перед першим запуском або оновленням ClearSky видаліть pocketmine.yml для оновленя налаштувань.**
- - Ви можете отримати авто-генерований phar тут: [Jenkins CI](http://jenkins.clearskyteam.org/).
+ - Ви можете отримати авто-генерований phar тут: [CircleCI](http://wolvesfortress.de/circleci.php).
  - Ви можете отримати PHP каталог тут: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
  - Ви можете отримати демо версію конфігурації для Multicraft тут: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
@@ -259,3 +261,58 @@ ClearSky є ультра-швидким програмним забезпече�
 ClearSky - це досконала, високоякісна база коду. Створення/модифікування цього проекту є легким.<br>
 Ми продовжуємо переписувати код, щоб впевнитися, що ClearSky є найкращим.<br>
 ClearSky призначений не тільки для звичайних кориcтувачів - він також для розробників!<br>
+
+
+# <a name="IDN"></a>Bahasa Indonesia
+# Kami mempersembahkan: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
+ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket Edition server dengan kode-kode yang ditata sangat rapih dan memiliki fitur-fitur yang juga sangat stabil. pada awalnya proyek ini dibuat untuk server produksi. (Diterjemahkan kedalam Bahasa Indonesia oleh Darrell @da123rrell dan disunting oleh Kennan @KennanFatt)
+
+**Status Pembuatan di TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php7)](https://travis-ci.org/ClearSkyTeam/ClearSky "Status pembuatan di TravisCI")
+**Status Pembuatan di CircleCI** [![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield)](https://circleci.com/gh/ClearSkyTeam/ClearSky "Status pembuatan di CircleCI")
+
+
+ - Kami mungkin mengambil beberapa kode dari proyek-proyek berlisensi GPL yang lain, tetapi sebagian besar telah ditulis kembali oleh ClearSky.
+  - Kami menggunakan kode dari beberapa proyek lainya  [Genisys](https://github.com/iTXTech/Genisys),[Nukkit](https://github.com/Nukkit/Nukkit),[IM](https://github.com/ImagicalCorp/ImagicalMine). Setiap kami menggunakan kode dari proyek lain, kami selalu memberikan refrensi nama proyek pada setiap komit. Kami akan tulis nama proyek dari kode yang kami gunakan pada judul atau deskripsi di komit.
+ - Kami memiliki grup komunikasi di Telegram. Anda dapat menghubungi kami melalui : [Telegram/ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
+ - [Liat betapa cepatnya ClearSky menjalankan server dengan 70 plugin dan 20 dunia!](http://wolvesfortress.de/ezgif-1446650535.gif)
+ - Server uji coba tidak resmi : Creative IP: WolvesFortress.de Port: **19134** *terkadang offline namun jika online pasti menggunakan versi terbaru*
+
+## Dimana Saya bisa mendapatkan file phar?
+ - Anda bisa mendapatkanya, disini [ClearSkyTeam/ClearSkyPhar](https://github.com/ClearSkyTeam/ClearSkyPhar)
+
+[//]: # (Anda juga bisa mendapatkan file Phar yang telah dibuat otomatis, disini : [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php).
+
+ - Anda bisa mendapatkan PHP Environment yang telah di optimalkan, disini : [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/ClearSkyPhar#BIN).
+ - Anda bisa mendapatkan pengaturan Multicraft Demo, disini : [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
+
+## [PENTING]: Tolong HILANGKAN xdebug pada server produksi!
+ - Anda bisa menambahkan ";" di depan "zend_extension=php_xdebug" pada file php.ini atau bisa membuat ulang PHP Binary tanpa xdebug.
+ - Tersedia juga pengaturan untuk menyalakan debug pada file pocketmine.yml untuk mengatur xdebug.
+## Fitur Fitur Menarik
+Semua fitur yang dapat diatur pada pocketmine.yml.<br>
+ - Performa 20 kali lebih cepet dari PocketMine
+ - Jumlah pemain keseluruhan dapat disetel TAK TERBATAS! (tetapkan max-players menjadi -1 pada server.properties)(catatan²)
+ - Pemain universal dapat bergabung (contoh: 0.14.0 dan "builds" untuk 0.14.0 dapat bergabung bersama)(catatan¹)
+ - Modifikasi warna versi dan "string" secara bebas (tetapkan network.protocol,version pada pocketmine.yml)
+ - Anda dapat mengatur packetlost yang akan diterima Pemain dan Anti-Cheat saat Server Anda memiliki koneksi yang buruk (sektor network pada pocketmine.yml) 
+ - Redstone dengan perhitungan yang cepat dan tidak ada kerusakan (error/bug) 
+ - Sistem Experience berfungsi, termasuk keterikatannya dengan blok/pemain/entity/botol/tungku
+ - Dapat makan dan juga lapar, dan terikat juga dengan game-difficulty.
+ - Cuaca yang berfungsi dengan baik
+ - Tersedia juga Boat / Perahu yang bekerja dengan baik
+ - Chunk dimuat dan diterima dengan cepat
+ - Logger cepat dan dapat diatur untuk aktif atau tidak
+ - Translasinya hampir sempurna
+ - Ramuan / Potion yang bekerja dengan baik (Bisa digunakan pada mode Creative saja)
+ - Enchanting / Menempa (Menggunakan perintah)
+ - Variasi makhluk hidup (Kelinci, Orang Kampung, dll)
+ - Membersihkan bug/serangga (error)
+
+Catatan¹ - Mohon tetapkan pesan 'Outdated Server' menjadi 'false' pada Plugin CustomAlert atau semacamnya jika plugin memodifikasi pesan *Outdated Server*
+
+Catatan² - Mohon tetapkan pesan 'Full Server' menjadi 'false' pada Plugin CustomAlert atau semacamnya jika plugin memodifikasi pesan *Full Server*
+
+## Untuk Pengembang atau Pengelola
+Proyek ini bersih, menggunakan kode dengan kualtias terbaik, karena Kami ingin menjaga kode asli PocketMine yang baik. Mengembangkan/Memodifikasi proyek ini sangat mudah.<br>
+Kami tetap menulis ulang kode dasar untuk memastikan ClearSky memiliki rasa pengelolahan yang baik.<br>
+ClearSky bukan hanya dibuat untuk memberi rasa lancar untuk pengguna, tetapi para pengelola juga!<br>

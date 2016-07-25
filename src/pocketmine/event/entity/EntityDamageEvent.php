@@ -29,6 +29,7 @@ class EntityDamageEvent extends EntityEvent implements Cancellable{
 	const CAUSE_SUICIDE = 12;
 	const CAUSE_MAGIC = 13;
 	const CAUSE_CUSTOM = 14;
+	const CAUSE_STARVATION = 15;
 
 
 	private $cause;
@@ -42,7 +43,7 @@ class EntityDamageEvent extends EntityEvent implements Cancellable{
 	 * @param int       $cause
 	 * @param int|int[] $damage
 	 *
-	 * @throws \Exception
+	 * @throws \Throwable
 	 */
 	public function __construct(Entity $entity, $cause, $damage){
 		$this->entity = $entity;

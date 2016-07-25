@@ -44,8 +44,8 @@ class TallGrass extends Flowable{
 	
 	public function onActivate(Item $item, Player $player = null){
 		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F and ($this->getDamage() === 1 || $this->getDamage() === 2)){
-			$this->getLevel()->setBlock($this->getSide(1), new DoublePlant(($this->getDamage() + 1) ^ 0x08));
-			$this->getLevel()->setBlock($this, new DoublePlant($this->getDamage() + 1));
+			$this->getLevel()->setBlock($this->getSide(1), new DoubleTagPlant(($this->getDamage() + 1) ^ 0x08));
+			$this->getLevel()->setBlock($this, new DoubleTagPlant($this->getDamage() + 1));
 			return true;
 		}else{return false;}
 	}

@@ -3,7 +3,7 @@ namespace pocketmine\entity;
 
 use pocketmine\Player;
 
-class Wolf extends Animal implements Tameable{
+class Wolf extends Animal implements Tameable,Colorable{
 	const NETWORK_ID = 14;
 
 	public $height = 0.969;
@@ -32,5 +32,9 @@ class Wolf extends Animal implements Tameable{
 	
 	public function isTamed(){
 		return false;
+	}
+	
+	public function canBeLeashed(){
+		return $this->isTamed();//TODO: distance check
 	}
 }

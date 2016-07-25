@@ -32,6 +32,13 @@ class PlayerDeathEvent extends EntityDeathEvent{
 	}
 
 	/**
+	 * @return Player
+	 */
+	public function getPlayer(){
+		return $this->entity;
+	}
+
+	/**
 	 * @return TextContainer|string
 	 */
 	public function getDeathMessage(){

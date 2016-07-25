@@ -10,8 +10,9 @@ use pocketmine\event\entity\ProjectileHitEvent;
 use pocketmine\level\format\FullChunk;
 use pocketmine\level\MovingObjectPosition;
 use pocketmine\math\Vector3;
-use pocketmine\nbt\tag\Compound;
-use pocketmine\nbt\tag\Short;
+use pocketmine\nbt\tag\CompoundTag;
+use pocketmine\nbt\tag\ShortTag;
+use pocketmine\item\Potion;
 
 abstract class Projectile extends Entity{
 
@@ -23,7 +24,7 @@ abstract class Projectile extends Entity{
 
 	public $hadCollision = false;
 
-	public function __construct(FullChunk $chunk, Compound $nbt, Entity $shootingEntity = null){
+	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
 		$this->shootingEntity = $shootingEntity;
 		if($shootingEntity !== null){
 			$this->setDataProperty(self::DATA_SHOOTER_ID, self::DATA_TYPE_LONG, $shootingEntity->getId());
@@ -54,7 +55,7 @@ abstract class Projectile extends Entity{
 
 	public function saveNBT(){
 		parent::saveNBT();
-		$this->namedtag->Age = new Short("Age", $this->age);
+		$this->namedtag->Age = new ShortTag("Age", $this->age);
 	}
 
 	public function onUpdate($currentTick){
@@ -130,7 +131,14 @@ abstract class Projectile extends Entity{
 						$ev = new EntityDamageByChildEntityEvent($this->shootingEntity, $this, $movingObjectPosition->entityHit, EntityDamageEvent::CAUSE_PROJECTILE, $damage);
 					}
 
-					$movingObjectPosition->entityHit->attack($ev->getFinalDamage(), $ev);
+					if($movingObjectPosition->entityHit->attack($ev->getFinalDamage(), $ev) === true){
+						if($this instanceof Arrow and $this->getPotionId() != 0){
+							foreach(Potion::getAdditionalEffects($this->potionId - 1) as $effect){
+								$movingObjectPosition->entityHit->addEffect($effect->setDuration($effect->getDuration() / 8));
+							}
+						}
+						#$ev->useArmors();
+					}
 
 					$this->hadCollision = true;
 
