@@ -2623,15 +2623,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$ev->setCancelled();
 					}
 					$target->attack($ev->getFinalDamage(), $ev);
-					if($ev->isCancelled()){
-						if($item->isTool() and $this->isSurvival()){
-							$this->inventory->sendContents($this);
-						}
-						break;
-					}
 
 					if($item->isTool() and $this->isSurvival()){
-						if($item->useOn($target) and $item->getDamage() >= $item->getMaxDurability()){
+						if($ev->isCancelled()){
+							$this->inventory->sendContents($this);
+							break;
+						}elseif($item->useOn($target) and $item->getDamage() >= $item->getMaxDurability()){
 							$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 1));
 						}else{
 							$this->inventory->setItemInHand($item);
