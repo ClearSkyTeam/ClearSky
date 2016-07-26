@@ -971,25 +971,25 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			switch($leg){
 				case 0:
 					++$x;
-					if($x === $layer){
+					if($x == $layer){
 						++$leg;
 					}
 					break;
 				case 1:
 					++$z;
-					if($z === $layer){
+					if($z == $layer){
 						++$leg;
 					}
 					break;
 				case 2:
 					--$x;
-					if(-$x === $layer){
+					if(-$x == $layer){
 						++$leg;
 					}
 					break;
 				case 3:
 					--$z;
-					if(-$z === $layer){
+					if(-$z == $layer){
 						$leg = 0;
 						++$layer;
 					}
