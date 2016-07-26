@@ -454,14 +454,19 @@ namespace pocketmine {
 		$logger->debug("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
 		$thread->quit();
 	}
-	$killer = new ServerKiller(8);
-	$killer->start();
+	$killtime = 8;
+	while(--$killtime) {
+		sleep(1);
+		if (count(ThreadManager::getInstance()->getAll()) == 0) {
+			$logger->shutdown();
+			$logger->join();
 
-	$logger->shutdown();
-	$logger->join();
+			echo Terminal::$FORMAT_RESET . "\n";
 
-	echo Terminal::$FORMAT_RESET . "\n";
-
-	exit(0);
+			exit(0);			
+		};
+	}
+	echo "\nTook too long to stop, server was killed forcefully!\n";
+	@\pocketmine\kill(getmypid());
 
 }
