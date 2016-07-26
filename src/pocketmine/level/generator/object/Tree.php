@@ -43,12 +43,11 @@ abstract class Tree{
 				break;
 			case Sapling::OAK:
 			default:
-				$tree = new OakTree();
-				/*if($random->nextRange(0, 9) === 0){
+				if($random->nextRange(0, 9) === 0){
 					$tree = new BigTree();
-				}else{*/
-
-				//}
+				}else{
+					$tree = new OakTree();
+				}
 				break;
 		}
 		if($tree->canPlaceObject($level, $x, $y, $z, $random)){
