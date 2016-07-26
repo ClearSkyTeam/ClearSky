@@ -328,7 +328,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 		$food = $this->getFood();
 		$health = $this->getHealth();
-		if(($this instanceof Player && $this->isSurvival()) || !$this instanceof Player){
+		if(($this instanceof Player && $this->isSurvival()) || $this instanceof Human){
 			if($food >= 18){
 				$this->foodTickTimer++;
 				if($this->foodTickTimer >= 80 and $health < $this->getMaxHealth()){
