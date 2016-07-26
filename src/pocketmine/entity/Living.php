@@ -14,6 +14,7 @@ use pocketmine\nbt\tag\ShortTag;
 use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\Server;
 use pocketmine\utils\BlockIterator;
+use pocketmine\Player;
 
 abstract class Living extends Entity implements Damageable{
 
@@ -115,10 +116,12 @@ abstract class Living extends Entity implements Damageable{
 			$this->knockBack($e, $damage, $deltaX, $deltaZ, $source->getKnockBack());
 		}
 
-		$pk = new EntityEventPacket();
-		$pk->eid = $this->getId();
-		$pk->event = $this->getHealth() <= 0 ? EntityEventPacket::DEATH_ANIMATION : EntityEventPacket::HURT_ANIMATION; //Ouch!
-		Server::broadcastPacket($this->hasSpawned, $pk);
+		if(!$this instanceof Player){
+			$pk = new EntityEventPacket();
+			$pk->eid = $this->getId();
+			$pk->event = $this->getHealth() <= 0 ? EntityEventPacket::DEATH_ANIMATION : EntityEventPacket::HURT_ANIMATION; //Ouch!
+			Server::broadcastPacket($this->hasSpawned, $pk);
+		}
 
 		$this->attackTime = 10; //0.5 seconds cooldown
 	}
