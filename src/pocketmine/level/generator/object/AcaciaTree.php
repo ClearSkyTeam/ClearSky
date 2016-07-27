@@ -88,7 +88,7 @@ class AcaciaTree extends Tree{
 						$state = Block::get($level->getBlockIdAt($blockpos->x, $blockpos->y, $blockpos->z), $level->getBlockDataAt($blockpos->x, $blockpos->y, $blockpos->z));
 						
 						if($state instanceof Air || $state instanceof Leaves || $state instanceof Leaves2){
-							$this->func_181642_b($level, $blockpos);
+							$this->setWoodBlock($level, $blockpos);
 							$k1 = $i2;
 						}
 					}
@@ -98,7 +98,7 @@ class AcaciaTree extends Tree{
 					for((int) $j3 = -3; $j3 <= 3; ++$j3){
 						for((int) $i4 = -3; $i4 <= 3; ++$i4){
 							if(abs($j3) != 3 || abs($i4) != 3){
-								$this->func_175924_b($level, $blockpos2->add($j3, 0, $i4));
+								$this->setLeavesBlock($level, $blockpos2->add($j3, 0, $i4));
 							}
 						}
 					}
@@ -107,14 +107,14 @@ class AcaciaTree extends Tree{
 					
 					for((int) $k3 = -1; $k3 <= 1; ++$k3){
 						for((int) $j4 = -1; $j4 <= 1; ++$j4){
-							$this->func_175924_b($level, $blockpos2->add($k3, 0, $j4));
+							$this->setLeavesBlock($level, $blockpos2->add($k3, 0, $j4));
 						}
 					}
 					
-					$this->func_175924_b($level, $blockpos2->getSide(Vector3::SIDE_EAST, 2));
-					$this->func_175924_b($level, $blockpos2->getSide(Vector3::SIDE_WEST, 2));
-					$this->func_175924_b($level, $blockpos2->getSide(Vector3::SIDE_SOUTH, 2));
-					$this->func_175924_b($level, $blockpos2->getSide(Vector3::SIDE_NORTH, 2));
+					$this->setLeavesBlock($level, $blockpos2->getSide(Vector3::SIDE_EAST, 2));
+					$this->setLeavesBlock($level, $blockpos2->getSide(Vector3::SIDE_WEST, 2));
+					$this->setLeavesBlock($level, $blockpos2->getSide(Vector3::SIDE_SOUTH, 2));
+					$this->setLeavesBlock($level, $blockpos2->getSide(Vector3::SIDE_NORTH, 2));
 					$i3 = $x;
 					$j1 = $z;
 					// $enumfacing1 = EnumFacing.Plane.HORIZONTAL.random(mt_rand());//?
@@ -134,7 +134,7 @@ class AcaciaTree extends Tree{
 								$state = Block::get($level->getBlockIdAt($blockpos1->x, $blockpos1->y, $blockpos1->z), $level->getBlockDataAt($blockpos1->x, $blockpos1->y, $blockpos1->z));
 								
 								if($state instanceof Air || $state instanceof Leaves || $state instanceof Leaves2){
-									$this->func_181642_b($level, $blockpos1);
+									$this->setWoodBlock($level, $blockpos1);
 									$k1 = $j2;
 								}
 							}
@@ -148,7 +148,7 @@ class AcaciaTree extends Tree{
 							for((int) $i5 = -2; $i5 <= 2; ++$i5){
 								for((int) $k5 = -2; $k5 <= 2; ++$k5){
 									if(abs($i5) != 2 || abs($k5) != 2){
-										$this->func_175924_b($level, $blockpos3->add($i5, 0, $k5));
+										$this->setLeavesBlock($level, $blockpos3->add($i5, 0, $k5));
 									}
 								}
 							}
@@ -157,7 +157,7 @@ class AcaciaTree extends Tree{
 							
 							for((int) $j5 = -1; $j5 <= 1; ++$j5){
 								for((int) $l5 = -1; $l5 <= 1; ++$l5){
-									$this->func_175924_b($level, $blockpos3->add($j5, 0, $l5));
+									$this->setLeavesBlock($level, $blockpos3->add($j5, 0, $l5));
 								}
 							}
 						}
@@ -175,11 +175,11 @@ class AcaciaTree extends Tree{
 		}
 	}
 
-	private function func_181642_b(Level $p_181642_1_, Vector3 $p_181642_2_){
+	private function setWoodBlock(Level $p_181642_1_, Vector3 $p_181642_2_){
 		$p_181642_1_->setBlock($p_181642_2_, Block::get($this->trunkBlock, $this->type));
 	}
 
-	private function func_175924_b(Level $worldIn, Vector3 $p_175924_2_){
+	private function setLeavesBlock(Level $worldIn, Vector3 $p_175924_2_){
 		$state = $worldIn->getBlock($p_175924_2_);
 		
 		if($state instanceof Air || $state instanceof Leaves || $state instanceof Leaves2){
