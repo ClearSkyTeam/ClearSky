@@ -1,10 +1,4 @@
-#WHY YOU SHOULD NOT USE GENISYS:
-##Because of all their hate and dumbness:
-##"You have been blocked from that repo" @iTXTech @ishitatsuyuki
-
-##I don't understand why you don't want to recive any help and encounter almost everything as wrong, hateful, and shit. Thats the reason they (Genisys) are the worst fork. Don't use Genisys. They are mean and won't support you. They have their own non-clean and non-PocketMine conform API, making them incompatible with most plugins. They say "don't copy from our repo", but have a Open Source license. They insult people. They mess things up. Genisys serversoftware lags alot. Synaptic is useless for joining and packet handling. They add commands that bug and should not exist. They implement plugins into their core. OVER ALL. DON'T USE GENISYS.
-
-## Choose Language:   
+﻿## Choose Language:   
 ####  [English](#ENG)
 ####  [Español](#SPA)  
 ####  [中国](#CHINESE_1)  

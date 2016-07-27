@@ -56,7 +56,7 @@ class LevelDB extends BaseLevelProvider{
 			$this->levelData->generatorOptions = new StringTag("generatorOptions", "");
 		}
 
-		$this->db = new \LevelDB($this->path . "/db", [
+		$this->db = new \LevelDB($this->path . "db", [
 			"compression" => LEVELDB_ZLIB_COMPRESSION
 		]);
 	}
