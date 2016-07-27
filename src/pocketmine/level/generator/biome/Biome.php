@@ -12,6 +12,7 @@ use pocketmine\level\generator\normal\biome\MountainsBiome;
 use pocketmine\level\generator\normal\biome\OceanBiome;
 use pocketmine\level\generator\normal\biome\PlainBiome;
 use pocketmine\level\generator\normal\biome\RiverBiome;
+use pocketmine\level\generator\normal\biome\SavannaBiome;
 use pocketmine\level\generator\normal\biome\SmallMountainsBiome;
 use pocketmine\level\generator\normal\biome\TaigaBiome;
 use pocketmine\level\generator\hell\HellBiome;
@@ -63,8 +64,8 @@ abstract class Biome{
     COLD_TAIGA_HILLS,
     MEGA_TAIGA,
     MEGA_TAIGA_HILLS,
-    EXTREME_HILLS_PLUS,
-    SAVANNA,
+    EXTREME_HILLS_PLUS,*/
+    const SAVANNA = 9;/* //todo fix this number
     SAVANNA_PLATEAU,
     MESA,
     MESA_PLATEAU_FOREST,
@@ -136,6 +137,8 @@ abstract class Biome{
 		self::register(self::HELL, new HellBiome());
 
 		self::register(self::BIRCH_FOREST, new ForestBiome(ForestBiome::TYPE_BIRCH));
+
+		self::register(self::SAVANNA, new SavannaBiome());
 	}
 
 	/**

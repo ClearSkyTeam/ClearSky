@@ -98,7 +98,7 @@ class AcaciaTree2 extends Tree{
 		($currentLiar1 = (int) ($this->totalHeight - $this->leafDistanceLimit));
 		($currentLiar2 = (int) ($this->trunkHeight - $this->leafDistanceLimit));
 		if($currentLiar1 + $currentLiar2 < 0){
-			$level->getChunk($x << 4, $z << 4)->getProvider()->getLevel()->getServer()->broadcastMessage("§4§lblöder BLÖDER BÖÖÖÖSER BAUM!!!");
+			print("A WILD 'BAD ACACIA TREE' SPAWNED!!");
 		}
 		
 		for($currentLayer = (int) ($this->totalHeight - $this->leafDistanceLimit); $currentLayer >= 0; $currentLayer--){
@@ -214,7 +214,6 @@ class AcaciaTree2 extends Tree{
 	}
 
 	private function generateBranches(ChunkManager $level, int $x, int $y, int $z, array $groups){
-		print_r($groups);
 		foreach($groups as $group){
 			$baseY = $group[1];
 			if(($baseY - $y) >= ($this->totalHeight * 0.2)){
@@ -246,7 +245,7 @@ class AcaciaTree2 extends Tree{
 		return -1;
 	}
 	
-	private function setLeavesBlock(Level $level, Vector3 $pos){
+	private function setLeavesBlock($level, Vector3 $pos){
 		if(isset($this->overridable[$level->getBlockIdAt($pos->x, $pos->y, $pos->z)])){
 			$level->setBlockIdAt($pos->x, $pos->y, $pos->z, Block::LEAVES2);
 			$level->setBlockDataAt($pos->x, $pos->y, $pos->z, 0);
