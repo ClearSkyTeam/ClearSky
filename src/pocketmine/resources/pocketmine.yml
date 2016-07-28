@@ -120,7 +120,7 @@ network:
  #If your server have a bad network connection, increase this
  timeout: 1
  #Interrupt Raklib after reach timeout, save CPU usage, may cause packet lost.(-1 for disable , all pkt will send)
- protocol: 81
+ protocol: 82
  #MCPE Protocol Version, it will affect the color of version string.
  version: "0.15"
  #MCPE Version string shown in server list, number and dot(.) allowed
