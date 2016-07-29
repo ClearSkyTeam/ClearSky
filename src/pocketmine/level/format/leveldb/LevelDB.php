@@ -109,7 +109,7 @@ class LevelDB extends BaseLevelProvider{
 		$buffer = $nbt->write();
 		file_put_contents($path . "level.dat", Binary::writeLInt(3) . Binary::writeLInt(strlen($buffer)) . $buffer);
 
-		$db = new \LevelDB($path . "/db");
+		$db = new \LevelDB($path . "db");
 		$db->close();
 	}
 
