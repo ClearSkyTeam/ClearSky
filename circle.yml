@@ -25,4 +25,4 @@ test:
  override:
   - ./bin/php7/bin/php CI-Test/Travis.php
 #  - ls -R
-  - if [ -f ./plugins/DevTools/ ]; then cp -rv ./plugins/DevTools/ $CIRCLE_ARTIFACTS; fi
+  - cp -rv ./plugins/DevTools/ $CIRCLE_ARTIFACTS
