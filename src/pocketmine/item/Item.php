@@ -587,14 +587,6 @@ class Item{
 		return false;
 	}
 	
-	public function launch(Player $player){
-		$this->Launch($player);
-	}
-	
-	/**
-	* @deprecated
-	* Use launch() instead!
-	*/
 	public function Launch(Player $player){
  		$nbt = new CompoundTag("", [
 			"Pos" => new ListTag("Pos", [
