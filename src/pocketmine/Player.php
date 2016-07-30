@@ -147,13 +147,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/** @var SourceInterface */
 	protected $interface;
 	
-	/**
-	* @var Server
-	* @deprecated
-	* Use getServer() instead!
-	*/
-	public $server;
-
 	/** @var bool */
 	public $playedBefore;
 	public $spawned = false;
