@@ -440,7 +440,7 @@ abstract class Liquid extends Transparent{
             #echo("doHarden()\n");
             //echo("Damage of Lava Block:");
             //var_dump($this->getDamage());
-            $obsidian = false;
+            #$obsidian = false;
             if($this->getSide(Vector3::SIDE_DOWN) instanceof Water){
                 //echo("Damage of Water Block:");
                 //var_dump($this->getSide(Vector3::SIDE_DOWN)->getDamage());
@@ -451,7 +451,7 @@ abstract class Liquid extends Transparent{
                     $this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::COBBLESTONE), true);
                     #echo("setCobbleStone()\n");
                 }else{
-                    echo("Calculation ERROR::TYPE 11\n");
+                    //echo("Calculation ERROR::TYPE 11\n");
                     $this->getLevel()->setBlock($this->setComponents($this->x, $this->y-1, $this->z), Block::get(Item::COBBLESTONE), true);
                     #echo("setCobbleStone()\n");
                 }
@@ -459,13 +459,13 @@ abstract class Liquid extends Transparent{
             if($this->getSide(Vector3::SIDE_UP) instanceof Water){
                 if($this->getDamage() === 0){
                     $this->getLevel()->setBlock($this, Block::get(Item::OBSIDIAN), true);
-                    $obsidian = true;
+                    #$obsidian = true;
                     #echo("setObsidian()\n");
                 }elseif($this->getDamage() <= 1){
                     $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
                     #echo("setCobbleStone()\n");
                 }else{
-                    echo("Calculation ERROR::TYPE 12\n");
+                    //echo("Calculation ERROR::TYPE 12\n");
                     $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
                     #echo("setCobbleStone()\n");
                 }
@@ -479,13 +479,13 @@ abstract class Liquid extends Transparent{
                         $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
                         #echo("setCobbleStone()\n");
                     }else{
-                        echo("Calculation ERROR::TYPE 13\n");
+                        //echo("Calculation ERROR::TYPE 13\n");
                         $this->getLevel()->setBlock($this, Block::get(Item::COBBLESTONE), true);
                         #echo("setCobbleStone()\n");
                     }
                 }
             }
-            //#########
+			/*
             if(!$obsidian){
                 $colliding = false;
                 for($side = 0; $side <= 5 and !$colliding; ++$side){
@@ -495,7 +495,7 @@ abstract class Liquid extends Transparent{
                     echo("Calculation ERROR::TYPE 0\n");
                 }
             }
-            //#########
+			*/
         }
     }
 }
