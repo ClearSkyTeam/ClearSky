@@ -47,7 +47,7 @@ class ServerHandler{
         $this->server->pushMainToThreadPacket($buffer);
         $this->server->shutdown();
         $this->server->synchronized(function(){
-            if ($this->server) $this->server->wait(20000);
+            if (!is_null($this->server)) $this->server->wait(20000);
         });
         $this->server->join();
     }
