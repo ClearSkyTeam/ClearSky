@@ -14,6 +14,9 @@ use pocketmine\event\entity\EntityMotionEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\event\entity\EntitySpawnEvent;
 use pocketmine\event\entity\EntityTeleportEvent;
+use pocketmine\event\entity\EntityDamageByChildEntityEvent;
+use pocketmine\event\entity\EntityDamageByEntityEvent;
+use pocketmine\entity\Painting as PaintingEntity;
 use pocketmine\event\Timings;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\level\format\Chunk;
@@ -44,8 +47,6 @@ use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use pocketmine\Server;
 use pocketmine\utils\ChunkException;
-use pocketmine\event\entity\EntityDamageByChildEntityEvent;
-use pocketmine\event\entity\EntityDamageByEntityEvent;
 
 abstract class Entity extends Location implements Metadatable{
 
@@ -1095,6 +1096,9 @@ abstract class Entity extends Location implements Metadatable{
 	}
 
 	public final function scheduleUpdate(){
+		if($this instanceof PaintingEntity){
+			return;
+		}
 		$this->level->updateEntities[$this->id] = $this;
 	}
 
@@ -1494,10 +1498,8 @@ abstract class Entity extends Location implements Metadatable{
 	public function setPositionAndRotation(Vector3 $pos, $yaw, $pitch){
 		if($this->setPosition($pos) === true){
 			$this->setRotation($yaw, $pitch);
-
 			return true;
 		}
-
 		return false;
 	}
 
