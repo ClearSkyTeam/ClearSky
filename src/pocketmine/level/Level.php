@@ -35,6 +35,7 @@ use pocketmine\entity\Item as DroppedItem;
 use pocketmine\event\block\BlockBreakEvent;
 use pocketmine\event\block\BlockPlaceEvent;
 use pocketmine\event\block\BlockUpdateEvent;
+use pocketmine\event\block\RedstoneBlockUpdateEvent;
 use pocketmine\event\level\ChunkLoadEvent;
 use pocketmine\event\level\ChunkPopulateEvent;
 use pocketmine\event\level\ChunkUnloadEvent;
@@ -825,11 +826,10 @@ class Level implements ChunkManager, Metadatable{
 					$power = $this->updateRedstoneQueueIndex[$hash][0]['power'];
 					unset($this->updateRedstoneQueueIndex[$hash][0]);
 				}
-				if($block->getId() == Block::OBSERVER){ #ToDo:AddAInterfaceForThis
-					$block->onRedstoneUpdate($type,$power,$hash);
-				}else{
-					$block->onRedstoneUpdate($type,$power);
-				}
+				$this->server->getPluginManager()->callEvent($ev = new RedstoneBlockUpdateEvent($block));
+				//if(!$ev->isCancelled()){
+					$this->doRedstoneBlockUpdate($block, $type, $power, $hash); //$ev->getBlock()
+				//}
 				
 				if($Counter >= $this->server->getProperty("redstone.tick-limit", 2048)){
 					break;
@@ -1241,8 +1241,24 @@ class Level implements ChunkManager, Metadatable{
 	}
 	
 	/**
-	 * ClearSky internal use
+	 * @param Block $block
+	 *
+	 * @param
+	 * @param $hash Hash
 	 */
+	public function doRedstoneBlockUpdate($block, $type, $power, $hash = NULL){
+		if($hash == NULL){
+			$hash = Level::blockHash(0,0,0);
+		}
+		$block->onRedstoneUpdate($type,$power);
+		for($side = 0; $side <= 5; $side++){
+			$aroundBlock = $block->getSide($side);
+			if($aroundBlock->getId() == Block::OBSERVER){ #ToDo:AddAInterfaceForThis
+				$aroundBlock->onRedstoneUpdate($type,$power,$hash);
+			}
+		}
+	}
+	
 	private function compareRedstone($old,$new){
 		$oldtype = $old['type'];
 		$oldpower = $old['power'];
