@@ -92,8 +92,7 @@ class Painting extends Item{
 			if($motive[2] >= 3){
 				$data["y"] = $data["y"] + 0.1;
 			}
-			$right = [4, 5, 3, 2];
-			switch($right[$face - 2]){
+			switch($face2side[$face - 2]){
 				case Vector3::SIDE_NORTH:
 					$data["z"] = $data["z"] + 0.1;
 				break;
