@@ -34,7 +34,7 @@ class Minecart extends Vehicle{
 	public $moveSpeed = 0.4;
 	public $isLinked = false;
 	
-	private $onRail = Minecart::STATE_INITIAL;
+	private $state = Minecart::STATE_INITIAL;
 	private $direction = -1;
 	private $moveVector = [];
 	private $requestedPosition = null;
@@ -79,7 +79,7 @@ class Minecart extends Vehicle{
 		//parent::onUpdate($currentTick);
 
 		if($this->isAlive()){
-			$movingType = $this->getLevel()->getServer()->getProperty("minecart-moving-type", 0);
+			$movingType = $this->getLevel()->getServer()->getProperty("minecart-moving-type", 1);
 			if($movingType == -1) return false;
 			elseif($movingType == 0){
 				$p = $this->getlinkedTarget();
