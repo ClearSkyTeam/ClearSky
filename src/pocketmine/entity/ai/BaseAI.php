@@ -4,5 +4,7 @@ namespace pocketmine\entity\ai;
 use pocketmine\entity\Entity;
 
 class BaseAI{
-	public function calculateMovement(Entity $entity){}
+	public function calculateMovement($entitytype, $json){
+		return $json;
+	}
 }

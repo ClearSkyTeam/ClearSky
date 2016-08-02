@@ -17,7 +17,7 @@ abstract class AIManager{
 			foreach($level->getEntities() as $entity){
 				if($entity instanceof $classname){
 					print("Entity of type $classname found!");
-					#$entity->setDataProperty(Entity::DATA_NO_AI, Entity::DATA_TYPE_BYTE, 1);
+					// $entity->setDataProperty(Entity::DATA_NO_AI, Entity::DATA_TYPE_BYTE, 1);
 					$level->getAI()->registerAI($entity);
 				}
 			}
@@ -57,11 +57,12 @@ abstract class AIManager{
 		return (self::isAIRegistered($classname)?array_flip(self::$knownAIs)[$classname]:null);
 	}
 
-	public static function calculateMovement(Entity $entity){
-		print self::isAIRegistered($entity->getName());
-		#$ai = self::getAI($entity->getName());
-		#return $ai->calculateMovement();
-		#print $ai;
+	public static function calculateMovement($classname, $json){
+		if(self::isAIRegistered($classname)){
+			$ai = self::getAI($entity->getName());
+			return $ai->calculateMovement($classname, $json);
+			// print $ai;
+		}
 	}
 
 	public static function getKnownAIs(){

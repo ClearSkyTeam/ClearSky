@@ -5,6 +5,7 @@ namespace pocketmine\level\ai;
 use pocketmine\level\Level;
 use pocketmine\entity\Entity;
 use pocketmine\entity\ZombieHorse;
+use pocketmine\entity\ai\AIManager;
 
 class AI{
 	private $level;
@@ -25,10 +26,8 @@ class AI{
 	}
 
 	public function registerAI(Entity $entity){
-		if($entity instanceof ZombieHorse){
-			$this->mobs[$entity->getId()] = $entity->getName();
-			$this->getServer()->broadcastTip("AI started ticking for " . $entity->getName() . ": " . $entity->getId());
-		}
+		$this->mobs[$entity->getId()] = $entity->getName();
+		$this->getServer()->broadcastTip("AI started ticking for " . $entity->getName() . ": " . $entity->getId());
 	}
 
 	public function unregisterAI(Entity $entity){
@@ -41,14 +40,17 @@ class AI{
 			$levelid = $this->levelId;
 			$entity = $this->getLevel()->getEntity($mobId);
 			if($entity != null){
-				$this->getServer()->getScheduler()->scheduleAsyncTask(new MoveCalculaterTask($levelid, $mobId, $mobType, $entity->getYaw()));
+				$arr = array($entity->x, $entity->y, $entity->z, $entity->yaw, $entity->pitch);
+				$this->getServer()->getScheduler()->scheduleAsyncTask(new MoveCalculaterTask($levelid, $mobId, $mobType, json_encode($arr)));
 			}
 		}
 	}
 
 	public function moveCalculationCallback($result){
-		/*$entity = $this->getServer()->getLevel($this->levelId)->getEntity($result['id']);
-		$pos = $entity->temporalVector->setComponents($result['x'], $result['y'], $result['z']);
-		$this->getServer()->broadcastMessage($pos->__toString());*/
+		/*
+		 * $entity = $this->getServer()->getLevel($this->levelId)->getEntity($result['id']);
+		 * $pos = $entity->temporalVector->setComponents($result['x'], $result['y'], $result['z']);
+		 * $this->getServer()->broadcastMessage($pos->__toString());
+		 */
 	}
 }
