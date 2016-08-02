@@ -46,10 +46,6 @@ class Minecart extends Vehicle{
 		$this->moveVector[Entity::SOUTH] = new Vector3(1, 0, 0);
 		$this->moveVector[Entity::EAST] = new Vector3(0, 0, -1);
 		$this->moveVector[Entity::WEST] = new Vector3(0, 0, 1);
-		$this->moveVector[Entity::NORTH] = new Vector3(-1, 0, 0);
-		$this->moveVector[Entity::SOUTH] = new Vector3(1, 0, 0);
-		$this->moveVector[Entity::EAST] = new Vector3(0, 0, -1);
-		$this->moveVector[Entity::WEST] = new Vector3(0, 0, 1);
 		parent::initEntity();
 	}
 
