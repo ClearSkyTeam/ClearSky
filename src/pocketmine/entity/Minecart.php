@@ -14,9 +14,6 @@ class Minecart extends Vehicle{
 
 	const NETWORK_ID = 84;
 
-	public $height = 0.9;
-	public $width = 1.1;
-
 	const TYPE_NORMAL = 1;
 	const TYPE_CHEST = 2;
 	const TYPE_HOPPER = 3;
@@ -34,10 +31,7 @@ class Minecart extends Vehicle{
 
 	public $isMoving = false;
 	public $moveSpeed = 0.4;
-
-	public $isFreeMoving = false;
 	public $isLinked = false;
-	public $oldPosition = null;
 	
 	private $onRail = Minecart::STATE_INITIAL;
 	private $direction = -1;
