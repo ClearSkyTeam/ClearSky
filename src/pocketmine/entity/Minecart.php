@@ -1,10 +1,11 @@
 <?php
 namespace pocketmine\entity;
 
-use pocketmine\network\protocol\PlayerActionPacket;
-use pocketmine\Player;
+use pocketmine\block\Block;
+use pocketmine\block\Rail;
 use pocketmine\item\Item as ItemItem;
-use pocketmine\event\entity\EntityRegainHealthEvent;
+use pocketmine\network\protocol\AddEntityPacket;
+use pocketmine\Player;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\network\protocol\EntityEventPacket;
 use pocketmine\math\Math;
@@ -78,10 +79,10 @@ class Minecart extends Vehicle{
 		//parent::onUpdate($currentTick);
 
 		if($this->isAlive()){
-			$movingType = $this->getLevel()->getServer()->minecartMovingType;
+			$movingType = $this->getLevel()->getServer()->getProperty("minecart-moving-type", 0);
 			if($movingType == -1) return false;
 			elseif($movingType == 0){
-				$p = $this->getLinkedEntity();
+				$p = $this->getlinkedTarget();
 				if($p instanceof Player){
 					$this->motionX = -sin($p->getYaw() / 180 * M_PI);
 					$this->motionZ = cos($p->getYaw() / 180 * M_PI);
@@ -112,7 +113,7 @@ class Minecart extends Vehicle{
 					$this->motionY *= -0.5;
 				}
 			}elseif($movingType == 1){
-				$p = $this->getLinkedEntity();
+				$p = $this->getlinkedTarget();
 				if($p instanceof Player){
 					if ($this->state == Minecart::STATE_INITIAL) {
 						$this->checkIfOnRail();
