@@ -5,15 +5,11 @@ namespace pocketmine\block;
 use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
-use pocketmine\Player;
-use pocketmine\math\Vector3;
 
-class PoweredRail extends ExtendedRailBlock implements RedstoneConsumer{
+class PoweredRail extends Rail implements RedstoneConsumer{
 	protected $id = self::POWERED_RAIL;
-	const SIDE_NORTH_WEST = 6;
-	const SIDE_NORTH_EAST = 7;
-	const SIDE_SOUTH_EAST = 8;
-	const SIDE_SOUTH_WEST = 9;
+	/** @var Vector3 [] */
+	protected $connected = [];
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
@@ -27,146 +23,139 @@ class PoweredRail extends ExtendedRailBlock implements RedstoneConsumer{
 		return 0.1;
 	}
 
-	public function getToolType(){
-		return Tool::TYPE_PICKAXE;
-	}
-
-	public function onUpdate($type){
-		if($type === Level::BLOCK_UPDATE_NORMAL){
-			if($this->getSide(0) instanceof Transparent && !($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
-				$this->getLevel()->useBreakOn($this);
-				return Level::BLOCK_UPDATE_NORMAL;
+	/**
+	 * @param Rail $block
+	 * @return bool
+	 */
+	public function canConnect(Rail $block){
+		if($this->distanceSquared($block) > 2){
+			return false;
+		}
+		/** @var Vector3 [] $blocks */
+		if(count($blocks = self::check($this)) == 2){
+			return false;
+		}
+		if(isset($blocks[0])){
+			$v3 = $blocks[0]->subtract($this);
+			$v33 = $block->subtract($this);
+			if(abs($v3->x) == abs($v33->z) and abs($v3->z) == abs($v33->x)){
+				return false;
 			}
 		}
-		return false;
+		return $blocks;
 	}
 
-	public function onRedstoneUpdate($type, $power){
-		if(!$this->isPowered()){
-			$this->togglePowered();
+	public function connect(Rail $rail, $force = false){
+
+		if(!$force){
+			$connected = $this->canConnect($rail);
+			if(!is_array($connected)){
+				return false;
+			}
+			/** @var Vector3 [] $connected */
+			$connected[] = $rail;
+			switch(count($connected)){
+				case  1:
+					$v3 = $connected[0]->subtract($this);
+					$this->meta = (($v3->y != 1) ? ($v3->x == 0 ? 0 : 1) : ($v3->z == 0 ? ($v3->x / -2) + 2.5 : ($v3->z / 2) + 4.5));
+					break;
+				case 2:
+					$subtract = [];
+					foreach($connected as $key => $value){
+						$subtract[$key] = $value->subtract($this);
+					}
+					if(abs($subtract[0]->x) == abs($subtract[1]->z) and abs($subtract[1]->x) == abs($subtract[0]->z)){
+						$v3 = $connected[0]->subtract($this)->add($connected[1]->subtract($this));
+						$this->meta = $v3->x == 1 ? ($v3->z == 1 ? 6 : 9) : ($v3->z == 1 ? 7 : 8);
+					}elseif($subtract[0]->y == 1 or $subtract[1]->y == 1){
+						$v3 = $subtract[0]->y == 1 ? $subtract[0] : $subtract[1];
+						$this->meta = $v3->x == 0 ? ($v3->x == -1 ? 4 : 5) : ($v3->x == 1 ? 2 : 3);
+					}else{
+						$this->meta = $subtract[0]->x == 0 ? 0 : 1;
+					}
+					break;
+				default:
+					break;
+			}
 		}
-	}
-
-	public function getDrops(Item $item){
-		return [[Item::POWERED_RAIL,0,1]];
-	}
-
-	public function isPowered(){
-		return (($this->meta & 0x08) === 0x08);
-	}
-
-	/**
-	 * Toggles the current state of this plate
-	 */
-	public function togglePowered(){
-		$this->meta ^= 0x08;
-		$this->isPowered()?$this->power = 15:$this->power = 0;
-		$this->getLevel()->setBlock($this, $this, true, true);
-	}
-
-	public function setDirection($face, $isOnSlope = false){
-		$extrabitset = (($this->meta & 0x08) === 0x08);
-		if($face !== Vector3::SIDE_WEST && $face !== Vector3::SIDE_EAST && $face !== Vector3::SIDE_NORTH && $face !== Vector3::SIDE_SOUTH){
-			throw new IllegalArgumentException("This rail variant can't be on a curve!");
-		}
-		$this->meta = ($extrabitset?($this->meta | 0x08):($this->meta & ~0x08));
-		$this->getLevel()->setBlock($this, Block::get($this->id, $this->meta));
-	}
-
-	public function isCurve(){
-		return false;
+		$this->level->setBlock($this, Block::get($this->id, $this->meta), true, true);
+		return true;
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		$down = $block->getSide(Vector3::SIDE_DOWN);
-		if($down->isTransparent() === false || ($down instanceof Slab && ($down->meta & 0x08) === 0x08) || ($down instanceof WoodSlab && ($down->meta & 0x08) === 0x08) || ($down instanceof Stair && ($down->meta & 0x04) === 0x04)){
-			$this->getLevel()->setBlock($this, Block::get($this->id, 0));
-			$up = $block->getSide(Vector3::SIDE_UP);
-			if($block->getSide(Vector3::SIDE_EAST) && $block->getSide(Vector3::SIDE_WEST)){
-				if($up->getSide(Vector3::SIDE_EAST)){
-					$this->setDirection(Vector3::SIDE_EAST, true);
-				}
-				elseif($up->getSide(Vector3::SIDE_WEST)){
-					$this->setDirection(Vector3::SIDE_WEST, true);
-				}
-				else{
-					$this->setDirection(Vector3::SIDE_EAST);
-				}
-			}
-			elseif($block->getSide(Vector3::SIDE_SOUTH) && $block->getSide(Vector3::SIDE_NORTH)){
-				if($up->getSide(Vector3::SIDE_SOUTH)){
-					$this->setDirection(Vector3::SIDE_SOUTH, true);
-				}
-				elseif($up->getSide(Vector3::SIDE_NORTH)){
-					$this->setDirection(Vector3::SIDE_NORTH, true);
-				}
-				else{
-					$this->setDirection(Vector3::SIDE_SOUTH);
-				}
-			}
-			else{
-				$this->setDirection(Vector3::SIDE_NORTH);
-			}
-			return true;
-		}
-		return false;
-	}
+		$downBlock = $this->getSide(Vector3::SIDE_DOWN);
 
-	public function getDirection(){
-		switch($this->meta){
-			case 0:
-				{
-					return Vector3::SIDE_SOUTH;
+		if($downBlock instanceof Rail or !$this->isBlock($downBlock)){
+			return false;
+		}
+
+		$arrayXZ = [[1, 0], [0, 1], [-1, 0], [0, -1]];
+		$arrayY = [0, 1, -1];
+
+		/** @var Vector3 [] $connected */
+		$connected = [];
+		foreach($arrayXZ as $key => $xz){
+			foreach($arrayY as $y){
+				$v3 = (new Vector3($xz[0], $y, $xz[1]))->add($this);
+				$block = $this->level->getBlock($v3);
+				if($block instanceof Rail){
+					if($block->connect($this)){
+						$connected[] = $v3;
+						if($key <= 1){
+							$xz = $arrayXZ[$key + 1];
+							foreach($arrayY as $yy){
+								$v3 = (new Vector3($xz[0], $yy, $xz[1]))->add($this);
+								$block = $this->level->getBlock($v3);
+								if($block instanceof Rail){
+									if($block->connect($this)){
+										$connected[] = $v3;
+									}
+								}
+							}
+						}
+						break;
+					}
 				}
-			case 1:
-				{
-					return Vector3::SIDE_EAST;
-				}
+			}
+			if(count($connected) >= 1){
+				break;
+			}
+		}
+		switch(count($connected)){
+			case  1:
+				$v3 = $connected[0]->subtract($this);
+				$this->meta = (($v3->y != 1) ? ($v3->x == 0 ? 0 : 1) : ($v3->z == 0 ? ($v3->x / -2) + 2.5 : ($v3->z / 2) + 4.5));
+				break;
 			case 2:
-				{
-					return Vector3::SIDE_EAST;
+				$subtract = [];
+				foreach($connected as $key => $value){
+					$subtract[$key] = $value->subtract($this);
 				}
-			case 3:
-				{
-					return Vector3::SIDE_WEST;
+				if(abs($subtract[0]->x) == abs($subtract[1]->z) and abs($subtract[1]->x) == abs($subtract[0]->z)){
+					$v3 = $connected[0]->subtract($this)->add($connected[1]->subtract($this));
+					$this->meta = $v3->x == 1 ? ($v3->z == 1 ? 6 : 9) : ($v3->z == 1 ? 7 : 8);
+				}elseif($subtract[0]->y == 1 or $subtract[1]->y == 1){
+					$v3 = $subtract[0]->y == 1 ? $subtract[0] : $subtract[1];
+					$this->meta = $v3->x == 0 ? ($v3->x == -1 ? 4 : 5) : ($v3->x == 1 ? 2 : 3);
+				}else{
+					$this->meta = $subtract[0]->x == 0 ? 0 : 1;
 				}
-			case 4:
-				{
-					return Vector3::SIDE_NORTH;
-				}
-			case 5:
-				{
-					return Vector3::SIDE_SOUTH;
-				}
-			case 6:
-				{
-					return self::SIDE_NORTH_WEST;
-				}
-			case 7:
-				{
-					return self::SIDE_NORTH_EAST;
-				}
-			case 8:
-				{
-					return self::SIDE_SOUTH_EAST;
-				}
-			case 9:
-				{
-					return self::SIDE_SOUTH_WEST;
-				}
+				break;
 			default:
-				{
-					return Vector3::SIDE_SOUTH;
-				}
+				break;
 		}
+
+		$this->level->setBlock($this, Block::get($this->id, $this->meta), true, true);
+		return true;
 	}
 
-	public function __toString(){
-		$this->getName() . " facing " . $this->getDirection() . ($this->isCurve()?" on a curve ":($this->isOnSlope()?" on a slope":""));
+	public function getHardness() {
+		return 0.7;
 	}
 
-	public function isOnSlope(){
-		$d = $this->meta;
-		return ($d == 0x02 || $d == 0x03 || $d == 0x04 || $d == 0x05);
+	public function canPassThrough(){
+		return true;
 	}
+	
+	public function getTool
 }

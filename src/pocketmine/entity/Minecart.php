@@ -14,11 +14,6 @@ use pocketmine\math\Vector3;
 class Minecart extends Vehicle{
 
 	const NETWORK_ID = 84;
-
-	const TYPE_NORMAL = 1;
-	const TYPE_CHEST = 2;
-	const TYPE_HOPPER = 3;
-	const TYPE_TNT = 4;
 	
 	const STATE_INITIAL = 0;
 	const STATE_ON_RAIL = 1;
@@ -40,7 +35,7 @@ class Minecart extends Vehicle{
 	private $requestedPosition = null;
 	
 	public function initEntity(){
-		$this->setMaxHealth(1);
+		$this->setMaxHealth(4);
 		$this->setHealth($this->getMaxHealth());
 		$this->moveVector[Entity::NORTH] = new Vector3(-1, 0, 0);
 		$this->moveVector[Entity::SOUTH] = new Vector3(1, 0, 0);
@@ -51,10 +46,6 @@ class Minecart extends Vehicle{
 
 	public function getName(){
 		return "Minecart";
-	}
-
-	public function getType(){
-		return self::TYPE_NORMAL;
 	}
 	
 	public function onUpdate($currentTick){
@@ -357,8 +348,8 @@ class Minecart extends Vehicle{
 			$upPosition = $this->add(0, 1, 0); // tried $dy = $dy + 1 but didn't work
 			$this->setPosition($upPosition);
 		}
-		$this->requestedPosition = $this->add($dx, $dy, $dz);
-		$this->move($dx, $dy, $dz);
+		$this->requestedPosition = $this->add($dx, $dy, $dz);//$dy = delta y, here its called correctly
+		$this->move($dx, $dy, $dz);//but here you move it to for example 0, 1, 0
 	}
 
 	/**
@@ -396,21 +387,11 @@ class Minecart extends Vehicle{
 	}
 
 	public function spawnTo(Player $player){
-		$pk = new AddEntityPacket();
-		$pk->eid = $this->getId();
-		$pk->type = Minecart::NETWORK_ID;
-		$pk->x = $this->x;
-		$pk->y = $this->y;
-		$pk->z = $this->z;
-		$pk->speedX = 0;
-		$pk->speedY = 0;
-		$pk->speedZ = 0;
-		$pk->yaw = 0;
-		$pk->pitch = 0;
-		$pk->metadata = $this->dataProperties;
+		$pk = $this->addEntityDataPacket($player);
+		$pk->type = self::NETWORK_ID;
 		$player->dataPacket($pk);
 
-		parent::spawnTo($player);
+		Entity::spawnTo($player);
 	}
 
 	public function getDrops(){
