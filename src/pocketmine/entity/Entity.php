@@ -227,7 +227,7 @@ abstract class Entity extends Location implements Metadatable{
 	}
 	
 	public function isLinked(){
-		return ($this->linkType == LINK_MASTER || $this->linkType == LINK_SLAVE);
+		return ($this->linkType == Entity::LINK_MASTER || $this->linkType == Entity::LINK_SLAVE);
 	}
 	
 	public function getLinkedEntity(){
@@ -334,13 +334,6 @@ abstract class Entity extends Location implements Metadatable{
 	 */
 	public function getlinkedTarget(){
 		return $this->getLinkedEntity();
-	}
-	
-	/**
-	 * @deprecated
-	 */
-	public function setLinked($status){
-		return false;
 	}
 	
 	public function isVehicle(){

@@ -113,15 +113,18 @@ class Minecart extends Vehicle{
 				if($p instanceof Player){
 					echo("gotEntInMinecart");
 					echo("isPlayer");
+					var_dump($this->state);
 					if ($this->state == Minecart::STATE_INITIAL) {
 						$this->checkIfOnRail();
 						echo("__doPlaceMinecartOnRAIL");
 					}
+					//after centering immediate calcing if on rail
 					if ($this->state == Minecart::STATE_ON_RAIL) {
 						echo("__doMinecartMovement");
 						$hasUpdate = $this->forwardOnRail($p);
 						$this->updateMovement();
 					}
+					echo("wtf why no __?");
 				}
 			}
 		}
