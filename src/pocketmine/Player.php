@@ -2466,19 +2466,28 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 				$target = $this->level->getEntity($packet->target);
 				$cancelled = false;
+				
 				/**
-				 * EntityLink *
+				 * EntityLink
 				 */
-				if($target !== null && $target->isVehicle()){
+				if($target instanceof Entity && $target->isVehicle()){
+					if($target instanceof Minecart and $target->getType() != Minecart::TYPE_NORMAL){
+						break;
+					}
 					if($packet->action === InteractPacket::ACTION_RIGHT_CLICK){
 						$this->linkEntity($target);
 						break;
-					}
-					elseif($packet->action === InteractPacket::ACTION_LEAVE_VEHICLE){
-						if($this->isLinked()) $this->unlinkEntity($this);
+					}elseif($packet->action === InteractPacket::ACTION_LEFT_CLICK){
+						if($this->getLinkedEntity() == $target){
+							$target->setLinked(Entity::LINK_EMPTY, $this);
+						}
+						$target->close();
+					}elseif($packet->action === InteractPacket::ACTION_LEAVE_VEHICLE){
+						$this->setLinked(Entity::LINK_EMPTY, $target);
 						break;
 					}
 				}
+				
 				if($packet->action === InteractPacket::ACTION_RIGHT_CLICK && $target instanceof Entity){
 					$this->getInventory()->getItemInHand()->useOnEntity($target, $this); // this is beta. Should return false anyways
 					break;

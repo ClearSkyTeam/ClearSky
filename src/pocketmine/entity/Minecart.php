@@ -111,10 +111,14 @@ class Minecart extends Vehicle{
 			}elseif($movingType == 1){
 				$p = $this->getlinkedTarget();
 				if($p instanceof Player){
+					echo("gotEntInMinecart");
+					echo("isPlayer");
 					if ($this->state == Minecart::STATE_INITIAL) {
 						$this->checkIfOnRail();
+						echo("__doPlaceMinecartOnRAIL");
 					}
 					if ($this->state == Minecart::STATE_ON_RAIL) {
+						echo("__doMinecartMovement");
 						$hasUpdate = $this->forwardOnRail($p);
 						$this->updateMovement();
 					}
@@ -157,8 +161,10 @@ class Minecart extends Vehicle{
 		$nextDirection = $this->getDirectionToMove($railType, $candidateDirection);
 		if ($nextDirection != -1) {
 			$this->direction = $nextDirection;
+			echo("GotDirection->doMoveIfRail\n");
 			return $this->moveIfRail();
 		} else {
+			echo("DirectionErr\n");
 			$this->direction = -1;  // Was not able to determine direction to move, so wait for player to look in valid direction
 		}
 		return false;
@@ -336,6 +342,7 @@ class Minecart extends Vehicle{
 					return true;
 				} else {
 					return false;
+					echo("failedToMove\n");
 					// TODO Need a way to update state to say cart is stuck?
 				}
 			}

@@ -202,88 +202,145 @@ abstract class Entity extends Location implements Metadatable{
 	const LINK_MASTER = 1;
 	const LINK_SLAVE = 2;
 	
-	protected $linkedTarget = null;
-	protected $islinked = false;
+	protected $linkedEntity = null;
+	/** @deprecated */
+	protected $isLinked = false;
+	protected $linkType = LINK_EMPTY;
 	
 	public $isLeashed = false;
 	public $leadHolder = null;
 	
 	public function linkEntity(Entity $entity = null){
-		if($entity !== null and $entity->getlinkType() == Entity::LINK_EMPTY and $entity->isAlive()){
-			$this->linkedTarget = $entity;
-			$this->islinked = true;
-			$entity->islinked = true;
-			$pk = new SetEntityLinkPacket();
-			$pk->from = $entity->getId();
-			$pk->to = $this->getId();
-			$pk->type = 1;
-			$this->server->broadcastPacket($this->level->getPlayers(), $pk);
-			if($this instanceof Player){
-				$pk = new SetEntityLinkPacket();
-				$pk->from = $entity->getId();
-				$pk->to = 0;
-				$pk->type = 1;
-				$this->dataPacket($pk);
-			}
+		if(!$entity instanceof Entity){
+			return $this->setLinked(Entity::LINK_EMPTY);
 		}
-		return false;
-	}
-	
-	public function setLinked($status){
-		if($status === true or $status === false){
-			$this->islinked = $status;
-			return true;
-		}
-		return false;
+		return $this->setLinked(Entity::LINK_MASTER, $entity);
 	}
 	
 	public function unlinkEntity(Entity $entity = null){
-		$pk = new SetEntityLinkPacket();
-		if(is_null($this->linkedTarget)){
-			$pk->from = 0;
-		}else{
-			$pk->from = $this->linkedTarget->getId();
-		}
-		$pk->to = 0;
-		$pk->type = 0;
-		if($this instanceof Player){
-			$this->dataPacket($pk);
-		}
-		$this->islinked = false;
-		if($this->linkedTarget instanceof Entity){
-			$this->linkedTarget->setLinked(false);
-			$this->linkedTarget = null;
-		}
-		return true;
+		return $this->setLinked(Entity::LINK_EMPTY);
 	}
+
 	
-	public function getlinkedTarget(){
-		return $this->linkedTarget;
-	}
-	
-	public function setlinkTarget(Entity $target){
-		$this->linkedTarget = $target;
-		return true;
-	}
-	
-	public function getlinkType(){
-		if(!$this->islinked){
-			return Entity::LINK_EMPTY;
-		}else{
-			if($this->linkedTarget !== null){
-				return Entity::LINK_MASTER;
-			}else{
-				return Entity::LINK_SLAVE;
-			}
-		}
-	}
-	
-	public function getlinkTarget(){
-		return $this->linkedTarget;
+	public function getLinkType(){
+		return $this->linkType;
 	}
 	
 	public function isLinked(){
-		return $this->islinked;
+		return ($this->linkType == LINK_MASTER || $this->linkType == LINK_SLAVE);
+	}
+	
+	public function getLinkedEntity(){
+		return $this->linkedEntity;
+	}
+	
+	/**
+	 * To plugin developers: This function is mostly intended for internal use.
+	 * You may want to use linkEntity() instead.
+	 */
+	public function setLinkedEntity(Entity $entity){
+		$this->linkedEntity = $entity;
+		return true;
+	}
+	
+	/**
+	 * Links $entity to this using $type.
+	 * @param $type Can be Entity::LINK_EMPTY (unlinkEntity) Entity::LINK_MASTER (linkEntity) Entity::LINK_SLAVE (internal use)
+	 */
+	public function setLinked($type = Entity::LINK_EMPTY, Entity $entity){
+		if(($type != LINK_EMPTY and $entity === null) || $entity === $this){
+			return false;
+		}
+		switch($type){
+			case Entity::LINK_EMPTY:
+				if($this->linkType == Entity::LINK_EMPTY){
+					return true;
+				}
+				$this->linkType = 0;
+				$pk = new SetEntityLinkPacket();
+				$pk->from = $entity->getId();
+				$pk->to = $this->getId();
+				$pk->type = 3;
+				$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+				if($this instanceof Player){
+					$pk = new SetEntityLinkPacket();
+					$pk->from = $entity->getId();
+					$pk->to = 0;
+					$pk->type = 3;
+					$this->dataPacket($pk);
+				}
+				if($this->linkedEntity->getLinkType() == Entity::LINK_MASTER){
+					$this->linkedEntity->setLinked(Entity::LINK_EMPTY);
+				}	
+				$this->linkedEntity = null;
+			break;
+			case Entity::LINK_MASTER:
+				if(!$entity->isAlive()){
+					return false;
+				}
+				$this->linkedEntity = $entity;
+				$this->linkStatus = Entity::LINK_MASTER;
+				$entity->linkedEntity = $this;
+				$entity->linkStatus = Entity::LINK_MASTER;
+				$pk = new SetEntityLinkPacket();
+				$pk->from = $entity->getId();
+				$pk->to = $this->getId();
+				$pk->type = 2;
+				$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+				if($this instanceof Player){
+					$pk = new SetEntityLinkPacket();
+					$pk->from = $entity->getId();
+					$pk->to = 0;
+					$pk->type = 2;
+					$this->dataPacket($pk);
+				}
+			break;
+			case Entity::LINK_SLAVE:
+				if(!$entity->isAlive()){
+					return false;
+				}
+				if($entity->getLinkedEntity() !== $this){
+					return $entity->linkEntity($this);
+				}
+				$this->linkedEntity = $entity;
+				$this->linkedType = Entity::LINK_SLAVE;
+			break;
+			default:
+			return false;
+		}
+		return true;
+	}
+	
+	/**
+	 * Use setLinkedEntity() instead!
+	 * @deprecated
+	 */
+	public function setlinkTarget(Entity $target){
+		$this->linkedEntity = $target;
+		return true;
+	}
+	
+	/**
+	 * Use getLinkedEntity() instead!
+	 * @deprecated
+	 */
+	public function getlinkTarget(){
+		return $this->getLinkedEntity();
+	}
+	
+	/**
+	 * Use getLinkedEntity() instead!
+	 * @deprecated
+	 */
+	public function getlinkedTarget(){
+		return $this->getLinkedEntity();
+	}
+	
+	/**
+	 * @deprecated
+	 */
+	public function setLinked($status){
+		return false;
 	}
 	
 	public function isVehicle(){
@@ -291,8 +348,11 @@ abstract class Entity extends Location implements Metadatable{
 	}
 	
 	public function followEntity(Entity $entity){
-		$this->setPosition($entity->temporalVector->setComponents($entity->x, $entity->y - 0.5, $entity->z));
-		return true;
+		if(!$entity instanceof Minecart){ //Temp soloution, will be reverted later on (Minecart.php currently handles player following).
+			$this->setPosition($entity->temporalVector->setComponents($entity->x, $entity->y - 0.5, $entity->z));
+			return true;
+		}
+		return false;
 	}
 	
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
@@ -1593,6 +1653,9 @@ abstract class Entity extends Location implements Metadatable{
 
 	public function kill(){
 		$this->health = 0;
+		if($this->linkedType != Entity::LINK_EMPTY){
+			$this->linkedEntity->setLinked(Entity::LINK_EMPTY);
+		}
 		$this->scheduleUpdate();
 	}
 
@@ -1673,7 +1736,7 @@ abstract class Entity extends Location implements Metadatable{
 			
 			//Unlink Entity
 			if($this->isLinked()){
-				$this->unlinkEntity();
+				$this->linkedEntity->setLinked(Entity::LINK_EMPTY, $this);
 			}
 			if($this->chunk !== null){
 				$this->chunk->removeEntity($this);
