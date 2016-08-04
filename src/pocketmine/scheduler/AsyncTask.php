@@ -28,7 +28,7 @@ abstract class AsyncTask extends Collectable{
 		if($this->cancelRun !== true){
 			try{
 				$this->onRun();
-			}catch(\Throwable $e){
+			}catch(Throwable $e){
 				$this->crashed = true;
 				$this->worker->handleException($e);
 			}
