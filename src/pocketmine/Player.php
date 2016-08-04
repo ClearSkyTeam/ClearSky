@@ -161,6 +161,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	protected $messageCounter = 2;
 	protected $sendIndex = 0;
 	private $clientSecret;
+	//* @var Item[] */
+	protected $pickedupItems = [];
+	protected $maxPickupableItems = 10; // 9 crafting, 1 held
 
 	/** @var Vector3 */
 	public $speed = null;
@@ -589,6 +592,59 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 */
 	public function getEffectivePermissions(){
 		return $this->perm->getEffectivePermissions();
+	}
+
+	public function addPickedupItem(Item $item, bool $ignoreItemCount = false){
+		if(count($this->getPickedupItems()) >= $this->maxPickupableItems and !$this->isCreative() and !$ignoreItemCount){
+			throw new \OutOfRangeException("Items array size cannot be greater than {$this->maxPickupableItems}."); //TODO: ErrStyle fix
+		}
+	
+		$appended = false;
+	
+		// Check if we already picked up the same item and if so append it onto
+		// existing picked up items.
+		foreach ($this->getPickedupItems() as $i) {
+			if ($i->deepEquals($item) and $i->getCount() < $i->getMaxStackSize()) {
+	
+				$amountFree = $i->getMaxStackSize() - $i->getCount();
+	
+				if ($amountFree <= 0)
+					continue;
+				else {
+					if ($amountFree < $item->getCount()) {
+						$i->setCount($i->getMaxStackSize());
+						$item->setCount($item->getCount() - $amountFree);
+					} elseif ($amountFree == $item->getCount()) {
+						$i->setCount($i->getMaxStackSize());
+						$appended = true;
+						break;
+					} else {
+						$i->setCount($i->getCount() + $item->getCount());
+						$appended = true;
+						break;
+					}
+				}
+			}
+		}
+	
+		if (!$appended)
+			$this->pickedupItems[] = $item;
+	}
+	
+	public function removePickedupItem($index){
+		unset($this->pickedupItems[$index]);
+	}
+	
+	public function setPickedupItems(Array $items, bool $ignoreItemCount = false){
+		if(count($items) > $this->maxPickupableItems and !$ignoreItemCount){
+			throw new \OutOfRangeException("Items array size must be {$this->maxPickupableItems}."); //TODO: ErrStyle fix
+		}
+		$this->pickedupItems = $items;
+	}
+	
+	
+	public function getPickedupItems() {
+		return $this->pickedupItems;
 	}
 
 	/**
@@ -1940,6 +1996,151 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->server->onPlayerLogin($this);
 	}
 
+	public function processContainerChange(Inventory $inventory, $slot, Item $newItem, Item $oldItem) {
+		if ($newItem->getCount() > $newItem->getMaxStackSize() || $newItem->getCount() < 0)
+			$this->inventory->sendContents($this);
+	
+		if ($oldItem != $newItem) {
+			#$this->server->getLogger()->debug("Item change!");
+			if ($newItem->getId() == 0 && $oldItem->getId() != 0) {
+				// The entire slot was picked up.
+				#$this->server->getLogger()->debug("PICKUP: Full slot of " . $oldItem);
+	
+				// Picked up all items in slot
+				$this->addPickedupItem($oldItem);
+	
+				// Clear the slot now that we've picked it up
+				$inventory->clear($slot);
+	
+			} else if ($newItem->deepEquals($oldItem)) {
+				// We're picking up a portion of the items in a slot
+	
+				if ($newItem->getCount() > $oldItem->getCount()) {
+					$this->server->getLogger()->debug("PLACEMENT: " . $newItem);
+	
+					// We're placing an item
+					if (count($this->getPickedupItems()) == 0) {
+						// Illegal action: we're placing an item that we haven't picked up.
+						$this->kick("Cannot place an item that does not exist.");
+						return;
+					} else {
+						// Check if we picked up the item
+						foreach ($this->getPickedupItems() as $k => $i) {
+							if ($i->deepEquals($newItem)) {
+								$amountPlaced = $newItem->getCount() - $oldItem->getCount();
+								$remainingPickedup = $i->getCount() - $amountPlaced;
+	
+								if (!$i->getCount() >= $newItem->getCount() || $remainingPickedup < 0) {
+									#$this->kick("You attempted to place more of an item than you have.");
+									$this->server->getLogger()->debug("Player ".$this->username." attempted to do something wrong with his inventory. That's all we know.");
+									return;
+								}
+	
+								if ($remainingPickedup)
+									$i->setCount($remainingPickedup);
+								else
+									$this->removePickedupItem($k);
+	
+								$this->server->getLogger()->debug($this->username." picked up and placed: " . $i);
+								$inventory->setItem($slot, $newItem);
+	
+								break;
+							}
+						}
+					}
+				} else {
+					#$this->server->getLogger()->debug("PICKUP: " . $newItem);
+					// We're picking an item up
+	
+					$amountPickedup = $oldItem->getCount() - $newItem->getCount();
+					if ($amountPickedup < 1) {
+						$this->kick("Cannot pickup less than 1 of an item!");
+						return;
+					}
+	
+					$itemPickedup = clone $oldItem;
+					$itemPickedup->setCount($amountPickedup);
+	
+					$inventory->setItem($slot, $newItem);
+					$this->addPickedupItem($itemPickedup);
+	
+				}
+			} else if (($newItem->getId() != 0 && $oldItem->getId() == 0) && count($this->getPickedupItems()) == 0) {
+				// PE sends us this information in reverse order.
+				// This bit of code should never be reached because SimpleTransactionGroup.php handles it
+			} else if ($newItem->getId() != 0 && $oldItem->getId() == 0) {
+				$this->server->getLogger()->debug("PLACEMENT: Full slot of " . $newItem);
+	
+				// We're placing some items into a blank slot
+				foreach ($this->getPickedupItems() as $k => $i) {
+					if ($i->deepEquals($newItem)) {
+						$remainingPickedup = $i->getCount() - $newItem->getCount();
+	
+						if (!$i->getCount() >= $newItem->getCount() || $remainingPickedup < 0) {
+							#$this->kick("You attempted to place more of an item than you have.");
+							$this->server->getLogger()->debug("Player ".$this->username." attempted to do something wrong with his inventory. That's all we know.");
+							return;
+						}
+	
+						if ($remainingPickedup)
+							$i->setCount($remainingPickedup);
+						else
+							$this->removePickedupItem($k);
+	
+						$this->server->getLogger()->info($this->username." picked up and placed: " . $i);
+						$inventory->setItem($slot, $newItem);
+						break;
+					}
+				}
+			} else if (!$newItem->deepEquals($oldItem)) {
+				if ($oldItem->deepEquals($newItem, false)) // Durability change, already handled by server
+					return;
+	
+				// Swapping items
+				$this->server->getLogger()->debug("SWAP: " . $oldItem . " for " . $newItem);
+	
+				// Check through our pickedup items to make sure that $newItem was picked up
+				$found = false;
+				foreach ($this->getPickedupItems() as $k => $i) {
+					if ($i->deepEquals($newItem)) {
+						// This checks how much of the item we picked up is actually swapped
+						$remainingPickedup = $i->getCount() - $newItem->getCount();
+	
+						if (!$i->getCount() >= $newItem->getCount() || $remainingPickedup < 0) {
+							#$this->kick("You attempted to place more of an item than you have.");
+							$this->server->getLogger()->debug("Player ".$this->username." attempted to do something wrong with his inventory. That's all we know.");
+							return;
+						}
+	
+						if ($remainingPickedup)
+							$i->setCount($remainingPickedup);
+						else
+							$this->removePickedupItem($k);
+	
+						$inventory->setItem($slot, $newItem);
+	
+						$found = true;
+						break;
+					}
+				}
+	
+				if ($found == false) {
+					// Hotbar <-> slot mapping change
+					if ($this->inventory->getItem($hotbarSlot = $this->inventory->getHotbarSlotIndex($slot))->deepEquals($newItem)) {
+						$this->inventory->setItem($hotbarSlot, $oldItem);
+						$this->inventory->setItem($slot, $newItem);
+						return;
+					}
+					$this->kick("You attempted to swap for an item that you don't have.");
+					return;
+				}
+	
+				$this->addPickedupItem($oldItem);
+			}
+		}
+	}
+	
+
 	/**
 	 * Handles a Minecraft packet
 	 * TODO: Separate all of this in handlers
@@ -2646,28 +2847,75 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				break;
 			case ProtocolInfo::DROP_ITEM_PACKET:
-				if($this->spawned === false or $this->blocked === true or !$this->isAlive()){
-					break;
-				}
-				if(!$this->inventory->contains($packet->item)) {
-					$this->inventory->sendContents($this); //Refresh the inventory to do useless stuff
-					break;
-				}
-				$slot = $this->inventory->first($packet->item);
-				if($slot == -1){break;}
-				$item = $this->inventory->getItem($slot);
-				$ev = new PlayerDropItemEvent($this, $item);
-				$this->server->getPluginManager()->callEvent($ev);
-				if($ev->isCancelled()){
-					$this->inventory->sendSlot($slot, $this);
-					break;
-				}
-
-				$this->inventory->remove($item);
-				$motion = $this->getDirectionVector()->multiply(0.4);
-				$this->level->dropItem($this->add(0, 1.3, 0), $item, $motion, 40);
-				$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, false);
+			if($this->spawned === false or $this->blocked === true or !$this->isAlive()){
 				break;
+			}
+			
+			$replacementItem = Item::get(Item::AIR, 0, 1);
+			$droppedItem = null;
+			
+			// We can't just assume that we're dropping the item in hand because
+			// on the Windows 10 Edition you can drop items directly from inventories
+			if (count($this->getPickedupItems()) > 0) {
+				foreach ($this->getPickedupItems() as $k => $i) {
+					if ($packet->item->deepEquals($i)) {
+						$remaining = $i->getCount() - $packet->item->getCount();
+						if ($remaining < 0) {
+							$this->kick("Cannot drop more of an item than you have!");
+							break;
+						} else if ($remaining == 0)
+							$this->removePickedupItem($k);
+						else
+							$i->setCount($remaining);
+			
+						$droppedItem = $packet->item;
+						// Nothing to replace when dropping from inventory
+						$replacementItem = null;
+					}
+				}
+			} else {
+				$itemInHand = clone $this->inventory->getItemInHand();
+				if (!$itemInHand->deepEquals($packet->item)) {
+					// The block held and the block being dropped is not the same
+					break;
+				} elseif ($itemInHand->getCount() != $packet->item->getCount()) {
+					// The only difference is that the amount dropped differs
+					$remaining = $itemInHand->getCount() - $packet->item->getCount();
+					if ($remaining < 0) {
+						// The client is attempting to drop more of an item than in hand
+						break;
+					} else {
+						$itemInHand->setCount($remaining);
+						$replacementItem = $itemInHand;
+						$droppedItem = $packet->item;
+					}
+				} else {
+					// Dropped everyting in slot
+					$droppedItem = $itemInHand;
+				}
+			}
+			
+			if (!$droppedItem)
+				break;
+			
+			$ev = new PlayerDropItemEvent($this, $droppedItem);
+			$this->server->getPluginManager()->callEvent($ev);
+			if($ev->isCancelled()){
+				$this->inventory->sendContents($this);
+				$this->setPickedupItems($pickedupItems);
+				break;
+			}
+ 
+			if ($replacementItem)
+				$this->inventory->setItemInHand($replacementItem);
+			
+			$motion = $this->getDirectionVector()->multiply(0.4);
+ 
+			// TODO: Stack nearby item drops
+			$this->level->dropItem($this->add(0, 1.3, 0), $droppedItem, $motion, 40);
+ 
+			$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, false);
+			break;
 			case ProtocolInfo::TEXT_PACKET:
 				if($this->spawned === false or !$this->isAlive()){
 					break;
@@ -2716,6 +2964,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
   					$this->removeWindow($this->windowIndex[$packet->windowid]);
 				}else{
 					unset($this->windowIndex[$packet->windowid]);
+					if(!$this->isCreative()){
+						foreach ($this->getPickedupItems() as $i){
+							$this->level->dropItem($this, $i);
+						}
+					}	
+					$this->setPickedupItems([]);
 				}
 				break;
 			case ProtocolInfo::CRAFTING_EVENT_PACKET:
@@ -2762,8 +3016,53 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 				}
 				$canCraft = true;
+				$giveItem = true;
+				// Keep a local copy so we can revert changes if needed
+				$pickedupItems = $this->getPickedupItems();
+	
+				if (empty($packet->input)) {
+					// Get a list of recipes that can be used to craft the result.
+					$recipes = $this->server->getCraftingManager()->getRecipesByItem($packet->output[0]);
+					// As soon as a recipe whose ingridients can be satisfied is found,
+					// use it. This shouldn't cause any issues for the few items that have
+					// multiple recipes they can be crafted with.
+					$canCraft = false;
+					foreach ($recipes as $r) {
+						$need = $r->getIngredientList();
+						$have = [];
 
-				if($recipe instanceof ShapedRecipe){
+						foreach ($need as $i){
+							foreach ($this->getPickedupItems() as $key => $item) {
+								if ($need == $have) // We already have all the things we need
+									break;
+								if ($item->deepEquals($i, $i->getDamage() !== null, $i->getCompoundTag() !== null)) {
+									$amountRemaining = $item->getCount() - $i->getCount();
+
+									if ($amountRemaining > 0) {
+										$item->setCount($amountRemaining);
+										$have[] = $i;
+									} elseif ($amountRemaining <= 0) {
+										// Relatively safe operation here as items stack
+										$have[] = $item;
+										$this->removePickedupItem($key);
+									}
+								}
+							}
+						}
+						if ($need != $have) {
+							// Can't craft
+							$this->setPickedupItems($pickedupItems);
+							continue;
+						} else {
+							// Reset the recipe to the correct one
+							$recipe = $r;
+							$canCraft = true;
+							$giveItem = false;
+							$this->addPickedupItem(clone $recipe->getResult(), true);
+							break;
+						}
+					}
+				}elseif($recipe instanceof ShapedRecipe){
 					for($x = 0; $x < 3 and $canCraft; ++$x){
 						for($y = 0; $y < 3; ++$y){
 							$item = $packet->input[$y * 3 + $x];
@@ -2810,6 +3109,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if(!$canCraft or !$recipe->getResult()->deepEquals($result)){
 					$this->server->getLogger()->debug("Unmatched recipe " . $recipe->getId() . " from player " . $this->getName() . ": expected " . $recipe->getResult() . ", got " . $result . ", using: " . implode(", ", $ingredients));
 					$this->inventory->sendContents($this);
+					$this->setPickedupItems($pickedupItems);
 					break;
 				}
 				$used = array_fill(0, $this->inventory->getSize(), 0);
@@ -2830,6 +3130,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if(!$canCraft){
 					$this->server->getLogger()->debug("Unmatched recipe " . $recipe->getId() . " from player " . $this->getName() . ": client does not have enough items, using: " . implode(", ", $ingredients));
 					$this->inventory->sendContents($this);
+					$this->setPickedupItems($pickedupItems);
 					break;
 				}
 				$this->server->getPluginManager()->callEvent($ev = new CraftItemEvent($this, $ingredients, $recipe));
@@ -2850,10 +3151,13 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 					$this->inventory->setItem($slot, $newItem);
 				}
-				$extraItem = $this->inventory->addItem($recipe->getResult());
-				if(count($extraItem) > 0){
-					foreach($extraItem as $item){
-						$this->level->dropItem($this, $item);//should drop the items if your inventory is full
+				// Avoid item client-sided duplicating in Windows 10 Edition as the item is already created
+				if ($giveItem) {
+					$extraItem = $this->inventory->addItem($recipe->getResult());
+					if(count($extraItem) > 0){
+						foreach($extraItem as $item){
+							$this->level->dropItem($this, $item);
+						}
 					}
 				}
 				switch($recipe->getResult()->getId()){
@@ -2955,7 +3259,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->currentTransaction = new SimpleTransactionGroup($this);
 				}
 				$this->currentTransaction->addTransaction($transaction);
-				if($this->currentTransaction->canExecute()){
+				#if($this->currentTransaction->isWindows10Edition($transaction)){
+				#	$this->server->getLogger()->debug("isWin10Edition");
+				#}
+				if($this->currentTransaction->canExecute() || $this->currentTransaction->isWindows10Edition($transaction)){
 					$achievements = [];
 					foreach($this->currentTransaction->getTransactions() as $ts){
 						$inv = $ts->getInventory();
