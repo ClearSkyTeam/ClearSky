@@ -135,19 +135,6 @@ class ShapedRecipe implements Recipe{
 	}
 
 	/**
-	 * @return Item[][]
-	 */
-	public function getIngredientList() {
-		$ingredients = [];
-		for ($x = 0; $x < 3; ++$x)
-			for ($y = 0; $y < 3; ++$y)
-				if (!empty($this->ingredients[$x][$y]))
-					if (!$this->ingredients[$x][$y]->getId() == Item::AIR)
-						$ingredients[] = $this->ingredients[$x][$y];
-		return $ingredients;
-	}
-
-	/**
 	 * @return string[]
 	 */
 	public function getShape(){

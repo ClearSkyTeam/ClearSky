@@ -66,7 +66,9 @@ class CraftingManager{
 			Planks::DARK_OAK
 		];
 		for($i=0;$i<count($WOOD);$i++){
-			$this->registerRecipe((new ShapelessRecipe(Item::get(Item::WOODEN_PLANK, $PLANK[$i], 4)))->addIngredient(Item::get($WOOD_CLASS[$i], $WOOD[$i], 1)));
+			$this->registerRecipe((new ShapedRecipe(Item::get(Item::WOODEN_PLANK, $PLANK[$i], 4),
+				"X"
+			))->setIngredient("X", Item::get($WOOD_CLASS[$i], $WOOD[$i], 1)));
 		}
 	}
 	
@@ -986,13 +988,6 @@ class CraftingManager{
 	 */
 	public function getRecipes(){
 		return $this->recipes;
-	}
- 	/**
-	 * @param Item $item
-	 * @return Recipe[]
-	 */
-	public function getRecipesByItem(Item $item) {
-		return @array_values($this->recipeLookup[$item->getId() . ":" . $item->getDamage()]) ?? [];
 	}
 
 	/**
