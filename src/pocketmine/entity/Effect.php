@@ -299,10 +299,10 @@ class Effect{
 			$entity->setDataProperty(Entity::DATA_SHOW_NAMETAG, Entity::DATA_TYPE_BYTE, 1);
 		}elseif($this->id === Effect::SPEED){
 			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-			$attr->setValue($attr->getValue() / (1 + 0.2 * $this->amplifier));
+			$attr->setValue($attr->getValue() / (1 - 0.2 * $this->amplifier));
 		}elseif($this->id === Effect::SLOWNESS){
 			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-			$attr->setValue($attr->getValue() / (1 - 0.15 * $this->amplifier));
+			$attr->setValue($attr->getValue() / (1 + 0.15 * $this->amplifier));
 		}
 	}
 }

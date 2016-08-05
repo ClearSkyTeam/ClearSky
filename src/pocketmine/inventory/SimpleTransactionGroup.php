@@ -20,6 +20,9 @@ class SimpleTransactionGroup implements TransactionGroup{
 
 	/** @var Transaction[] */
 	protected $transactions = [];
+	
+	/** @var bool */
+	protected $windows10Edition;
 
 	/**
 	 * @param Player $source
@@ -63,6 +66,21 @@ class SimpleTransactionGroup implements TransactionGroup{
 		}
 		$this->transactions[spl_object_hash($transaction)] = $transaction;
 		$this->inventories[spl_object_hash($transaction->getInventory())] = $transaction->getInventory();
+	}
+
+	public function isWindows10Edition($transaction) {
+		if (count($this->transactions) > 1)
+			return false;
+	
+		if (count($this->source->getPickedupItems()) == 0 && // The player dosen't have anything picked up
+			(($transaction->getTargetItem()->getId() != 0 && $transaction->getSourceItem()->getId() == 0) || // An item was placed into an air block
+		($transaction->getTargetItem()->getCount() > $transaction->getSourceItem()->getCount()))) { // An item was added to an existing slot with a larger quantity
+			// PE
+			$this->windows10Edition = false;
+			return false;
+		}
+		$this->windows10Edition = true;
+		return true;
 	}
 
 	/**
@@ -114,7 +132,7 @@ class SimpleTransactionGroup implements TransactionGroup{
 	}
 
 	public function execute(){
-		if($this->hasExecuted() or !$this->canExecute()){
+		if($this->hasExecuted() or (!$this->canExecute() && !$this->windows10Edition)){
 			return false;
 		}
 
@@ -131,7 +149,12 @@ class SimpleTransactionGroup implements TransactionGroup{
 		}
 
 		foreach($this->transactions as $transaction){
-			$transaction->getInventory()->setItem($transaction->getSlot(), $transaction->getTargetItem());
+			if($this->windows10Edition){
+				$this->source->processContainerChange($transaction->getInventory(), $transaction->getSlot(), $transaction->getTargetItem(), $transaction->getSourceItem());
+			}
+			else{
+				$transaction->getInventory()->setItem($transaction->getSlot(), $transaction->getTargetItem());
+			}	
 		}
 
 		$this->hasExecuted = true;

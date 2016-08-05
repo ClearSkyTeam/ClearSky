@@ -175,7 +175,7 @@ class RegionLoader{
 
 			try{
 				$chunk = zlib_decode(substr($chunk, 5));
-			}catch(\Throwable $e){
+			}catch(Throwable $e){
 				$this->locationTable[$i] = [0, 0, 0]; //Corrupted chunk, remove it
 				continue;
 			}

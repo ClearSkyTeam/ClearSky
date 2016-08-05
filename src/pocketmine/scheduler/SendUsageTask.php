@@ -124,7 +124,7 @@ class SendUsageTask extends AsyncTask{
 				"Content-Type: application/json",
 				"Content-Length: ". strlen($this->data)
 			]);
-		}catch(\Throwable $e){
+		}catch(Throwable $e){
 
 		}
 	}

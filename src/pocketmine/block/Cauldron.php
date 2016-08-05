@@ -18,10 +18,10 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\tile\Tile;
-use beito\FlowerPot\extra\Cauldron\ExplodeSound;
-use beito\FlowerPot\extra\Cauldron\SplashSound;
-use beito\FlowerPot\extra\Cauldron\SpellSound;
-use beito\FlowerPot\extra\Cauldron\GraySplashSound;
+use pocketmine\level\sound\SplashSound;
+use pocketmine\level\sound\ExplodeSound;
+use pocketmine\level\sound\SpellSound;
+use pocketmine\level\sound\GraySplashSound;
 
 class Cauldron extends Solid {
 
