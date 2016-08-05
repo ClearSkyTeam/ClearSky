@@ -17,15 +17,11 @@
  * 
 */
 
-namespace beito\FlowerPot\extra\ItemFrame;
+namespace pocketmine\network\protocol;
 
-use pocketmine\network\protocol\DataPacket;
+class ItemFrameDropItemPacket extends DataPacket {
 
-use beito\FlowerPot\MainClass;
-
-class ItemFrameDropPacket extends DataPacket {
-
-	const NETWORK_ID = MainClass::PROTOCOL_ITEM_FRAME_DROP_ITEM_PACKET;
+	const NETWORK_ID = Info::ITEM_FRAME_DROP_ITEM_PACKET;
 
 	public $x;
 	public $y;
