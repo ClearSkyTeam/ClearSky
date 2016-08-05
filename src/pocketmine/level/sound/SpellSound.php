@@ -1,5 +1,5 @@
 <?php
-namespace beito\FlowerPot\extra\Cauldron;
+namespace pocketmine\level\sound;
 
 use pocketmine\level\sound\Sound;
 use pocketmine\math\Vector3;

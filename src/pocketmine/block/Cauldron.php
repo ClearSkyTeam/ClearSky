@@ -18,10 +18,10 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\tile\Tile;
-use beito\FlowerPot\extra\Cauldron\ExplodeSound;
-use beito\FlowerPot\extra\Cauldron\SplashSound;
-use beito\FlowerPot\extra\Cauldron\SpellSound;
-use beito\FlowerPot\extra\Cauldron\GraySplashSound;
+use pocketmine\level\sound\SplashSound;
+use pocketmine\level\sound\ExplodeSound;
+use pocketmine\level\sound\SpellSound;
+use pocketmine\level\sound\GraySplashSound;
 
 class Cauldron extends Solid {
 
@@ -121,7 +121,7 @@ class Cauldron extends Solid {
 						$this->meta = 0;//empty
 						$this->getLevel()->setBlock($this, $this, true);
 						$tile->clearCustomColor();
-						$this->getLevel()->addSound(new SplashSound($this->add(0.5, 1, 0.5)));
+						$this->getLevel()->addSound(new splashs($this->add(0.5, 1, 0.5)));
 					}
 				}elseif($item->getDamage() === 8){//water bucket
 					if($this->isFull() and !$tile->isCustomColor() and !$tile->hasPotion()){
@@ -140,7 +140,7 @@ class Cauldron extends Solid {
 							$this->getLevel()->setBlock($this, $this, true);
 							$tile->setPotionId(0xffff);//reset potion
 							$tile->clearCustomColor();
-							$this->getLevel()->addSound(new ExplodeSound($this->add(0.5, 0, 0.5)));
+							$this->getLevel()->addSound(new \pocketmine\level\sound\ExplodeSound($this->add(0.5, 0, 0.5)));
 						}else{
 							$this->meta = 6;//fill
 							$this->getLevel()->setBlock($this, $this, true);
