@@ -207,9 +207,12 @@ class Network{
 				$buf = substr($str, $offset, $pkLen);
 				$offset += $pkLen;
 
+				if(strlen($buf) === 0){
+					throw new \InvalidStateException("Empty or invalid BatchPacket from ".$p->getName());
+				}
 				if(($pk = $this->getPacket(ord($buf{0}))) !== null){
 					if($pk::NETWORK_ID === Info::BATCH_PACKET){
-						throw new \InvalidStateException("Invalid BatchPacket inside BatchPacket");
+						throw new \InvalidStateException("Invalid BatchPacket inside BatchPacket from".$p->getName());
 					}
 
 					$pk->setBuffer($buf, 1);
