@@ -5,8 +5,9 @@ use pocketmine\entity\Entity;
 class Slimeblock extends Transparent{
 	protected $id = self::SLIMEBLOCK;
 
-	public function __construct(){}
-
+	public function __construct($meta = 15){
+		$this->meta = $meta;
+	}
 	public function getName(){
 		return "Slime Block";
 	}
