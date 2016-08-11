@@ -346,8 +346,18 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/**
 	 * Returns if the player is Xbox authenticated.
 	*/
-	public function isLoggedInToXbox(){
-		return $this->isXbox;
+	public function isXboxAuthenticated(){
+		return $this->isXbox && $this->isXboxValid();
+	}
+	
+	/**
+	 * @deprecated THIS FUNCTION MAY CHANGE ITS NAME DISAPPEAR AT ANY TIME.
+	*/
+	public function isXboxValid(){
+		return true;
+		/*
+		TODO:check the keys in the login function and return  if they are valid or not.
+		*/
 	}
 	
 	/**
@@ -358,7 +368,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 	
 	/**
-	 * This contains data recieved in the LoginPacket
+	 * This contains some data recieved in the LoginPacket
 	 * Hint: We do not know what all the data really means.
 	*/
 	public function getWebtokens(){
