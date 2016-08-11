@@ -3100,9 +3100,12 @@ class Level implements ChunkManager, Metadatable{
 			return false;
 		}
 
-		$chunk = $this->getChunk($x, $z, true);
-		if(!$chunk->isPopulated()){
+		if(!$this->isChunkPopulated($x, $z)){
 			Timings::$populationTimer->startTiming();
+			$chunk = $this->getChunk($x, $z, true);
+			if($chunk === null){
+				return true;
+			}
 			$populate = true;
 			for($xx = -1; $xx <= 1; ++$xx){
 				for($zz = -1; $zz <= 1; ++$zz){
