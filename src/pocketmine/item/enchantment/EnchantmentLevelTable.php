@@ -2,7 +2,6 @@
 
 namespace pocketmine\item\enchantment;
 
-use pocketmine\item\Armor;
 use pocketmine\item\Item;
 
 class EnchantmentLevelTable{
