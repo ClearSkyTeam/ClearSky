@@ -91,11 +91,11 @@ abstract class BaseLevelProvider implements LevelProvider{
 	}
 
 	public function getGameRules(){
-		return new Vector3((float) $this->levelData["SpawnX"], (float) $this->levelData["SpawnY"], (float) $this->levelData["SpawnZ"]);
+		return $this->levelData["GameRules"];
 	}
 
 	public function setGameRules(GameRules $rules){
-		$this->levelData->GameRules = new CompoundTag("GameRules", (int) $rules);
+		$this->levelData->GameRules = new CompoundTag("GameRules", $rules);
 	}
 
 	public function doGarbageCollection(){
