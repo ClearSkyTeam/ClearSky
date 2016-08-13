@@ -60,7 +60,7 @@ We are still rewriting the base to make sure ClearSky has the best developing fe
 ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
 # <a name="SPA"></a>Español
-# Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PocketMine](https://github.com/PocketMine/PocketMine-MP) (PHP5) 
+# Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PocketMine](https://github.com/PocketMine/PocketMine-MP) (PHP7) 
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
 **Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
