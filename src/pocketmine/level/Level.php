@@ -362,6 +362,15 @@ class Level implements ChunkManager, Metadatable{
 		return $this->weather;
 	}
 	
+	public function getGameRules(){
+		var_dump($this->getProvider()->getGameRules());
+		return $this->getProvider()->getGameRules();
+	}
+	
+	public function setGameRules(GameRules $rules){
+		return $this->getProvider()->setGameRules($rules);
+	}
+	
 	/**
 	 * Returns the chunk unique hash/key
 	 *

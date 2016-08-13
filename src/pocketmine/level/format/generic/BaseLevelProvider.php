@@ -11,6 +11,7 @@ use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\LongTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\utils\LevelException;
+use pocketmine\level\GameRules;
 
 abstract class BaseLevelProvider implements LevelProvider{
 	/** @var Level */
@@ -87,6 +88,14 @@ abstract class BaseLevelProvider implements LevelProvider{
 		$this->levelData->SpawnX = new IntTag("SpawnX", (int) $pos->x);
 		$this->levelData->SpawnY = new IntTag("SpawnY", (int) $pos->y);
 		$this->levelData->SpawnZ = new IntTag("SpawnZ", (int) $pos->z);
+	}
+
+	public function getGameRules(){
+		return new Vector3((float) $this->levelData["SpawnX"], (float) $this->levelData["SpawnY"], (float) $this->levelData["SpawnZ"]);
+	}
+
+	public function setGameRules(GameRules $rules){
+		$this->levelData->GameRules = new CompoundTag("GameRules", (int) $rules);
 	}
 
 	public function doGarbageCollection(){

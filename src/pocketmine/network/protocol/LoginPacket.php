@@ -3,7 +3,6 @@ namespace pocketmine\network\protocol;
 #include <rules/DataPacket.h>
 
 //TERRA INCOGNITA
-//DO N O T ADD ADDITIONALCHAR
 class LoginPacket extends DataPacket{
 	const NETWORK_ID = Info::LOGIN_PACKET;
 	public $username;
@@ -14,6 +13,9 @@ class LoginPacket extends DataPacket{
 	public $serverAddress;
 	public $skinId;
 	public $skin = null;
+	public $webtokens = [];
+	public $isXbox = false;
+	public $xboxData = null;
 	public function decode(){
 		$this->protocol = $this->getInt();
 		$str = zlib_decode($this->get($this->getInt()), 1024 * 1024 * 64); //Max 64MB
@@ -21,12 +23,20 @@ class LoginPacket extends DataPacket{
 		$chainData = json_decode($this->get($this->getLInt()));
 		foreach ($chainData->{"chain"} as $chain){
 			$webtoken = $this->decodeToken($chain);
+			$this->webtokens[] = $webtoken;
+			if(isset($webtoken["iss"])){
+				$this->isXbox = true;
+				$this->xboxData["iss"] = $webtoken["iss"];
+			}
 			if(isset($webtoken["extraData"])){
 				if(isset($webtoken["extraData"]["displayName"])){
 					$this->username = $webtoken["extraData"]["displayName"];
 				}
 				if(isset($webtoken["extraData"]["identity"])){
 					$this->clientUUID = $webtoken["extraData"]["identity"];
+				}
+				if(isset($webtoken["extraData"]["xuid"]) && $this->isXbox){
+					$this->xboxData["xuid"] = $webtoken["extraData"]["xuid"];
 				}
 				if(isset($webtoken["identityPublicKey"])){
 					$this->identityPublicKey = $webtoken["identityPublicKey"];

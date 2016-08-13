@@ -3,6 +3,7 @@ namespace pocketmine\level\format;
 
 use pocketmine\level\Level;
 use pocketmine\math\Vector3;
+use pocketmine\level\GameRules;
 
 interface LevelProvider{
 
@@ -192,6 +193,16 @@ interface LevelProvider{
 	 * @param Vector3 $pos
 	 */
 	public function setSpawn(Vector3 $pos);
+
+	/**
+	 * @return GameRules
+	 */
+	public function getGameRules();
+
+	/**
+	 * @param GameRules $rules
+	 */
+	public function setGameRules(GameRules $rules);
 
 	/**
 	 * @return FullChunk|Chunk[]

@@ -14,6 +14,7 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\tile\Spawnable;
 use pocketmine\utils\BinaryStream;
 use pocketmine\utils\ChunkException;
+use pocketmine\level\GameRules;
 
 class McRegion extends BaseLevelProvider{
 
@@ -60,6 +61,7 @@ class McRegion extends BaseLevelProvider{
 			mkdir($path . "/region", 0777);
 		}
 		//TODO, add extra details
+		$rules = new GameRules();
 		$levelData = new CompoundTag("Data", [
 			"hardcore" => new ByteTag("hardcore", 0),
 			"initialized" => new ByteTag("initialized", 1),
@@ -77,8 +79,9 @@ class McRegion extends BaseLevelProvider{
 			"generatorName" => new StringTag("generatorName", Generator::getGeneratorName($generator)),
 			"generatorOptions" => new StringTag("generatorOptions", isset($options["preset"]) ? $options["preset"] : ""),
 			"LevelName" => new StringTag("LevelName", $name),
-			"GameRules" => new CompoundTag("GameRules", [])
+			"GameRules" => new CompoundTag("GameRules", $rules->getRules())
 		]);
+		
 		$nbt = new NBT(NBT::BIG_ENDIAN);
 		$nbt->setData(new CompoundTag("", [
 			"Data" => $levelData

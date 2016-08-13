@@ -16,6 +16,7 @@ use pocketmine\utils\Binary;
 use pocketmine\utils\BinaryStream;
 use pocketmine\utils\ChunkException;
 use pocketmine\utils\LevelException;
+use pocketmine\level\GameRules;
 
 class LevelDB extends BaseLevelProvider{
 
@@ -85,6 +86,7 @@ class LevelDB extends BaseLevelProvider{
 			mkdir($path . "/db", 0777, true);
 		}
 		//TODO, add extra details
+		$rules = new GameRules();
 		$levelData = new CompoundTag("", [
 			"hardcore" => new ByteTag("hardcore", 0),
 			"initialized" => new ByteTag("initialized", 1),
@@ -102,8 +104,9 @@ class LevelDB extends BaseLevelProvider{
 			"generatorName" => new StringTag("generatorName", Generator::getGeneratorName($generator)),
 			"generatorOptions" => new StringTag("generatorOptions", isset($options["preset"]) ? $options["preset"] : ""),
 			"LevelName" => new StringTag("LevelName", $name),
-			"GameRules" => new CompoundTag("GameRules", [])
+			"GameRules" => new CompoundTag("GameRules", $rules->getRules())
 		]);
+		
 		$nbt = new NBT(NBT::LITTLE_ENDIAN);
 		$nbt->setData($levelData);
 		$buffer = $nbt->write();
