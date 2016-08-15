@@ -39,7 +39,10 @@ class ItemFrame extends Transparent{
 			]);
 			Tile::createTile(Tile::ITEM_FRAME, $this->getLevel()->getChunk($this->x >> 4, $this->z >> 4), $nbt);
 		}
-
+		$tile = $this->getLevel()->getTile($this);
+		if(!$tile instanceof ItemFrameTile){
+			return false;
+		}
 		if($tile->getItem()->getId() === 0){
 			$tile->setItem(Item::get($item->getId(), $item->getDamage(), 1));
 			if($player instanceof Player){
