@@ -3455,12 +3455,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	public function setHealth($amount){
 		parent::setHealth($amount);
 		if($this->spawned === true){
-			//We don't need the setHealthPacket anymore. Everything is done by the Attributes now.
-			/*
-			$pk = new SetHealthPacket();
-			$pk->health = $this->getHealth();
-			$this->dataPacket($pk);
-			*/
+			//Client hack: (Client always shows hit animation on SetHealthPacket)
+			if($this->getHealth() == 0){
+				$pk = new SetHealthPacket();
+				$pk->health = $this->getHealth();
+				$this->dataPacket($pk);
+			}
 		}
 	}
 
