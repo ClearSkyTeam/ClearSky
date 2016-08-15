@@ -284,6 +284,9 @@ class Level implements ChunkManager, Metadatable{
 	private $raintime = [];
 	private $rainfall = [];
 	private $weatherexectick = 0;
+	
+	/** @var GameRules */
+	private $gamerules;
 
 	private function generateWeather(){
 		if($this->getServer()->getProperty("level-settings.weather.enable", true) && $this->getDimension() == self::DIMENSION_NORMAL){
@@ -361,14 +364,14 @@ class Level implements ChunkManager, Metadatable{
 	public function getWeather(){
 		return $this->weather;
 	}
-	
+
+	/** @return GameRules */
 	public function getGameRules(){
-		var_dump($this->getProvider()->getGameRules());
-		return $this->getProvider()->getGameRules();
+		return $this->gamerules;
 	}
 	
-	public function setGameRules(GameRules $rules){
-		return $this->getProvider()->setGameRules($rules);
+	public function setGameRules($rules){
+		return $this->getProvider()->setGameRules($rules);//wrong, #TODO
 	}
 	
 	/**
@@ -468,6 +471,8 @@ class Level implements ChunkManager, Metadatable{
 		if($server->netherName == $this->folderName) $this->setDimension(self::DIMENSION_NETHER);
 		//elseif($server->endName == $this->folderName) $this->setDimension(self::DIMENSION_END);
 		else $this->setDimension(self::DIMENSION_NORMAL);
+
+		$this->gamerules = new GameRules($this->provider->getGameRules());
 		
 		/** Random ticking */
 		foreach($this->getServer()->getProperty("chunk-ticking.disabled-randomly-ticking-blocks", []) as $id){

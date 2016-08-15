@@ -25,19 +25,20 @@ class GameruleCommand extends VanillaCommand{
 			$sender->sendMessage("This currently only works for players");
 		}
 		
-		if(count($args) !== 1){
+		/*if(count($args) !== 1){
 			$sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
 			
 			return false;
-		}
+		}*/
 		
-		$gamerules = $sender->getLevel()->getGameRules(); // todo
+		$gamerules = $sender->getLevel()->getGameRules();
 		$s = count($args) > 0?$args[0]:"";
 		// $s1 = count($args) > 1 ? $this->buildString($args, 1) : "";//? Hההה wat willst du
 		
 		switch(count($args)){
 			case 0:
-				$sender->sendMessage(implode(var_export($gamerules->getRules(), true), "\n" . TextFormat::YELLOW));
+				$sender->sendMessage(implode($gamerules->getRulesArray(), "\n" . TextFormat::YELLOW));
+				$sender->getServer()->broadcastMessage(implode($gamerules->getRulesArray(), "\n" . TextFormat::YELLOW));
 				break;
 			case 1:
 				
@@ -51,7 +52,7 @@ class GameruleCommand extends VanillaCommand{
 				break;
 			default:
 				
-				if($gamerules->areSameType($s, GameRules::BOOLEAN_VALUE) && !"true" . equals(s1) && !"false" . equals(s1)){
+				if($gamerules->areSameType($s, GameRules::BOOLEAN_VALUE) && !"true" . equals($s1) && !"false" . equals($s1)){
 					$sender->sendMessage(new TranslationContainer("commands.generic.boolean.invalid", $s));
 					return false;
 				}

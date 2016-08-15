@@ -104,7 +104,7 @@ class LevelDB extends BaseLevelProvider{
 			"generatorName" => new StringTag("generatorName", Generator::getGeneratorName($generator)),
 			"generatorOptions" => new StringTag("generatorOptions", isset($options["preset"]) ? $options["preset"] : ""),
 			"LevelName" => new StringTag("LevelName", $name),
-			"GameRules" => new CompoundTag("GameRules", $rules->getRules())
+			"GameRules" => $rules->getRules()
 		]);
 		
 		$nbt = new NBT(NBT::LITTLE_ENDIAN);
