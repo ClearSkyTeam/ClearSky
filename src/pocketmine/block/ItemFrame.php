@@ -67,10 +67,6 @@ class ItemFrame extends Transparent{
 		return true;
 	}
 
-	public function onBreak(Item $item){
-		$this->getLevel()->useBreakOn($this);
-	}
-
 	public function getDrops(Item $item){
 		if($this->getLevel()==null){
 			return [];
