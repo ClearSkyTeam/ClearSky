@@ -12,6 +12,7 @@ use pocketmine\nbt\tag\IntArrayTag;
 
 class GameRules{
 	private $theGameRules = [];
+	private $level;
 
 	public function __construct(CompoundTag $rules = null){
 		print(is_null($rules)?"true\n":"false\n");
@@ -91,15 +92,15 @@ class GameRules{
 	 */
 	public function getRulesArray(){
 		$data = [];
-		NBT::toArray($data, $this->theGameRules);
+		self::toArray($data, $this->writeToNBT());
 		return $data;
 	}
 
 	/**
-	 * Return whether the specified game rule is defined.
+	 * Return if the specified game rule is defined
 	 */
 	public function hasRule($name){
-		return in_array($name, $this->theGameRules);
+		return array_key_exists($name, $this->getRulesArray());
 	}
 
 	public function areSameType($key, $otherValue){
@@ -118,5 +119,9 @@ class GameRules{
 				$data[$key] = $value->getValue();
 			}
 		}
+	}
+
+	public function save(Level $level){
+		$level->setGameRules($this->getRules());
 	}
 }

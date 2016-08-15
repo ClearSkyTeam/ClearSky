@@ -1175,6 +1175,8 @@ class Level implements ChunkManager, Metadatable{
 		}
 
 		$this->server->getPluginManager()->callEvent(new LevelSaveEvent($this));
+		
+		$this->gamerules->save($this);
 
 		$this->provider->setTime((int) $this->time);
 		$this->saveChunks();

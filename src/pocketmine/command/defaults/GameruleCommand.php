@@ -25,11 +25,13 @@ class GameruleCommand extends VanillaCommand{
 			$sender->sendMessage("This currently only works for players");
 		}
 		
-		/*if(count($args) !== 1){
-			$sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
-			
-			return false;
-		}*/
+		/*
+		 * if(count($args) !== 1){
+		 * $sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
+		 *
+		 * return false;
+		 * }
+		 */
 		
 		$gamerules = $sender->getLevel()->getGameRules();
 		$s = count($args) > 0?$args[0]:"";
@@ -37,29 +39,31 @@ class GameruleCommand extends VanillaCommand{
 		
 		switch(count($args)){
 			case 0:
-				$sender->sendMessage(implode($gamerules->getRulesArray(), "\n" . TextFormat::YELLOW));
-				$sender->getServer()->broadcastMessage(implode($gamerules->getRulesArray(), "\n" . TextFormat::YELLOW));
+				$sender->sendMessage(TextFormat::YELLOW . "Gamerules:\n");
+				foreach($gamerules->getRulesArray() as $key => $value){
+					$sender->sendMessage(TextFormat::YELLOW . '"' . $key . '" = "' . $value . '"');
+				}
 				break;
 			case 1:
 				
 				if(!$gamerules->hasRule($s)){
-					$sender->sendMessage(new TranslationContainer("commands.gamerule.norule", $s));
+					$sender->sendMessage(new TranslationContainer("commands.gamerule.norule", [$s]));
 					return false;
 				}
 				
-				$s2 = $gamerules->getString($s);
-				$sender->sendMessage($s . " = " . $s2);
+				$s2 = $gamerules->getRulesArray()[$s];
+				$sender->sendMessage(TextFormat::YELLOW . $s . " = " . $s2);
 				break;
 			default:
-				
-				if($gamerules->areSameType($s, GameRules::BOOLEAN_VALUE) && !"true" . equals($s1) && !"false" . equals($s1)){
-					$sender->sendMessage(new TranslationContainer("commands.generic.boolean.invalid", $s));
+				$s1 = $args[1];
+				if($gamerules->hasRule($s) && $gamerules->areSameType($s, $s2 = $gamerules->getRulesArray()[$s]) && !"true" === $s1 && !"false" === $s1){
+					$sender->sendMessage(new TranslationContainer("commands.generic.boolean.invalid", [$s]));
 					return false;
 				}
 				
 				$gamerules->setOrCreateGameRule($s, $s1);
 				// func_184898_a(gamerules, s, server);//notify server
-				$sender->getServer()->broadcastMessage(new TranslationContainer("commands.gamerule.success", $s, $s1), $sender->getServer()->getOps());
+				$sender->getServer()->broadcastMessage(new TranslationContainer("commands.gamerule.success", [$s, $s1]), $sender->getServer()->getOps());
 		}
 		
 		return true;

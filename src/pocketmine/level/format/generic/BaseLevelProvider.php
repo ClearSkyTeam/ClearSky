@@ -95,7 +95,7 @@ abstract class BaseLevelProvider implements LevelProvider{
 	}
 
 	public function setGameRules(CompoundTag $rules){
-		$this->levelData["GameRules"] = new CompoundTag("GameRules", $rules);
+		$this->levelData["GameRules"] = $rules;
 	}
 
 	public function doGarbageCollection(){
