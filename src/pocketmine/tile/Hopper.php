@@ -142,23 +142,6 @@ class Hopper extends Spawnable implements InventoryHolder, Container, Nameable{
 		return $this->inventory;
 	}
 
-	public function getName(){
-		return isset($this->namedtag->CustomName) ? $this->namedtag->CustomName->getValue() : "Hopper";
-	}
-
-	public function hasName(){
-		return isset($this->namedtag->CustomName);
-	}
-
-	public function setName($str){
-		if($str === ""){
-			unset($this->namedtag->CustomName);
-			return;
-		}
-
-		$this->namedtag->CustomName = new StringTag("CustomName", $str);
-	}
-
 	public function getSpawnCompound(){
         $nbt = new Compound("", [
             new String("id", Tile::HOPPER),
