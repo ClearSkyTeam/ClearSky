@@ -8,7 +8,7 @@ use pocketmine\level\sound\DoorSound;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Vector3;
 use pocketmine\Player;
-
+//TODO RENAME TO IronDoor
 abstract class Door2 extends Transparent{
 
 	public function canBeActivated(){
