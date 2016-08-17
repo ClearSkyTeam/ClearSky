@@ -536,7 +536,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::DAYLIGHT_DETECTOR_INVERTED] = DaylightDetectorInverted::class;
 			self::$list[self::RED_SANDSTONE] = RedSandstone::class;
 			self::$list[self::RED_SANDSTONE_STAIRS] = RedSandstoneStairs::class;
-			self::$list[self::STONE_SLAB2] = StoneSlab2::class;
+			//self::$list[self::STONE_SLAB2] = StoneSlab2::class;
 			self::$list[self::FENCE_GATE_SPRUCE] = FenceGateSpruce::class;
 			self::$list[self::FENCE_GATE_BIRCH] = FenceGateBirch::class;
 			self::$list[self::FENCE_GATE_JUNGLE] = FenceGateJungle::class;
