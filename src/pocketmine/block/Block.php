@@ -391,9 +391,9 @@ class Block extends Position implements Metadatable{
 			self::$list[self::TALL_GRASS] = TallGrass::class;
 			self::$list[self::DEAD_BUSH] = DeadBush::class;
 			self::$list[self::PISTON] = Piston::class;
-			//self::$list[self::PISTON_HEAD] = PistonHead::class;
+		//self::$list[self::PISTON_HEAD] = PistonHead::class;
 			self::$list[self::WOOL] = Wool::class;
-			//self::$list[self::PISTON_EXTENSION] = PistonExtension::class;
+		//self::$list[self::PISTON_EXTENSION] = PistonExtension::class;
 			self::$list[self::DANDELION] = Dandelion::class;
 			self::$list[self::RED_FLOWER] = Flower::class;
 			self::$list[self::BROWN_MUSHROOM] = BrownMushroom::class;
@@ -441,7 +441,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::CACTUS] = Cactus::class;
 			self::$list[self::CLAY_BLOCK] = Clay::class;
 			self::$list[self::SUGARCANE_BLOCK] = Sugarcane::class;
-			//self::$list[self::JUKEBOX] = JukeBox::class;
+		//self::$list[self::JUKEBOX] = JukeBox::class;
 			self::$list[self::FENCE] = Fence::class;
 			self::$list[self::PUMPKIN] = Pumpkin::class;
 			self::$list[self::NETHERRACK] = Netherrack::class;
@@ -452,7 +452,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::CAKE_BLOCK] = Cake::class;
 			self::$list[self::UNPOWERED_REPEATER] = RedstoneRepeater::class;
 			//self::$list[self::POWERED_REPEATER] = PoweredRepeater::class;
-			//self::$list[self::STAINED_GLASS] = StainedGlass::class;
+		//self::$list[self::STAINED_GLASS] = StainedGlass::class;
 			self::$list[self::TRAPDOOR] = Trapdoor::class;
 			//self::$list[self::MONSTER_EGG] = MonsterEgg::class;
 			self::$list[self::STONE_BRICKS] = StoneBricks::class;
@@ -536,8 +536,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::DAYLIGHT_DETECTOR_INVERTED] = DaylightDetectorInverted::class;
 			self::$list[self::RED_SANDSTONE] = RedSandstone::class;
 			self::$list[self::RED_SANDSTONE_STAIRS] = RedSandstoneStairs::class;
-			self::$list[self::DOUBLE_STONE_SLAB2] = DoubleStoneSlab2::class;
-			self::$list[self::STONE_SLAB2] = StoneSlab2::class;
+			//self::$list[self::STONE_SLAB2] = StoneSlab2::class;
 			self::$list[self::FENCE_GATE_SPRUCE] = FenceGateSpruce::class;
 			self::$list[self::FENCE_GATE_BIRCH] = FenceGateBirch::class;
 			self::$list[self::FENCE_GATE_JUNGLE] = FenceGateJungle::class;
