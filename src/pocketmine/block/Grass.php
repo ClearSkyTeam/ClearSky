@@ -41,7 +41,10 @@ class Grass extends Solid{
 		];
 	}
 
-	private function fakeLightLvl($block){ //HACK
+	/**
+	 * @todo REMOVE THIS HACK
+	*/
+	private function fakeLightLvl($block){
 		$block->getSide(Vector3::SIDE_UP)->isSolid() ? $lightLvl = 0 : $lightLvl = 9;
 		return $lightLvl;
 	}
@@ -49,9 +52,8 @@ class Grass extends Solid{
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_RANDOM){
 			$block = $this;
-			#$lightLvl = $this->getLevel()->getBlockLightAt($this->x, $this->y + 1, $this->z); //TODO: delete next line and function and restore this line
-			$lightLvl = $this->fakeLightLvl($block);
-			echo($lightLvl);
+			#$lightLvl = $this->getLevel()->getBlockLightAt($this->x, $this->y + 1, $this->z);
+			$lightLvl = $this->fakeLightLvl($block); //TODO: REMOVE THIS HACK
 			if($lightLvl < 4){
 				Server::getInstance()->getPluginManager()->callEvent($ev = new BlockSpreadEvent($block, $this, new Dirt()));
 				if(!$ev->isCancelled()){
@@ -63,7 +65,7 @@ class Grass extends Solid{
 					$y = mt_rand($this->y - 2, $this->y + 2);
 					$z = mt_rand($this->z - 1, $this->z + 1);
 					$block = $this->getLevel()->getBlock(new Vector3($x, $y, $z));
-					if($block->getId() === Block::DIRT && !$block->getSide(1) instanceof Liquid && $this->fakeLightLvl($this->getLevel()->getBlock(new Vector3($x, $y, $z))) >= 4){ //TODO: replace the last condition with $this->getLevel()->getBlockLightAt($x, $y + 1, $z) >= 4
+					if($block->getId() === Block::DIRT && !$block->getSide(1) instanceof Liquid && $this->fakeLightLvl($this->getLevel()->getBlock(new Vector3($x, $y, $z))) >= 4){ //TODO: replace this hack with $this->getLevel()->getBlockLightAt($x, $y + 1, $z) >= 4
 						Server::getInstance()->getPluginManager()->callEvent($ev = new BlockSpreadEvent($block, $this, new Grass()));
 						if(!$ev->isCancelled()){
 							$this->getLevel()->setBlock($block, $ev->getNewState());
