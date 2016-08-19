@@ -25,21 +25,12 @@ class GameruleCommand extends VanillaCommand{
 			$sender->sendMessage("This currently only works for players");
 		}
 		
-		/*
-		 * if(count($args) !== 1){
-		 * $sender->sendMessage(new TranslationContainer("commands.generic.usage", [$this->usageMessage]));
-		 *
-		 * return false;
-		 * }
-		 */
-		
 		$gamerules = $sender->getLevel()->getGameRules();
 		$s = count($args) > 0?$args[0]:"";
-		// $s1 = count($args) > 1 ? $this->buildString($args, 1) : "";//? Hההה wat willst du
 		
 		switch(count($args)){
 			case 0:
-				$sender->sendMessage(TextFormat::YELLOW . "Gamerules:\n");
+				$sender->sendMessage(TextFormat::YELLOW . "Gamerules:\n");//We are cooler than MC client. We tell the players the values too, not only keys!
 				foreach($gamerules->getRulesArray() as $key => $value){
 					$sender->sendMessage(TextFormat::YELLOW . '"' . $key . '" = "' . $value . '"');
 				}
@@ -62,7 +53,7 @@ class GameruleCommand extends VanillaCommand{
 				}
 				
 				$gamerules->setOrCreateGameRule($s, $s1);
-				// func_184898_a(gamerules, s, server);//notify server
+				$this->broadcastCommandMessage($sender, new TranslationContainer("commands.gamerule.success", [$s, $s1]), true);
 				$sender->getServer()->broadcastMessage(new TranslationContainer("commands.gamerule.success", [$s, $s1]), $sender->getServer()->getOps());
 		}
 		

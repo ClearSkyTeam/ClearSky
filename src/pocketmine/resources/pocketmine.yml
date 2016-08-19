@@ -228,7 +228,7 @@ anonymous-statistics:
  host: stats.pocketmine.net
  
 #!DO NOT EDIT below this line!
-version: 25
+version: 26
 # This is for internal use, changing this will reset your whole pocketmine.yml!
 
 auto-report:
@@ -237,3 +237,23 @@ auto-report:
  send-settings: true
  send-phpinfo: true
  host: crash.pocketmine.net
+
+default-gamerules:
+  doFireTick: 1
+  mobGriefing: 1
+  keepInventory: 0
+  doMobSpawning: 1
+  doMobLoot: 1
+  doTileDrops: 1
+  doEntityDrops: 1
+  commandBlockOutput: 1
+  naturalRegeneration: 1
+  doDaylightCycle: 1
+  logAdminCommands: 1
+  showDeathMessages: 1
+  randomTickSpeed: 3
+  sendCommandFeedback: 1
+  reducedDebugInfo: 0
+  spectatorsGenerateChunks: 1
+  spawnRadius: 10
+  disableElytraMovementCheck: 0

@@ -12,28 +12,27 @@ use pocketmine\nbt\tag\IntArrayTag;
 
 class GameRules{
 	private $theGameRules = [];
-	private $level;
 
 	public function __construct(CompoundTag $rules = null){
 		print(is_null($rules)?"true\n":"false\n");
-		$this->addGameRule("doFireTick", true, ByteTag::class);
+		$this->addGameRule("doFireTick", true, ByteTag::class);//Not CS
 		$this->addGameRule("mobGriefing", true, ByteTag::class);
-		$this->addGameRule("keepInventory", false, ByteTag::class);
-		$this->addGameRule("doMobSpawning", true, ByteTag::class);
+		$this->addGameRule("keepInventory", false, ByteTag::class);//Implemented
+		$this->addGameRule("doMobSpawning", true, ByteTag::class);//TODO: Add to AI branch
 		$this->addGameRule("doMobLoot", true, ByteTag::class);
-		$this->addGameRule("doTileDrops", true, ByteTag::class);
+		$this->addGameRule("doTileDrops", true, ByteTag::class);//Implemented
 		$this->addGameRule("doEntityDrops", true, ByteTag::class);
-		$this->addGameRule("commandBlockOutput", true, ByteTag::class);
+		$this->addGameRule("commandBlockOutput", true, ByteTag::class);//Not MCPE
 		$this->addGameRule("naturalRegeneration", true, ByteTag::class);
-		$this->addGameRule("doDaylightCycle", true, ByteTag::class);
+		$this->addGameRule("doDaylightCycle", true, ByteTag::class);//Implemented
 		$this->addGameRule("logAdminCommands", true, ByteTag::class);
-		$this->addGameRule("showDeathMessages", true, ByteTag::class);
+		$this->addGameRule("showDeathMessages", true, ByteTag::class);//Implemented
 		$this->addGameRule("randomTickSpeed", 3, IntTag::class);
 		$this->addGameRule("sendCommandFeedback", true, ByteTag::class);
 		$this->addGameRule("reducedDebugInfo", false, ByteTag::class);
 		$this->addGameRule("spectatorsGenerateChunks", true, ByteTag::class);
 		$this->addGameRule("spawnRadius", 10, IntTag::class);
-		$this->addGameRule("disableElytraMovementCheck", false, ByteTag::class);
+		$this->addGameRule("disableElytraMovementCheck", false, ByteTag::class);//Not MCPE
 		if(!is_null($rules)) $this->readFromNBT($rules);
 		// var_dump($this->writeToNBT());
 	}

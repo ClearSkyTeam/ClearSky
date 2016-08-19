@@ -295,7 +295,7 @@ class Server{
 	/** @var Config */
 	private $properties;
 
-	private $propertyCache = [];
+	public $propertyCache = [];
 
 	/** @var Config */
 	private $config;
