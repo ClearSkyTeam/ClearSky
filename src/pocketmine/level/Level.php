@@ -1468,7 +1468,7 @@ class Level implements ChunkManager, Metadatable{
 		$level = 0;
 		if($chunk instanceof FullChunk){
 			$level = $chunk->getBlockSkyLight($pos->x & 0x0f, $pos->y & 0x7f, $pos->z & 0x0f);
-			//TODO: decrease light level by time of day
+			//do not decrease lightlvl over day. MCPC and MCPE don't do this either.
 			if($level < 15){
 				$level = max($chunk->getBlockLight($pos->x & 0x0f, $pos->y & 0x7f, $pos->z & 0x0f));
 			}
@@ -1521,8 +1521,44 @@ class Level implements ChunkManager, Metadatable{
 		$this->updateBlockLight($pos->x, $pos->y, $pos->z);
 	}
 
+
+	//NO CALCULATION FROM LIGHT COMING FROM DOWN
+	//SkyBlockLight SPECIAL blocks:
+	//WATER,ICE => -3
+	//solid => -INF
+	//transparent => -0 (this includes Lava!) [WHY]
+	/**
+	 * Calculates the sky light level for $x $y $z. (TODO::SURROUNDINGBLOCKS)
+	*/
 	public function updateBlockSkyLight($x, $y, $z){
-		//TODO
+		$chunk = $this->getChunk($x >> 4, $z >> 4, true);
+		
+		for($i = $y; $i => MAX_WORLD_HEIGHT; $i++){
+			if(Level::lightResistance($chunk->getBlockId($x & 0x0f, ($y+$i) & 0x7f, $z & 0x0f)) == 0){
+				$directSkyLight = false;
+			}
+		}
+		if($directSkyLight && !$this->findLightWay($x, $y, $z)){
+			$this->setBlockSkyLightAt($x, $y, $z, 15);
+			return;
+		}
+		$this->findLightWay($x, $y, $z)
+	}
+	
+	public static function lightResistance($blockID){
+		
+	}
+	
+	private function findLightWay($x, $y, $z){
+		$lightWays = [];
+		$vec3 = new Vector3($x, $y, $z);
+		for($i = Vector3::SIDE_NORTH; $i <= Vector3::SIDE_EAST; $i++){
+			$newVec3 = $vec3->getSide($i);
+			if(self::lightResistance($this->getBlockIdAt($newVec3->x, $newVec3->y, $newVec3->z) > 0){
+				$lightWays[$i] =
+			}
+		}
+		return $lightWays === [] ? false : $lightWays;
 	}
 
 	public function updateBlockLight($x, $y, $z){
