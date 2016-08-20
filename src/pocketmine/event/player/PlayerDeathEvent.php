@@ -22,6 +22,7 @@ class PlayerDeathEvent extends EntityDeathEvent{
 	public function __construct(Player $entity, array $drops, $deathMessage){
 		parent::__construct($entity, $drops);
 		$this->deathMessage = $deathMessage;
+		$this->setKeepInventory($entity->getLevel()->getGameRule("keepInventory"));
 	}
 
 	/**

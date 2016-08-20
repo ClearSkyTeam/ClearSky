@@ -3,6 +3,8 @@ namespace pocketmine\level\format;
 
 use pocketmine\level\Level;
 use pocketmine\math\Vector3;
+use pocketmine\level\GameRules;
+use pocketmine\nbt\tag\CompoundTag;
 
 interface LevelProvider{
 
@@ -192,6 +194,16 @@ interface LevelProvider{
 	 * @param Vector3 $pos
 	 */
 	public function setSpawn(Vector3 $pos);
+
+	/**
+	 * @return CompoundTag
+	 */
+	public function getGameRules();
+
+	/**
+	 * @param CompoundTag $rules
+	 */
+	public function setGameRules(CompoundTag $rules);
 
 	/**
 	 * @return FullChunk|Chunk[]
