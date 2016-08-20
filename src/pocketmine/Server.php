@@ -1285,6 +1285,16 @@ class Server{
 	 *
 	 * @return boolean
 	 */
+	public function getConfigBool($variable, $defaultValue = false){
+		$this->getConfigBoolean($variable, $defaultValue);
+	}
+
+	/**
+	 * @param string  $variable
+	 * @param boolean $defaultValue
+	 *
+	 * @return boolean
+	 */
 	public function getConfigBoolean($variable, $defaultValue = false){
 		$v = getopt("", ["$variable::"]);
 		if(isset($v[$variable])){
