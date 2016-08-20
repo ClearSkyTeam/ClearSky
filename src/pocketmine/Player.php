@@ -2774,79 +2774,75 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					break;
 				}
 				$win10 = false;
-				if(empty($packet->input)){ // win10
+				if(empty($packet->input)){
+					$win10 = true;
+					$canCraft = true;
+				}
+				if($win10){
+					/* WTF.. JUST GIVE WIN10 USER WHAT THEY WANT, OKAY?! #TODO: Remove this "hack" Robske style */
+					$this->getInventory()->addItem($packet->output[0]);
 					if($recipe instanceof ShapedRecipe){
-						$win10 = true;
-						$ingredients2 = array();
-						for($x = 0; $x <= $recipe->getWidth(); $x++){
-							for($y = 0; $y <= $recipe->getHeight(); $y++){
-								$ingredients2[] = $recipe->getIngredient($x, $y);
+						foreach($recipe->getIngredientMap() as $itemy){
+							foreach($itemy as $item){
+								$this->getInventory()->removeItem($item); // i know, this wont work blaa blaa
 							}
 						}
-						if($recipe->getHeight() >= 5){
-							$recipe = (new ShapedRecipe($packet->output[0], "abc", "def", "ghi"))->setIngredient("a", $ingredients2[0])->setIngredient("b", $ingredients2[1])->setIngredient("c", $ingredients2[2])->setIngredient("d", $ingredients2[3])->setIngredient("e", $ingredients2[4])->setIngredient("f", $ingredients2[5])->setIngredient("g", $ingredients2[6])->setIngredient("h", $ingredients2[7])->setIngredient("i", $ingredients2[8]);
-						}else{
-							$recipe = (new ShapedRecipe($packet->output[0], "abc", "def", "ghi"))->setIngredient("a", $ingredients2[0])->setIngredient("b", $ingredients2[1])->setIngredient("c", $ingredients2[2])->setIngredient("d", $ingredients2[3])->setIngredient("e", $ingredients2[4]);
+					}
+				}
+				else{
+					/** @var Item $item */
+					foreach($packet->input as $i => $item){
+						if($item->getDamage() === -1 or $item->getDamage() === 0xffff){
+							$item->setDamage(null);
 						}
-
+						if($i < 9 and $item->getId() > 0){
+							$item->setCount(1);
+						}
+					}
+					$canCraft = true;
+					
+					if($recipe instanceof ShapedRecipe){
+						for($x = 0; $x < 3 and $canCraft; ++$x){
+							for($y = 0; $y < 3; ++$y){
+								$item = $packet->input[$y * 3 + $x];
+								$ingredient = $recipe->getIngredient($x, $y);
+								if($item->getCount() > 0){
+									if($ingredient === null or !$ingredient->deepEquals($item, $ingredient->getDamage() !== null, $ingredient->getCompoundTag() !== null)){
+										$canCraft = false;
+										break;
+									}
+								}
+							}
+						}
 					}
 					elseif($recipe instanceof ShapelessRecipe){
-						$recipe2 = new ShapelessRecipe($packet->output[0]);
-						foreach($recipe2->getIngredientList() as $content){
-							if($this->getInventory()->contains($content)) $packet->input[] = $content;
-						}
-					}
-				}
-				/** @var Item $item */
-				foreach($packet->input as $i => $item){
-					if($item->getDamage() === -1 or $item->getDamage() === 0xffff){
-						$item->setDamage(null);
-					}
-					if($i < 9 and $item->getId() > 0){
-						$item->setCount(1);
-					}
-				}
-				$canCraft = true;
-
-				if($recipe instanceof ShapedRecipe){
-					for($x = 0; $x < 3 and $canCraft; ++$x){
-						for($y = 0; $y < 3; ++$y){
-							$item = $packet->input[$y * 3 + $x];
-							$ingredient = $recipe->getIngredient($x, $y);
-							if($item->getCount() > 0){
-								if($ingredient === null or !$ingredient->deepEquals($item, $ingredient->getDamage() !== null, $ingredient->getCompoundTag() !== null)){
+						$needed = $recipe->getIngredientList();
+						for($x = 0; $x < 3 and $canCraft; ++$x){
+							for($y = 0; $y < 3; ++$y){
+								$item = clone $packet->input[$y * 3 + $x];
+								foreach($needed as $k => $n){
+									if($n->deepEquals($item, $n->getDamage() !== null, $n->getCompoundTag() !== null)){
+										$remove = min($n->getCount(), $item->getCount());
+										$n->setCount($n->getCount() - $remove);
+										$item->setCount($item->getCount() - $remove);
+										if($n->getCount() === 0){
+											unset($needed[$k]);
+										}
+									}
+								}
+								if($item->getCount() > 0){
 									$canCraft = false;
 									break;
 								}
 							}
 						}
-					}
-				}elseif($recipe instanceof ShapelessRecipe){
-					$needed = $recipe->getIngredientList();
-					for($x = 0;$x < 3 and $canCraft;++$x){
-						for($y = 0;$y < 3;++$y){
-							$item = clone $packet->input[$y * 3 + $x];
-							foreach($needed as $k => $n){
-								if($n->deepEquals($item, $n->getDamage() !== null, $n->getCompoundTag() !== null)){
-									$remove = min($n->getCount(), $item->getCount());
-									$n->setCount($n->getCount() - $remove);
-									$item->setCount($item->getCount() - $remove);
-									if($n->getCount() === 0){
-										unset($needed[$k]);
-									}
-								}
-							}
-							if($item->getCount() > 0){
-								$canCraft = false;
-								break;
-							}
+						if(count($needed) > 0){
+							$canCraft = false;
 						}
 					}
-					if(count($needed) > 0){
+					else{
 						$canCraft = false;
 					}
-				}else{
-					$canCraft = false;
 				}
 				/** @var Item[] $ingredients */
 

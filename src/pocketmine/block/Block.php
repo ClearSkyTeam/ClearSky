@@ -677,7 +677,7 @@ class Block extends Position implements Metadatable{
 	public function onBreak(Item $item){
 		if($this instanceof Redstone){
 			$oBreturn = $this->getLevel()->setBlock($this, new Air(), true, true);
-			$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,$this->getPower());
+			$this->broadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,$this->getPower());
 			return $oBreturn;
 		}
 		return $this->getLevel()->setBlock($this, new Air(), true, true);
@@ -1058,7 +1058,7 @@ class Block extends Position implements Metadatable{
 		return false;
 	}
 
-	public function BroadcastRedstoneUpdate($type, $power){
+	public function broadcastRedstoneUpdate($type, $power){
 		if(!$this->getSide(0) instanceof RedstoneSource){
 			$this->getLevel()->setRedstoneUpdate($this->getSide(0), Block::REDSTONEDELAY, $type, $power);
 		}
@@ -1073,7 +1073,7 @@ class Block extends Position implements Metadatable{
 		if($type == Level::REDSTONE_UPDATE_BLOCK or $this instanceof Transparent){
 			return true;
 		}
-		$this->BroadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK, $power);
+		$this->broadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BLOCK, $power);
 		return true;
 	}
 	

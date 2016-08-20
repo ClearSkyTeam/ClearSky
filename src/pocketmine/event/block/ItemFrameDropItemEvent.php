@@ -1,12 +1,12 @@
 <?php
-namespace beito\FlowerPot\extra\ItemFrame;
+namespace pocketmine\event\block;
 
 use pocketmine\block\Block;
 use pocketmine\event\block\BlockEvent;
 use pocketmine\event\Cancellable;
 use pocketmine\item\Item;
 use pocketmine\Player;
-
+//TODO:call this event somewhere?
 class ItemFrameDropItemEvent extends BlockEvent implements Cancellable{
 	public static $handlerList = null;
 
