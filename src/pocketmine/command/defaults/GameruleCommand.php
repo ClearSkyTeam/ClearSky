@@ -54,7 +54,6 @@ class GameruleCommand extends VanillaCommand{
 				
 				$gamerules->setOrCreateGameRule($s, $s1);
 				$this->broadcastCommandMessage($sender, new TranslationContainer("commands.gamerule.success", [$s, $s1]), true);
-				$sender->getServer()->broadcastMessage(new TranslationContainer("commands.gamerule.success", [$s, $s1]), $sender->getServer()->getOps());
 		}
 		
 		return true;

@@ -14,27 +14,25 @@ class GameRules{
 	private $theGameRules = [];
 
 	public function __construct(CompoundTag $rules = null){
-		print(is_null($rules)?"true\n":"false\n");
-		$this->addGameRule("doFireTick", true, ByteTag::class);//Not CS
-		$this->addGameRule("mobGriefing", true, ByteTag::class);
-		$this->addGameRule("keepInventory", false, ByteTag::class);//Implemented
-		$this->addGameRule("doMobSpawning", true, ByteTag::class);//TODO: Add to AI branch
-		$this->addGameRule("doMobLoot", true, ByteTag::class);
-		$this->addGameRule("doTileDrops", true, ByteTag::class);//Implemented
-		$this->addGameRule("doEntityDrops", true, ByteTag::class);
-		$this->addGameRule("commandBlockOutput", true, ByteTag::class);//Not MCPE
-		$this->addGameRule("naturalRegeneration", true, ByteTag::class);
-		$this->addGameRule("doDaylightCycle", true, ByteTag::class);//Implemented
-		$this->addGameRule("logAdminCommands", true, ByteTag::class);
-		$this->addGameRule("showDeathMessages", true, ByteTag::class);//Implemented
-		$this->addGameRule("randomTickSpeed", 3, IntTag::class);
-		$this->addGameRule("sendCommandFeedback", true, ByteTag::class);
-		$this->addGameRule("reducedDebugInfo", false, ByteTag::class);
-		$this->addGameRule("spectatorsGenerateChunks", true, ByteTag::class);
-		$this->addGameRule("spawnRadius", 10, IntTag::class);
-		$this->addGameRule("disableElytraMovementCheck", false, ByteTag::class);//Not MCPE
+		$this->addGameRule("doFireTick", true, ByteTag::class); // Not CS
+		$this->addGameRule("mobGriefing", true, ByteTag::class); // TODO: Add to AI branch
+		$this->addGameRule("keepInventory", false, ByteTag::class); // Implemented
+		$this->addGameRule("doMobSpawning", true, ByteTag::class); // TODO: Add to AI branch
+		$this->addGameRule("doMobLoot", true, ByteTag::class); // TODO
+		$this->addGameRule("doTileDrops", true, ByteTag::class); // Implemented
+		$this->addGameRule("doEntityDrops", true, ByteTag::class); // TODO
+		$this->addGameRule("commandBlockOutput", true, ByteTag::class); // Not MCPE
+		$this->addGameRule("naturalRegeneration", true, ByteTag::class); // TODO
+		$this->addGameRule("doDaylightCycle", true, ByteTag::class); // Implemented
+		$this->addGameRule("logAdminCommands", true, ByteTag::class); // TODO
+		$this->addGameRule("showDeathMessages", true, ByteTag::class); // Implemented
+		$this->addGameRule("randomTickSpeed", 3, IntTag::class); // TODO
+		$this->addGameRule("sendCommandFeedback", true, ByteTag::class); // TODO
+		$this->addGameRule("reducedDebugInfo", false, ByteTag::class); // TODO
+		$this->addGameRule("spectatorsGenerateChunks", true, ByteTag::class); // TODO
+		$this->addGameRule("spawnRadius", 10, IntTag::class); // TODO
+		$this->addGameRule("disableElytraMovementCheck", false, ByteTag::class); // Not MCPE
 		if(!is_null($rules)) $this->readFromNBT($rules);
-		// var_dump($this->writeToNBT());
 	}
 
 	public function addGameRule($key, $value){
@@ -42,7 +40,7 @@ class GameRules{
 	}
 
 	public function setOrCreateGameRule($key, $ruleValue){
-		print("setting " . $key . " to " . $ruleValue . "\n");
+		// print("setting " . $key . " to " . $ruleValue . "\n");
 		$value = $this->theGameRules[$key];
 		
 		if($value != null){
@@ -69,7 +67,6 @@ class GameRules{
 	 * Set defined game rules from NBT.
 	 */
 	public function readFromNBT(CompoundTag $nbt){
-		print("setting values\n");
 		$data = [];
 		self::toArray($data, $nbt);
 		foreach($data as $key => $value){
@@ -93,6 +90,18 @@ class GameRules{
 		$data = [];
 		self::toArray($data, $this->writeToNBT());
 		return $data;
+	}
+
+	/**
+	 * Return the game rule as bool, int or string
+	 *
+	 * @return bool|int|string $rule
+	 */
+	public function getRule($name){
+		$rule = $this->getRulesArray()[$name];
+		if($rule == "true") $rule = true;
+		elseif($rule == "false") $rule = false;
+		return $rule;
 	}
 
 	/**

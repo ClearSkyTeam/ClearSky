@@ -375,7 +375,7 @@ class Level implements ChunkManager, Metadatable{
 	}
 
 	public function getGameRule($name){
-		return $this->gamerules->hasRule($name) ? $this->gamerules->getRulesArray()[$name] : null;
+		return $this->gamerules->hasRule($name) ? $this->gamerules->getRule($name) : null;
 	}
 
 	public function setGameRule($name, $value){
@@ -482,7 +482,6 @@ class Level implements ChunkManager, Metadatable{
 		else $this->setDimension(self::DIMENSION_NORMAL);
 
 		$this->gamerules = new GameRules($this->provider->getGameRules());
-		print($this->gamerules->getRulesArray());
 
 		$this->getGameRule("doDaylightCycle") ? $this->startTime() : $this->stopTime();
 
