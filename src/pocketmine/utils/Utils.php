@@ -313,6 +313,7 @@ class Utils{
 
 	/**
 	 * @deprecated This function simply forwards to the PHP random_bytes function.
+	 *
 	 * @param int    $length       @deprecated
 	 * @param bool   $secure       @deprecated
 	 * @param bool   $raw          default true, returns a binary string if true, or an hexadecimal one

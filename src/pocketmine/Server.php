@@ -1564,22 +1564,28 @@ class Server{
 			"enable-rcon" => false,
 			"rcon.password" => substr(base64_encode(@Utils::getRandomBytes(20, false)), 3, 10),
 			"auto-save" => true,
+			"online-mode" => false,
 		]);
+		
+		if(!extension_loaded("openssl") && $this->getConfigBool("online-mode", false)){
+			$this->logger->warning("The OpenSSL extension is not loaded, and this is required for XBOX authentication to work. If you want to use Xbox Live auth, please use PHP binarys with OpenSSL, or recompile PHP with the OpenSSL extension."); //TODO:TRANSLATE
+			$this->setConfigBool("online-mode", false);
+		}
 		
 		if(extension_loaded("xdebug")){
 			if(!$this->getProperty("debug.allow-xdebug", false)){
-				$this->logger->critical("Please REMOVE xdebug in production server");
+				$this->logger->critical("Please do not use a PHP installation with the xDebug extension loaded for a Production server. If you do want to use it however, set debug.allow-xdebug to true."); //TODO:TRANSLATE
 				return;
 			}else{
-				$this->logger->warning("xdebug Enabled !ONLY FOR DEVELOPMENT USE!");
+				$this->logger->warning("xDebug is enabled, this decreases Performance. Use this for development purposes only."); //TODO:TRANSLATE
 			}
 		}
 		if(!$this->getProperty("I/O.log-to-file", true)){
-			$this->logger->info("Disable MainLogger to file");
-			$this->logger->Disable();
+			$this->logger->disable();
+			$this->logger->info("MainLogger will not write to server.log"); //TODO:TRANSLATE
 		}else{
-			$this->logger->info("Enable MainLogger to file");
-			$this->logger->Enable();
+			$this->logger->enable();
+			$this->logger->info("MainLogger will write to server.log"); //TODO:TRANSLATE
 		}
 		$this->forceLanguage = $this->getProperty("settings.force-language", false);
 		$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));

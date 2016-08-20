@@ -190,9 +190,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/** @var Vector3 */
 	protected $sleeping = null;
 	protected $clientID = null;
-	private $isXbox = null;
-	private $xboxData = null;
-	private $webtokens = [];
+	private $identityPublicKey = null;
+	private $chainData = [];
 	private $loaderId = null;
 	protected $stepHeight = 0.6;
 	public $usedChunks = [];
@@ -329,11 +328,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	/**
 	 * This might disappear in the future.
-	 * Please use getUniqueId() instead (IP + clientId + name combo, in the future it'll change to real UUID for online
-	 * auth)
+	 * Please use getUniqueId() (IP + clientId + name combo) or getIdentityPublicKey (Xbox key) instead!
 	 *
 	 * @deprecated
-	 *
 	 */
 	public function getClientId(){
 		return $this->randomClientId;
@@ -344,32 +341,29 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 	
 	/**
-	 * Returns if the player is Xbox authenticated.
+	 * @deprecated Use isAuthenticated().
+	 * Returns if the player is authenticated.
 	*/
 	public function isXboxAuthenticated(){
-		return $this->isXbox && $this->isXboxValid();
+		return $this->isAuthenticated;
 	}
 	
 	/**
-	 * @deprecated THIS FUNCTION MAY CHANGE ITS NAME DISAPPEAR AT ANY TIME.
+	 * Returns if the player is authenticated.
 	*/
-	public function isXboxValid(){
-		return true;
-		/*
-		TODO:check the keys in the login function and return  if they are valid or not.
-		*/
+	public function isAuthenticated(){
+		return $this->identityPublicKey !== NULL;
 	}
 	
 	/**
-	 * Returns yet very unknown stuff. TODO:use this for authentication!
+	 * Returns the Xbox key.
 	*/
-	public function getXboxData(){
-		return $this->xboxData;
+	public function getIdentityPublicKey(){
+		return $this->identityPublicKey;
 	}
 	
 	/**
-	 * This contains some data recieved in the LoginPacket
-	 * Hint: We do not know what all the data really means.
+	 * This contains additional data recived in the LoginPacket
 	*/
 	public function getWebtokens(){
 		return $this->webtokens;
@@ -1779,7 +1773,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	public function onPlayerPreLogin(){
-		// TODO: implement XBOX auth
 		$this->tryAuthenticate();
 	}
 
@@ -1787,14 +1780,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk = new PlayStatusPacket();
 		$pk->status = PlayStatusPacket::LOGIN_SUCCESS;
 		$this->dataPacket($pk);
-		//TODO: implement authentication after it is available
-		$this->authenticateCallback(true);
+		$this->authenticateCallback($this->isAuthenticated());
 	}
 
 	public function authenticateCallback($valid){
-
-		// TODO add more stuff after authentication is available
-		if(!$valid){
+		if(!$valid && $this->server->getConfigBoolean("online-mode", false)){
 			$this->close("", "disconnectionScreen.invalidSession");
 			return;
 		}
@@ -2058,10 +2048,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->uuid = UUID::fromString($packet->clientUUID);
 				$this->rawUUID = $this->uuid->toBinary();
 				
-				$this->isXbox = $packet->isXbox;
-				$this->xboxData = $packet->xboxData;
+				$this->identityPublicKey = $packet->identityPublicKey;
 				
-				$this->webtokens = $packet->webtokens;
+				$this->chainData = $packet->chainData;
 
 				$valid = true;
 				$len = strlen($packet->username);
