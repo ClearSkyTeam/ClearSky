@@ -5,6 +5,7 @@
 ####  [日本語](#JAPANESE)
 ####  [Українська мова](#UKR)  
 ####  [Bahasa Indonesia](#IDN) 
+####  [Kürdish-Kürdistan](#KUR)
 
 # <a name="ENG"></a>English  
 # We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
