@@ -61,6 +61,7 @@ use pocketmine\level\generator\GeneratorRegisterTask;
 use pocketmine\level\generator\GeneratorUnregisterTask;
 use pocketmine\level\generator\LightPopulationTask;
 use pocketmine\level\generator\PopulationTask;
+use pocketmine\level\sound\BlockPlaceSound;
 use pocketmine\math\AxisAlignedBB;
 use pocketmine\math\Math;
 use pocketmine\math\Vector2;
@@ -284,6 +285,9 @@ class Level implements ChunkManager, Metadatable{
 	private $raintime = [];
 	private $rainfall = [];
 	private $weatherexectick = 0;
+	
+	/** @var GameRules */
+	public $gamerules;
 
 	private function generateWeather(){
 		if($this->getServer()->getProperty("level-settings.weather.enable", true) && $this->getDimension() == self::DIMENSION_NORMAL){
@@ -360,6 +364,24 @@ class Level implements ChunkManager, Metadatable{
 	
 	public function getWeather(){
 		return $this->weather;
+	}
+
+	/** @return GameRules */
+	public function getGameRules(){
+		return $this->gamerules;
+	}
+	
+	public function setGameRules($rules){
+		return $this->getProvider()->setGameRules($rules);
+	}
+
+	public function getGameRule($name){
+		return $this->gamerules->hasRule($name) ? $this->gamerules->getRule($name) : null;
+	}
+
+	public function setGameRule($name, $value){
+		$this->gamerules->setOrCreateGameRule($name, $value);
+		return $this->gamerules->hasRule($name);
 	}
 	
 	/**
@@ -459,7 +481,11 @@ class Level implements ChunkManager, Metadatable{
 		if($server->netherName == $this->folderName) $this->setDimension(self::DIMENSION_NETHER);
 		//elseif($server->endName == $this->folderName) $this->setDimension(self::DIMENSION_END);
 		else $this->setDimension(self::DIMENSION_NORMAL);
-		
+
+		$this->gamerules = new GameRules($this->provider->getGameRules());
+
+		$this->getGameRule("doDaylightCycle") ? $this->startTime() : $this->stopTime();
+
 		/** Random ticking */
 		foreach($this->getServer()->getProperty("chunk-ticking.disabled-randomly-ticking-blocks", []) as $id){
 			$ticked = isset($this->randomTickBlocks[$id]);
@@ -1161,6 +1187,8 @@ class Level implements ChunkManager, Metadatable{
 		}
 
 		$this->server->getPluginManager()->callEvent(new LevelSaveEvent($this));
+		
+		$this->gamerules->save($this);
 
 		$this->provider->setTime((int) $this->time);
 		$this->saveChunks();
@@ -2008,6 +2036,8 @@ class Level implements ChunkManager, Metadatable{
 		if($hand->place($item, $block, $target, $face, $fx, $fy, $fz, $player) === false){
 			return false;
 		}
+		$this->addSound(new BlockPlaceSound($this->getBlock($block))); //Get updated block, $block is still the original block and cannot be used directly
+
 		$item->setCount($item->getCount() - 1);
 		if($item->getCount() <= 0){
 			$item = Item::get(Item::AIR, 0, 0);

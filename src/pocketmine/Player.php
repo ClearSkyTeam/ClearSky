@@ -2121,8 +2121,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 					$this->setRotation($packet->yaw, $packet->pitch);
 					$this->newPosition = $newPos;
-					$this->forceMovement = null;
 				}
+				$this->forceMovement = null;
 				break;
 			case ProtocolInfo::MOB_EQUIPMENT_PACKET:
 				if($this->spawned === false or !$this->isAlive()){
@@ -2774,79 +2774,75 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					break;
 				}
 				$win10 = false;
-				if(empty($packet->input)){ // win10
+				if(empty($packet->input)){
+					$win10 = true;
+					$canCraft = true;
+				}
+				if($win10){
+					/* WTF.. JUST GIVE WIN10 USER WHAT THEY WANT, OKAY?! #TODO: Remove this "hack" Robske style */
+					$this->getInventory()->addItem($packet->output[0]);
 					if($recipe instanceof ShapedRecipe){
-						$win10 = true;
-						$ingredients2 = array();
-						for($x = 0; $x <= $recipe->getWidth(); $x++){
-							for($y = 0; $y <= $recipe->getHeight(); $y++){
-								$ingredients2[] = $recipe->getIngredient($x, $y);
+						foreach($recipe->getIngredientMap() as $itemy){
+							foreach($itemy as $item){
+								$this->getInventory()->removeItem($item); // i know, this wont work blaa blaa
 							}
 						}
-						if($recipe->getHeight() >= 5){
-							$recipe = (new ShapedRecipe($packet->output[0], "abc", "def", "ghi"))->setIngredient("a", $ingredients2[0])->setIngredient("b", $ingredients2[1])->setIngredient("c", $ingredients2[2])->setIngredient("d", $ingredients2[3])->setIngredient("e", $ingredients2[4])->setIngredient("f", $ingredients2[5])->setIngredient("g", $ingredients2[6])->setIngredient("h", $ingredients2[7])->setIngredient("i", $ingredients2[8]);
-						}else{
-							$recipe = (new ShapedRecipe($packet->output[0], "abc", "def", "ghi"))->setIngredient("a", $ingredients2[0])->setIngredient("b", $ingredients2[1])->setIngredient("c", $ingredients2[2])->setIngredient("d", $ingredients2[3])->setIngredient("e", $ingredients2[4]);
+					}
+				}
+				else{
+					/** @var Item $item */
+					foreach($packet->input as $i => $item){
+						if($item->getDamage() === -1 or $item->getDamage() === 0xffff){
+							$item->setDamage(null);
 						}
-
+						if($i < 9 and $item->getId() > 0){
+							$item->setCount(1);
+						}
+					}
+					$canCraft = true;
+					
+					if($recipe instanceof ShapedRecipe){
+						for($x = 0; $x < 3 and $canCraft; ++$x){
+							for($y = 0; $y < 3; ++$y){
+								$item = $packet->input[$y * 3 + $x];
+								$ingredient = $recipe->getIngredient($x, $y);
+								if($item->getCount() > 0){
+									if($ingredient === null or !$ingredient->deepEquals($item, $ingredient->getDamage() !== null, $ingredient->getCompoundTag() !== null)){
+										$canCraft = false;
+										break;
+									}
+								}
+							}
+						}
 					}
 					elseif($recipe instanceof ShapelessRecipe){
-						$recipe2 = new ShapelessRecipe($packet->output[0]);
-						foreach($recipe2->getIngredientList() as $content){
-							if($this->getInventory()->contains($content)) $packet->input[] = $content;
-						}
-					}
-				}
-				/** @var Item $item */
-				foreach($packet->input as $i => $item){
-					if($item->getDamage() === -1 or $item->getDamage() === 0xffff){
-						$item->setDamage(null);
-					}
-					if($i < 9 and $item->getId() > 0){
-						$item->setCount(1);
-					}
-				}
-				$canCraft = true;
-
-				if($recipe instanceof ShapedRecipe){
-					for($x = 0; $x < 3 and $canCraft; ++$x){
-						for($y = 0; $y < 3; ++$y){
-							$item = $packet->input[$y * 3 + $x];
-							$ingredient = $recipe->getIngredient($x, $y);
-							if($item->getCount() > 0){
-								if($ingredient === null or !$ingredient->deepEquals($item, $ingredient->getDamage() !== null, $ingredient->getCompoundTag() !== null)){
+						$needed = $recipe->getIngredientList();
+						for($x = 0; $x < 3 and $canCraft; ++$x){
+							for($y = 0; $y < 3; ++$y){
+								$item = clone $packet->input[$y * 3 + $x];
+								foreach($needed as $k => $n){
+									if($n->deepEquals($item, $n->getDamage() !== null, $n->getCompoundTag() !== null)){
+										$remove = min($n->getCount(), $item->getCount());
+										$n->setCount($n->getCount() - $remove);
+										$item->setCount($item->getCount() - $remove);
+										if($n->getCount() === 0){
+											unset($needed[$k]);
+										}
+									}
+								}
+								if($item->getCount() > 0){
 									$canCraft = false;
 									break;
 								}
 							}
 						}
-					}
-				}elseif($recipe instanceof ShapelessRecipe){
-					$needed = $recipe->getIngredientList();
-					for($x = 0;$x < 3 and $canCraft;++$x){
-						for($y = 0;$y < 3;++$y){
-							$item = clone $packet->input[$y * 3 + $x];
-							foreach($needed as $k => $n){
-								if($n->deepEquals($item, $n->getDamage() !== null, $n->getCompoundTag() !== null)){
-									$remove = min($n->getCount(), $item->getCount());
-									$n->setCount($n->getCount() - $remove);
-									$item->setCount($item->getCount() - $remove);
-									if($n->getCount() === 0){
-										unset($needed[$k]);
-									}
-								}
-							}
-							if($item->getCount() > 0){
-								$canCraft = false;
-								break;
-							}
+						if(count($needed) > 0){
+							$canCraft = false;
 						}
 					}
-					if(count($needed) > 0){
+					else{
 						$canCraft = false;
 					}
-				}else{
-					$canCraft = false;
 				}
 				/** @var Item[] $ingredients */
 
@@ -3306,109 +3302,113 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		];
 
 		$cause = $this->getLastDamageCause();
-
-		switch($cause === null ? EntityDamageEvent::CAUSE_CUSTOM : $cause->getCause()){
-			case EntityDamageEvent::CAUSE_ENTITY_ATTACK:
-				if($cause instanceof EntityDamageByEntityEvent){
-					$e = $cause->getDamager();
-					if($e instanceof Player){
-						$message = "death.attack.player";
-						$params[] = $e->getDisplayName();
-						break;
-					}elseif($e instanceof Living){
-						$message = "death.attack.mob";
-						$params[] = $e->getNameTag() !== "" ? $e->getNameTag() : $e->getName();
-						break;
+		
+		if($this->getLevel()->getGameRule("showDeathMessages")){
+	
+			switch($cause === null ? EntityDamageEvent::CAUSE_CUSTOM : $cause->getCause()){
+				case EntityDamageEvent::CAUSE_ENTITY_ATTACK:
+					if($cause instanceof EntityDamageByEntityEvent){
+						$e = $cause->getDamager();
+						if($e instanceof Player){
+							$message = "death.attack.player";
+							$params[] = $e->getDisplayName();
+							break;
+						}elseif($e instanceof Living){
+							$message = "death.attack.mob";
+							$params[] = $e->getNameTag() !== "" ? $e->getNameTag() : $e->getName();
+							break;
+						}else{
+							$params[] = "Unknown";
+						}
+					}
+					break;
+				case EntityDamageEvent::CAUSE_PROJECTILE:
+					if($cause instanceof EntityDamageByEntityEvent){
+						$e = $cause->getDamager();
+						if($e instanceof Player){
+							$message = "death.attack.arrow";
+							$params[] = $e->getDisplayName();
+						}elseif($e instanceof Living){
+							$message = "death.attack.arrow";
+							$params[] = $e->getNameTag() !== "" ? $e->getNameTag() : $e->getName();
+							break;
+						}else{
+							$params[] = "Unknown";
+						}
+					}
+					break;
+				case EntityDamageEvent::CAUSE_SUICIDE:
+					$message = "death.attack.generic";
+					break;
+				case EntityDamageEvent::CAUSE_VOID:
+					$message = "death.attack.outOfWorld";
+					break;
+				case EntityDamageEvent::CAUSE_FALL:
+					if($cause instanceof EntityDamageEvent){
+						if($cause->getFinalDamage() > 2){
+							$message = "death.fell.accident.generic";
+							break;
+						}
+					}
+					$message = "death.attack.fall";
+					break;
+	
+				case EntityDamageEvent::CAUSE_SUFFOCATION:
+					$message = "death.attack.inWall";
+					break;
+	
+				case EntityDamageEvent::CAUSE_LAVA:
+					$message = "death.attack.lava";
+					break;
+	
+				case EntityDamageEvent::CAUSE_FIRE:
+					$message = "death.attack.onFire";
+					break;
+	
+				case EntityDamageEvent::CAUSE_FIRE_TICK:
+					$message = "death.attack.inFire";
+					break;
+	
+				case EntityDamageEvent::CAUSE_DROWNING:
+					$message = "death.attack.drown";
+					break;
+	
+				case EntityDamageEvent::CAUSE_CONTACT:
+					if($cause instanceof EntityDamageByBlockEvent){
+						if($cause->getDamager()->getId() === Block::CACTUS){
+							$message = "death.attack.cactus";
+						}
+					}
+					break;
+	
+				case EntityDamageEvent::CAUSE_BLOCK_EXPLOSION:
+				case EntityDamageEvent::CAUSE_ENTITY_EXPLOSION:
+					if($cause instanceof EntityDamageByEntityEvent){
+						$e = $cause->getDamager();
+						if($e instanceof Player){
+							$message = "death.attack.explosion.player";
+							$params[] = $e->getDisplayName();
+						}elseif($e instanceof Living){
+							$message = "death.attack.explosion.player";
+							$params[] = $e->getNameTag() !== "" ? $e->getNameTag() : $e->getName();
+							break;
+						}
 					}else{
-						$params[] = "Unknown";
+						$message = "death.attack.explosion";
 					}
-				}
-				break;
-			case EntityDamageEvent::CAUSE_PROJECTILE:
-				if($cause instanceof EntityDamageByEntityEvent){
-					$e = $cause->getDamager();
-					if($e instanceof Player){
-						$message = "death.attack.arrow";
-						$params[] = $e->getDisplayName();
-					}elseif($e instanceof Living){
-						$message = "death.attack.arrow";
-						$params[] = $e->getNameTag() !== "" ? $e->getNameTag() : $e->getName();
-						break;
-					}else{
-						$params[] = "Unknown";
-					}
-				}
-				break;
-			case EntityDamageEvent::CAUSE_SUICIDE:
-				$message = "death.attack.generic";
-				break;
-			case EntityDamageEvent::CAUSE_VOID:
-				$message = "death.attack.outOfWorld";
-				break;
-			case EntityDamageEvent::CAUSE_FALL:
-				if($cause instanceof EntityDamageEvent){
-					if($cause->getFinalDamage() > 2){
-						$message = "death.fell.accident.generic";
-						break;
-					}
-				}
-				$message = "death.attack.fall";
-				break;
-
-			case EntityDamageEvent::CAUSE_SUFFOCATION:
-				$message = "death.attack.inWall";
-				break;
-
-			case EntityDamageEvent::CAUSE_LAVA:
-				$message = "death.attack.lava";
-				break;
-
-			case EntityDamageEvent::CAUSE_FIRE:
-				$message = "death.attack.onFire";
-				break;
-
-			case EntityDamageEvent::CAUSE_FIRE_TICK:
-				$message = "death.attack.inFire";
-				break;
-
-			case EntityDamageEvent::CAUSE_DROWNING:
-				$message = "death.attack.drown";
-				break;
-
-			case EntityDamageEvent::CAUSE_CONTACT:
-				if($cause instanceof EntityDamageByBlockEvent){
-					if($cause->getDamager()->getId() === Block::CACTUS){
-						$message = "death.attack.cactus";
-					}
-				}
-				break;
-
-			case EntityDamageEvent::CAUSE_BLOCK_EXPLOSION:
-			case EntityDamageEvent::CAUSE_ENTITY_EXPLOSION:
-				if($cause instanceof EntityDamageByEntityEvent){
-					$e = $cause->getDamager();
-					if($e instanceof Player){
-						$message = "death.attack.explosion.player";
-						$params[] = $e->getDisplayName();
-					}elseif($e instanceof Living){
-						$message = "death.attack.explosion.player";
-						$params[] = $e->getNameTag() !== "" ? $e->getNameTag() : $e->getName();
-						break;
-					}
-				}else{
-					$message = "death.attack.explosion";
-				}
-				break;
-
-			case EntityDamageEvent::CAUSE_MAGIC:
-				$message = "death.attack.magic";
-				break;
-
-			case EntityDamageEvent::CAUSE_CUSTOM:
-				break;
-
-			default:
+					break;
+	
+				case EntityDamageEvent::CAUSE_MAGIC:
+					$message = "death.attack.magic";
+					break;
+	
+				case EntityDamageEvent::CAUSE_CUSTOM:
+					break;
+	
+				default:
+			}
 		}
+		else $message = "";
 
 		Entity::kill();
 
@@ -3423,19 +3423,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->inventory->clearAll();
 			}
 		}
-		
-		if(!$ev->getKeepExperience()){
+
+		if($this->server->getProperty("player.experience.enable", true)
+		and $this->server->getProperty("experience.player-drop", true)
+		and !$ev->getKeepExperience()){
 			$DropExp = $this->getTotalXp();
 			$this->getLevel()->spawnExperienceOrb($this,$DropExp);
-			$this->setXpLevel(0);
-			$this->setXpProgress(0);
-		}
-		
-		if($this->server->getProperty("player.experience.enable", true)
-		and $this->server->getProperty("experience.player-drop", true)){
-			$DropExp = $this->getTotalXp();
-			$vector = new Vector3(ceil($this->x),ceil($this->y),ceil($this->z));
-			$this->getLevel()->spawnExperienceOrb($vector,$DropExp);
 			$this->setXpLevel(0);
 			$this->setXpProgress(0);
 		}
