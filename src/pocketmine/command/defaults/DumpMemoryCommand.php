@@ -22,7 +22,7 @@ class DumpMemoryCommand extends VanillaCommand{
 			return true;
 		}
 
-		$token = strtoupper(substr(sha1(BOOTUP_RANDOM . ":" . $sender->getServer()->getServerUniqueId() . ":" . self::$executions), 6, 6));
+		$token = strtoupper(substr(sha1(random_bytes(8) . ":" . $sender->getServer()->getServerUniqueId() . ":" . self::$executions), 6, 6));
 
 		if(count($args) < 1 or strtoupper($args[0]) !== $token){
 			$sender->sendMessage("Usage: /" . $this->getName() . " " . $token);
