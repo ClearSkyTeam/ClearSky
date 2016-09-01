@@ -18,6 +18,7 @@ use pocketmine\level\generator\normal\biome\TaigaBiome;
 use pocketmine\level\generator\hell\HellBiome;
 use pocketmine\level\generator\populator\Populator;
 use pocketmine\utils\Random;
+use pocketmine\level\generator\normal\biome\MesaBiome;
 
 abstract class Biome{
 	const OCEAN = 0;
@@ -66,8 +67,8 @@ abstract class Biome{
     MEGA_TAIGA_HILLS,
     EXTREME_HILLS_PLUS,*/
     const SAVANNA = 9;/* //todo fix this number
-    SAVANNA_PLATEAU,
-    MESA,
+    SAVANNA_PLATEAU,*/
+    const MESA = 10;/* //todo fix this number
     MESA_PLATEAU_FOREST,
     MESA_PLATEAU,
     SUNFLOWER_PLAINS,
@@ -139,6 +140,7 @@ abstract class Biome{
 		self::register(self::BIRCH_FOREST, new ForestBiome(ForestBiome::TYPE_BIRCH));
 
 		self::register(self::SAVANNA, new SavannaBiome());
+		self::register(self::MESA, new MesaBiome());
 	}
 
 	/**
