@@ -24,17 +24,18 @@ settings:
  #If set to auto, the server will try to detect the number of cores (or use 2)
  config-update: true
  #Whether the server should "try" to add new configs automatically here
- #Load plugins with incompatible API versions
- #Do NOT report any bugs if any of these options is set to true.
- #Some plugins may crash the server, or do strange things to your savefiles.
+ #DISCLAIMER: WE DO NOT SUPPORT ALL OPTIONS UNDER 'incompatible-plugins'.
+ #DO NOT REPORT ANY BUGS BEFORE MAKING SURE IT DOESN'T RESULT OUT OF THIS OPTION!
+ #Most old plugins crash the server (maybe even segfaults), and can corrupt your savefiles.
  incompatible-plugins:
+ #Load plugins with incompatible API versions
   plugin-too-new:
-   #Load plugins whose major API version is too new
    major: false
-   #Load plugins whose minor API version is too new
+   #Load plugins whose major API version is too new
    minor: false
-  #Load plugins whose major API version is too old
+   #Load plugins whose minor API version is too new
   plugin-too-old: false
+  #Load plugins whose major API version is too old
 
 player:
  inventory:
