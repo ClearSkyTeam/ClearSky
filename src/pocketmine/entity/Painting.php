@@ -62,9 +62,13 @@ class Painting extends Hanging{
 
 	public function attack($damage, EntityDamageEvent $source){
 		parent::attack($damage, $source);
+		if($source->isCancelled()) return false;
 		$this->level->addParticle(new DestroyBlockParticle($this->add(0.5), Block::get(Block::LADDER)));
 		$this->kill();
-		$this->close();
+	}
+
+	protected function updateMovement(){
+		//Nothing to update, paintings cannot move.
 	}
 
 	public function spawnTo(Player $player){
