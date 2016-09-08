@@ -769,6 +769,21 @@ class Block extends Position implements Metadatable{
 	public function isSolid(){
 		return true;
 	}
+
+	public function isTopFacingSurfaceSolid(){
+		if($this->isSolid()){
+			return true;
+		}else{
+			if($this instanceof Stair and ($this->getDamage() &4) == 4){
+				return true;
+			}elseif($this instanceof Slab and ($this->getDamage() & 8) == 8){
+				return true;
+			}elseif($this instanceof SnowLayer and ($this->getDamage() & 7) == 7){
+				return true;
+			}
+		}
+		return false;
+	}
 	
 	/**
 	 * AKA: Block->isFlowable
