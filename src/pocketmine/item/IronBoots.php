@@ -8,15 +8,23 @@ class IronBoots extends Armor{
 		parent::__construct(self::IRON_BOOTS, $meta, $count, "Iron Boots");
 	}
 
-	public function isArmor(){
-		return true;
+	public function getArmorTier(){
+		return Armor::TIER_IRON;
 	}
 
-	public function isBoots(){
-		return true;
+	public function getArmorType(){
+		return Armor::TYPE_BOOTS;
 	}
 
 	public function getMaxDurability(){
 		return 196;
+	}
+
+	public function getArmorValue(){
+		return 2;
+	}
+
+	public function isBoots(){
+		return true;
 	}
 }

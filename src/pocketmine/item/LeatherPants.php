@@ -8,15 +8,23 @@ class LeatherPants extends Armor{
 		parent::__construct(self::LEATHER_PANTS, $meta, $count, "Leather Pants");
 	}
 
-	public function isArmor(){
-		return true;
+	public function getArmorTier(){
+		return Armor::TIER_LEATHER;
 	}
 
-	public function isLeggings(){
-		return true;
+	public function getArmorType(){
+		return Armor::TYPE_LEGGINGS;
 	}
 
 	public function getMaxDurability(){
 		return 76;
+	}
+
+	public function getArmorValue(){
+		return 2;
+	}
+
+	public function isLeggings(){
+		return true;
 	}
 }

@@ -570,7 +570,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 */
 	public function hasPermission($name){
 		if($this->perm == null) return false;
-		else return $this->perm->hasPermission($name);
+		return $this->perm->hasPermission($name);
 	}
 
 	/**
@@ -903,6 +903,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->sendSettings();
 		$this->sendPotionEffects($this);
 		$this->sendData($this);
+		$this->inventory->sendContents($this);
+		$this->inventory->sendArmorContents($this);
 
 		$pk = new SetTimePacket();
 		$pk->time = $this->level->getTime();
@@ -964,9 +966,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		
 		/** Additional Packet Send **/
 		$this->getLevel()->broadcastWeather($this->getLevel()->getWeather(),$this);
-
-		$this->inventory->sendContents($this);
-		$this->inventory->sendArmorContents($this);
 	}
 
 	protected function orderChunks(){

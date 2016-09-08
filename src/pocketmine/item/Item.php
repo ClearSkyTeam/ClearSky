@@ -28,6 +28,12 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
 use pocketmine\nbt\NBT;
+use pocketmine\entity\Skeleton;
+use pocketmine\entity\Witch;
+use pocketmine\entity\PigZombie;
+use pocketmine\entity\Spider;
+use pocketmine\entity\CavernSpider;
+use pocketmine\entity\Silverfish;
 
 class Item{
 	
@@ -2022,6 +2028,10 @@ class Item{
 		return false;
 	}
 
+	public function getArmorValue(){
+		return false;
+	}
+
 	public function isBoots(){
 		return false;
 	}
@@ -2036,6 +2046,31 @@ class Item{
 
 	public function isChestplate(){
 		return false;
+	}
+
+	public function getAttackDamage(){
+		return 1;
+	}
+
+	public function getModifyAttackDamage(Entity $target){
+		$rec = $this->getAttackDamage();
+		$sharpL = $this->getEnchantmentLevel(Enchantment::TYPE_WEAPON_SHARPNESS);
+		if($sharpL > 0){
+			$rec += 0.5 * ($sharpL + 1);
+		}
+
+		if($target instanceof Skeleton or $target instanceof Zombie or
+			$target instanceof Witch or $target instanceof PigZombie){
+			//SMITE    wither skeletons
+			$rec += 2.5 * $this->getEnchantmentLevel(Enchantment::TYPE_WEAPON_SMITE);
+
+		}elseif($target instanceof Spider or $target instanceof CavernSpider or
+			$target instanceof Silverfish){
+			//Bane of Arthropods    wither skeletons
+			$rec += 2.5 * $this->getEnchantmentLevel(Enchantment::TYPE_WEAPON_ARTHROPODS);
+
+		}
+		return $rec;
 	}
 
 	final public function __toString(){

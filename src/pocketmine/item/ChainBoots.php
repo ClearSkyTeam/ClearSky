@@ -8,15 +8,23 @@ class ChainBoots extends Armor{
 		parent::__construct(self::CHAIN_BOOTS, $meta, $count, "Chainmail Boots");
 	}
 
-	public function isArmor(){
-		return true;
+	public function getArmorTier(){
+		return Armor::TIER_CHAIN;
 	}
 
-	public function isBoots(){
-		return true;
+	public function getArmorType(){
+		return Armor::TYPE_BOOTS;
 	}
 
 	public function getMaxDurability(){
 		return 196;
+	}
+
+	public function getArmorValue(){
+		return 1;
+	}
+
+	public function isBoots(){
+		return true;
 	}
 }
