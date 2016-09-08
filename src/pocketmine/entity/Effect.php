@@ -245,9 +245,7 @@ class Effect{
 				break;
 			case Effect::SATURATION:
 				if($entity instanceof Player){
-					if($entity->getServer()->foodEnabled) {
-						$entity->setFood($entity->getFood() + 1);
-					}
+					$entity->addFood(1);
 				}
 				break;
 		}
