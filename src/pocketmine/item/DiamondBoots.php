@@ -12,6 +12,10 @@ class DiamondBoots extends Armor{
 		return true;
 	}
 
+	public function isBoots(){
+		return true;
+	}
+
 	public function getMaxDurability(){
 		return 430;
 	}

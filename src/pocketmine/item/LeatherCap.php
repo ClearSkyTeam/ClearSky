@@ -12,6 +12,10 @@ class LeatherCap extends Armor{
 		return true;
 	}
 
+	public function isHelmet(){
+		return true;
+	}
+
 	public function getMaxDurability(){
 		return 56;
 	}

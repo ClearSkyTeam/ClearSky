@@ -12,6 +12,10 @@ class IronChestplate extends Armor{
 		return true;
 	}
 
+	public function isChestplate(){
+		return true;
+	}
+
 	public function getMaxDurability(){
 		return 241;
 	}

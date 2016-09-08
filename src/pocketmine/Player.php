@@ -3120,7 +3120,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($message instanceof TextContainer){
 			if($message instanceof TranslationContainer){
 				$this->sendTranslation($message->getText(), $message->getParameters());
-				return false;
+				return;
 			}
 			$message = $message->getText();
 		}

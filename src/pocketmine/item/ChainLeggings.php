@@ -12,6 +12,10 @@ class ChainLeggings extends Armor{
 		return true;
 	}
 
+	public function isLeggings(){
+		return true;
+	}
+
 	public function getMaxDurability(){
 		return 226;
 	}

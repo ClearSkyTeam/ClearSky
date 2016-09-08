@@ -2030,7 +2030,7 @@ class Item{
 		return false;
 	}
 
-	public function isLegging(){
+	public function isLeggings(){
 		return false;
 	}
 
