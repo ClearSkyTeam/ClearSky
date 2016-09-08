@@ -14,6 +14,6 @@ class EmptyMap extends Item{
 
 	public function onActivate(Level $level, Player $player, Block $block, Block $target, $face, $fx, $fy, $fz){
 		$player->getInventory()->remove(Item::get($player->getInventory()->getItemInHand()->getId(), 0, 1));
-		$player->getInventory()->addItem(Item::get(Item::WRITTEN_MAP));
+		$player->getInventory()->addItem(Item::get(Item::FILLED_MAP));
 	}
 }
