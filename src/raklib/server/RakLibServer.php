@@ -156,10 +156,10 @@ class RakLibServer extends \Thread{
 		$oldFile = $errfile;
 		$errfile = $this->cleanPath($errfile);
 
-		$this->getLogger()->debug("[RakLib Thread #". \Thread::getCurrentThreadId() ."] An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
+		$this->getLogger()->critical("[RakLib Thread #". \Thread::getCurrentThreadId() ."] An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
 
 		foreach(($trace = $this->getTrace($trace === null ? 3 : 0, $trace)) as $i => $line){
-			$this->getLogger()->debug($line);
+			$this->getLogger()->warning($line);
 		}
 
 		return true;
