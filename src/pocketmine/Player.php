@@ -343,13 +343,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/**
 	 * @deprecated Use isAuthenticated().
 	 * Returns if the player is authenticated.
+	 *
+	 * @return bool
 	*/
 	public function isXboxAuthenticated(){
-		return $this->isAuthenticated;
+		return $this->isAuthenticated();
 	}
 	
 	/**
 	 * Returns if the player is authenticated.
+	 *
+	 * @return bool
 	*/
 	public function isAuthenticated(){
 		return $this->identityPublicKey !== NULL;
@@ -364,9 +368,19 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	
 	/**
 	 * This contains additional data recived in the LoginPacket
+	 * @deprecated Use getChainData() instead!
 	*/
 	public function getWebtokens(){
-		return $this->webtokens;
+		return $this->getChainData();
+	}
+	
+	/**
+	 * This contains additional data recived in the LoginPacket
+	 *
+	 * @return array
+	*/
+	public function getWebtokens(){
+		return $this->chainData;
 	}
 
 	public function isBanned(){
