@@ -1785,7 +1785,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	public function authenticateCallback($valid){
 		if(!$valid && $this->server->getConfigBoolean("online-mode", false)){
-			$this->close("", "disconnectionScreen.invalidSession");
+			$this->close("", "This server requires log in into XBOX. Please login into XBOX!"); //disconnectionScreen.invalidSession
 			return;
 		}
 

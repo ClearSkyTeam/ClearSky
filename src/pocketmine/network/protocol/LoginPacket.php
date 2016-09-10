@@ -14,7 +14,7 @@ class LoginPacket extends DataPacket{
 	public $clientId;
 	public $identityPublicKey;
 	public $serverAddress;
-	public $skinId;
+	public $skinId = null;
 	public $skin = null;
 	public $chainData = [];
 	
@@ -22,13 +22,13 @@ class LoginPacket extends DataPacket{
 		$this->protocol = $this->getInt();
 		$str = zlib_decode($this->get($this->getInt()), 1024 * 1024 * 64); //Max 64MB
 		$this->setBuffer($str, 0);
-		$chainData = json_decode($this->get($this->getLInt()));
-		$this->chainData = $chainData->{"chain"};
+		$chainData = json_decode($this->get($this->getLInt()))->{"chain"};
+		$this->chainData = $chainData;
 		
 		$time = time();
 		$chainKey = self::MOJANG_PUBKEY;
 		while(!empty($chainData)){
-			foreach($chainData->{"chain"} as $chain){
+			foreach($chainData as $index => $chain){
 				list($verified, $webtoken) = $this->decodeToken($chain, $chainKey);
 				if(isset($webtoken["extraData"])){
 					if(isset($webtoken["extraData"]["displayName"])){
@@ -72,12 +72,15 @@ class LoginPacket extends DataPacket{
 			$this->identityPublicKey = $chainKey;
 		}
 	}
+
 	public function encode(){
+		
 	}
 	
 	public function decodeToken($token, $key){
 		$tokens = explode(".", $token);
 		list($headB64, $payloadB64, $sigB64) = $tokens;
+
 		if($key !== null and extension_loaded("openssl")){
 			$sig = base64_decode(strtr($sigB64, '-_', '+/'), true);
 			$rawLen = 48; // ES384
@@ -96,10 +99,13 @@ class LoginPacket extends DataPacket{
 			$derSig .= str_repeat(chr(0), $j - $i) . substr($sig, $rawLen - $i, $i);
 			$derSig .= chr(2) . chr($l);
 			$derSig .= str_repeat(chr(0), $l - $k) . substr($sig, 2 * $rawLen - $k, $k);
+
 			$verified = openssl_verify($headB64 . "." . $payloadB64, $derSig, "-----BEGIN PUBLIC KEY-----\n" . wordwrap($key, 64, "\n", true) . "\n-----END PUBLIC KEY-----\n", OPENSSL_ALGO_SHA384) === 1;
 		}else{
 			$verified = false;
 		}
+
 		return array($verified, json_decode(base64_decode($payloadB64), true));
 	}
+
 }
