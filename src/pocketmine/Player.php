@@ -190,8 +190,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/** @var Vector3 */
 	protected $sleeping = null;
 	protected $clientID = null;
-	private $identityPublicKey = null;
-	private $chainData = [];
+	protected $identityPublicKey = null;
+	protected $chainData = [];
 	private $loaderId = null;
 	protected $stepHeight = 0.6;
 	public $usedChunks = [];
@@ -328,7 +328,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	/**
 	 * This might disappear in the future.
-	 * Please use getUniqueId() (IP + clientId + name combo) or getIdentityPublicKey (Xbox key) instead!
+	 * Please use getUniqueId() (IP + clientId + name combo) or getIdentityPublicKey() (Xbox key) instead!
 	 *
 	 * @deprecated
 	 */
@@ -379,7 +379,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 *
 	 * @return array
 	*/
-	public function getWebtokens(){
+	public function getChainData(){
 		return $this->chainData;
 	}
 
@@ -1799,7 +1799,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	public function authenticateCallback($valid){
 		if(!$valid && $this->server->getConfigBoolean("online-mode", false)){
-			$this->close("", "This server requires log in into XBOX. Please login into XBOX!"); //disconnectionScreen.invalidSession
+			$this->close("", "disconnectionScreen.notAuthenticated"); //disconnectionScreen.invalidSession
 			return;
 		}
 
