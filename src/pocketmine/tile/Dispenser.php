@@ -206,7 +206,7 @@ class Dispenser extends Spawnable implements InventoryHolder, Container, Nameabl
 						new FloatTag("", 0)
 					])
 				]);
-				$thrownEntity = Entity::createEntity($needItem->entityname, $this->chunk, $nbt);
+				$thrownEntity = Entity::createEntity($needItem->getEntityName(), $this->chunk, $nbt);
 				$thrownEntity->setMotion($thrownEntity->getMotion()->multiply($f));
 				$thrownEntity->spawnToAll();
 			}elseif($needItem->getId() === Item::DYE && $needItem->getDamage() === Dye::BONEMEAL){// Add instanceof Dispenseable + switch function
