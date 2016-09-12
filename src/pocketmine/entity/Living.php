@@ -30,15 +30,15 @@ abstract class Living extends Entity implements Damageable{
 
 	protected function initEntity(){
 		parent::initEntity();
-
-		if(isset($this->namedtag->HealF)){
+		if(isset($this->namedtag->HealF)){ //TODO::remove
 			$this->namedtag->Health = new ShortTag("Health", (int) $this->namedtag["HealF"]);
 			unset($this->namedtag->HealF);
 		}elseif(!isset($this->namedtag->Health) or !($this->namedtag->Health instanceof ShortTag)){
 			$this->namedtag->Health = new ShortTag("Health", $this->getMaxHealth());
 		}
 
-		$this->setHealth($this->namedtag["Health"]);
+		$this->setMaxHealth($this->namedtag["MaxHealth"]);
+		$this->setHealth($this->getAttributeMap()->getAttribute(Attribute::HEALTH)->setMaxValue($this->getMaxHealth())->setValue($this->namedtag["Health"]));
 	}
 
 	protected function addAttributes(){
@@ -68,7 +68,6 @@ abstract class Living extends Entity implements Damageable{
 
 	public function saveNBT(){
 		parent::saveNBT();
-		$this->namedtag->Health = new ShortTag("Health", $this->getHealth());
 	}
 
 	public function hasLineOfSight(Entity $entity){

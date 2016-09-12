@@ -50,6 +50,7 @@ class Attribute{
 	protected static $attributes = [];
 
 	public static function init(){
+		//Just a quick note: 340282346638528859811704183484516925440 is the size of a float. #PEMapModder
 		self::addAttribute(self::ABSORPTION, "generic.absorption", 0.00, 340282346638528859811704183484516925440.00, 0.00);
 		self::addAttribute(self::SATURATION, "player.saturation", 0.00, 20.00, 5.00);
 		self::addAttribute(self::EXHAUSTION, "player.exhaustion", 0.00, 5.00, 0.41);

@@ -800,11 +800,10 @@ class Server{
 			new ByteTag("OnGround", 1),
 			new ByteTag("Invulnerable", 0),
 			new StringTag("NameTag", $name),
-			new ShortTag("Hunger", 20),
+			new ShortTag("foodLevel", 20),
 			new ShortTag("Health", 20),
 			new ShortTag("MaxHealth", 20),
-			new LongTag("ExpCurrent", 0),
-			new LongTag("ExpLevel", 0),
+			new IntTag("XpLevel", 0),
 		]);
 		$nbt->Pos->setTagType(NBT::TAG_Double);
 		$nbt->Inventory->setTagType(NBT::TAG_Compound);

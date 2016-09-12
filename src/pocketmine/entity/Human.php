@@ -14,6 +14,7 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\LongTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
@@ -381,6 +382,15 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function saveNBT(){
 		parent::saveNBT();
+		$this->namedtag->foodLevel = new IntTag("foodLevel", $this->getFood());
+		$this->namedtag->foodExhaustionLevel = new FloatTag("foodExhaustionLevel", $this->getExhaustion());
+		$this->namedtag->foodSaturationLevel = new FloatTag("foodSaturationLevel", $this->getSaturation());
+		$this->namedtag->foodTickTimer = new IntTag("foodTickTimer", $this->foodTickTimer);
+		$this->namedtag->XpLevel = new IntTag("XpLevel", $this->getXpLevel());
+		$this->namedtag->XpP = new FloatTag("XpP", $this->getXpProgress());
+		$this->namedtag->XpTotal = new IntTag("XpTotal", $this->totalXp);
+		$this->namedtag->XpSeed = new IntTag("XpSeed", $this->xpSeed ?? ($this->xpSeed = mt_rand(PHP_INT_MIN, PHP_INT_MAX)));
+
 		$this->namedtag->Inventory = new ListTag("Inventory", []);
 		$this->namedtag->Inventory->setTagType(NBT::TAG_Compound);
 		if($this->inventory !== null){

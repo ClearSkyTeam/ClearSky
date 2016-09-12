@@ -291,7 +291,6 @@ abstract class Entity extends Location implements Metadatable{
 	}
 	
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
-
 		assert($chunk !== null and $chunk->getProvider() !== null);
 
 		$this->timings = Timings::getEntityTimings($this);
@@ -632,6 +631,9 @@ abstract class Entity extends Location implements Metadatable{
 		$this->namedtag->Air = new ShortTag("Air", $this->getDataProperty(self::DATA_AIR));
 		$this->namedtag->OnGround = new ByteTag("OnGround", $this->onGround == true ? 1 : 0);
 		$this->namedtag->Invulnerable = new ByteTag("Invulnerable", $this->invulnerable == true ? 1 : 0);
+		
+		$this->namedtag->Health = new ShortTag("Health", $this->getHealth());
+		$this->namedtag->MaxHealth = new ShortTag("MaxHealth", $this->getMaxHealth());
 
 		if(count($this->effects) > 0){
 			$effects = [];
