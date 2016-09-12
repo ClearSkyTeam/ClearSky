@@ -18,6 +18,9 @@ class LoginPacket extends DataPacket{
 	public $xboxData = null;
 	public function decode(){
 		$this->protocol = $this->getInt();
+		if(!in_array($this->protocol, Info::ACCEPTED_PROTOCOLS)){
+			return; //Do not attempt to decode for non-accepted protocols
+		}
 		$str = zlib_decode($this->get($this->getInt()), 1024 * 1024 * 64); //Max 64MB
 		$this->setBuffer($str, 0);
 		$chainData = json_decode($this->get($this->getLInt()));
