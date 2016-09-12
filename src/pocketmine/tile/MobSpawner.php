@@ -101,7 +101,7 @@ class MobSpawner extends Spawnable{
 		return "Monster Spawner";
 	}
 
-	/*public function canUpdate(){
+	public function canUpdate(){
 		if($this->getEntityId() === 0) return false;
 		$hasPlayer = false;
 		$count = 0;
@@ -170,7 +170,7 @@ class MobSpawner extends Spawnable{
 		$this->timings->stopTiming();
 
 		return true;
-	}*/
+	}
 
 	public function getSpawnCompound(){
 		$c = new CompoundTag("", [
