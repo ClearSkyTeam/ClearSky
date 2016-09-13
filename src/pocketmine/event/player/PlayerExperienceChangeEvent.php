@@ -1,41 +1,55 @@
 <?php
+
 namespace pocketmine\event\player;
 
 use pocketmine\event\Cancellable;
-use pocketmine\Player;
+use pocketmine\entity\Human;
 
 class PlayerExperienceChangeEvent extends PlayerEvent implements Cancellable{
+	
+	/** @deprecated */
+	const ADD_EXPERIENCE = 0;
+	const SET_EXPERIENCE = 1;
+	
 	public static $handlerList = null;
 	
-	public $expTotal;
-	public $expCurrent;
+	public $progress;
 	public $expLevel;
 
-	public function __construct(Player $player, $Total = 0, $Current = 0, $Level = 0){
-		$this->expTotal = $Total;
-		$this->expCurrent = $Current;
-		$this->expLevel = $Level;
+	public function __construct(Human $player, int $expLevel, float $progress){
+		$this->progress = $progress;
+		$this->expLevel = $expLevel;
 		$this->player = $player;
 	}
 	
-	public function getExperience(){
-		return $this->expTotal;
+	/**
+	 * @deprecated This is redundant, and will be removed in the future.
+	 */
+	public function getAction(){
+		return self::SET_EXPERIENCE;
 	}
-	
-	public function getCurrentExperience(){
-		return $this->expCurrent;
-	}
-	
-	public function getExperienceLevel(){
+
+	public function getExpLevel(){
 		return $this->expLevel;
 	}
-	
-	public function setExperience($exp){
-		$this->expCurrent = $exp;
-	}
-	
-	public function setExperienceLevel($level){
+
+	public function setExpLevel($level){
 		$this->expLevel = $level;
 	}
 
+	public function getProgress(): float{
+		return $this->progress;
+	}
+	
+	public function setProgress(float $progress){
+		$this->progress = $progress; //errors will be handled internally anyway
+	}
+
+	public function getExp(){
+		return Human::getLevelXpRequirement($this->level) * $this->progress;
+	}
+
+	public function setExp($exp){
+		$this->progress = $exp / Human::getLevelXpRequirement($this->level);
+	}
 }
