@@ -247,7 +247,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		if(!$syncLevel){
 			$level = $this->getXpLevel();
 			$diff = $xp - $this->totalXp + $this->getFilledXp();
-			if($diff > 0){
+			if($diff > 0){ //adding xp
 				while($diff > ($v = self::getLevelXpRequirement($level))){
 					$diff -= $v;
 					if(++$level >= 21863){
@@ -256,7 +256,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 					}
 				}
 			}
-			else{
+			else{ //taking xp
 				while($diff < ($v = self::getLevelXpRequirement($level - 1))){
 					$diff += $v;
 					if(--$level <= 0){
@@ -274,6 +274,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		}
 		$this->server->getPluginManager()->callEvent($ev = new PlayerExperienceChangeEvent($this, $level, $progress));
 		if(!$ev->isCancelled()){
+			$this->totalXp = $xp;
 			$this->setXpLevel($ev->getExpLevel());
 			$this->setXpProgress($ev->getProgress());
 			return true;
