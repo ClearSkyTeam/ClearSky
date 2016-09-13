@@ -170,7 +170,7 @@ class NBT{
 				$data = self::parseCompound($data, $offset);
 				return new CompoundTag("", $data);
 			}elseif($c !== " " and $c !== "\r" and $c !== "\n" and $c !== "\t"){
-				throw new \Throwable("Syntax error: unexpected '$c' at offset $offset");
+				throw new Throwable("Syntax error: unexpected '$c' at offset $offset");
 			}
 		}
 
