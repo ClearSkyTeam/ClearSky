@@ -6,6 +6,6 @@ use pocketmine\network\protocol\LevelEventPacket;
 
 class ExpPickupSound extends GenericSound{
 	public function __construct(Vector3 $pos, $pitch = 0){
-		parent::__construct($pos, LevelEventPacket::, $pitch);
+		parent::__construct($pos, LevelEventPacket::EVENT_SOUND_EXP_PICKUP, $pitch);
 	}
 }
