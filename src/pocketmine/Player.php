@@ -124,7 +124,6 @@ use pocketmine\tile\Tile;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use raklib\Binary;
-use pocketmine\event\player\PlayerExperienceChangeEvent;
 use pocketmine\network\protocol\InteractPacket;
 use pocketmine\network\protocol\Info;
 use pocketmine\block\Air;
@@ -261,66 +260,93 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 	
 	/**
-	* @deprecated
-	*/
-	public function getExperience(){
-		return $this->getXpProgress();
+	 * @deprecated Use Human::setTotalXp($xp), this method will be removed in the future.
+	 */
+	public function setExperienceAndLevel(int $exp, int $level){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		return $this->setTotalXp(self::getTotalXpRequirement($level) + $exp);
 	}
 	/**
-	* @deprecated
-	*/
-	public function setExperience($exp){
-		$this->setXpProgress($exp);
+	 * @deprecated Use Human::setTotalXp($xp), this method will be removed in the future.
+	 */
+	public function setExp(int $exp){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		return $this->setTotalXp($exp);
 	}
 	/**
-	* @deprecated
-	*/
-	public function addExperience($exp){
-		$this->setXpProgress($this->getXpProgress() + $exp);
+	 * @deprecated Use Human::setXpLevel($level), this method will be removed in the future.
+	 */
+	public function setExpLevel(int $level){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		return $this->setXpLevel($level);
 	}
 	/**
-	* @deprecated
-	*/
+	 * @deprecated Use Human::getTotalXpRequirement($level), this method will be removed in the future.
+	 */
+	public function getExpectedExperience(){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		return self::getTotalXpRequirement($this->getXpLevel() + 1);
+	}
+	/**
+	 * @deprecated Use Human::getLevelXpRequirement($level), this method will be removed in the future.
+	 */
+	public function getLevelUpExpectedExperience(){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		return self::getLevelXpRequirement($this->getLevel() + 1);
+	}
+	/**
+	 * @deprecated
+	 */
+	public function calcExpLevel(){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+	}
+	/**
+	 * @deprecated Use Human::addXp($xp), this method will be removed in the future.
+	 */
+	public function addExperience(int $exp){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		return $this->addXp($exp);
+	}
+	/**
+	 * @deprecated Use Human::addXpLevel(), this method will be removed in the future.
+	 */
+	public function addExpLevel(int $level){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		return $this->addXpLevel($level);
+	}
+	/**
+	 * @deprecated Use Human::getTotalXp(), this method will be removed in the future.
+	 */
 	public function getExp(){
-		return $this->getXpProgress();
-	}
-	/**
-	* @deprecated
-	*/
-	public function setExp($exp){
-		$this->setXpProgress($exp);
-	}
-	/**
-	* @deprecated
-	*/
-	public function addExp($exp){
-		$this->addExperience($exp);
-	}
-	/**
-	* @deprecated
-	*/
-	public function getTotalExp(){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
 		return $this->getTotalXp();
 	}
 	/**
-	* @deprecated
-	*/
+	 * @deprecated Use Human::getXpLevel(), this method will be removed in the future.
+	 */
 	public function getExpLevel(){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
 		return $this->getXpLevel();
 	}
 	/**
-	* @deprecated
-	*/
-	public function setExpLevel($level){
-		return $this->setXpLevel($level);
+	 * @deprecated Use Human::canPickupXp(), this method will be removed in the future.
+	 */
+	public function canPickupExp(): bool{
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		return $this->canPickupXp();
 	}
-	
-	public function getExperienceLevel(){
-		return $this->getXpLevel();
+	/**
+	 * @deprecated Use Human::resetXpCooldown(), this method will be removed in the future.
+	 */
+	public function resetExpCooldown(){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
+		$this->resetXpCooldown();
 	}
-	
-	public function setExperienceLevel($level){
-		return $this->setXpLevel($level);
+	/**
+	 * @deprecated
+	 */
+	public function updateExperience(){
+		trigger_error("This method is deprecated, do not use it", E_USER_DEPRECATED);
 	}
 	
 	public function getLeaveMessage(){
@@ -3434,10 +3460,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($this->server->getProperty("player.experience.enable", true)
 		and $this->server->getProperty("experience.player-drop", true)
 		and !$ev->getKeepExperience()){
-			$DropExp = $this->getTotalXp();
-			$this->getLevel()->spawnExperienceOrb($this,$DropExp);
-			$this->setXpLevel(0);
-			$this->setXpProgress(0);
+			$exp = min(91, $this->getTotalXp()); //Max 7 levels of exp dropped
+			$this->getLevel()->spawnExperienceOrb($this->add(0, 0.2, 0), $exp);
+			$this->setTotalXp(0, true);
 		}
 		
 		if($ev->getDeathMessage() != ""){
