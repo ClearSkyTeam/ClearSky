@@ -3445,7 +3445,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		Entity::kill();
 
-		$this->server->getPluginManager()->callEvent($ev = new PlayerDeathEvent($this, $this->getDrops(), new TranslationContainer($message, $params)));
+		$ev = new PlayerDeathEvent($this, $this->getDrops(), new TranslationContainer($message, $params));
+		$ev->setKeepInventory($entity->getLevel()->getGameRule("keepInventory"));
+		$ev->setKeepExperience($this->server->getProperty("experience.player-drop", true));//use gamerules?
+		$this->server->getPluginManager()->callEvent($ev);
 
 		if(!$ev->getKeepInventory()){
 			foreach($ev->getDrops() as $item){
@@ -3457,9 +3460,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			}
 		}
 
-		if($this->server->getProperty("player.experience.enable", true)
-		and $this->server->getProperty("experience.player-drop", true)
-		and !$ev->getKeepExperience()){
+		if(!$ev->getKeepExperience()){
 			$exp = min(91, $this->getTotalXp()); //Max 7 levels of exp dropped
 			$this->getLevel()->spawnExperienceOrb($this->add(0, 0.2, 0), $exp);
 			$this->setTotalXp(0, true);

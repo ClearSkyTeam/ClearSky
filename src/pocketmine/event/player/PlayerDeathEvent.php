@@ -22,7 +22,6 @@ class PlayerDeathEvent extends EntityDeathEvent{
 	public function __construct(Player $entity, array $drops, $deathMessage){
 		parent::__construct($entity, $drops);
 		$this->deathMessage = $deathMessage;
-		$this->setKeepInventory($entity->getLevel()->getGameRule("keepInventory"));
 	}
 
 	/**
@@ -57,8 +56,8 @@ class PlayerDeathEvent extends EntityDeathEvent{
 		return $this->keepInventory;
 	}
 
-	public function setKeepInventory($keepInventory){
-		$this->keepInventory = (bool) $keepInventory;
+	public function setKeepInventory(bool $keepInventory){
+		$this->keepInventory = $keepInventory;
 	}
 	
 	public function getKeepExperience(){
@@ -69,7 +68,7 @@ class PlayerDeathEvent extends EntityDeathEvent{
 		}
 	}
 
-	public function setKeepExperience($keepExperience){
-		$this->keepExperience = (bool) $keepExperience;
+	public function setKeepExperience(bool $keepExperience){
+		$this->keepExperience = $keepExperience;
 	}
 }
