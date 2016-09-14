@@ -311,8 +311,8 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		$this->xpCooldown = microtime(true);
 	}
 
-	public function canPickupXp(): bool{
-		return microtime(true) - $this->xpCooldown > 0.5;
+	public function canPickupXp(){
+		return microtime(true) - $this->xpCooldown >= 0.1;
 	}
 
 	/**
