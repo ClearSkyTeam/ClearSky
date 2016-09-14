@@ -30,7 +30,7 @@ abstract class Living extends Entity implements Damageable{
 
 	protected function initEntity(){
 		parent::initEntity();
-		if(isset($this->namedtag->HealF)){ //TODO::remove
+		if(isset($this->namedtag->HealF)){
 			$this->namedtag->Health = new ShortTag("Health", (int) $this->namedtag["HealF"]);
 			unset($this->namedtag->HealF);
 		}elseif(!isset($this->namedtag->Health) or !($this->namedtag->Health instanceof ShortTag)){
