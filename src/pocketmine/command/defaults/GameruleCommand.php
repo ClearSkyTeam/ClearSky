@@ -23,10 +23,11 @@ class GameruleCommand extends VanillaCommand{
 		
 		if(!$sender instanceof Player){
 			$sender->sendMessage("This currently only works for players");
+			return true;
 		}
 		
 		$gamerules = $sender->getLevel()->getGameRules();
-		$s = count($args) > 0?$args[0]:"";
+		$s = count($args) > 0 ? $args[0] : "";
 		
 		switch(count($args)){
 			case 0:
