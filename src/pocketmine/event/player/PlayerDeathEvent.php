@@ -12,7 +12,7 @@ class PlayerDeathEvent extends EntityDeathEvent{
 	/** @var TextContainer|string */
 	private $deathMessage;
 	private $keepInventory = false;
-	private $keepExperience = null;
+	private $keepExperience = false;
 
 	/**
 	 * @param Player $entity
@@ -61,11 +61,7 @@ class PlayerDeathEvent extends EntityDeathEvent{
 	}
 	
 	public function getKeepExperience(){
-		if($this->keepExperience === null){
-			return $this->keepInventory;
-		}else{
-			return $this->keepExperience;
-		}
+		return $this->keepExperience;
 	}
 
 	public function setKeepExperience(bool $keepExperience){

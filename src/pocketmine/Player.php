@@ -2469,6 +2469,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$this->noDamageTicks = 60;
 
 						$this->setHealth($this->getMaxHealth());
+						//TODO: resend all attributes?
 
 						$this->removeAllEffects();
 						$this->sendData($this);
@@ -2482,20 +2483,14 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					case PlayerActionPacket::ACTION_START_SPRINT:
 						$ev = new PlayerToggleSprintEvent($this, true);
 						$this->server->getPluginManager()->callEvent($ev);
-						if($ev->isCancelled()){
+							$this->setSprinting($ev->isSprinting());
 							$this->sendData($this);
-						}else{
-							$this->setSprinting(true);
-						}
 						break;
 					case PlayerActionPacket::ACTION_STOP_SPRINT:
 						$ev = new PlayerToggleSprintEvent($this, false);
 						$this->server->getPluginManager()->callEvent($ev);
-						if($ev->isCancelled()){
+							$this->setSprinting($ev->isSprinting());
 							$this->sendData($this);
-						}else{
-							$this->setSprinting(false);
-						}
 						break;
 					case PlayerActionPacket::ACTION_START_SNEAK:
 						$ev = new PlayerToggleSneakEvent($this, true);
@@ -3443,7 +3438,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$ev = new PlayerDeathEvent($this, $this->getDrops(), new TranslationContainer($message, $params));
 		$ev->setKeepInventory($this->getLevel()->getGameRule("keepInventory"));
-		$ev->setKeepExperience($this->server->getProperty("experience.player-drop", true));//use gamerules?
+		$ev->setKeepExperience(!$this->server->getProperty("experience.player-drop", true) || $ev->getKeepInventory());//use gamerules?
 		$this->server->getPluginManager()->callEvent($ev);
 
 		if(!$ev->getKeepInventory()){
@@ -3457,7 +3452,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		if(!$ev->getKeepExperience()){
-			$exp = min(91, $this->getTotalXp()); //Max 7 levels of exp dropped
+			$exp = min(100, $this->getXpLevel() * 7);
 			$this->getLevel()->spawnExperienceOrb($this->add(0, 0.2, 0), $exp);
 			$this->setTotalXp(0, true);
 		}
