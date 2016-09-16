@@ -958,12 +958,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		if($this->getHealth() <= 0){
-			$pk = new RespawnPacket();
-			$pos = $this->getSpawn();
-			$pk->x = $pos->x;
-			$pk->y = $pos->y;
-			$pk->z = $pos->z;
-			$this->dataPacket($pk);
+			$this->teleport($this->getSpawn());
+			$this->setHealth(20);
 		}
 		
 		/** Additional Packet Send **/

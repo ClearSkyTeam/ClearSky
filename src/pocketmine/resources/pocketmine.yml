@@ -48,15 +48,19 @@ player:
   enable: true
   #Whether experience should be calculated or not
   player-drop: true
+  #REMINDER: if gamerule keepInventory is on, this rule will be ignored
   #Whether player should drop experience or not
   mob-drop: true
+  #DEPRECATED. Use gamerules instead (doMobLoot)
   #Whether mobs should drop experience or not
   break-drop: true
+  #DEPRECATED. Use gamerules instead (doTileDrops)
   #Whether blocks should drop experience or not
   smelt-drop: true
   #Whether furncace melting should give experience or not
   
 redstone:
+# check gamerule randomTickSpeed
  enable: true
  #Whether redstone should be calculated or not
  tick-limit: 2048
@@ -129,6 +133,7 @@ network:
  #Experimental, only for Windows. Tries to use UPnP to automatically port forward
 
 debug:
+# check gamerule logAdminCommands, commandBlockOutput
  level: 1
  allow-xdebug: false
  #Whether to allow the php-extension "xdebug"
@@ -173,6 +178,7 @@ chunk-sending:
  #Useful in mostly-static worlds where lots of players join at the same time
  
 chunk-ticking:
+# check gamerule randomTickSpeed
  per-tick: 1
  #Max amount of chunks processed each tick
  tick-radius: 2
@@ -184,6 +190,7 @@ chunk-ticking:
  clear-tick-list: true
  
 chunk-generation:
+# check gamerule spectatorsGenerateChunks
  #Max. amount of chunks in the waiting queue to be generated
  queue-size: 8
  #Max. amount of chunks in the waiting queue to be populated
@@ -200,6 +207,7 @@ spawn-limits:
   animals: 15
   water-animals: 5
   ambient: 15
+# Check gamerule doMobSpawning
 #NOT IMPLEMENTED YET
 
 auto-updater:
@@ -225,11 +233,11 @@ worlds:
  
 anonymous-statistics:
  #Sends anonymous statistics for data aggregation, plugin usage tracking
- enabled: true
+ enabled: false
  host: stats.pocketmine.net
  
 #!DO NOT EDIT below this line!
-version: 26
+version: 27
 # This is for internal use, changing this will reset your whole pocketmine.yml!
 
 auto-report:
@@ -240,21 +248,44 @@ auto-report:
  host: crash.pocketmine.net
 
 default-gamerules:
-  doFireTick: 1
+# Gamerules of imported maps will apply automatically
+# Example: you've set doMobSpawning to false in the original world, it will also be false in ClearSky
+# To define a new game rule called MyNewRule and sets its value to 10: /gamerule MyNewRule 10 (for plugins)
+# More about gamerules: http://minecraft.gamepedia.com/Commands#gamerule
+  doFireTick: 0
+  # Whether fire should spread and naturally extinguish (by default disabled. We don't want players crying that their server burnt down)
   mobGriefing: 1
+  # Whether creepers, zombies, endermen, ghasts, withers, ender dragons, rabbits, sheep, and villagers should be able to change blocks and whether villagers, zombies, skeletons, and zombie pigmen can pick up items
   keepInventory: 0
+  # Whether the player should keep items in their inventory after death
   doMobSpawning: 1
+  # Whether mobs should naturally spawn
   doMobLoot: 1
+  # Whether mobs should drop items
   doTileDrops: 1
+  # Whether blocks should have drops
   doEntityDrops: 1
+  # Whether entities that are not mobs should have drops
   commandBlockOutput: 1
+  # Whether command blocks should notify admins when they perform commands
   naturalRegeneration: 1
+  # Whether the player can regenerate health naturally if their hunger is full enough (doesn't affect external healing, such as golden apples, the Regeneration effect, etc.)
   doDaylightCycle: 1
+  # Whether the day-night cycle and moon phases progress
   logAdminCommands: 1
+  # Whether to log admin commands to server log
   showDeathMessages: 1
+  # Whether a message appears in chat when a player dies
   randomTickSpeed: 3
+  # How often a random block tick occurs (such as plant growth, leaf decay, etc.) per chunk section per game tick. 0 will disable random ticks, higher numbers will increase random ticks
   sendCommandFeedback: 1
+  # Whether the feedback from commands executed by a player should show up in chat. Also affects the default behavior of whether command blocks store their output text
   reducedDebugInfo: 0
+  # Whether the debug screen shows all or reduced information; and whether the effects of F3+B (entity hitboxes) and F3+G (chunk boundaries) are shown.
+  # Only client sided anyways
   spectatorsGenerateChunks: 1
+  # Whether players in spectator mode can generate chunks
   spawnRadius: 10
+  # The number of blocks outward from the world spawn coordinates that a player will spawn in when first joining a server or when dying without a spawnpoint.
   disableElytraMovementCheck: 0
+  # Whether the server should skip checking player speed when the player is wearing elytra.
