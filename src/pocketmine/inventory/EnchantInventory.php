@@ -11,20 +11,22 @@ use pocketmine\item\enchantment\EnchantmentLevelTable;
 use pocketmine\item\enchantment\EnchantmentList;
 use pocketmine\item\Item;
 use pocketmine\level\Level;
+use pocketmine\level\Position;
+use pocketmine\math\Vector3;
 use pocketmine\network\protocol\CraftingDataPacket;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\tile\EnchantTable;
 
-class EnchantInventory extends ContainerInventory{
+class EnchantInventory extends TemporaryInventory{
 	private $bookshelfAmount = 0;
 
 	private $levels = [];
 	/** @var EnchantmentEntry[] */
 	private $entries = null;
 
-	public function __construct(EnchantTable $tile){
-		parent::__construct($tile, InventoryType::get(InventoryType::ENCHANT_TABLE));
+	public function __construct(Position $pos){
+		parent::__construct(new FakeBlockMenu($this, $pos), InventoryType::get(InventoryType::ENCHANT_TABLE));
 	}
 
 	/**
@@ -32,6 +34,10 @@ class EnchantInventory extends ContainerInventory{
 	 */
 	public function getHolder(){
 		return $this->holder;
+	}
+	
+	public function getResultSlotIndex(){
+		return -1; //enchanting tables don't have result slots, they modify the item in the target slot instead
 	}
 
 	public function onOpen(Player $who){
@@ -60,16 +66,16 @@ class EnchantInventory extends ContainerInventory{
 		return $min + mt_rand() / mt_getrandmax() * ($max - $min);
 	}
 
-	public function onSlotChange($index, $before){
-		parent::onSlotChange($index, $before);
+	public function onSlotChange($index, $before, $send){
+		parent::onSlotChange($index, $before, $send);
 
-		if($index == 0){
+		if($index === 0){
 			$item = $this->getItem(0);
-			if($item->getId() == Item::AIR){
+			if($item->getId() === Item::AIR){
 				$this->entries = null;
 			}elseif($before->getId() == Item::AIR and !$item->hasEnchantments()){
 				//before enchant
-				if($this->entries == null){
+				if($this->entries === null){
 					$enchantAbility = Enchantment::getEnchantAbility($item);
 					$this->entries = [];
 					for($i = 0; $i < 3; $i++){
@@ -163,7 +169,7 @@ class EnchantInventory extends ContainerInventory{
 			$this->clear($i);
 		}
 
-		if(count($this->getViewers()) == 0){
+		if(count($this->getViewers()) === 0){
 			$this->levels = null;
 			$this->entries = null;
 			$this->bookshelfAmount = 0;
@@ -193,7 +199,7 @@ class EnchantInventory extends ContainerInventory{
 	}
 
 	public function onEnchant(Player $who, Item $before, Item $after){
-		$result = ($before->getId() == Item::BOOK) ? new EnchantedBook() : $before;
+		$result = ($before->getId() === Item::BOOK) ? new EnchantedBook() : $before;
 		if(!$before->hasEnchantments() and $after->hasEnchantments() and $after->getId() == $result->getId() and
 			$this->levels != null and $this->entries != null
 		){
@@ -237,7 +243,7 @@ class EnchantInventory extends ContainerInventory{
 
 	public function sendEnchantmentList(){
 		$pk = new CraftingDataPacket();
-		if($this->entries != null and $this->levels != null){
+		if($this->entries !== null and $this->levels !== null){
 			$list = new EnchantmentList(count($this->entries));
 			for($i = 0; $i < count($this->entries); $i++){
 				$list->setSlot($i, $this->entries[$i]);
@@ -274,7 +280,7 @@ class EnchantInventory extends ContainerInventory{
 					continue;
 				}
 
-				if(($id == Enchantment::TYPE_MINING_SILK_TOUCH and $enchantment->getId() == Enchantment::TYPE_MINING_FORTUNE) or ($id == Enchantment::TYPE_MINING_FORTUNE and $enchantment->getId() == Enchantment::TYPE_MINING_SILK_TOUCH)){
+				if(($id === Enchantment::TYPE_MINING_SILK_TOUCH and $enchantment->getId() === Enchantment::TYPE_MINING_FORTUNE) or ($id === Enchantment::TYPE_MINING_FORTUNE and $enchantment->getId() === Enchantment::TYPE_MINING_SILK_TOUCH)){
 					//Protection
 					unset($enchantments[$id]);
 					continue;

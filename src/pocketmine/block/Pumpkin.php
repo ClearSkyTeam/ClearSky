@@ -19,6 +19,10 @@ class Pumpkin extends Solid{
 		return Tool::TYPE_AXE;
 	}
 
+	public function isHelmet(){
+		return true;
+	}
+
 	public function getName(){
 		return "Pumpkin";
 	}

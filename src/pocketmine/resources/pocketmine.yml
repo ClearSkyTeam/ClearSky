@@ -38,6 +38,9 @@ settings:
   #Load plugins whose major API version is too old
 
 player:
+ inventory:
+  allow-cheats: false
+  #Choose whether to allow inventory cheats (required for Win10 anvils/enchanting tables to work)
  hunger:
   enable: true
   #Whether hunger should be calculated or not
