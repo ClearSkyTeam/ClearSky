@@ -457,6 +457,9 @@ namespace pocketmine {
 	$killtime = 8;
 	while(--$killtime) {
 		sleep(1);
+		foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
+			$logger->debug("Still running: " . (new \ReflectionClass($thread))->getShortName());
+		}
 		if (count(ThreadManager::getInstance()->getAll()) == 0) {
 			$logger->shutdown();
 			$logger->join();
