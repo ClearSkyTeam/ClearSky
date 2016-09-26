@@ -23,6 +23,10 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 		return true;
 	}
 
+	public function canPassThrough(){
+		return true;
+	}
+
 	public function isRedstoneSource(){
 		if($this->meta == 1){
 			return true;

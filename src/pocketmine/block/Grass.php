@@ -44,8 +44,8 @@ class Grass extends Solid{
 	/**
 	 * @todo REMOVE THIS HACK
 	*/
-	private function fakeLightLvl($block){
-		$block->getSide(Vector3::SIDE_UP)->isSolid() ? $lightLvl = 0 : $lightLvl = 9;
+	private function fakeLightLvl(Block $block){
+		($block->getSide(Vector3::SIDE_UP) instanceof Transparent || $block->getSide(Vector3::SIDE_UP) instanceof LightSource) ? $block->getSide(Vector3::SIDE_UP) instanceof LightSource ? $lightLvl = $block->getLightLevel() : $lightLvl = 9 : $lightLvl = 0;
 		return $lightLvl;
 	}
 
