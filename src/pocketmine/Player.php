@@ -1368,21 +1368,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return [];
 	}
 
-	public function entityBaseTick($tickDiff = 1){
-		$hasUpdate = parent::entityBaseTick($tickDiff);
-
-		$entries = $this->attributeMap->needSend();
-		if(count($entries) > 0){
-			$pk = new UpdateAttributesPacket();
-			$pk->entityId = 0;
-			$pk->entries = $entries;
-			$this->dataPacket($pk);
-			foreach($entries as $entry){
-				$entry->markSynchronized();
-			}
+	public function setDataProperty($id, $type, $value, $send = true){
+		if(parent::setDataProperty($id, $type, $value, $send)){
+			return true;
 		}
 
-		return $hasUpdate;
+		return false;
 	}
 
 	protected function checkGroundState($movX, $movY, $movZ, $dx, $dy, $dz){
@@ -1673,6 +1664,20 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	}
 
 	protected function updateMovement(){
+
+	}
+
+	public function sendAttributes(bool $sendAll = false){
+		$entries = $sendAll ? $this->attributeMap->getAll() : $this->attributeMap->needSend();
+		if(count($entries) > 0){
+			$pk = new UpdateAttributesPacket();
+			$pk->entityId = 0;
+			$pk->entries = $entries;
+			$this->dataPacket($pk);
+			foreach($entries as $entry){
+				$entry->markSynchronized();
+			}
+		}
 	}
 
 	public function onUpdate($currentTick){
@@ -1689,6 +1694,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->messageCounter = 2;
 
 		$this->lastUpdate = $currentTick;
+
+		$this->sendAttributes();
 
 		if(!$this->isAlive() and $this->spawned){
 			++$this->deadTicks;
@@ -1918,11 +1925,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$pk = new SetDifficultyPacket();
 		$pk->difficulty = $this->server->getDifficulty();
-
-		$pk = new SetHealthPacket();
-		$pk->health = $this->getHealth();
-
 		$this->dataPacket($pk);
+		
+		$this->sendAttributes(true);
 
 		$this->server->getLogger()->info($this->getServer()->getLanguage()->translateString("pocketmine.player.logIn", [
 			TextFormat::AQUA . $this->username . TextFormat::WHITE,
