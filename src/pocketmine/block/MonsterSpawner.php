@@ -41,7 +41,7 @@ class MonsterSpawner extends Solid{
 		if($item->getId() == Item::SPAWN_EGG){
 			$tile = $this->getLevel()->getTile($this);
 			if($tile instanceof MobSpawner){
-				$tile->setEntityId($item->meta);
+				$tile->setEntityId($item->getDamage());
 				return true;
 			}
 		}
