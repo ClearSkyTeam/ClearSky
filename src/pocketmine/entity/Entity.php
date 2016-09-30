@@ -330,7 +330,7 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		$this->fallDistance = $this->namedtag["FallDistance"];
 
-		if(!isset($this->namedtag->Fire)){
+		if(!isset($this->namedtag->Fire) || $this->namedtag["Fire"] > 32767 ){
 			$this->namedtag->Fire = new ShortTag("Fire", 0);
 		}
 		$this->fireTicks = $this->namedtag["Fire"];
