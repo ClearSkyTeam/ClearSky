@@ -1,4 +1,5 @@
-﻿## Choose Language:   
+﻿## Choose Language: 
+####  [Česky/Czech](#CZE)
 ####  [English](#ENG)
 ####  [Español](#SPA)  
 ####  [中国](#CHINESE_1)  
@@ -58,6 +59,59 @@ This is a clean, high quality code base, because we are trying to keep PocketMin
 Developing/modifying this project is easy.<br>
 We are still rewriting the base to make sure ClearSky has the best developing feel.<br>
 ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
+
+# <a name="CZE"></a>Česky
+# Představujeme vám: ClearSky-Sunrise ~ A [PM] (https://github.com/PocketMine/PocketMine-MP) vidlice (PHP7 + 5)
+ClearSky je ultra rychlý Minecraft: Pocket Edition serverového softwaru s čistým kódem a stabilními vlastnostmi. To bylo původně navržen pro produkční servery.
+
+** TravisCI Status ** [! [TravisCI] (https://travis-ci.org/ClearSkyTeam/ClearSky.svg)] (https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Status")
+** CircleCI Status ** [! [Status] (https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield)] (https://circleci.com/gh/ClearSkyTeam/ClearSky " CircleCI Status ")
+
+
+ - Můžeme mít kód z jiných licencí GPL projektů, ale většina funkcí jsou plně přepracován pro ClearSky.
+ - Projekty bereme nějaký kód z jsou [Genisys] (https://github.com/iTXTech/Genisys) [Nukkit] (https://github.com/Nukkit/Nukkit) a [IM] (https: / /github.com/ImagicalCorp/ImagicalMine) (poslední z nich je mrtvý). Pokaždé, když vezmeme kód z jiných projektů jsme se odkazují na svěření do commitu název nebo popis!
+ - Zde je skupina Telegram, kde můžete komunikovat s námi: [Telegram / ClearSky] (https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
+ - [! Podívejte se, jak rychle ClearSky začíná s 70 pluginů a 20 světů] (http://wolvesfortress.de/ezgif-1446650535.gif)
+ - Neoficiální testovací server: Kreativní IP: WolvesFortress.de Port: ** 19134 ** * Často v režimu offline, ale pokud se on-line, nejnovější verze *
+
+## Kde mohu získat Phar?
+ - Můžete získat nejnovější automatické sestavení Phar zde: [CircleCI] (http://robskebueba.no-ip.biz/CSPhar.php).
+ - Můžete získat optimalizovaný PHP prostředí zde: [ClearSkyTeam / PHPbinary] (https://github.com/ClearSkyTeam/PHPbinary).
+ - Můžete získat Multicraft konfigurační demo zde: [ClearSkyTeam / MulticraftConfig] (https://github.com/ClearSkyTeam/MulticraftConfig).
+
+## [KRITICKÝ]: Proveďte Xdebug v produkční server
+ - Můžete zakomentovat zend_extension = php_xdebug ve svém php.ini nebo překompilujte PHP bez Xdebug.
+ - K dispozici je také přepínač pod ladění v pocketmine.yml vynutit umožnit Xdebug.
+
+## Pokročilé funkce
+Všechny funkce lze configed v pocketmine.yml. <br>
+ - Více než 20 krát rychlejší než oficiálních PM repo
+ - Univerzální verze klienta připojit (např 0.15.0 a staví na 0.15.0 lze spojit dohromady) (note¹)
+ - Neomezený přehrávač připojit (SET MAX-přehrávače na -1 v server.properties) (note²)
+ - Upravený barevném provedení a řetězec svobodně (set network.protocol, verze v pocketmine.yml)
+ - Můžete zvýšit přijatelné packetlost a vypnout anti-podvádět, když váš server ve špatném síti (část sítě v pocketmine.yml)
+ - Ultrarychlý Redstone Výpočet téměř bez chyb
+ - Plně funkční Experience System, include / přehrávač / / láhev / háku subjekt pece.
+ - Plně funkční Potraviny a Hlad System, patří herní obtížnosti háček.
+ - Plně funkční systém počasí
+ - plně funkční lodě
+ - Rychlé Chunk nakládka a odeslání
+ - Rychlé Logger, obsahuje přepínač pro zapnutí log on / off
+ - Téměř dokonalé překlady
+ - Lektvarů (Working, Creative Only)
+ - Okouzlující (Command)
+ - Variace Davy (králíci, Vesničané atd)
+ - Opravy chyb
+
+Note¹ - Prosím nastavte hlášení "zastaralé Server" na "false" v pluginu CustomAlert nebo spřízněné plugin pokud narazíte * Zastaralý serveru *
+
+Note² - Prosím nastavte "Full serveru" zprávu "false" v pluginu CustomAlert nebo spřízněné plugin pokud narazíte * Plná serveru *
+
+## Pro vývojáře
+To je čistý, vysoce kvalitní základní kód, protože se snažíme udržet vynikající kvalitu kódu PocketMine je.
+Vyrobit / upravit tento projekt je snadné. <br>
+Stále přepisování základnu, aby se ujistil ClearSky má nejlepší rozvíjející pocit. <br>
+ClearSky není jen pro čistý cit pro uživatele - je to také pro vývojáře <br>!
 
 # <a name="SPA"></a>Español
 # Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PocketMine](https://github.com/PocketMine/PocketMine-MP) (PHP7) 
