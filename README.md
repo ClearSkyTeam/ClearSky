@@ -27,7 +27,7 @@ ClearSky is a fast Minecraft: Pocket Edition server software with (compared to o
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
- - There is also a switch under debug in pocketmine.yml to force enable xdebug.
+ - There is also a switch under debug in pocketmine.yml to force enable xdebug. xdebug is not provided with the Binary files. Ask, if you want it.
 
 ## Advanced Features
 All features can be configed in pocketmine.yml.<br>
