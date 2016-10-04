@@ -32,6 +32,8 @@ class GameRules{
 		$this->addGameRule("spectatorsGenerateChunks", true, ByteTag::class); // TODO
 		$this->addGameRule("spawnRadius", 10, IntTag::class); // TODO
 		$this->addGameRule("disableElytraMovementCheck", false, ByteTag::class); // Not MCPE
+		$this->addGameRule("doWeatherCycle", true, ByteTag::class); // TODO
+		$this->addGameRule("maxEntityCramming", 24, IntTag::class); // TODO
 		if(!is_null($rules)) $this->readFromNBT($rules);
 	}
 
