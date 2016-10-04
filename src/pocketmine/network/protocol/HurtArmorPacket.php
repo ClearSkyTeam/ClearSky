@@ -15,7 +15,7 @@ class HurtArmorPacket extends DataPacket{
 
 	public function encode(){
 		$this->reset();
-		$this->putByte($this->health);
+		$this->putVarInt($this->health);
 	}
 
 }

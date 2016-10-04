@@ -15,6 +15,6 @@ class SetPlayerGameTypePacket extends DataPacket {
 
 	public function encode(){
 		$this->reset();
-		$this->putInt($this->gamemode);
+		$this->putVarInt($this->gamemode);
 	}
 }

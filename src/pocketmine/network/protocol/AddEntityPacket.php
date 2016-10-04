@@ -26,28 +26,20 @@ class AddEntityPacket extends DataPacket{
 
 	public function encode(){
 		$this->reset();
-		$this->putLong($this->eid);
-		$this->putInt($this->type);
-		$this->putFloat($this->x);
-		$this->putFloat($this->y);
-		$this->putFloat($this->z);
-		$this->putFloat($this->speedX);
-		$this->putFloat($this->speedY);
-		$this->putFloat($this->speedZ);
-		$this->putFloat($this->yaw * 0.71111);
-		$this->putFloat($this->pitch * 0.71111);
-		//$meta = Binary::writeMetadata($this->metadata);
-		//$this->put($meta);
-		$this->putShort(0);
-		#if(!empty($this->metadata)){
-			$meta = Binary::writeMetadata($this->metadata);
-			$this->put($meta);
-		#}
-		$this->putShort(0);
-		/*$this->putShort(count($this->links));
+		$this->putEntityId($this->eid); //EntityUniqueID - TODO: verify this
+		$this->putEntityId($this->eid);
+		$this->putUnsignedVarInt($this->type);
+		$this->putVector3f($this->x, $this->y, $this->z);
+		$this->putVector3f($this->speedX, $this->speedY, $this->speedZ);
+		$this->putLFloat($this->yaw * (256 / 360));
+		$this->putLFloat($this->pitch * (256 / 360));
+		$this->putUnsignedVarInt($this->modifiers); //attributes?
+		$meta = Binary::writeMetadata($this->metadata);
+		$this->put($meta);
+		$this->putUnsignedVarInt(count($this->links));
 		foreach($this->links as $link){
-			$this->putLong($link[0]);
-			$this->putLong($link[1]);
+			$this->putEntityId($link[0]);
+			$this->putEntityId($link[1]);
 			$this->putByte($link[2]);
 		}*/
 	}
