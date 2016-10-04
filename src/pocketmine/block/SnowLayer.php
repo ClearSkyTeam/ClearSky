@@ -5,6 +5,7 @@ use pocketmine\item\Item;
 use pocketmine\item\Tool;
 use pocketmine\level\Level;
 use pocketmine\Player;
+use pocketmine\math\AxisAlignedBB;
 
 class SnowLayer extends Flowable{
 
