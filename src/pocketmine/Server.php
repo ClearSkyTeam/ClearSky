@@ -2325,10 +2325,13 @@ class Server{
 		while($this->isRunning){
 			$this->tick();
 			$next = $this->nextTick - 0.0001;
-			if($next > microtime(true)){
+			if($next >= microtime(true)){
 				try{
 					time_sleep_until($next);
 				}catch(Throwable $e){
+					$this->nextTick = microtime(true);
+					$next = $this->nextTick - 0.0001;
+					time_sleep_until($next);
 					//Sometimes $next is less than the current time. High load?
 				}
 			}
