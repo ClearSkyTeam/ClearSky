@@ -222,8 +222,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	protected $inAirTicks = 0;
 	protected $startAirTicks = 5;
+
+	//TODO: Abilities
 	protected $autoJump = true;
 	protected $allowFlight = false;
+	protected $isFlying = false;
+
 	private $needACK = [];
 	private $batchedPackets = [];
 
@@ -402,8 +406,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->sendSettings();
 	}
 
-	public function getAllowFlight(){
+	public function getAllowFlight() : bool{
 		return $this->allowFlight;
+	}
+
+	public function setFlying(bool $value){
+		$this->isFlying = $value;
+		$this->sendSettings();
+	}
+
+	public function getIsFlying() : bool{
+		return $this->isFlying;
 	}
 
 	public function setAutoJump($value){
@@ -1239,12 +1252,17 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->gamemode = $gm;
 
 		$this->allowFlight = $this->isCreative();
-
 		if($this->isSpectator()){
+			$this->isFlying = true;
 			$this->despawnFromAll();
 		}else{
+			if($this->isSurvival()){
+				$this->isFlying = false;
+			}
 			$this->spawnToAll();
 		}
+
+		$this->resetFallDistance();
 
 		$this->namedtag->playerGameType = new IntTag("playerGameType", $this->gamemode);
 
@@ -1338,9 +1356,13 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$flags |= 0x08; // No PvE (Remove hit markers client-side).
 
 		$pk = new AdventureSettingsPacket();
-		$pk->flags = $flags;
+		$pk->flags = 0;
+		$pk->worldInmutable = $this->isAdventure();
+		$pk->autoJump = $this->autoJump;
+		$pk->allowFlight = $this->allowFlight;
+		$pk->noClip = $this->isSpectator();
+		$pk->isFlying = $this->isFlying;
 		$pk->userPermission = 2;
-		$pk->globalPermission = 2;
 		$this->dataPacket($pk);
 	}
 
@@ -2117,6 +2139,16 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					$this->newPosition = $newPos;
 				}
 				$this->forceMovement = null;
+				break;
+			case ProtocolInfo::ADVENTURE_SETTINGS_PACKET:
+				//TODO: player abilities, check for other changes
+				if($packet->isFlying and !$this->allowFlight){
+					$this->kick("Flying is not enabled on this server");
+					break;
+				}else{
+					$this->isFlying = $packet->isFlying;
+					break;
+				}
 				break;
 			case ProtocolInfo::MOB_EQUIPMENT_PACKET:
 				if($this->spawned === false or !$this->isAlive()){

@@ -55,8 +55,8 @@ namespace pocketmine {
 	const BUILD = "CuttingEdge";
 	const VERSION = "1.1-php7";
 	const API_VERSION = "2.1.0";
-	
 	const CODENAME = "TheDarkEnd";
+	
 	const MINECRAFT_VERSION = "v0.16.x beta";
 	const MINECRAFT_VERSION_NETWORK = "0.16";
 
