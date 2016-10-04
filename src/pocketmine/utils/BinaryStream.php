@@ -130,18 +130,16 @@ class BinaryStream extends \stdClass{
 		$this->put($uuid->toBinary());
 	}
 	public function getSlot(){
-		$id = $this->getSignedShort();
-		
+		$id = $this->getVarInt();
+
 		if($id <= 0){
 			return Item::get(0, 0, 0);
 		}
-		
-		$cnt = $this->getByte();
-		
-		$data = $this->getShort();
-		
+		$auxValue = $this->getVarInt();
+		$data = $auxValue >> 8;
+		$cnt = $auxValue & 0xff;
+
 		$nbtLen = $this->getLShort();
-		
 		$nbt = "";
 		
 		if($nbtLen > 0){
@@ -154,19 +152,19 @@ class BinaryStream extends \stdClass{
 			$nbt
 		);
 	}
+	
 	public function putSlot(Item $item){
 		if($item->getId() === 0){
-			$this->putShort(0);
+			$this->putVarInt(0);
 			return;
 		}
-		
-		$this->putShort($item->getId());
-		$this->putByte($item->getCount());
-		$this->putShort($item->getDamage() === null ? -1 : $item->getDamage());
+
+		$this->putVarInt($item->getId());
+		$auxValue = ($item->getDamage() << 8) | $item->getCount();
+		$this->putVarInt($auxValue);
 		$nbt = $item->getCompoundTag();
 		$this->putLShort(strlen($nbt));
 		$this->put($nbt);
-		
 	}
 	public function getString(){
 		return $this->get($this->getUnsignedVarInt());
