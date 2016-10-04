@@ -20,16 +20,12 @@ class Ladder extends Transparent{
 		return "Ladder";
 	}
 
-	public function hasEntityCollision(){
-		return true;
-	}
-
-	public function isSolid(){
-		return false;
-	}
-
 	public function getHardness(){
 		return 0.4;
+	}
+
+	public function hasEntityCollision(){
+		return true;
 	}
 
 	public function onEntityCollide(Entity $entity){
@@ -37,8 +33,7 @@ class Ladder extends Transparent{
 		$entity->onGround = true;
 	}
 
-	protected function recalculateBoundingBox(){
-
+/*	protected function recalculateBoundingBox(){// TEMP FIX for drag -> collide with full block
 		$f = 0.125;
 
 		if($this->meta === 2){
@@ -80,7 +75,7 @@ class Ladder extends Transparent{
 		}
 
 		return null;
-	}
+	}*/
 
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
