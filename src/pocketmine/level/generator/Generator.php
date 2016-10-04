@@ -63,6 +63,7 @@ abstract class Generator{
 	 * @return \SplFixedArray
 	 *
 	 * @throws \InvalidArgumentCountException
+	 * @throws \InvalidArgumentException
 	 */
 	public static function getFastNoise1D(Noise $noise, $xSize, $samplingRate, $x, $y, $z){
 		if($samplingRate === 0){
