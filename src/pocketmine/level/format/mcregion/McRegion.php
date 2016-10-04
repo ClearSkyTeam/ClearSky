@@ -112,7 +112,7 @@ class McRegion extends BaseLevelProvider{
 				}
 			}
 			$nbt->setData($list);
-			$tiles = $nbt->write();
+			$tiles = $nbt->write(true);
 		}
 
 		$extraData = new BinaryStream();
