@@ -546,6 +546,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$this->recalculatePermissions();
+		$this->sendCommandData();
 	}
 
 	/**
@@ -618,6 +619,19 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 */
 	public function getEffectivePermissions(){
 		return $this->perm->getEffectivePermissions();
+	}
+
+	public function sendCommandData(){	
+		$pk = new AvailableCommandsPacket();
+		$data = [];
+		foreach($this->server->getCommandMap()->getCommands() as $command){
+			$data[$command->getName()] = $command->generateJsonData($this);
+		}
+		if(count($data) > 0){
+			//TODO: structure checking
+			$pk->commands = json_encode($data);
+			$this->dataPacket($pk);
+		}
 	}
 
 	/**
@@ -1972,14 +1986,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($this->isOp()){
 			$this->setRemoveFormat(false);
 		}
-		
-		$pk = new AvailableCommandsPacket();
-		$data = [];
-		foreach($this->server->getCommandMap()->getCommands() as $command){
-			$data[$command->getName()] = $command->generateJsonData($this);
-		}
-		$pk->commands = json_encode($data);
-		$this->dataPacket($pk);
+
+		$this->sendCommandData();
 
 		if($this->gamemode === Player::SPECTATOR){
 			$pk = new ContainerSetContentPacket();
