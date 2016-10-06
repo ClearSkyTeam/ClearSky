@@ -7,7 +7,7 @@
 ####  [Bahasa Indonesia](#IDN) 
 
 # <a name="ENG"></a>English  
-# We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) spoon (PHP7) 
+# We present you: ClearSky-Sunrise ~ A fast [PM](https://github.com/PocketMine/PocketMine-MP) based Minecraft:PE 0.15 server software (PHP7) 
 ClearSky is a fast Minecraft: Pocket Edition server software with (compared to other forks/spoons) clean code and stable features. It was initially designed for production servers.
 
 **TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
