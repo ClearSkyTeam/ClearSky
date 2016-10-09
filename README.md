@@ -1,3 +1,4 @@
+![ClearSky](https://github.com/ClearSkyTeam/ClearSky/blob/php7/images/CSbanner.png)
 ### Choose Language: [English](#ENG) - [Español](#SPA) - [中国](#CHINESE_1) - [日本語](#JAPANESE) - [Українська мова](#UKR) - [Bahasa Indonesia](#IDN)
 
 # <a name="ENG"></a>English  
