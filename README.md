@@ -1,10 +1,4 @@
-﻿## Choose Language:   
-####  [English](#ENG)
-####  [Español](#SPA)  
-####  [中国](#CHINESE_1)  
-####  [日本語](#JAPANESE)
-####  [Українська мова](#UKR)  
-####  [Bahasa Indonesia](#IDN) 
+### Choose Language: [English](#ENG) - [Español](#SPA) - [中国](#CHINESE_1) - [日本語](#JAPANESE) - [Українська мова](#UKR) - [Bahasa Indonesia](#IDN)
 
 # <a name="ENG"></a>English  
 # We present you: ClearSky-DarkSunset - A fast Minecraft PE server software based on [PocketMine-MP](https://github.com/PocketMine/PocketMine-MP) (PHP7) 
