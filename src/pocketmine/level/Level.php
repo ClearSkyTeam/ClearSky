@@ -1552,7 +1552,7 @@ class Level implements ChunkManager, Metadatable{
 		$removalVisited = [];
 
 		$oldLevel = $this->getBlockLightAt($x, $y, $z);
-		$newLevel = (int) Block::$light[$this->getBlockIdAt($x, $y, $z)];
+		$newLevel = (int) Block::$light[$this->getBlockLightAt($x, $y, $z)];
 
 		if($oldLevel !== $newLevel){
 			$this->setBlockLightAt($x, $y, $z, $newLevel);
