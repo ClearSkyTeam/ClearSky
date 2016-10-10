@@ -5,7 +5,7 @@ abstract class Collectable extends \Threaded implements \Collectable{
 
     private $isGarbage = false;
     
-    public function isGarbage() : bool{
+    public function isGarbage(){
         return $this->isGarbage;
     }
 
