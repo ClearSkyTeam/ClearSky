@@ -34,7 +34,7 @@ class Egg extends Projectile{
 		if($this->age > 1200 or $this->isCollided){
 			$this->kill();
 			$hasUpdate = true;
-			if(mt_rand(1, 8) === 1){
+			/*if(mt_rand(1, 8) === 1){
 				$chicken = null;
 				$chunk = $this->chunk;
 				
@@ -50,7 +50,7 @@ class Egg extends Projectile{
 					$chicken->setDataProperty(14, self::DATA_TYPE_BYTE, 0);
 					$chicken->spawnToAll();
 				}
-			}
+			}*/
 		}
 		
 		$this->timings->stopTiming();
