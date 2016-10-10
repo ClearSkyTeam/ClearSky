@@ -1063,7 +1063,7 @@ class Level implements ChunkManager, Metadatable{
 				unset( $this->chunkCache[ array_shift($this->chunkCacheArray) ]);
 			}
 
-			$toClear = count($this->blockCacheArray) - 131072;
+			$toClear = count($this->blockCacheArray) - 32768;
 			while ( ($toClear--) > 0 ) {
 				unset( $this->blockCache[ array_shift($this->blockCacheArray) ]);
 			}
