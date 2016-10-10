@@ -785,7 +785,7 @@ class Item{
 			self::$list[self::POTATO] = Potato::class;
 			self::$list[self::BAKED_POTATO] = BakedPotato::class;
 			self::$list[self::POISONOUS_POTATO] = PoisonousPotato::class;
-			self::$list[self::FILLED_MAP] = FILLED_MAP::class;
+			self::$list[self::FILLED_MAP] = FilledMap::class;
 			self::$list[self::GOLDEN_CARROT] = GoldenCarrot::class;
 			self::$list[self::SKULL] = Skull::class;
 			
