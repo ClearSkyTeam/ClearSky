@@ -14,6 +14,7 @@ use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\level\format\FullChunk;
 use pocketmine\Player;
+use pocketmine\event\entity\EntitySpawnEvent;
 
 class MobSpawner extends Spawnable{
 
@@ -138,27 +139,29 @@ class MobSpawner extends Spawnable{
 					$ground = $target->getSide(Vector3::SIDE_DOWN);
 					if($target->getId() == Item::AIR && $ground->isTopFacingSurfaceSolid()){
 						$success++;
-						$this->getLevel()->getServer()->getPluginManager()->callEvent($ev = new EntityGenerateEvent($pos, $this->getEntityId(), EntityGenerateEvent::CAUSE_MOB_SPAWNER));
+						#$this->getLevel()->getServer()->getPluginManager()->callEvent($ev = new EntityGenerateEvent($pos, $this->getEntityId(), EntityGenerateEvent::CAUSE_MOB_SPAWNER));
+						$nbt = new CompoundTag("", [
+							"Pos" => new ListTag("Pos", [
+								new DoubleTag("", $pos->x),
+								new DoubleTag("", $pos->y),
+								new DoubleTag("", $pos->z)
+							]),
+							"Motion" => new ListTag("Motion", [
+								new DoubleTag("", 0),
+								new DoubleTag("", 0),
+								new DoubleTag("", 0)
+							]),
+							"Rotation" => new ListTag("Rotation", [
+								new FloatTag("", mt_rand() / mt_getrandmax() * 360),
+								new FloatTag("", 0)
+							]),
+						]);
+						$entity = Entity::createEntity($this->getEntityId(), $this->chunk, $nbt);
+						$this->getLevel()->getServer()->getPluginManager()->callEvent($ev = new EntitySpawnEvent($entity));
 						if(!$ev->isCancelled()){
-							$nbt = new CompoundTag("", [
-								"Pos" => new ListTag("Pos", [
-									new DoubleTag("", $pos->x),
-									new DoubleTag("", $pos->y),
-									new DoubleTag("", $pos->z)
-								]),
-								"Motion" => new ListTag("Motion", [
-									new DoubleTag("", 0),
-									new DoubleTag("", 0),
-									new DoubleTag("", 0)
-								]),
-								"Rotation" => new ListTag("Rotation", [
-									new FloatTag("", mt_rand() / mt_getrandmax() * 360),
-									new FloatTag("", 0)
-								]),
-							]);
-							$entity = Entity::createEntity($this->getEntityId(), $this->chunk, $nbt);
 							$entity->spawnToAll();
 						}
+						
 					}
 				}
 				if($success > 0) $this->setDelay(mt_rand($this->getMinSpawnDelay(), $this->getMaxSpawnDelay()));
