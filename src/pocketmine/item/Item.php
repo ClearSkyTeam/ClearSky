@@ -4,7 +4,7 @@
  */
 namespace pocketmine\item;
 
-use pocketmine\block\AnvilBlock;
+use pocketmine\block\Anvil;
 use pocketmine\block\Block;
 use pocketmine\block\Fence;
 use pocketmine\block\Flower;
@@ -28,6 +28,12 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
 use pocketmine\nbt\NBT;
+use pocketmine\entity\Skeleton;
+use pocketmine\entity\Witch;
+use pocketmine\entity\PigZombie;
+use pocketmine\entity\Spider;
+use pocketmine\entity\CavernSpider;
+use pocketmine\entity\Silverfish;
 
 class Item{
 	
@@ -636,7 +642,6 @@ class Item{
 			self::$list[self::FLINT_STEEL] = FlintSteel::class;
 			self::$list[self::APPLE] = Apple::class;
 			self::$list[self::BOW] = Bow::class;
-			self::$list[self::ANVIL_BLOCK] = AnvilBlock::class;
 			self::$list[self::ARROW] = Arrow::class;
 			self::$list[self::COAL] = Coal::class;
 			self::$list[self::DIAMOND] = Diamond::class;
@@ -740,7 +745,6 @@ class Item{
 			self::$list[self::SUGAR] = Sugar::class;
 			self::$list[self::CAKE] = Cake::class;
 			self::$list[self::BED] = Bed::class;
-			self::$list[self::REPEATER_BLOCK] = RedstoneRepeater::class;
 			
 			self::$list[self::COOKIE] = Cookie::class;
 			self::$list[self::EMPTY_MAP] = EmptyMap::class;
@@ -781,7 +785,7 @@ class Item{
 			self::$list[self::POTATO] = Potato::class;
 			self::$list[self::BAKED_POTATO] = BakedPotato::class;
 			self::$list[self::POISONOUS_POTATO] = PoisonousPotato::class;
-			self::$list[self::FILLED_MAP] = FILLED_MAP::class;
+			self::$list[self::FILLED_MAP] = FilledMap::class;
 			self::$list[self::GOLDEN_CARROT] = GoldenCarrot::class;
 			self::$list[self::SKULL] = Skull::class;
 			
@@ -998,9 +1002,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::CAULDRON, 0));
 		Item::addCreativeItem(Item::get(Item::NOTEBLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::END_PORTAL_FRAME, 0));
-		Item::addCreativeItem(Item::get(Item::ANVIL_BLOCK, AnvilBlock::TYPE_ANVIL));
-		Item::addCreativeItem(Item::get(Item::ANVIL_BLOCK, AnvilBlock::TYPE_SLIGHTLY_DAMAGED_ANVIL));
-		Item::addCreativeItem(Item::get(Item::ANVIL_BLOCK, AnvilBlock::TYPE_VERY_DAMAGED_ANVIL));
+		Item::addCreativeItem(Item::get(Item::ANVIL_BLOCK, Anvil::NORMAL));
+		Item::addCreativeItem(Item::get(Item::ANVIL_BLOCK, Anvil::SLIGHTLY_DAMAGED));
+		Item::addCreativeItem(Item::get(Item::ANVIL_BLOCK, Anvil::VERY_DAMAGED));
 		Item::addCreativeItem(Item::get(Item::DANDELION, 0));
 		Item::addCreativeItem(Item::get(Item::RED_FLOWER, Flower::TYPE_POPPY));
 		Item::addCreativeItem(Item::get(Item::RED_FLOWER, Flower::TYPE_BLUE_ORCHID));
@@ -2022,6 +2026,10 @@ class Item{
 		return false;
 	}
 
+	public function getArmorValue(){
+		return false;
+	}
+
 	public function isBoots(){
 		return false;
 	}
@@ -2030,12 +2038,37 @@ class Item{
 		return false;
 	}
 
-	public function isLegging(){
+	public function isLeggings(){
 		return false;
 	}
 
 	public function isChestplate(){
 		return false;
+	}
+
+	public function getAttackDamage(){
+		return 1;
+	}
+
+	public function getModifyAttackDamage(Entity $target){
+		$rec = $this->getAttackDamage();
+		$sharpL = $this->getEnchantmentLevel(Enchantment::TYPE_WEAPON_SHARPNESS);
+		if($sharpL > 0){
+			$rec += 0.5 * ($sharpL + 1);
+		}
+
+		if($target instanceof Skeleton or $target instanceof Zombie or
+			$target instanceof Witch or $target instanceof PigZombie){
+			//SMITE    wither skeletons
+			$rec += 2.5 * $this->getEnchantmentLevel(Enchantment::TYPE_WEAPON_SMITE);
+
+		}elseif($target instanceof Spider or $target instanceof CavernSpider or
+			$target instanceof Silverfish){
+			//Bane of Arthropods    wither skeletons
+			$rec += 2.5 * $this->getEnchantmentLevel(Enchantment::TYPE_WEAPON_ARTHROPODS);
+
+		}
+		return $rec;
 	}
 
 	final public function __toString(){
@@ -2050,12 +2083,12 @@ class Item{
 		return false;
 	}
 	
-	public final function equals(Item $item, $checkDamage = true, $checkCompound = true){
-		return $this->id === $item->getId() and ($checkDamage === false or $this->getDamage() === $item->getDamage()) and ($checkCompound === false or $this->getCompoundTag() === $item->getCompoundTag());
+	public final function equals(Item $item, $checkDamage = true, $checkCompound = true, $checkCount = false){
+		return $this->id === $item->getId() and ($checkCount === false or $this->getCount() === $item->getCount()) and($checkDamage === false or $this->getDamage() === $item->getDamage()) and ($checkCompound === false or $this->getCompoundTag() === $item->getCompoundTag());
 	}
-	
-	public final function deepEquals(Item $item, $checkDamage = true, $checkCompound = false){
-		if($this->equals($item, $checkDamage, $checkCompound)){
+
+	public final function deepEquals(Item $item, $checkDamage = true, $checkCompound = true, $checkCount = false){
+		if($this->equals($item, $checkDamage, $checkCompound, $checkCount)){
 			return true;
 		}elseif($item->hasCompoundTag() and $this->hasCompoundTag()){
 			return NBT::matchTree($this->getNamedTag(), $item->getNamedTag());

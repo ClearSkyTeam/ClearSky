@@ -150,13 +150,13 @@ class Level implements ChunkManager, Metadatable{
 	public $updateTiles = [];
 
 	private $blockCache = [];
+	private $blockCacheArray = [];
 
 	/** @var DataPacket[] */
 	private $chunkCache = [];
+	private $chunkCacheArray = [];
 
 	private $cacheChunks = false;
-
-	private $sendTimeTicker = 0;
 
 	/** @var Server */
 	private $server;
@@ -589,6 +589,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->provider = null;
 		$this->blockMetadata = null;
 		$this->blockCache = [];
+		$this->blockCacheArray = [];
 		$this->temporalPosition = null;
 	}
 	
@@ -787,7 +788,7 @@ class Level implements ChunkManager, Metadatable{
 		if($this->stopTime == true){
 			return;
 		}else{
-			$this->time += 1.25;
+			$this->time += $this->tickRate;
 		}
 	}
 
@@ -816,12 +817,6 @@ class Level implements ChunkManager, Metadatable{
 		$this->timings->doTick->startTiming();
 
 		$this->checkTime();
-
-		if (++$this->sendTimeTicker === 200){
-			$this->sendTime();
-			$this->sendTimeTicker = 0;
-
-		}
 
 		$this->unloadChunks();
 
@@ -908,6 +903,7 @@ class Level implements ChunkManager, Metadatable{
 				}
 			}else{
 				$this->chunkCache = [];
+				$this->chunkCacheArray = [];
 			}
 
 			$this->changedBlocks = [];
@@ -1054,20 +1050,24 @@ class Level implements ChunkManager, Metadatable{
 	}
 
 	public function clearCache($full = false){
+		// Memory manager called with memory full
 		if($full){
 			$this->chunkCache = [];
+			$this->chunkCacheArray = [];
 			$this->blockCache = [];
-		}else{
-			if(count($this->chunkCache) > 768){
-				$this->chunkCache = [];
+			$this->blockCacheArray = [];
+		} else{
+			// Check and clear
+			$toClear = count($this->chunkCacheArray) - 1024;
+			while ( ($toClear--) > 0 ) {
+				unset( $this->chunkCache[ array_shift($this->chunkCacheArray) ]);
 			}
 
-			if(count($this->blockCache) > 2048){
-				$this->blockCache = [];
+			$toClear = count($this->blockCacheArray) - 32768;
+			while ( ($toClear--) > 0 ) {
+				unset( $this->blockCache[ array_shift($this->blockCacheArray) ]);
 			}
-
 		}
-
 	}
 
 	public function clearChunkCache($chunkX, $chunkZ){
@@ -1526,6 +1526,7 @@ class Level implements ChunkManager, Metadatable{
 	 */
 	public function getBlock(Vector3 $pos, $cached = true){
 		$index = Level::blockHash($pos->x, $pos->y, $pos->z);
+
 		if($cached and isset($this->blockCache[$index])){
 			return $this->blockCache[$index];
 		}elseif($pos->y >= 0 and $pos->y < 128 and isset($this->chunks[$chunkIndex = Level::chunkHash($pos->x >> 4, $pos->z >> 4)])){
@@ -1541,6 +1542,7 @@ class Level implements ChunkManager, Metadatable{
 		$block->z = $pos->z;
 		$block->level = $this;
 
+		array_push($this->blockCacheArray, $index);
 		return $this->blockCache[$index] = $block;
 	}
 
@@ -1560,7 +1562,7 @@ class Level implements ChunkManager, Metadatable{
 		$removalVisited = [];
 
 		$oldLevel = $this->getBlockLightAt($x, $y, $z);
-		$newLevel = (int) Block::$light[$this->getBlockIdAt($x, $y, $z)];
+		$newLevel = Block::$light[$this->getBlockIdAt($x, $y, $z)];
 
 		if($oldLevel !== $newLevel){
 			$this->setBlockLightAt($x, $y, $z, $newLevel);
@@ -2704,7 +2706,9 @@ class Level implements ChunkManager, Metadatable{
 		$index = Level::chunkHash($x, $z);
 
 		if(!isset($this->chunkCache[$index]) and $this->cacheChunks and $this->server->getMemoryManager()->canUseChunkCache()){
+			array_push($this->chunkCacheArray, $index);
 			$this->chunkCache[$index] = Player::getChunkCacheFromData($x, $z, $payload, $ordering);
+
 			$this->sendChunkFromCache($x, $z);
 			$this->timings->syncChunkSendTimer->stopTiming();
 			return;

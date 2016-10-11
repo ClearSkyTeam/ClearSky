@@ -30,30 +30,32 @@ abstract class Living extends Entity implements Damageable{
 
 	protected function initEntity(){
 		parent::initEntity();
-
 		if(isset($this->namedtag->HealF)){
 			$this->namedtag->Health = new ShortTag("Health", (int) $this->namedtag["HealF"]);
 			unset($this->namedtag->HealF);
 		}elseif(!isset($this->namedtag->Health) or !($this->namedtag->Health instanceof ShortTag)){
 			$this->namedtag->Health = new ShortTag("Health", $this->getMaxHealth());
 		}
+		if(!isset($this->namedtag->MaxHealth) or !($this->namedtag->MaxHealth instanceof ShortTag)){
+			$this->namedtag->MaxHealth = new ShortTag("MaxHealth", $this->getMaxHealth());
+		}
 
-		$this->setHealth($this->namedtag["Health"]);
+		$this->setMaxHealth($this->namedtag["MaxHealth"]);
+		$this->setHealth($this->getAttributeMap()->getAttribute(Attribute::HEALTH)->setMaxValue($this->getMaxHealth())->setValue($this->namedtag["Health"]));
 	}
 
 	protected function addAttributes(){
-		if(is_null($this->attributeMap->getAttribute(Attribute::HEALTH))) $this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::HEALTH));
-		if(is_null($this->attributeMap->getAttribute(Attribute::FOLLOW_RANGE))) $this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::FOLLOW_RANGE));
-		if(is_null($this->attributeMap->getAttribute(Attribute::KNOCKBACK_RESISTANCE))) $this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::KNOCKBACK_RESISTANCE));
-		if(is_null($this->attributeMap->getAttribute(Attribute::MOVEMENT_SPEED))) $this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::MOVEMENT_SPEED));
-		if(is_null($this->attributeMap->getAttribute(Attribute::ATTACK_DAMAGE))) $this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::ATTACK_DAMAGE));
-		if(is_null($this->attributeMap->getAttribute(Attribute::ABSORPTION))) $this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::ABSORPTION));
+		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::HEALTH));
+		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::FOLLOW_RANGE));
+		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::KNOCKBACK_RESISTANCE));
+		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::MOVEMENT_SPEED));
+		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::ATTACK_DAMAGE));
+		$this->attributeMap->addAttribute(Attribute::getAttribute(Attribute::ABSORPTION));
 	}
 
 	public function setHealth($amount){
 		$wasAlive = $this->isAlive();
 		parent::setHealth($amount);
-		$this->attributeMap->getAttribute(Attribute::HEALTH)->setValue($this->getHealth());
 		if($this->isAlive() and !$wasAlive){
 			$pk = new EntityEventPacket();
 			$pk->eid = $this->getId();
@@ -69,7 +71,6 @@ abstract class Living extends Entity implements Damageable{
 
 	public function saveNBT(){
 		parent::saveNBT();
-		$this->namedtag->Health = new ShortTag("Health", $this->getHealth());
 	}
 
 	public function hasLineOfSight(Entity $entity){

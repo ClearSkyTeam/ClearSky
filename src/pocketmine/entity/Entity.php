@@ -102,7 +102,7 @@ abstract class Entity extends Location implements Metadatable{
 		self::DATA_NAMETAG => [self::DATA_TYPE_STRING, ""],
 		self::DATA_SHOW_NAMETAG => [self::DATA_TYPE_BYTE, 1],
 		self::DATA_SILENT => [self::DATA_TYPE_BYTE, 0],
-		self::DATA_NO_AI => [self::DATA_TYPE_BYTE, 0],
+		self::DATA_NO_AI => [self::DATA_TYPE_BYTE, 1], //experimental anti client offset
 		self::DATA_LEAD_HOLDER => [self::DATA_TYPE_LONG, -1],
 		self::DATA_LEAD => [self::DATA_TYPE_BYTE, 0],
 	];
@@ -291,7 +291,6 @@ abstract class Entity extends Location implements Metadatable{
 	}
 	
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
-
 		assert($chunk !== null and $chunk->getProvider() !== null);
 
 		$this->timings = Timings::getEntityTimings($this);
@@ -331,7 +330,7 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		$this->fallDistance = $this->namedtag["FallDistance"];
 
-		if(!isset($this->namedtag->Fire)){
+		if(!isset($this->namedtag->Fire) || $this->namedtag["Fire"] > 32767 ){
 			$this->namedtag->Fire = new ShortTag("Fire", 0);
 		}
 		$this->fireTicks = $this->namedtag["Fire"];
@@ -632,6 +631,9 @@ abstract class Entity extends Location implements Metadatable{
 		$this->namedtag->Air = new ShortTag("Air", $this->getDataProperty(self::DATA_AIR));
 		$this->namedtag->OnGround = new ByteTag("OnGround", $this->onGround == true ? 1 : 0);
 		$this->namedtag->Invulnerable = new ByteTag("Invulnerable", $this->invulnerable == true ? 1 : 0);
+		
+		$this->namedtag->Health = new ShortTag("Health", $this->getHealth());
+		$this->namedtag->MaxHealth = new ShortTag("MaxHealth", $this->getMaxHealth());
 
 		if(count($this->effects) > 0){
 			$effects = [];

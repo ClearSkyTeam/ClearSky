@@ -1,32 +1,60 @@
 <?php
+
+/**
+ *
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
+ * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * @author PocketMine Team
+ * @link   http://www.pocketmine.net/
+ *
+ *
+ */
+
 namespace pocketmine\event\inventory;
 
 use pocketmine\event\Cancellable;
 use pocketmine\event\Event;
-use pocketmine\inventory\TransactionGroup;
+use pocketmine\inventory\TransactionQueue;
 
 /**
- * Called when there is a transaction between two Inventory objects.
- * The source of this can be a Player, entities, mobs, or even hoppers in the future!
+ * Called when an inventory transaction queue starts execution. 
  */
+
 class InventoryTransactionEvent extends Event implements Cancellable{
+
 	public static $handlerList = null;
-
-	/** @var TransactionGroup */
-	private $ts;
-
+	
+	/** @var TransactionQueue */
+	private $transactionQueue;
+	
 	/**
-	 * @param TransactionGroup $ts
+	 * @param TransactionQueue $ts
 	 */
-	public function __construct(TransactionGroup $ts){
-		$this->ts = $ts;
+	public function __construct(TransactionQueue $transactionQueue){
+		$this->transactionQueue = $transactionQueue;
 	}
 
 	/**
-	 * @return TransactionGroup
+	 * @deprecated
+	 * @return TransactionQueue
 	 */
 	public function getTransaction(){
-		return $this->ts;
+		return $this->transactionQueue;
 	}
 
+	/**
+	 * @return TransactionQueue
+	 */
+	public function getQueue(){
+		return $this->transactionQueue;
+	}
 }

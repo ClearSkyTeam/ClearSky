@@ -36,8 +36,14 @@ class PlayerListPacket extends DataPacket{
 				$this->putString($d[2]);
 				$this->putString($d[3]);
 				$this->putString($d[4]);
+			}elseif($this->type === self::TYPE_REMOVE){
+				$this->putUUID($d[0]);
 			}else{
 				$this->putUUID($d[0]);
+				$this->putLong($d[1]);
+				$this->putString($d[2]);
+				$this->putString($d[3]);
+				$this->putString($d[4]);
 			}
 		}
 	}

@@ -58,11 +58,11 @@ class Fire extends Flowable implements LightSource{
 			$entity->setOnFire($ev->getDuration());
 		}
 	}
-
+*/
 	public function getDrops(Item $item){
 		return [];
 	}
-
+/*
 	public function onUpdate($type){
 		if($type === Level::BLOCK_UPDATE_NORMAL){
 			for($s = 0; $s <= 5; ++$s){

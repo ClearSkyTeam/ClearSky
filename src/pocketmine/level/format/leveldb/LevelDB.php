@@ -45,6 +45,10 @@ class LevelDB extends BaseLevelProvider{
 		$levelData = $nbt->getData();
 		if($levelData instanceof CompoundTag){
 			$this->levelData = $levelData;
+			if ( !isset($this->levelData["GameRules"]) ) {
+				$this->levelData["GameRules"] = (new GameRules())->getRules();
+			}
+						
 		}else{
 			throw new LevelException("Invalid level.dat");
 		}

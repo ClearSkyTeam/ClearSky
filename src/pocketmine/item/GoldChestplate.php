@@ -8,11 +8,23 @@ class GoldChestplate extends Armor{
 		parent::__construct(self::GOLD_CHESTPLATE, $meta, $count, "Gold Chestplate");
 	}
 
-	public function isArmor(){
-		return true;
+	public function getArmorTier(){
+		return Armor::TIER_GOLD;
+	}
+
+	public function getArmorType(){
+		return Armor::TYPE_CHESTPLATE;
 	}
 
 	public function getMaxDurability(){
 		return 113;
+	}
+
+	public function getArmorValue(){
+		return 5;
+	}
+
+	public function isChestplate(){
+		return true;
 	}
 }
