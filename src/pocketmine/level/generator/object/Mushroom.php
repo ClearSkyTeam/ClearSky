@@ -17,7 +17,9 @@ abstract class Mushroom{
 		18 => true,
 		Block::SNOW_LAYER => true,
 		Block::LOG2 => true,
-		Block::LEAVES2 => true
+		Block::LEAVES2 => true,
+		Block::BROWN_MUSHROOM => true,
+		Block::RED_MUSHROOM => true
 	];
 
 	public $type = 0;
@@ -25,13 +27,13 @@ abstract class Mushroom{
 	public $leafBlock = Block::BROWN_MUSHROOM_BLOCK;
 	public $treeHeight = 7;
 
-	public static function growTree(ChunkManager $level, $x, $y, $z, Random $random, $type = 0){
+	public static function growTree(ChunkManager $level, $x, $y, $z, Random $random, $type = 39){
 		switch($type){
 			case Block::BROWN_MUSHROOM:
-				$tree = new BrownMushroomTree();
+				$tree = new BigBrownMushroom();
 				break;
 			case Block::RED_MUSHROOM:
-				$tree = new RedMushroomTree();
+				$tree = new BigRedMushroom();
 				break;
 			default:
 				return false;
@@ -40,7 +42,6 @@ abstract class Mushroom{
 			$tree->placeObject($level, $x, $y, $z, $random);
 		}
 	}
-
 
 	public function canPlaceObject(ChunkManager $level, $x, $y, $z, Random $random){
 		$radiusToCheck = 0;
@@ -60,32 +61,9 @@ abstract class Mushroom{
 		return true;
 	}
 
-	public function placeObject(ChunkManager $level, $x, $y, $z, Random $random){
-
-		$this->placeTrunk($level, $x, $y, $z, $random, $this->treeHeight - 1);
-
-		for($yy = $y - 3 + $this->treeHeight; $yy <= $y + $this->treeHeight; ++$yy){
-			$yOff = $yy - ($y + $this->treeHeight);
-			$mid = (int) (1 - $yOff / 2);
-			for($xx = $x - $mid; $xx <= $x + $mid; ++$xx){
-				$xOff = abs($xx - $x);
-				for($zz = $z - $mid; $zz <= $z + $mid; ++$zz){
-					$zOff = abs($zz - $z);
-					if($xOff === $mid and $zOff === $mid and ($yOff === 0 or $random->nextBoundedInt(2) === 0)){
-						continue;
-					}
-					if(!Block::$solid[$level->getBlockIdAt($xx, $yy, $zz)]){
-						$level->setBlockIdAt($xx, $yy, $zz, $this->leafBlock);
-						$level->setBlockDataAt($xx, $yy, $zz, $this->type);
-					}
-				}
-			}
-		}
-	}
-
 	protected function placeTrunk(ChunkManager $level, $x, $y, $z, Random $random, $trunkHeight){
 		// The base dirt block
-		$level->setBlockIdAt($x, $y - 1, $z, Block::DIRT);
+		#$level->setBlockIdAt($x, $y - 1, $z, Block::DIRT);
 
 		for($yy = 0; $yy < $trunkHeight; ++$yy){
 			$blockId = $level->getBlockIdAt($x, $y + $yy, $z);

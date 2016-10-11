@@ -5,6 +5,7 @@ use pocketmine\item\Item;
 use pocketmine\level\Level;
 use pocketmine\Player;
 use pocketmine\level\generator\object\Mushroom;
+use pocketmine\utils\Random;
 
 class BrownMushroom extends Flowable implements LightSource{
 
@@ -44,7 +45,7 @@ class BrownMushroom extends Flowable implements LightSource{
 	public function onActivate(Item $item, Player $player = null){
 		if($item->getId() === Item::DYE and $item->getDamage() === 0x0F){ //Bonemeal
 			//TODO: change log type
-			Mushroom::growTree($this->getLevel(), $this->x, $this->y, $this->z, new Random(mt_rand()), $this->id);
+			Mushroom::growTree($this->getLevel(), $this->x, $this->y, $this->z, new Random($this->getLevel()->getSeed()), $this->id);
 			if(($player->gamemode & 0x01) === 0){
 				$item->count--;
 			}
