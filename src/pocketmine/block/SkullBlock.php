@@ -34,6 +34,10 @@ class SkullBlock extends Transparent{
 		return false;
 	}
 
+	public function isHelmet(){
+		return true;
+	}
+
 	protected function recalculateBoundingBox(){
 		if($this->meta === 0 || $this->meta === 1){
 			return new AxisAlignedBB(

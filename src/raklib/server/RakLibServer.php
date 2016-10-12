@@ -156,10 +156,43 @@ class RakLibServer extends \Thread{
 		$oldFile = $errfile;
 		$errfile = $this->cleanPath($errfile);
 
-		$this->getLogger()->critical("[RakLib Thread #". \Thread::getCurrentThreadId() ."] An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline");
+        switch($errno){
+        	case E_ERROR:
+        	case E_WARNING:
+        	case E_PARSE:
+        	case E_CORE_ERROR:
+        	case E_CORE_WARNING:
+        	case E_COMPILE_WARNING:
+        	case E_COMPILE_ERROR:
+        	case E_USER_ERROR:
+        	case E_USER_WARNING:
+        	case E_RECOVERABLE_ERROR:
+        		$debugOnly = false;
+        	break;
+        	case E_NOTICE:
+        	case E_USER_NOTICE:
+        	case E_STRICT:
+        	case E_DEPRECATED:
+        	case E_USER_DEPRECATED:
+        		$debugOnly = true;
+        	default:
+        		$debugOnly = true;
+			break;
+        }
 
+        $logShortDesc = "[RakLib Thread #". \Thread::getCurrentThreadId() ."] An $errno error happened: \"$errstr\" in \"$errfile\" at line $errline";
+        if($debugOnly){
+        	$this->getLogger()->debug($logShortDesc);
+        }else{
+        	$this->getLogger()->critical($logShortDesc);
+        }
+		
 		foreach(($trace = $this->getTrace($trace === null ? 3 : 0, $trace)) as $i => $line){
-			$this->getLogger()->warning($line);
+			if($debugOnly){
+     		   	$this->getLogger()->debug($line);
+        	}else{
+        		$this->getLogger()->warning($line);
+        	}
 		}
 
 		return true;

@@ -66,14 +66,14 @@ class CommandReader extends Thread{
 	public function quit(){
 		$this->shutdown();
 		// Windows sucks
-		if(Utils::getOS() != "win"){
+		if(Utils::getOS() !== "win"){
 			parent::quit();
 		}
 	}
 
 	public function run(){
 		if($this->readline){
-			readline_callback_handler_install("Genisys> ", [$this, "readline_callback"]);
+			readline_callback_handler_install("CS> ", [$this, "readline_callback"]);
 			$this->logger->setConsoleCallback("readline_redisplay");
 		}
 

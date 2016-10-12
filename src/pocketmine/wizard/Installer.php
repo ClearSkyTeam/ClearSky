@@ -102,6 +102,9 @@ LICENSE;
 			}
 		}while($port <= 0 or $port > 65535);
 		$config->set("server-port", $port);
+		echo "[*] " . $this->lang->online_mode_info . "\n";
+		echo "[?] " . $this->lang->online_mode . " (y/N): ";
+		$config->set("online-mode", strtolower($this->getInput("y")) == "y");
 		/*echo "[*] " . $this->lang->ram_warning . "\n";
 		echo "[?] " . $this->lang->server_ram . " (" . self::DEFAULT_MEMORY . "): ";
 		$config->set("memory-limit", ((int) $this->getInput(self::DEFAULT_MEMORY)) . "M");*/

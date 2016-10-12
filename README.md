@@ -1,14 +1,9 @@
-﻿## Choose Language:   
-####  [English](#ENG)
-####  [Español](#SPA)  
-####  [中国](#CHINESE_1)  
-####  [日本語](#JAPANESE)
-####  [Українська мова](#UKR)  
-####  [Bahasa Indonesia](#IDN) 
+![ClearSky](https://github.com/ClearSkyTeam/ClearSky/blob/php7/images/CSbanner.png)
+### Choose Language: [English](#ENG) - [Español](#SPA) - [中国](#CHINESE_1) - [日本語](#JAPANESE) - [Українська мова](#UKR) - [Bahasa Indonesia](#IDN)
 
 # <a name="ENG"></a>English  
-# We present you: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
-ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean code and stable features. It was initially designed for production servers.
+# We present you: ClearSky-DarkSunset - A fast Minecraft PE server software based on [PocketMine-MP](https://github.com/PocketMine/PocketMine-MP) (PHP7) 
+ClearSky is a fast Minecraft: Pocket Edition server software with (compared to other forks/spoons) clean code and stable features. It was initially designed for production servers.
 
 **TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
 **CircleCI Build Status** [![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield)](https://circleci.com/gh/ClearSkyTeam/ClearSky "CircleCI Build Status")
@@ -21,33 +16,31 @@ ClearSky is an ultra fast Minecraft: Pocket Edition server software with clean c
  - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
 
 ## Where can I get a phar?
- - You can get the latest auto build phar here: [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php).
- - You can get an optimized PHP environment here: [ClearSkyTeam/PHPbinary](https://github.com/ClearSkyTeam/PHPbinary).
+ - You can get the latest auto build phar here: [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php) or [CSPhar](http://wolvesfortress.de/phar/CSPhar/CSPhar.php) (beta)
+ - You can get an optimized PHP environment here: [SalmonGER/PHPbinary](https://github.com/SalmonGER/PocketMine-MP-Binarys).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
 ## [CRITICAL]: Please REMOVE xdebug in production server
  - You can comment out zend_extension=php_xdebug in your php.ini or recompile PHP without xdebug.
- - There is also a switch under debug in pocketmine.yml to force enable xdebug.
+ - There is also a switch under debug in pocketmine.yml to force enable xdebug. xdebug is not provided with the Binary files. Ask, if you want it.
 
 ## Advanced Features
 All features can be configed in pocketmine.yml.<br>
- - About 20 times faster than offical PM repo
- - Universal Client version join (e.g. 0.15.0 and builds for 0.15.0 can join together)(note¹)
+ - About 10 times faster than offical PM repo
+ - Better chunk loading + sending than other forks/spoons
+ - Universal Client version join (0.15.x can join together)(note¹)
  - Unlimited player join (set max-players to -1 in server.properties)(note²)
- - Modified Version color and string freely (set network.protocol,version in pocketmine.yml)
+ - Modify version color and string freely (set network.protocol.version in pocketmine.yml)
  - You can increase acceptable packetlost and disable anti-cheat when your server in a bad network (network section in pocketmine.yml) 
- - UltraFast Redstone Calculation with almost no bugs
- - Fully working Experience System, include block/player/entity/bottle/furnace hook.
- - Fully working Food & Hunger System, include game-difficulty hook.
- - Fully working Weather System
- - Fully working boats
- - Fast Chunk loading and sending
+ - Fast Redstone Calculation with only minor bugs
+ - Experience System, working food & hunger system (includes game-difficulty hook), weather system, working boats
+ - Fixed most movement gliches
  - Fast Logger, includes a switch to turn log on/off
- - Almost perfect translations
- - Potions (Working, Creative Only)
- - Enchanting (Command)
+ - Great translations
+ - Potions
+ - Enchanting
  - Variations of Mobs (Rabbits, Villagers etc.)
- - Bug Fixes
+ - Fast bug fixes
 
 Note¹ - Please set 'Outdated Server' message to 'false' in the CustomAlert plugin or any related plugin if you encounter *Outdated server*
 
@@ -59,8 +52,15 @@ Developing/modifying this project is easy.<br>
 We are still rewriting the base to make sure ClearSky has the best developing feel.<br>
 ClearSky is not just for a CLEAN feel for users - it's also for developers!<br>
 
+## Disclaimer:
+ClearSky was created and modified by rewriting, adding and importing code in cooperation with other forks an spoons, for example:
+- Genisys
+- Steadfast 2
+- Nukkit
+- and more.
+
 # <a name="SPA"></a>Español
-# Te presentamos: ClearSky-Sunrise ~ Una Bifurcación (o Fork) de [PocketMine](https://github.com/PocketMine/PocketMine-MP) (PHP7) 
+# Te presentamos: ClearSky-DarkSunset ~ Una Bifurcación (o Fork) de [PocketMine](https://github.com/PocketMine/PocketMine-MP) (PHP7) 
 ClearSky es un software de servidor rapido para Minecraft: Pocket Edition limpio y con caracteristicas estables. Fue diseñado para los servidores de producción.
 
 **Estado de la compilación de TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
@@ -154,7 +154,7 @@ ClearSky no tiene una sensación limpia solo para los Usuarios, Sino para los de
 
 
 # <a name="JAPANESE"></a>クリアスカイ
-# あなたにあげます: クリアスカイ-あけぼの ~ PMMP(https://github.com/PocketMine/PocketMine-MP) のフォーク (PHP7+5) 
+# あなたにあげます: クリアスカイ-あけぼの ~ PMMP(https://github.com/PocketMine/PocketMine-MP) のフォーク (PHP7) 
 クリアスカイはコードが綺麗で、安定した機能を備えた超高速なMinecraft: Pocket Editionサーバーソフトウェアです。当初は商用サーバー用に設計されました。<br>
 
 **TravisCIのビルドの状況** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCIのビルドの状況")
@@ -258,7 +258,7 @@ ClearSky призначений не тільки для звичайних ко
 
 
 # <a name="IDN"></a>Bahasa Indonesia
-# Kami mempersembahkan: ClearSky-Sunrise ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7+5) 
+# Kami mempersembahkan: ClearSky-DarkSunset ~ A [PM](https://github.com/PocketMine/PocketMine-MP) fork (PHP7) 
 ClearSky adalah sebuah perangkat lunak yang sangat cepat untuk Minecraft: Pocket Edition server dengan kode-kode yang ditata sangat rapih dan memiliki fitur-fitur yang juga sangat stabil. pada awalnya proyek ini dibuat untuk server produksi. (Diterjemahkan kedalam Bahasa Indonesia oleh Darrell @da123rrell dan disunting oleh Kennan @KennanFatt)
 
 **Status Pembuatan di TravisCI** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=php7)](https://travis-ci.org/ClearSkyTeam/ClearSky "Status pembuatan di TravisCI")

@@ -341,14 +341,14 @@ class Server{
 	public function getPocketMineBuild(){
 		return \pocketmine\BUILD;
 	}
-	
+
 	/**
 	 * @return string
 	 */
 	public function getPocketMineVersion(){
 		return \pocketmine\VERSION;
 	}
-
+	
 	/**
 	 * @return string
 	 */
@@ -586,6 +586,13 @@ class Server{
 	 */
 	public function getAllowFlight(){
 		return $this->getConfigBoolean("allow-flight", false);
+	}
+	
+	/**
+	 * @return bool
+	 */
+	public function getAllowInvCheats(){
+		return $this->getProperty("player.inventory.allow-cheats", false);
 	}
 
 
@@ -1288,6 +1295,16 @@ class Server{
 	 *
 	 * @return boolean
 	 */
+	public function getConfigBool($variable, $defaultValue = false){
+		$this->getConfigBoolean($variable, $defaultValue);
+	}
+
+	/**
+	 * @param string  $variable
+	 * @param boolean $defaultValue
+	 *
+	 * @return boolean
+	 */
 	public function getConfigBoolean($variable, $defaultValue = false){
 		$v = getopt("", ["$variable::"]);
 		if(isset($v[$variable])){
@@ -1567,22 +1584,28 @@ class Server{
 			"enable-rcon" => false,
 			"rcon.password" => substr(base64_encode(@Utils::getRandomBytes(20, false)), 3, 10),
 			"auto-save" => true,
+			"online-mode" => false,
 		]);
+		
+		if(!extension_loaded("openssl") && $this->getConfigBool("online-mode", false)){
+			$this->logger->warning("The OpenSSL extension is not loaded, and this is required for XBOX authentication to work. If you want to use Xbox Live auth, please use PHP binarys with OpenSSL, or recompile PHP with the OpenSSL extension."); //TODO:TRANSLATE
+			$this->setConfigBool("online-mode", false);
+		}
 		
 		if(extension_loaded("xdebug")){
 			if(!$this->getProperty("debug.allow-xdebug", false)){
-				$this->logger->critical("Please REMOVE xdebug in production server");
+				$this->logger->critical("Please do not use a PHP installation with the xDebug extension loaded for a Production server. If you do want to use it however, set debug.allow-xdebug to true."); //TODO:TRANSLATE
 				return;
 			}else{
-				$this->logger->warning("xdebug Enabled !ONLY FOR DEVELOPMENT USE!");
+				$this->logger->warning("xDebug is enabled, this decreases Performance. Use this for development purposes only."); //TODO:TRANSLATE
 			}
 		}
 		if(!$this->getProperty("I/O.log-to-file", true)){
-			$this->logger->info("Disable MainLogger to file");
-			$this->logger->Disable();
+			$this->logger->disable();
+			$this->logger->info("MainLogger will not write to server.log"); //TODO:TRANSLATE
 		}else{
-			$this->logger->info("Enable MainLogger to file");
-			$this->logger->Enable();
+			$this->logger->enable();
+			$this->logger->info("MainLogger will write to server.log"); //TODO:TRANSLATE
 		}
 		$this->forceLanguage = $this->getProperty("settings.force-language", false);
 		$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
@@ -1682,7 +1705,7 @@ class Server{
 		$this->registerTiles();
 		$this->registerAIs();
 
-		InventoryType::init($this->getProperty("player.inventory.slot", 36));
+		InventoryType::init(); //TODO::REMOVE OUT OF POCKETMINE.yml **CSONLY**
 		Block::init();
 		Item::init();
 		Biome::init();
@@ -2307,10 +2330,13 @@ class Server{
 		while($this->isRunning){
 			$this->tick();
 			$next = $this->nextTick - 0.0001;
-			if($next > microtime(true)){
+			if($next >= microtime(true)){
 				try{
 					time_sleep_until($next);
 				}catch(Throwable $e){
+					$this->nextTick = microtime(true);
+					$next = $this->nextTick - 0.0001;
+					time_sleep_until($next);
 					//Sometimes $next is less than the current time. High load?
 				}
 			}
