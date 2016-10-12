@@ -57,6 +57,7 @@ ClearSky was created and modified by rewriting, adding and importing code in coo
 - Genisys
 - Steadfast 2
 - Nukkit
+- ImagicalMine
 - and more.
 
 # <a name="SPA"></a>Español
