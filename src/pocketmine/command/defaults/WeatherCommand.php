@@ -40,33 +40,34 @@ class WeatherCommand extends VanillaCommand{
             $seconds = 600*20;
         }
 		
-		if(count($args) < 2){
-       		if($sender instanceof Player){
-            	$level = $sender->getLevel();
+		if(count($args) <= 2){
+			if($sender instanceof Player){
+				$level = $sender->getLevel();
 			}else{
 				$level = $sender->getServer()->getDefaultLevel();
-        	}
-	    }else{
-		if(!$sender->getServer()->isLevelLoaded($args[2])){
-                	$sender->getServer()->loadLevel($args[2]);
-                	$level = $sender->getServer()->getLevelByName($args[2]);
-			if(!$sender->getServer()->isLevelLoaded($args[2])){
-                    		$worldName = $args[2];
-                                $sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnotfound", $args[2]));
-		         	return false;
-	            	}
-	        }else{
-	            $level = $sender->getServer()->getLevelByName($args[2]);
-	        }
-        }
+			}
+		}else{
+			/*if($args[2] == "all"){
+				$level = $sender->getServer()->getLevels();
+			}else*/if(!$sender->getServer()->isLevelLoaded($args[2])){
+				$sender->getServer()->loadLevel($args[2]);
+				$level = $sender->getServer()->getLevelByName($args[2]);
+				if(!$sender->getServer()->isLevelLoaded($args[2])){
+					$worldName = $args[2];
+					$sender->sendMessage(new TranslationContainer(TextFormat::RED . "commands.weather.worldnotfound", [$args[2]]));
+					return false;
+				}
+			}else{
+				$level = $sender->getServer()->getLevelByName($args[2]);
+			}
+		}
 
         if($args[0] === "clear"){
             if(!$sender->hasPermission("pocketmine.command.weather.clear")){
                 $sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
                 return true;
             }
-
-            $level->setWeather(Level::WEATHER_CLEARSKY);
+            $level->setWeather(Level::WEATHER_CLEARSKY, $seconds);
 
             Command::broadcastCommandMessage($sender, new TranslationContainer("commands.weather.clear"));
 
@@ -84,7 +85,7 @@ class WeatherCommand extends VanillaCommand{
 				$time = 120;
 			}
 			
-            $level->setWeather(Level::WEATHER_RAIN,$time);
+            $level->setWeather(Level::WEATHER_RAIN, $time);
 
             Command::broadcastCommandMessage($sender, new TranslationContainer("commands.weather.rain"));
 
@@ -95,12 +96,14 @@ class WeatherCommand extends VanillaCommand{
                 $sender->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
                 return true;
             }
-             //WEATHER TODO : THUNDER
+            /**
+			 * @todo WEATHER : THUNDER
+			*/
             //$level->setThundering(true);
             //$level->setRainTime($seconds * 20);
             //$level->setThunderTime($seconds * 20);
 
-            Command::broadcastCommandMessage($sender,"WIP"/* new TranslationContainer("commands.weather.thunder")*/);
+            Command::broadcastCommandMessage($sender, "This is not working, due to noone noticed it is not working. And we now have other priorties than implementing jumpscare lightning."/* new TranslationContainer("commands.weather.thunder")*/);
 
             return true;
 
