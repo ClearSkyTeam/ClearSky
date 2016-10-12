@@ -19,6 +19,7 @@ use pocketmine\level\generator\hell\HellBiome;
 use pocketmine\level\generator\populator\Populator;
 use pocketmine\utils\Random;
 use pocketmine\level\generator\normal\biome\MesaBiome;
+use pocketmine\level\generator\normal\biome\MushroomBiome;
 
 abstract class Biome{
 	const OCEAN = 0;
@@ -45,8 +46,8 @@ abstract class Biome{
     FROZEN_RIVER,
     ICE_PLAINS,
     ICE_MOUNTAINS,
-    MUSHROOM_ISLAND,
-    MUSHROOM_SHORE,
+    MUSHROOM_ISLAND,*/
+    const MUSHROOM_SHORE = 11;/*,
     BEACH,
     DESERT_HILLS,
     FOREST_HILLS,
@@ -141,6 +142,7 @@ abstract class Biome{
 
 		self::register(self::SAVANNA, new SavannaBiome());
 		self::register(self::MESA, new MesaBiome());
+		self::register(self::MUSHROOM_SHORE, new MushroomBiome());
 	}
 
 	/**

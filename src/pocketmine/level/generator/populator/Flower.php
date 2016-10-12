@@ -56,7 +56,7 @@ class Flower extends Populator{
 
 	private function canFlowerStay($x, $y, $z){
 		$b = $this->level->getBlockIdAt($x, $y, $z);
-		return ($b === Block::AIR or $b === Block::SNOW_LAYER) and $this->level->getBlockIdAt($x, $y - 1, $z) === Block::GRASS;
+		return ($b === Block::AIR or $b === Block::SNOW_LAYER) and in_array($this->level->getBlockIdAt($x, $y - 1, $z), [Block::MYCELIUM, Block::DIRT, Block::GRASS, Block::PODZOL, Block::HARDENED_CLAY, Block::STAINED_HARDENED_CLAY]);
 	}
 
 	private function getHighestWorkableBlock($x, $z){

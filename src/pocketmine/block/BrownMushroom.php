@@ -64,9 +64,9 @@ class BrownMushroom extends Flowable implements LightSource{
 				return Level::BLOCK_UPDATE_NORMAL;
 			}
 		}elseif($type === Level::BLOCK_UPDATE_RANDOM){ //Growth
-			if(mt_rand(1, 7) === 1){
+			if($this->getLevel()->getBlockIdAt($this->x, $this->y, $this->z) == Block::MYCELIUM && mt_rand(1, 7) === 1){
 				if(($this->meta & 0x08) === 0x08){
-					Mushroom::growTree($this->getLevel(), $this->x, $this->y, $this->z, new Random(mt_rand()), $this->id);
+					Mushroom::growTree($this->getLevel(), $this->x, $this->y, $this->z, new Random($this->level->getSeed()), $this->id);
 				}else{
 					$this->meta |= 0x08;
 					$this->getLevel()->setBlock($this, $this, true);
@@ -79,6 +79,11 @@ class BrownMushroom extends Flowable implements LightSource{
 		}
 
 		return false;
+	}
+
+	private function canFlowerStay($x, $y, $z){
+		$b = $this->level->getBlockIdAt($x, $y, $z);
+		return ($b === Block::AIR or $b === Block::SNOW_LAYER) and in_array($this->level->getBlockIdAt($x, $y - 1, $z), [Block::MYCELIUM, Block::DIRT, Block::GRASS, Block::LEAVES, Block::LEAVES2]);
 	}
 
 }

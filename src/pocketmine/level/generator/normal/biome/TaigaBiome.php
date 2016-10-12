@@ -28,7 +28,7 @@ class TaigaBiome extends SnowyBiome{
 
 		$this->setGroundCover([
 			Block::get(Block::PODZOL, 0),
-			Block::get(Block::PODZOL, 0),
+			Block::get(Block::DIRT, 0),
 		]);
 	}
 
