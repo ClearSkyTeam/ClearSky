@@ -2754,7 +2754,7 @@ class Server{
 	}
 
 	private function registerAIs(){
-		AIManager::registerAIs(Horse::class, HorseAI::class, $this);
+		#AIManager::registerAIs(Horse::class, HorseAI::class, $this);
 	}
 
 }

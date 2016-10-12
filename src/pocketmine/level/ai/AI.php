@@ -41,7 +41,7 @@ class AI{
 			$entity = $this->getLevel()->getEntity($mobId);
 			if($entity != null){
 				$arr = array($entity->x, $entity->y, $entity->z, $entity->yaw, $entity->pitch);
-				$this->getServer()->getScheduler()->scheduleAsyncTask(new MoveCalculaterTask($levelid, $mobId, $mobType, json_encode($arr)));
+				#$this->getServer()->getScheduler()->scheduleAsyncTask(new MoveCalculaterTask($levelid, $mobId, $mobType, json_encode($arr)));
 			}
 		}
 	}

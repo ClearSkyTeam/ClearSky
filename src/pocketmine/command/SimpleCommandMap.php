@@ -12,6 +12,7 @@ use pocketmine\command\defaults\EffectCommand;
 use pocketmine\command\defaults\EnchantCommand;
 use pocketmine\command\defaults\ExpCommand;
 use pocketmine\command\defaults\GamemodeCommand;
+use pocketmine\command\defaults\GameruleCommand;
 use pocketmine\command\defaults\GarbageCollectorCommand;
 use pocketmine\command\defaults\GiveCommand;
 use pocketmine\command\defaults\HelpCommand;
@@ -33,6 +34,7 @@ use pocketmine\command\defaults\SeedCommand;
 use pocketmine\command\defaults\SetWorldSpawnCommand;
 use pocketmine\command\defaults\SpawnpointCommand;
 use pocketmine\command\defaults\StatusCommand;
+use pocketmine\command\defaults\SummonCommand;
 use pocketmine\command\defaults\StopCommand;
 use pocketmine\command\defaults\TeleportCommand;
 use pocketmine\command\defaults\TellCommand;
@@ -45,12 +47,7 @@ use pocketmine\command\defaults\WhitelistCommand;
 #use pocketmine\command\defaults\UpgradeCommand;
 use pocketmine\event\TranslationContainer;
 use pocketmine\Server;
-use pocketmine\utils\MainLogger;
 use pocketmine\utils\TextFormat;
-use pocketmine\command\defaults\GameruleCommand;
-use pocketmine\command\defaults\SummonCommand;
-use pocketmine\command\defaults\GameruleCommand;
-
 
 class SimpleCommandMap implements CommandMap{
 

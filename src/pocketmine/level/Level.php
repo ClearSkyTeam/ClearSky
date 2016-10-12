@@ -975,7 +975,7 @@ class Level implements ChunkManager, Metadatable{
 		
 		$registered = AIManager::getKnownAIs();
 		
-		if($spawnLimit >= count($this->entities)){
+		if($spawnLimit >= count($this->entities) && !empty($registered)){
 			$players = $this->getPlayers();
 			if(count($players) > 0){
 				$player = $players[array_rand($players)];

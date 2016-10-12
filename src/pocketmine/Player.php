@@ -134,14 +134,6 @@ use pocketmine\tile\Tile;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use raklib\Binary;
-use pocketmine\event\player\PlayerExperienceChangeEvent;
-use pocketmine\network\protocol\InteractPacket;
-use pocketmine\network\protocol\Info;
-use pocketmine\block\Air;
-use pocketmine\math\Math;
-use pocketmine\inventory\EnchantInventory;
-use pocketmine\inventory\AnvilInventory;
-use pocketmine\event\block\ItemFrameDropItemEvent;
 use pocketmine\entity\Rideable;
 use pocketmine\entity\Horse;
 
