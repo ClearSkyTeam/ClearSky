@@ -2429,7 +2429,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}else{
 							$this->setSprinting(true);
 						}
-						break;
+						break 2;
 					case PlayerActionPacket::ACTION_STOP_SPRINT:
 						$ev = new PlayerToggleSprintEvent($this, false);
 						$this->server->getPluginManager()->callEvent($ev);
@@ -2438,7 +2438,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}else{
 							$this->setSprinting(false);
 						}
-						break;
+						break 2;
 					case PlayerActionPacket::ACTION_START_SNEAK:
 						$ev = new PlayerToggleSneakEvent($this, true);
 						$this->server->getPluginManager()->callEvent($ev);
@@ -2447,7 +2447,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}else{
 							$this->setSneaking(true);
 						}
-						break;
+						break 2;
 					case PlayerActionPacket::ACTION_STOP_SNEAK:
 						$ev = new PlayerToggleSneakEvent($this, false);
 						$this->server->getPluginManager()->callEvent($ev);
@@ -2456,13 +2456,13 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}else{
 							$this->setSneaking(false);
 						}
-						break;
+						break 2;
+					case PlayerActionPacket::ACTION_JUMP:
+						break 2;
 				}
 
-				if($packet->action !== PlayerActionPacket::ACTION_JUMP){
-					$this->startAction = -1;
-					$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, false);
-				}
+				$this->startAction = -1;
+				$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ACTION, false);
 				break;
 			case ProtocolInfo::REMOVE_BLOCK_PACKET:
 				if($this->spawned === false or $this->blocked === true or !$this->isAlive()){

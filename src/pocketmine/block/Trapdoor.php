@@ -99,23 +99,20 @@ class Trapdoor extends Transparent implements Redstone{
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
-		if(($target->isTransparent() === false or $target->getId() === self::SLAB or $target->getId() === self::PACKED_ICE) and $face !== 0 and $face !== 1){
-			$faces = [
-				2 => 3,
-				3 => 2,
-				4 => 1,
-				5 => 0,
-			];
-			$this->meta = $faces[$face] & 0x03;
-			if($fy > 0.5){
-				$this->meta |= 0x04;
-			}
-			$this->getLevel()->setBlock($block, $this, true, true);
-
-			return true;
+		$directions = [
+			0 => 1,
+			1 => 3,
+			2 => 0,
+			3 => 2
+		];
+		if($player !== null){
+			$this->meta = $directions[$player->getDirection() & 0x03];
 		}
-
-		return false;
+		if(($fy > 0.5 and $face !== self::SIDE_UP) or $face === self::SIDE_DOWN){
+			$this->meta |= 0b00000100; //top half of block
+		}
+		$this->getLevel()->setBlock($block, $this, true, true);
+		return true;
 	}
 
 	public function getDrops(Item $item){
