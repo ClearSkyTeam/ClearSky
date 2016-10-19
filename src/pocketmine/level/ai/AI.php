@@ -6,11 +6,16 @@ use pocketmine\level\Level;
 use pocketmine\entity\Entity;
 use pocketmine\entity\ZombieHorse;
 use pocketmine\entity\ai\AIManager;
+use pocketmine\entity\Item;
+use pocketmine\entity\Human;
+use pocketmine\entity\Horse;
+use pocketmine\entity\Living;
 
 class AI{
 	private $level;
 	private $levelId;
 	private $mobs = [];
+	private $exe = 0;
 
 	public function __construct(Level $level){
 		$this->level = $level;
@@ -25,32 +30,39 @@ class AI{
 		return $this->level->getServer();
 	}
 
-	public function registerAI(Entity $entity){
+	public function loadAI(Entity $entity){
+		if(!$entity instanceof Living || $entity instanceof Human) return;
+		// if($entity->getDataProperty(Entity::DATA_NO_AI)){
+		// $this->getServer()->broadcastMessage($entity->getName() . ' => NO_AI');
+		// return;
+		// }
 		$this->mobs[$entity->getId()] = $entity->getName();
-		$this->getServer()->broadcastTip("AI started ticking for " . $entity->getName() . ": " . $entity->getId());
+		$this->getServer()->getLogger()->debug("AI started ticking for " . $entity->getName() . ": " . $entity->getId());
 	}
 
-	public function unregisterAI(Entity $entity){
-		unset($this->mobs[$entity->getId()]);
-		$this->getServer()->broadcastTip("AI stopped ticking for " . $entity->getName() . ": " . $entity->getId());
+	public function unloadAI(Entity $entity){
+		if(isset($this->mobs[$entity->getId()])){
+			unset($this->mobs[$entity->getId()]);
+			$this->getServer()->getLogger()->debug("AI stopped ticking for " . $entity->getName() . ": " . $entity->getId());
+		}
 	}
 
 	public function tickMobs(){
+		$this->exe++;
 		foreach($this->mobs as $mobId => $mobType){
 			$levelid = $this->levelId;
 			$entity = $this->getLevel()->getEntity($mobId);
 			if($entity != null){
-				$arr = array($entity->x, $entity->y, $entity->z, $entity->yaw, $entity->pitch);
-				#$this->getServer()->getScheduler()->scheduleAsyncTask(new MoveCalculaterTask($levelid, $mobId, $mobType, json_encode($arr)));
+				$arr = array('x' => $entity->x, 'y' => $entity->y, 'z' => $entity->z, 'yaw' => $entity->yaw, 'pitch' => $entity->pitch, 'exe' => $this->exe);
+				$knownAIs = $this->getServer()::getAIManager()->getKnownAIs();
+				$this->getServer()->getScheduler()->scheduleAsyncTask(new MoveCalculaterTask(json_encode($knownAIs), $levelid, $mobId, $mobType, json_encode($arr)));
 			}
 		}
 	}
 
 	public function moveCalculationCallback($result){
-		/*
-		 * $entity = $this->getServer()->getLevel($this->levelId)->getEntity($result['id']);
-		 * $pos = $entity->temporalVector->setComponents($result['x'], $result['y'], $result['z']);
-		 * $this->getServer()->broadcastMessage($pos->__toString());
-		 */
+		$entity = $this->getServer()->getLevel($this->levelId)->getEntity($result['id']);
+		$pos = $entity->temporalVector->setComponents($result[0], $result[1], $result[2]);
+		$this->getServer()->broadcastMessage($pos->__toString());
 	}
 }

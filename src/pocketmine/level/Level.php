@@ -98,9 +98,7 @@ use pocketmine\level\particle\Particle;
 use pocketmine\level\sound\Sound;
 use pocketmine\entity\Effect;
 use pocketmine\level\particle\DestroyBlockParticle;
-
 use pocketmine\entity\ExperienceOrb;
-use pocketmine\entity\ai\AIManager;
 
 #include <rules/Level.h>
 
@@ -513,7 +511,9 @@ class Level implements ChunkManager, Metadatable{
 		$this->temporalVector = new Vector3(0, 0, 0);
 		$this->tickRate = 1;
 
-		AIManager::startAllAIs($this->getServer());
+		$this->server::getAIManager()->startAllAIs();
+		print "Starting following AI's:\n";
+		print_r($this->server::getAIManager()->knownAIs);
 		$this->AI = new AI($this);
 	}
 
@@ -973,7 +973,7 @@ class Level implements ChunkManager, Metadatable{
 		
 		$spawnLimit = $this->getServer()->getProperty("spawn-limits", ["animals" => 15])["animals"];
 		
-		$registered = AIManager::getKnownAIs();
+		$registered = $this->server::getAIManager()->getKnownAIs();
 		
 		if($spawnLimit >= count($this->entities) && !empty($registered)){
 			$players = $this->getPlayers();
@@ -2629,7 +2629,7 @@ class Level implements ChunkManager, Metadatable{
 				]),
 				"Experience" => new LongTag("Experience", $exp),
 			]);
-			$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, false);
+			$chunk = $this->getChunk($pos->x >> 4, $pos->z >> 4, true);
 			$expOrb = new ExperienceOrb($chunk, $nbt);
 			$expOrb->spawnToAll();
 		}

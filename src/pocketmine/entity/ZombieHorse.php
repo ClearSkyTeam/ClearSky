@@ -20,7 +20,7 @@ class ZombieHorse extends Animal /*implements Rideable*/{
     }
 
     public function getName(){
-        return "Zombie Horse";//TODO: Name by type
+        return "Zombie Horse";
     }
 
     public function spawnTo(Player $player){

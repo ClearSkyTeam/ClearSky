@@ -356,8 +356,8 @@ abstract class Entity extends Location implements Metadatable{
 		$this->level->addEntity($this);
 		$this->initEntity();
 
-		$this->getLevel()->getAI()->unregisterAI($this);
-		$this->getLevel()->getAI()->registerAI($this);
+		#$this->getLevel()->getAI()->unloadAI($this);
+		$this->getLevel()->getAI()->loadAI($this);
 		
 		$this->lastUpdate = $this->server->getTick();
 		$this->server->getPluginManager()->callEvent(new EntitySpawnEvent($this));
@@ -1674,7 +1674,7 @@ abstract class Entity extends Location implements Metadatable{
 			$this->closed = true;
 			$this->despawnFromAll();
 
-			$this->getLevel()->getAI()->unregisterAI($this);
+			$this->getLevel()->getAI()->unloadAI($this);
 			
 			//Unlink Entity
 			if($this->isLinked()){

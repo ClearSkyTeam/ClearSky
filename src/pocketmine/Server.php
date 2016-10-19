@@ -161,9 +161,7 @@ use pocketmine\tile\ItemFrame;
 use pocketmine\tile\MobSpawner;
 use pocketmine\tile\Piston;
 use pocketmine\entity\ai\AIManager;
-use pocketmine\entity\ai\SnowGolemAI;
-use pocketmine\entity\ai\ZombieHorseAI;
-use pocketmine\entity\ai\HorseAI;
+use pocketmine\entity\ai\WolfAI;
 
 /**
  * The class that manages everything
@@ -317,6 +315,9 @@ class Server{
 
 	/** @var Level */
 	private $levelDefault = null;
+
+	/** @var AIManager */
+	public static $AIManagerClass = null;
 	
 	/** Name of nether world */
 	public $netherName = "nether";
@@ -1225,6 +1226,13 @@ class Server{
 	}
 
 	/**
+	 * @return AIManager
+	 */
+	public static function getAIManager(){
+		return self::$AIManagerClass;
+	}
+
+	/**
 	 * @param string $variable
 	 * @param string $defaultValue
 	 *
@@ -1703,6 +1711,7 @@ class Server{
 
 		$this->registerEntities();
 		$this->registerTiles();
+		self::$AIManagerClass = new AIManager($this);
 		$this->registerAIs();
 
 		InventoryType::init(); //TODO::REMOVE OUT OF POCKETMINE.yml **CSONLY**
@@ -2754,7 +2763,7 @@ class Server{
 	}
 
 	private function registerAIs(){
-		#AIManager::registerAIs(Horse::class, HorseAI::class, $this);
+		self::getAIManager()->registerAIs(Wolf::class, WolfAI::class);
 	}
 
 }

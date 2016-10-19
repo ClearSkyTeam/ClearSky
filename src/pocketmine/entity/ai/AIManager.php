@@ -5,67 +5,88 @@ namespace pocketmine\entity\ai;
 use pocketmine\Server;
 use pocketmine\entity\Entity;
 
-abstract class AIManager{
-	public static $knownAIs = [];
-	private static $server = null;
+class AIManager{
+	public $knownAIs = [];
+	public $server = null;
 
-	public function __construct(){}
+	public function __construct(Server $server){
+		$this->server = $server;
+	}
 
-	private static function startAI($classname, Server $server){
-		print("Starting AI for $classname\n");
-		foreach($server->getLevels() as $level){
+	private function startAI($classname){
+		foreach($this->server->getLevels() as $level){
 			foreach($level->getEntities() as $entity){
 				if($entity instanceof $classname){
 					print("Entity of type $classname found!");
+					print("Starting AI for $classname\n");
 					// $entity->setDataProperty(Entity::DATA_NO_AI, Entity::DATA_TYPE_BYTE, 1);
-					$level->getAI()->registerAI($entity);
+					$level->getAI()->loadAI($entity);
 				}
 			}
 		}
 	}
 
-	public static function startAllAIs(Server $server){
-		foreach(self::$knownAIs as $classname){
-			self::startAI($classname, $server);
+	public function startAllAIs(){
+		foreach($this->knownAIs as $classname){
+			$this->startAI($classname);
 		}
 	}
 
-	private static function stopAI($classname, Server $server){
-		foreach($server->getLevels() as $level){
+	private function stopAI($classname){
+		foreach($this->server->getLevels() as $level){
 			foreach($level->getEntities() as $entity){
 				if($entity->getName() === $classname){
-					$level->getAI()->unregisterAI($entity);
+					$level->getAI()->unloadAI($entity);
 				}
 			}
 		}
 	}
 
-	public static function registerAIs($className, $aiclassName, Server $server){
-		self::$knownAIs[$aiclassName] = $className;
+	public function registerAIs($className, $aiclassName){
+		$this->knownAIs[$aiclassName] = $className;
+		print "Registered " . $aiclassName . " for " . $className . "\n";
+		print_r($this->knownAIs);
 	}
 
-	public static function unregisterAIs($aiclassName){
-		unset(self::$knownAIs[$aiclassName]);
+	public function unregisterAIs($aiclassName){
+		unset($this->knownAIs[$aiclassName]);
+		print "Unregistered " . $aiclassName . " for " . $className . "\n";
 		return true;
 	}
 
-	public static function isAIRegistered($classname){
-		return (in_array($classname, array_flip(self::$knownAIs)));
+	public function isAIRegistered($classname){
+		return (in_array($classname, array_flip($this->knownAIs)));
 	}
 
-	public static function getAI($classname){
-		return (self::isAIRegistered($classname)?array_flip(self::$knownAIs)[$classname]:null);
+	public function getAI($classname){
+		return ($this->isAIRegistered($classname)?array_flip($this->knownAIs)[$classname]:null);
 	}
 
-	public static function calculateMovement($classname, $json){
-		if(self::isAIRegistered($classname)){
-			$ai = self::getAI($entity->getName());
+	public function calculateMovement($classname, $json){
+		if($this->isAIRegistered($classname)){
+			$ai = $this->getAI($entity->getName());
+			if(!$ai instanceof BaseAI){
+				print "fuck no";
+				return $json;
+			}
 			return $ai->calculateMovement($classname, $json);
-			// print $ai;
 		}
+		return $json;
 	}
 
-	public static function getKnownAIs(){
-		return self::$knownAIs;
+	/**
+	 *
+	 * @return array $knownAIs
+	 */
+	public function getKnownAIs(){
+		return $this->knownAIs;
+	}
+
+	/**
+	 *
+	 * @return Server $server
+	 */
+	public function getServer(){
+		return $this->server;
 	}
 }
