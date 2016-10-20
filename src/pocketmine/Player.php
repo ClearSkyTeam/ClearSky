@@ -1431,7 +1431,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			if(!$entity->isAlive()){
 				continue;
 			}
-			if($entity instanceof Arrow and $entity->hadCollision){
+			if($entity instanceof Arrow and $entity->hadCollision){//TODO: if not collided with entity but ground
 				$item = Item::get(Item::ARROW, $entity->getPotionId(), 1);
 				
 				$add = false;
@@ -1654,10 +1654,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->newPosition = null;
 	}
 
-/*	public function addMovement($x, $y, $z, $yaw, $pitch, $headYaw = null){
-		$this->level->addPlayerMovement($this->chunk->getX(), $this->chunk->getZ(), $this->id, $x, $y, $z, $yaw, $pitch, $this->onGround, $headYaw === null ? $yaw : $headYaw);
-	}*/
-
 	public function setMotion(Vector3 $mot){
 		if(parent::setMotion($mot)){
 			if($this->chunk !== null){
@@ -1790,18 +1786,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->close("", "disconnectionScreen.notAuthenticated"); //disconnectionScreen.invalidSession
 			return;
 		}
-
 		$this->processLogin();
 	}
 
 	protected function processLogin(){
 		if(!$this->server->isWhitelisted(strtolower($this->getName()))){
 			$this->close($this->getLeaveMessage(), $this->getServer()->getProperty("settings.whitelist-message", "Server is whitelisted"));
-
 			return;
 		}elseif($this->server->getNameBans()->isBanned(strtolower($this->getName())) or $this->server->getIPBans()->isBanned($this->getAddress())){
-			$this->close($this->getLeaveMessage(), "You are banned");
-
+			$this->close($this->getLeaveMessage(), TextFormat::RED . "You are banned");
 			return;
 		}
 
@@ -1814,12 +1807,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		foreach($this->server->getOnlinePlayers() as $p){
 			if($p !== $this and strtolower($p->getName()) === strtolower($this->getName())){
-				if($p->kick("logged in from another location") === false){
+				if($p->kick("Logged in from another location") === false){
 					$this->close($this->getLeaveMessage(), "Logged in from another location");
 					return;
 				}
 			}elseif($p->loggedIn and $this->getUniqueId()->equals($p->getUniqueId())){
-				if($p->kick("logged in from another location") === false){
+				if($p->kick("Logged in from another location") === false){
 					$this->close($this->getLeaveMessage(), "Logged in from another location");
 					return;
 				}
@@ -1840,7 +1833,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$nbt->playerGameType = new IntTag("playerGameType", $this->gamemode);
 		}
 
-		$this->allowFlight = $this->isCreative();
+		$this->allowFlight = ($this->isCreative() || $this->isSpectator());
 
 		if(($level = $this->server->getLevelByName($nbt["Level"])) === null){
 			$nbt["Level"] = $this->level->getName();
@@ -1898,7 +1891,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk->spawnX = (int) $spawnPosition->x;
 		$pk->spawnY = (int) $spawnPosition->y;
 		$pk->spawnZ = (int) $spawnPosition->z;
-		$pk->generator = 2; // 0 old, 1 infinite, 2 flat //TODO: Revert to 1, Test 2 for snow
+		$pk->generator = 1; // 0 old, 1 infinite, 2 flat
 		$pk->gamemode = $this->gamemode & 0x01;
 		$pk->eid = 0; // Always use EntityID as zero for the actual player
 		$this->dataPacket($pk);
@@ -1912,10 +1905,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk->x = (int) $spawnPosition->x;
 		$pk->y = (int) $spawnPosition->y;
 		$pk->z = (int) $spawnPosition->z;
-		$this->dataPacket($pk);
-
-		$pk = new SetHealthPacket();
-		$pk->health = $this->getHealth();
 		$this->dataPacket($pk);
 
 		$pk = new SetDifficultyPacket();
@@ -1949,7 +1938,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$this->setDataProperty(self::DATA_NO_AI, self::DATA_TYPE_BYTE, 0);
-		$this->setMovementSpeed(self::DEFAULT_SPEED);
+		#$this->setMovementSpeed(self::DEFAULT_SPEED);
+		$this->setMovementSpeed($this->movementSpeed);
 		
 		$this->forceMovement = $this->teleportPosition = $this->getPosition();
 		
@@ -2372,6 +2362,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$this->server->getPluginManager()->callEvent($ev = new PlayerRespawnEvent($this, $this->getSpawn()));
 						$this->teleport($ev->getRespawnPosition());
 						$this->setSprinting(false);
+						$this->setMovementSpeed(self::DEFAULT_SPEED);//because setSprinting(false) would decrease
 						$this->setSneaking(false);
 						$this->extinguish();
 						$this->setDataProperty(self::DATA_AIR, self::DATA_TYPE_SHORT, 300, false);
@@ -3452,7 +3443,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$pk = new RespawnPacket();
-		$pos = $this->getSpawn();
+		$pos = $this->getSpawn(); //TODO: check this, is it always default level?
 		$pk->x = $pos->x;
 		$pk->y = $pos->y;
 		$pk->z = $pos->z;

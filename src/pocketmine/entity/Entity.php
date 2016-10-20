@@ -1161,7 +1161,7 @@ abstract class Entity extends Location implements Metadatable{
 
 	public function fall($fallDistance){
 		if($this->isInsideOfWater()) return;
-		$damage = floor($fallDistance - 3 - ($this->hasEffect(Effect::JUMP) ? $this->getEffect(Effect::JUMP)->getAmplifier() + 1 : 0));
+		$damage = floor($fallDistance - 1 - ($this->hasEffect(Effect::JUMP) ? $this->getEffect(Effect::JUMP)->getAmplifier() + 1 : 0)); //TODO: Reset to - 3 when falldistance calculated right
 		if($damage > 0){
 			$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_FALL, $damage);
 			$this->attack($ev->getFinalDamage(), $ev);
