@@ -260,69 +260,54 @@ class Effect{
 	}
 
 	public function add(Entity $entity, $modify = false, Effect $oldEffect = null){
-		if($entity instanceof Player){
-			$pk = new MobEffectPacket();
-			$pk->eid = 0;
-			$pk->effectId = $this->getId();
-			$pk->amplifier = $this->getAmplifier();
-			$pk->particles = $this->isVisible();
-			$pk->duration = $this->getDuration();
-			if($modify){
-				$pk->eventId = MobEffectPacket::EVENT_MODIFY;
-			}else{
-				$pk->eventId = MobEffectPacket::EVENT_ADD;
-			}
-
-			$entity->dataPacket($pk);
-
-			if($this->id === Effect::SPEED){
-				$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-				if($modify and $oldEffect !== null){
-					$speed = $attr->getValue() / (1 + 0.2 * ($oldEffect->getAmplifier() + 1));
-				}else{
-					$speed = $attr->getValue();
+		$isPlayer = $entity instanceof Player;
+		$pk = new MobEffectPacket();
+		$pk->eid = 0;
+		$pk->effectId = $this->getId();
+		$pk->amplifier = $this->getAmplifier();
+		$pk->particles = $this->isVisible();
+		$pk->duration = $this->getDuration();
+		$pk->eventId = $modify ? MobEffectPacket::EVENT_MODIFY : MobEffectPacket::EVENT_ADD;
+		
+		$entity->dataPacket($pk);
+		switch($this->id){
+			case Effect::INVISIBILITY:
+				$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, true);
+				$entity->setNameTagVisible(false);
+				break;
+			case Effect::SPEED:
+				if($isPlayer){
+					$entity->setMovementSpeed($entity::DEFAULT_SPEED * (1 + ($this->amplifier + 1) * 0.2));
 				}
-				$speed *= (1 + 0.2 * ($this->amplifier + 1));
-				$attr->setValue($speed);
-			}elseif($this->id === Effect::SLOWNESS){
-				$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-				if($modify and $oldEffect !== null){
-					$speed = $attr->getValue() / (1 - 0.15 * ($oldEffect->getAmplifier() + 1));
-				}else{
-					$speed = $attr->getValue();
+				break;
+			case Effect::SLOWNESS:
+				if($isPlayer){
+					$entity->setMovementSpeed($entity::DEFAULT_SPEED * (1 - ($this->amplifier + 1) * 0.15));
 				}
-				$speed *= (1 - (0.15 * $this->amplifier + 1));
-				$attr->setValue($speed);
-			}
-		}
-
-		if($this->id === Effect::INVISIBILITY){
-			$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, true);
-			$entity->setDataProperty(Entity::DATA_SHOW_NAMETAG, Entity::DATA_TYPE_BYTE, 0);
+				break;
 		}
 	}
 
 	public function remove(Entity $entity){
-		if($entity instanceof Player){
-			$pk = new MobEffectPacket();
-			$pk->eid = 0;
-			$pk->eventId = MobEffectPacket::EVENT_REMOVE;
-			$pk->effectId = $this->getId();
-
-			$entity->dataPacket($pk);
-
-			if($this->id === Effect::SPEED){
-				$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-				$attr->setValue($attr->getValue() / (1 + 0.2 * ($this->amplifier + 1)));
-			}elseif($this->id === Effect::SLOWNESS){
-				$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-				$attr->setValue($attr->getValue() / (1 - 0.15 * ($this->amplifier + 1)));
-			}
-		}
-
-		if($this->id === Effect::INVISIBILITY){
-			$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, false);
-			$entity->setDataProperty(Entity::DATA_SHOW_NAMETAG, Entity::DATA_TYPE_BYTE, 1);
+		$isPlayer = $entity instanceof Player;
+		$pk = new MobEffectPacket();
+		$pk->eid = 0;
+		$pk->eventId = MobEffectPacket::EVENT_REMOVE;
+		$pk->effectId = $this->getId();
+		
+		$entity->dataPacket($pk);
+		switch($this->id){
+			case Effect::INVISIBILITY:
+				$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, false);
+				$entity->setNameTagVisible(true);
+				break;
+			case Effect::SPEED:
+			case Effect::SLOWNESS:
+				if($isPlayer){
+					$entity->setMovementSpeed($entity::DEFAULT_SPEED);
+					$entity->sendPotionEffects($entity);
+				}
+				break;
 		}
 	}
 }

@@ -150,6 +150,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	const CRAFTING_ANVIL = 2;
 	const CRAFTING_ENCHANT = 3;
 
+	const DEFAULT_SPEED = 0.1;
+	const MAXIMUM_SPEED = 0.5;
+
 	/** @var SourceInterface */
 	protected $interface;
 	
@@ -170,6 +173,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	/** @var Vector3 */
 	public $speed = null;
+	protected $movementSpeed = self::DEFAULT_SPEED;
 	public $blocked = false;
 	public $achievements = [];
 	public $lastCorrect;
@@ -225,41 +229,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 	/** @var PermissibleBase */
 	private $perm = null;
-	
-	/** Fishing **/
-	protected $isFishing = false;
-	protected $fishEntity = null;
-	public function linkHookToPlayer(Entity $entity){
-		if($entity !== null and $entity instanceof FishingHook and $entity->isAlive()){
-			$this->setHook($entity);
-			$this->isFishing = true;
-			$pk = new EntityEventPacket();
-			$pk->eid = $this->getId();
-			$pk->event = EntityEventPacket::FISH_HOOK_POSITION;
-			$this->server->broadcastPacket($this->level->getPlayers(), $pk);
-			return true;
-		}
-		return false;
-	}
-
-	public function unlinkHookFromPlayer(Player $player){
-		$this->getHook()->kill();
-		$this->setHook();
-		$this->isFishing = false;
-		$pk = new EntityEventPacket();
-		$pk->eid = 0;
-		$pk->event = EntityEventPacket::FISH_HOOK_TEASE;
-		$this->server->broadcastPacket($this->level->getPlayers(), $pk);
-		return true;
-	}
-	
-	public function getHook(){
-		return $this->fishEntity;
-	}
-	
-	public function setHook(Entity $entity = null){
-		$this->fishEntity = $entity;
-	}
 	
 	/**
 	* @deprecated
@@ -1874,7 +1843,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->allowFlight = $this->isCreative();
 
 		if(($level = $this->server->getLevelByName($nbt["Level"])) === null){
-			#$this->setLevel($this->server->getDefaultLevel()); //Totally useless already done, in __construct
 			$nbt["Level"] = $this->level->getName();
 			$nbt["Pos"][0] = $this->level->getSpawnLocation()->x;
 			$nbt["Pos"][1] = $this->level->getSpawnLocation()->y;
@@ -1908,7 +1876,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->server->getPluginManager()->callEvent($ev = new PlayerLoginEvent($this, "Plugin reason"));
 		if($ev->isCancelled()){
 			$this->close($this->getLeaveMessage(), $ev->getKickMessage());
-
 			return;
 		}
 
@@ -1931,7 +1898,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk->spawnX = (int) $spawnPosition->x;
 		$pk->spawnY = (int) $spawnPosition->y;
 		$pk->spawnZ = (int) $spawnPosition->z;
-		$pk->generator = 1; // 0 old, 1 infinite, 2 flat
+		$pk->generator = 2; // 0 old, 1 infinite, 2 flat //TODO: Revert to 1, Test 2 for snow
 		$pk->gamemode = $this->gamemode & 0x01;
 		$pk->eid = 0; // Always use EntityID as zero for the actual player
 		$this->dataPacket($pk);
@@ -1982,6 +1949,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$this->setDataProperty(self::DATA_NO_AI, self::DATA_TYPE_BYTE, 0);
+		$this->setMovementSpeed(self::DEFAULT_SPEED);
 		
 		$this->forceMovement = $this->teleportPosition = $this->getPosition();
 		
@@ -3514,7 +3482,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return $this->getHealth() > 0;
 	}
 
-	protected $movementSpeed = 0.1;
+	public function setSprinting($value = true) {
+		parent::setSprinting($value);
+
+		$sprintSpeedChange = self::DEFAULT_SPEED * 0.3;
+		if ($value === false) {
+			$sprintSpeedChange *= -1;
+		}
+		$this->setMovementSpeed($this->getMovementSpeed() + $sprintSpeedChange);
+	}
 
 	/**
 	 * Set movement speed to the player
@@ -3532,7 +3508,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @return float
 	 */
 	public function getMovementSpeed(){
-		return $this->movementSpeed;
+		return $this->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED)->getValue();
 	}
 
 
