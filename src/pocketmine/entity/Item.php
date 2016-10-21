@@ -13,6 +13,7 @@ use pocketmine\nbt\tag\StringTag;
 use pocketmine\network\Network;
 use pocketmine\network\protocol\AddItemEntityPacket;
 use pocketmine\Player;
+use pocketmine\math\AxisAlignedBB;
 
 class Item extends Entity{
 	const NETWORK_ID = 64;
@@ -33,6 +34,8 @@ class Item extends Entity{
 
 	protected function initEntity(){
 		parent::initEntity();
+
+		$this->boundingBox = new AxisAlignedBB(-0.5, -0.5, -0.5, 0.5, 0.5, 0.5);
 
 		$this->setMaxHealth(5);
 		$this->setHealth($this->namedtag["Health"]);
@@ -132,6 +135,27 @@ class Item extends Entity{
 					$this->kill();
 					$hasUpdate = true;
 				}
+			}elseif ($this->age > 20 && $this->getItem()->getCount() < $this->getItem()->getMaxStackSize()){
+				foreach ($this->getLevel()->getCollidingEntities($this->getBoundingBox()->grow(0.5, 0.5, 0.5)) as $entity){
+					if(!$entity instanceof Item)
+						continue;
+					if($entity->getItem()->deepEquals($this->getItem(), true, true, false)){
+						$maxadd = $this->getItem()->getMaxStackSize() - $this->getItem()->getCount();
+						if($this->getItem()->getCount() > $maxadd){//add and reduce
+							$entity->getItem()->setCount($entity->getItem()->getCount() - $maxadd);
+							$this->getItem()->setCount($this->getItem()->getCount() + $maxadd);
+							#$this->despawnFromAll();
+							#$this->spawnToAll();
+							#$entity->despawnFromAll();
+							#$entity->spawnToAll();
+						}else{//add and remove
+							$this->getItem()->setCount($this->getItem()->getCount() + $entity->getItem()->getCount());//if this doesn't work create new item entity
+							$entity->kill();
+							#$this->despawnFromAll();
+							#$this->spawnToAll();
+						}
+					}
+				}
 			}
 
 		}
@@ -163,6 +187,7 @@ class Item extends Entity{
 	}
 
 	public function canCollideWith(Entity $entity){
+		if($entity instanceof Item) return true;
 		return false;
 	}
 
