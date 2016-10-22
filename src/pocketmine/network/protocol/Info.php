@@ -10,8 +10,8 @@ interface Info{
 	/**
 	 * Actual Minecraft: PE protocol versions
 	 */
-	const CURRENT_PROTOCOL = 90;
-	const ACCEPT_PROTOCOL = [90];
+	const CURRENT_PROTOCOL = 91;
+	const ACCEPT_PROTOCOL = [90, 91];
 	const CURRENT_VERSION = "0.16";
 
 	const LOGIN_PACKET = 0x01;
