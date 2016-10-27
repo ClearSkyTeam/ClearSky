@@ -831,6 +831,10 @@ class Item{
 
 	private static function initCreativeItems(){
 		self::clearCreativeItems();
+		self::buildingTab();
+		self::decorationTab();
+		self::toolsTab();
+		self::seedsTab();
 	}
 	
 	private static function buildingTab(){
