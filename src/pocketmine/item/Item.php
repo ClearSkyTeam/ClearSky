@@ -831,10 +831,6 @@ class Item{
 
 	private static function initCreativeItems(){
 		self::clearCreativeItems();
-		self::buildingTab();
-		self::decorationTab();
-		self::toolsTab();
-		self::seedsTab();
 	}
 	
 	private static function buildingTab(){
@@ -1441,7 +1437,7 @@ class Item{
 	}
 
 	public static function addCreativeItem(Item $item){
-		Item::$creative[] = Item::get($item->getId(), $item->getDamage());
+		Item::$creative[] = clone $item;
 	}
 
 	public static function removeCreativeItem(Item $item){

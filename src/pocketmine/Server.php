@@ -1684,7 +1684,6 @@ class Server{
 		$this->network = new Network($this);
 		$this->network->setName($this->getMotd());
 
-
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.info", [
 			$this->getName(),
 			$this->getPocketMineVersion(),
