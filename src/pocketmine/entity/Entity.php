@@ -95,20 +95,15 @@ abstract class Entity extends Location implements Metadatable{
 	 * 58 (float)
 	 * 59 (float) */
 	
-	 /*
 	const DATA_SHOW_NAMETAG = 3;
 	const DATA_SILENT = 4;
 	const DATA_POTION_COLOR = 7;
 	const DATA_POTION_AMBIENT = 8;
-<<<<<<< HEAD
 	const DATA_NO_AI = 15;
 	const DATA_BOAT_COLOR = 20;
 	const DATA_LEAD_HOLDER = 23;
-=======
->>>>>>> 2ffbb45... Fix a bunch of metadata bugs, fixed air ticking and added some new API methods
 	const DATA_LINKED_EID = 23;
 	const DATA_LEAD = 24;
-	*/
 
 
 	const DATA_FLAG_ONFIRE = 0;
