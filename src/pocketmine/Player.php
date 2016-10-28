@@ -1301,12 +1301,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		0x00000002 no_pvp
 		0x00000004 no_pvm
 		0x00000008 no_mvp
-		0x00000010 static_time
-		0x00000020 nametags_visible
-		0x00000040 auto_jump
-		0x00000080 allow_fly
-		0x00000100 noclip
-		0x00000200 ?
+		0x00000010 ?
+		0x00000020 auto_jump
+		0x00000040 allow_fly
+		0x00000080 noclip
+		0x00000100 ?
+		0x00000200 is_flying
 		0x00000400 ?
 		0x00000800 ?
 		0x00001000 ?
@@ -1330,30 +1330,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		0x40000000 ?
 		0x80000000 ?
 		*/
-		$flags = 0;
-		if($this->isAdventure()){
-			$flags |= 0x01; //Do not allow placing/breaking blocks, adventure mode
-		}
-
-		/*if($nametags !== false){
-			$flags |= 0x20; //Show Nametags
-		}*/
-
-		if($this->autoJump){
-			$flags |= 0x40;
-		}
-
-		if($this->allowFlight){
-			$flags |= 0x80;
-		}
-
-		if($this->isSpectator()){
-			$flags |= 0x100;
-		}
-
-		$flags |= 0x02; // No PvP (Remove hit markers client-side).
-		$flags |= 0x04; // No PvM (Remove hit markers client-side).
-		$flags |= 0x08; // No PvE (Remove hit markers client-side).
 
 		$pk = new AdventureSettingsPacket();
 		$pk->flags = 0;
