@@ -194,57 +194,6 @@ chunk-generation:
  #Max. amount of chunks in the waiting queue to be populated
  population-queue-size: 8
 
-#NOT IMPLEMENTED YET
-ticks-per:
- animal-spawns: 400
- monster-spawns: 1
- autosave: 6000
- cache-cleanup: 900
-spawn-limits:
-  monsters: 70
-  animals: 15
-  water-animals: 5
-  ambient: 15
-# Check gamerule doMobSpawning
-#NOT IMPLEMENTED YET
-
-auto-updater:
- enabled: false
- on-update:
-  warn-console: false
-  warn-ops: false
- preferred-channel: Stable
- #Stable or DEV
- host: jenkins.clearskyteam.org
-
-aliases:
- #Examples:
- #showtheversion: version
- #savestop: [save-all, stop]
- 
-worlds:
- #These settings will override the generator set in server.properties and allows loading multiple levels
- #Example:
- #world:
- # seed: 404
- # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
- 
-anonymous-statistics:
- #Sends anonymous statistics for data aggregation, plugin usage tracking
- enabled: false
- host: stats.pocketmine.net
- 
-#!DO NOT EDIT below this line!
-version: 27
-# This is for internal use, changing this will reset your whole pocketmine.yml!
-
-auto-report:
- enabled: false
- send-code: true
- send-settings: true
- send-phpinfo: true
- host: crash.pocketmine.net
-
 default-gamerules:
 # Gamerules of imported maps will apply automatically
 # Example: you've set doMobSpawning to false in the original world, it will also be false in ClearSky
@@ -291,3 +240,54 @@ default-gamerules:
   # Whether the weather will change
   maxEntityCramming: 24
   #The maximum number of other pushable entities a mob or player can push, before taking 3 suffocation damage per half-second. Setting to 0 disables the rule. Damage affects survival-mode or adventure-mode players, and all mobs but bats. Pushable entities include non-spectator-mode players, any mob except bats, as well as boats and minecarts.
+
+#NOT IMPLEMENTED YET
+ticks-per:
+ animal-spawns: 400
+ monster-spawns: 1
+ autosave: 6000
+ cache-cleanup: 900
+spawn-limits:
+  monsters: 70
+  animals: 15
+  water-animals: 5
+  ambient: 15
+# Check gamerule doMobSpawning
+#NOT IMPLEMENTED YET
+
+auto-updater:
+ enabled: false
+ on-update:
+  warn-console: false
+  warn-ops: false
+ preferred-channel: Stable
+ #Stable or DEV
+ host: jenkins.clearskyteam.org
+
+aliases:
+ #Examples:
+ #showtheversion: version
+ #savestop: [save-all, stop]
+ 
+worlds:
+ #These settings will override the generator set in server.properties and allows loading multiple levels
+ #Example:
+ #world:
+ # seed: 404
+ # generator: FLAT:2;7,59x1,3x3,2;1;decoration(treecount=80 grasscount=45)
+ 
+anonymous-statistics:
+ #Sends anonymous statistics for data aggregation, plugin usage tracking
+ enabled: false
+ host: stats.pocketmine.net
+ 
+#!DO NOT EDIT below this line!
+version: 28
+# This is for internal use, changing this will reset your whole pocketmine.yml!
+
+auto-report:
+ enabled: false
+ send-code: true
+ send-settings: true
+ send-phpinfo: true
+ host: crash.pocketmine.net
