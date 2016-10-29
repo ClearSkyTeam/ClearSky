@@ -41,6 +41,6 @@ class AddEntityPacket extends DataPacket{
 			$this->putEntityId($link[0]);
 			$this->putEntityId($link[1]);
 			$this->putByte($link[2]);
-		}*/
+		}
 	}
 }
