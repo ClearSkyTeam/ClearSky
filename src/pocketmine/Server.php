@@ -2368,6 +2368,12 @@ class Server{
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		$pk->entries[] = [$uuid, $entityId, $name, $skinId, $skinData];
+		$players === null ? $players = $this->playerList : $players;
+		foreach($players as $key => $player){
+			if($player === $this->getPlayerExact($name)){
+				unset($players[$key]);
+			}
+		}
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
 	}
 
