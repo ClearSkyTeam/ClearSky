@@ -2551,8 +2551,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 				$target = $this->level->getEntity($packet->target);
 				$cancelled = false;
+				//CRITICAL TODO:merge 3d2f9f0e74f239265929157516fa0257b757295b (https://github.com/pmmp/PocketMine-MP/pull/42/commits/3d2f9f0e74f239265929157516fa0257b757295b)
 				/**
-				 * EntityLink *
+				 * EntityLink
 				 */
 				if($target !== null && $target->isVehicle()){
 					if($packet->action === InteractPacket::ACTION_RIGHT_CLICK){
