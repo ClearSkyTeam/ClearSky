@@ -25,7 +25,7 @@ class AddPlayerPacket extends DataPacket{
 	public $headYaw;
 	public $yaw;
 	public $item;
-	public $metadata;
+	public $metadata = [];
 
 	public function decode(){
 
