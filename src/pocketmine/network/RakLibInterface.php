@@ -46,7 +46,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 
 		$this->server = $server;
 		$this->timeout = $server->getProperty("network.timeout", -1);
-		$this->currentprotocol = $server->getProperty("network.protocol", ProtocolInfo::CURRENT_PROTOCOL);
+		$this->currentprotocol = ProtocolInfo::CURRENT_PROTOCOL;
 		$this->networkversion = $server->getProperty("network.version", ProtocolInfo::CURRENT_VERSION);
 		
 		$this->identifiers = [];
