@@ -1,8 +1,12 @@
 <?php
 namespace pocketmine\network\protocol;
 
+#include <rules/DataPacket.h>
+
+#ifndef COMPILE
 use pocketmine\utils\Binary;
-use pocketmine\entity\Entity;
+
+#endif
 
 class AddEntityPacket extends DataPacket{
 	const NETWORK_ID = Info::ADD_ENTITY_PACKET;
@@ -17,7 +21,8 @@ class AddEntityPacket extends DataPacket{
 	public $speedZ;
 	public $yaw;
 	public $pitch;
-	public $metadata = [Entity::DATA_LEAD_HOLDER => [Entity::DATA_TYPE_LONG, -1], Entity::DATA_LEAD => [Entity::DATA_TYPE_BYTE, 0]];
+	public $modifiers;
+	public $metadata = [];
 	public $links = [];
 
 	public function decode(){
@@ -43,4 +48,5 @@ class AddEntityPacket extends DataPacket{
 			$this->putByte($link[2]);
 		}
 	}
+
 }

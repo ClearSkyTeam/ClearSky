@@ -238,6 +238,42 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/** @var PermissibleBase */
 	private $perm = null;
 	
+	/** Fishing **/
+	protected $isFishing = false;
+	protected $fishEntity = null;
+	
+	public function linkHookToPlayer(Entity $entity){
+		if($entity !== null and $entity instanceof FishingHook and $entity->isAlive()){
+			$this->setHook($entity);
+			$this->isFishing = true;
+			$pk = new EntityEventPacket();
+			$pk->eid = $this->getId();
+			$pk->event = EntityEventPacket::FISH_HOOK_POSITION;
+			$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+			return true;
+		}
+		return false;
+	}
+
+	public function unlinkHookFromPlayer(Player $player){
+		$this->getHook()->kill();
+		$this->setHook();
+		$this->isFishing = false;
+		$pk = new EntityEventPacket();
+		$pk->eid = 0;
+		$pk->event = EntityEventPacket::FISH_HOOK_TEASE;
+		$this->server->broadcastPacket($this->level->getPlayers(), $pk);
+		return true;
+	}
+	
+	public function getHook(){
+		return $this->fishEntity;
+	}
+	
+	public function setHook(Entity $entity = null){
+		$this->fishEntity = $entity;
+	}
+	
 	/**
 	* @deprecated
 	*/
