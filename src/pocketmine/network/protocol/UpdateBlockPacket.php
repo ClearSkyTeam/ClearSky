@@ -22,7 +22,7 @@ class UpdateBlockPacket extends DataPacket{
 	public $blockId;
 	public $blockData;
 	public $flags;
-	
+
 	public function decode(){
 
 	}
