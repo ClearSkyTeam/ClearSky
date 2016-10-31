@@ -614,7 +614,6 @@ class Item{
 		]);
 		$f = $this->f;
 		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt, $player);
-		$launched->setNameTag($this->getCustomName());
 		$launched->setMotion($launched->getMotion()->multiply($f));
 		if($launched instanceof Projectile){
 			$player->getServer()->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($launched));
@@ -1912,10 +1911,10 @@ class Item{
 	final public function canBePlaced(){
 		return $this->block !== null and $this->block->canBePlaced();
 	}
-
 	final public function isPlaceable(){
 		$this->canBePlaced();
 	}
+	
 
 	public function canBeConsumed(){
 		return false;
