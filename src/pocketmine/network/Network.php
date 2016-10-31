@@ -209,16 +209,19 @@ class Network{
 
 	public function processBatch(BatchPacket $packet, Player $p){
 		try{
+			$logger = $this->server->getLogger();
 			if(strlen($packet->payload) === 0){
 				//prevent zlib_decode errors for incorrectly-decoded packets
-				throw new \InvalidArgumentException("BatchPacket payload is empty or packet decode error");
+				$logger->critical("BatchPacket from ".$p->getName().": payload is empty or packet decode error");
+				return;
 			}
 
 			$str = zlib_decode($packet->payload, 1024 * 1024 * 64); //Max 64MB
 			$len = strlen($str);
 
 			if($len === 0){
-				throw new \InvalidStateException("Decoded BatchPacket from ".$p->getName()." payload is empty");
+				$logger->critical("Decoded BatchPacket from ".$p->getName().": payload is empty");
+				return;
 			}
 
 			$stream = new BinaryStream($str);
@@ -227,12 +230,14 @@ class Network{
 				$buf = $stream->getString();
 				
 				if(strlen($buf) === 0){
-					throw new \InvalidStateException("Empty or invalid BatchPacket from ".$p->getName());
+					$logger->critical("Empty or invalid BatchPacket from ".$p->getName());
+					return;
 				}
 				
 				if(($pk = $this->getPacket(ord($buf{0}))) !== null){
 					if($pk::NETWORK_ID === Info::BATCH_PACKET){
-						throw new \InvalidStateException("Invalid BatchPacket inside BatchPacket from".$p->getName());
+						$logger->critical("Invalid BatchPacket inside BatchPacket from".$p->getName());
+						return;
 					}
 
 					$pk->setBuffer($buf, 1);
