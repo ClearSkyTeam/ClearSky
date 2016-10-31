@@ -862,13 +862,20 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	 * @return Position
 	 */
 	public function getSpawn(){
-		if($this->spawnPosition instanceof Position and $this->spawnPosition->getLevel() instanceof Level){
+		if($this->hasValidSpawnPosition()){
 			return $this->spawnPosition;
 		}else{
 			$level = $this->server->getDefaultLevel();
 
 			return $level->getSafeSpawn();
 		}
+	}
+
+	/**
+	 * @return bool
+	 */
+	public function hasValidSpawnPosition() : bool{
+		return $this->spawnPosition instanceof WeakPosition and $this->spawnPosition->isValid();
 	}
 
 	public function sendChunk($x, $z, $payload, $ordering = FullChunkDataPacket::ORDER_COLUMNS){
@@ -1934,8 +1941,8 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 
 		$this->dataPacket(new ResourcePacksInfoPacket());
 
-		if($this->spawnPosition === null and isset($this->namedtag->SpawnLevel) and ($level = $this->server->getLevelByName($this->namedtag["SpawnLevel"])) instanceof Level){
-			$this->spawnPosition = new Position($this->namedtag["SpawnX"], $this->namedtag["SpawnY"], $this->namedtag["SpawnZ"], $level);
+		if(!$this->hasValidSpawnPosition() and isset($this->namedtag->SpawnLevel) and ($level = $this->server->getLevelByName($this->namedtag["SpawnLevel"])) instanceof Level){
+			$this->spawnPosition = new WeakPosition($this->namedtag["SpawnX"], $this->namedtag["SpawnY"], $this->namedtag["SpawnZ"], $level);
 		}
 
 		$spawnPosition = $this->getSpawn();
@@ -3433,7 +3440,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		parent::saveNBT();
 		if($this->level instanceof Level){
 			$this->namedtag->Level = new StringTag("Level", $this->level->getName());
-			if($this->spawnPosition instanceof Position and $this->spawnPosition->getLevel() instanceof Level and $this->spawnPosition->getLevel()->getProvider() !== null){
+			if($this->hasValidSpawnPosition()){
 				$this->namedtag["SpawnLevel"] = $this->spawnPosition->getLevel()->getName();
 				$this->namedtag["SpawnX"] = (int) $this->spawnPosition->x;
 				$this->namedtag["SpawnY"] = (int) $this->spawnPosition->y;
