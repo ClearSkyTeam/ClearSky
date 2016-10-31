@@ -3642,14 +3642,15 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		return $this->getHealth() > 0;
 	}
 
-	public function setSprinting($value = true) {
+	public function setSprinting($value = true){
+		$oldVal = $this->isSprinting();
+		
 		parent::setSprinting($value);
 
-		$sprintSpeedChange = self::DEFAULT_SPEED * 0.3;
-		if ($value === false) {
-			$sprintSpeedChange *= -1;
+		if($value !== $oldVal){
+			$value ? $sprintSpeedChange = self::DEFAULT_SPEED * 0.3 : $sprintSpeedChange = - self::DEFAULT_SPEED * 0.3;
+			$this->setMovementSpeed($this->getMovementSpeed() + $sprintSpeedChange);
 		}
-		$this->setMovementSpeed($this->getMovementSpeed() + $sprintSpeedChange);
 	}
 
 	/**
