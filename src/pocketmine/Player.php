@@ -2172,11 +2172,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->onPlayerPreLogin();
 				break;
 			case ProtocolInfo::MOVE_PLAYER_PACKET:
-				/** EntityLink **/
+/*
+				/** EntityLink ** /
 				if($this->getlinkType() === Entity::LINK_MASTER){
 					$this->getlinkedTarget()->followEntity($this);
 				}
-				
+				*/
 				if($this->teleportPosition !== null){
 					break;
 				}
