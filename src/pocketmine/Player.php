@@ -2793,6 +2793,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 								}
 								else
 									$params[$parameter->name] = $args->{$parameter->name};
+								//Found another: /help [command: string], causing issues
 							}
 						}
 						$commandText .= " " . implode(" ", $params);
