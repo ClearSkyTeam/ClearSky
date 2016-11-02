@@ -10,10 +10,10 @@ interface Info{
 	/**
 	 * Actual Minecraft: PE protocol versions
 	 */
-	const CURRENT_PROTOCOL = 82;
-	const ACCEPT_PROTOCOL = [81,82];
+	const CURRENT_PROTOCOL = 83;
+	const ACCEPT_PROTOCOL = [83, 84];
 	const CURRENT_VERSION = "0.15";
-	
+
 	const LOGIN_PACKET = 0x01;
 	const PLAY_STATUS_PACKET = 0x02;
 	const SERVER_TO_CLIENT_HANDSHAKE_PACKET = 0x03;
@@ -79,14 +79,3 @@ interface Info{
 	const REPLACE_SELECTED_ITEM_PACKET = 0x40;
 	const ADD_ITEM_PACKET = 0x41;
 }
-
-
-
-
-
-
-
-
-
-
-

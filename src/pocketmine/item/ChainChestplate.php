@@ -8,11 +8,23 @@ class ChainChestplate extends Armor{
 		parent::__construct(self::CHAIN_CHESTPLATE, $meta, $count, "Chain Chestplate");
 	}
 
-	public function isArmor(){
-		return true;
+	public function getArmorTier(){
+		return Armor::TIER_CHAIN;
+	}
+
+	public function getArmorType(){
+		return Armor::TYPE_CHESTPLATE;
 	}
 
 	public function getMaxDurability(){
 		return 241;
+	}
+
+	public function getArmorValue(){
+		return 5;
+	}
+
+	public function isChestplate(){
+		return true;
 	}
 }

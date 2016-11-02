@@ -31,6 +31,8 @@ class LevelEventPacket extends DataPacket{
 	
 	const EVENT_SOUND_DROP_ITEM = 1030;
 
+	const EVENT_SOUND_BLOCK_PLACE = 1052;
+
 	const EVENT_PARTICLE_SHOOT = 2000;
 	const EVENT_PARTICLE_DESTROY = 2001;
 	const EVENT_PARTICLE_SPLASH = 2002;

@@ -35,6 +35,8 @@ class Effect{
 	const ABSORPTION = 22;
 	const SATURATION = 23;
 
+	const MAX_DURATION = 2147483648;
+
 	/** @var Effect[] */
 	protected static $effects;
 
@@ -92,7 +94,7 @@ class Effect{
 
 	protected $duration;
 
-	protected $amplifier;
+	protected $amplifier = 0;
 
 	protected $color;
 
@@ -118,7 +120,7 @@ class Effect{
 	}
 
 	public function setDuration($ticks){
-		$this->duration = $ticks;
+		$this->duration = (($ticks > self::MAX_DURATION) ? self::MAX_DURATION : $ticks);
 		return $this;
 	}
 
@@ -166,6 +168,7 @@ class Effect{
 	}
 
 	public function canTick(){
+		if($this->amplifier < 0) $this->amplifier = 0;
 		switch($this->id){
 			case Effect::POISON:
 				if(($interval = (25 >> $this->amplifier)) > 0){
@@ -178,17 +181,16 @@ class Effect{
 				}
 				return true;
 			case Effect::REGENERATION:
+			case Effect::HUNGER:
 				if(($interval = (40 >> $this->amplifier)) > 0){
 					return ($this->duration % $interval) === 0;
 				}
 				return true;
-			case Effect::HUNGER:
-				if(($interval = (1 >> $this->amplifier)) > 0){
-					return ($this->duration % $interval) === 0;
-				}
+			case Effect::HEALING:
+			case Effect::HARMING:
 				return true;
 			case Effect::SATURATION:
-				if(($interval = (1 >> $this->amplifier)) > 0){
+				if(($interval = (20 >> $this->amplifier)) > 0){
 					return ($this->duration % $interval) === 0;
 				}
 				return true;
@@ -221,17 +223,31 @@ class Effect{
 					$entity->exhaust(0.5 * $this->amplifier, PlayerExhaustEvent::CAUSE_POTION);
 				}
 				break;
-			case Effect::SATURATION:
-				if($entity instanceof Human){
-					$entity->addSaturation($this->amplifier);
+			case Effect::HEALING:
+				$level = $this->amplifier + 1;
+				if(($entity->getHealth() + 4 * $level) <= $entity->getMaxHealth()) {
+					$ev = new EntityRegainHealthEvent($entity, 4 * $level, EntityRegainHealthEvent::CAUSE_MAGIC);
+					$entity->heal($ev->getAmount(), $ev);
+				} else {
+					$ev = new EntityRegainHealthEvent($entity, $entity->getMaxHealth() - $entity->getHealth(), EntityRegainHealthEvent::CAUSE_MAGIC);
+					$entity->heal($ev->getAmount(), $ev);
 				}
 				break;
-			case Effect::SPEED:
-			    if($entity instanceof Player) $entity->setMovementSpeed(0.1 + ($this->amplifier + 1) * 0.01);
-			    break;
-			case Effect::SLOWNESS:
-			    if($entity instanceof Player) $entity->setMovementSpeed(0.1 - ($this->amplifier + 1) * 0.01);
-			    break;
+			case Effect::HARMING:
+				$level = $this->amplifier + 1;
+				if(($entity->getHealth() - 6 * $level) >= 0) {
+					$ev = new EntityDamageEvent($entity, EntityDamageEvent::CAUSE_MAGIC, 6 * $level);
+					$entity->attack($ev->getFinalDamage(), $ev);
+				} else {
+					$ev = new EntityDamageEvent($entity, EntityDamageEvent::CAUSE_MAGIC, $entity->getHealth());
+					$entity->attack($ev->getFinalDamage(), $ev);
+				}
+				break;
+			case Effect::SATURATION:
+				if($entity instanceof Player){
+					$entity->addFood(1);
+				}
+				break;
 		}
 	}
 
@@ -244,65 +260,54 @@ class Effect{
 	}
 
 	public function add(Entity $entity, $modify = false, Effect $oldEffect = null){
-		if($entity instanceof Player){
-			$pk = new MobEffectPacket();
-			$pk->eid = 0;
-			$pk->effectId = $this->getId();
-			$pk->amplifier = $this->getAmplifier();
-			$pk->particles = $this->isVisible();
-			$pk->duration = $this->getDuration();
-			if($modify){
-				$pk->eventId = MobEffectPacket::EVENT_MODIFY;
-			}else{
-				$pk->eventId = MobEffectPacket::EVENT_ADD;
-			}
-
-			$entity->dataPacket($pk);
-		}
-
-		if($this->id === Effect::INVISIBILITY){
-			$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, true);
-			$entity->setDataProperty(Entity::DATA_SHOW_NAMETAG, Entity::DATA_TYPE_BYTE, 0);
-		}elseif($this->id === Effect::SPEED){
-			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-			if($modify and $oldEffect !== null){
-				$speed = $attr->getValue() / (1 + 0.2 * $oldEffect->getAmplifier());
-			}else{
-				$speed = $attr->getValue();
-			}
-			$speed *= (1 + 0.2 * $this->amplifier);
-			$attr->setValue($speed);
-		}elseif($this->id === Effect::SLOWNESS){
-			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-			if($modify and $oldEffect !== null){
-				$speed = $attr->getValue() / (1 - 0.15 * $oldEffect->getAmplifier());
-			}else{
-				$speed = $attr->getValue();
-			}
-			$speed *= (1 - 0.15 * $this->amplifier);
-			$attr->setValue($speed);
+		$isPlayer = $entity instanceof Player;
+		$pk = new MobEffectPacket();
+		$pk->eid = 0;
+		$pk->effectId = $this->getId();
+		$pk->amplifier = $this->getAmplifier();
+		$pk->particles = $this->isVisible();
+		$pk->duration = $this->getDuration();
+		$pk->eventId = $modify ? MobEffectPacket::EVENT_MODIFY : MobEffectPacket::EVENT_ADD;
+		
+		$entity->dataPacket($pk);
+		switch($this->id){
+			case Effect::INVISIBILITY:
+				$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, true);
+				$entity->setNameTagVisible(false);
+				break;
+			case Effect::SPEED:
+				if($isPlayer){
+					$entity->setMovementSpeed($entity::DEFAULT_SPEED * (1 + ($this->amplifier + 1) * 0.2));
+				}
+				break;
+			case Effect::SLOWNESS:
+				if($isPlayer){
+					$entity->setMovementSpeed($entity::DEFAULT_SPEED * (1 - ($this->amplifier + 1) * 0.15));
+				}
+				break;
 		}
 	}
 
 	public function remove(Entity $entity){
-		if($entity instanceof Player){
-			$pk = new MobEffectPacket();
-			$pk->eid = 0;
-			$pk->eventId = MobEffectPacket::EVENT_REMOVE;
-			$pk->effectId = $this->getId();
-
-			$entity->dataPacket($pk);
-		}
-
-		if($this->id === Effect::INVISIBILITY){
-			$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, false);
-			$entity->setDataProperty(Entity::DATA_SHOW_NAMETAG, Entity::DATA_TYPE_BYTE, 1);
-		}elseif($this->id === Effect::SPEED){
-			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-			$attr->setValue($attr->getValue() / (1 - 0.2 * $this->amplifier));
-		}elseif($this->id === Effect::SLOWNESS){
-			$attr = $entity->getAttributeMap()->getAttribute(Attribute::MOVEMENT_SPEED);
-			$attr->setValue($attr->getValue() / (1 + 0.15 * $this->amplifier));
+		$isPlayer = $entity instanceof Player;
+		$pk = new MobEffectPacket();
+		$pk->eid = 0;
+		$pk->eventId = MobEffectPacket::EVENT_REMOVE;
+		$pk->effectId = $this->getId();
+		
+		$entity->dataPacket($pk);
+		switch($this->id){
+			case Effect::INVISIBILITY:
+				$entity->setDataFlag(Entity::DATA_FLAGS, Entity::DATA_FLAG_INVISIBLE, false);
+				$entity->setNameTagVisible(true);
+				break;
+			case Effect::SPEED:
+			case Effect::SLOWNESS:
+				if($isPlayer){
+					$entity->setMovementSpeed($entity::DEFAULT_SPEED);
+					$entity->sendPotionEffects($entity);
+				}
+				break;
 		}
 	}
 }

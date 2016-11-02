@@ -16,7 +16,7 @@ class Chunk extends BaseFullChunk{
 	protected $isPopulated = false;
 	protected $isGenerated = false;
 
-	public function __construct($level, $chunkX, $chunkZ, $terrain, array $entityData = null, array $tileData = null){
+	public function __construct($level, $chunkX, $chunkZ, $terrain, array $entityData = null, array $tileData = null, array $extraData = null){
 		$offset = 0;
 
 		$blocks = substr($terrain, $offset, 32768);
@@ -40,7 +40,7 @@ class Chunk extends BaseFullChunk{
 		}
 		$offset += 1024;
 
-		parent::__construct($level, $chunkX, $chunkZ, $blocks, $data, $skyLight, $blockLight, $biomeColors, $heightMap, $entityData === null ? [] : $entityData, $tileData === null ? [] : $tileData);
+		parent::__construct($level, $chunkX, $chunkZ, $blocks, $data, $skyLight, $blockLight, $biomeColors, $heightMap, $entityData === null ? [] : $entityData, $tileData === null ? [] : $tileData, $extraData === null ? [] : $extraData);
 	}
 
 	public function getBlockId($x, $y, $z){
@@ -268,7 +268,7 @@ class Chunk extends BaseFullChunk{
 				}
 			}
 
-			$chunk = new Chunk($provider instanceof LevelProvider ? $provider : LevelDB::class, $chunkX, $chunkZ, $chunkData, $entities, $tiles);
+			$chunk = new Chunk($provider instanceof LevelProvider ? $provider : LevelDB::class, $chunkX, $chunkZ, $chunkData, $entities, $tiles, $extraData);
 			if($flags & 0x01){
 				$chunk->setGenerated();
 			}

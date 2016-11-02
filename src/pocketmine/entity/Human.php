@@ -4,8 +4,12 @@ namespace pocketmine\entity;
 use pocketmine\event\entity\EntityDamageEvent;
 use pocketmine\event\entity\EntityRegainHealthEvent;
 use pocketmine\event\player\PlayerExhaustEvent;
+use pocketmine\inventory\FloatingInventory;
 use pocketmine\inventory\InventoryHolder;
+use pocketmine\inventory\InventoryType;
 use pocketmine\inventory\PlayerInventory;
+use pocketmine\inventory\SimpleTransactionQueue;
+use pocketmine\item\enchantment\Enchantment;
 use pocketmine\item\Item as ItemItem;
 use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\ByteTag;
@@ -14,6 +18,7 @@ use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\ShortTag;
+use pocketmine\nbt\tag\LongTag;
 use pocketmine\nbt\tag\StringTag;
 use pocketmine\network\protocol\AddPlayerPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
@@ -30,6 +35,12 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	/** @var PlayerInventory */
 	protected $inventory;
+
+	/** @var FloatingInventory */
+	protected $floatingInventory;
+
+	/** @var SimpleTransactionQueue */
+	protected $transactionQueue = null;
 
 	/** @var UUID */
 	protected $uuid;
@@ -232,12 +243,30 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 		return $this->inventory;
 	}
 
+	public function getFloatingInventory(){
+		return $this->floatingInventory;
+	}
+
+	public function getTransactionQueue(){
+		//Is creating the transaction queue ondemand a good idea? I think only if it's destroyed afterwards. hmm...
+		if($this->transactionQueue === null){
+			//Potential for crashes here if a plugin attempts to use this, say for an NPC plugin or something...
+			$this->transactionQueue = new SimpleTransactionQueue($this);
+		}
+		return $this->transactionQueue;
+	}
+
 	protected function initEntity(){
 
 		$this->setDataFlag(self::DATA_PLAYER_FLAGS, self::DATA_PLAYER_FLAG_SLEEP, false);
 		$this->setDataProperty(self::DATA_PLAYER_BED_POSITION, self::DATA_TYPE_POS, [0, 0, 0], false);
 
-		$this->inventory = new PlayerInventory($this);
+		$inventoryContents = ($this->namedtag->Inventory ?? null);
+		$this->inventory = new PlayerInventory($this, $inventoryContents);
+
+		//Virtual inventory for desktop GUI crafting and anti-cheat transaction processing
+		$this->floatingInventory = new FloatingInventory($this);
+
 		if($this instanceof Player){
 			$this->addWindow($this->inventory, 0);
 		}else{
@@ -250,18 +279,6 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			}
 
 			$this->uuid = UUID::fromData($this->getId(), $this->getSkinData(), $this->getNameTag());
-		}
-
-		if(isset($this->namedtag->Inventory) and $this->namedtag->Inventory instanceof ListTag){
-			foreach($this->namedtag->Inventory as $item){
-				if($item["Slot"] >= 0 and $item["Slot"] < 9){ //Hotbar
-					$this->inventory->setHotbarSlotIndex($item["Slot"], isset($item["TrueSlot"]) ? $item["TrueSlot"] : -1);
-				}elseif($item["Slot"] >= 100 and $item["Slot"] < 104){ //Armor
-					$this->inventory->setItem($this->inventory->getSize() + $item["Slot"] - 100, NBT::getItemHelper($item));
-				}else{
-					$this->inventory->setItem($item["Slot"] - 9, NBT::getItemHelper($item));
-				}
-			}
 		}
 
 		parent::initEntity();
@@ -381,40 +398,36 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function saveNBT(){
 		parent::saveNBT();
+		$this->namedtag->foodLevel = new IntTag("foodLevel", $this->getFood());
+		$this->namedtag->foodExhaustionLevel = new FloatTag("foodExhaustionLevel", $this->getExhaustion());
+		$this->namedtag->foodSaturationLevel = new FloatTag("foodSaturationLevel", $this->getSaturation());
+		$this->namedtag->foodTickTimer = new IntTag("foodTickTimer", $this->foodTickTimer);
+		$this->namedtag->XpLevel = new IntTag("XpLevel", $this->getXpLevel());
+		$this->namedtag->XpP = new FloatTag("XpP", $this->getXpProgress());
+		$this->namedtag->XpTotal = new IntTag("XpTotal", $this->totalXp);
+		$this->namedtag->XpSeed = new IntTag("XpSeed", $this->xpSeed ?? ($this->xpSeed = mt_rand(PHP_INT_MIN, PHP_INT_MAX)));
+
 		$this->namedtag->Inventory = new ListTag("Inventory", []);
 		$this->namedtag->Inventory->setTagType(NBT::TAG_Compound);
 		if($this->inventory !== null){
-			for($slot = 0; $slot < 9; ++$slot){
-				$hotbarSlot = $this->inventory->getHotbarSlotIndex($slot);
-				if($hotbarSlot !== -1){
-					$item = $this->inventory->getItem($hotbarSlot);
-					if($item->getId() !== 0 and $item->getCount() > 0){
-						$tag = NBT::putItemHelper($item, $slot);
-						$tag->TrueSlot = new ByteTag("TrueSlot", $hotbarSlot);
-						$this->namedtag->Inventory[$slot] = $tag;
-
-						continue;
-					}
-				}
-
-				$this->namedtag->Inventory[$slot] = new CompoundTag("", [
-					new ByteTag("Count", 0),
-					new ShortTag("Damage", 0),
-					new ByteTag("Slot", $slot),
-					new ByteTag("TrueSlot", -1),
-					new ShortTag("id", 0),
-				]);
+			//Hotbar
+			for($slot = 0; $slot < $this->inventory->getHotbarSize(); ++$slot){
+				$inventorySlotIndex = $this->inventory->getHotbarSlotIndex($slot);
+				$item = $this->inventory->getItem($inventorySlotIndex);
+				$tag = NBT::putItemHelper($item, $slot);
+				$tag->TrueSlot = new ByteTag("TrueSlot", $inventorySlotIndex);
+				$this->namedtag->Inventory[$slot] = $tag;
 			}
 
 			//Normal inventory
-			$slotCount = Player::SURVIVAL_SLOTS + 9;
-			//$slotCount = (($this instanceof Player and ($this->gamemode & 0x01) === 1) ? Player::CREATIVE_SLOTS : Player::SURVIVAL_SLOTS) + 9;
-			for($slot = 9; $slot < $slotCount; ++$slot){
-				$item = $this->inventory->getItem($slot - 9);
+			$slotCount = $this->inventory->getSize() + $this->inventory->getHotbarSize();
+			for($slot = $this->inventory->getHotbarSize(); $slot < $slotCount; ++$slot){
+				$item = $this->inventory->getItem($slot - $this->inventory->getHotbarSize());
+				//As NBT, real inventory slots are slots 9-44, NOT 0-35
 				$this->namedtag->Inventory[$slot] = NBT::putItemHelper($item, $slot);
 			}
 
-			//Armor
+			//Armour
 			for($slot = 100; $slot < 104; ++$slot){
 				$item = $this->inventory->getItem($this->inventory->getSize() + $slot - 100);
 				if($item instanceof ItemItem and $item->getId() !== ItemItem::AIR){
@@ -436,6 +449,7 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 			$this->hasSpawned[$player->getLoaderId()] = $player;
 
 			if(strlen($this->skin) < 64 * 32 * 4){
+				$this->close();
 				throw new \InvalidStateException((new \ReflectionClass($this))->getShortName() . " must have a valid skin set");
 			}
 
@@ -481,6 +495,13 @@ class Human extends Creature implements ProjectileSource, InventoryHolder{
 
 	public function close(){
 		if(!$this->closed){
+			if($this->getFloatingInventory() instanceof FloatingInventory){
+				foreach($this->getFloatingInventory()->getContents() as $craftingItem){
+					$this->level->dropItem($this, $craftingItem);
+				}
+			}else{
+				$this->server->getLogger()->debug("Attempted to drop a null crafting inventory");
+			}
 			if(!($this instanceof Player) or $this->loggedIn){
 				foreach($this->inventory->getViewers() as $viewer){
 					$viewer->removeWindow($this->inventory);

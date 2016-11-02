@@ -16,10 +16,6 @@ class Vine extends Transparent{
 		$this->meta = $meta;
 	}
 
-	public function isSolid(){
-		return false;
-	}
-
 	public function getName(){
 		return "Vines";
 	}
@@ -28,19 +24,16 @@ class Vine extends Transparent{
 		return 0.2;
 	}
 
-	public function canPassThrough(){
-		return true;
-	}
-
 	public function hasEntityCollision(){
 		return true;
 	}
 
 	public function onEntityCollide(Entity $entity){
 		$entity->resetFallDistance();
+		$entity->onGround = true;
 	}
 
-	protected function recalculateBoundingBox(){
+/*	protected function recalculateBoundingBox(){// TEMP FIX for drag -> collide with full block
 
 		$f1 = 1;
 		$f2 = 1;
@@ -98,7 +91,7 @@ class Vine extends Transparent{
 				$this->y + $f5,
 				$this->z + $f6
 				);
-	}
+	}*/
 
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){

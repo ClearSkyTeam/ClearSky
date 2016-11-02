@@ -102,7 +102,7 @@ abstract class Entity extends Location implements Metadatable{
 		self::DATA_NAMETAG => [self::DATA_TYPE_STRING, ""],
 		self::DATA_SHOW_NAMETAG => [self::DATA_TYPE_BYTE, 1],
 		self::DATA_SILENT => [self::DATA_TYPE_BYTE, 0],
-		self::DATA_NO_AI => [self::DATA_TYPE_BYTE, 0],
+		self::DATA_NO_AI => [self::DATA_TYPE_BYTE, 1], //experimental anti client offset
 		self::DATA_LEAD_HOLDER => [self::DATA_TYPE_LONG, -1],
 		self::DATA_LEAD => [self::DATA_TYPE_BYTE, 0],
 	];
@@ -291,7 +291,6 @@ abstract class Entity extends Location implements Metadatable{
 	}
 	
 	public function __construct(FullChunk $chunk, CompoundTag $nbt){
-
 		assert($chunk !== null and $chunk->getProvider() !== null);
 
 		$this->timings = Timings::getEntityTimings($this);
@@ -331,7 +330,7 @@ abstract class Entity extends Location implements Metadatable{
 		}
 		$this->fallDistance = $this->namedtag["FallDistance"];
 
-		if(!isset($this->namedtag->Fire)){
+		if(!isset($this->namedtag->Fire) || $this->namedtag["Fire"] > 32767 ){
 			$this->namedtag->Fire = new ShortTag("Fire", 0);
 		}
 		$this->fireTicks = $this->namedtag["Fire"];
@@ -443,11 +442,7 @@ abstract class Entity extends Location implements Metadatable{
 	}
 
 	public function setSprinting($value = true){
-		if($value !== $this->isSprinting()){
-			$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_SPRINTING, (bool) $value);
-			$attr = $this->attributeMap->getAttribute(Attribute::MOVEMENT_SPEED);
-			$attr->setValue($value ? ($attr->getValue() * 1.3) : ($attr->getValue() / 1.3));
-		}
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_SPRINTING, (bool) $value);
 	}
 
 	/**
@@ -632,6 +627,9 @@ abstract class Entity extends Location implements Metadatable{
 		$this->namedtag->Air = new ShortTag("Air", $this->getDataProperty(self::DATA_AIR));
 		$this->namedtag->OnGround = new ByteTag("OnGround", $this->onGround == true ? 1 : 0);
 		$this->namedtag->Invulnerable = new ByteTag("Invulnerable", $this->invulnerable == true ? 1 : 0);
+		
+		$this->namedtag->Health = new ShortTag("Health", $this->getHealth());
+		$this->namedtag->MaxHealth = new ShortTag("MaxHealth", $this->getMaxHealth());
 
 		if(count($this->effects) > 0){
 			$effects = [];
@@ -1163,7 +1161,7 @@ abstract class Entity extends Location implements Metadatable{
 
 	public function fall($fallDistance){
 		if($this->isInsideOfWater()) return;
-		$damage = floor($fallDistance - 3 - ($this->hasEffect(Effect::JUMP) ? $this->getEffect(Effect::JUMP)->getAmplifier() + 1 : 0));
+		$damage = floor($fallDistance - 1 - ($this->hasEffect(Effect::JUMP) ? $this->getEffect(Effect::JUMP)->getAmplifier() + 1 : 0)); //TODO: Reset to - 3 when falldistance calculated right
 		if($damage > 0){
 			$ev = new EntityDamageEvent($this, EntityDamageEvent::CAUSE_FALL, $damage);
 			$this->attack($ev->getFinalDamage(), $ev);

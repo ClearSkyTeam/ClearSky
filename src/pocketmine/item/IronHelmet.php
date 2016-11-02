@@ -8,11 +8,23 @@ class IronHelmet extends Armor{
 		parent::__construct(self::IRON_HELMET, $meta, $count, "Iron Helmet");
 	}
 
-	public function isArmor(){
-		return true;
+	public function getArmorTier(){
+		return Armor::TIER_IRON;
+	}
+
+	public function getArmorType(){
+		return Armor::TYPE_HELMET;
 	}
 
 	public function getMaxDurability(){
 		return 166;
+	}
+
+	public function getArmorValue(){
+		return 2;
+	}
+
+	public function isHelmet(){
+		return true;
 	}
 }

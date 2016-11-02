@@ -500,7 +500,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::POTATO_BLOCK] = Potato::class;
 			self::$list[self::WOODEN_BUTTON] = WoodenButton::class;
 			self::$list[self::SKULL_BLOCK] = SkullBlock::class;
-			self::$list[self::ANVIL_BLOCK] = AnvilBlock::class;
+			self::$list[self::ANVIL_BLOCK] = Anvil::class;
 			self::$list[self::TRAPPED_CHEST] = TrappedChest::class;
 			self::$list[self::LIGHT_WEIGHTED_PRESSURE_PLATE] = LightWeightedPressurePlate::class;
 			self::$list[self::HEAVY_WEIGHTED_PRESSURE_PLATE] = HeavyWeightedPressurePlate::class;
@@ -555,38 +555,32 @@ class Block extends Position implements Metadatable{
 			self::$list[self::GLOWING_OBSIDIAN] = GlowingObsidian::class;
 			self::$list[self::NETHER_REACTOR] = NetherReactor::class;
 			self::$list[self::OBSERVER] = Observer::class;
-		//	self::$list[self::RESERVED] = Reserved::class;
+			// self::$list[self::RESERVED] = Reserved::class;
 
 			foreach(self::$list as $id => $class){
 				if($class !== null){
 					/** @var Block $block */
 					$block = new $class();
-
 					for($data = 0; $data < 16; ++$data){
 						self::$fullList[($id << 4) | $data] = new $class($data);
 					}
-
 					self::$solid[$id] = $block->isSolid();
 					self::$transparent[$id] = $block->isTransparent();
 					self::$hardness[$id] = $block->getHardness();
 					self::$light[$id] = $block->getLightLevel();
-
+					self::$lightFilter[$id] = 1;
 					if($block->isSolid()){
 						if($block->isTransparent()){
 							if($block instanceof Liquid or $block instanceof Ice){
 								self::$lightFilter[$id] = 2;
-							}else{
-								self::$lightFilter[$id] = 1;
 							}
-						}elseif($block instanceof LightSource){
-							self::$lightFilter[$id] = 1;
-						}else{
+						}
+						elseif(!$block instanceof LightSource){
 							self::$lightFilter[$id] = 15;
 						}
-					}else{
-						self::$lightFilter[$id] = 1;
 					}
-				}else{
+				}
+				else{
 					self::$lightFilter[$id] = 1;
 					for($data = 0; $data < 16; ++$data){
 						self::$fullList[($id << 4) | $data] = new Block($id, $data);
@@ -794,6 +788,21 @@ class Block extends Position implements Metadatable{
 
 	public function isSolid(){
 		return true;
+	}
+
+	public function isTopFacingSurfaceSolid(){
+		if($this->isSolid()){
+			return true;
+		}else{
+			if($this instanceof Stair and ($this->getDamage() &4) == 4){
+				return true;
+			}elseif($this instanceof Slab and ($this->getDamage() & 8) == 8){
+				return true;
+			}elseif($this instanceof SnowLayer and ($this->getDamage() & 7) == 7){
+				return true;
+			}
+		}
+		return false;
 	}
 	
 	/**

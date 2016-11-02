@@ -8,11 +8,23 @@ class GoldLeggings extends Armor{
 		parent::__construct(self::GOLD_LEGGINGS, $meta, $count, "Gold Leggings");
 	}
 
-	public function isArmor(){
-		return true;
+	public function getArmorTier(){
+		return Armor::TIER_GOLD;
+	}
+
+	public function getArmorType(){
+		return Armor::TYPE_LEGGINGS;
 	}
 
 	public function getMaxDurability(){
 		return 106;
+	}
+
+	public function getArmorValue(){
+		return 3;
+	}
+
+	public function isLeggings(){
+		return true;
 	}
 }

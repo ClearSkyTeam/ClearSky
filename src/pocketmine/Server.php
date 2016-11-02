@@ -95,9 +95,9 @@ use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\nbt\tag\DoubleTag;
-use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\IntTag;
+use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\LongTag;
 use pocketmine\nbt\tag\ShortTag;
 use pocketmine\nbt\tag\StringTag;
@@ -295,7 +295,7 @@ class Server{
 	/** @var Config */
 	private $properties;
 
-	private $propertyCache = [];
+	public $propertyCache = [];
 
 	/** @var Config */
 	private $config;
@@ -337,14 +337,14 @@ class Server{
 	public function getPocketMineBuild(){
 		return \pocketmine\BUILD;
 	}
-	
+
 	/**
 	 * @return string
 	 */
 	public function getPocketMineVersion(){
 		return \pocketmine\VERSION;
 	}
-
+	
 	/**
 	 * @return string
 	 */
@@ -583,6 +583,13 @@ class Server{
 	public function getAllowFlight(){
 		return $this->getConfigBoolean("allow-flight", false);
 	}
+	
+	/**
+	 * @return bool
+	 */
+	public function getAllowInvCheats(){
+		return $this->getProperty("player.inventory.allow-cheats", false);
+	}
 
 
 	/**
@@ -800,11 +807,10 @@ class Server{
 			new ByteTag("OnGround", 1),
 			new ByteTag("Invulnerable", 0),
 			new StringTag("NameTag", $name),
-			new ShortTag("Hunger", 20),
+			new ShortTag("foodLevel", 20),
 			new ShortTag("Health", 20),
 			new ShortTag("MaxHealth", 20),
-			new LongTag("ExpCurrent", 0),
-			new LongTag("ExpLevel", 0),
+			new IntTag("XpLevel", 0),
 		]);
 		$nbt->Pos->setTagType(NBT::TAG_Double);
 		$nbt->Inventory->setTagType(NBT::TAG_Compound);
@@ -1285,6 +1291,16 @@ class Server{
 	 *
 	 * @return boolean
 	 */
+	public function getConfigBool($variable, $defaultValue = false){
+		$this->getConfigBoolean($variable, $defaultValue);
+	}
+
+	/**
+	 * @param string  $variable
+	 * @param boolean $defaultValue
+	 *
+	 * @return boolean
+	 */
 	public function getConfigBoolean($variable, $defaultValue = false){
 		$v = getopt("", ["$variable::"]);
 		if(isset($v[$variable])){
@@ -1564,22 +1580,28 @@ class Server{
 			"enable-rcon" => false,
 			"rcon.password" => substr(base64_encode(@Utils::getRandomBytes(20, false)), 3, 10),
 			"auto-save" => true,
+			"online-mode" => false,
 		]);
+		
+		if(!extension_loaded("openssl") && $this->getConfigBool("online-mode", false)){
+			$this->logger->warning("The OpenSSL extension is not loaded, and this is required for XBOX authentication to work. If you want to use Xbox Live auth, please use PHP binarys with OpenSSL, or recompile PHP with the OpenSSL extension."); //TODO:TRANSLATE
+			$this->setConfigBool("online-mode", false);
+		}
 		
 		if(extension_loaded("xdebug")){
 			if(!$this->getProperty("debug.allow-xdebug", false)){
-				$this->logger->critical("Please REMOVE xdebug in production server");
+				$this->logger->critical("Please do not use a PHP installation with the xDebug extension loaded for a Production server. If you do want to use it however, set debug.allow-xdebug to true."); //TODO:TRANSLATE
 				return;
 			}else{
-				$this->logger->warning("xdebug Enabled !ONLY FOR DEVELOPMENT USE!");
+				$this->logger->warning("xDebug is enabled, this decreases Performance. Use this for development purposes only."); //TODO:TRANSLATE
 			}
 		}
 		if(!$this->getProperty("I/O.log-to-file", true)){
-			$this->logger->info("Disable MainLogger to file");
-			$this->logger->Disable();
+			$this->logger->disable();
+			$this->logger->info("MainLogger will not write to server.log"); //TODO:TRANSLATE
 		}else{
-			$this->logger->info("Enable MainLogger to file");
-			$this->logger->Enable();
+			$this->logger->enable();
+			$this->logger->info("MainLogger will write to server.log"); //TODO:TRANSLATE
 		}
 		$this->forceLanguage = $this->getProperty("settings.force-language", false);
 		$this->baseLang = new BaseLang($this->getProperty("settings.language", BaseLang::FALLBACK_LANGUAGE));
@@ -1678,7 +1700,7 @@ class Server{
 		$this->registerEntities();
 		$this->registerTiles();
 
-		InventoryType::init($this->getProperty("player.inventory.slot", 36));
+		InventoryType::init(); //TODO::REMOVE OUT OF POCKETMINE.yml **CSONLY**
 		Block::init();
 		Item::init();
 		Biome::init();
@@ -2008,10 +2030,6 @@ class Server{
 	 * @throws \Throwable
 	 */
 	public function dispatchCommand(CommandSender $sender, $commandLine){
-		if(!($sender instanceof CommandSender)){
-			throw new ServerException("CommandSender is not valid");
-		}
-
 		if($this->commandMap->dispatch($sender, $commandLine)){
 			return true;
 		}
@@ -2303,10 +2321,13 @@ class Server{
 		while($this->isRunning){
 			$this->tick();
 			$next = $this->nextTick - 0.0001;
-			if($next > microtime(true)){
+			if($next >= microtime(true)){
 				try{
 					time_sleep_until($next);
 				}catch(Throwable $e){
+					$this->nextTick = microtime(true);
+					$next = $this->nextTick - 0.0001;
+					time_sleep_until($next);
 					//Sometimes $next is less than the current time. High load?
 				}
 			}
@@ -2344,20 +2365,11 @@ class Server{
 		}
 	}
 
-	/*public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinId, $skinData, array $players = null){
+	public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinId, $skinData, array $players = null){
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		$pk->entries[] = [$uuid, $entityId, $name, $skinId, $skinData];
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
-	}*/
-
-	public function updatePlayerListData(UUID $uuid, $entityId, $name, $skinId, $skinData, array $players = null){
-		foreach ($this->getOnlinePlayers() as $player){
-			$this->removePlayerListData($player->getUniqueId());
-		}
-		foreach ($this->getOnlinePlayers() as $player){
-			$this->sendFullPlayerListData($player);
-		}
 	}
 
 	public function removePlayerListData(UUID $uuid, array $players = null){
@@ -2436,9 +2448,7 @@ class Server{
 				}
 			}catch(Throwable $e){
 				$this->logger->critical($this->getLanguage()->translateString("pocketmine.level.tickError", [$level->getName(), $e->getMessage()]));
-				if(\pocketmine\DEBUG > 1 and $this->logger instanceof MainLogger){
-					$this->logger->logException($e);
-				}
+				$this->logger->logException($e);
 			}
 		}
 	}
