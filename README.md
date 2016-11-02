@@ -1,4 +1,5 @@
 #Not production ready.
+#PLEASE CHECK OUT WORKING COMMAND COMPLETION FEATURES [ON THE COMMAND BRANCH](https://github.com/ClearSkyTeam/ClearSky/tree/commands) FOR BUG FIXING!!
 ##DISCLAIMER: (ALMOST) ALL WORK HAS BEEN DONE BY @DKTAPPS. PLEASE CHECK OUT [pmmp](https://github.com/pmmp/PocketMine-MP) FOR THE FUTURE OF POCKETMINE!
 
 ![ClearSky](https://github.com/ClearSkyTeam/ClearSky/blob/0.16/images/CSbanner.png)
