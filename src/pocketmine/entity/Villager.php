@@ -59,7 +59,7 @@ class Villager extends Animal implements NPC, Ageable{
 	}
 
 	public function isBaby(){
-		return $this->getDataFlag(self::DATA_AGEABLE_FLAGS, self::DATA_FLAG_BABY);
+		return $this->getDataFlag(self::DATA_FLAGS, self::DATA_FLAG_BABY);
 	}
 	
 	public function isLeashableType(){

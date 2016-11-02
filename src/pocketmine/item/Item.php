@@ -1442,7 +1442,7 @@ class Item{
 	}
 
 	public static function addCreativeItem(Item $item){
-		Item::$creative[] = Item::get($item->getId(), $item->getDamage());
+		Item::$creative[] = clone $item;
 	}
 
 	public static function removeCreativeItem(Item $item){

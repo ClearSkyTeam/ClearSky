@@ -1,11 +1,18 @@
 <?php
 /*
- * Copyright (c) 2015-2016 beito
- * 
+ *this header is mess
+ *  ____            _        _   __  __ _                  __  __ ____  
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \ 
+ * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/ 
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_| 
+ *
+>>>>>>> 86ed0f1... Updated existing packets and added new ones
  * This program is free software: you can redistribute it and/or modify
  * it under the terms of the GNU Lesser General Public License as published by
  * the Free Software Foundation, either version 3 of the License, or
  * (at your option) any later version.
+<<<<<<< HEAD
  * 
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
@@ -13,26 +20,29 @@
  * GNU Lesser General Public License for more details.
  * 
  * You should have received a copy of the GNU Lesser General Public License
- * along with this program.  If not, see <http://www.gnu.org/licenses/>.
+ * along
+ *
+ * @author PocketMine Team
+ * @link http://www.pocketmine.net/
  * 
 */
 
 namespace pocketmine\network\protocol;
 
-class ItemFrameDropItemPacket extends DataPacket {
+#include <rules/DataPacket.h>
+
+class ItemFrameDropItemPacket extends DataPacket{
 
 	const NETWORK_ID = Info::ITEM_FRAME_DROP_ITEM_PACKET;
 
 	public $x;
 	public $y;
 	public $z;
-	public $dropItem;
+	public $item;
 
 	public function decode(){
-		$this->z = $this->getInt();//hmm...
-		$this->y = $this->getInt();
-		$this->x = $this->getInt();
-		$this->dropItem = $this->getSlot();
+		$this->getBlockCoords($this->x, $this->y, $this->z);
+		$this->item = $this->getSlot();
 	}
 
 	public function encode(){

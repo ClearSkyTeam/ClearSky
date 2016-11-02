@@ -1684,7 +1684,6 @@ class Server{
 		$this->network = new Network($this);
 		$this->network->setName($this->getMotd());
 
-
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.info", [
 			$this->getName(),
 			$this->getPocketMineVersion(),
@@ -1935,9 +1934,9 @@ class Server{
 				if(!$p->isEncoded){
 					$p->encode();
 				}
-				$str .= Binary::writeInt(strlen($p->buffer)) . $p->buffer;
+				$str .= Binary::writeUnsignedVarInt(strlen($p->buffer)) . $p->buffer;
 			}else{
-				$str .= Binary::writeInt(strlen($p)) . $p;
+				$str .= Binary::writeUnsignedVarInt(strlen($p)) . $p;
 			}
 		}
 
@@ -2369,6 +2368,12 @@ class Server{
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		$pk->entries[] = [$uuid, $entityId, $name, $skinId, $skinData];
+		$players === null ? $players = $this->playerList : $players;
+		foreach($players as $key => $player){
+			if($player === $this->getPlayerExact($name)){
+				unset($players[$key]);
+			}
+		}
 		Server::broadcastPacket($players === null ? $this->playerList : $players, $pk);
 	}
 
@@ -2383,9 +2388,16 @@ class Server{
 		$pk = new PlayerListPacket();
 		$pk->type = PlayerListPacket::TYPE_ADD;
 		foreach($this->playerList as $player){
+			if($p === $player){
+				continue;
+			}
 			$pk->entries[] = [$player->getUniqueId(), $player->getId(), $player->getDisplayName(), $player->getSkinId(), $player->getSkinData()];
 		}
-
+		$p->dataPacket($pk);
+		
+		$pk = new PlayerListPacket();
+		$pk->type = PlayerListPacket::TYPE_REMOVE;
+		$pk->entries[] = [$p->getUniqueId(), $p->getId(), $p->getDisplayName(), $p->getSkinId(), $p->getSkinData()];
 		$p->dataPacket($pk);
 	}
 

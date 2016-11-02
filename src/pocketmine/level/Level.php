@@ -938,9 +938,14 @@ class Level implements ChunkManager, Metadatable{
 
 		foreach($this->motionToSend as $index => $entry){
 			Level::getXZ($index, $chunkX, $chunkZ);
-			$pk = new SetEntityMotionPacket();
-			$pk->entities = $entry;
-			$this->addChunkPacket($chunkX, $chunkZ, $pk);
+			foreach($entry as $entity){
+				$pk = new SetEntityMotionPacket();
+				$pk->eid = $entity[0];
+				$pk->motionX = $entity[1];
+				$pk->motionY = $entity[2];
+				$pk->motionZ = $entity[3];
+				$this->addChunkPacket($chunkX, $chunkZ, $pk);
+			}
 		}
 		$this->motionToSend = [];
 
@@ -1004,19 +1009,14 @@ class Level implements ChunkManager, Metadatable{
 	 * @param int      $flags
 	 * @param bool     $optimizeRebuilds
 	 */
-	public function sendBlocks(array $target, array $blocks, $flags = UpdateBlockPacket::FLAG_NONE, $optimizeRebuilds = false){
-		$batchPacketContents = [];
-		$packetIndex = -1; //0
-
+	public function sendBlocks(array $target, array $blocks, $flags = UpdateBlockPacket::FLAG_NONE, bool $optimizeRebuilds = false){
 		if($optimizeRebuilds){
 			$chunks = [];
 			foreach($blocks as $b){
+				$pk = new UpdateBlockPacket();
 				if($b === null){
 					continue;
 				}
-				$packetIndex++;
-
-				$batchPacketContents[$packetIndex] = new UpdateBlockPacket();
 
 				$first = false;
 				if(!isset($chunks[$index = Level::chunkHash($b->x >> 4, $b->z >> 4)])){
@@ -1025,32 +1025,48 @@ class Level implements ChunkManager, Metadatable{
 				}
 
 				if($b instanceof Block){
-					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $b->getId(), $b->getDamage(), $first ? $flags : UpdateBlockPacket::FLAG_NONE];
+					$pk->x = $b->x;
+					$pk->z = $b->z;
+					$pk->y = $b->y;
+					$pk->blockId = $b->getId();
+					$pk->blockData = $b->getDamage();
+					$pk->flags = $first ? $flags : UpdateBlockPacket::FLAG_NONE;
 				}else{
 					$fullBlock = $this->getFullBlock($b->x, $b->y, $b->z);
-					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $fullBlock >> 4, $fullBlock & 0xf, $first ? $flags : UpdateBlockPacket::FLAG_NONE];
+					$pk->x = $b->x;
+					$pk->z = $b->z;
+					$pk->y = $b->y;
+					$pk->blockId = $fullBlock >> 4;
+					$pk->blockData = $fullBlock & 0xf;
+					$pk->flags = $first ? $flags : UpdateBlockPacket::FLAG_NONE;
 				}
+				Server::broadcastPacket($target, $pk);
 			}
 		}else{
 			foreach($blocks as $b){
+				$pk = new UpdateBlockPacket();
 				if($b === null){
 					continue;
 				}
-				$packetIndex++;
-
-				$batchPacketContents[$packetIndex] = new UpdateBlockPacket();
-
 				if($b instanceof Block){
-					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $b->getId(), $b->getDamage(), $flags];
+					$pk->x = $b->x;
+					$pk->z = $b->z;
+					$pk->y = $b->y;
+					$pk->blockId = $b->getId();
+					$pk->blockData = $b->getDamage();
+					$pk->flags = $flags;
 				}else{
 					$fullBlock = $this->getFullBlock($b->x, $b->y, $b->z);
-					$batchPacketContents[$packetIndex]->records[] = [$b->x, $b->z, $b->y, $fullBlock >> 4, $fullBlock & 0xf, $flags];
+					$pk->x = $b->x;
+					$pk->z = $b->z;
+					$pk->y = $b->y;
+					$pk->blockId = $fullBlock >> 4;
+					$pk->blockData = $fullBlock & 0xf;
+					$pk->flags = $flags;
 				}
+				Server::broadcastPacket($target, $pk);
 			}
 		}
-
-
-		$this->server->batchPackets($target, $batchPacketContents);
 	}
 
 	public function clearCache($full = false){

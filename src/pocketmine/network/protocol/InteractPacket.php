@@ -10,20 +10,20 @@ class InteractPacket extends DataPacket{
 	const ACTION_RIGHT_CLICK = 1;
 	const ACTION_LEFT_CLICK = 2;
 	const ACTION_LEAVE_VEHICLE = 3;
+	const ACTION_MOUSEOVER = 4;
 
 	public $action;
-	public $eid;
 	public $target;
 
 	public function decode(){
 		$this->action = $this->getByte();
-		$this->target = $this->getLong();
+		$this->target = $this->getEntityId();
 	}
 
 	public function encode(){
 		$this->reset();
 		$this->putByte($this->action);
-		$this->putLong($this->target);
+		$this->putEntityId($this->target);
 	}
 
 }
