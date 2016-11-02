@@ -1,0 +1,51 @@
+{
+  "aliases": [],
+  "description": "pocketmine.command.give.description",
+  "overloads": {
+    "default": {
+      "input": {
+        "parameters": [
+          {
+            "name": "player",
+            "type": "target"
+          },
+          {
+            "name": "itemName",
+            "type": "stringenum",
+            "enum_type": "itemType"
+          },
+          {
+            "name": "amount",
+            "type": "int",
+            "optional": true
+          },
+          {
+            "name": "data",
+            "type": "int",
+            "optional": true
+          }
+        ]
+      },
+      "output": {
+        "format_strings": [
+          "commands.give.success"
+        ],
+        "parameters": [
+          {
+            "name": "itemName",
+            "type": "string"
+          },
+          {
+            "name": "itemAmount",
+            "type": "int"
+          },
+          {
+            "name": "playerName",
+            "type": "string"
+          }
+        ]
+      }
+    }
+  },
+  "permission": "pocketmine.command.give"
+}

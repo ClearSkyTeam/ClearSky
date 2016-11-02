@@ -9,6 +9,7 @@ use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
 use pocketmine\utils\TextFormat;
+use pocketmine\Server;
 
 class GiveCommand extends VanillaCommand{
 
@@ -18,6 +19,7 @@ class GiveCommand extends VanillaCommand{
 			"%pocketmine.command.give.description",
 			"%pocketmine.command.give.usage"
 		);
+		$this->commandData = self::generateCustomData();
 		$this->setPermission("pocketmine.command.give");
 	}
 
@@ -79,5 +81,9 @@ class GiveCommand extends VanillaCommand{
 			$player->getName()
 		]));
 		return true;
+	}
+
+	public static function generateCustomData(): \stdClass{
+		return clone json_decode(file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/command_give.json"));
 	}
 }

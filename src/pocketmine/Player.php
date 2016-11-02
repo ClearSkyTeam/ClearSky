@@ -2775,18 +2775,35 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				if($this->spawned === false or !$this->isAlive()){
 					break;
 				}
-				$this->craftingType = 0;
+				$this->craftingType = self::CRAFTING_SMALL;
 				$commandText = $packet->command;
 				if($packet->args !== null){
-					foreach($packet->args as $arg){ //command ordering will be an issue
-						$commandText .= " " . $arg;
+					// foreach($packet->args as $arg){ //command ordering will be an issue // Maybe not. It can actually be ordered using the json files ;) thanks for calling me clever @dktapps <3
+					// $commandText .= " " . $arg;
+					// }
+					foreach($this->getServer()->getCommandMap()->getCommand($commandText)->getOverloads() as $overloads){
+						$availableParameters = $overloads->input->parameters; // get ordering of parameters // we will only get key 0, there are no double parameters anyways
+						// $availableParameters = json
+						$args = $packet->args; // = sendt
+						$params = []; // for ordering the arguments
+						foreach($availableParameters as $parameter){ // process parameters and fill with given args
+							if(!(@$parameter->optional !== null && @$parameter->optional === true && @$args->{$parameter->name} === null)){ // is NOT optional, so BAD if missing/not given
+								if($parameter->type == "target"){ // Other types ALSO have to be catched here! TODO: add @function switch()
+									$params[$parameter->name] = $args->{$parameter->name}->rules[0]->value; // This fixes name being nested in the packet
+								}
+								else
+									$params[$parameter->name] = $args->{$parameter->name};
+							}
+						}
+						$commandText .= " " . implode(" ", $params);
 					}
 				}
+				#$this->getServer()->broadcastMessage("Command executed: /" . $commandText . "\n");
 				$this->server->getPluginManager()->callEvent($ev = new PlayerCommandPreprocessEvent($this, "/" . $commandText));
 				if($ev->isCancelled()){
 					break;
 				}
-
+				
 				Timings::$playerCommandTimer->startTiming();
 				$this->server->dispatchCommand($ev->getPlayer(), substr($ev->getMessage(), 1));
 				Timings::$playerCommandTimer->stopTiming();

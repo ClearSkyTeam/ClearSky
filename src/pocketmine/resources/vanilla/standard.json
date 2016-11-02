@@ -1,0 +1,1519 @@
+{
+  "help": {
+    "versions": [
+      {
+        "description": "commands.help.description",
+        "permission": "any",
+        "aliases": [
+          "?"
+        ],
+
+        "overloads": {
+          "byName": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "command",
+                  "type": "stringenum",
+                  "enum_type": "commandName"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "{0}"
+              ],
+              "parameters": [
+                {
+                  "name": "body",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "byPage": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "page",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.help.header",
+                "{2}",
+                "commands.help.footer"
+              ],
+              "parameters": [
+                {
+                  "name": "page",
+                  "type": "int"
+                },
+                {
+                  "name": "pageCount",
+                  "type": "int"
+                },
+                {
+                  "name": "body",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "enchant": {
+    "versions": [
+      {
+        "description": "commands.enchant.description",
+        "permission": "op",
+
+        "overloads": {
+          "byName": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "player",
+                  "type": "target"
+                },
+                {
+                  "name": "enchantmentName",
+                  "type": "stringenum",
+                  "enum_type": "enchantmentType"
+                },
+                {
+                  "name": "level",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "{0}"
+              ],
+              "parameters": [
+                {
+                  "name": "result",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "byId": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "player",
+                  "type": "target"
+                },
+                {
+                  "name": "enchantmentId",
+                  "type": "int"
+                },
+                {
+                  "name": "level",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "{0}"
+              ],
+              "parameters": [
+                {
+                  "name": "result",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "fill": {
+    "versions": [
+      {
+        "description": "commands.fill.description",
+        "permission": "op",
+
+        "overloads": {
+          "byName": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "from",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "to",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "tileName",
+                  "type": "stringenum",
+                  "enum_type": "blockType"
+                },
+                {
+                  "name": "tileData",
+                  "type": "int",
+                  "optional": true
+                },
+                {
+                  "name": "oldBlockHandling",
+                  "type": "stringenum",
+                  "optional": true,
+                  "enum_values": [
+                    "destroy",
+                    "hollow",
+                    "keep",
+                    "outline",
+                    "replace"
+                  ]
+                },
+                {
+                  "name": "replaceTileName",
+                  "type": "stringenum",
+                  "enum_type": "blockType",
+                  "optional": true
+                },
+                {
+                  "name": "replaceDataValue",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.fill.success"
+              ],
+              "parameters": [
+                {
+                  "name": "fillCount",
+                  "type": "int"
+                },
+                {
+                  "name": "blockName",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "give": {
+    "versions": [
+      {
+        "permission": "op",
+        "description": "commands.give.description",
+
+        "overloads": {
+          "byName": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "player",
+                  "type": "target"
+                },
+                {
+                  "name": "itemName",
+                  "type": "stringenum",
+                  "enum_type": "itemType"
+                },
+                {
+                  "name": "amount",
+                  "type": "int",
+                  "optional": true
+                },
+                {
+                  "name": "data",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.give.success"
+              ],
+              "parameters": [
+                {
+                  "name": "itemName",
+                  "type": "string"
+                },
+                {
+                  "name": "itemAmount",
+                  "type": "int"
+                },
+                {
+                  "name": "playerName",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "tp": {
+    "versions": [
+      {
+        "description": "commands.tp.description",
+        "permission": "op",
+        "aliases": [
+          "teleport"
+        ],
+
+        "overloads": {
+          "selfToPos": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "destination",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "y-rot",
+                  "type": "int",
+                  "optional": true
+                },
+                {
+                  "name": "x-rot",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.tp.success.coordinates"
+              ],
+              "parameters": [
+                {
+                  "name": "victim",
+                  "type": "string"
+                },
+                {
+                  "name": "destination",
+                  "type": "blockpos"
+                }
+              ]
+            }
+          },
+          "targetToPos": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "victim",
+                  "type": "target"
+                },
+                {
+                  "name": "destination",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "y-rot",
+                  "type": "int",
+                  "optional": true
+                },
+                {
+                  "name": "x-rot",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.tp.success.coordinates"
+              ],
+             "parameters": [
+                {
+                  "name": "victim",
+                  "type": "string"
+                },
+                {
+                  "name": "destination",
+                  "type": "blockpos"
+                }
+              ]
+            }
+          },
+          "targetToTarget": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "victim",
+                  "type": "target"
+                },
+                {
+                  "name": "destination",
+                  "type": "target"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.tp.success"
+              ],
+              "parameters": [
+                {
+                  "name": "victim",
+                  "type": "string"
+                },
+                {
+                  "name": "destination",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "selfToTarget": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "destination",
+                  "type": "target"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.tp.success"
+              ],
+              "parameters": [
+                {
+                  "name": "victim",
+                  "type": "string"
+                },
+                {
+                  "name": "destination",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "time add": {
+    "versions": [
+      {
+        "description": "commands.timeAdd.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "amount",
+                  "type": "int"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.time.added"
+              ],
+              "parameters": [
+                {
+                  "name": "time",
+                  "type": "int"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "time query": {
+    "versions": [
+      {
+        "description": "commands.timeQuery.description",
+        "permission": "any",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "time",
+                  "type": "stringenum",
+                  "enum_values": [
+                    "daytime",
+                    "gametime",
+                    "day"
+                  ]
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.time.query"
+              ],
+              "parameters": [
+                {
+                  "name": "time",
+                  "type": "int"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "time set": {
+    "versions": [
+      {
+        "description": "commands.timeSet.description",
+        "permission": "op",
+
+        "overloads": {
+          "byNumber": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "time",
+                  "type": "int"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.time.set"
+              ],
+              "parameters": [
+                {
+                  "name": "time",
+                  "type": "int"
+                }
+              ]
+            }
+          },
+          "byName": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "time",
+                  "type": "stringenum",
+                  "enum_values": [
+                    "night",
+                    "day"
+                  ]
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.time.set"
+              ],
+              "parameters": [
+                {
+                  "name": "time",
+                  "type": "int"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "listd": {
+    "versions": [
+      {
+        "description": "commands.list.description",
+        "permission": "automation",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "details",
+                  "type": "stringenum",
+                  "enum_values": [
+                    "ids",
+                    "stats",
+                    "uuids"
+                  ],
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.players.list",
+                "{2}",
+                "{3}"
+              ],
+              "parameters": [
+                {
+                  "name": "currentPlayerCount",
+                  "type": "int"
+                },
+                {
+                  "name": "maxPlayerCount",
+                  "type": "int"
+                },
+                {
+                  "name": "players",
+                  "type": "string"
+                },
+                {
+                  "name": "details",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "list": {
+    "versions": [
+      {
+        "description": "commands.list.description",
+        "permission": "any",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "details",
+                  "type": "string",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.players.list",
+                "{2}",
+                "{3}"
+              ],
+              "parameters": [
+                {
+                  "name": "currentPlayerCount",
+                  "type": "int"
+                },
+                {
+                  "name": "maxPlayerCount",
+                  "type": "int"
+                },
+                {
+                  "name": "players",
+                  "type": "string"
+                },
+                {
+                  "name": "details",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "kill": {
+    "versions": [
+      {
+        "description": "commands.kill.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "target",
+                  "type": "target",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.kill.successful"
+              ],
+              "parameters": [
+                {
+                  "name": "targetname",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "gamemode": {
+    "versions": [
+      {
+        "description": "commands.gamemode.description",
+        "permission": "op",
+
+        "overloads": {
+          "byName": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "gameMode",
+                  "type": "stringenum",
+                  "enum_values": [
+                    "survival",
+                    "creative",
+                    "s",
+                    "c"
+                  ]
+                },
+                {
+                  "name": "player",
+                  "type": "target",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "{0}"
+              ],
+              "parameters": [
+                {
+                  "name": "result",
+                  "type": "string"
+                },
+                {
+                  "name": "player",
+                  "type": "string"
+                },
+                {
+                  "name": "gameMode",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "byId": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "gameMode",
+                  "type": "int"
+                },
+                {
+                  "name": "player",
+                  "type": "target",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "{0}"
+              ],
+              "parameters": [
+                {
+                  "name": "result",
+                  "type": "string"
+                },
+                {
+                  "name": "player",
+                  "type": "string"
+                },
+                {
+                  "name": "gameMode",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "toggledownfall": {
+    "versions": [
+      {
+        "description": "commands.toggledownfall.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [ ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.downfall.success"
+              ],
+              "parameters": [
+                {
+                  "name": "rainLevel",
+                  "type": "int"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "setworldspawn": {
+    "versions": [
+      {
+        "description": "commands.setworldspawn.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "spawnPoint",
+                  "type": "blockpos",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.setworldspawn.success"
+              ],
+              "parameters": [
+                {
+                  "name": "spawnPoint",
+                  "type": "blockpos"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "say": {
+    "versions": [
+      {
+        "description": "commands.say.description",
+        "permission": "op",
+        "requiresChatPerms": true,
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "message",
+                  "type": "rawtext"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [ ],
+              "parameters": [
+                {
+                  "name": "message",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "setblock": {
+    "versions": [
+      {
+        "description": "commands.setblock.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "position",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "tileName",
+                  "type": "stringenum",
+                  "enum_type": "blockType"
+                },
+                {
+                  "name": "tileData",
+                  "type": "int",
+                  "optional": true
+                },
+                {
+                  "name": "oldBlockHandling",
+                  "optional": true,
+                  "type": "stringenum",
+                  "enum_values": [
+                    "destroy",
+                    "keep",
+                    "replace"
+                  ]
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.setblock.success"
+              ],
+              "parameters": [ ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "weather": {
+    "versions": [
+      {
+        "description": "commands.weather.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "type",
+                  "type": "stringenum",
+                  "enum_values": [
+                    "clear",
+                    "rain",
+                    "thunder"
+                  ]
+                },
+                {
+                  "name": "duration",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "{0}"
+              ],
+              "parameters": [
+                {
+                  "name": "format",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "testforblock": {
+    "versions": [
+      {
+        "description": "commands.testforblock.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "position",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "tileName",
+                  "type": "stringenum",
+                  "enum_type": "blockType"
+                },
+                {
+                  "name": "dataValue",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.testforblock.success"
+              ],
+              "parameters": [
+                {
+                  "name": "position",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "matches",
+                  "type": "bool"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "testforblocks": {
+    "versions": [
+      {
+        "description": "commands.testforblocks.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "begin",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "end",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "destination",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "mode",
+                  "type": "stringenum",
+                  "enum_values": [
+                    "all",
+                    "masked"
+                  ],
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.compare.success"
+              ],
+              "parameters": [
+                {
+                  "name": "compareCount",
+                  "type": "int"
+                },
+                {
+                  "name": "matches",
+                  "type": "bool"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "tell": {
+    "versions": [
+      {
+        "description": "commands.tell.description",
+        "permission": "any",
+        "requiresChatPerms": true,
+        "aliases": [
+          "w",
+          "msg"
+        ],
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "recipient",
+                  "type": "target"
+                },
+                {
+                  "name": "message",
+                  "type": "rawtext"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.message.display.outgoing"
+              ],
+              "parameters": [
+                {
+                  "name": "recipient",
+                  "type": "string"
+                },
+                {
+                  "name": "message",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "op": {
+    "versions": [
+      {
+        "description": "commands.op.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "player",
+                  "type": "target"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.op.success",
+                "commands.op.failed"
+              ],
+              "parameters": [
+                {
+                  "name": "playersSuccess",
+                  "type": "string"
+                },
+                {
+                  "name": "playersFailed",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "deop": {
+    "versions": [
+      {
+        "description": "commands.deop.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "player",
+                  "type": "target"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.deop.success",
+                "commands.deop.failed"
+              ],
+              "parameters": [
+                {
+                  "name": "playersSuccess",
+                  "type": "string"
+                },
+                {
+                  "name": "playersFailed",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "summon": {
+    "versions": [
+      {
+        "description": "commands.summon.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "entityType",
+                  "type": "stringenum",
+                  "enum_type": "entityType"
+                },
+                {
+                  "name": "spawnPos",
+                  "type": "blockpos"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.summon.success"
+              ],
+              "parameters": [
+                {
+                  "name": "entityType",
+                  "type": "string"
+                },
+                {
+                  "name": "spawnPos",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "wasSpawned",
+                  "type": "bool"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "xp": {
+    "versions": [
+      {
+        "description": "commands.xp.description",
+        "permission": "op",
+
+        "overloads": {
+          "byXp": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "amount",
+                  "type": "int"
+                },
+                {
+                  "name": "player",
+                  "type": "target"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.xp.success"
+              ],
+              "parameters": [
+                {
+                  "name": "amount",
+                  "type": "int"
+                },
+                {
+                  "name": "player",
+                  "type": "string"
+                }
+              ]
+            }
+          },
+          "byLevel": {
+            "parser": {
+              "tokens": "{0}L {1}"
+            },
+            "input": {
+              "parameters": [
+                {
+                  "name": "amount",
+                  "type": "int"
+                },
+                {
+                  "name": "player",
+                  "type": "target"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "{2}"
+              ],
+              "parameters": [
+                {
+                  "name": "amount",
+                  "type": "int"
+                },
+                {
+                  "name": "player",
+                  "type": "string"
+                },
+                {
+                  "name": "message",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "spawnpoint": {
+    "versions": [
+      {
+        "description": "commands.spawnpoint.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "player",
+                  "type": "target",
+                  "optional": true
+                },
+                {
+                  "name": "spawnPos",
+                  "type": "blockpos",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "{2}"
+              ],
+              "parameters": [
+                {
+                  "name": "player",
+                  "type": "string"
+                },
+                {
+                  "name": "spawnPos",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "format",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "clone": {
+    "versions": [
+      {
+        "description": "commands.clone.description",
+        "permission": "op",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "begin",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "end",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "destination",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "maskMode",
+                  "type": "stringenum",
+                  "enum_values": [
+                    "replace",
+                    "masked",
+                    "filtered"
+                  ],
+                  "optional": true
+                },
+                {
+                  "name": "cloneMode",
+                  "type": "stringenum",
+                  "enum_values": [
+                    "normal",
+                    "move",
+                    "force"
+                  ],
+                  "optional": true
+                },
+                {
+                  "name": "tileName",
+                  "type": "stringenum",
+                  "enum_type": "blockType",
+                  "optional": true
+                },
+                {
+                  "name": "tileData",
+                  "type": "int",
+                  "optional": true
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.clone.success"
+              ],
+              "parameters": [
+                {
+                  "name": "count",
+                  "type": "int"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "execute": {
+    "versions": [
+      {
+        "description": "commands.execute.usage",
+        "permission": "op",
+
+        "overloads": {
+          "detect": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "origin",
+                  "type": "target"
+                },
+                {
+                  "name": "position",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "detect",
+                  "type": "stringenum",
+                  "enum_values":  ["detect"]
+                },
+                {
+                  "name": "detectPos",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "detectBlock",
+                  "type": "stringenum",
+                  "enum_type": "blockType"
+                },
+                {
+                  "name": "detectData",
+                  "type":  "int"
+                },
+                {
+                  "name": "command",
+                  "type": "rawtext"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                
+              ],
+              "parameters": [
+              ]
+            }
+          },
+          "asOther": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "origin",
+                  "type": "target"
+                },
+                {
+                  "name": "position",
+                  "type": "blockpos"
+                },
+                {
+                  "name": "command",
+                  "type": "rawtext"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                
+              ],
+              "parameters": [
+              ]
+            }
+          },
+          "asSelf": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "command",
+                  "type": "rawtext"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                
+              ],
+              "parameters": [
+              ]
+            }
+          }
+        }
+      }
+    ]
+  },
+  "wsserver": {
+    "versions": [
+      {
+        "description": "commands.wsserver.description",
+        "permission": "host",
+
+        "overloads": {
+          "default": {
+            "input": {
+              "parameters": [
+                {
+                  "name": "serverUri",
+                  "type": "string"
+                }
+              ]
+            },
+            "output": {
+              "format_strings": [
+                "commands.wsserver.success"
+              ],
+              "parameters": [
+                {
+                  "name": "requestedUri",
+                  "type": "string"
+                }
+              ]
+            }
+          }
+        }
+      }
+    ]
+  }
+}

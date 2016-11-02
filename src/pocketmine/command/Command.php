@@ -86,7 +86,7 @@ abstract class Command{
 	 *
 	 * @return \stdClass|null
 	 */
-	public function generateCustomCommandData(Player $player){
+	public final function generateCustomCommandData(Player $player){
 		if(!$this->testPermission($player)){
 			return null;
 		}
@@ -306,7 +306,7 @@ abstract class Command{
 		$this->usageMessage = $usage;
 	}
 
-	public static final function generateDefaultData() : \stdClass{
+	public static function generateDefaultData() : \stdClass{
 		if(self::$defaultDataTemplate === null){
 			self::$defaultDataTemplate = json_decode(file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/command_default.json"));
 		}
