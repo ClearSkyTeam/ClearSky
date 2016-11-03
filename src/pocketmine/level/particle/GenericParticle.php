@@ -16,8 +16,6 @@ class GenericParticle extends Particle{
 	}
 	
 	public function encode(){
-		print "particles disabled\n";
-		return null;
 		$pk = new LevelEventPacket;
 		$pk->evid = LevelEventPacket::EVENT_ADD_PARTICLE_MASK | $this->id;
 		$pk->x = $this->x;

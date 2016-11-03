@@ -3,7 +3,6 @@ namespace pocketmine\level\sound;
 
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\LevelEventPacket;
-use pocketmine\utils\Utils;
 
 class GenericSound extends Sound{
 	
@@ -26,8 +25,6 @@ class GenericSound extends Sound{
 	
 	
 	public function encode(){
-		print "sounds disabled\n";
-		return null;
 		$pk = new LevelEventPacket;
 		$pk->evid = $this->id;
 		$pk->x = $this->x;
