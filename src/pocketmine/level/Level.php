@@ -595,7 +595,7 @@ class Level implements ChunkManager, Metadatable{
 		$this->temporalPosition = null;
 	}
 	
-	/*public function addSound(Sound $sound, array $players = null){
+	public function addSound(Sound $sound, array $players = null){
 		$pk = $sound->encode();
 
 		if($players === null){
@@ -641,12 +641,6 @@ class Level implements ChunkManager, Metadatable{
 				}
 			}
 		}
-	}*/
-	public function addSound(Sound $sound, array $players = null){
-		print "sounds disabled\n";
-	}
-	public function addParticle(Particle $particle, array $players = null){
-		print "particles disabled\n";
 	}
 
 	/**

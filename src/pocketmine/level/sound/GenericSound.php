@@ -3,7 +3,6 @@ namespace pocketmine\level\sound;
 
 use pocketmine\math\Vector3;
 use pocketmine\network\protocol\LevelEventPacket;
-use pocketmine\utils\Utils;
 
 class GenericSound extends Sound{
 	
