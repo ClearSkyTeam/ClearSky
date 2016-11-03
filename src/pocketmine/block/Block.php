@@ -600,7 +600,7 @@ class Block extends Position implements Metadatable{
 	 * @return int
 	*/
 	public static function getSkyLightResistance($blockID){
-		$block = new self::$list[$blockID]();
+		#$block = new self::$list[$blockID]();
 		if(self::$transparent[$blockID]){
 			if($blockID == self::WATER){
 				return 3;
@@ -608,10 +608,12 @@ class Block extends Position implements Metadatable{
 				return 0;
 			}
 		}elseif(self::$solid[$blockID] === false){
-			switch($blockID){
-				self::
-			}
+			#switch($blockID){
+			#	self::
+			#}
 			return 0;
+		}else{
+			return 15;
 		}
 		return -1;
 	}

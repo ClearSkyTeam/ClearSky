@@ -1583,16 +1583,17 @@ class Level implements ChunkManager, Metadatable{
 	 * Calculates the sky light level for $x $y $z.
 	*/
 	public function updateBlockSkyLight($x, $y, $z){
-		$directSkyLight = getDirectSkyLight($x, $y, $z);
-		
-		if($directSkyLight =< 14){ //No need to continue calculation, we can't get higher skylight!
+		$directSkyLight = $this->getDirectSkyLight($x, $y, $z);
+		echo($directSkyLight."\n");
+		if($directSkyLight >= 14){ //No need to continue calculation, we can't get higher skylight!
 			$this->setBlockSkyLightAt($x, $y, $z, $directSkyLight);
 		}
 		
-		if($directSkyLight == 0 && $lightWays = $this->findLightWays($x, $y, $z) === false){ //No skylight at all (nothing from above && nothing from the sides)
+		$lightWays = $this->findLightWays($x, $y, $z);
+		if($directSkyLight == 0 && $lightWays === false){ //No skylight at all (nothing from above && nothing from the sides)
 			$this->setBlockSkyLightAt($x, $y, $z, 0); //repl 0 with $directSkyLight?
 		}else{
-			$this->$this->getSkyLightViaWays($lightWays, [$x, $y, $z]);
+			$this->getSkyLightViaWays($lightWays, [$x, $y, $z]);
 		}
 	}
 	
@@ -1600,7 +1601,7 @@ class Level implements ChunkManager, Metadatable{
 		$chunk = $this->getChunk($x >> 4, $z >> 4, true);
 		
 		$directSkyLight = 15;
-		for($i = $y; $i => self::MAX_WORLD_HEIGHT; $i++){
+		for($i = $y; $i >= 128; $i++){
 			$lightResistance = Block::getSkyLightResistance($chunk->getBlockId($x & 0x0f, ($y+$i) & 0x7f, $z & 0x0f));
 			$directSkyLight -= $lightResistance;
 			if($directSkyLight <= 0){ //Skylight is 0 from above
@@ -1616,7 +1617,7 @@ class Level implements ChunkManager, Metadatable{
 		foreach($lightWays as $dir => $lightWay){ //max 4
 			$directSkyLight = $this->getDirectSkyLight($lightWay[0], $lightWay[1], $lightWay[2]);
 			if($directSkyLight > 0){ //Found an origin of light in our current lightWay! (not THE origin, there can be up to 15*M_PI origins for one block)
-				if($directSkyLight =< 14){
+				if($directSkyLight >= 14){
 					$lightLvlsFromDir[$dir] = $directSkyLight;
 					continue;
 				}
@@ -1637,7 +1638,7 @@ class Level implements ChunkManager, Metadatable{
 		$vec3 = new Vector3($x, $y, $z);
 		for($i = Vector3::SIDE_NORTH; $i <= Vector3::SIDE_EAST; $i++){
 			$newVec3 = $vec3->getSide($i);
-			if(Block::getSkyLightResistance($this->getBlockIdAt($newVec3->x, $newVec3->y, $newVec3->z) > 0){
+			if(Block::getSkyLightResistance($this->getBlockIdAt($newVec3->x, $newVec3->y, $newVec3->z)) > 0){
 				$lightWays[$i] = [$newVec3->x, $newVec3->y, $newVec3->z];
 			}
 		}
