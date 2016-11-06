@@ -1,4 +1,28 @@
 <?php
+
+/*
+ *
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
+ * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * @author PocketMine Team
+ * @link http://www.pocketmine.net/
+ *
+ *
+*/
+
+/**
+ * PocketMine-MP is the Minecraft: PE multiplayer server software
+ * Homepage: http://www.pocketmine.net/
+ */
 namespace pocketmine;
 
 use pocketmine\block\Block;
@@ -767,7 +791,7 @@ class Server{
 				$nbt->readCompressed(file_get_contents($path . "$name.dat"));
 
 				return $nbt->getData();
-			}catch(Throwable $e){ //zlib decode error / corrupt data
+			}catch(\Throwable $e){ //zlib decode error / corrupt data
 				rename($path . "$name.dat", $path . "$name.dat.bak");
 				$this->logger->notice($this->getLanguage()->translateString("pocketmine.data.playerCorrupted", [$name]));
 			}
@@ -888,7 +912,7 @@ class Server{
 			}else{
 				file_put_contents($this->getDataPath() . "players/" . strtolower($name) . ".dat", $nbt->writeCompressed());
 			}
-		}catch(Throwable $e){
+		}catch(\Throwable $e){
 			$this->logger->critical($this->getLanguage()->translateString("pocketmine.data.saveError", [$name, $e->getMessage()]));
 			$this->logger->logException($e);
 		}
@@ -1097,7 +1121,7 @@ class Server{
 
 		try{
 			$level = new Level($this, $name, $path, $provider);
-		}catch(Throwable $e){
+		}catch(\Throwable $e){
 
 			$this->logger->error($this->getLanguage()->translateString("pocketmine.level.loadError", [$name, $e->getMessage()]));
 			$this->logger->logException($e);
@@ -1130,7 +1154,7 @@ class Server{
 			return false;
 		}
 
-		$seed = $seed === null ? Binary::readInt(@Utils::getRandomBytes(4, false)) : (int) $seed;
+		$seed = $seed === null ? Binary::readInt(random_bytes(4)) : (int) $seed;
 
 		if(!isset($options["preset"])){
 			$options["preset"] = $this->getConfigString("generator-settings", "");
@@ -1155,7 +1179,7 @@ class Server{
 			$level->initLevel();
 
 			$level->setTickRate($this->baseTickRate);
-		}catch(Throwable $e){
+		}catch(\Throwable $e){
 			$this->logger->error($this->getLanguage()->translateString("pocketmine.level.generateError", [$name, $e->getMessage()]));
 			$this->logger->logException($e);
 			return false;
@@ -1578,7 +1602,7 @@ class Server{
 			"level-type" => "DEFAULT",
 			"enable-query" => true,
 			"enable-rcon" => false,
-			"rcon.password" => substr(base64_encode(@Utils::getRandomBytes(20, false)), 3, 10),
+			"rcon.password" => substr(base64_encode(random_bytes(20)), 3, 10),
 			"auto-save" => true,
 			"online-mode" => false,
 		]);
@@ -1664,8 +1688,9 @@ class Server{
 			$this->setConfigInt("difficulty", 3);
 		}
 
-			define('pocketmine\DEBUG', (int) $this->getProperty("debug.level", 1));
+		define('pocketmine\DEBUG', (int) $this->getProperty("debug.level", 1));
 
+		ini_set('assert.exception', 1);
 		if($this->logger instanceof MainLogger){
 			$this->logger->setLogDebug(\pocketmine\DEBUG > 1);
 		}
@@ -1675,7 +1700,7 @@ class Server{
 		}
 
 		$this->logger->info($this->getLanguage()->translateString("pocketmine.server.networkStart", [$this->getIp() === "" ? "*" : $this->getIp(), $this->getPort()]));
-		define("BOOTUP_RANDOM", @Utils::getRandomBytes(16));
+		define("BOOTUP_RANDOM", random_bytes(16));
 		$this->serverID = Utils::getMachineUniqueId($this->getIp() . $this->getPort());
 
 		$this->getLogger()->debug("Server unique id: " . $this->getServerUniqueId());
@@ -1796,7 +1821,7 @@ class Server{
 		$this->enablePlugins(PluginLoadOrder::POSTWORLD);
 
 		$this->start();
-		}catch(Throwable $e){
+		}catch(\Throwable $e){
 			$this->exceptionHandler($e);
 		}
 	}
@@ -2026,7 +2051,7 @@ class Server{
 	 *
 	 * @return bool
 	 *
-	 * @throws \Throwable
+	 * @throws \Exception
 	 */
 	public function dispatchCommand(CommandSender $sender, $commandLine){
 		if($this->commandMap->dispatch($sender, $commandLine)){
@@ -2147,7 +2172,7 @@ class Server{
 			$this->memoryManager->doObjectCleanup();
 
 			gc_collect_cycles();
-		}catch(Throwable $e){
+		}catch(\Throwable $e){
 			$this->logger->logException($e);
 			$this->logger->emergency("Crashed while crashing, killing process");
 			$this->logger->emergency(get_class($e) . ": ". $e->getMessage());
@@ -2611,7 +2636,7 @@ class Server{
 					if($this->queryHandler !== null){
 						$this->queryHandler->regenerateInfo();
 					}
-				}catch(Throwable $e){
+				}catch(\Throwable $e){
 					$this->logger->logException($e);
 				}
 			}
