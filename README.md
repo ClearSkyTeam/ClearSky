@@ -1,8 +1,7 @@
-#Not production ready.
-#PLEASE CHECK OUT WORKING COMMAND COMPLETION FEATURES [ON THE COMMAND BRANCH](https://github.com/ClearSkyTeam/ClearSky/tree/commands) FOR BUG FIXING!!
-##DISCLAIMER: (ALMOST) ALL WORK HAS BEEN DONE BY @DKTAPPS. PLEASE CHECK OUT [pmmp](https://github.com/pmmp/PocketMine-MP) FOR THE FUTURE OF POCKETMINE!
-
+##DISCLAIMER: MOST WORK FOR 0.16 HAS BEEN DONE BY @DKTAPPS. PLEASE CHECK OUT [pmmp](https://github.com/pmmp/PocketMine-MP) FOR THE FUTURE OF POCKETMINE!
 ![ClearSky](https://github.com/ClearSkyTeam/ClearSky/blob/0.16/images/CSbanner.png)
+###We're currently working on using the new 0.16's command packets. Check that out at the [commands](https://github.com/ClearSkyTeam/ClearSky/tree/commands) branch.
+
 ### Choose Language: [English](#ENG) - [Español](#SPA) - [中国](#CHINESE_1) - [日本語](#JAPANESE) - [Українська мова](#UKR) - [Bahasa Indonesia](#IDN)
 
 # <a name="ENG"></a>English  
