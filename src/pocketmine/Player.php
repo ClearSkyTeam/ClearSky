@@ -1052,25 +1052,25 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			switch($leg){
 				case 0:
 					++$x;
-					if($x == $layer){
+					if($x === $layer){
 						++$leg;
 					}
 					break;
 				case 1:
 					++$z;
-					if($z == $layer){
+					if($z === $layer){
 						++$leg;
 					}
 					break;
 				case 2:
 					--$x;
-					if(-$x == $layer){
+					if(-$x === $layer){
 						++$leg;
 					}
 					break;
 				case 3:
 					--$z;
-					if(-$z == $layer){
+					if(-$z === $layer){
 						$leg = 0;
 						++$layer;
 					}
@@ -1209,7 +1209,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$this->sleeping = clone $pos;
-		#$this->teleport(new Position($pos->x + 0.5, $pos->y - 0.5, $pos->z + 0.5, $this->level));
 
 		$this->setDataProperty(self::DATA_PLAYER_BED_POSITION, self::DATA_TYPE_POS, [$pos->x, $pos->y, $pos->z]);
 		$this->setDataFlag(self::DATA_PLAYER_FLAGS, self::DATA_PLAYER_FLAG_SLEEP, true, self::DATA_TYPE_BYTE);
@@ -1777,8 +1776,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->timings->startTiming();
 
 		if($this->spawned){
-			$this->processMovement($tickDiff);
-
+			if(!$this->isSleeping()){
+				$this->processMovement($tickDiff);
+			}
 			if(!$this->isSpectator()) $this->entityBaseTick($tickDiff);
 
 			if(!$this->isSpectator() and $this->speed !== null){
@@ -3785,7 +3785,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($this->teleportPosition !== null){
 			$chunkX = $this->teleportPosition->x >> 4;
 			$chunkZ = $this->teleportPosition->z >> 4;
-
+/*
 			for($X = -1; $X <= 1; ++$X){
 				for($Z = -1; $Z <= 1; ++$Z){
 					if(!isset($this->usedChunks[$index = Level::chunkHash($chunkX + $X, $chunkZ + $Z)]) or $this->usedChunks[$index] === false){
@@ -3793,8 +3793,10 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 					}
 				}
 			}
-
-			$this->sendPosition($this, null, null, 1);
+*/
+#
+			$this->getLevel()->loadChunk($chunkX, $chunkZ);
+			$this->sendPosition($this, null, null, true);
 			$this->spawnToAll();
 			$this->forceMovement = $this->teleportPosition;
 			$this->teleportPosition = null;
