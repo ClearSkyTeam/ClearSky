@@ -7,11 +7,11 @@ use pocketmine\network\protocol\BlockEventPacket;
 
 class NoteblockSound extends Sound {
 
-	const INSTRUMENT_PIANO = 0;
-	const INSTRUMENT_BASEDRUM = 1;
-	const INSTRUMENT_SNARE = 2;
-	const INSTRUMENT_CLICKS = 3;
-	const INSTRUMENT_BASEGUITAR = 4;
+	const INSTRUMENT_PIANO = 'note.harp';
+	const INSTRUMENT_BASEDRUM = 'note.bd';
+	const INSTRUMENT_SNARE = 'note.snare';
+	const INSTRUMENT_CLICKS = 'note.hat'; // TODO: Check these
+	const INSTRUMENT_BASEGUITAR = 'note.bass';
 
 	private $instrument = self::INSTRUMENT_PIANO;
 	private $pitch = 0;

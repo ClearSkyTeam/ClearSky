@@ -8,6 +8,6 @@ use pocketmine\network\protocol\LevelEventPacket;
 class SplashSound extends GenericSound {
 
 	public function __construct(Vector3 $pos, $pitch = 0){
-		parent::__construct($pos, LevelEventPacket::EVENT_SOUND_SPLASH, $pitch);
+		parent::__construct($pos, 'random.splash', $pitch);
 	}
 }

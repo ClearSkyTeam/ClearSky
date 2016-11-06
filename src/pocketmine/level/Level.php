@@ -619,7 +619,7 @@ class Level implements ChunkManager, Metadatable{
 		}
 	}
 	
-	public function addParticle(Particle $particle, array $players = null){
+	/*public function addParticle(Particle $particle, array $players = null){
 		$pk = $particle->encode();
 
 		if($players === null){
@@ -641,6 +641,12 @@ class Level implements ChunkManager, Metadatable{
 				}
 			}
 		}
+	}*/
+	/*public function addSound(Sound $sound, array $players = null){
+		print "sounds disabled\n";
+	}*/
+	public function addParticle(Particle $particle, array $players = null){
+		print "particles disabled\n";
 	}
 
 	/**

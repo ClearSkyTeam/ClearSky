@@ -29,11 +29,11 @@ class BlockPlaceSound extends GenericSound{
 	protected $data;
 	
 	public function __construct(Block $b){
-		parent::__construct($b, LevelEventPacket::EVENT_SOUND_BLOCK_PLACE);
-		$this->data = $b->getId();
+		parent::__construct($b, '');
+		#$this->data = $b->getId();
 	}
 	
-	public function encode(){
+	/*public function encode(){
 		$pk = new LevelEventPacket;
 		$pk->evid = $this->id;
 		$pk->x = $this->x;
@@ -42,5 +42,5 @@ class BlockPlaceSound extends GenericSound{
 		$pk->data = $this->data;
 		
 		return $pk;
-	}
+	}*/
 }
