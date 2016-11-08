@@ -37,8 +37,9 @@ use pocketmine\entity\Silverfish;
 use pocketmine\utils\Config;
 use pocketmine\Server;
 
-class Item{
-	
+class Item implements /*ItemIds,*/ \JsonSerializable{
+
+	/** @var NBT */
 	private static $cachedParser = null;
 
 	/**
@@ -1580,6 +1581,15 @@ class Item{
 		}
 
 		return $item;
+	}
+
+	final public function jsonSerialize(){
+		return [
+			"id" => $this->id,
+			"damage" => $this->meta,
+			"count" => $this->count, //TODO: separate items and stacks
+			"nbt" => $this->tags
+		];
 	}
 
 }
