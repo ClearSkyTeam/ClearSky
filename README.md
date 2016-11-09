@@ -8,8 +8,8 @@
 # We present you: ClearSky-DarkSunset - A fast Minecraft PE server software based on [PocketMine-MP](https://github.com/PocketMine/PocketMine-MP)
 ClearSky is a fast Minecraft: Pocket Edition server software with (compared to other forks/spoons) clean code and stable features. It was initially designed for production servers.
 
-**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.16)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
-**CircleCI Build Status** [![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield&branch=0.16)](https://circleci.com/gh/ClearSkyTeam/ClearSky "CircleCI Build Status")
+**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=Master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**CircleCI Build Status** [![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield&branch=Master)](https://circleci.com/gh/ClearSkyTeam/ClearSky "CircleCI Build Status")
 
 
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
