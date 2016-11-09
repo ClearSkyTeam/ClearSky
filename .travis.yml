@@ -3,7 +3,7 @@
 language: php
 
 php:
- - 7.0.6
+ - 7.0.12
 
 before_script:
  - phpenv config-rm xdebug.ini
