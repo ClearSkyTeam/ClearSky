@@ -2,7 +2,7 @@
 
 ###The new origin of PocketMine-MP (Main Project): [pmmp](https://github.com/pmmp/PocketMine-MP) 
 ###We're currently working on using the new 0.16's command packets. Check that out at the [commands](https://github.com/ClearSkyTeam/ClearSky/tree/commands) branch.
-###ClearSky is still experiencing freezes and memory/CPU overloads. If you find a solution or have an idea, please concider helping us.
+###ClearSky is still experiencing freezes and memory/CPU overloads. If you find a solution or have an idea, please consider helping us.
 
 ### Choose Language: [English](#ENG) - [Español](#SPA) - [中国](#CHINESE_1) - [日本語](#JAPANESE) - [Українська мова](#UKR) - [Bahasa Indonesia](#IDN)
 
