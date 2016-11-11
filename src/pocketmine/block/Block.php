@@ -18,6 +18,8 @@ use pocketmine\metadata\MetadataValue;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 
+use pocketmine\Server;
+
 class Block extends Position implements Metadatable{
 	const AIR = 0;
 	const STONE = 1;
@@ -600,19 +602,18 @@ class Block extends Position implements Metadatable{
 	 * @return int
 	*/
 	public static function getSkyLightResistance($blockID){
+		echo("CurrBlock:".$blockID);
 		#$block = new self::$list[$blockID]();
 		if(self::$transparent[$blockID]){
 			if($blockID == self::WATER){
 				return 3;
-			}else{
-				return 0;
 			}
-		}elseif(self::$solid[$blockID] === false){
+			return 0;
+		}
+		if(self::$solid[$blockID]){
 			#switch($blockID){
 			#	self::
 			#}
-			return 0;
-		}else{
 			return 15;
 		}
 		return -1;
