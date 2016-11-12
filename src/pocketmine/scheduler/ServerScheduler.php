@@ -55,6 +55,7 @@ class ServerScheduler{
 	public function scheduleAsyncTask(AsyncTask $task){
 		$id = $this->nextId();
 		$task->setTaskId($id);
+		$task->progressUpdates = new \Threaded;
 		$this->asyncPool->submitTask($task);
 	}
 
