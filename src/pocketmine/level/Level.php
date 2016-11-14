@@ -1284,7 +1284,8 @@ class Level implements ChunkManager, Metadatable{
 	 * @param int     $delay
 	 */
 	public function scheduleUpdate(Vector3 $pos, int $delay){
-		if(isset($this->updateQueueIndex[$index = Level::blockHash($pos->x, $pos->y, $pos->z)]) and $this->updateQueueIndex[$index] <= $delay){
+		$pos->floor();
+		if(isset($this->updateQueueIndex[$index = Level::blockHash((int) $pos->x, (int) $pos->y, (int) $pos->z)]) and $this->updateQueueIndex[$index] <= $delay){
 			return;
 		}
 		$this->updateQueueIndex[$index] = $delay;
