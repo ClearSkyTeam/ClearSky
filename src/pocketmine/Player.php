@@ -820,9 +820,9 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 	}
 
-	public function changeDimension(Level $targetLevel, $isNether = false){
+	public function changeDimension(Level $targetLevel, $isNether = false){/*
 		$oldLevel = $this->level;
-		if(parent::switchLevel($targetLevel)){
+		if(parent::switchLevel($targetLevel)){//Double call?
 			foreach($this->usedChunks as $index => $d){
 				Level::getXZ($index, $X, $Z);
 				$this->unloadChunk($X, $Z, $oldLevel);
@@ -848,7 +848,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				$this->dataPacket($pk);
 				$this->shouldSendStatus = true;
 			}
-		}
+		}*/
 	}
 
 	private function unloadChunk($x, $z, Level $level = null){
