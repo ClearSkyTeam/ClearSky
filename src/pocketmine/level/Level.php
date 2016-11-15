@@ -660,10 +660,10 @@ class Level implements ChunkManager, Metadatable{
 		}
 	}*/
 	/*public function addSound(Sound $sound, array $players = null){
-		print "sounds disabled\n";
+		$this->getServer()->getLogger()->debug("sounds disabled");
 	}*/
 	public function addParticle(Particle $particle, array $players = null){
-		print "particles disabled\n";
+		$this->getServer()->getLogger()->debug("particles disabled");
 	}
 
 	public function getAutoSave() : bool{
