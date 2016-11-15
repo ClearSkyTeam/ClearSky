@@ -15,13 +15,13 @@ ClearSky is a fast Minecraft: Pocket Edition server software with (compared to o
 
 
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
- - The projects we take some code from are [Genisys](https://github.com/iTXTech/Genisys), [Nukkit](https://github.com/Nukkit/Nukkit) and [IM](https://github.com/ImagicalCorp/ImagicalMine) (last one is dead). Everytime we take code from other projects we reference the commit in the commit title or description!
+ - The projects we take some code from are [pmmp](https://github.com/pmmp/PocketMine-MP), [Genisys](https://github.com/iTXTech/Genisys), [Nukkit](https://github.com/Nukkit/Nukkit) and [IM](https://github.com/ImagicalCorp/ImagicalMine) (last one is dead). Everytime we take code from other projects we reference the commit in the commit title or description! We may also just cherry-pick the commit.
  - Here is an Telegram group, where you can communicate with us: [Telegram/ClearSky](https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
  - [Look here how fast ClearSky starts with 70 plugins and 20 worlds!](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
 
 ## Where can I get a phar?
- - You can get the latest auto build phar here: [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php) or [CSPhar](http://wolvesfortress.de/phar/CSPhar/CSPhar.php) (beta)
+ - You can get the latest auto build phar here: [CSPhar](http://robskebueba.no-ip.biz/CSPhar.php) or [CSPhar by Dan](http://wolvesfortress.de/phar/CSPhar/CSPhar.php) (beta)
  - You can get an optimized PHP environment here: [SalmonGER/PHPbinary](https://github.com/SalmonGER/PocketMine-MP-Binarys).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 
