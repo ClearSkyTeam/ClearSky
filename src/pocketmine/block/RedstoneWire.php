@@ -131,7 +131,7 @@ class RedstoneWire extends Flowable implements Redstone, RedstoneTransmitter{
 	}
 
 	public function __toString(){
-		return $this->getName() . ($this->getPower() > 0?"":"NOT ") . "POWERED";
+		return $this->getName() . ($this->meta > 0?"":"NOT ") . "POWERED";
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
