@@ -353,8 +353,8 @@ class Block extends Position implements Metadatable{
 			self::$transparent = new \SplFixedArray(256);
 /***************************************************************************************************\
 |------------------------------->>>> Location of // is important!! <<<<-----------------------------|
-|			// <-- this level of indentation means that it is not yet in pocketmine     |
-|		// <-- This level of indentation means the class is not yet made                    |
+|			// <-- this level of indentation means that it is not yet in pocketmine                 |
+|		// <-- This level of indentation means the class is not yet made                            |
 |------------------------------->>>> Location of // is important!! <<<<-----------------------------|
 \***************************************************************************************************/
 			self::$list[self::AIR] = Air::class;
@@ -592,17 +592,12 @@ class Block extends Position implements Metadatable{
 		}
 	}
 	
-	//SkyBlockLight SPECIAL blocks:
-	//WATER,ICE => -3
-	//solid => -INF
-	//transparent => -0 (this includes Lava!) [WHY]
 	/**
 	 * @param int $blockID
 	 *
-	 * @return int
+	 * @return int 0-15
 	*/
 	public static function getSkyLightResistance($blockID){
-		#echo("CurrBlock:".$blockID); #DBG
 		#$block = new self::$list[$blockID]();
 		if(self::$transparent[$blockID]){
 			if($blockID == self::WATER || $blockID == self::ICE){
@@ -620,11 +615,11 @@ class Block extends Position implements Metadatable{
 	/**
 	 * @param int $blockID
 	 *
-	 * This function does always need to return values in range of 1-15.
+	 * This function must always return values in range of 1-15, otherwise it could lead to a freeze.
 	 *
-	 * @return int
+	 * @return int 1-15
 	*/
-	public static function getVerticalSkyLightResistance($blockID){
+	public static function getHorizontalSkyLightResistance($blockID){
 		return max(self::getSkyLightResistance($blockID), 1);
 	}
 
