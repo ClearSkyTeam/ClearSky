@@ -450,27 +450,15 @@ namespace pocketmine {
 	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
 
 	$logger->info("Stopping other threads");
-
+	$killer = new \ServerKiller(8);
+	$killer->start();
 	foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
-		$logger->debug("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
+		$logger->debug("Stopping " . $thread->getThreadName() . " thread");
 		$thread->quit();
 	}
-	$killtime = 8;
-	while(--$killtime) {
-		sleep(1);
-		foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
-			$logger->debug("Still running: " . (new \ReflectionClass($thread))->getShortName());
-		}
-		if (count(ThreadManager::getInstance()->getAll()) == 0) {
-			$logger->shutdown();
-			$logger->join();
-
-			echo Terminal::$FORMAT_RESET . "\n";
-
-			exit(0);			
-		};
-	}
-	echo "\nTook too long to stop, server was killed forcefully!\n";
-	@\pocketmine\kill(getmypid());
+	$logger->shutdown();
+	$logger->join();
+	echo Terminal::$FORMAT_RESET . "\n";
+	exit(0);
 
 }
