@@ -19,6 +19,7 @@ use pocketmine\inventory\Fuel;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\level\Level;
 use pocketmine\level\sound\LaunchSound;
+use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\ShortTag;
@@ -2124,6 +2125,61 @@ class Item{
 			return NBT::matchTree($this->getNamedTag(), $item->getNamedTag());
 		}
 		return false;
+	}
+
+	/**
+	 * Serializes the item to an NBT CompoundTag
+	 *
+	 * @param int $slot optional, the inventory slot of the item
+	 *
+	 * @return CompoundTag
+	 */
+	public function nbtSerialize(int $slot = -1) : CompoundTag{
+		$tag = new CompoundTag(null, [
+			"id" => new ShortTag("id", $this->id),
+			"Count" => new ByteTag("Count", $this->count ?? -1),
+			"Damage" => new ShortTag("Damage", $this->meta),
+		]);
+
+		if($this->hasCompoundTag()){
+			$tag->tag = clone $this->getNamedTag();
+			$tag->tag->setName("tag");
+		}
+		
+		if($slot !== -1){
+			$tag->Slot = new ByteTag("Slot", $slot);
+		}
+
+		return $tag;
+	}
+
+	/**
+	 * Deserializes an Item from an NBT CompoundTag
+	 *
+	 * @param CompoundTag $tag
+	 *
+	 * @return Item
+	 */
+	public static function nbtDeserialize(CompoundTag $tag) : Item{
+		if(!isset($tag->id) or !isset($tag->Count)){
+			return Item::get(0);
+		}
+
+		if($tag->id instanceof ShortTag){
+			$item = Item::get($tag->id->getValue(), !isset($tag->Damage) ? 0 : $tag->Damage->getValue(), $tag->Count->getValue());
+		}elseif($tag->id instanceof StringTag){ //PC item save format
+			$item = Item::fromString($tag->id->getValue());
+			$item->setDamage(!isset($tag->Damage) ? 0 : $tag->Damage->getValue());
+			$item->setCount($tag->Count->getValue());
+		}else{
+			throw new \InvalidArgumentException("Item CompoundTag ID must be an instance of StringTag or ShortTag, " . get_class($tag->id) . " given");
+		}
+
+		if(isset($tag->tag) and $tag->tag instanceof CompoundTag){
+			$item->setNamedTag($tag->tag);
+		}
+
+		return $item;
 	}
 
 }
