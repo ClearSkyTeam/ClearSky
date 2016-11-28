@@ -1294,7 +1294,6 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		if($gm < 0 or $gm > 3 or $this->gamemode === $gm){
 			return false;
 		}
-
 		$this->server->getPluginManager()->callEvent($ev = new PlayerGameModeChangeEvent($this, (int) $gm));
 		if($ev->isCancelled()){
 			if($client){ //gamemode change by client in the GUI
@@ -1305,14 +1304,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			}
 			return false;
 		}
-
 		$this->gamemode = $gm;
-
 		$this->allowFlight = $this->isCreative();
 		if($this->isSpectator()){
 			$this->flying = true;
 			$this->despawnFromAll();
-
 			// Client automatically turns off flight controls when on the ground.
 			// A combination of this hack and a new AdventureSettings flag FINALLY
 			// fixes spectator flight controls. Thank @robske110 for this hack.
@@ -1323,36 +1319,22 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			}
 			$this->spawnToAll();
 		}
-
 		$this->resetFallDistance();
-
 		$this->namedtag->playerGameType = new IntTag("playerGameType", $this->gamemode);
 		if(!$client){ //Gamemode changed by server, do not send for client changes
 			$pk = new SetPlayerGameTypePacket();
 			$pk->gamemode = $this->gamemode & 0x01;
 			$this->dataPacket($pk);
-			$this->sendSettings();
 		}else{
 			Command::broadcastCommandMessage($this, new TranslationContainer("commands.gamemode.success.self", [Server::getGamemodeString($gm)]));
 		}
-
-		if($this->gamemode === Player::SPECTATOR){
-			$pk = new ContainerSetContentPacket();
-			$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
-			$this->dataPacket($pk);
-		}else{
-			$pk = new ContainerSetContentPacket();
-			$pk->windowid = ContainerSetContentPacket::SPECIAL_CREATIVE;
-			foreach(Item::getCreativeItems() as $item){
-				$pk->slots[] = clone $item;
-			}
-			$this->dataPacket($pk);
-		}
-
+		$this->sendSettings();
 		$this->inventory->sendContents($this);
 		$this->inventory->sendContents($this->getViewers());
 		$this->inventory->sendHeldItem($this->hasSpawned);
-
+		if($this->isCreative()){
+			$this->inventory->sendCreativeContents();
+		}
 		return true;
 	}
 
