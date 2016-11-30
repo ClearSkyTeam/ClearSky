@@ -717,8 +717,8 @@ class Level implements ChunkManager, Metadatable{
 	 *
 	 * @return Player[]
 	 */
-	public function getChunkPlayers(int $chunkX, int $chunkZ){
-		return isset($this->playerLoaders[$index = Level::chunkHash($chunkX, $chunkZ)]) ? $this->playerLoaders[$index] : [];
+	public function getChunkPlayers(int $chunkX, int $chunkZ) : array{
+		return $this->playerLoaders[Level::chunkHash($chunkX, $chunkZ)] ?? [];
 	}
 
 	/**
@@ -729,8 +729,8 @@ class Level implements ChunkManager, Metadatable{
 	 *
 	 * @return ChunkLoader[]
 	 */
-	public function getChunkLoaders(int $chunkX, int $chunkZ){
-		return isset($this->chunkLoaders[$index = Level::chunkHash($chunkX, $chunkZ)]) ? $this->chunkLoaders[$index] : [];
+	public function getChunkLoaders(int $chunkX, int $chunkZ) : array{
+		return $this->chunkLoaders[Level::chunkHash($chunkX, $chunkZ)] ?? [];
 	}
 
 	public function addChunkPacket(int $chunkX, int $chunkZ, DataPacket $packet){
@@ -1107,7 +1107,7 @@ class Level implements ChunkManager, Metadatable{
 			$chunkZ = $loader->getZ() >> 4;
 
 			$index = Level::chunkHash($chunkX, $chunkZ);
-			$existingLoaders = max(0, isset($this->chunkTickList[$index]) ? $this->chunkTickList[$index] : 0);
+			$existingLoaders = max(0, $this->chunkTickList[$index] ?? 0);
 			$this->chunkTickList[$index] = $existingLoaders + 1;
 			for($chunk = 0; $chunk < $chunksPerLoader; ++$chunk){
 				$dx = mt_rand(-$randRange, $randRange);
@@ -2079,7 +2079,7 @@ class Level implements ChunkManager, Metadatable{
 	 * @return Entity
 	 */
 	public function getEntity(int $entityId){
-		return isset($this->entities[$entityId]) ? $this->entities[$entityId] : null;
+		return $this->entities[$entityId] ?? null;
 	}
 
 	/**
@@ -2176,7 +2176,7 @@ class Level implements ChunkManager, Metadatable{
 	 * @return Tile
 	 */
 	public function getTileById(int $tileId){
-		return isset($this->tiles[$tileId]) ? $this->tiles[$tileId] : null;
+		return $this->tiles[$tileId] ?? null;
 	}
 
 	/**

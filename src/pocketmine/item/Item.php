@@ -1496,8 +1496,8 @@ class Item{
 	 * @param $index
 	 * @return Item
 	 */
-	public static function getCreativeItem($index){
-		return isset(Item::$creative[$index]) ? Item::$creative[$index] : null;
+	public static function getCreativeItem(int $index){
+		return Item::$creative[$index] ?? null;
 	}
 
 	/**
@@ -1896,7 +1896,7 @@ class Item{
 	public function getNamedTagEntry($name){
 		$tag = $this->getNamedTag();
 		if($tag !== null){
-			return isset($tag->{$name}) ? $tag->{$name} : null;
+			return $tag->{$name} ?? null;
 		}
 		return null;
 	}

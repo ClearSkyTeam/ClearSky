@@ -2613,29 +2613,29 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						}
 						$item = $this->inventory->getItemInHand();
 						$damageTable = [
-							Item::WOODEN_SWORD => 4,
-							Item::GOLD_SWORD => 4,
-							Item::STONE_SWORD => 5,
-							Item::IRON_SWORD => 6,
-							Item::DIAMOND_SWORD => 7,
-							Item::WOODEN_AXE => 3,
-							Item::GOLD_AXE => 3,
-							Item::STONE_AXE => 3,
-							Item::IRON_AXE => 5,
-							Item::DIAMOND_AXE => 6,
-							Item::WOODEN_PICKAXE => 2,
-							Item::GOLD_PICKAXE => 2,
-							Item::STONE_PICKAXE => 3,
-							Item::IRON_PICKAXE => 4,
-							Item::DIAMOND_PICKAXE => 5,
-							Item::WOODEN_SHOVEL => 1,
-							Item::GOLD_SHOVEL => 1,
-							Item::STONE_SHOVEL => 2,
-							Item::IRON_SHOVEL => 3,
-							Item::DIAMOND_SHOVEL => 4,
+								Item::WOODEN_SWORD => 4,
+								Item::GOLD_SWORD => 4,
+								Item::STONE_SWORD => 5,
+								Item::IRON_SWORD => 6,
+								Item::DIAMOND_SWORD => 7,
+								Item::WOODEN_AXE => 3,
+								Item::GOLD_AXE => 3,
+								Item::STONE_AXE => 3,
+								Item::IRON_AXE => 5,
+								Item::DIAMOND_AXE => 6,
+								Item::WOODEN_PICKAXE => 2,
+								Item::GOLD_PICKAXE => 2,
+								Item::STONE_PICKAXE => 3,
+								Item::IRON_PICKAXE => 4,
+								Item::DIAMOND_PICKAXE => 5,
+								Item::WOODEN_SHOVEL => 1,
+								Item::GOLD_SHOVEL => 1,
+								Item::STONE_SHOVEL => 2,
+								Item::IRON_SHOVEL => 3,
+								Item::DIAMOND_SHOVEL => 4,
 						];
 						$damage = [
-							EntityDamageEvent::MODIFIER_BASE => isset($damageTable[$item->getId()]) ? $damageTable[$item->getId()] : 1,
+								EntityDamageEvent::MODIFIER_BASE => $damageTable[$item->getId()] ?? 1,
 						];
 						if(!$this->canInteract($target, 8)){
 							$cancelled = true;
@@ -2646,26 +2646,26 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 								$cancelled = true;
 							}
 							$armorValues = [
-								Item::LEATHER_CAP => 1,
-								Item::LEATHER_TUNIC => 3,
-								Item::LEATHER_PANTS => 2,
-								Item::LEATHER_BOOTS => 1,
-								Item::CHAIN_HELMET => 1,
-								Item::CHAIN_CHESTPLATE => 5,
-								Item::CHAIN_LEGGINGS => 4,
-								Item::CHAIN_BOOTS => 1,
-								Item::GOLD_HELMET => 1,
-								Item::GOLD_CHESTPLATE => 5,
-								Item::GOLD_LEGGINGS => 3,
-								Item::GOLD_BOOTS => 1,
-								Item::IRON_HELMET => 2,
-								Item::IRON_CHESTPLATE => 6,
-								Item::IRON_LEGGINGS => 5,
-								Item::IRON_BOOTS => 2,
-								Item::DIAMOND_HELMET => 3,
-								Item::DIAMOND_CHESTPLATE => 8,
-								Item::DIAMOND_LEGGINGS => 6,
-								Item::DIAMOND_BOOTS => 3,
+									Item::LEATHER_CAP => 1,
+									Item::LEATHER_TUNIC => 3,
+									Item::LEATHER_PANTS => 2,
+									Item::LEATHER_BOOTS => 1,
+									Item::CHAIN_HELMET => 1,
+									Item::CHAIN_CHESTPLATE => 5,
+									Item::CHAIN_LEGGINGS => 4,
+									Item::CHAIN_BOOTS => 1,
+									Item::GOLD_HELMET => 1,
+									Item::GOLD_CHESTPLATE => 5,
+									Item::GOLD_LEGGINGS => 3,
+									Item::GOLD_BOOTS => 1,
+									Item::IRON_HELMET => 2,
+									Item::IRON_CHESTPLATE => 6,
+									Item::IRON_LEGGINGS => 5,
+									Item::IRON_BOOTS => 2,
+									Item::DIAMOND_HELMET => 3,
+									Item::DIAMOND_CHESTPLATE => 8,
+									Item::DIAMOND_LEGGINGS => 6,
+									Item::DIAMOND_BOOTS => 3,
 							];
 							$points = 0;
 							foreach($target->getInventory()->getArmorContents() as $index => $i){
@@ -2680,23 +2680,28 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 							$ev->setCancelled();
 						}
 						$target->attack($ev->getFinalDamage(), $ev);
-
-						if($item->isTool() and $this->isSurvival()){
-							if($ev->isCancelled()){
+						if($ev->isCancelled()){
+							if($item->isTool() and $this->isSurvival()){
 								$this->inventory->sendContents($this);
-								break;
-							}elseif($item->useOn($target) and $item->getDamage() >= $item->getMaxDurability()){
-								$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 1));
-							}else{
-								$this->inventory->setItemInHand($item);
 							}
-
+							break;
+						}
+						if($this->isSurvival()){
+							if($item->isTool()){
+								if($item->useOn($target) and $item->getDamage() >= $item->getMaxDurability()){
+									$this->inventory->setItemInHand(Item::get(Item::AIR, 0, 1));
+								}else{
+									$this->inventory->setItemInHand($item);
+								}
+							}
 							$this->exhaust(0.3, PlayerExhaustEvent::CAUSE_ATTACK);
 						}
-					}
-					break;
-				}
-				break;
+						}
+						break;
+						default:
+							break; //TODO: handle other actions
+						}
+						break;
 			case ProtocolInfo::ANIMATE_PACKET:
 				if($this->spawned === false or !$this->isAlive()){
 					break;
