@@ -198,8 +198,7 @@ class Block extends Position implements Metadatable{
 	const BIRCH_WOODEN_STAIRS = 135;
 	const JUNGLE_WOOD_STAIRS = 136;
 	const JUNGLE_WOODEN_STAIRS = 136;
-	const COMMAND_BLOCK = 136;
-	const BEACON = 136;
+	const BEACON = 138;
 	const COBBLE_WALL = 139;
 	const STONE_WALL = 139;
 	const COBBLESTONE_WALL = 139;
@@ -247,8 +246,8 @@ class Block extends Position implements Metadatable{
 	const SLIMEBLOCK = 165;
 	//const BARRIER = 166;
 	const IRON_TRAPDOOR = 167;
-	//const PRISMARINE = 168;
-	//const SEA_LANTERN = 169;
+	const PRISMARINE = 168;
+	const SEA_LANTERN = 169;
 	const HAY_BALE = 170;
 	const CARPET = 171;
 	const HARDENED_CLAY = 172;

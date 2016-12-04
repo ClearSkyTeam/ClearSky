@@ -315,7 +315,7 @@ class Item{
 	*/
 	const BARRIER = 166;
 	const IRON_TRAPDOOR = 167;
-	const PISMARINE = 168;
+	const PRISMARINE = 168;
 	const SEA_LANTERN = 169;
 	const HAY_BALE = 170;
 	const CARPET = 171;
@@ -786,7 +786,7 @@ class Item{
 			self::$list[self::FILLED_MAP] = FilledMap::class;
 			self::$list[self::GOLDEN_CARROT] = GoldenCarrot::class;
 			self::$list[self::SKULL] = Skull::class;
-			
+			self::$list[self::NETHER_STAR] = NetherStar::class;
 			self::$list[self::PUMPKIN_PIE] = PumpkinPie::class;
 			
 			self::$list[self::ENCHANTED_BOOK] = EnchantedBook::class;
