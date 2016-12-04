@@ -21,10 +21,11 @@
 
 namespace pocketmine\network\protocol;
 
-#include <rules/DataPacket.h>
+use pocketmine\Server;
 
 class LevelSoundEventPacket extends DataPacket{
 	const NETWORK_ID = Info::LEVEL_SOUND_EVENT_PACKET;
+	private static $sounds = null;
 
 	public $sound;
 	public $x;
@@ -42,6 +43,9 @@ class LevelSoundEventPacket extends DataPacket{
 		$this->pitch = $this->getVarInt();
 		$this->unknownBool = $this->getBool();
 		$this->unknownBool2 = $this->getBool();
+		print $this->sound;
+		print $this->unknownBool;
+		print $this->unknownBool2;
 	}
 
 	public function encode(){
@@ -52,5 +56,21 @@ class LevelSoundEventPacket extends DataPacket{
 		$this->putVarInt($this->pitch);
 		$this->putBool($this->unknownBool);
 		$this->putBool($this->unknownBool2);
+	}
+
+	public static function getSounds() : \stdClass{
+		if(self::$sounds === null){
+		/* Client side sounds? */
+			#self::$sounds = json_decode(file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/sounds.json"));#
+			self::$sounds = json_decode(file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/clientsidedsounds.json"));
+		}
+		return clone self::$sounds;
+	}
+
+	public static function getSound($name){
+		if(!empty($name) && @self::getSounds()->{$name} !== null){
+			return $name;
+		}
+		return false;
 	}
 }

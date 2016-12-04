@@ -110,7 +110,7 @@ abstract class Entity extends Location implements Metadatable{
 	const DATA_FLAG_SNEAKING = 1;
 	const DATA_FLAG_RIDING = 2;
 	const DATA_FLAG_SPRINTING = 3;
-	const DATA_FLAG_ACTION = 4;
+	const DATA_FLAG_ACTION = 4, DATA_FLAG_USINGITEM = 4;
 	const DATA_FLAG_INVISIBLE = 5;
 	const DATA_FLAG_TEMPTED = 6; //???
 	const DATA_FLAG_INLOVE = 7;
@@ -120,10 +120,10 @@ abstract class Entity extends Location implements Metadatable{
 	const DATA_FLAG_BABY = 11;
 	const DATA_FLAG_CONVERTING = 12; //???
 	const DATA_FLAG_CRITICAL = 13;
-	const DATA_FLAG_CAN_SHOW_NAMETAG = 14;
+	const DATA_FLAG_CAN_SHOW_NAMETAG = 14, DATA_FLAG_SHOWNAME = 14;
 	const DATA_FLAG_ALWAYS_SHOW_NAMETAG = 15;
 
-	const DATA_FLAG_IMMOBILE = 16, DATA_FLAG_NO_AI = 16;
+	const DATA_FLAG_IMMOBILE = 16, DATA_FLAG_NO_AI = 16, DATA_FLAG_NOAI = 16;
 	const DATA_FLAG_SILENT = 17;
 	const DATA_FLAG_WALLCLIMBING = 18;
 	const DATA_FLAG_RESTING = 19; //for bats?
@@ -523,8 +523,8 @@ abstract class Entity extends Location implements Metadatable{
 		return $this->getDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IMMOBILE);
 	}
 
-	public function setImmobile($value = true) : bool{
-		return $this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IMMOBILE, $value);
+	public function setImmobile($value = true){
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_IMMOBILE, $value);
 	}
 
 	/**

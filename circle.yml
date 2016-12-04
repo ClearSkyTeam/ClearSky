@@ -15,7 +15,7 @@ dependencies:
   - finalCMD=$(printf "s/CuttingEdge/$CIRCLE_BUILD_NUM/g"); printf ${finalCMD}; sed -i -e ${finalCMD} src/pocketmine/PocketMine.php;
   - wget -O PHP7.tar.gz https://dl.bintray.com/pocketmine/PocketMine/PHP_7.0.6_x86-64_Linux.tar.gz --no-check-certificate
   - tar -xf PHP7.tar.gz
-  - wget https://raw.githubusercontent.com/ClearSkyTeam/ClearSky/php7/start.sh
+  - wget https://raw.githubusercontent.com/ClearSkyTeam/ClearSky/master/start.sh
   - wget -O plugins/DevTools.phar https://github.com/PocketMine/DevTools/releases/download/v1.11.0/DevTools_v1.11.0.phar
 #  - pecl install channel://pecl.php.net/pthreads-3.1.6
 #  - pecl install channel://pecl.php.net/weakref-0.3.2

@@ -6,6 +6,7 @@ use pocketmine\network\protocol\LevelEventPacket;
 
 class PopSound extends GenericSound{
 	public function __construct(Vector3 $pos, $pitch = 0){
-		parent::__construct($pos, LevelEventPacket::EVENT_SOUND_DROP_ITEM, $pitch);
+		parent::__construct($pos, 'random.pop', $pitch);
+		
 	}
 }

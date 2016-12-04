@@ -6,6 +6,6 @@ use pocketmine\network\protocol\LevelEventPacket;
 
 class BatSound extends GenericSound{
 	public function __construct(Vector3 $pos, $pitch = 0){
-		parent::__construct($pos, LevelEventPacket::EVENT_SOUND_BAT_FLY, $pitch);
+		parent::__construct($pos, 'mob.bat.takeoff', $pitch);
 	}
 }

@@ -1,25 +1,27 @@
-#Not production ready.
-##DISCLAIMER: (ALMOST) ALL WORK HAS BEEN DONE BY @DKTAPPS. PLEASE CHECK OUT [pmmp](https://github.com/pmmp/PocketMine-MP) FOR THE FUTURE OF POCKETMINE!
+![ClearSky](https://github.com/ClearSkyTeam/ClearSky/blob/master/images/CSbanner.png)
 
-![ClearSky](https://github.com/ClearSkyTeam/ClearSky/blob/0.16/images/CSbanner.png)
+###The new origin of PocketMine-MP (Main Project): [pmmp](https://github.com/pmmp/PocketMine-MP) 
+###We're currently working on using the new 0.16's command packets. Check that out at the [commands](https://github.com/ClearSkyTeam/ClearSky/tree/commands) branch.
+###ClearSky is still experiencing freezes and memory/CPU overloads. If you find a solution or have an idea, please consider helping us.
+
 ### Choose Language: [English](#ENG) - [Español](#SPA) - [中国](#CHINESE_1) - [日本語](#JAPANESE) - [Українська мова](#UKR) - [Bahasa Indonesia](#IDN)
 
 # <a name="ENG"></a>English  
 # We present you: ClearSky-DarkSunset - A fast Minecraft PE server software based on [PocketMine-MP](https://github.com/PocketMine/PocketMine-MP)
 ClearSky is a fast Minecraft: Pocket Edition server software with (compared to other forks/spoons) clean code and stable features. It was initially designed for production servers.
 
-**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=0.16)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
-**CircleCI Build Status** [![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield&branch=0.16)](https://circleci.com/gh/ClearSkyTeam/ClearSky "CircleCI Build Status")
+**TravisCI Build Status** [![TravisCI](https://travis-ci.org/ClearSkyTeam/ClearSky.svg?branch=master)](https://travis-ci.org/ClearSkyTeam/ClearSky "TravisCI Build Status")
+**CircleCI Build Status** [![Build Status](https://circleci.com/gh/ClearSkyTeam/ClearSky.svg?style=shield&branch=master)](https://circleci.com/gh/ClearSkyTeam/ClearSky "CircleCI Build Status")
 
 
  - We may take code from other GPL licenced projects, but most features are fully-rewritten for ClearSky.
- - The projects we take some code from are [Genisys](https://github.com/iTXTech/Genisys), [Nukkit](https://github.com/Nukkit/Nukkit) and [IM](https://github.com/ImagicalCorp/ImagicalMine) (last one is dead). Everytime we take code from other projects we reference the commit in the commit title or description!
+ - The projects we take some code from are [pmmp](https://github.com/pmmp/PocketMine-MP), [Genisys](https://github.com/iTXTech/Genisys), [Nukkit](https://github.com/Nukkit/Nukkit) and [IM](https://github.com/ImagicalCorp/ImagicalMine) (last one is dead). Everytime we take code from other projects we reference the commit in the commit title or description! We may also just cherry-pick the commit.
  - Here is an Telegram group, where you can communicate with us: [Telegram/ClearSky](https://telegram.me/joinchat/AlErxD3AN_GOgeSAcS0twA).
  - [Look here how fast ClearSky starts with 70 plugins and 20 worlds!](http://wolvesfortress.de/ezgif-1446650535.gif)
  - Inofficial Test Server : Creative IP: WolvesFortress.de Port: **19134** *Often offline, but if online, latest version*
 
 ## Where can I get a phar?
- - You can get the latest auto build phar here: [CircleCI](http://robskebueba.no-ip.biz/CSPhar.php) or [CSPhar](http://wolvesfortress.de/phar/CSPhar/CSPhar.php) (beta)
+ - You can get the latest auto build phar here: [CSPhar](http://robskebueba.no-ip.biz/CSPhar.php) or [CSPhar by Dan](http://wolvesfortress.de/phar/CSPhar/CSPhar.php) (beta)
  - You can get an optimized PHP environment here: [SalmonGER/PHPbinary](https://github.com/SalmonGER/PocketMine-MP-Binarys).
  - You can get a Multicraft config demo here: [ClearSkyTeam/MulticraftConfig](https://github.com/ClearSkyTeam/MulticraftConfig).
 

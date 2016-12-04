@@ -76,7 +76,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 					$this->togglePowered();
 				}
 				else{
-					$this->getLevel()->scheduleUpdate($this, 50);
+					$this->getLevel()->scheduleUpdate($this->floor(), 50);
 				}
 			}
 		}
@@ -94,7 +94,7 @@ class WoodenPressurePlate extends Transparent implements Redstone, RedstoneSourc
 		if($this->meta == 0){
 			$this->togglePowered();
 		}
-		$this->getLevel()->scheduleUpdate($this, 50);
+		$this->getLevel()->scheduleUpdate($this->floor(), 50);
 	}
 
 	public function place(Item $item, Block $block, Block $target, $face, $fx, $fy, $fz, Player $player = null){
