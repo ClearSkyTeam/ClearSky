@@ -258,11 +258,9 @@ class Item{
 	const SPRUCE_WOODEN_STAIRS = 134;
 	const BIRCH_WOOD_STAIRS = 135;
 	const BIRCH_WOODEN_STAIRS = 135;
-	#wtf ids?
-	#const COMMAND_BLOCK = 136;
-	#const BEACON = 136;
 	const JUNGLE_WOOD_STAIRS = 136;
 	const JUNGLE_WOODEN_STAIRS = 136;
+	const BEACON = 138;
 	const COBBLESTONE_WALL = 139;
 	const COBBLE_WALL = 139;
 	const STONE_WALL = 139;
@@ -316,16 +314,15 @@ class Item{
 	* @deprecated
 	*/
 	const BARRIER = 166;
-
 	const IRON_TRAPDOOR = 167;
-	
+	const PISMARINE = 168;
+	const SEA_LANTERN = 169;
 	const HAY_BALE = 170;
 	const CARPET = 171;
 	const HARDENED_CLAY = 172;
 	const COAL_BLOCK = 173;
 	const PACKED_ICE = 174;
 	const DOUBLE_PLANT = 175;
-	
 	const INVERTED_DAYLIGHT_SENSOR = 178;
 	const DAYLIGHT_SENSOR_INVERTED = 178;
 	const RED_SANDSTONE = 179;
@@ -525,7 +522,7 @@ class Item{
 	const MOB_HEAD = 397;
 	const SKULL = 397;
 	const CARROT_ON_A_STICK = 398;
-	
+	const NETHER_STAR = 399;
 	const PUMPKIN_PIE = 400;
 	const ENCHANTED_BOOK = 403;
 	const COMPARATOR = 404;
@@ -536,7 +533,7 @@ class Item{
 	const MINECART_WITH_TNT = 407;
 	const HOPPER_MINECART = 408;
 	const MINECART_WITH_HOPPER = 408;
-	
+	const PRISMARINE_SHARD = 409;
 	const HOPPER = 410;
 	const RAW_RABBIT = 411;
 	const COOKED_RABBIT = 412;
@@ -551,7 +548,7 @@ class Item{
 	const LEAD = 420;
 	const LEASH = 420;
 	const NAME_TAG = 421;
-	
+	const PRISMARINE_CRYSTAL = 422;
 	const RAW_MUTTON = 423;
 	const COOKED_MUTTON = 424;
 	
