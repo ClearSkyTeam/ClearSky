@@ -2781,12 +2781,19 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$params = []; // for ordering the arguments
 						foreach($availableParameters as $parameter){ // process parameters and fill with given args
 							if(!(@$parameter->optional !== null && @$parameter->optional === true && @$args->{$parameter->name} === null)){ // is NOT optional, so BAD if missing/not given
-								if($parameter->type == "target"){ // Other types ALSO have to be catched here! TODO: add @function switch()
-									$params[$parameter->name] = $args->{$parameter->name}->rules[0]->value; // This fixes name being nested in the packet
+								switch($parameter->type){
+									case 'target':
+										{ // Other types ALSO have to be catched here! TODO: add @function switch()
+											$params[$parameter->name] = $args->{$parameter->name}->rules[0]->value; // This fixes name being nested in the packet
+										}
+									case 'int':
+									case 'stringenum':
+									default:
+										{
+											$params[$parameter->name] = $args->{$parameter->name};
+										}
+									// Found another: /help [command: string], causing issues
 								}
-								else
-									$params[$parameter->name] = $args->{$parameter->name};
-								//Found another: /help [command: string], causing issues
 							}
 						}
 						$commandText .= " " . implode(" ", $params);
