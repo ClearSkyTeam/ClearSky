@@ -121,6 +121,7 @@ use pocketmine\entity\Effect;
 use pocketmine\level\particle\DestroyBlockParticle;
 
 use pocketmine\entity\ExperienceOrb;
+use pocketmine\network\protocol\ChangeDimensionPacket;
 
 #include <rules/Level.h>
 
@@ -3074,7 +3075,7 @@ class Level implements ChunkManager, Metadatable{
 	 * @return int
 	 */
 	public function getDimension(){
-		return $this->dimension;
+		return $this->provider->getGenerator() == 'nether'?ChangeDimensionPacket::NETHER:$this->dimension;
 	}
 
 	/**

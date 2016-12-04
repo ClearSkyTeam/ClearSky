@@ -64,7 +64,7 @@ class Nether extends Generator{
 	}
 
 	public function getName(){
-		return "normal";
+		return "nether";
 	}
 
 	public function getSettings(){

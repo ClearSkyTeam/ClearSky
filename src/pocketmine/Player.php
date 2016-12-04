@@ -817,45 +817,35 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$pk->time = $this->level->getTime();
 			$pk->started = $this->level->stopTime == false;
 			$this->dataPacket($pk);
+			if(!$oldLevel->getDimension() === $this->level->getDimension()){
+				if($this->level->getDimension() === ChangeDimensionPacket::NETHER){
+					$cpk = new ChangeDimensionPacket();
+					$cpk->x = $this->x;
+					$cpk->y = $this->y;
+					$cpk->z = $this->z;
+					$cpk->dimension = ChangeDimensionPacket::NETHER;
+					$this->dataPacket($cpk);
+					$cpk->unknown = true;
+				}
+				else{
+					$cpk = new ChangeDimensionPacket();
+					$cpk->x = $this->x;
+					$cpk->y = $this->y;
+					$cpk->z = $this->z;
+					$cpk->dimension = ChangeDimensionPacket::NORMAL;
+					$this->dataPacket($cpk);
+					$cpk->unknown = true;
+				}
+			}
 		}
-	}
-
-	public function changeDimension(Level $targetLevel, $isNether = false){/*
-		$oldLevel = $this->level;
-		if(parent::switchLevel($targetLevel)){//Double call?
-			foreach($this->usedChunks as $index => $d){
-				Level::getXZ($index, $X, $Z);
-				$this->unloadChunk($X, $Z, $oldLevel);
-			}
-			
-			$this->usedChunks = [];
-			$pk = new SetTimePacket();
-			$pk->time = $this->level->getTime();
-			$pk->started = $this->level->stopTime == false;
-			$this->dataPacket($pk);
-			
-			// if(WeatherManager::isRegistered($targetLevel)) $targetLevel->getWeather()->sendWeather($this);
-			
-			if($isNether){
-				$pk = new ChangeDimensionPacket();
-				$pk->dimension = ChangeDimensionPacket::NETHER;
-				$this->dataPacket($pk);
-				$this->shouldSendStatus = true;
-			}
-			else{
-				$pk = new ChangeDimensionPacket();
-				$pk->dimension = ChangeDimensionPacket::NORMAL;
-				$this->dataPacket($pk);
-				$this->shouldSendStatus = true;
-			}
-		}*/
 	}
 
 	private function unloadChunk($x, $z, Level $level = null){
 		$level = $level === null ? $this->level : $level;
 		$index = Level::chunkHash($x, $z);
 		if(isset($this->usedChunks[$index])){
-			foreach($level->getChunkEntities($x, $z) as $entity){
+			if(count($entities = $level->getChunkEntities($x, $z)) > 0) return;
+			foreach($entities as $entity){
 				if($entity !== $this){
 					$entity->despawnFrom($this);
 				}
@@ -1014,7 +1004,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 		
 		/** Additional Packet Send **/
-		$this->getLevel()->broadcastWeather($this->getLevel()->getWeather(),$this);
+		#$this->getLevel()->broadcastWeather($this->getLevel()->getWeather(),$this);
 	}
 
 	protected function orderChunks(){
@@ -1975,7 +1965,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$pk->y = $this->y;
 		$pk->z = $this->z;
 		$pk->seed = -1;
-		$pk->dimension = $this->level->getDimension();
+		$pk->dimension = /*$this->level->getDimension();*/ 0;
 		$pk->gamemode = $this->gamemode & 0x01;
 		$pk->difficulty = $this->server->getDifficulty();
 		$pk->spawnX = $spawnPosition->getFloorX();
@@ -2039,8 +2029,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		}
 
 		$this->setDataProperty(self::DATA_NO_AI, self::DATA_TYPE_BYTE, 0);
-		#$this->setMovementSpeed(self::DEFAULT_SPEED);
-		$this->setMovementSpeed($this->movementSpeed);
+		$this->setMovementSpeed(self::DEFAULT_SPEED);
 		
 		$this->forceMovement = $this->teleportPosition = $this->getPosition();
 		
@@ -3844,7 +3833,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->resetFallDistance();
 			$this->nextChunkOrderRun = 0;
 			$this->newPosition = null;
-			$this->getLevel()->broadcastWeather($this->getLevel()->getWeather(), $this);
+			#$this->getLevel()->broadcastWeather($this->getLevel()->getWeather(), $this);
 			return true;
 		}
 		return false;
