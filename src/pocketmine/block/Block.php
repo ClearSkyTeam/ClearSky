@@ -17,6 +17,7 @@ use pocketmine\metadata\Metadatable;
 use pocketmine\metadata\MetadataValue;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
+use pocketmine\level\sound\GenericSound;
 
 class Block extends Position implements Metadatable{
 	const AIR = 0;
@@ -669,6 +670,7 @@ class Block extends Position implements Metadatable{
 	 * @return mixed
 	 */
 	public function onBreak(Item $item){
+		$this->level->addSound(new GenericSound($this, 3));
 		if($this instanceof Redstone){
 			$oBreturn = $this->getLevel()->setBlock($this, new Air(), true, true);
 			$this->broadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,$this->getPower());
