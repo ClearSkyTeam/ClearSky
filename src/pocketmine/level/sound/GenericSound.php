@@ -7,7 +7,7 @@ use pocketmine\network\protocol\LevelSoundEventPacket;
 class GenericSound extends Sound{
 	
 	public function __construct(Vector3 $pos, $id, $pitch = 0){
-		if(LevelSoundEventPacket::getSound($id) === false){print "fail"; return;}
+		#if(LevelSoundEventPacket::getSound($id) === false){print "fail"; return;}
 		parent::__construct($pos->x, $pos->y, $pos->z);
 		$this->id = $id;
 		$this->pitch = (float) $pitch * 1000;
