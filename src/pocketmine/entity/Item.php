@@ -66,8 +66,8 @@ class Item extends Entity{
 	public function attack($damage, EntityDamageEvent $source){
 		if(
 			$source->getCause() === EntityDamageEvent::CAUSE_VOID or
-			$source->getCause() === EntityDamageEvent::CAUSE_FIRE_TICK or
-			(($source->getCause() === EntityDamageEvent::CAUSE_ENTITY_EXPLOSION or
+			(($source->getCause() === EntityDamageEvent::CAUSE_FIRE_TICK or
+			$source->getCause() === EntityDamageEvent::CAUSE_ENTITY_EXPLOSION or
 			$source->getCause() === EntityDamageEvent::CAUSE_BLOCK_EXPLOSION) and $this->item->getId() !== ItemItem::NETHER_STAR)
 		){
 			parent::attack($damage, $source);
