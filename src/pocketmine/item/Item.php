@@ -110,7 +110,6 @@ class Item{
 	const DEAD_BUSH = 32;
 	const PISTON = 33;
 	const PISTON_HEAD = 34;
-	const PISTON_EXTENSION = 34;
 	const WOOL = 35;
 	const DANDELION = 37;
 	const POPPY = 38;
@@ -152,7 +151,7 @@ class Item{
 	const LIT_FURNACE = 62;
 	const SIGN_POST = 63;
 	const DOOR_BLOCK = 64;
-	const WOODEN_DOOR_BLOCK = 64;
+	const OAK_DOOR_BLOCK = 64;
 	const WOOD_DOOR_BLOCK = 64;
 	const OAK_DOOR_BLOCK = 64;
 	const LADDER = 65;
@@ -179,6 +178,7 @@ class Item{
 	const CLAY_BLOCK = 82;
 	const REEDS = 83;
 	const SUGARCANE_BLOCK = 83;
+	// const JUKEBOX = 83;
 	const FENCE = 85;
 	const PUMPKIN = 86;
 	const NETHERRACK = 87;
@@ -186,6 +186,7 @@ class Item{
 	const GLOWSTONE = 89;
 	const GLOWSTONE_BLOCK = 89;
 	const PORTAL_BLOCK = 90;
+	const NETHER_PORTAL = 90;
 	const PORTAL = 90;
 	const JACK_O_LANTERN = 91;
 	const LIT_PUMPKIN = 91;
@@ -196,11 +197,6 @@ class Item{
 	const POWERED_REPEATER_BLOCK = 94;
 	const POWERED_REPEATER = 94;
 	const INVISIBLE_BEDROCK = 95;
-	/**
-	* @deprecated
-	* Use INVISIBLE_BEDROCK instead
-	*/
-	const STAINED_GLASS = 95; //Well, plugin compatibility...
 	const TRAPDOOR = 96;
 	const WOODEN_TRAPDOOR = 96;
 	const MONSTER_EGG_BLOCK = 97;
@@ -235,9 +231,10 @@ class Item{
 	const ENCHANTMENT_TABLE = 116;
 	const BREWING_STAND_BLOCK = 117;
 	const CAULDRON_BLOCK = 118;
+	//const END_PORTAL = 119; //Confirmed
 	const END_PORTAL_FRAME = 120;
-	const END_PORTAL = 120;
 	const END_STONE = 121;
+	//const DRAGON_EGG = 122; //Confirmed
 	const REDSTONE_LAMP = 123;
 	const INACTIVE_REDSTONE_LAMP = 123;
 	const LIT_REDSTONE_LAMP = 124;
@@ -250,7 +247,7 @@ class Item{
 	const COCOA_PODS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
-	#const ENDERCHEST = 130;
+	//const ENDERCHEST = 130; //Confirmed
 	const TRIPWIRE_HOOK = 131;
 	const TRIPWIRE = 132;
 	const EMERALD_BLOCK = 133;
@@ -268,8 +265,9 @@ class Item{
 	const CARROT_BLOCK = 141;
 	const POTATO_BLOCK = 142;
 	const WOODEN_BUTTON = 143;
-	const MOB_HEAD_BLOCK = 144;
 	const SKULL_BLOCK = 144;
+	const HEAD_BLOCK = 144;
+	const MOB_HEAD_BLOCK = 144;
 	const ANVIL_BLOCK = 145;
 	const ANVIL = 145;
 	const TRAPPED_CHEST = 146;
@@ -281,12 +279,15 @@ class Item{
 	const IRON_PRESSURE_PLATE = 148;
 	const COMPARATOR_BLOCK = 149;
 	const UNPOWERED_COMPARATOR_BLOCK = 149;
+	const UNPOWERED_COMPARATOR = 149;
+	const POWERED_COMPARATOR = 150;
 	const POWERED_COMPARATOR_BLOCK = 150;
 	const DAYLIGHT_SENSOR = 151;
 	const DAYLIGHT_DETECTOR = 151;
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
-	const HOPPER_BLOCK = 154;
+	const QUARTZ_ORE = 153;
+	const HOPPER = 154;
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
 	const DOUBLE_WOOD_SLAB = 157;
@@ -299,7 +300,7 @@ class Item{
 	const WOODEN_SLABS = 158;
 	const STAINED_CLAY = 159;
 	const STAINED_HARDENED_CLAY = 159;
-	
+	//const STAINED_GLASS_PANE = 160; //Confirmed
 	const LEAVES2 = 161;
 	const LEAVE2 = 161;
 	const WOOD2 = 162;
@@ -310,10 +311,8 @@ class Item{
 	const DARK_OAK_WOOD_STAIRS = 164;
 	const DARK_OAK_WOODEN_STAIRS = 164;
 	const SLIME_BLOCK = 165;
-	/**
-	* @deprecated
-	*/
-	const BARRIER = 166;
+	const SLIMEBLOCK = 165;
+	//const BARRIER = 166;
 	const IRON_TRAPDOOR = 167;
 	const PRISMARINE = 168;
 	const SEA_LANTERN = 169;
@@ -323,11 +322,16 @@ class Item{
 	const COAL_BLOCK = 173;
 	const PACKED_ICE = 174;
 	const DOUBLE_PLANT = 175;
+	//const STANDING_BANNER = 176;
+	//const WALL_BANNER = 177;
 	const INVERTED_DAYLIGHT_SENSOR = 178;
+	const DAYLIGHT_DETECTOR_INVERTED = 178;
 	const DAYLIGHT_SENSOR_INVERTED = 178;
 	const RED_SANDSTONE = 179;
 	const RED_SANDSTONE_STAIRS = 180;
 	const DOUBLE_RED_SANDSTONE_SLAB = 181;
+	const DOUBLE_STONE_SLAB2 = 181;
+	const STONE_SLAB2 = 182;
 	const RED_SANDSTONE_SLAB = 182;
 	const SPRUCE_FENCE_GATE = 183;
 	const FENCE_GATE_SPRUCE = 183;
@@ -339,7 +343,6 @@ class Item{
 	const FENCE_GATE_DARK_OAK = 186;
 	const ACACIA_FENCE_GATE = 187;
 	const FENCE_GATE_ACACIA = 187;
-	
 	const SPRUCE_DOOR_BLOCK = 193;
 	const BIRCH_DOOR_BLOCK = 194;
 	const JUNGLE_DOOR_BLOCK = 195;
@@ -347,7 +350,14 @@ class Item{
 	const DARK_OAK_DOOR_BLOCK = 197;
 	const GRASS_PATH = 198;
 	const ITEM_FRAME_BLOCK = 199;
-	
+	//const CHORUS_FLOWER = 200; //Confirmed
+	//const PURPUR = 201; //Confirmed
+	//const PURPUR_STAIRS = 203; //Confirmed
+	//const END_BRICKS = 206; //Confirmed
+	//const END_ROD = 208; //Confirmed
+	//const END_GATEWAY = 209; //Confirmed
+	//const CHORUS_PLANT = 240; //Confirmed
+	//const STAINED_GLASS = 241; //Confirmed
 	const PODZOL = 243;
 	const BEETROOT_BLOCK = 244;
 	const STONECUTTER = 245;
@@ -355,9 +365,11 @@ class Item{
 	const NETHER_REACTOR = 247;
 	const UPDATE_BLOCK = 248;
 	const ATEUPD_BLOCK = 249;
+	const PISTON_EXTENSION = 250;
 	const BLOCK_MOVED_BY_PISTON = 250;
 	const OBSERVER = 251;
 	const RESERVED = 255;
+
 	//Normal Item IDs
 	const IRON_SHOVEL = 256;
 	const IRON_PICKAXE = 257;
@@ -485,7 +497,7 @@ class Item{
 	const RAW_CHICKEN = 365;
 	const COOKED_CHICKEN = 366;
 	const ROTTEN_FLESH = 367;
-	//const ENDERPEARL = 368;
+	//const ENDERPEARL = 368; //Confirmed
 	const BLAZE_ROD = 369;
 	const GHAST_TEAR = 370;
 	const GOLD_NUGGET = 371;
@@ -499,6 +511,7 @@ class Item{
 	const MAGMA_CREAM = 378;
 	const BREWING_STAND = 379;
 	const CAULDRON = 380;
+	const EYE_OF_ENDER = 380;
 	const GLISTERING_MELON = 382;
 	const SPAWN_EGG = 383;
 	const BOTTLE_O_ENCHANTING = 384;
@@ -549,16 +562,26 @@ class Item{
 	const LEASH = 420;
 	const NAME_TAG = 421;
 	const PRISMARINE_CRYSTAL = 422;
+	const PRISMARINE_CRYSTALS = 422;
 	const RAW_MUTTON = 423;
 	const COOKED_MUTTON = 424;
+	//const END_CRYSTAL = 426; //Confirmed
 	
 	const SPRUCE_DOOR = 427;
 	const BIRCH_DOOR = 428;
 	const JUNGLE_DOOR = 429;
 	const ACACIA_DOOR = 430;
 	const DARK_OAK_DOOR = 431;
+	//const CHORUS_FRUIT = 432; //Confirmed
+	//const POPPED_CHORUS_FRUIT = 433; //Confirmed
 	
+	//const DRAGON_BREATH = 437; //Confirmed
+	//const DRAGONS_BREATH = 437; //Confirmed
 	const SPLASH_POTION = 438;
+	
+	//const LINGERING_POTION = 441; //Confirmed
+	
+	//const ELYTRA = 444; //Confirmed
 	
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
