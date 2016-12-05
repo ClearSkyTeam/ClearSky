@@ -8,44 +8,15 @@ use pocketmine\Player;
 use pocketmine\item\Potion;
 use pocketmine\entity\Effect;
 
-class ThrownPotion extends Projectile{
-	const NETWORK_ID = 86;
-
-	public $width = 0.25;
-	public $length = 0.25;
-	public $height = 0.25;
-	
-	protected $gravity = 0.1;
-	protected $drag = 0.05;
-	
-	public $data = 0;
-	
-	public function initEntity(){
-		parent::initEntity();
-		
-		if(isset($this->namedtag->Data)){
-			$this->data = $this->namedtag["Data"];
-		}
-		
-		$color = Potion::getColor($this->getData());
-		$this->setDataProperty(self::DATA_POTION_COLOR, self::DATA_TYPE_INT, (($color[0] & 0xff) << 16) | (($color[1] & 0xff) << 8) | ($color[2] & 0xff));
-		$this->setDataProperty(self::DATA_POTION_AMBIENT, Entity::DATA_TYPE_BYTE, 0);
-	}
-
+class LingeringPotion extends ThrownPotion{
+	const NETWORK_ID = 101;
 	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
 		parent::__construct($chunk, $nbt, $shootingEntity);
 	}
-	
-	public function setData($id){
-		$this->data = $id;
-	}
-	
-	public function getData(){
-		return $this->data;
-	}
-	
+
 	public function kill(){
-		$color = Potion::getColor($this->getData());
+		/* @TODO: Spawn AreaEffectCloud */
+		/* $color = Potion::getColor($this->getData());
 		$this->getLevel()->addParticle(new SpellParticle($this, $color[0], $color[1], $color[2]));
 		$players = $this->getViewers();
 		foreach($players as $p){
@@ -146,35 +117,9 @@ class ThrownPotion extends Projectile{
 						break;
 				}	
 			}
-		}
+		}*/
 		
 		parent::kill();
-	}
-
-	public function onUpdate($currentTick){
-		if($this->closed){
-			return false;
-		}
-
-		$this->timings->startTiming();
-
-		$hasUpdate = parent::onUpdate($currentTick);
-
-		$this->age++;
-		if($this->age > 1200 or $this->isCollided){
-			$this->kill();
-			$this->close();
-			$hasUpdate = true;
-		}
-		
-		if($this->onGround){
-			$this->kill();
-			$this->close();
-		}
-
-		$this->timings->stopTiming();
-
-		return $hasUpdate;
 	}
 
 	public function spawnTo(Player $player){

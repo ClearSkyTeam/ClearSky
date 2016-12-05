@@ -1,25 +1,26 @@
 <?php
 namespace pocketmine\entity;
 
+use pocketmine\item\Item as ItemItem;
 use pocketmine\Player;
 
-class Silverfish extends Monster{
-    const NETWORK_ID = 39;
+class Wither extends Monster implements ProjectileSource{
+    const NETWORK_ID = 52;
 
-    public $height = 0.438;
-    public $width = 0.609;
-    public $lenght = 1.094;
+    public $height = 2;
+    public $width = 3;
+    public $lenght = 1;//TODO: check
 	
-	protected $exp_min = 5;
-	protected $exp_max = 5;
+	protected $exp_min = 20;
+	protected $exp_max = 20;
 
     public function initEntity(){
-        $this->setMaxHealth(8);
+        $this->setMaxHealth(600);
         parent::initEntity();
     }
 
  	public function getName(){
-        return "Silverfish";
+        return "Wither Boss";
     }
 
     public function spawnTo(Player $player){
@@ -31,6 +32,6 @@ class Silverfish extends Monster{
     }
 
     public function getDrops(){
-        return [];
+		return [ItemItem::get(ItemItem::NETHER_STAR)];
     }
 }

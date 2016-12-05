@@ -129,7 +129,7 @@ class Squid extends WaterAnimal implements Ageable{
 
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
-		$pk->type = Squid::NETWORK_ID;
+		$pk->type = self::NETWORK_ID;
 
 		$player->dataPacket($pk);
 		parent::spawnTo($player);

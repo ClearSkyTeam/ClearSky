@@ -4,24 +4,18 @@ namespace pocketmine\entity;
 use pocketmine\level\format\FullChunk;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
+use pocketmine\item\Item as ItemItem;
 
-class Snowball extends Projectile{
-	const NETWORK_ID = 81;
+class ShulkerBullet extends Entity{
+	const NETWORK_ID = 76;
 
-	public $width = 0.25;
-	public $length = 0.25;
-	public $height = 0.25;
+	public $width = 0.5;
+	public $length = 0.5;
+	public $height = 0.5;
 
-	protected $gravity = 0.03;
-	protected $drag = 0.01;
-
-	public function __construct(FullChunk $chunk, CompoundTag $nbt, Entity $shootingEntity = null){
-		parent::__construct($chunk, $nbt, $shootingEntity);
+	public function __construct(FullChunk $chunk, CompoundTag $nbt){
+		parent::__construct($chunk, $nbt);
 	}
-
-    public function getName(){
-        return "Snowball";
-    }
 
 	public function onUpdate($currentTick){
 		if($this->closed){
@@ -32,7 +26,7 @@ class Snowball extends Projectile{
 
 		$hasUpdate = parent::onUpdate($currentTick);
 
-		if($this->age > 1200 or $this->isCollided){
+		if($this->age > 1200){
 			$this->kill();
 			$hasUpdate = true;
 		}
@@ -40,6 +34,10 @@ class Snowball extends Projectile{
 		$this->timings->stopTiming();
 
 		return $hasUpdate;
+	}
+
+	public function getName(){
+		return "Shulker Bullet";
 	}
 
 	public function spawnTo(Player $player){

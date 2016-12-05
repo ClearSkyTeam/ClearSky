@@ -3,23 +3,23 @@ namespace pocketmine\entity;
 
 use pocketmine\Player;
 
-class Silverfish extends Monster{
-    const NETWORK_ID = 39;
+class EnderDragon extends Monster implements ProjectileSource{
+    const NETWORK_ID = 53;
 
-    public $height = 0.438;
-    public $width = 0.609;
-    public $lenght = 1.094;
+    public $height = 2;
+    public $width = 3;
+    public $lenght = 1;//TODO: check
 	
-	protected $exp_min = 5;
-	protected $exp_max = 5;
+	protected $exp_min = 12500;
+	protected $exp_max = 12500;
 
     public function initEntity(){
-        $this->setMaxHealth(8);
+        $this->setMaxHealth(200);
         parent::initEntity();
     }
 
  	public function getName(){
-        return "Silverfish";
+        return "Ender Dragon";
     }
 
     public function spawnTo(Player $player){
@@ -28,9 +28,5 @@ class Silverfish extends Monster{
 
         $player->dataPacket($pk);
         parent::spawnTo($player);
-    }
-
-    public function getDrops(){
-        return [];
     }
 }
