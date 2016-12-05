@@ -153,7 +153,6 @@ class Item{
 	const DOOR_BLOCK = 64;
 	const OAK_DOOR_BLOCK = 64;
 	const WOOD_DOOR_BLOCK = 64;
-	const OAK_DOOR_BLOCK = 64;
 	const LADDER = 65;
 	const RAIL = 66;
 	const COBBLESTONE_STAIRS = 67;
