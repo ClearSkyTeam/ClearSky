@@ -144,7 +144,7 @@ class Block extends Position implements Metadatable{
 	const CAKE_BLOCK = 92;
 	const UNPOWERED_REPEATER = 93;
 	const POWERED_REPEATER = 94;
-	const STAINED_GLASS = 95; //INVISIBLE BEDROCK ID
+	const INVISIBLE_BEDROCK = 95;
 	const TRAPDOOR = 96;
 	const MONSTER_EGG = 97;
 	const STONE_BRICKS = 98;
@@ -176,10 +176,10 @@ class Block extends Position implements Metadatable{
 	const ENCHANTMENT_TABLE = 116;
 	const BREWING_STAND_BLOCK = 117;
 	const CAULDRON_BLOCK = 118;
-	//const END_PORTAL = 119;
+	//const END_PORTAL = 119; //Confirmed
 	const END_PORTAL_FRAME = 120;
 	const END_STONE = 121;
-	//const DRAGON_EGG = 122;
+	//const DRAGON_EGG = 122; //Confirmed
 	const REDSTONE_LAMP = 123;
 	const LIT_REDSTONE_LAMP = 124;
 	const DROPPER = 125;
@@ -188,7 +188,7 @@ class Block extends Position implements Metadatable{
 	const COCOA_BEANS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
-	const ENDERCHEST = 130;
+	//const ENDERCHEST = 130; //Confirmed
 	const TRIPWIRE_HOOK = 131;
 	const TRIPWIRE = 132;
 	const EMERALD_BLOCK = 133;
@@ -232,7 +232,7 @@ class Block extends Position implements Metadatable{
 	const WOODEN_SLABS = 158;
 	const STAINED_CLAY = 159;
 	const STAINED_HARDENED_CLAY = 159;
-	const STAINED_GLASS_PANE = 160;
+	//const STAINED_GLASS_PANE = 160; //Confirmed
 	const LEAVES2 = 161;
 	const LEAVE2 = 161;
 	const WOOD2 = 162;
@@ -273,11 +273,20 @@ class Block extends Position implements Metadatable{
 	const DARK_OAK_DOOR_BLOCK = 197;
 	const GRASS_PATH = 198;
 	const ITEM_FRAME_BLOCK = 199;
+	//const CHORUS_FLOWER = 200; //Confirmed
+	//const PURPUR = 201; //Confirmed
+	//const PURPUR_STAIRS = 203; //Confirmed
+	//const END_BRICKS = 206; //Confirmed
+	//const END_ROD = 208; //Confirmed
+	//const END_GATEWAY = 209; //Confirmed
+	//const CHORUS_PLANT = 240; //Confirmed
+	//const STAINED_GLASS = 241; //Confirmed
 	const PODZOL = 243;
 	const BEETROOT_BLOCK = 244;
 	const STONECUTTER = 245;
 	const GLOWING_OBSIDIAN = 246;
 	const NETHER_REACTOR = 247;
+	const PISTON_EXTENSION = 250;
 	const OBSERVER = 251;
 	const RESERVED = 255;
 
