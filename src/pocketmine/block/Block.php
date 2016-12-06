@@ -18,6 +18,7 @@ use pocketmine\metadata\MetadataValue;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
 use pocketmine\level\sound\GenericSound;
+use pocketmine\block\Hopper as HopperBlock;
 
 class Block extends Position implements Metadatable{
 	const AIR = 0;
@@ -240,7 +241,7 @@ class Block extends Position implements Metadatable{
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
 	const QUARTZ_ORE = 153;
-	const HOPPER = 154;
+	const HOPPER_BLOCK = 154;
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
 	const DOUBLE_WOOD_SLAB = 157;
@@ -551,7 +552,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::DAYLIGHT_DETECTOR] = DaylightDetector::class;
 			self::$list[self::REDSTONE_BLOCK] = RedstoneBlock::class;
 			self::$list[self::QUARTZ_ORE] = QuartzOre::class;
-			self::$list[self::HOPPER] = Hopper::class;
+			self::$list[self::HOPPER_BLOCK] = HopperBlock::class;
 			self::$list[self::QUARTZ_BLOCK] = Quartz::class;
 			self::$list[self::QUARTZ_STAIRS] = QuartzStairs::class;
 			self::$list[self::DOUBLE_WOOD_SLAB] = DoubleWoodSlab::class;

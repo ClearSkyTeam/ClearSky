@@ -286,7 +286,7 @@ class Item{
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
 	const QUARTZ_ORE = 153;
-	const HOPPER = 154;
+	const HOPPER_BLOCK = 154;
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
 	const DOUBLE_WOOD_SLAB = 157;

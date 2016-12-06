@@ -15,7 +15,7 @@ use pocketmine\tile\Tile;
 
 class Hopper extends Solid{
 
-	protected $id = self::HOPPER;
+	protected $id = self::HOPPER_BLOCK;
 
 	public function __construct($meta = 0){
 		$this->meta = $meta;
