@@ -950,6 +950,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::QUARTZ_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::QUARTZ_BLOCK, 1));
 		Item::addCreativeItem(Item::get(Item::QUARTZ_BLOCK, 2));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE, 0));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE, 1));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE, 2));
 		Item::addCreativeItem(Item::get(Item::COAL_ORE, 0));
 		Item::addCreativeItem(Item::get(Item::IRON_ORE, 0));
 		Item::addCreativeItem(Item::get(Item::GOLD_ORE, 0));
@@ -967,9 +970,11 @@ class Item{
 	
 	private static function decorationTab(){
 		//Decoration
+		Item::addCreativeItem(Item::get(Item::BEACON, 0));
 		Item::addCreativeItem(Item::get(Item::COBBLESTONE_WALL, 0));
 		Item::addCreativeItem(Item::get(Item::COBBLESTONE_WALL, 1));
 		Item::addCreativeItem(Item::get(Item::WATER_LILY, 0));
+		Item::addCreativeItem(Item::get(Item::SEA_LANTERN, 0));
 		Item::addCreativeItem(Item::get(Item::GOLD_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::IRON_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::DIAMOND_BLOCK, 0));
@@ -981,9 +986,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::GLASS, 0));
 		Item::addCreativeItem(Item::get(Item::GLOWSTONE_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::VINES, 0));
-		//Item::addCreativeItem(Item::get(Item::NETHER_REACTOR, 0));
 		Item::addCreativeItem(Item::get(Item::LADDER, 0));
 		Item::addCreativeItem(Item::get(Item::SPONGE, 0));
+		Item::addCreativeItem(Item::get(Item::SPONGE, 1));
 		Item::addCreativeItem(Item::get(Item::GLASS_PANE, 0));
 		Item::addCreativeItem(Item::get(Item::OAK_DOOR, 0));
 		Item::addCreativeItem(Item::get(Item::SPRUCE_DOOR, 0));
@@ -1188,13 +1193,15 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 47)); //Husk
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 17)); //Squid
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 40)); //Cave spider
-		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 42)); //Magma Cube
-		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 41)); //Ghast
-		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 43)); //Blaze
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 20)); //Iron Golem
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 21)); //Snow Golem
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 44)); //Zombie Villager
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 45)); //Witch
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 49)); //Guardian
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 50)); //ElderGuardian
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 42)); //Magma Cube
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 41)); //Ghast
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 43)); //Blaze
 		
 		Item::addCreativeItem(Item::get(Item::WOODEN_SWORD));
 		Item::addCreativeItem(Item::get(Item::WOODEN_HOE));
@@ -1264,10 +1271,10 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::COMPARATOR));
 		Item::addCreativeItem(Item::get(Item::DISPENSER, 3));
 		Item::addCreativeItem(Item::get(Item::DROPPER, 3));
-		Item::addCreativeItem(Item::get(Item::HOPPER));
 		Item::addCreativeItem(Item::get(Item::PISTON));
 		Item::addCreativeItem(Item::get(Item::STICKY_PISTON));
 		Item::addCreativeItem(Item::get(Item::OBSERVER));
+		Item::addCreativeItem(Item::get(Item::HOPPER));
 		Item::addCreativeItem(Item::get(Item::SNOWBALL));
 	}
 	
@@ -1336,7 +1343,8 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::PUMPKIN_PIE, 0));
 		Item::addCreativeItem(Item::get(Item::RAW_RABBIT, 0));
 		Item::addCreativeItem(Item::get(Item::COOKED_RABBIT, 0));
-		Item::addCreativeItem(Item::get(Item::RABBIT_STEW, 0));
+		Item::addCreativeItem(Item::get(Item::RABBIT_STEW, 0));;
+		Item::addCreativeItem(Item::get(Item::NETHER_STAR, 0));
 		Item::addCreativeItem(Item::get(Item::MAGMA_CREAM, 0));
 		// Item::addCreativeItem(Item::get(Item::ENDERPEARL, 0));
 		Item::addCreativeItem(Item::get(Item::BLAZE_ROD, 0));
@@ -1354,6 +1362,8 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::FERMENTED_SPIDER_EYE, 0));
 		Item::addCreativeItem(Item::get(Item::CARROT_ON_A_STICK, 0));
 		Item::addCreativeItem(Item::get(Item::EXP_BOTTLE, 0));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE_SHARD, 0));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE_CRYSTAL, 0));
 		// TODO: Enchantments
 		for($i = 0; $i < 79; $i++){
 			$item = Item::get(Item::ENCHANTED_BOOK)->addEnchantment(Enchantment::getEnchantment($i));
