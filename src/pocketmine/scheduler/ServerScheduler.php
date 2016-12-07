@@ -1,4 +1,24 @@
 <?php
+
+/*
+ *
+ *  ____            _        _   __  __ _                  __  __ ____
+ * |  _ \ ___   ___| | _____| |_|  \/  (_)_ __   ___      |  \/  |  _ \
+ * | |_) / _ \ / __| |/ / _ \ __| |\/| | | '_ \ / _ \_____| |\/| | |_) |
+ * |  __/ (_) | (__|   <  __/ |_| |  | | | | | |  __/_____| |  | |  __/
+ * |_|   \___/ \___|_|\_\___|\__|_|  |_|_|_| |_|\___|     |_|  |_|_|
+ *
+ * This program is free software: you can redistribute it and/or modify
+ * it under the terms of the GNU Lesser General Public License as published by
+ * the Free Software Foundation, either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * @author PocketMine Team
+ * @link http://www.pocketmine.net/
+ *
+ *
+*/
+
 /**
  * Task scheduling related classes
  */
@@ -6,7 +26,6 @@ namespace pocketmine\scheduler;
 
 use pocketmine\plugin\Plugin;
 use pocketmine\Server;
-use pocketmine\utils\MainLogger;
 use pocketmine\utils\PluginException;
 use pocketmine\utils\ReversePriorityQueue;
 
@@ -31,9 +50,13 @@ class ServerScheduler{
 	/** @var int */
 	protected $currentTick = 0;
 
+	/** @var \SplObjectStorage<AsyncTask, object|array> */
+	protected $objectStore;
+
 	public function __construct(){
 		$this->queue = new ReversePriorityQueue();
 		$this->asyncPool = new AsyncPool(Server::getInstance(), self::$WORKERS);
+		$this->objectStore = new \SplObjectStorage();
 	}
 
 	/**
@@ -53,12 +76,8 @@ class ServerScheduler{
 	 * @return void
 	 */
 	public function scheduleAsyncTask(AsyncTask $task){
-		if($task->getTaskId() !== null){
-			throw new \UnexpectedValueException("Attempt to schedule the same AsyncTask instance twice");
-		}
 		$id = $this->nextId();
 		$task->setTaskId($id);
-		$task->progressUpdates = new \Threaded;
 		$this->asyncPool->submitTask($task);
 	}
 
@@ -71,13 +90,84 @@ class ServerScheduler{
 	 * @return void
 	 */
 	public function scheduleAsyncTaskToWorker(AsyncTask $task, $worker){
-		if($task->getTaskId() !== null){
-			throw new \UnexpectedValueException("Attempt to schedule the same AsyncTask instance twice");
-		}
 		$id = $this->nextId();
 		$task->setTaskId($id);
-		$task->progressUpdates = new \Threaded;
 		$this->asyncPool->submitTaskToWorker($task, $worker);
+	}
+
+	/**
+	 * Stores any data that must not be passed to other threads or be serialized
+	 *
+	 * @internal Only call from AsyncTask.php
+	 *
+	 * @param AsyncTask    $for
+	 * @param object|array $cmplx
+	 *
+	 * @throws \RuntimeException if this method is called twice for the same instance of AsyncTask
+	 */
+	public function storeLocalComplex(AsyncTask $for, $cmplx){
+		if(isset($this->objectStore[$for])){
+			throw new \RuntimeException("Already storing a complex for this AsyncTask");
+		}
+		$this->objectStore[$for] = $cmplx;
+	}
+
+	/**
+	 * Fetches data that must not be passed to other threads or be serialized, previously stored with
+	 * {@link ServerScheduler#storeLocalComplex}, without deletion of the data.
+	 *
+	 * @internal Only call from AsyncTask.php
+	 *
+	 * @param AsyncTask $for
+	 *
+	 * @return object|array
+	 *
+	 * @throws \RuntimeException if no data associated with this AsyncTask can be found
+	 */
+	public function peekLocalComplex(AsyncTask $for){
+		if(!isset($this->objectStore[$for])){
+			throw new \RuntimeException("No local complex stored for this AsyncTask");
+		}
+		return $this->objectStore[$for];
+	}
+
+	/**
+	 * Fetches data that must not be passed to other threads or be serialized, previously stored with
+	 * {@link ServerScheduler#storeLocalComplex}, and delete the data from the storage.
+	 *
+	 * @internal Only call from AsyncTask.php
+	 *
+	 * @param AsyncTask $for
+	 *
+	 * @return object|array
+	 *
+	 * @throws \RuntimeException if no data associated with this AsyncTask can be found
+	 */
+	public function fetchLocalComplex(AsyncTask $for){
+		if(!isset($this->objectStore[$for])){
+			throw new \RuntimeException("No local complex stored for this AsyncTask");
+		}
+		$cmplx = $this->objectStore[$for];
+		unset($this->objectStore[$for]);
+		return $cmplx;
+	}
+
+	/**
+	 * Makes sure no data stored from {@link #storeLocalComplex} is left for a specific AsyncTask
+	 *
+	 * @internal Only call from AsyncTask.php
+	 *
+	 * @param AsyncTask $for
+	 *
+	 * @return bool returns false if any data are removed from this call, true otherwise
+	 */
+	public function removeLocalComplex(AsyncTask $for) : bool{
+		if(isset($this->objectStore[$for])){
+			Server::getInstance()->getLogger()->notice("AsyncTask " . get_class($for) . " stored local complex data but did not remove them after completion");
+			unset($this->objectStore[$for]);
+			return false;
+		}
+		return true;
 	}
 
 	public function getAsyncTaskPoolSize(){
@@ -235,7 +325,7 @@ class ServerScheduler{
 				$task->timings->startTiming();
 				try{
 					$task->run($this->currentTick);
-				}catch(Throwable $e){
+				}catch(\Throwable $e){
 					Server::getInstance()->getLogger()->critical("Could not execute task " . $task->getTaskName() . ": " . $e->getMessage());
 					Server::getInstance()->getLogger()->logException($e);
 				}
