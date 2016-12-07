@@ -450,7 +450,7 @@ namespace pocketmine {
 	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
 
 	$logger->info("Stopping other threads");
-	$killer = new \ServerKiller(8);
+	$killer = new ServerKiller(8);
 	$killer->start();
 	foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
 		$logger->debug("Stopping " . $thread->getThreadName() . " thread");
