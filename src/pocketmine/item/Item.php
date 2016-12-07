@@ -28,13 +28,14 @@ use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
-use pocketmine\nbt\NBT;
 use pocketmine\entity\Skeleton;
 use pocketmine\entity\Witch;
 use pocketmine\entity\PigZombie;
 use pocketmine\entity\Spider;
 use pocketmine\entity\CavernSpider;
 use pocketmine\entity\Silverfish;
+use pocketmine\utils\Config;
+use pocketmine\Server;
 
 class Item{
 	
