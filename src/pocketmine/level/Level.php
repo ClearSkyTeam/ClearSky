@@ -122,6 +122,7 @@ use pocketmine\level\particle\DestroyBlockParticle;
 
 use pocketmine\entity\ExperienceOrb;
 use pocketmine\network\protocol\ChangeDimensionPacket;
+use pocketmine\level\sound\BlockBreakSound;
 
 #include <rules/Level.h>
 
@@ -1887,6 +1888,7 @@ class Level implements ChunkManager, Metadatable{
 			}
 
 			$this->addParticle(new DestroyBlockParticle($target->add(0.5), $target), $players);
+			$this->addSound(new BlockBreakSound($target), $players);
 		}
 		
 		$target->onBreak($item);

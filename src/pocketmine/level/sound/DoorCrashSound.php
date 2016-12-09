@@ -6,6 +6,6 @@ use pocketmine\network\protocol\LevelEventPacket;
 
 class DoorCrashSound extends GenericSound{
 	public function __construct(Vector3 $pos, $pitch = 0){
-		parent::__construct($pos, 'mob.zombie.woodbreak', $pitch);
+		parent::__construct($pos, LevelEventPacket::EVENT_SOUND_DOOR_CRASH, $pitch);
 	}
 }
