@@ -3,8 +3,8 @@ namespace pocketmine\network;
 
 use pocketmine\event\player\PlayerCreationEvent;
 use pocketmine\network\protocol\DataPacket;
-use pocketmine\network\protocol\Info as ProtocolInfo;
 use pocketmine\network\protocol\Info;
+use pocketmine\network\protocol\Info as ProtocolInfo;
 use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\MainLogger;
@@ -84,7 +84,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 		if($this->rakLib->isTerminated()){
 			$this->network->unregisterInterface($this);
 
-			throw new \Exception("A RakLib Thread crashed!");
+			throw new \Exception("RakLib Thread crashed");
 		}
 
 		return $work;
@@ -140,7 +140,7 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 						$this->players[$identifier]->handleDataPacket($pk);
 					}
 				}
-			}catch(Throwable $e){
+			}catch(\Throwable $e){
 				if(\pocketmine\DEBUG > 1 and isset($pk)){
 					$logger = $this->server->getLogger();
 					$logger->debug("Packet " . get_class($pk) . " 0x" . bin2hex($packet->buffer));
@@ -174,10 +174,10 @@ class RakLibInterface implements ServerInstance, AdvancedSourceInterface{
 		$info = $this->server->getQueryInformation();
 
 		$this->interface->sendOption("name",
-			"MCPE;".addcslashes($name, ";") .";".
-			Info::CURRENT_PROTOCOL.";".
-			\pocketmine\MINECRAFT_VERSION_NETWORK.";".
-			$info->getPlayerCount().";".
+			"MCPE;" . addcslashes($name, ";") . ";" .
+			Info::CURRENT_PROTOCOL . ";" .
+			\pocketmine\MINECRAFT_VERSION_NETWORK . ";" .
+			$info->getPlayerCount() . ";" .
 			$info->getMaxPlayerCount()
 		);
 	}
