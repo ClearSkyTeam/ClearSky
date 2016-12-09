@@ -38,7 +38,7 @@ class NoteblockSound extends Sound{
 		$pk->x = $this->x;
 		$pk->y = $this->y;
 		$pk->z = $this->z;
-		$pk->volume = 100;
+		$pk->volume = $this->instrument;
 		$pk->pitch = $this->pitch;
 		$pk->unknownBool = true;
 		$pk->unknownBool2 = true;
