@@ -184,6 +184,11 @@ use pocketmine\tile\Cauldron;
 use pocketmine\tile\ItemFrame;
 use pocketmine\tile\MobSpawner;
 use pocketmine\tile\Piston;
+use pocketmine\entity\Guardian;
+use pocketmine\entity\ElderGuardian;
+use pocketmine\entity\WitherSkull;
+use pocketmine\entity\Wither;
+use pocketmine\tile\Beacon;
 
 /**
  * The class that manages everything
@@ -2635,6 +2640,8 @@ class Server{
 		Entity::registerEntity(FallingSand::class);
 		Entity::registerEntity(FishingHook::class);
 		Entity::registerEntity(Ghast::class);
+		Entity::registerEntity(Guardian::class);
+		Entity::registerEntity(ElderGuardian::class);
 		Entity::registerEntity(Horse::class);
 		Entity::registerEntity(Husk::class);
 		Entity::registerEntity(IronGolem::class);
@@ -2671,7 +2678,9 @@ class Server{
 		Entity::registerEntity(TripoidCamera::class);
 		Entity::registerEntity(Villager::class);
 		Entity::registerEntity(Witch::class);
+		Entity::registerEntity(Wither::class);
 		Entity::registerEntity(WitherSkeleton::class);
+		Entity::registerEntity(WitherSkull::class);
 		Entity::registerEntity(Wolf::class);
 		Entity::registerEntity(Zombie::class);
 		Entity::registerEntity(ZombieHorse::class);
@@ -2680,6 +2689,7 @@ class Server{
 	}
 
 	private function registerTiles(){
+		Tile::registerTile(Beacon::class);
 		Tile::registerTile(BrewingStand::class);
 		Tile::registerTile(Cauldron::class);
 		Tile::registerTile(Chest::class);

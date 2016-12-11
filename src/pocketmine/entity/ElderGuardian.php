@@ -16,6 +16,7 @@ class ElderGuardian extends Guardian{
 	protected $exp_max = 10;
 
 	public function initEntity(){
+		$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_ELDER, true, self::DATA_TYPE_BYTE);
 		$this->setMaxHealth(80);
 		parent::initEntity();
 	}
@@ -44,9 +45,7 @@ class ElderGuardian extends Guardian{
 		
 		$drops[] = ItemItem::get(ItemItem::PRISMARINE_CRYSTAL, 0, mt_rand(0, 100) < 33?1:0);
 		
-		if($this->getLastDamageCause() === EntityDamageEvent::CAUSE_FIRE){
-			$drops[] = ItemItem::get(ItemItem::SPONGE, 1); //wet
-		}
+		$drops[] = ItemItem::get(ItemItem::SPONGE, 1);
 		
 		return $drops;
 	}

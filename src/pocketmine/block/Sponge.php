@@ -10,10 +10,16 @@ use pocketmine\event\block\BlockUpdateEvent;
 class Sponge extends Solid{
 	protected $id = self::SPONGE;
 
-	public function __construct(){}
+	public function __construct($meta = 0){
+		$this->meta = $meta;
+	}
 
 	public function getHardness(){
 		return 0.6;
+	}
+
+	public function getResistance(){
+		return 3;
 	}
 
 	public function getName(){
@@ -27,6 +33,9 @@ class Sponge extends Solid{
 					$b = $this->getLevel()->getBlock(new Vector3($ix, $iy, $iz));
 					if($b instanceof Water){
 						$this->getLevel()->setBlock($b, new Air(), null, false);
+						$wet = clone $this;
+						$wet->setDamage(1);
+						$this->getLevel()->setBlock($this, $wet);
 					}
 				}
 			}
@@ -40,9 +49,11 @@ class Sponge extends Solid{
 	}
 
 	public function onWaterFlow(BlockUpdateEvent $event){
-		if($event->getBlock() instanceof Water){
-			$event->setCancelled();
-			$this->dryArea();
+		if($this->getDamage() === 0){
+			if($event->getBlock() instanceof Water){
+				$event->setCancelled();
+				$this->dryArea();
+			}
 		}
 	}
 }
