@@ -228,11 +228,11 @@ class Chunk extends BaseFullChunk{
 	}
 
 	public function isLightPopulated(){
-		return $this->nbt["LightPopulated"] > 0;
+		return isset($this->nbt["LightPopulated"]) ? $this->nbt["LightPopulated"] > 0 : false;
 	}
 
 	public function setLightPopulated($value = 1){
-		$this->nbt->LightPopulated = new ByteTag("LightPopulated", $value ? 1 : 0);
+		if(!$this->isLightPopulated()) $this->nbt->LightPopulated = new ByteTag("LightPopulated", $value);
 		$this->hasChanged = true;
 	}
 
