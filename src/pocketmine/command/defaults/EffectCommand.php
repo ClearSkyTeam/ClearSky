@@ -61,16 +61,16 @@ class EffectCommand extends VanillaCommand{
 		$amplification = 0;
 
 		if(count($args) >= 3){
-			$duration = (int) $args[2];
+			$amplification = (int) $args[2];
+		}
+
+		if(count($args) >= 4){
+			$duration = (int) $args[3];
 			if(!($effect instanceof InstantEffect)){
 				$duration *= 20;
 			}
 		}elseif($effect instanceof InstantEffect){
 			$duration = 1;
-		}
-
-		if(count($args) >= 4){
-			$amplification = (int) $args[3];
 		}
 
 		if(count($args) >= 5){

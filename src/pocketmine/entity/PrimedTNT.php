@@ -108,6 +108,10 @@ class PrimedTNT extends Entity implements Explosive{
 		}
 	}
 
+    public function getName(){
+        return "Primed TNT";
+    }
+
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
 		$pk->type = PrimedTNT::NETWORK_ID;

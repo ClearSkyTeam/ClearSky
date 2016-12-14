@@ -31,6 +31,7 @@ abstract class Tile extends Position{
 	const DAY_LIGHT_DETECTOR = "DLDetector";
 	const NOTEBLOCK = "Music";
 	const PISTON = "Piston";
+	const BEACON = "Beacon";
 
 	public static $tileCount = 1;
 

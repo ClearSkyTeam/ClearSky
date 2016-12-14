@@ -13,6 +13,7 @@ use pocketmine\tile\Tile;
 use pocketmine\math\Vector3;
 use pocketmine\level\sound\NoteblockSound;
 use pocketmine\tile\Music;
+use pocketmine\network\protocol\BlockEventPacket;
 
 class Noteblock extends Solid{
 
@@ -136,6 +137,15 @@ class Noteblock extends Solid{
 			}
 			$tile->setNote($pitch);
 			$this->level->addSound(new NoteblockSound($this, $instrument, $pitch));
+			if($player instanceof Player){
+				$pk = new BlockEventPacket();
+				$pk->x = $this->x;
+				$pk->y = $this->y;
+				$pk->z = $this->z;
+				$pk->case1 = $this->getInstrument();
+				$pk->case2 = $pitch;
+				$player->dataPacket($pk);
+			}
 			return true;
 		}
 		return false;

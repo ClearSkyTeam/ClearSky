@@ -7,12 +7,18 @@ namespace pocketmine\command;
 use pocketmine\event\TextContainer;
 use pocketmine\event\TimingsHandler;
 use pocketmine\event\TranslationContainer;
+use pocketmine\Player;
 use pocketmine\Server;
 use pocketmine\utils\TextFormat;
 
 abstract class Command{
+	/** @var \stdClass */
+	private static $defaultDataTemplate = null;
+
 	/** @var string */
 	private $name;
+	/** @var \stdClass */
+	protected $commandData = null;
 
 	/** @var string */
 	private $nextLabel;
@@ -55,14 +61,48 @@ abstract class Command{
 	 * @param string[] $aliases
 	 */
 	public function __construct($name, $description = "", $usageMessage = null, array $aliases = []){
-		$this->name = $name;
-		$this->nextLabel = $name;
-		$this->label = $name;
-		$this->description = $description;
+		$this->commandData = self::generateDefaultData();
+		$this->name = $this->nextLabel = $this->label = $name;
+		$this->setDescription($description);
 		$this->usageMessage = $usageMessage === null ? "/" . $name : $usageMessage;
-		$this->aliases = $aliases;
-		$this->activeAliases = (array) $aliases;
+		$this->setAliases($aliases);
 		$this->timings = new TimingsHandler("** Command: " . $name);
+	}
+
+	/**
+	 * Returns an \stdClass containing command data
+	 *
+	 * @return \stdClass
+	 */
+	public function getDefaultCommandData() : \stdClass{
+		return $this->commandData;
+	}
+
+	/**
+	 * Generates modified command data for the specified player
+	 * for AvailableCommandsPacket.
+	 *
+	 * @param Player $player
+	 *
+	 * @return \stdClass|null
+	 */
+	public function generateCustomCommandData(Player $player){
+		//TODO: fix command permission filtering on join
+		/*if(!$this->testPermission($player)){
+			return null;
+		}*/
+		$customData = clone $this->commandData;
+		$customData->aliases = $this->getAliases();
+		/*foreach($customData->overloads as &$overload){
+			if(($p = @$overload->pocketminePermission) !== null and !$player->hasPermission($p)){
+				unset($overload);
+			}
+		}*/
+		return $customData;
+	}
+
+	public function getOverloads(): \stdClass{
+		return $this->commandData->overloads;
 	}
 
 	/**
@@ -85,14 +125,19 @@ abstract class Command{
 	 * @return string
 	 */
 	public function getPermission(){
-		return $this->permission;
+		return $this->commandData->pocketminePermission ?? null;
 	}
+	
 
 	/**
 	 * @param string|null $permission
 	 */
 	public function setPermission($permission){
-		$this->permission = $permission;
+		if($permission !== null){
+			$this->commandData->pocketminePermission = $permission;
+		}else{
+			unset($this->commandData->pocketminePermission);
+		}
 	}
 
 	/**
@@ -108,7 +153,7 @@ abstract class Command{
 		if($this->permissionMessage === null){
 			$target->sendMessage(new TranslationContainer(TextFormat::RED . "%commands.generic.permission"));
 		}elseif($this->permissionMessage !== ""){
-			$target->sendMessage(str_replace("<permission>", $this->permission, $this->permissionMessage));
+			$target->sendMessage(str_replace("<permission>", $this->getPermission(), $this->permissionMessage));
 		}
 
 		return false;
@@ -120,11 +165,11 @@ abstract class Command{
 	 * @return bool
 	 */
 	public function testPermissionSilent(CommandSender $target){
-		if($this->permission === null or $this->permission === ""){
+		if(($perm = $this->getPermission()) === null or $perm === ""){
 			return true;
 		}
 
-		foreach(explode(";", $this->permission) as $permission){
+		foreach(explode(";", $perm) as $permission){
 			if($target->hasPermission($permission)){
 				return true;
 			}
@@ -177,7 +222,7 @@ abstract class Command{
 	public function unregister(CommandMap $commandMap){
 		if($this->allowChangesFrom($commandMap)){
 			$this->commandMap = null;
-			$this->activeAliases = $this->aliases;
+			$this->activeAliases = $this->commandData->aliases;
 			$this->label = $this->nextLabel;
 			$commandMap->clearCommand($this->getLabel());
 
@@ -221,7 +266,7 @@ abstract class Command{
 	 * @return string
 	 */
 	public function getDescription(){
-		return $this->description;
+		return $this->commandData->description;
 	}
 
 	/**
@@ -235,7 +280,7 @@ abstract class Command{
 	 * @param string[] $aliases
 	 */
 	public function setAliases(array $aliases){
-		$this->aliases = $aliases;
+		$this->commandData->aliases = $aliases;
 		if(!$this->isRegistered()){
 			$this->activeAliases = (array) $aliases;
 		}
@@ -245,7 +290,7 @@ abstract class Command{
 	 * @param string $description
 	 */
 	public function setDescription($description){
-		$this->description = $description;
+		$this->commandData->description = $description;
 	}
 
 	/**
@@ -260,6 +305,13 @@ abstract class Command{
 	 */
 	public function setUsage($usage){
 		$this->usageMessage = $usage;
+	}
+
+	public static final function generateDefaultData() : \stdClass{
+		if(self::$defaultDataTemplate === null){
+			self::$defaultDataTemplate = json_decode(file_get_contents(Server::getInstance()->getFilePath() . "src/pocketmine/resources/command_default.json"));
+		}
+		return clone self::$defaultDataTemplate;
 	}
 
 	/**

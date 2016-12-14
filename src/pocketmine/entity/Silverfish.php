@@ -24,7 +24,7 @@ class Silverfish extends Monster{
 
     public function spawnTo(Player $player){
         $pk = $this->addEntityDataPacket($player);
-        $pk->type = Silverfish::NETWORK_ID;
+        $pk->type = self::NETWORK_ID;
 
         $player->dataPacket($pk);
         parent::spawnTo($player);

@@ -19,6 +19,7 @@ use pocketmine\inventory\Fuel;
 use pocketmine\item\enchantment\Enchantment;
 use pocketmine\level\Level;
 use pocketmine\level\sound\LaunchSound;
+use pocketmine\nbt\NBT;
 use pocketmine\nbt\tag\ListTag;
 use pocketmine\nbt\tag\ByteTag;
 use pocketmine\nbt\tag\ShortTag;
@@ -27,16 +28,18 @@ use pocketmine\nbt\tag\DoubleTag;
 use pocketmine\nbt\tag\FloatTag;
 use pocketmine\nbt\tag\CompoundTag;
 use pocketmine\Player;
-use pocketmine\nbt\NBT;
 use pocketmine\entity\Skeleton;
 use pocketmine\entity\Witch;
 use pocketmine\entity\PigZombie;
 use pocketmine\entity\Spider;
 use pocketmine\entity\CavernSpider;
 use pocketmine\entity\Silverfish;
+use pocketmine\utils\Config;
+use pocketmine\Server;
 
-class Item{
-	
+class Item implements /*ItemIds,*/ \JsonSerializable{
+
+	/** @var NBT */
 	private static $cachedParser = null;
 
 	/**
@@ -110,7 +113,6 @@ class Item{
 	const DEAD_BUSH = 32;
 	const PISTON = 33;
 	const PISTON_HEAD = 34;
-	const PISTON_EXTENSION = 34;
 	const WOOL = 35;
 	const DANDELION = 37;
 	const POPPY = 38;
@@ -152,9 +154,8 @@ class Item{
 	const LIT_FURNACE = 62;
 	const SIGN_POST = 63;
 	const DOOR_BLOCK = 64;
-	const WOODEN_DOOR_BLOCK = 64;
-	const WOOD_DOOR_BLOCK = 64;
 	const OAK_DOOR_BLOCK = 64;
+	const WOOD_DOOR_BLOCK = 64;
 	const LADDER = 65;
 	const RAIL = 66;
 	const COBBLESTONE_STAIRS = 67;
@@ -179,6 +180,7 @@ class Item{
 	const CLAY_BLOCK = 82;
 	const REEDS = 83;
 	const SUGARCANE_BLOCK = 83;
+	// const JUKEBOX = 83;
 	const FENCE = 85;
 	const PUMPKIN = 86;
 	const NETHERRACK = 87;
@@ -186,6 +188,7 @@ class Item{
 	const GLOWSTONE = 89;
 	const GLOWSTONE_BLOCK = 89;
 	const PORTAL_BLOCK = 90;
+	const NETHER_PORTAL = 90;
 	const PORTAL = 90;
 	const JACK_O_LANTERN = 91;
 	const LIT_PUMPKIN = 91;
@@ -196,11 +199,6 @@ class Item{
 	const POWERED_REPEATER_BLOCK = 94;
 	const POWERED_REPEATER = 94;
 	const INVISIBLE_BEDROCK = 95;
-	/**
-	* @deprecated
-	* Use INVISIBLE_BEDROCK instead
-	*/
-	const STAINED_GLASS = 95; //Well, plugin compatibility...
 	const TRAPDOOR = 96;
 	const WOODEN_TRAPDOOR = 96;
 	const MONSTER_EGG_BLOCK = 97;
@@ -235,9 +233,10 @@ class Item{
 	const ENCHANTMENT_TABLE = 116;
 	const BREWING_STAND_BLOCK = 117;
 	const CAULDRON_BLOCK = 118;
+	//const END_PORTAL = 119; //Confirmed
 	const END_PORTAL_FRAME = 120;
-	const END_PORTAL = 120;
 	const END_STONE = 121;
+	//const DRAGON_EGG = 122; //Confirmed
 	const REDSTONE_LAMP = 123;
 	const INACTIVE_REDSTONE_LAMP = 123;
 	const LIT_REDSTONE_LAMP = 124;
@@ -250,7 +249,7 @@ class Item{
 	const COCOA_PODS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
-	#const ENDERCHEST = 130;
+	//const ENDERCHEST = 130; //Confirmed
 	const TRIPWIRE_HOOK = 131;
 	const TRIPWIRE = 132;
 	const EMERALD_BLOCK = 133;
@@ -258,11 +257,9 @@ class Item{
 	const SPRUCE_WOODEN_STAIRS = 134;
 	const BIRCH_WOOD_STAIRS = 135;
 	const BIRCH_WOODEN_STAIRS = 135;
-	#wtf ids?
-	#const COMMAND_BLOCK = 136;
-	#const BEACON = 136;
 	const JUNGLE_WOOD_STAIRS = 136;
 	const JUNGLE_WOODEN_STAIRS = 136;
+	const BEACON = 138;
 	const COBBLESTONE_WALL = 139;
 	const COBBLE_WALL = 139;
 	const STONE_WALL = 139;
@@ -270,8 +267,9 @@ class Item{
 	const CARROT_BLOCK = 141;
 	const POTATO_BLOCK = 142;
 	const WOODEN_BUTTON = 143;
-	const MOB_HEAD_BLOCK = 144;
 	const SKULL_BLOCK = 144;
+	const HEAD_BLOCK = 144;
+	const MOB_HEAD_BLOCK = 144;
 	const ANVIL_BLOCK = 145;
 	const ANVIL = 145;
 	const TRAPPED_CHEST = 146;
@@ -283,11 +281,14 @@ class Item{
 	const IRON_PRESSURE_PLATE = 148;
 	const COMPARATOR_BLOCK = 149;
 	const UNPOWERED_COMPARATOR_BLOCK = 149;
+	const UNPOWERED_COMPARATOR = 149;
+	const POWERED_COMPARATOR = 150;
 	const POWERED_COMPARATOR_BLOCK = 150;
 	const DAYLIGHT_SENSOR = 151;
 	const DAYLIGHT_DETECTOR = 151;
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
+	const QUARTZ_ORE = 153;
 	const HOPPER_BLOCK = 154;
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
@@ -301,7 +302,7 @@ class Item{
 	const WOODEN_SLABS = 158;
 	const STAINED_CLAY = 159;
 	const STAINED_HARDENED_CLAY = 159;
-	
+	//const STAINED_GLASS_PANE = 160; //Confirmed
 	const LEAVES2 = 161;
 	const LEAVE2 = 161;
 	const WOOD2 = 162;
@@ -312,25 +313,27 @@ class Item{
 	const DARK_OAK_WOOD_STAIRS = 164;
 	const DARK_OAK_WOODEN_STAIRS = 164;
 	const SLIME_BLOCK = 165;
-	/**
-	* @deprecated
-	*/
-	const BARRIER = 166;
-
+	const SLIMEBLOCK = 165;
+	//const BARRIER = 166;
 	const IRON_TRAPDOOR = 167;
-	
+	const PRISMARINE = 168;
+	const SEA_LANTERN = 169;
 	const HAY_BALE = 170;
 	const CARPET = 171;
 	const HARDENED_CLAY = 172;
 	const COAL_BLOCK = 173;
 	const PACKED_ICE = 174;
 	const DOUBLE_PLANT = 175;
-	
+	//const STANDING_BANNER = 176;
+	//const WALL_BANNER = 177;
 	const INVERTED_DAYLIGHT_SENSOR = 178;
+	const DAYLIGHT_DETECTOR_INVERTED = 178;
 	const DAYLIGHT_SENSOR_INVERTED = 178;
 	const RED_SANDSTONE = 179;
 	const RED_SANDSTONE_STAIRS = 180;
 	const DOUBLE_RED_SANDSTONE_SLAB = 181;
+	const DOUBLE_STONE_SLAB2 = 181;
+	const STONE_SLAB2 = 182;
 	const RED_SANDSTONE_SLAB = 182;
 	const SPRUCE_FENCE_GATE = 183;
 	const FENCE_GATE_SPRUCE = 183;
@@ -342,7 +345,6 @@ class Item{
 	const FENCE_GATE_DARK_OAK = 186;
 	const ACACIA_FENCE_GATE = 187;
 	const FENCE_GATE_ACACIA = 187;
-	
 	const SPRUCE_DOOR_BLOCK = 193;
 	const BIRCH_DOOR_BLOCK = 194;
 	const JUNGLE_DOOR_BLOCK = 195;
@@ -350,7 +352,14 @@ class Item{
 	const DARK_OAK_DOOR_BLOCK = 197;
 	const GRASS_PATH = 198;
 	const ITEM_FRAME_BLOCK = 199;
-	
+	//const CHORUS_FLOWER = 200; //Confirmed
+	//const PURPUR = 201; //Confirmed
+	//const PURPUR_STAIRS = 203; //Confirmed
+	//const END_BRICKS = 206; //Confirmed
+	//const END_ROD = 208; //Confirmed
+	//const END_GATEWAY = 209; //Confirmed
+	//const CHORUS_PLANT = 240; //Confirmed
+	//const STAINED_GLASS = 241; //Confirmed
 	const PODZOL = 243;
 	const BEETROOT_BLOCK = 244;
 	const STONECUTTER = 245;
@@ -358,9 +367,11 @@ class Item{
 	const NETHER_REACTOR = 247;
 	const UPDATE_BLOCK = 248;
 	const ATEUPD_BLOCK = 249;
+	const PISTON_EXTENSION = 250;
 	const BLOCK_MOVED_BY_PISTON = 250;
 	const OBSERVER = 251;
 	const RESERVED = 255;
+
 	//Normal Item IDs
 	const IRON_SHOVEL = 256;
 	const IRON_PICKAXE = 257;
@@ -488,7 +499,7 @@ class Item{
 	const RAW_CHICKEN = 365;
 	const COOKED_CHICKEN = 366;
 	const ROTTEN_FLESH = 367;
-	//const ENDERPEARL = 368;
+	//const ENDERPEARL = 368; //Confirmed
 	const BLAZE_ROD = 369;
 	const GHAST_TEAR = 370;
 	const GOLD_NUGGET = 371;
@@ -502,6 +513,7 @@ class Item{
 	const MAGMA_CREAM = 378;
 	const BREWING_STAND = 379;
 	const CAULDRON = 380;
+	//const EYE_OF_ENDER = 380; //Confirmed
 	const GLISTERING_MELON = 382;
 	const SPAWN_EGG = 383;
 	const BOTTLE_O_ENCHANTING = 384;
@@ -525,7 +537,7 @@ class Item{
 	const MOB_HEAD = 397;
 	const SKULL = 397;
 	const CARROT_ON_A_STICK = 398;
-	
+	const NETHER_STAR = 399;
 	const PUMPKIN_PIE = 400;
 	const ENCHANTED_BOOK = 403;
 	const COMPARATOR = 404;
@@ -536,7 +548,7 @@ class Item{
 	const MINECART_WITH_TNT = 407;
 	const HOPPER_MINECART = 408;
 	const MINECART_WITH_HOPPER = 408;
-	
+	const PRISMARINE_SHARD = 409;
 	const HOPPER = 410;
 	const RAW_RABBIT = 411;
 	const COOKED_RABBIT = 412;
@@ -551,17 +563,27 @@ class Item{
 	const LEAD = 420;
 	const LEASH = 420;
 	const NAME_TAG = 421;
-	
+	const PRISMARINE_CRYSTAL = 422;
+	const PRISMARINE_CRYSTALS = 422;
 	const RAW_MUTTON = 423;
 	const COOKED_MUTTON = 424;
+	//const END_CRYSTAL = 426; //Confirmed
 	
 	const SPRUCE_DOOR = 427;
 	const BIRCH_DOOR = 428;
 	const JUNGLE_DOOR = 429;
 	const ACACIA_DOOR = 430;
 	const DARK_OAK_DOOR = 431;
+	//const CHORUS_FRUIT = 432; //Confirmed
+	//const POPPED_CHORUS_FRUIT = 433; //Confirmed
 	
+	//const DRAGON_BREATH = 437; //Confirmed
+	//const DRAGONS_BREATH = 437; //Confirmed
 	const SPLASH_POTION = 438;
+	
+	//const LINGERING_POTION = 441; //Confirmed
+	
+	//const ELYTRA = 444; //Confirmed
 	
 	const BEETROOT = 457;
 	const BEETROOT_SEEDS = 458;
@@ -614,6 +636,7 @@ class Item{
 		]);
 		$f = $this->f;
 		$launched = Entity::createEntity($this->getEntityName(), $player->chunk, $nbt, $player);
+		$launched->setNameTag($this->getCustomName());
 		$launched->setMotion($launched->getMotion()->multiply($f));
 		if($launched instanceof Projectile){
 			$player->getServer()->getPluginManager()->callEvent($projectileEv = new ProjectileLaunchEvent($launched));
@@ -788,7 +811,7 @@ class Item{
 			self::$list[self::FILLED_MAP] = FilledMap::class;
 			self::$list[self::GOLDEN_CARROT] = GoldenCarrot::class;
 			self::$list[self::SKULL] = Skull::class;
-			
+			self::$list[self::NETHER_STAR] = NetherStar::class;
 			self::$list[self::PUMPKIN_PIE] = PumpkinPie::class;
 			
 			self::$list[self::ENCHANTED_BOOK] = EnchantedBook::class;
@@ -930,6 +953,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::QUARTZ_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::QUARTZ_BLOCK, 1));
 		Item::addCreativeItem(Item::get(Item::QUARTZ_BLOCK, 2));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE, 0));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE, 1));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE, 2));
 		Item::addCreativeItem(Item::get(Item::COAL_ORE, 0));
 		Item::addCreativeItem(Item::get(Item::IRON_ORE, 0));
 		Item::addCreativeItem(Item::get(Item::GOLD_ORE, 0));
@@ -947,9 +973,11 @@ class Item{
 	
 	private static function decorationTab(){
 		//Decoration
+		Item::addCreativeItem(Item::get(Item::BEACON, 0));
 		Item::addCreativeItem(Item::get(Item::COBBLESTONE_WALL, 0));
 		Item::addCreativeItem(Item::get(Item::COBBLESTONE_WALL, 1));
 		Item::addCreativeItem(Item::get(Item::WATER_LILY, 0));
+		Item::addCreativeItem(Item::get(Item::SEA_LANTERN, 0));
 		Item::addCreativeItem(Item::get(Item::GOLD_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::IRON_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::DIAMOND_BLOCK, 0));
@@ -961,9 +989,9 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::GLASS, 0));
 		Item::addCreativeItem(Item::get(Item::GLOWSTONE_BLOCK, 0));
 		Item::addCreativeItem(Item::get(Item::VINES, 0));
-		//Item::addCreativeItem(Item::get(Item::NETHER_REACTOR, 0));
 		Item::addCreativeItem(Item::get(Item::LADDER, 0));
 		Item::addCreativeItem(Item::get(Item::SPONGE, 0));
+		Item::addCreativeItem(Item::get(Item::SPONGE, 1));
 		Item::addCreativeItem(Item::get(Item::GLASS_PANE, 0));
 		Item::addCreativeItem(Item::get(Item::OAK_DOOR, 0));
 		Item::addCreativeItem(Item::get(Item::SPRUCE_DOOR, 0));
@@ -1168,13 +1196,15 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 47)); //Husk
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 17)); //Squid
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 40)); //Cave spider
-		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 42)); //Magma Cube
-		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 41)); //Ghast
-		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 43)); //Blaze
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 20)); //Iron Golem
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 21)); //Snow Golem
 		//Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 44)); //Zombie Villager
 		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 45)); //Witch
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 49)); //Guardian
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 50)); //ElderGuardian
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 42)); //Magma Cube
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 41)); //Ghast
+		Item::addCreativeItem(Item::get(Item::SPAWN_EGG, 43)); //Blaze
 		
 		Item::addCreativeItem(Item::get(Item::WOODEN_SWORD));
 		Item::addCreativeItem(Item::get(Item::WOODEN_HOE));
@@ -1244,10 +1274,10 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::COMPARATOR));
 		Item::addCreativeItem(Item::get(Item::DISPENSER, 3));
 		Item::addCreativeItem(Item::get(Item::DROPPER, 3));
-		Item::addCreativeItem(Item::get(Item::HOPPER));
 		Item::addCreativeItem(Item::get(Item::PISTON));
 		Item::addCreativeItem(Item::get(Item::STICKY_PISTON));
 		Item::addCreativeItem(Item::get(Item::OBSERVER));
+		Item::addCreativeItem(Item::get(Item::HOPPER));
 		Item::addCreativeItem(Item::get(Item::SNOWBALL));
 	}
 	
@@ -1316,7 +1346,8 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::PUMPKIN_PIE, 0));
 		Item::addCreativeItem(Item::get(Item::RAW_RABBIT, 0));
 		Item::addCreativeItem(Item::get(Item::COOKED_RABBIT, 0));
-		Item::addCreativeItem(Item::get(Item::RABBIT_STEW, 0));
+		Item::addCreativeItem(Item::get(Item::RABBIT_STEW, 0));;
+		Item::addCreativeItem(Item::get(Item::NETHER_STAR, 0));
 		Item::addCreativeItem(Item::get(Item::MAGMA_CREAM, 0));
 		// Item::addCreativeItem(Item::get(Item::ENDERPEARL, 0));
 		Item::addCreativeItem(Item::get(Item::BLAZE_ROD, 0));
@@ -1334,6 +1365,8 @@ class Item{
 		Item::addCreativeItem(Item::get(Item::FERMENTED_SPIDER_EYE, 0));
 		Item::addCreativeItem(Item::get(Item::CARROT_ON_A_STICK, 0));
 		Item::addCreativeItem(Item::get(Item::EXP_BOTTLE, 0));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE_SHARD, 0));
+		Item::addCreativeItem(Item::get(Item::PRISMARINE_CRYSTAL, 0));
 		// TODO: Enchantments
 		for($i = 0; $i < 79; $i++){
 			$item = Item::get(Item::ENCHANTED_BOOK)->addEnchantment(Enchantment::getEnchantment($i));
@@ -1441,7 +1474,7 @@ class Item{
 	}
 
 	public static function addCreativeItem(Item $item){
-		Item::$creative[] = Item::get($item->getId(), $item->getDamage());
+		Item::$creative[] = clone $item;
 	}
 
 	public static function removeCreativeItem(Item $item){
@@ -1465,8 +1498,8 @@ class Item{
 	 * @param $index
 	 * @return Item
 	 */
-	public static function getCreativeItem($index){
-		return isset(Item::$creative[$index]) ? Item::$creative[$index] : null;
+	public static function getCreativeItem(int $index){
+		return Item::$creative[$index] ?? null;
 	}
 
 	/**
@@ -1865,7 +1898,7 @@ class Item{
 	public function getNamedTagEntry($name){
 		$tag = $this->getNamedTag();
 		if($tag !== null){
-			return isset($tag->{$name}) ? $tag->{$name} : null;
+			return $tag->{$name} ?? null;
 		}
 		return null;
 	}
@@ -1911,10 +1944,10 @@ class Item{
 	final public function canBePlaced(){
 		return $this->block !== null and $this->block->canBePlaced();
 	}
+
 	final public function isPlaceable(){
 		$this->canBePlaced();
 	}
-	
 
 	public function canBeConsumed(){
 		return false;
@@ -2094,6 +2127,70 @@ class Item{
 			return NBT::matchTree($this->getNamedTag(), $item->getNamedTag());
 		}
 		return false;
+	}
+
+	/**
+	 * Serializes the item to an NBT CompoundTag
+	 *
+	 * @param int $slot optional, the inventory slot of the item
+	 *
+	 * @return CompoundTag
+	 */
+	public function nbtSerialize(int $slot = -1, string $tagName = "") : CompoundTag{
+		$tag = new CompoundTag($tagName, [
+			"id" => new ShortTag("id", $this->id),
+			"Count" => new ByteTag("Count", $this->count ?? -1),
+			"Damage" => new ShortTag("Damage", $this->meta),
+		]);
+
+		if($this->hasCompoundTag()){
+			$tag->tag = clone $this->getNamedTag();
+			$tag->tag->setName("tag");
+		}
+		
+		if($slot !== -1){
+			$tag->Slot = new ByteTag("Slot", $slot);
+		}
+
+		return $tag;
+	}
+
+	/**
+	 * Deserializes an Item from an NBT CompoundTag
+	 *
+	 * @param CompoundTag $tag
+	 *
+	 * @return Item
+	 */
+	public static function nbtDeserialize(CompoundTag $tag) : Item{
+		if(!isset($tag->id) or !isset($tag->Count)){
+			return Item::get(0);
+		}
+
+		if($tag->id instanceof ShortTag){
+			$item = Item::get($tag->id->getValue(), !isset($tag->Damage) ? 0 : $tag->Damage->getValue(), $tag->Count->getValue());
+		}elseif($tag->id instanceof StringTag){ //PC item save format
+			$item = Item::fromString($tag->id->getValue());
+			$item->setDamage(!isset($tag->Damage) ? 0 : $tag->Damage->getValue());
+			$item->setCount($tag->Count->getValue());
+		}else{
+			throw new \InvalidArgumentException("Item CompoundTag ID must be an instance of StringTag or ShortTag, " . get_class($tag->id) . " given");
+		}
+
+		if(isset($tag->tag) and $tag->tag instanceof CompoundTag){
+			$item->setNamedTag($tag->tag);
+		}
+
+		return $item;
+	}
+
+	final public function jsonSerialize(){
+		return [
+			"id" => $this->id,
+			"damage" => $this->meta,
+			"count" => $this->count, //TODO: separate items and stacks
+			"nbt" => $this->tags
+		];
 	}
 
 }

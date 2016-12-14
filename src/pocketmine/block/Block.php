@@ -17,6 +17,8 @@ use pocketmine\metadata\Metadatable;
 use pocketmine\metadata\MetadataValue;
 use pocketmine\Player;
 use pocketmine\plugin\Plugin;
+use pocketmine\level\sound\GenericSound;
+use pocketmine\block\Hopper as HopperBlock;
 
 class Block extends Position implements Metadatable{
 	const AIR = 0;
@@ -76,6 +78,7 @@ class Block extends Position implements Metadatable{
 	const DOUBLE_SLABS = 43;
 	const SLAB = 44;
 	const SLABS = 44;
+	const STONE_SLAB = 44;
 	const BRICKS = 45;
 	const BRICKS_BLOCK = 45;
 	const TNT = 46;
@@ -107,8 +110,8 @@ class Block extends Position implements Metadatable{
 	const WOOD_DOOR_BLOCK = 64;
 	const LADDER = 65;
 	const RAIL = 66;
-	const COBBLE_STAIRS = 67;
 	const COBBLESTONE_STAIRS = 67;
+	const COBBLE_STAIRS = 67;
 	const WALL_SIGN = 68;
 	const LEVER = 69;
 	const STONE_PRESSURE_PLATE = 70;
@@ -118,8 +121,8 @@ class Block extends Position implements Metadatable{
 	const GLOWING_REDSTONE_ORE = 74;
 	const LIT_REDSTONE_ORE = 74;
 	const UNLIT_REDSTONE_TORCH = 75;
-	const LIT_REDSTONE_TORCH = 76;
 	const REDSTONE_TORCH = 76;
+	const LIT_REDSTONE_TORCH = 76;
 	const STONE_BUTTON = 77;
 	const SNOW = 78;
 	const SNOW_LAYER = 78;
@@ -136,38 +139,45 @@ class Block extends Position implements Metadatable{
 	const SOUL_SAND = 88;
 	const GLOWSTONE = 89;
 	const GLOWSTONE_BLOCK = 89;
+	const PORTAL_BLOCK = 90;
 	const NETHER_PORTAL = 90;
 	const PORTAL = 90;
-	const LIT_PUMPKIN = 91;
 	const JACK_O_LANTERN = 91;
+	const LIT_PUMPKIN = 91;
 	const CAKE_BLOCK = 92;
 	const UNPOWERED_REPEATER = 93;
+	const REPEATER_BLOCK = 93;
+	const UNPOWERED_REPEATER_BLOCK = 93;
+	const POWERED_REPEATER_BLOCK = 94;
 	const POWERED_REPEATER = 94;
-	const STAINED_GLASS = 95; //INVISIBLE BEDROCK ID
+	const INVISIBLE_BEDROCK = 95;
 	const TRAPDOOR = 96;
-	const MONSTER_EGG = 97;
+	const WOODEN_TRAPDOOR = 96;
+	const MONSTER_EGG_BLOCK = 97;
 	const STONE_BRICKS = 98;
 	const STONE_BRICK = 98;
 	const BROWN_MUSHROOM_BLOCK = 99;
 	const RED_MUSHROOM_BLOCK = 100;
-	const IRON_BAR = 101;
 	const IRON_BARS = 101;
+	const IRON_BAR = 101;
 	const GLASS_PANE = 102;
 	const GLASS_PANEL = 102;
 	const MELON_BLOCK = 103;
 	const PUMPKIN_STEM = 104;
 	const MELON_STEM = 105;
-	const VINE = 106;
 	const VINES = 106;
+	const VINE = 106;
 	const FENCE_GATE = 107;
+	const OAK_FENCE_GATE = 107;
 	const BRICK_STAIRS = 108;
 	const STONE_BRICK_STAIRS = 109;
 	const MYCELIUM = 110;
-	const WATER_LILY = 111;
 	const LILY_PAD = 111;
+	const WATER_LILY = 111;
 	const NETHER_BRICKS = 112;
 	const NETHER_BRICK_BLOCK = 112;
 	const NETHER_BRICK_FENCE = 113;
+	const NETHER_BRICK_STAIRS = 114;
 	const NETHER_BRICKS_STAIRS = 114;
 	const NETHER_WART_BLOCK = 115;
 	const ENCHANTING_TABLE = 116;
@@ -175,19 +185,23 @@ class Block extends Position implements Metadatable{
 	const ENCHANTMENT_TABLE = 116;
 	const BREWING_STAND_BLOCK = 117;
 	const CAULDRON_BLOCK = 118;
-	//const END_PORTAL = 119;
+	//const END_PORTAL = 119; //Confirmed
 	const END_PORTAL_FRAME = 120;
 	const END_STONE = 121;
-	//const DRAGON_EGG = 122;
+	//const DRAGON_EGG = 122; //Confirmed
 	const REDSTONE_LAMP = 123;
+	const INACTIVE_REDSTONE_LAMP = 123;
 	const LIT_REDSTONE_LAMP = 124;
+	const ACTIVE_REDSTONE_LAMP = 124;
 	const DROPPER = 125;
 	const ACTIVATOR_RAIL = 126;
-	const COCOA_POD = 127;
+	const COCOA_BLOCK = 127;
 	const COCOA_BEANS = 127;
+	const COCOA_POD = 127;
+	const COCOA_PODS = 127;
 	const SANDSTONE_STAIRS = 128;
 	const EMERALD_ORE = 129;
-	const ENDERCHEST = 130;
+	//const ENDERCHEST = 130; //Confirmed
 	const TRIPWIRE_HOOK = 131;
 	const TRIPWIRE = 132;
 	const EMERALD_BLOCK = 133;
@@ -197,11 +211,10 @@ class Block extends Position implements Metadatable{
 	const BIRCH_WOODEN_STAIRS = 135;
 	const JUNGLE_WOOD_STAIRS = 136;
 	const JUNGLE_WOODEN_STAIRS = 136;
-	const COMMAND_BLOCK = 136;
-	const BEACON = 136;
+	const BEACON = 138;
+	const COBBLESTONE_WALL = 139;
 	const COBBLE_WALL = 139;
 	const STONE_WALL = 139;
-	const COBBLESTONE_WALL = 139;
 	const FLOWER_POT_BLOCK = 140;
 	const CARROT_BLOCK = 141;
 	const POTATO_BLOCK = 142;
@@ -210,16 +223,25 @@ class Block extends Position implements Metadatable{
 	const HEAD_BLOCK = 144;
 	const MOB_HEAD_BLOCK = 144;
 	const ANVIL_BLOCK = 145;
+	const ANVIL = 145;
 	const TRAPPED_CHEST = 146;
+	const WEIGHTED_PRESSURE_PLATE_LIGHT = 147;
 	const LIGHT_WEIGHTED_PRESSURE_PLATE = 147;
+	const GOLD_PRESSURE_PLATE = 147;
+	const WEIGHTED_PRESSURE_PLATE_HEAVY = 148;
 	const HEAVY_WEIGHTED_PRESSURE_PLATE = 148;
+	const IRON_PRESSURE_PLATE = 148;
+	const COMPARATOR_BLOCK = 149;
+	const UNPOWERED_COMPARATOR_BLOCK = 149;
 	const UNPOWERED_COMPARATOR = 149;
 	const POWERED_COMPARATOR = 150;
+	const POWERED_COMPARATOR_BLOCK = 150;
+	const DAYLIGHT_SENSOR = 151;
 	const DAYLIGHT_DETECTOR = 151;
 	const REDSTONE_BLOCK = 152;
 	const NETHER_QUARTZ_ORE = 153;
 	const QUARTZ_ORE = 153;
-	const HOPPER = 154;
+	const HOPPER_BLOCK = 154;
 	const QUARTZ_BLOCK = 155;
 	const QUARTZ_STAIRS = 156;
 	const DOUBLE_WOOD_SLAB = 157;
@@ -232,7 +254,7 @@ class Block extends Position implements Metadatable{
 	const WOODEN_SLABS = 158;
 	const STAINED_CLAY = 159;
 	const STAINED_HARDENED_CLAY = 159;
-	const STAINED_GLASS_PANE = 160;
+	//const STAINED_GLASS_PANE = 160; //Confirmed
 	const LEAVES2 = 161;
 	const LEAVE2 = 161;
 	const WOOD2 = 162;
@@ -246,8 +268,8 @@ class Block extends Position implements Metadatable{
 	const SLIMEBLOCK = 165;
 	//const BARRIER = 166;
 	const IRON_TRAPDOOR = 167;
-	//const PRISMARINE = 168;
-	//const SEA_LANTERN = 169;
+	const PRISMARINE = 168;
+	const SEA_LANTERN = 169;
 	const HAY_BALE = 170;
 	const CARPET = 171;
 	const HARDENED_CLAY = 172;
@@ -256,15 +278,24 @@ class Block extends Position implements Metadatable{
 	const DOUBLE_PLANT = 175;
 	//const STANDING_BANNER = 176;
 	//const WALL_BANNER = 177;
+	const INVERTED_DAYLIGHT_SENSOR = 178;
 	const DAYLIGHT_DETECTOR_INVERTED = 178;
+	const DAYLIGHT_SENSOR_INVERTED = 178;
 	const RED_SANDSTONE = 179;
 	const RED_SANDSTONE_STAIRS = 180;
+	const DOUBLE_RED_SANDSTONE_SLAB = 181;
 	const DOUBLE_STONE_SLAB2 = 181;
 	const STONE_SLAB2 = 182;
+	const RED_SANDSTONE_SLAB = 182;
+	const SPRUCE_FENCE_GATE = 183;
 	const FENCE_GATE_SPRUCE = 183;
+	const BIRCH_FENCE_GATE = 184; 
 	const FENCE_GATE_BIRCH = 184;
+	const JUNGLE_FENCE_GATE = 185;
 	const FENCE_GATE_JUNGLE = 185;
+	const DARK_OAK_FENCE_GATE = 186;
 	const FENCE_GATE_DARK_OAK = 186;
+	const ACACIA_FENCE_GATE = 187;
 	const FENCE_GATE_ACACIA = 187;
 	const SPRUCE_DOOR_BLOCK = 193;
 	const BIRCH_DOOR_BLOCK = 194;
@@ -273,11 +304,23 @@ class Block extends Position implements Metadatable{
 	const DARK_OAK_DOOR_BLOCK = 197;
 	const GRASS_PATH = 198;
 	const ITEM_FRAME_BLOCK = 199;
+	//const CHORUS_FLOWER = 200; //Confirmed
+	//const PURPUR = 201; //Confirmed
+	//const PURPUR_STAIRS = 203; //Confirmed
+	//const END_BRICKS = 206; //Confirmed
+	//const END_ROD = 208; //Confirmed
+	//const END_GATEWAY = 209; //Confirmed
+	//const CHORUS_PLANT = 240; //Confirmed
+	//const STAINED_GLASS = 241; //Confirmed
 	const PODZOL = 243;
 	const BEETROOT_BLOCK = 244;
 	const STONECUTTER = 245;
 	const GLOWING_OBSIDIAN = 246;
 	const NETHER_REACTOR = 247;
+	const UPDATE_BLOCK = 248;
+	const ATEUPD_BLOCK = 249;
+	const PISTON_EXTENSION = 250;
+	const BLOCK_MOVED_BY_PISTON = 250;
 	const OBSERVER = 251;
 	const RESERVED = 255;
 
@@ -493,7 +536,7 @@ class Block extends Position implements Metadatable{
 			self::$list[self::BIRCH_WOOD_STAIRS] = BirchWoodStairs::class;
 			self::$list[self::JUNGLE_WOOD_STAIRS] = JungleWoodStairs::class;
 			//self::$list[self::COMMAND_BLOCK] = CommandBlock::class;
-			//self::$list[self::BEACON] = Beacon::class;
+			self::$list[self::BEACON] = Beacon::class;
 			self::$list[self::STONE_WALL] = StoneWall::class;
 			self::$list[self::FLOWER_POT_BLOCK] = FlowerPot::class;
 			self::$list[self::CARROT_BLOCK] = Carrot::class;
@@ -509,13 +552,13 @@ class Block extends Position implements Metadatable{
 			self::$list[self::DAYLIGHT_DETECTOR] = DaylightDetector::class;
 			self::$list[self::REDSTONE_BLOCK] = RedstoneBlock::class;
 			self::$list[self::QUARTZ_ORE] = QuartzOre::class;
-			self::$list[self::HOPPER] = Hopper::class;
+			self::$list[self::HOPPER_BLOCK] = HopperBlock::class;
 			self::$list[self::QUARTZ_BLOCK] = Quartz::class;
 			self::$list[self::QUARTZ_STAIRS] = QuartzStairs::class;
 			self::$list[self::DOUBLE_WOOD_SLAB] = DoubleWoodSlab::class;
 			self::$list[self::WOOD_SLAB] = WoodSlab::class;
 			self::$list[self::STAINED_CLAY] = StainedClay::class;
-			//self::$list[self::STAINED_GLASS_PANE] = StainedGlassPain::class;
+			//self::$list[self::STAINED_GLASS_PANE] = StainedGlassPane::class;
 			self::$list[self::LEAVES2] = Leaves2::class;
 			self::$list[self::WOOD2] = Wood2::class;
 			self::$list[self::ACACIA_WOOD_STAIRS] = AcaciaWoodStairs::class;
@@ -523,8 +566,8 @@ class Block extends Position implements Metadatable{
 			self::$list[self::SLIMEBLOCK] = Slimeblock::class;
 		//	self::$list[self::BARRIER] = Barrier::class;
 			self::$list[self::IRON_TRAPDOOR] = IronTrapdoor::class;
-			//self::$list[self::PRISMARINE] = Prismarine::class;
-			//self::$list[self::SEA_LANTERN] = SeaLantern::class;
+			self::$list[self::PRISMARINE] = Prismarine::class;
+			self::$list[self::SEA_LANTERN] = SeaLantern::class;
 			self::$list[self::HAY_BALE] = HayBale::class;
 			self::$list[self::CARPET] = Carpet::class;
 			self::$list[self::HARDENED_CLAY] = HardenedClay::class;
@@ -669,6 +712,7 @@ class Block extends Position implements Metadatable{
 	 * @return mixed
 	 */
 	public function onBreak(Item $item){
+		$this->level->addSound(new GenericSound($this, 3));
 		if($this instanceof Redstone){
 			$oBreturn = $this->getLevel()->setBlock($this, new Air(), true, true);
 			$this->broadcastRedstoneUpdate(Level::REDSTONE_UPDATE_BREAK,$this->getPower());

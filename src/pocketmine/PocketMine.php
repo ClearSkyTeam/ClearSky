@@ -54,10 +54,11 @@ namespace pocketmine {
 
 	const BUILD = "CuttingEdge";
 	const VERSION = "1.1-php7";
-	const API_VERSION = "2.0.0";
-	const CODENAME = "DarkSunset";
-	const MINECRAFT_VERSION = "v0.15.x beta";
-	const MINECRAFT_VERSION_NETWORK = "0.15";
+	const API_VERSION = "2.1.0";
+	const CODENAME = "TheDarkEnd";
+	
+	const MINECRAFT_VERSION = "v0.16.x beta";
+	const MINECRAFT_VERSION_NETWORK = "0.16";
 
 	/*
 	 * Startup code. Do not look at it, it may harm you.
@@ -449,27 +450,15 @@ namespace pocketmine {
 	$server = new Server($autoloader, $logger, \pocketmine\PATH, \pocketmine\DATA, \pocketmine\PLUGIN_PATH);
 
 	$logger->info("Stopping other threads");
-
+	$killer = new ServerKiller(8);
+	$killer->start();
 	foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
-		$logger->debug("Stopping " . (new \ReflectionClass($thread))->getShortName() . " thread");
+		$logger->debug("Stopping " . $thread->getThreadName() . " thread");
 		$thread->quit();
 	}
-	$killtime = 8;
-	while(--$killtime) {
-		sleep(1);
-		foreach(ThreadManager::getInstance()->getAll() as $id => $thread){
-			$logger->debug("Still running: " . (new \ReflectionClass($thread))->getShortName());
-		}
-		if (count(ThreadManager::getInstance()->getAll()) == 0) {
-			$logger->shutdown();
-			$logger->join();
-
-			echo Terminal::$FORMAT_RESET . "\n";
-
-			exit(0);			
-		};
-	}
-	echo "\nTook too long to stop, server was killed forcefully!\n";
-	@\pocketmine\kill(getmypid());
+	$logger->shutdown();
+	$logger->join();
+	echo Terminal::$FORMAT_RESET . "\n";
+	exit(0);
 
 }

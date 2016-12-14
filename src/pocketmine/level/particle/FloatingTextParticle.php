@@ -2,14 +2,12 @@
 namespace pocketmine\level\particle;
 
 use pocketmine\entity\Entity;
-use pocketmine\item\Item;
+use pocketmine\entity\Item as ItemEntity;
 use pocketmine\math\Vector3;
-use pocketmine\network\protocol\AddPlayerPacket;
+use pocketmine\network\protocol\AddEntityPacket;
 use pocketmine\network\protocol\RemoveEntityPacket;
-use pocketmine\utils\UUID;
 
 class FloatingTextParticle extends Particle{
-	//TODO: HACK!
 
 	protected $text;
 	protected $title;
@@ -35,10 +33,24 @@ class FloatingTextParticle extends Particle{
 		$this->title = $title;
 	}
 	
+	/**
+	 * @deprecated NOT PRESENT IN ORIGINAL POCKETMINE!
+	*/
+	public function getText(){
+		return $this->text;
+	}
+	
+	/**
+	 * @deprecated NOT PRESENT IN ORIGINAL POCKETMINE!
+	*/
+	public function getTitle(){
+		return $this->title;
+	}
+
 	public function isInvisible(){
 		return $this->invisible;
 	}
-	
+
 	public function setInvisible($value = true){
 		$this->invisible = (bool) $value;
 	}
@@ -56,31 +68,31 @@ class FloatingTextParticle extends Particle{
 		}
 
 		if(!$this->invisible){
-			$pk = new AddPlayerPacket();
+			$pk = new AddEntityPacket();
 			$pk->eid = $this->entityId;
-			$pk->uuid = UUID::fromRandom();
+			$pk->type = ItemEntity::NETWORK_ID;
 			$pk->x = $this->x;
-			$pk->y = $this->y - 1.75;
+			$pk->y = $this->y - 0.75;
 			$pk->z = $this->z;
 			$pk->speedX = 0;
 			$pk->speedY = 0;
 			$pk->speedZ = 0;
 			$pk->yaw = 0;
 			$pk->pitch = 0;
+			$pk->item = 0;
 			$pk->meta = 0;
-			$pk->item = Item::get(0);
+			$flags = 0;
+			$flags |= 1 << Entity::DATA_FLAG_INVISIBLE;
+			$flags |= 1 << Entity::DATA_FLAG_CAN_SHOW_NAMETAG;
+			$flags |= 1 << Entity::DATA_FLAG_ALWAYS_SHOW_NAMETAG;
+			$flags |= 1 << Entity::DATA_FLAG_IMMOBILE;
 			$pk->metadata = [
-				Entity::DATA_FLAGS => [Entity::DATA_TYPE_BYTE, 1 << Entity::DATA_FLAG_INVISIBLE],
+				Entity::DATA_FLAGS => [Entity::DATA_TYPE_LONG, $flags],
 				Entity::DATA_NAMETAG => [Entity::DATA_TYPE_STRING, $this->title . ($this->text !== "" ? "\n" . $this->text : "")],
-				Entity::DATA_SHOW_NAMETAG => [Entity::DATA_TYPE_BYTE, 1],
-				Entity::DATA_NO_AI => [Entity::DATA_TYPE_BYTE, 1],
- 				Entity::DATA_LEAD_HOLDER => [Entity::DATA_TYPE_LONG, -1],
- 				Entity::DATA_LEAD => [Entity::DATA_TYPE_BYTE, 0]
-            			];
-
+			];
 			$p[] = $pk;
 		}
-		
+
 		return $p;
 	}
 }

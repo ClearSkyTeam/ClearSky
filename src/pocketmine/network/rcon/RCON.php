@@ -50,7 +50,7 @@ class RCON{
 	public function stop(){
 		for($n = 0; $n < $this->threads; ++$n){
 			$this->workers[$n]->close();
-			usleep(50000);
+			Server::microSleep(50000);
 			$this->workers[$n]->quit();
 		}
 		@socket_close($this->socket);

@@ -26,7 +26,7 @@ class Zombie extends Monster{
 
 	public function spawnTo(Player $player){
 		$pk = $this->addEntityDataPacket($player);
-		$pk->type = Zombie::NETWORK_ID;
+		$pk->type = self::NETWORK_ID;
 
 		$player->dataPacket($pk);
 		parent::spawnTo($player);
