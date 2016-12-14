@@ -191,6 +191,7 @@ use pocketmine\entity\ElderGuardian;
 use pocketmine\entity\WitherSkull;
 use pocketmine\entity\Wither;
 use pocketmine\tile\Beacon;
+use pocketmine\entity\ai\HorseAI;
 
 /**
  * The class that manages everything
@@ -2725,6 +2726,7 @@ class Server{
 
 	private function registerAIs(){
 		self::getAIManager()->registerAIs(Wolf::class, WolfAI::class);
+		self::getAIManager()->registerAIs(Horse::class, HorseAI::class);
 	}
 
 }

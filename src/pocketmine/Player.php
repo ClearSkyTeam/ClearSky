@@ -138,7 +138,6 @@ use pocketmine\tile\Tile;
 use pocketmine\utils\Binary;
 use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
-use raklib\Binary;
 use pocketmine\entity\Rideable;
 use pocketmine\entity\Horse;
 
@@ -2075,6 +2074,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				}
 				break;
 			case ProtocolInfo::PLAYER_INPUT_PACKET:
+				break;
+			case ProtocolInfo::RIDER_JUMP_PACKET:
+				$this->getServer()->getLogger()->alert("Jump power is: ".$pk->varint);
+				$this->getlinkedTarget() instanceof Horse;
+				$this->getlinkedTarget()->motionY = $pk->varint;
 				break;
 			case ProtocolInfo::LOGIN_PACKET:
 				if($this->loggedIn){

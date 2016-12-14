@@ -15,7 +15,9 @@ class Horse extends Animal implements Rideable{
 	protected $exp_max = 3;//TODO
 
     public function initEntity(){
-        $this->setMaxHealth(10);//TODO
+    	$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_SADDLED, true, self::DATA_TYPE_BYTE);
+    	$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_TAMED, true, self::DATA_TYPE_BYTE);
+    	$this->setMaxHealth(10);//TODO
         parent::initEntity();
     }
 

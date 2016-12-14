@@ -991,7 +991,7 @@ class Level implements ChunkManager, Metadatable{
 				$player = $players[array_rand($players)];
 				$x = $player->getX() + mt_rand(-50, 50);
 				$z = $player->getZ() + mt_rand(-50, 50);
-				$y = $this->getHighestBlockAt($x, $z) + 1;
+				$y = $this->getHighestBlockAt(intval($x), intval($z)) + 1;
 				$spawned = Entity::createEntity($registered[array_rand($registered)]::NETWORK_ID, $player->getLevel()->getChunk($x >> 4, $z >> 4), new CompoundTag("", [
 						"Pos" => new ListTag("Pos", [
 								new DoubleTag("", $x),
