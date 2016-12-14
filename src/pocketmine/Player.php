@@ -1340,7 +1340,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 		$this->inventory->sendContents($this->getViewers());
 		$this->inventory->sendHeldItem($this->hasSpawned);
 		if($this->isCreative()){
-			$this->inventory->sendCreativeContents();
+			#$this->inventory->sendCreativeContents();
 		}
 		return true;
 	}
