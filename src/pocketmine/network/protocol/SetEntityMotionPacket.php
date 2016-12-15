@@ -18,8 +18,9 @@ class SetEntityMotionPacket extends DataPacket{
 		return parent::clean();
 	}
 	
-	public function decode(){
-	
+	public function decode(){//Horses had this idea.. So client could 'hack' a horse in, sit on it and cheat speed/jump hack legally
+		$this->eid = $this->getEntityId();
+		$this->getVector3f($this->motionX, $this->motionY, $this->motionZ);
 	}
 	
 	public function encode(){

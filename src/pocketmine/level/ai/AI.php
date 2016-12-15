@@ -36,8 +36,8 @@ class AI{
 		// $this->getServer()->broadcastMessage($entity->getName() . ' => NO_AI');
 		// return;
 		// }
-		$this->mobs[$entity->getId()] = $entity->getName();
-		$this->getServer()->getLogger()->debug("AI started ticking for " . $entity->getName() . ": " . $entity->getId());
+		#$this->mobs[$entity->getId()] = $entity->getName();
+		#$this->getServer()->getLogger()->debug("AI started ticking for " . $entity->getName() . ": " . $entity->getId());
 	}
 
 	public function unloadAI(Entity $entity){

@@ -9,7 +9,7 @@ class Horse extends Animal implements Rideable{
 
     public $width = 0.75;
     public $height = 1.562;
-    public $lenght = 1.5;//TODO
+    public $length = 1.5;//TODO
 	
 	protected $exp_min = 1;
 	protected $exp_max = 3;//TODO
@@ -17,6 +17,8 @@ class Horse extends Animal implements Rideable{
     public function initEntity(){
     	$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_SADDLED, true, self::DATA_TYPE_BYTE);
     	$this->setDataFlag(self::DATA_FLAGS, self::DATA_FLAG_TAMED, true, self::DATA_TYPE_BYTE);
+    	$this->setDataProperty(self::DATA_BOUNDING_BOX_HEIGHT, self::DATA_TYPE_FLOAT, $this->height);
+    	$this->setDataProperty(self::DATA_BOUNDING_BOX_WIDTH, self::DATA_TYPE_FLOAT, $this->length);
     	$this->setMaxHealth(10);//TODO
         parent::initEntity();
     }

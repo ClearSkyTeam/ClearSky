@@ -140,6 +140,7 @@ use pocketmine\utils\TextFormat;
 use pocketmine\utils\UUID;
 use pocketmine\entity\Rideable;
 use pocketmine\entity\Horse;
+use pocketmine\network\protocol\RiderJumpPacket;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -226,8 +227,11 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 	/** @var null|Position */
 	protected $spawnPosition = null;
 
+	/* Anti-Cheating related */
 	protected $inAirTicks = 0;
 	protected $startAirTicks = 5;
+	protected $falseMotionCount = 0;
+	protected $falseMotionTime = 0;
 
 	//TODO: Abilities
 	protected $autoJump = true;
@@ -249,7 +253,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 			$this->setHook($entity);
 			$this->isFishing = true;
 			$pk = new EntityEventPacket();
-			$pk->eid = $this->getId();
+			$pk->eid = $entity->getId();
 			$pk->event = EntityEventPacket::FISH_HOOK_POSITION;
 			$this->server->broadcastPacket($this->level->getPlayers(), $pk);
 			return true;
@@ -2075,10 +2079,62 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				break;
 			case ProtocolInfo::PLAYER_INPUT_PACKET:
 				break;
-			case ProtocolInfo::RIDER_JUMP_PACKET:
-				$this->getServer()->getLogger()->alert("Jump power is: ".$pk->varint);
-				$this->getlinkedTarget() instanceof Horse;
-				$this->getlinkedTarget()->motionY = $pk->varint;
+			case ProtocolInfo::RIDER_JUMP_PACKET://Does this even get executed??
+				$this->getServer()->getLogger()->alert("Jump power is: ".$packet->varint);
+				$npk = new RiderJumpPacket();
+				$npk->varint = $packet->varint;
+				$this->getServer()->getLogger()->alert("Sending back jump power value: ".$npk->varint);
+				$this->dataPacket($npk);
+				break;
+			case ProtocolInfo::SET_ENTITY_MOTION_PACKET:
+				$eid = $packet->eid;
+				$motionX = $packet->motionX;
+				$motionY = $packet->motionY;
+				$motionZ = $packet->motionZ;
+				if($eid === 0){ // player moving
+					if($this->isLinked() || $this->getInventory()->getChestplate()->getId() == 444/*Elytra*/){
+						$npk = clone $packet;
+						$npk->eid = $this->getId();
+						$this->getServer()->broadcastPacket($this->getLevel()->getPlayers(), $npk);
+						if(($this->isFlying() && $this->getInventory()->getChestplate()->getId() == 444/*Elytra*/ && !$this->getLevel()->getGameRule('disableElytraMovementCheck')) || ($this->isFlying() && !$this->getServer()->getConfigBoolean('allow-flight', false))){ // force motion
+							$this->motionX = $motionX;
+							$this->motionY = $motionY;
+							$this->motionZ = $motionZ;
+							$this->motionChanged = true;
+						}
+						if($this->isLinked()){
+							// horse moving
+							// $npk = new SetEntityMotionPacket();//This should be sendt if i set motionChanged to true
+							// $npk->eid = $this->linkedTarget->getId();
+							$this->linkedTarget->x = $this->x;
+							$this->linkedTarget->y = $this->y;
+							$this->linkedTarget->z = $this->z;
+							$this->linkedTarget->positionChanged = true;
+							$this->linkedTarget->yaw = $this->yaw;
+							$this->linkedTarget->motionX = $motionX;
+							$this->linkedTarget->motionY = $motionY;
+							$this->linkedTarget->motionZ = $motionZ;
+							$this->linkedTarget->motionChanged = true;
+							// $npk->motionX = $motionX;
+							// $npk->motionY = $motionY;
+							// $npk->motionZ = $motionZ;
+							// if not already, the new horse position is player position
+							// $this->getServer()->broadcastPacket($this->getServer()->getOnlinePlayers(), $npk);
+						}
+					}
+					elseif(!$this->getServer()->getConfigBoolean('allow-flight', false)){
+						(microtime(true) - $this->falseMotionTime < 5)?$this->falseMotionCount++:$this->falseMotionCount = 0;
+						$this->getServer()->getLogger()->warning($this->getName(). ' tries to move EID: ' . $packet->eid . ', but isn\'t riding an entity or wearing an elytra');
+						if($this->falseMotionCount > 5){
+							$this->falseMotionTime = 0;
+							$this->falseMotionCount = 0;
+							$this->kick(TextFormat::RED . 'Invalid / too many SetMotionPackets');
+						}else{
+							$this->sendWhisper('Server', 'We know that you cheat ;)');
+							$this->falseMotionTime = microtime(true);
+						}
+					}
+				}
 				break;
 			case ProtocolInfo::LOGIN_PACKET:
 				if($this->loggedIn){

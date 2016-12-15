@@ -263,22 +263,17 @@ abstract class Entity extends Location implements Metadatable{
 	public $leadHolder = null;
 	
 	public function linkEntity(Entity $entity = null){
-		if($entity !== null and $entity->getlinkType() == Entity::LINK_EMPTY and $entity->isAlive()){
+		if($entity !== null and $entity->isAlive()){
 			$this->linkedTarget = $entity;
 			$this->islinked = true;
-			$entity->islinked = true;
-			$pk = new SetEntityLinkPacket();
-			$pk->from = $entity->getId();
-			$pk->to = $this->getId();
-			$pk->type = 1;
-			$this->server->broadcastPacket($this->level->getPlayers(), $pk);
 			if($this instanceof Player){
 				$pk = new SetEntityLinkPacket();
 				$pk->from = $entity->getId();
 				$pk->to = 0;
-				$pk->type = 1;
+				$pk->type = $entity->islinked?SetEntityLinkPacket::TYPE_RIDE:SetEntityLinkPacket::TYPE_PASSENGER;//steering the entity or passanger (boat)
 				$this->dataPacket($pk);
 			}
+			$entity->islinked = true;
 		}
 		return false;
 	}
@@ -299,13 +294,18 @@ abstract class Entity extends Location implements Metadatable{
 			$pk->from = $this->linkedTarget->getId();
 		}
 		$pk->to = 0;
-		$pk->type = 0;
+		$pk->type = SetEntityLinkPacket::TYPE_REMOVE;
 		if($this instanceof Player){
 			$this->dataPacket($pk);
 		}
 		$this->islinked = false;
 		if($this->linkedTarget instanceof Entity){
-			$this->linkedTarget->setLinked(false);
+			//reset/stop motion
+			$this->linkedTarget->motionX = 0;
+			$this->linkedTarget->motionY = 0;
+			$this->linkedTarget->motionZ = 0;
+			$this->linkedTarget->motionChanged = true;
+			$this->linkedTarget->islinked = false;
 			$this->linkedTarget = null;
 		}
 		return true;
