@@ -266,6 +266,11 @@ abstract class Entity extends Location implements Metadatable{
 		if($entity !== null and $entity->isAlive()){
 			$this->linkedTarget = $entity;
 			$this->islinked = true;
+			$pk = new SetEntityLinkPacket();
+			$pk->from = $entity->getId();
+			$pk->to = $this->getId();
+			$pk->type = $entity->islinked?SetEntityLinkPacket::TYPE_RIDE:SetEntityLinkPacket::TYPE_PASSENGER; // steering the entity or passanger (boat)
+			$this->getLevel()->getServer()->broadcastPacket($this->getLevel()->getPlayers(), $pk);
 			if($this instanceof Player){
 				$pk = new SetEntityLinkPacket();
 				$pk->from = $entity->getId();

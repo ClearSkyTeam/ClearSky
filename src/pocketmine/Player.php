@@ -141,6 +141,7 @@ use pocketmine\utils\UUID;
 use pocketmine\entity\Rideable;
 use pocketmine\entity\Horse;
 use pocketmine\network\protocol\RiderJumpPacket;
+use pocketmine\inventory\HorseInventory;
 
 /**
  * Main class that handles networking, recovery, and packet sending to the server part
@@ -2651,6 +2652,12 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 						$this->linkEntity($target);
 						break;
 					}
+					elseif($packet->action === InteractPacket::ACTION_RIGHT_CLICK && $this->isSneaking()){
+						print "rape";
+					if($target instanceof InventoryHolder)
+						$this->addWindow(new HorseInventory($target));
+						break;
+					}
 					elseif($packet->action === InteractPacket::ACTION_LEAVE_VEHICLE){
 						if($this->isLinked()) $this->unlinkEntity($this);
 						break;
@@ -2662,7 +2669,7 @@ class Player extends Human implements CommandSender, InventoryHolder, ChunkLoade
 				 * @todo move into switch
 				*/
 				if($packet->action === InteractPacket::ACTION_RIGHT_CLICK && $target instanceof Entity){
-					$this->getInventory()->getItemInHand()->useOnEntity($target, $this); // this is beta. Should return false anyways
+					#$this->getInventory()->getItemInHand()->useOnEntity($target, $this); // this is beta. Should return false anyways
 					break;
 				}
 				

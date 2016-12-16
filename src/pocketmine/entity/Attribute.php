@@ -62,7 +62,10 @@ class Attribute{
 		self::addAttribute(self::ATTACK_DAMAGE, "minecraft:attack_damage", 0.00, 340282346638528859811704183484516925440.00, 1.00, false);
 		self::addAttribute(self::EXPERIENCE_LEVEL, "minecraft:player.level", 0.00, 24791.00, 0.00);
 		self::addAttribute(self::EXPERIENCE, "minecraft:player.experience", 0.00, 1.00, 0.00);
-		//TODO: minecraft:luck (for fishing?)
+		//minecraft:fall_damage
+		//minecraft:horse.jump_strength
+		//minecraft:luck
+		//minecraft:zombie.spawn_reinforcements
 	}
 
 	/**

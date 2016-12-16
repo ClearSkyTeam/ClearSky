@@ -7,17 +7,20 @@ namespace pocketmine\inventory;
 class InventoryType{
 	const CHEST = 0;
 	const DOUBLE_CHEST = 1;
-	const PLAYER = 2;
+	const PLAYER = 2, INVENTORY = 2;
 	const FURNACE = 3;
 	const CRAFTING = 4;
 	const WORKBENCH = 5;
 	const STONECUTTER = 6;
-	const BREWING_STAND = 7;
+	const BREWING_STAND = 7, CAULDRON = 7;
 	const ANVIL = 8;
-	const ENCHANT_TABLE = 9;
+	const ENCHANT_TABLE = 9, ENCHANTMENT = 9;
 	const DISPENSER = 10;
 	const DROPPER = 11;
 	const HOPPER = 12;
+	const MINECART_CHEST = 13;
+	const MINECART_HOPPER = 14;
+	const HORSE = 15;
 
 	const PLAYER_FLOATING = 254;
 
@@ -53,6 +56,9 @@ class InventoryType{
 		static::$default[static::DISPENSER] = new InventoryType(9, "Dispenser", 6); //9 CONTAINER
 		static::$default[static::DROPPER] = new InventoryType(9, "Dropper", 7); //9 CONTAINER
 		static::$default[static::HOPPER] = new InventoryType(5, "Hopper", 8); //5 CONTAINER
+		static::$default[static::MINECART_CHEST] = new InventoryType(27, "Minecart with Chest", 9);
+		static::$default[static::MINECART_HOPPER] = new InventoryType(5, "Minecart with Hopper", 10);
+		static::$default[static::HORSE] = new InventoryType(5, "Horse", 11); //2 CONTAINER & maybe chest?
 
 		static::$default[static::PLAYER_FLOATING] = new InventoryType(36, "Floating", null); //Mirror all slots of main inventory (needed for large item pickups)
 	}
