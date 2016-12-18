@@ -30,7 +30,13 @@ class UseItemPacket extends DataPacket{
 	}
 
 	public function encode(){
-
+		$this->reset();
+		$this->putBlockCoords($this->x, $this->y, $this->z);
+		$this->putVarInt($this->face);
+		$this->putVector3f($this->fx, $this->fy, $this->fz);
+		$this->putVector3f($this->posX, $this->posY, $this->posZ);
+		$this->putVarInt($this->slot);
+		$this->putSlot($this->item);
 	}
 
 }
