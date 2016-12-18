@@ -23,8 +23,12 @@ class UpdateBlockPacket extends DataPacket{
 	public $blockData;
 	public $flags;
 
-	public function decode(){
-
+	public function decode(){/*
+		$this->getBlockCoords($this->x, $this->y, $this->z);
+		$this->blockId = $this->getUnsignedVarInt();
+		$temp = $this->getUnsignedVarInt();//TODO: right calc?
+		$blockData = $temp
+		(($this->flags >> 4) & ~$this->blockData);*/
 	}
 
 	public function encode(){
