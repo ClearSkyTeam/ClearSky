@@ -16,7 +16,11 @@ class ContainerOpenPacket extends DataPacket{
 	public $entityId = -1;
 
 	public function decode(){
-
+		$this->windowid = $this->getByte();
+		$this->type = $this->getByte();
+		$this->slots = $this->getVarInt();
+		$this->getBlockCoords($this->x, $this->y, $this->z);
+		$this->entityId = $this->getEntityId();
 	}
 
 	public function encode(){
