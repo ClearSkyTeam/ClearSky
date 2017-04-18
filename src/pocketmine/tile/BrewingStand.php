@@ -92,7 +92,7 @@ class BrewingStand extends Spawnable implements InventoryHolder, Container, Name
 		$this->namedtag->Items = new ListTag("Items", []);
 		$this->namedtag->Items->setTagType(NBT::TAG_Compound);
 		for($index = 0; $index < $this->getSize(); ++$index){
-			$this->setItem($index, $this->inventory->getItem($index));
+			$this->setItem($index, $this->getItem($index));
 		}
 	}
 
